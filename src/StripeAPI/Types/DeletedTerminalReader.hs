@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema DeletedTerminalReader
 module StripeAPI.Types.DeletedTerminalReader where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,30 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data DeletedTerminal'reader
-    = DeletedTerminal'reader {deletedTerminal'readerDeleted :: DeletedTerminal'readerDeleted',
-                              deletedTerminal'readerId :: GHC.Base.String,
-                              deletedTerminal'readerObject :: DeletedTerminal'readerObject'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema deleted_terminal.reader
+-- 
+-- 
+data DeletedTerminal'reader = DeletedTerminal'reader {
+  -- | deleted: Always true for a deleted object
+  deletedTerminal'readerDeleted :: DeletedTerminal'readerDeleted'
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , deletedTerminal'readerId :: GHC.Base.String
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , deletedTerminal'readerObject :: DeletedTerminal'readerObject'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON DeletedTerminal'reader
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedTerminal'readerDeleted obj) : (Data.Aeson..=) "id" (deletedTerminal'readerId obj) : (Data.Aeson..=) "object" (deletedTerminal'readerObject obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedTerminal'readerDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedTerminal'readerId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedTerminal'readerObject obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON DeletedTerminal'reader
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedTerminal'reader" (\obj -> ((GHC.Base.pure DeletedTerminal'reader GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+-- | Defines the enum schema deleted_terminal.readerDeleted\'
+-- 
+-- Always true for a deleted object
 data DeletedTerminal'readerDeleted'
     = DeletedTerminal'readerDeleted'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedTerminal'readerDeleted'EnumTyped GHC.Types.Bool
@@ -44,6 +64,9 @@ instance Data.Aeson.FromJSON DeletedTerminal'readerDeleted'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True
                                           then DeletedTerminal'readerDeleted'EnumBoolTrue
                                           else DeletedTerminal'readerDeleted'EnumOther val)
+-- | Defines the enum schema deleted_terminal.readerObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedTerminal'readerObject'
     = DeletedTerminal'readerObject'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedTerminal'readerObject'EnumTyped GHC.Base.String
@@ -57,8 +80,3 @@ instance Data.Aeson.FromJSON DeletedTerminal'readerObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "terminal.reader")
                                           then DeletedTerminal'readerObject'EnumStringTerminal'reader
                                           else DeletedTerminal'readerObject'EnumOther val)
-instance Data.Aeson.ToJSON DeletedTerminal'reader
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedTerminal'readerDeleted obj) : (Data.Aeson..=) "id" (deletedTerminal'readerId obj) : (Data.Aeson..=) "object" (deletedTerminal'readerObject obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedTerminal'readerDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedTerminal'readerId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedTerminal'readerObject obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedTerminal'reader
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedTerminal'reader" (\obj -> ((GHC.Base.pure DeletedTerminal'reader GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))

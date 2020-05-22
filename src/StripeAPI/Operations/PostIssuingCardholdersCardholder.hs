@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation postIssuingCardholdersCardholder
 module StripeAPI.Operations.PostIssuingCardholdersCardholder where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,16 +39,13 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- POST /v1/issuing/cardholders/{cardholder}
-postIssuingCardholdersCardholder :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                  StripeAPI.Common.SecurityScheme s) =>
-                                    StripeAPI.Common.Configuration s ->
-                                    GHC.Base.String ->
-                                    PostIssuingCardholdersCardholderRequestBody ->
-                                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                          (Network.HTTP.Client.Types.Response PostIssuingCardholdersCardholderResponse))
+-- | > POST /v1/issuing/cardholders/{cardholder}
+-- 
+-- \<p>Updates the specified Issuing \<code>Cardholder\<\/code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
+postIssuingCardholdersCardholder :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                              -- ^ cardholder | Constraints: Maximum length of 5000
+  -> PostIssuingCardholdersCardholderRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostIssuingCardholdersCardholderResponse)) -- ^ Monad containing the result of the operation
 postIssuingCardholdersCardholder config
                                  cardholder
                                  body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either PostIssuingCardholdersCardholderResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> PostIssuingCardholdersCardholderResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
@@ -55,6 +53,9 @@ postIssuingCardholdersCardholder config
                                                                                                                                                                                                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostIssuingCardholdersCardholderResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                     Error)
                                                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/issuing/cardholders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel cardholder)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/issuing/cardholders/{cardholder}
+-- 
+-- The same as 'postIssuingCardholdersCardholder' but returns the raw 'Data.ByteString.Char8.ByteString'
 postIssuingCardholdersCardholderRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
                                        StripeAPI.Common.Configuration s ->
@@ -65,6 +66,9 @@ postIssuingCardholdersCardholderRaw :: forall m s . (StripeAPI.Common.MonadHTTP 
 postIssuingCardholdersCardholderRaw config
                                     cardholder
                                     body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/issuing/cardholders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel cardholder)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/issuing/cardholders/{cardholder}
+-- 
+-- Monadic version of 'postIssuingCardholdersCardholder' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingCardholdersCardholderM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
                                      GHC.Base.String ->
@@ -79,6 +83,9 @@ postIssuingCardholdersCardholderM cardholder
                                                                                                                                                                                                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostIssuingCardholdersCardholderResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                      Error)
                                                                                                                                                                                                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/issuing/cardholders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel cardholder)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/issuing/cardholders/{cardholder}
+-- 
+-- Monadic version of 'postIssuingCardholdersCardholderRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingCardholdersCardholderRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                       StripeAPI.Common.SecurityScheme s) =>
                                         GHC.Base.String ->
@@ -89,24 +96,59 @@ postIssuingCardholdersCardholderRawM :: forall m s . (StripeAPI.Common.MonadHTTP
                                                                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postIssuingCardholdersCardholderRawM cardholder
                                      body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/issuing/cardholders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel cardholder)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data PostIssuingCardholdersCardholderRequestBody
-    = PostIssuingCardholdersCardholderRequestBody {postIssuingCardholdersCardholderRequestBodyAuthorizationControls :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'),
-                                                   postIssuingCardholdersCardholderRequestBodyBilling :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyBilling'),
-                                                   postIssuingCardholdersCardholderRequestBodyCompany :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyCompany'),
-                                                   postIssuingCardholdersCardholderRequestBodyEmail :: (GHC.Maybe.Maybe GHC.Base.String),
-                                                   postIssuingCardholdersCardholderRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String)),
-                                                   postIssuingCardholdersCardholderRequestBodyIndividual :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyIndividual'),
-                                                   postIssuingCardholdersCardholderRequestBodyIsDefault :: (GHC.Maybe.Maybe GHC.Types.Bool),
-                                                   postIssuingCardholdersCardholderRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyMetadata'),
-                                                   postIssuingCardholdersCardholderRequestBodyPhoneNumber :: (GHC.Maybe.Maybe GHC.Base.String),
-                                                   postIssuingCardholdersCardholderRequestBodyStatus :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyStatus')}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'
-    = PostIssuingCardholdersCardholderRequestBodyAuthorizationControls' {postIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories :: (GHC.Maybe.Maybe ([] PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories')),
-                                                                         postIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories :: (GHC.Maybe.Maybe ([] PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories')),
-                                                                         postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits :: (GHC.Maybe.Maybe ([] PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits')),
-                                                                         postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimitsCurrency :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBody
+-- 
+-- 
+data PostIssuingCardholdersCardholderRequestBody = PostIssuingCardholdersCardholderRequestBody {
+  -- | authorization_controls: Spending rules that give you some control over how your cards can be used. Refer to our [authorizations](https:\/\/stripe.com\/docs\/issuing\/authorizations) documentation for more details.
+  postIssuingCardholdersCardholderRequestBodyAuthorizationControls :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyAuthorizationControls')
+  -- | billing: The cardholder\'s billing address.
+  , postIssuingCardholdersCardholderRequestBodyBilling :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyBilling')
+  -- | company: Additional information about a \`business_entity\` cardholder.
+  , postIssuingCardholdersCardholderRequestBodyCompany :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyCompany')
+  -- | email: The cardholder\'s email address.
+  , postIssuingCardholdersCardholderRequestBodyEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | expand: Specifies which fields in the response should be expanded.
+  , postIssuingCardholdersCardholderRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  -- | individual: Additional information about an \`individual\` cardholder.
+  , postIssuingCardholdersCardholderRequestBodyIndividual :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyIndividual')
+  -- | is_default: Specifies whether to set this as the default cardholder.
+  , postIssuingCardholdersCardholderRequestBodyIsDefault :: (GHC.Maybe.Maybe GHC.Types.Bool)
+  -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
+  , postIssuingCardholdersCardholderRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyMetadata')
+  -- | phone_number: The cardholder\'s phone number.
+  , postIssuingCardholdersCardholderRequestBodyPhoneNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | status: Specifies whether to permit authorizations on this cardholder\'s cards.
+  , postIssuingCardholdersCardholderRequestBodyStatus :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyStatus')
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBody
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "authorization_controls" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls obj) : (Data.Aeson..=) "billing" (postIssuingCardholdersCardholderRequestBodyBilling obj) : (Data.Aeson..=) "company" (postIssuingCardholdersCardholderRequestBodyCompany obj) : (Data.Aeson..=) "email" (postIssuingCardholdersCardholderRequestBodyEmail obj) : (Data.Aeson..=) "expand" (postIssuingCardholdersCardholderRequestBodyExpand obj) : (Data.Aeson..=) "individual" (postIssuingCardholdersCardholderRequestBodyIndividual obj) : (Data.Aeson..=) "is_default" (postIssuingCardholdersCardholderRequestBodyIsDefault obj) : (Data.Aeson..=) "metadata" (postIssuingCardholdersCardholderRequestBodyMetadata obj) : (Data.Aeson..=) "phone_number" (postIssuingCardholdersCardholderRequestBodyPhoneNumber obj) : (Data.Aeson..=) "status" (postIssuingCardholdersCardholderRequestBodyStatus obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "authorization_controls" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls obj) GHC.Base.<> ((Data.Aeson..=) "billing" (postIssuingCardholdersCardholderRequestBodyBilling obj) GHC.Base.<> ((Data.Aeson..=) "company" (postIssuingCardholdersCardholderRequestBodyCompany obj) GHC.Base.<> ((Data.Aeson..=) "email" (postIssuingCardholdersCardholderRequestBodyEmail obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postIssuingCardholdersCardholderRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "individual" (postIssuingCardholdersCardholderRequestBodyIndividual obj) GHC.Base.<> ((Data.Aeson..=) "is_default" (postIssuingCardholdersCardholderRequestBodyIsDefault obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postIssuingCardholdersCardholderRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "phone_number" (postIssuingCardholdersCardholderRequestBodyPhoneNumber obj) GHC.Base.<> (Data.Aeson..=) "status" (postIssuingCardholdersCardholderRequestBodyStatus obj))))))))))
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBody
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBody" (\obj -> (((((((((GHC.Base.pure PostIssuingCardholdersCardholderRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "authorization_controls")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "company")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "individual")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "is_default")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
+-- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyAuthorization_controls\'
+-- 
+-- Spending rules that give you some control over how your cards can be used. Refer to our [authorizations](https:\/\/stripe.com\/docs\/issuing\/authorizations) documentation for more details.
+data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls' = PostIssuingCardholdersCardholderRequestBodyAuthorizationControls' {
+  -- | allowed_categories
+  postIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories :: (GHC.Maybe.Maybe ([] PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'))
+  -- | blocked_categories
+  , postIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories :: (GHC.Maybe.Maybe ([] PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'))
+  -- | spending_limits
+  , postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits :: (GHC.Maybe.Maybe ([] PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'))
+  -- | spending_limits_currency
+  , postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimitsCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "allowed_categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories obj) : (Data.Aeson..=) "blocked_categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories obj) : (Data.Aeson..=) "spending_limits" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits obj) : (Data.Aeson..=) "spending_limits_currency" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimitsCurrency obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "allowed_categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories obj) GHC.Base.<> ((Data.Aeson..=) "blocked_categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories obj) GHC.Base.<> ((Data.Aeson..=) "spending_limits" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits obj) GHC.Base.<> (Data.Aeson..=) "spending_limits_currency" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimitsCurrency obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'" (\obj -> (((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyAuthorizationControls' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "allowed_categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "blocked_categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "spending_limits")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "spending_limits_currency"))
+-- | Defines the enum schema postIssuingCardholdersCardholderRequestBodyAuthorization_controls\'Allowed_categories\'
+-- 
+-- 
 data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'
     = PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOther Data.Aeson.Types.Internal.Value
     | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumTyped GHC.Base.String
@@ -1268,6 +1310,9 @@ instance Data.Aeson.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthoriz
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "wrecking_and_salvage_yards")
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     then PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumStringWreckingAndSalvageYards
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     else PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories'EnumOther val)
+-- | Defines the enum schema postIssuingCardholdersCardholderRequestBodyAuthorization_controls\'Blocked_categories\'
+-- 
+-- 
 data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'
     = PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOther Data.Aeson.Types.Internal.Value
     | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumTyped GHC.Base.String
@@ -2429,11 +2474,26 @@ instance Data.Aeson.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthoriz
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "wrecking_and_salvage_yards")
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     then PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumStringWreckingAndSalvageYards
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     else PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories'EnumOther val)
-data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'
-    = PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits' {postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount :: GHC.Integer.Type.Integer,
-                                                                                        postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories :: (GHC.Maybe.Maybe ([] PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories')),
-                                                                                        postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval :: PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyAuthorization_controls\'Spending_limits\'
+-- 
+-- 
+data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits' = PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits' {
+  -- | amount
+  postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount :: GHC.Integer.Type.Integer
+  -- | categories
+  , postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories :: (GHC.Maybe.Maybe ([] PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'))
+  -- | interval
+  , postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval :: PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount obj) : (Data.Aeson..=) "categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories obj) : (Data.Aeson..=) "interval" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount obj) GHC.Base.<> ((Data.Aeson..=) "categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories obj) GHC.Base.<> (Data.Aeson..=) "interval" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'" (\obj -> ((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval"))
+-- | Defines the enum schema postIssuingCardholdersCardholderRequestBodyAuthorization_controls\'Spending_limits\'Categories\'
+-- 
+-- 
 data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'
     = PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOther Data.Aeson.Types.Internal.Value
     | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTyped GHC.Base.String
@@ -3595,6 +3655,9 @@ instance Data.Aeson.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthoriz
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "wrecking_and_salvage_yards")
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     then PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringWreckingAndSalvageYards
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     else PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOther val)
+-- | Defines the enum schema postIssuingCardholdersCardholderRequestBodyAuthorization_controls\'Spending_limits\'Interval\'
+-- 
+-- 
 data PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'
     = PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumOther Data.Aeson.Types.Internal.Value
     | PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumTyped GHC.Base.String
@@ -3628,91 +3691,178 @@ instance Data.Aeson.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthoriz
                                                                   else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "yearly")
                                                                         then PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringYearly
                                                                         else PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumOther val)
-instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount obj) : (Data.Aeson..=) "categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories obj) : (Data.Aeson..=) "interval" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Amount obj) GHC.Base.<> ((Data.Aeson..=) "categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Categories obj) GHC.Base.<> (Data.Aeson..=) "interval" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'Interval obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits'" (\obj -> ((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval"))
-instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "allowed_categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories obj) : (Data.Aeson..=) "blocked_categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories obj) : (Data.Aeson..=) "spending_limits" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits obj) : (Data.Aeson..=) "spending_limits_currency" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimitsCurrency obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "allowed_categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'AllowedCategories obj) GHC.Base.<> ((Data.Aeson..=) "blocked_categories" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'BlockedCategories obj) GHC.Base.<> ((Data.Aeson..=) "spending_limits" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimits obj) GHC.Base.<> (Data.Aeson..=) "spending_limits_currency" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls'SpendingLimitsCurrency obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyAuthorizationControls'" (\obj -> (((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyAuthorizationControls' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "allowed_categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "blocked_categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "spending_limits")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "spending_limits_currency"))
-data PostIssuingCardholdersCardholderRequestBodyBilling'
-    = PostIssuingCardholdersCardholderRequestBodyBilling' {postIssuingCardholdersCardholderRequestBodyBilling'Address :: PostIssuingCardholdersCardholderRequestBodyBilling'Address'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data PostIssuingCardholdersCardholderRequestBodyBilling'Address'
-    = PostIssuingCardholdersCardholderRequestBodyBilling'Address' {postIssuingCardholdersCardholderRequestBodyBilling'Address'City :: GHC.Base.String,
-                                                                   postIssuingCardholdersCardholderRequestBodyBilling'Address'Country :: GHC.Base.String,
-                                                                   postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1 :: GHC.Base.String,
-                                                                   postIssuingCardholdersCardholderRequestBodyBilling'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String),
-                                                                   postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode :: GHC.Base.String,
-                                                                   postIssuingCardholdersCardholderRequestBodyBilling'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyBilling'Address'
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postIssuingCardholdersCardholderRequestBodyBilling'Address'City obj) : (Data.Aeson..=) "country" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Country obj) : (Data.Aeson..=) "line1" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1 obj) : (Data.Aeson..=) "line2" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode obj) : (Data.Aeson..=) "state" (postIssuingCardholdersCardholderRequestBodyBilling'Address'State obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postIssuingCardholdersCardholderRequestBodyBilling'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postIssuingCardholdersCardholderRequestBodyBilling'Address'State obj))))))
-instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyBilling'Address'
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyBilling'Address'" (\obj -> (((((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyBilling'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+-- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyBilling\'
+-- 
+-- The cardholder\'s billing address.
+data PostIssuingCardholdersCardholderRequestBodyBilling' = PostIssuingCardholdersCardholderRequestBodyBilling' {
+  -- | address
+  postIssuingCardholdersCardholderRequestBodyBilling'Address :: PostIssuingCardholdersCardholderRequestBodyBilling'Address'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyBilling'
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postIssuingCardholdersCardholderRequestBodyBilling'Address obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postIssuingCardholdersCardholderRequestBodyBilling'Address obj))
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyBilling'
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyBilling'" (\obj -> GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyBilling' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address"))
-data PostIssuingCardholdersCardholderRequestBodyCompany'
-    = PostIssuingCardholdersCardholderRequestBodyCompany' {postIssuingCardholdersCardholderRequestBodyCompany'TaxId :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyBilling\'Address\'
+-- 
+-- 
+data PostIssuingCardholdersCardholderRequestBodyBilling'Address' = PostIssuingCardholdersCardholderRequestBodyBilling'Address' {
+  -- | city
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  postIssuingCardholdersCardholderRequestBodyBilling'Address'City :: GHC.Base.String
+  -- | country
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , postIssuingCardholdersCardholderRequestBodyBilling'Address'Country :: GHC.Base.String
+  -- | line1
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1 :: GHC.Base.String
+  -- | line2
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , postIssuingCardholdersCardholderRequestBodyBilling'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | postal_code
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode :: GHC.Base.String
+  -- | state
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , postIssuingCardholdersCardholderRequestBodyBilling'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyBilling'Address'
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postIssuingCardholdersCardholderRequestBodyBilling'Address'City obj) : (Data.Aeson..=) "country" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Country obj) : (Data.Aeson..=) "line1" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1 obj) : (Data.Aeson..=) "line2" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode obj) : (Data.Aeson..=) "state" (postIssuingCardholdersCardholderRequestBodyBilling'Address'State obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postIssuingCardholdersCardholderRequestBodyBilling'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postIssuingCardholdersCardholderRequestBodyBilling'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postIssuingCardholdersCardholderRequestBodyBilling'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postIssuingCardholdersCardholderRequestBodyBilling'Address'State obj))))))
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyBilling'Address'
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyBilling'Address'" (\obj -> (((((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyBilling'Address' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "postal_code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "state"))
+-- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyCompany\'
+-- 
+-- Additional information about a \`business_entity\` cardholder.
+data PostIssuingCardholdersCardholderRequestBodyCompany' = PostIssuingCardholdersCardholderRequestBodyCompany' {
+  -- | tax_id
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  postIssuingCardholdersCardholderRequestBodyCompany'TaxId :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyCompany'
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "tax_id" (postIssuingCardholdersCardholderRequestBodyCompany'TaxId obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "tax_id" (postIssuingCardholdersCardholderRequestBodyCompany'TaxId obj))
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyCompany'
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyCompany'" (\obj -> GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyCompany' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_id"))
-data PostIssuingCardholdersCardholderRequestBodyIndividual'
-    = PostIssuingCardholdersCardholderRequestBodyIndividual' {postIssuingCardholdersCardholderRequestBodyIndividual'Dob :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'),
-                                                              postIssuingCardholdersCardholderRequestBodyIndividual'FirstName :: GHC.Base.String,
-                                                              postIssuingCardholdersCardholderRequestBodyIndividual'LastName :: GHC.Base.String,
-                                                              postIssuingCardholdersCardholderRequestBodyIndividual'Verification :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyIndividual'Verification')}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'
-    = PostIssuingCardholdersCardholderRequestBodyIndividual'Dob' {postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day :: GHC.Integer.Type.Integer,
-                                                                  postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month :: GHC.Integer.Type.Integer,
-                                                                  postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year :: GHC.Integer.Type.Integer}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "day" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day obj) : (Data.Aeson..=) "month" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month obj) : (Data.Aeson..=) "year" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "day" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day obj) GHC.Base.<> ((Data.Aeson..=) "month" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month obj) GHC.Base.<> (Data.Aeson..=) "year" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'" (\obj -> ((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyIndividual'Dob' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "year"))
-data PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'
-    = PostIssuingCardholdersCardholderRequestBodyIndividual'Verification' {postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document')}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'
-    = PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document' {postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Back :: (GHC.Maybe.Maybe GHC.Base.String),
-                                                                                    postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Front :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "back" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Back obj) : (Data.Aeson..=) "front" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Front obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "back" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Back obj) GHC.Base.<> (Data.Aeson..=) "front" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Front obj))
-instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'" (\obj -> (GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "back")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "front"))
-instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "document" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "document" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document obj))
-instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'" (\obj -> GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyIndividual'Verification' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "document"))
+-- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyIndividual\'
+-- 
+-- Additional information about an \`individual\` cardholder.
+data PostIssuingCardholdersCardholderRequestBodyIndividual' = PostIssuingCardholdersCardholderRequestBodyIndividual' {
+  -- | dob
+  postIssuingCardholdersCardholderRequestBodyIndividual'Dob :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyIndividual'Dob')
+  -- | first_name
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , postIssuingCardholdersCardholderRequestBodyIndividual'FirstName :: GHC.Base.String
+  -- | last_name
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , postIssuingCardholdersCardholderRequestBodyIndividual'LastName :: GHC.Base.String
+  -- | verification
+  , postIssuingCardholdersCardholderRequestBodyIndividual'Verification :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyIndividual'Verification')
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyIndividual'
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "dob" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob obj) : (Data.Aeson..=) "first_name" (postIssuingCardholdersCardholderRequestBodyIndividual'FirstName obj) : (Data.Aeson..=) "last_name" (postIssuingCardholdersCardholderRequestBodyIndividual'LastName obj) : (Data.Aeson..=) "verification" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "dob" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob obj) GHC.Base.<> ((Data.Aeson..=) "first_name" (postIssuingCardholdersCardholderRequestBodyIndividual'FirstName obj) GHC.Base.<> ((Data.Aeson..=) "last_name" (postIssuingCardholdersCardholderRequestBodyIndividual'LastName obj) GHC.Base.<> (Data.Aeson..=) "verification" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification obj))))
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyIndividual'
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyIndividual'" (\obj -> (((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyIndividual' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "dob")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "first_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "last_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verification"))
-data PostIssuingCardholdersCardholderRequestBodyMetadata'
-    = PostIssuingCardholdersCardholderRequestBodyMetadata' {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyIndividual\'Dob\'
+-- 
+-- 
+data PostIssuingCardholdersCardholderRequestBodyIndividual'Dob' = PostIssuingCardholdersCardholderRequestBodyIndividual'Dob' {
+  -- | day
+  postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day :: GHC.Integer.Type.Integer
+  -- | month
+  , postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month :: GHC.Integer.Type.Integer
+  -- | year
+  , postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year :: GHC.Integer.Type.Integer
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "day" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day obj) : (Data.Aeson..=) "month" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month obj) : (Data.Aeson..=) "year" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "day" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Day obj) GHC.Base.<> ((Data.Aeson..=) "month" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Month obj) GHC.Base.<> (Data.Aeson..=) "year" (postIssuingCardholdersCardholderRequestBodyIndividual'Dob'Year obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyIndividual'Dob'" (\obj -> ((GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyIndividual'Dob' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "day")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "year"))
+-- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyIndividual\'Verification\'
+-- 
+-- 
+data PostIssuingCardholdersCardholderRequestBodyIndividual'Verification' = PostIssuingCardholdersCardholderRequestBodyIndividual'Verification' {
+  -- | document
+  postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document :: (GHC.Maybe.Maybe PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document')
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "document" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "document" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document obj))
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'" (\obj -> GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyIndividual'Verification' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "document"))
+-- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyIndividual\'Verification\'Document\'
+-- 
+-- 
+data PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document' = PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document' {
+  -- | back
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Back :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | front
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Front :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "back" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Back obj) : (Data.Aeson..=) "front" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Front obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "back" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Back obj) GHC.Base.<> (Data.Aeson..=) "front" (postIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'Front obj))
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document'" (\obj -> (GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyIndividual'Verification'Document' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "back")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "front"))
+-- | Defines the data type for the schema postIssuingCardholdersCardholderRequestBodyMetadata\'
+-- 
+-- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
+data PostIssuingCardholdersCardholderRequestBodyMetadata' = PostIssuingCardholdersCardholderRequestBodyMetadata' {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBodyMetadata'
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBodyMetadata'
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBodyMetadata'" (\obj -> GHC.Base.pure PostIssuingCardholdersCardholderRequestBodyMetadata')
+-- | Defines the enum schema postIssuingCardholdersCardholderRequestBodyStatus\'
+-- 
+-- Specifies whether to permit authorizations on this cardholder\'s cards.
 data PostIssuingCardholdersCardholderRequestBodyStatus'
     = PostIssuingCardholdersCardholderRequestBodyStatus'EnumOther Data.Aeson.Types.Internal.Value
     | PostIssuingCardholdersCardholderRequestBodyStatus'EnumTyped GHC.Base.String
@@ -3730,14 +3880,11 @@ instance Data.Aeson.FromJSON PostIssuingCardholdersCardholderRequestBodyStatus'
                                           else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "inactive")
                                                 then PostIssuingCardholdersCardholderRequestBodyStatus'EnumStringInactive
                                                 else PostIssuingCardholdersCardholderRequestBodyStatus'EnumOther val)
-instance Data.Aeson.ToJSON PostIssuingCardholdersCardholderRequestBody
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "authorization_controls" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls obj) : (Data.Aeson..=) "billing" (postIssuingCardholdersCardholderRequestBodyBilling obj) : (Data.Aeson..=) "company" (postIssuingCardholdersCardholderRequestBodyCompany obj) : (Data.Aeson..=) "email" (postIssuingCardholdersCardholderRequestBodyEmail obj) : (Data.Aeson..=) "expand" (postIssuingCardholdersCardholderRequestBodyExpand obj) : (Data.Aeson..=) "individual" (postIssuingCardholdersCardholderRequestBodyIndividual obj) : (Data.Aeson..=) "is_default" (postIssuingCardholdersCardholderRequestBodyIsDefault obj) : (Data.Aeson..=) "metadata" (postIssuingCardholdersCardholderRequestBodyMetadata obj) : (Data.Aeson..=) "phone_number" (postIssuingCardholdersCardholderRequestBodyPhoneNumber obj) : (Data.Aeson..=) "status" (postIssuingCardholdersCardholderRequestBodyStatus obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "authorization_controls" (postIssuingCardholdersCardholderRequestBodyAuthorizationControls obj) GHC.Base.<> ((Data.Aeson..=) "billing" (postIssuingCardholdersCardholderRequestBodyBilling obj) GHC.Base.<> ((Data.Aeson..=) "company" (postIssuingCardholdersCardholderRequestBodyCompany obj) GHC.Base.<> ((Data.Aeson..=) "email" (postIssuingCardholdersCardholderRequestBodyEmail obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postIssuingCardholdersCardholderRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "individual" (postIssuingCardholdersCardholderRequestBodyIndividual obj) GHC.Base.<> ((Data.Aeson..=) "is_default" (postIssuingCardholdersCardholderRequestBodyIsDefault obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postIssuingCardholdersCardholderRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "phone_number" (postIssuingCardholdersCardholderRequestBodyPhoneNumber obj) GHC.Base.<> (Data.Aeson..=) "status" (postIssuingCardholdersCardholderRequestBodyStatus obj))))))))))
-instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersCardholderRequestBody
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardholdersCardholderRequestBody" (\obj -> (((((((((GHC.Base.pure PostIssuingCardholdersCardholderRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "authorization_controls")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "billing")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "company")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "individual")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "is_default")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "phone_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
-
-data PostIssuingCardholdersCardholderResponse
-    = PostIssuingCardholdersCardholderResponseError GHC.Base.String
-    | PostIssuingCardholdersCardholderResponse200 Issuing'cardholder
-    | PostIssuingCardholdersCardholderResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'postIssuingCardholdersCardholder'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'PostIssuingCardholdersCardholderResponseError' is used.
+data PostIssuingCardholdersCardholderResponse =                     
+   PostIssuingCardholdersCardholderResponseError GHC.Base.String    -- ^ Means either no matching case available or a parse error
+  | PostIssuingCardholdersCardholderResponse200 Issuing'cardholder  -- ^ Successful response.
+  | PostIssuingCardholdersCardholderResponseDefault Error           -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

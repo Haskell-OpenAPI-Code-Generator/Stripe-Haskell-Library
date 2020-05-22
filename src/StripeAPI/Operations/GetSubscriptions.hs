@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getSubscriptions
 module StripeAPI.Operations.GetSubscriptions where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,26 +39,23 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/subscriptions
-getSubscriptions :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                  StripeAPI.Common.SecurityScheme s) =>
-                    StripeAPI.Common.Configuration s ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GetSubscriptionsRequestBody ->
-                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                          (Network.HTTP.Client.Types.Response GetSubscriptionsResponse))
+-- | > GET /v1/subscriptions
+-- 
+-- \<p>By default, returns a list of subscriptions that have not been canceled. In order to list canceled subscriptions, specify \<code>status=canceled\<\/code>.\<\/p>
+getSubscriptions :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ collection_method: The collection method of the subscriptions to retrieve. Either \`charge_automatically\` or \`send_invoice\`. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ created
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ current_period_end
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ current_period_start
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ customer: The ID of the customer whose subscriptions will be retrieved. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                     -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ plan: The ID of the plan whose subscriptions will be retrieved. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ status: The status of the subscriptions to retrieve. One of: \`incomplete\`, \`incomplete_expired\`, \`trialing\`, \`active\`, \`past_due\`, \`unpaid\`, \`canceled\`, or \`all\`. Passing in a value of \`canceled\` will return all canceled subscriptions, including those belonging to deleted customers. Passing in a value of \`all\` will return subscriptions of all statuses. | Constraints: Maximum length of 5000
+  -> GetSubscriptionsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSubscriptionsResponse)) -- ^ Monad containing the result of the operation
 getSubscriptions config
                  collectionMethod
                  created
@@ -86,6 +84,9 @@ getSubscriptions config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> plan) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "status",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> status) : []))))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/subscriptions
+-- 
+-- The same as 'getSubscriptions' but returns the raw 'Data.ByteString.Char8.ByteString'
 getSubscriptionsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        StripeAPI.Common.Configuration s ->
@@ -127,6 +128,9 @@ getSubscriptionsRaw config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> plan) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "status",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> status) : []))))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/subscriptions
+-- 
+-- Monadic version of 'getSubscriptions' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
                      GHC.Maybe.Maybe GHC.Base.String ->
@@ -172,6 +176,9 @@ getSubscriptionsM collectionMethod
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> plan) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "status",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> status) : []))))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/subscriptions
+-- 
+-- Monadic version of 'getSubscriptionsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         GHC.Maybe.Maybe GHC.Base.String ->
@@ -213,26 +220,53 @@ getSubscriptionsRawM collectionMethod
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> plan) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "status",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> status) : []))))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetSubscriptionsRequestBody
-    = GetSubscriptionsRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getSubscriptionsRequestBody
+-- 
+-- 
+data GetSubscriptionsRequestBody = GetSubscriptionsRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSubscriptionsRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionsRequestBody" (\obj -> GHC.Base.pure GetSubscriptionsRequestBody)
-
-data GetSubscriptionsResponse
-    = GetSubscriptionsResponseError GHC.Base.String
-    | GetSubscriptionsResponse200 GetSubscriptionsResponseBody200
-    | GetSubscriptionsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetSubscriptionsResponseBody200
-    = GetSubscriptionsResponseBody200 {getSubscriptionsResponseBody200Data :: ([] Subscription),
-                                       getSubscriptionsResponseBody200HasMore :: GHC.Types.Bool,
-                                       getSubscriptionsResponseBody200Object :: GetSubscriptionsResponseBody200Object',
-                                       getSubscriptionsResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getSubscriptions'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetSubscriptionsResponseError' is used.
+data GetSubscriptionsResponse =                                  
+   GetSubscriptionsResponseError GHC.Base.String                 -- ^ Means either no matching case available or a parse error
+  | GetSubscriptionsResponse200 GetSubscriptionsResponseBody200  -- ^ Successful response.
+  | GetSubscriptionsResponseDefault Error                        -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetSubscriptionsResponseBody200
+-- 
+-- 
+data GetSubscriptionsResponseBody200 = GetSubscriptionsResponseBody200 {
+  -- | data
+  getSubscriptionsResponseBody200Data :: ([] Subscription)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getSubscriptionsResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getSubscriptionsResponseBody200Object :: GetSubscriptionsResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  -- * Must match pattern \'^\/v1\/subscriptions\'
+  , getSubscriptionsResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetSubscriptionsResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSubscriptionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSubscriptionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSubscriptionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getSubscriptionsResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSubscriptionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSubscriptionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSubscriptionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSubscriptionsResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionsResponseBody200" (\obj -> (((GHC.Base.pure GetSubscriptionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetSubscriptionsResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetSubscriptionsResponseBody200Object'
     = GetSubscriptionsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetSubscriptionsResponseBody200Object'EnumTyped GHC.Base.String
@@ -246,8 +280,3 @@ instance Data.Aeson.FromJSON GetSubscriptionsResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetSubscriptionsResponseBody200Object'EnumStringList
                                           else GetSubscriptionsResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetSubscriptionsResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSubscriptionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSubscriptionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSubscriptionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getSubscriptionsResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSubscriptionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSubscriptionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSubscriptionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSubscriptionsResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionsResponseBody200" (\obj -> (((GHC.Base.pure GetSubscriptionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getTerminalLocations
 module StripeAPI.Operations.GetTerminalLocations where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,19 +39,16 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/terminal/locations
-getTerminalLocations :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                      StripeAPI.Common.SecurityScheme s) =>
-                        StripeAPI.Common.Configuration s ->
-                        GHC.Maybe.Maybe GHC.Base.String ->
-                        GHC.Maybe.Maybe GHC.Base.String ->
-                        GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                        GHC.Maybe.Maybe GHC.Base.String ->
-                        GetTerminalLocationsRequestBody ->
-                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                              (Network.HTTP.Client.Types.Response GetTerminalLocationsResponse))
+-- | > GET /v1/terminal/locations
+-- 
+-- \<p>Returns a list of \<code>Location\<\/code> objects.\<\/p>
+getTerminalLocations :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                  -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                  -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                         -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                  -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GetTerminalLocationsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetTerminalLocationsResponse)) -- ^ Monad containing the result of the operation
 getTerminalLocations config
                      endingBefore
                      expand
@@ -65,6 +63,9 @@ getTerminalLocations config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/terminal/locations
+-- 
+-- The same as 'getTerminalLocations' but returns the raw 'Data.ByteString.Char8.ByteString'
 getTerminalLocationsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
                            StripeAPI.Common.Configuration s ->
@@ -85,6 +86,9 @@ getTerminalLocationsRaw config
                                                                                                                                                                                                                                                       StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/terminal/locations
+-- 
+-- Monadic version of 'getTerminalLocations' (use with 'StripeAPI.Common.runWithConfiguration')
 getTerminalLocationsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          GHC.Maybe.Maybe GHC.Base.String ->
@@ -109,6 +113,9 @@ getTerminalLocationsM endingBefore
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/terminal/locations
+-- 
+-- Monadic version of 'getTerminalLocationsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getTerminalLocationsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             GHC.Maybe.Maybe GHC.Base.String ->
@@ -129,26 +136,53 @@ getTerminalLocationsRawM endingBefore
                                                                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                       StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetTerminalLocationsRequestBody
-    = GetTerminalLocationsRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getTerminalLocationsRequestBody
+-- 
+-- 
+data GetTerminalLocationsRequestBody = GetTerminalLocationsRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetTerminalLocationsRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsRequestBody" (\obj -> GHC.Base.pure GetTerminalLocationsRequestBody)
-
-data GetTerminalLocationsResponse
-    = GetTerminalLocationsResponseError GHC.Base.String
-    | GetTerminalLocationsResponse200 GetTerminalLocationsResponseBody200
-    | GetTerminalLocationsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetTerminalLocationsResponseBody200
-    = GetTerminalLocationsResponseBody200 {getTerminalLocationsResponseBody200Data :: ([] Terminal'location),
-                                           getTerminalLocationsResponseBody200HasMore :: GHC.Types.Bool,
-                                           getTerminalLocationsResponseBody200Object :: GetTerminalLocationsResponseBody200Object',
-                                           getTerminalLocationsResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getTerminalLocations'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetTerminalLocationsResponseError' is used.
+data GetTerminalLocationsResponse =                                      
+   GetTerminalLocationsResponseError GHC.Base.String                     -- ^ Means either no matching case available or a parse error
+  | GetTerminalLocationsResponse200 GetTerminalLocationsResponseBody200  -- ^ Successful response.
+  | GetTerminalLocationsResponseDefault Error                            -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetTerminalLocationsResponseBody200
+-- 
+-- 
+data GetTerminalLocationsResponseBody200 = GetTerminalLocationsResponseBody200 {
+  -- | data
+  getTerminalLocationsResponseBody200Data :: ([] Terminal'location)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getTerminalLocationsResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getTerminalLocationsResponseBody200Object :: GetTerminalLocationsResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  -- * Must match pattern \'^\/v1\/terminal\/locations\'
+  , getTerminalLocationsResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetTerminalLocationsResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getTerminalLocationsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getTerminalLocationsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getTerminalLocationsResponseBody200Object obj) : (Data.Aeson..=) "url" (getTerminalLocationsResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getTerminalLocationsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getTerminalLocationsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getTerminalLocationsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getTerminalLocationsResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsResponseBody200" (\obj -> (((GHC.Base.pure GetTerminalLocationsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetTerminalLocationsResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetTerminalLocationsResponseBody200Object'
     = GetTerminalLocationsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetTerminalLocationsResponseBody200Object'EnumTyped GHC.Base.String
@@ -162,8 +196,3 @@ instance Data.Aeson.FromJSON GetTerminalLocationsResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetTerminalLocationsResponseBody200Object'EnumStringList
                                           else GetTerminalLocationsResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetTerminalLocationsResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getTerminalLocationsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getTerminalLocationsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getTerminalLocationsResponseBody200Object obj) : (Data.Aeson..=) "url" (getTerminalLocationsResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getTerminalLocationsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getTerminalLocationsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getTerminalLocationsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getTerminalLocationsResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsResponseBody200" (\obj -> (((GHC.Base.pure GetTerminalLocationsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

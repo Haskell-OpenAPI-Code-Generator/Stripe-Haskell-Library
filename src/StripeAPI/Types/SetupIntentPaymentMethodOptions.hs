@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SetupIntentPaymentMethodOptions
 module StripeAPI.Types.SetupIntentPaymentMethodOptions where
 
 import qualified Prelude as GHC.Integer.Type
@@ -27,9 +28,14 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.Types.SetupIntentPaymentMethodOptionsCard
 
-data SetupIntentPaymentMethodOptions
-    = SetupIntentPaymentMethodOptions {setupIntentPaymentMethodOptionsCard :: (GHC.Maybe.Maybe SetupIntentPaymentMethodOptionsCard)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema setup_intent_payment_method_options
+-- 
+-- 
+data SetupIntentPaymentMethodOptions = SetupIntentPaymentMethodOptions {
+  -- | card: 
+  setupIntentPaymentMethodOptionsCard :: (GHC.Maybe.Maybe SetupIntentPaymentMethodOptionsCard)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SetupIntentPaymentMethodOptions
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card" (setupIntentPaymentMethodOptionsCard obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card" (setupIntentPaymentMethodOptionsCard obj))

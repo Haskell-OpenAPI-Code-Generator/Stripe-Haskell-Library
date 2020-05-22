@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema PaymentMethodDetailsSofort
 module StripeAPI.Types.PaymentMethodDetailsSofort where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,14 +27,49 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data PaymentMethodDetailsSofort
-    = PaymentMethodDetailsSofort {paymentMethodDetailsSofortBankCode :: (GHC.Maybe.Maybe GHC.Base.String),
-                                  paymentMethodDetailsSofortBankName :: (GHC.Maybe.Maybe GHC.Base.String),
-                                  paymentMethodDetailsSofortBic :: (GHC.Maybe.Maybe GHC.Base.String),
-                                  paymentMethodDetailsSofortCountry :: (GHC.Maybe.Maybe GHC.Base.String),
-                                  paymentMethodDetailsSofortIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String),
-                                  paymentMethodDetailsSofortVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema payment_method_details_sofort
+-- 
+-- 
+data PaymentMethodDetailsSofort = PaymentMethodDetailsSofort {
+  -- | bank_code: Bank code of bank associated with the bank account.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  paymentMethodDetailsSofortBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | bank_name: Name of the bank associated with the bank account.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsSofortBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | bic: Bank Identifier Code of the bank associated with the bank account.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsSofortBic :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | country: Two-letter ISO code representing the country the bank account is located in.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsSofortCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | iban_last4: Last four characters of the IBAN.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsSofortIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | verified_name: Owner\'s verified full name. Values are verified or provided by SOFORT directly
+  -- (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsSofortVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsSofort
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_code" (paymentMethodDetailsSofortBankCode obj) : (Data.Aeson..=) "bank_name" (paymentMethodDetailsSofortBankName obj) : (Data.Aeson..=) "bic" (paymentMethodDetailsSofortBic obj) : (Data.Aeson..=) "country" (paymentMethodDetailsSofortCountry obj) : (Data.Aeson..=) "iban_last4" (paymentMethodDetailsSofortIbanLast4 obj) : (Data.Aeson..=) "verified_name" (paymentMethodDetailsSofortVerifiedName obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_code" (paymentMethodDetailsSofortBankCode obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (paymentMethodDetailsSofortBankName obj) GHC.Base.<> ((Data.Aeson..=) "bic" (paymentMethodDetailsSofortBic obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentMethodDetailsSofortCountry obj) GHC.Base.<> ((Data.Aeson..=) "iban_last4" (paymentMethodDetailsSofortIbanLast4 obj) GHC.Base.<> (Data.Aeson..=) "verified_name" (paymentMethodDetailsSofortVerifiedName obj))))))

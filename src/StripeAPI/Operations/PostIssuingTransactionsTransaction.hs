@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation postIssuingTransactionsTransaction
 module StripeAPI.Operations.PostIssuingTransactionsTransaction where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,16 +39,13 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- POST /v1/issuing/transactions/{transaction}
-postIssuingTransactionsTransaction :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                    StripeAPI.Common.SecurityScheme s) =>
-                                      StripeAPI.Common.Configuration s ->
-                                      GHC.Base.String ->
-                                      PostIssuingTransactionsTransactionRequestBody ->
-                                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                            (Network.HTTP.Client.Types.Response PostIssuingTransactionsTransactionResponse))
+-- | > POST /v1/issuing/transactions/{transaction}
+-- 
+-- \<p>Updates the specified Issuing \<code>Transaction\<\/code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
+postIssuingTransactionsTransaction :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                                -- ^ transaction | Constraints: Maximum length of 5000
+  -> PostIssuingTransactionsTransactionRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostIssuingTransactionsTransactionResponse)) -- ^ Monad containing the result of the operation
 postIssuingTransactionsTransaction config
                                    transaction
                                    body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either PostIssuingTransactionsTransactionResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> PostIssuingTransactionsTransactionResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
@@ -55,6 +53,9 @@ postIssuingTransactionsTransaction config
                                                                                                                                                                                                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostIssuingTransactionsTransactionResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                           Error)
                                                                                                                                                                                                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/issuing/transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transaction)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/issuing/transactions/{transaction}
+-- 
+-- The same as 'postIssuingTransactionsTransaction' but returns the raw 'Data.ByteString.Char8.ByteString'
 postIssuingTransactionsTransactionRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                        StripeAPI.Common.SecurityScheme s) =>
                                          StripeAPI.Common.Configuration s ->
@@ -65,6 +66,9 @@ postIssuingTransactionsTransactionRaw :: forall m s . (StripeAPI.Common.MonadHTT
 postIssuingTransactionsTransactionRaw config
                                       transaction
                                       body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/issuing/transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transaction)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/issuing/transactions/{transaction}
+-- 
+-- Monadic version of 'postIssuingTransactionsTransaction' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingTransactionsTransactionM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
                                        GHC.Base.String ->
@@ -79,6 +83,9 @@ postIssuingTransactionsTransactionM transaction
                                                                                                                                                                                                                        | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostIssuingTransactionsTransactionResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                            Error)
                                                                                                                                                                                                                        | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/issuing/transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transaction)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/issuing/transactions/{transaction}
+-- 
+-- Monadic version of 'postIssuingTransactionsTransactionRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingTransactionsTransactionRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
                                           GHC.Base.String ->
@@ -89,10 +96,24 @@ postIssuingTransactionsTransactionRawM :: forall m s . (StripeAPI.Common.MonadHT
                                                                                                  (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postIssuingTransactionsTransactionRawM transaction
                                        body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/issuing/transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transaction)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data PostIssuingTransactionsTransactionRequestBody
-    = PostIssuingTransactionsTransactionRequestBody {postIssuingTransactionsTransactionRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String)),
-                                                     postIssuingTransactionsTransactionRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingTransactionsTransactionRequestBodyMetadata'Variants)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postIssuingTransactionsTransactionRequestBody
+-- 
+-- 
+data PostIssuingTransactionsTransactionRequestBody = PostIssuingTransactionsTransactionRequestBody {
+  -- | expand: Specifies which fields in the response should be expanded.
+  postIssuingTransactionsTransactionRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
+  , postIssuingTransactionsTransactionRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingTransactionsTransactionRequestBodyMetadata'Variants)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostIssuingTransactionsTransactionRequestBody
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postIssuingTransactionsTransactionRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postIssuingTransactionsTransactionRequestBodyMetadata obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postIssuingTransactionsTransactionRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postIssuingTransactionsTransactionRequestBodyMetadata obj))
+instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingTransactionsTransactionRequestBody
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingTransactionsTransactionRequestBody" (\obj -> (GHC.Base.pure PostIssuingTransactionsTransactionRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
+-- | Defines the enum schema postIssuingTransactionsTransactionRequestBodyMetadata\'OneOf1
+-- 
+-- 
 data PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1
     = PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumOther Data.Aeson.Types.Internal.Value
     | PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumTyped GHC.Base.String
@@ -106,30 +127,34 @@ instance Data.Aeson.FromJSON PostIssuingTransactionsTransactionRequestBodyMetada
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
                                           then PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumString_
                                           else PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumOther val)
-data PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf2
-    = PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf2 {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postIssuingTransactionsTransactionRequestBodyMetadata\'OneOf2
+-- 
+-- 
+data PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf2 = PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf2 {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf2
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf2
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf2" (\obj -> GHC.Base.pure PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf2)
+-- | Define the one-of schema postIssuingTransactionsTransactionRequestBodyMetadata\'
+-- 
+-- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
 data PostIssuingTransactionsTransactionRequestBodyMetadata'Variants
-    = PostIssuingTransactionsTransactionRequestBodyMetadata'Variant1 PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1
-    | PostIssuingTransactionsTransactionRequestBodyMetadata'Variant2 PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf2
+    = PostIssuingTransactionsTransactionRequestBodyMetadata'PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1 PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1
+    | PostIssuingTransactionsTransactionRequestBodyMetadata'PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf2 PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf2
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostIssuingTransactionsTransactionRequestBodyMetadata'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
 instance Data.Aeson.FromJSON PostIssuingTransactionsTransactionRequestBodyMetadata'Variants
     where parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-instance Data.Aeson.ToJSON PostIssuingTransactionsTransactionRequestBody
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postIssuingTransactionsTransactionRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postIssuingTransactionsTransactionRequestBodyMetadata obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postIssuingTransactionsTransactionRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postIssuingTransactionsTransactionRequestBodyMetadata obj))
-instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingTransactionsTransactionRequestBody
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingTransactionsTransactionRequestBody" (\obj -> (GHC.Base.pure PostIssuingTransactionsTransactionRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
-
-data PostIssuingTransactionsTransactionResponse
-    = PostIssuingTransactionsTransactionResponseError GHC.Base.String
-    | PostIssuingTransactionsTransactionResponse200 Issuing'transaction
-    | PostIssuingTransactionsTransactionResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'postIssuingTransactionsTransaction'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'PostIssuingTransactionsTransactionResponseError' is used.
+data PostIssuingTransactionsTransactionResponse =                      
+   PostIssuingTransactionsTransactionResponseError GHC.Base.String     -- ^ Means either no matching case available or a parse error
+  | PostIssuingTransactionsTransactionResponse200 Issuing'transaction  -- ^ Successful response.
+  | PostIssuingTransactionsTransactionResponseDefault Error            -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

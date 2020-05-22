@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getCountrySpecsCountry
 module StripeAPI.Operations.GetCountrySpecsCountry where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/country_specs/{country}
-getCountrySpecsCountry :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                        StripeAPI.Common.SecurityScheme s) =>
-                          StripeAPI.Common.Configuration s ->
-                          GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GetCountrySpecsCountryRequestBody ->
-                          m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                (Network.HTTP.Client.Types.Response GetCountrySpecsCountryResponse))
+-- | > GET /v1/country_specs/{country}
+-- 
+-- \<p>Returns a Country Spec for a given Country code.\<\/p>
+getCountrySpecsCountry :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                    -- ^ country | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GetCountrySpecsCountryRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCountrySpecsCountryResponse)) -- ^ Monad containing the result of the operation
 getCountrySpecsCountry config
                        country
                        expand
@@ -58,6 +56,9 @@ getCountrySpecsCountry config
                                                                                                                                                                                                                                                                                                                                                                                                       Error)
                                                                                                                                                                                               | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/country_specs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel country)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/country_specs/{country}
+-- 
+-- The same as 'getCountrySpecsCountry' but returns the raw 'Data.ByteString.Char8.ByteString'
 getCountrySpecsCountryRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getCountrySpecsCountryRaw config
                           expand
                           body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/country_specs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel country)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/country_specs/{country}
+-- 
+-- Monadic version of 'getCountrySpecsCountry' (use with 'StripeAPI.Common.runWithConfiguration')
 getCountrySpecsCountryM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
                            GHC.Base.String ->
@@ -88,6 +92,9 @@ getCountrySpecsCountryM country
                                                                                                                                                                                                                                                                                                                                                                                                        Error)
                                                                                                                                                                                                | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/country_specs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel country)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/country_specs/{country}
+-- 
+-- Monadic version of 'getCountrySpecsCountryRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCountrySpecsCountryRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               GHC.Base.String ->
@@ -101,17 +108,23 @@ getCountrySpecsCountryRawM country
                            expand
                            body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/country_specs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel country)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetCountrySpecsCountryRequestBody
-    = GetCountrySpecsCountryRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getCountrySpecsCountryRequestBody
+-- 
+-- 
+data GetCountrySpecsCountryRequestBody = GetCountrySpecsCountryRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetCountrySpecsCountryRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetCountrySpecsCountryRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCountrySpecsCountryRequestBody" (\obj -> GHC.Base.pure GetCountrySpecsCountryRequestBody)
-
-data GetCountrySpecsCountryResponse
-    = GetCountrySpecsCountryResponseError GHC.Base.String
-    | GetCountrySpecsCountryResponse200 CountrySpec
-    | GetCountrySpecsCountryResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getCountrySpecsCountry'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetCountrySpecsCountryResponseError' is used.
+data GetCountrySpecsCountryResponse =                   
+   GetCountrySpecsCountryResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetCountrySpecsCountryResponse200 CountrySpec       -- ^ Successful response.
+  | GetCountrySpecsCountryResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

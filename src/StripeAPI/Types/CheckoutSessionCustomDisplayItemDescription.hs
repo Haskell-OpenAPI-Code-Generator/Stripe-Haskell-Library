@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema CheckoutSessionCustomDisplayItemDescription
 module StripeAPI.Types.CheckoutSessionCustomDisplayItemDescription where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,26 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data CheckoutSessionCustomDisplayItemDescription
-    = CheckoutSessionCustomDisplayItemDescription {checkoutSessionCustomDisplayItemDescriptionDescription :: (GHC.Maybe.Maybe GHC.Base.String),
-                                                   checkoutSessionCustomDisplayItemDescriptionImages :: (GHC.Maybe.Maybe ([] GHC.Base.String)),
-                                                   checkoutSessionCustomDisplayItemDescriptionName :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema checkout_session_custom_display_item_description
+-- 
+-- 
+data CheckoutSessionCustomDisplayItemDescription = CheckoutSessionCustomDisplayItemDescription {
+  -- | description: The description of the line item.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  checkoutSessionCustomDisplayItemDescriptionDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | images: The images of the line item.
+  , checkoutSessionCustomDisplayItemDescriptionImages :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  -- | name: The name of the line item.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , checkoutSessionCustomDisplayItemDescriptionName :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON CheckoutSessionCustomDisplayItemDescription
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "description" (checkoutSessionCustomDisplayItemDescriptionDescription obj) : (Data.Aeson..=) "images" (checkoutSessionCustomDisplayItemDescriptionImages obj) : (Data.Aeson..=) "name" (checkoutSessionCustomDisplayItemDescriptionName obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "description" (checkoutSessionCustomDisplayItemDescriptionDescription obj) GHC.Base.<> ((Data.Aeson..=) "images" (checkoutSessionCustomDisplayItemDescriptionImages obj) GHC.Base.<> (Data.Aeson..=) "name" (checkoutSessionCustomDisplayItemDescriptionName obj)))

@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getCustomersCustomerSourcesId
 module StripeAPI.Operations.GetCustomersCustomerSourcesId where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,18 +39,15 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/customers/{customer}/sources/{id}
-getCustomersCustomerSourcesId :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                               StripeAPI.Common.SecurityScheme s) =>
-                                 StripeAPI.Common.Configuration s ->
-                                 GHC.Base.String ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
-                                 GHC.Base.String ->
-                                 GetCustomersCustomerSourcesIdRequestBody ->
-                                 m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                       (Network.HTTP.Client.Types.Response GetCustomersCustomerSourcesIdResponse))
+-- | > GET /v1/customers/{customer}/sources/{id}
+-- 
+-- \<p>Retrieve a specified source for a given customer.\<\/p>
+getCustomersCustomerSourcesId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                           -- ^ customer | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                           -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                           -- ^ id | Constraints: Maximum length of 500
+  -> GetCustomersCustomerSourcesIdRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCustomersCustomerSourcesIdResponse)) -- ^ Monad containing the result of the operation
 getCustomersCustomerSourcesId config
                               customer
                               expand
@@ -60,6 +58,9 @@ getCustomersCustomerSourcesId config
                                                                                                                                                                                                                                                                                                                                                                                                                            Error)
                                                                                                                                                                                                             | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/customers/{customer}/sources/{id}
+-- 
+-- The same as 'getCustomersCustomerSourcesId' but returns the raw 'Data.ByteString.Char8.ByteString'
 getCustomersCustomerSourcesIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     StripeAPI.Common.Configuration s ->
@@ -75,6 +76,9 @@ getCustomersCustomerSourcesIdRaw config
                                  id
                                  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/customers/{customer}/sources/{id}
+-- 
+-- Monadic version of 'getCustomersCustomerSourcesId' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerSourcesIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   GHC.Base.String ->
@@ -94,6 +98,9 @@ getCustomersCustomerSourcesIdM customer
                                                                                                                                                                                                                                                                                                                                                                                                                             Error)
                                                                                                                                                                                                              | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/customers/{customer}/sources/{id}
+-- 
+-- Monadic version of 'getCustomersCustomerSourcesIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerSourcesIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
                                      GHC.Base.String ->
@@ -109,17 +116,23 @@ getCustomersCustomerSourcesIdRawM customer
                                   id
                                   body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetCustomersCustomerSourcesIdRequestBody
-    = GetCustomersCustomerSourcesIdRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getCustomersCustomerSourcesIdRequestBody
+-- 
+-- 
+data GetCustomersCustomerSourcesIdRequestBody = GetCustomersCustomerSourcesIdRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetCustomersCustomerSourcesIdRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerSourcesIdRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerSourcesIdRequestBody" (\obj -> GHC.Base.pure GetCustomersCustomerSourcesIdRequestBody)
-
-data GetCustomersCustomerSourcesIdResponse
-    = GetCustomersCustomerSourcesIdResponseError GHC.Base.String
-    | GetCustomersCustomerSourcesIdResponse200 PaymentSource
-    | GetCustomersCustomerSourcesIdResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getCustomersCustomerSourcesId'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetCustomersCustomerSourcesIdResponseError' is used.
+data GetCustomersCustomerSourcesIdResponse =                   
+   GetCustomersCustomerSourcesIdResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetCustomersCustomerSourcesIdResponse200 PaymentSource     -- ^ Successful response.
+  | GetCustomersCustomerSourcesIdResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

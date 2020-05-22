@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema Shipping
 module StripeAPI.Types.Shipping where
 
 import qualified Prelude as GHC.Integer.Type
@@ -27,13 +28,38 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.Types.Address
 
-data Shipping
-    = Shipping {shippingAddress :: (GHC.Maybe.Maybe Address),
-                shippingCarrier :: (GHC.Maybe.Maybe GHC.Base.String),
-                shippingName :: (GHC.Maybe.Maybe GHC.Base.String),
-                shippingPhone :: (GHC.Maybe.Maybe GHC.Base.String),
-                shippingTrackingNumber :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema shipping
+-- 
+-- 
+data Shipping = Shipping {
+  -- | address: 
+  shippingAddress :: (GHC.Maybe.Maybe Address)
+  -- | carrier: The delivery service that shipped a physical product, such as Fedex, UPS, USPS, etc.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , shippingCarrier :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | name: Recipient name.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , shippingName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | phone: Recipient phone (including extension).
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , shippingPhone :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | tracking_number: The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , shippingTrackingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Shipping
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (shippingAddress obj) : (Data.Aeson..=) "carrier" (shippingCarrier obj) : (Data.Aeson..=) "name" (shippingName obj) : (Data.Aeson..=) "phone" (shippingPhone obj) : (Data.Aeson..=) "tracking_number" (shippingTrackingNumber obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (shippingAddress obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (shippingCarrier obj) GHC.Base.<> ((Data.Aeson..=) "name" (shippingName obj) GHC.Base.<> ((Data.Aeson..=) "phone" (shippingPhone obj) GHC.Base.<> (Data.Aeson..=) "tracking_number" (shippingTrackingNumber obj)))))

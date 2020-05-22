@@ -570,7 +570,6 @@ library
     , http-client
     , http-types
     , bytestring
-    , lens
     , aeson
     , unordered-containers
     , vector

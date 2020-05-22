@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema ChargeFraudDetails
 module StripeAPI.Types.ChargeFraudDetails where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data ChargeFraudDetails
-    = ChargeFraudDetails {chargeFraudDetailsStripeReport :: (GHC.Maybe.Maybe GHC.Base.String),
-                          chargeFraudDetailsUserReport :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema charge_fraud_details
+-- 
+-- 
+data ChargeFraudDetails = ChargeFraudDetails {
+  -- | stripe_report: Assessments from Stripe. If set, the value is \`fraudulent\`.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  chargeFraudDetailsStripeReport :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | user_report: Assessments reported by you. If set, possible values of are \`safe\` and \`fraudulent\`.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , chargeFraudDetailsUserReport :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON ChargeFraudDetails
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "stripe_report" (chargeFraudDetailsStripeReport obj) : (Data.Aeson..=) "user_report" (chargeFraudDetailsUserReport obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "stripe_report" (chargeFraudDetailsStripeReport obj) GHC.Base.<> (Data.Aeson..=) "user_report" (chargeFraudDetailsUserReport obj))

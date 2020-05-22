@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema DeletedInvoice
 module StripeAPI.Types.DeletedInvoice where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,30 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data DeletedInvoice
-    = DeletedInvoice {deletedInvoiceDeleted :: DeletedInvoiceDeleted',
-                      deletedInvoiceId :: GHC.Base.String,
-                      deletedInvoiceObject :: DeletedInvoiceObject'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema deleted_invoice
+-- 
+-- 
+data DeletedInvoice = DeletedInvoice {
+  -- | deleted: Always true for a deleted object
+  deletedInvoiceDeleted :: DeletedInvoiceDeleted'
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , deletedInvoiceId :: GHC.Base.String
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , deletedInvoiceObject :: DeletedInvoiceObject'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON DeletedInvoice
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedInvoiceDeleted obj) : (Data.Aeson..=) "id" (deletedInvoiceId obj) : (Data.Aeson..=) "object" (deletedInvoiceObject obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedInvoiceDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedInvoiceId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedInvoiceObject obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON DeletedInvoice
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedInvoice" (\obj -> ((GHC.Base.pure DeletedInvoice GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+-- | Defines the enum schema deleted_invoiceDeleted\'
+-- 
+-- Always true for a deleted object
 data DeletedInvoiceDeleted'
     = DeletedInvoiceDeleted'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedInvoiceDeleted'EnumTyped GHC.Types.Bool
@@ -44,6 +64,9 @@ instance Data.Aeson.FromJSON DeletedInvoiceDeleted'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True
                                           then DeletedInvoiceDeleted'EnumBoolTrue
                                           else DeletedInvoiceDeleted'EnumOther val)
+-- | Defines the enum schema deleted_invoiceObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedInvoiceObject'
     = DeletedInvoiceObject'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedInvoiceObject'EnumTyped GHC.Base.String
@@ -57,8 +80,3 @@ instance Data.Aeson.FromJSON DeletedInvoiceObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice")
                                           then DeletedInvoiceObject'EnumStringInvoice
                                           else DeletedInvoiceObject'EnumOther val)
-instance Data.Aeson.ToJSON DeletedInvoice
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedInvoiceDeleted obj) : (Data.Aeson..=) "id" (deletedInvoiceId obj) : (Data.Aeson..=) "object" (deletedInvoiceObject obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedInvoiceDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedInvoiceId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedInvoiceObject obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedInvoice
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedInvoice" (\obj -> ((GHC.Base.pure DeletedInvoice GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))

@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getFilesFile
 module StripeAPI.Operations.GetFilesFile where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/files/{file}
-getFilesFile :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                              StripeAPI.Common.SecurityScheme s) =>
-                StripeAPI.Common.Configuration s ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GHC.Base.String ->
-                GetFilesFileRequestBody ->
-                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                      (Network.HTTP.Client.Types.Response GetFilesFileResponse))
+-- | > GET /v1/files/{file}
+-- 
+-- \<p>Retrieves the details of an existing file object. Supply the unique file ID from a file, and Stripe will return the corresponding file object. To access file contents, see the \<a href=\"\/docs\/file-upload\#download-file-contents\">File Upload Guide\<\/a>.\<\/p>
+getFilesFile :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                          -- ^ file | Constraints: Maximum length of 5000
+  -> GetFilesFileRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetFilesFileResponse)) -- ^ Monad containing the result of the operation
 getFilesFile config
              expand
              file
@@ -58,6 +56,9 @@ getFilesFile config
                                                                                                                                                                                                                                                                                                                                                                         Error)
                                                                                                                                                                           | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/files/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel file)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/files/{file}
+-- 
+-- The same as 'getFilesFile' but returns the raw 'Data.ByteString.Char8.ByteString'
 getFilesFileRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                  StripeAPI.Common.SecurityScheme s) =>
                    StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getFilesFileRaw config
                 file
                 body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/files/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel file)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/files/{file}
+-- 
+-- Monadic version of 'getFilesFile' (use with 'StripeAPI.Common.runWithConfiguration')
 getFilesFileM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
                  GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getFilesFileM expand
                                                                                                                                                                                                                                                                                                                                                                          Error)
                                                                                                                                                                            | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/files/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel file)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/files/{file}
+-- 
+-- Monadic version of 'getFilesFileRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getFilesFileRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
                     GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getFilesFileRawM expand
                  file
                  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/files/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel file)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetFilesFileRequestBody
-    = GetFilesFileRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getFilesFileRequestBody
+-- 
+-- 
+data GetFilesFileRequestBody = GetFilesFileRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetFilesFileRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetFilesFileRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFilesFileRequestBody" (\obj -> GHC.Base.pure GetFilesFileRequestBody)
-
-data GetFilesFileResponse
-    = GetFilesFileResponseError GHC.Base.String
-    | GetFilesFileResponse200 File
-    | GetFilesFileResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getFilesFile'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetFilesFileResponseError' is used.
+data GetFilesFileResponse =                   
+   GetFilesFileResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetFilesFileResponse200 File              -- ^ Successful response.
+  | GetFilesFileResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

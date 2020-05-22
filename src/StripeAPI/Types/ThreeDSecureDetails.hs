@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema ThreeDSecureDetails
 module StripeAPI.Types.ThreeDSecureDetails where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,22 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data ThreeDSecureDetails
-    = ThreeDSecureDetails {threeDSecureDetailsAuthenticated :: GHC.Types.Bool,
-                           threeDSecureDetailsSucceeded :: GHC.Types.Bool,
-                           threeDSecureDetailsVersion :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema three_d_secure_details
+-- 
+-- 
+data ThreeDSecureDetails = ThreeDSecureDetails {
+  -- | authenticated: Whether or not authentication was performed. 3D Secure will succeed without authentication when the card is not enrolled.
+  threeDSecureDetailsAuthenticated :: GHC.Types.Bool
+  -- | succeeded: Whether or not 3D Secure succeeded.
+  , threeDSecureDetailsSucceeded :: GHC.Types.Bool
+  -- | version: The version of 3D Secure that was used for this payment.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , threeDSecureDetailsVersion :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON ThreeDSecureDetails
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "authenticated" (threeDSecureDetailsAuthenticated obj) : (Data.Aeson..=) "succeeded" (threeDSecureDetailsSucceeded obj) : (Data.Aeson..=) "version" (threeDSecureDetailsVersion obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "authenticated" (threeDSecureDetailsAuthenticated obj) GHC.Base.<> ((Data.Aeson..=) "succeeded" (threeDSecureDetailsSucceeded obj) GHC.Base.<> (Data.Aeson..=) "version" (threeDSecureDetailsVersion obj)))

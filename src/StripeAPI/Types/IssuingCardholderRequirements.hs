@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema IssuingCardholderRequirements
 module StripeAPI.Types.IssuingCardholderRequirements where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data IssuingCardholderRequirements
-    = IssuingCardholderRequirements {issuingCardholderRequirementsDisabledReason :: (GHC.Maybe.Maybe IssuingCardholderRequirementsDisabledReason'),
-                                     issuingCardholderRequirementsPastDue :: (GHC.Maybe.Maybe ([] IssuingCardholderRequirementsPastDue'))}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema issuing_cardholder_requirements
+-- 
+-- 
+data IssuingCardholderRequirements = IssuingCardholderRequirements {
+  -- | disabled_reason: If \`disabled_reason\` is present, all cards will decline authorizations with \`cardholder_verification_required\` reason.
+  issuingCardholderRequirementsDisabledReason :: (GHC.Maybe.Maybe IssuingCardholderRequirementsDisabledReason')
+  -- | past_due: If not empty, this field contains the list of fields that need to be collected in order to verify and re-enabled the cardholder.
+  , issuingCardholderRequirementsPastDue :: (GHC.Maybe.Maybe ([] IssuingCardholderRequirementsPastDue'))
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON IssuingCardholderRequirements
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "disabled_reason" (issuingCardholderRequirementsDisabledReason obj) : (Data.Aeson..=) "past_due" (issuingCardholderRequirementsPastDue obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "disabled_reason" (issuingCardholderRequirementsDisabledReason obj) GHC.Base.<> (Data.Aeson..=) "past_due" (issuingCardholderRequirementsPastDue obj))
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderRequirements
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardholderRequirements" (\obj -> (GHC.Base.pure IssuingCardholderRequirements GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "disabled_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "past_due"))
+-- | Defines the enum schema issuing_cardholder_requirementsDisabled_reason\'
+-- 
+-- If \`disabled_reason\` is present, all cards will decline authorizations with \`cardholder_verification_required\` reason.
 data IssuingCardholderRequirementsDisabledReason'
     = IssuingCardholderRequirementsDisabledReason'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingCardholderRequirementsDisabledReason'EnumTyped GHC.Base.String
@@ -51,6 +66,9 @@ instance Data.Aeson.FromJSON IssuingCardholderRequirementsDisabledReason'
                                                 else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "under_review")
                                                       then IssuingCardholderRequirementsDisabledReason'EnumStringUnderReview
                                                       else IssuingCardholderRequirementsDisabledReason'EnumOther val)
+-- | Defines the enum schema issuing_cardholder_requirementsPast_due\'
+-- 
+-- 
 data IssuingCardholderRequirementsPastDue'
     = IssuingCardholderRequirementsPastDue'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingCardholderRequirementsPastDue'EnumTyped GHC.Base.String
@@ -84,8 +102,3 @@ instance Data.Aeson.FromJSON IssuingCardholderRequirementsPastDue'
                                                                   else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "individual.verification.document")
                                                                         then IssuingCardholderRequirementsPastDue'EnumStringIndividual'verification'document
                                                                         else IssuingCardholderRequirementsPastDue'EnumOther val)
-instance Data.Aeson.ToJSON IssuingCardholderRequirements
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "disabled_reason" (issuingCardholderRequirementsDisabledReason obj) : (Data.Aeson..=) "past_due" (issuingCardholderRequirementsPastDue obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "disabled_reason" (issuingCardholderRequirementsDisabledReason obj) GHC.Base.<> (Data.Aeson..=) "past_due" (issuingCardholderRequirementsPastDue obj))
-instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderRequirements
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardholderRequirements" (\obj -> (GHC.Base.pure IssuingCardholderRequirements GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "disabled_reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "past_due"))

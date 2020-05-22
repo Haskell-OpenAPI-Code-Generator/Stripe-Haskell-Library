@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTypeMultibanco
 module StripeAPI.Types.SourceTypeMultibanco where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,18 +27,32 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTypeMultibanco
-    = SourceTypeMultibanco {sourceTypeMultibancoEntity :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeMultibancoReference :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeMultibancoRefundAccountHolderAddressCity :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeMultibancoRefundAccountHolderAddressCountry :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeMultibancoRefundAccountHolderAddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeMultibancoRefundAccountHolderAddressLine2 :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeMultibancoRefundAccountHolderAddressPostalCode :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeMultibancoRefundAccountHolderAddressState :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeMultibancoRefundAccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeMultibancoRefundIban :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_type_multibanco
+-- 
+-- 
+data SourceTypeMultibanco = SourceTypeMultibanco {
+  -- | entity
+  sourceTypeMultibancoEntity :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | reference
+  , sourceTypeMultibancoReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | refund_account_holder_address_city
+  , sourceTypeMultibancoRefundAccountHolderAddressCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | refund_account_holder_address_country
+  , sourceTypeMultibancoRefundAccountHolderAddressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | refund_account_holder_address_line1
+  , sourceTypeMultibancoRefundAccountHolderAddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | refund_account_holder_address_line2
+  , sourceTypeMultibancoRefundAccountHolderAddressLine2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | refund_account_holder_address_postal_code
+  , sourceTypeMultibancoRefundAccountHolderAddressPostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | refund_account_holder_address_state
+  , sourceTypeMultibancoRefundAccountHolderAddressState :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | refund_account_holder_name
+  , sourceTypeMultibancoRefundAccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | refund_iban
+  , sourceTypeMultibancoRefundIban :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeMultibanco
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "entity" (sourceTypeMultibancoEntity obj) : (Data.Aeson..=) "reference" (sourceTypeMultibancoReference obj) : (Data.Aeson..=) "refund_account_holder_address_city" (sourceTypeMultibancoRefundAccountHolderAddressCity obj) : (Data.Aeson..=) "refund_account_holder_address_country" (sourceTypeMultibancoRefundAccountHolderAddressCountry obj) : (Data.Aeson..=) "refund_account_holder_address_line1" (sourceTypeMultibancoRefundAccountHolderAddressLine1 obj) : (Data.Aeson..=) "refund_account_holder_address_line2" (sourceTypeMultibancoRefundAccountHolderAddressLine2 obj) : (Data.Aeson..=) "refund_account_holder_address_postal_code" (sourceTypeMultibancoRefundAccountHolderAddressPostalCode obj) : (Data.Aeson..=) "refund_account_holder_address_state" (sourceTypeMultibancoRefundAccountHolderAddressState obj) : (Data.Aeson..=) "refund_account_holder_name" (sourceTypeMultibancoRefundAccountHolderName obj) : (Data.Aeson..=) "refund_iban" (sourceTypeMultibancoRefundIban obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "entity" (sourceTypeMultibancoEntity obj) GHC.Base.<> ((Data.Aeson..=) "reference" (sourceTypeMultibancoReference obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_address_city" (sourceTypeMultibancoRefundAccountHolderAddressCity obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_address_country" (sourceTypeMultibancoRefundAccountHolderAddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_address_line1" (sourceTypeMultibancoRefundAccountHolderAddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_address_line2" (sourceTypeMultibancoRefundAccountHolderAddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_address_postal_code" (sourceTypeMultibancoRefundAccountHolderAddressPostalCode obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_address_state" (sourceTypeMultibancoRefundAccountHolderAddressState obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_name" (sourceTypeMultibancoRefundAccountHolderName obj) GHC.Base.<> (Data.Aeson..=) "refund_iban" (sourceTypeMultibancoRefundIban obj))))))))))

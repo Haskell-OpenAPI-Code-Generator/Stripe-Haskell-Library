@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTypeSofort
 module StripeAPI.Types.SourceTypeSofort where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,15 +27,26 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTypeSofort
-    = SourceTypeSofort {sourceTypeSofortBankCode :: (GHC.Maybe.Maybe GHC.Base.String),
-                        sourceTypeSofortBankName :: (GHC.Maybe.Maybe GHC.Base.String),
-                        sourceTypeSofortBic :: (GHC.Maybe.Maybe GHC.Base.String),
-                        sourceTypeSofortCountry :: (GHC.Maybe.Maybe GHC.Base.String),
-                        sourceTypeSofortIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String),
-                        sourceTypeSofortPreferredLanguage :: (GHC.Maybe.Maybe GHC.Base.String),
-                        sourceTypeSofortStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_type_sofort
+-- 
+-- 
+data SourceTypeSofort = SourceTypeSofort {
+  -- | bank_code
+  sourceTypeSofortBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | bank_name
+  , sourceTypeSofortBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | bic
+  , sourceTypeSofortBic :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | country
+  , sourceTypeSofortCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | iban_last4
+  , sourceTypeSofortIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | preferred_language
+  , sourceTypeSofortPreferredLanguage :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | statement_descriptor
+  , sourceTypeSofortStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeSofort
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_code" (sourceTypeSofortBankCode obj) : (Data.Aeson..=) "bank_name" (sourceTypeSofortBankName obj) : (Data.Aeson..=) "bic" (sourceTypeSofortBic obj) : (Data.Aeson..=) "country" (sourceTypeSofortCountry obj) : (Data.Aeson..=) "iban_last4" (sourceTypeSofortIbanLast4 obj) : (Data.Aeson..=) "preferred_language" (sourceTypeSofortPreferredLanguage obj) : (Data.Aeson..=) "statement_descriptor" (sourceTypeSofortStatementDescriptor obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_code" (sourceTypeSofortBankCode obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (sourceTypeSofortBankName obj) GHC.Base.<> ((Data.Aeson..=) "bic" (sourceTypeSofortBic obj) GHC.Base.<> ((Data.Aeson..=) "country" (sourceTypeSofortCountry obj) GHC.Base.<> ((Data.Aeson..=) "iban_last4" (sourceTypeSofortIbanLast4 obj) GHC.Base.<> ((Data.Aeson..=) "preferred_language" (sourceTypeSofortPreferredLanguage obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (sourceTypeSofortStatementDescriptor obj)))))))

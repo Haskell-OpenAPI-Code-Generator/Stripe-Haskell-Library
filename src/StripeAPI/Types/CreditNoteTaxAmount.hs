@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema CreditNoteTaxAmount
 module StripeAPI.Types.CreditNoteTaxAmount where
 
 import qualified Prelude as GHC.Integer.Type
@@ -27,21 +28,31 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.Types.TaxRate
 
-data CreditNoteTaxAmount
-    = CreditNoteTaxAmount {creditNoteTaxAmountAmount :: GHC.Integer.Type.Integer,
-                           creditNoteTaxAmountInclusive :: GHC.Types.Bool,
-                           creditNoteTaxAmountTaxRate :: CreditNoteTaxAmountTaxRate'Variants}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data CreditNoteTaxAmountTaxRate'Variants
-    = CreditNoteTaxAmountTaxRate'Variant1 TaxRate
-    | CreditNoteTaxAmountTaxRate'Variant2 GHC.Base.String
-    deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
-instance Data.Aeson.ToJSON CreditNoteTaxAmountTaxRate'Variants
-    where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-instance Data.Aeson.FromJSON CreditNoteTaxAmountTaxRate'Variants
-    where parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+-- | Defines the data type for the schema credit_note_tax_amount
+-- 
+-- 
+data CreditNoteTaxAmount = CreditNoteTaxAmount {
+  -- | amount: The amount, in %s, of the tax.
+  creditNoteTaxAmountAmount :: GHC.Integer.Type.Integer
+  -- | inclusive: Whether this tax amount is inclusive or exclusive.
+  , creditNoteTaxAmountInclusive :: GHC.Types.Bool
+  -- | tax_rate: The tax rate that was applied to get this tax amount.
+  , creditNoteTaxAmountTaxRate :: CreditNoteTaxAmountTaxRate'Variants
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON CreditNoteTaxAmount
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (creditNoteTaxAmountAmount obj) : (Data.Aeson..=) "inclusive" (creditNoteTaxAmountInclusive obj) : (Data.Aeson..=) "tax_rate" (creditNoteTaxAmountTaxRate obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (creditNoteTaxAmountAmount obj) GHC.Base.<> ((Data.Aeson..=) "inclusive" (creditNoteTaxAmountInclusive obj) GHC.Base.<> (Data.Aeson..=) "tax_rate" (creditNoteTaxAmountTaxRate obj)))
 instance Data.Aeson.Types.FromJSON.FromJSON CreditNoteTaxAmount
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "CreditNoteTaxAmount" (\obj -> ((GHC.Base.pure CreditNoteTaxAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inclusive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_rate"))
+-- | Define the one-of schema credit_note_tax_amountTax_rate\'
+-- 
+-- The tax rate that was applied to get this tax amount.
+data CreditNoteTaxAmountTaxRate'Variants
+    = CreditNoteTaxAmountTaxRate'TaxRate TaxRate
+    | CreditNoteTaxAmountTaxRate'String GHC.Base.String
+    deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+instance Data.Aeson.ToJSON CreditNoteTaxAmountTaxRate'Variants
+    where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.FromJSON CreditNoteTaxAmountTaxRate'Variants
+    where parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}

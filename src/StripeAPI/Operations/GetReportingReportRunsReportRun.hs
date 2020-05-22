@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getReportingReportRunsReportRun
 module StripeAPI.Operations.GetReportingReportRunsReportRun where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/reporting/report_runs/{report_run}
-getReportingReportRunsReportRun :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                 StripeAPI.Common.SecurityScheme s) =>
-                                   StripeAPI.Common.Configuration s ->
-                                   GHC.Maybe.Maybe GHC.Base.String ->
-                                   GHC.Base.String ->
-                                   GetReportingReportRunsReportRunRequestBody ->
-                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                         (Network.HTTP.Client.Types.Response GetReportingReportRunsReportRunResponse))
+-- | > GET /v1/reporting/report_runs/{report_run}
+-- 
+-- \<p>Retrieves the details of an existing Report Run. (Requires a \<a href=\"https:\/\/stripe.com\/docs\/keys\#test-live-modes\">live-mode API key\<\/a>.)\<\/p>
+getReportingReportRunsReportRun :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                             -- ^ report_run | Constraints: Maximum length of 5000
+  -> GetReportingReportRunsReportRunRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetReportingReportRunsReportRunResponse)) -- ^ Monad containing the result of the operation
 getReportingReportRunsReportRun config
                                 expand
                                 reportRun
@@ -58,6 +56,9 @@ getReportingReportRunsReportRun config
                                                                                                                                                                                                                                                                                                                                                                                                                                  Error)
                                                                                                                                                                                                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/reporting/report_runs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel reportRun)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/reporting/report_runs/{report_run}
+-- 
+-- The same as 'getReportingReportRunsReportRun' but returns the raw 'Data.ByteString.Char8.ByteString'
 getReportingReportRunsReportRunRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
                                       StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getReportingReportRunsReportRunRaw config
                                    reportRun
                                    body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/reporting/report_runs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel reportRun)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/reporting/report_runs/{report_run}
+-- 
+-- Monadic version of 'getReportingReportRunsReportRun' (use with 'StripeAPI.Common.runWithConfiguration')
 getReportingReportRunsReportRunM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getReportingReportRunsReportRunM expand
                                                                                                                                                                                                                                                                                                                                                                                                                                   Error)
                                                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/reporting/report_runs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel reportRun)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/reporting/report_runs/{report_run}
+-- 
+-- Monadic version of 'getReportingReportRunsReportRunRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getReportingReportRunsReportRunRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
                                        GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getReportingReportRunsReportRunRawM expand
                                     reportRun
                                     body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/reporting/report_runs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel reportRun)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetReportingReportRunsReportRunRequestBody
-    = GetReportingReportRunsReportRunRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getReportingReportRunsReportRunRequestBody
+-- 
+-- 
+data GetReportingReportRunsReportRunRequestBody = GetReportingReportRunsReportRunRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetReportingReportRunsReportRunRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportRunsReportRunRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReportingReportRunsReportRunRequestBody" (\obj -> GHC.Base.pure GetReportingReportRunsReportRunRequestBody)
-
-data GetReportingReportRunsReportRunResponse
-    = GetReportingReportRunsReportRunResponseError GHC.Base.String
-    | GetReportingReportRunsReportRunResponse200 Reporting'reportRun
-    | GetReportingReportRunsReportRunResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getReportingReportRunsReportRun'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetReportingReportRunsReportRunResponseError' is used.
+data GetReportingReportRunsReportRunResponse =                      
+   GetReportingReportRunsReportRunResponseError GHC.Base.String     -- ^ Means either no matching case available or a parse error
+  | GetReportingReportRunsReportRunResponse200 Reporting'reportRun  -- ^ Successful response.
+  | GetReportingReportRunsReportRunResponseDefault Error            -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema DisputeEvidenceDetails
 module StripeAPI.Types.DisputeEvidenceDetails where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,20 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data DisputeEvidenceDetails
-    = DisputeEvidenceDetails {disputeEvidenceDetailsDueBy :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                              disputeEvidenceDetailsHasEvidence :: GHC.Types.Bool,
-                              disputeEvidenceDetailsPastDue :: GHC.Types.Bool,
-                              disputeEvidenceDetailsSubmissionCount :: GHC.Integer.Type.Integer}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema dispute_evidence_details
+-- 
+-- 
+data DisputeEvidenceDetails = DisputeEvidenceDetails {
+  -- | due_by: Date by which evidence must be submitted in order to successfully challenge dispute. Will be null if the customer\'s bank or credit card company doesn\'t allow a response for this particular dispute.
+  disputeEvidenceDetailsDueBy :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | has_evidence: Whether evidence has been staged for this dispute.
+  , disputeEvidenceDetailsHasEvidence :: GHC.Types.Bool
+  -- | past_due: Whether the last evidence submission was submitted past the due date. Defaults to \`false\` if no evidence submissions have occurred. If \`true\`, then delivery of the latest evidence is *not* guaranteed.
+  , disputeEvidenceDetailsPastDue :: GHC.Types.Bool
+  -- | submission_count: The number of times evidence has been submitted. Typically, you may only submit evidence once.
+  , disputeEvidenceDetailsSubmissionCount :: GHC.Integer.Type.Integer
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DisputeEvidenceDetails
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "due_by" (disputeEvidenceDetailsDueBy obj) : (Data.Aeson..=) "has_evidence" (disputeEvidenceDetailsHasEvidence obj) : (Data.Aeson..=) "past_due" (disputeEvidenceDetailsPastDue obj) : (Data.Aeson..=) "submission_count" (disputeEvidenceDetailsSubmissionCount obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "due_by" (disputeEvidenceDetailsDueBy obj) GHC.Base.<> ((Data.Aeson..=) "has_evidence" (disputeEvidenceDetailsHasEvidence obj) GHC.Base.<> ((Data.Aeson..=) "past_due" (disputeEvidenceDetailsPastDue obj) GHC.Base.<> (Data.Aeson..=) "submission_count" (disputeEvidenceDetailsSubmissionCount obj))))

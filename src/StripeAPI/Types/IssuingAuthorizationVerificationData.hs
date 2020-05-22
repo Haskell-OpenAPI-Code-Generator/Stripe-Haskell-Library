@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema IssuingAuthorizationVerificationData
 module StripeAPI.Types.IssuingAuthorizationVerificationData where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,28 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data IssuingAuthorizationVerificationData
-    = IssuingAuthorizationVerificationData {issuingAuthorizationVerificationDataAddressLine1Check :: IssuingAuthorizationVerificationDataAddressLine1Check',
-                                            issuingAuthorizationVerificationDataAddressZipCheck :: IssuingAuthorizationVerificationDataAddressZipCheck',
-                                            issuingAuthorizationVerificationDataAuthentication :: IssuingAuthorizationVerificationDataAuthentication',
-                                            issuingAuthorizationVerificationDataCvcCheck :: IssuingAuthorizationVerificationDataCvcCheck'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema issuing_authorization_verification_data
+-- 
+-- 
+data IssuingAuthorizationVerificationData = IssuingAuthorizationVerificationData {
+  -- | address_line1_check: Whether the cardholder provided an address first line and if it matched the cardholder’s \`billing.address.line1\`.
+  issuingAuthorizationVerificationDataAddressLine1Check :: IssuingAuthorizationVerificationDataAddressLine1Check'
+  -- | address_zip_check: Whether the cardholder provided a zip (or postal code) and if it matched the cardholder’s \`billing.address.postal_code\`.
+  , issuingAuthorizationVerificationDataAddressZipCheck :: IssuingAuthorizationVerificationDataAddressZipCheck'
+  -- | authentication: Whether 3DS authentication was performed.
+  , issuingAuthorizationVerificationDataAuthentication :: IssuingAuthorizationVerificationDataAuthentication'
+  -- | cvc_check: Whether the cardholder provided a CVC and if it matched Stripe’s record.
+  , issuingAuthorizationVerificationDataCvcCheck :: IssuingAuthorizationVerificationDataCvcCheck'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON IssuingAuthorizationVerificationData
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address_line1_check" (issuingAuthorizationVerificationDataAddressLine1Check obj) : (Data.Aeson..=) "address_zip_check" (issuingAuthorizationVerificationDataAddressZipCheck obj) : (Data.Aeson..=) "authentication" (issuingAuthorizationVerificationDataAuthentication obj) : (Data.Aeson..=) "cvc_check" (issuingAuthorizationVerificationDataCvcCheck obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address_line1_check" (issuingAuthorizationVerificationDataAddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_zip_check" (issuingAuthorizationVerificationDataAddressZipCheck obj) GHC.Base.<> ((Data.Aeson..=) "authentication" (issuingAuthorizationVerificationDataAuthentication obj) GHC.Base.<> (Data.Aeson..=) "cvc_check" (issuingAuthorizationVerificationDataCvcCheck obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationVerificationData
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingAuthorizationVerificationData" (\obj -> (((GHC.Base.pure IssuingAuthorizationVerificationData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authentication")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cvc_check"))
+-- | Defines the enum schema issuing_authorization_verification_dataAddress_line1_check\'
+-- 
+-- Whether the cardholder provided an address first line and if it matched the cardholder’s \`billing.address.line1\`.
 data IssuingAuthorizationVerificationDataAddressLine1Check'
     = IssuingAuthorizationVerificationDataAddressLine1Check'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingAuthorizationVerificationDataAddressLine1Check'EnumTyped GHC.Base.String
@@ -53,6 +70,9 @@ instance Data.Aeson.FromJSON IssuingAuthorizationVerificationDataAddressLine1Che
                                                 else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "not_provided")
                                                       then IssuingAuthorizationVerificationDataAddressLine1Check'EnumStringNotProvided
                                                       else IssuingAuthorizationVerificationDataAddressLine1Check'EnumOther val)
+-- | Defines the enum schema issuing_authorization_verification_dataAddress_zip_check\'
+-- 
+-- Whether the cardholder provided a zip (or postal code) and if it matched the cardholder’s \`billing.address.postal_code\`.
 data IssuingAuthorizationVerificationDataAddressZipCheck'
     = IssuingAuthorizationVerificationDataAddressZipCheck'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingAuthorizationVerificationDataAddressZipCheck'EnumTyped GHC.Base.String
@@ -74,6 +94,9 @@ instance Data.Aeson.FromJSON IssuingAuthorizationVerificationDataAddressZipCheck
                                                 else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "not_provided")
                                                       then IssuingAuthorizationVerificationDataAddressZipCheck'EnumStringNotProvided
                                                       else IssuingAuthorizationVerificationDataAddressZipCheck'EnumOther val)
+-- | Defines the enum schema issuing_authorization_verification_dataAuthentication\'
+-- 
+-- Whether 3DS authentication was performed.
 data IssuingAuthorizationVerificationDataAuthentication'
     = IssuingAuthorizationVerificationDataAuthentication'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingAuthorizationVerificationDataAuthentication'EnumTyped GHC.Base.String
@@ -95,6 +118,9 @@ instance Data.Aeson.FromJSON IssuingAuthorizationVerificationDataAuthentication'
                                                 else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "success")
                                                       then IssuingAuthorizationVerificationDataAuthentication'EnumStringSuccess
                                                       else IssuingAuthorizationVerificationDataAuthentication'EnumOther val)
+-- | Defines the enum schema issuing_authorization_verification_dataCvc_check\'
+-- 
+-- Whether the cardholder provided a CVC and if it matched Stripe’s record.
 data IssuingAuthorizationVerificationDataCvcCheck'
     = IssuingAuthorizationVerificationDataCvcCheck'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingAuthorizationVerificationDataCvcCheck'EnumTyped GHC.Base.String
@@ -116,8 +142,3 @@ instance Data.Aeson.FromJSON IssuingAuthorizationVerificationDataCvcCheck'
                                                 else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "not_provided")
                                                       then IssuingAuthorizationVerificationDataCvcCheck'EnumStringNotProvided
                                                       else IssuingAuthorizationVerificationDataCvcCheck'EnumOther val)
-instance Data.Aeson.ToJSON IssuingAuthorizationVerificationData
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address_line1_check" (issuingAuthorizationVerificationDataAddressLine1Check obj) : (Data.Aeson..=) "address_zip_check" (issuingAuthorizationVerificationDataAddressZipCheck obj) : (Data.Aeson..=) "authentication" (issuingAuthorizationVerificationDataAuthentication obj) : (Data.Aeson..=) "cvc_check" (issuingAuthorizationVerificationDataCvcCheck obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address_line1_check" (issuingAuthorizationVerificationDataAddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_zip_check" (issuingAuthorizationVerificationDataAddressZipCheck obj) GHC.Base.<> ((Data.Aeson..=) "authentication" (issuingAuthorizationVerificationDataAuthentication obj) GHC.Base.<> (Data.Aeson..=) "cvc_check" (issuingAuthorizationVerificationDataCvcCheck obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationVerificationData
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingAuthorizationVerificationData" (\obj -> (((GHC.Base.pure IssuingAuthorizationVerificationData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address_line1_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address_zip_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authentication")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "cvc_check"))

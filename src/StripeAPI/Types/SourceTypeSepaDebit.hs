@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTypeSepaDebit
 module StripeAPI.Types.SourceTypeSepaDebit where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,15 +27,26 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTypeSepaDebit
-    = SourceTypeSepaDebit {sourceTypeSepaDebitBankCode :: (GHC.Maybe.Maybe GHC.Base.String),
-                           sourceTypeSepaDebitBranchCode :: (GHC.Maybe.Maybe GHC.Base.String),
-                           sourceTypeSepaDebitCountry :: (GHC.Maybe.Maybe GHC.Base.String),
-                           sourceTypeSepaDebitFingerprint :: (GHC.Maybe.Maybe GHC.Base.String),
-                           sourceTypeSepaDebitLast4 :: (GHC.Maybe.Maybe GHC.Base.String),
-                           sourceTypeSepaDebitMandateReference :: (GHC.Maybe.Maybe GHC.Base.String),
-                           sourceTypeSepaDebitMandateUrl :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_type_sepa_debit
+-- 
+-- 
+data SourceTypeSepaDebit = SourceTypeSepaDebit {
+  -- | bank_code
+  sourceTypeSepaDebitBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | branch_code
+  , sourceTypeSepaDebitBranchCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | country
+  , sourceTypeSepaDebitCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | fingerprint
+  , sourceTypeSepaDebitFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | last4
+  , sourceTypeSepaDebitLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | mandate_reference
+  , sourceTypeSepaDebitMandateReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | mandate_url
+  , sourceTypeSepaDebitMandateUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeSepaDebit
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_code" (sourceTypeSepaDebitBankCode obj) : (Data.Aeson..=) "branch_code" (sourceTypeSepaDebitBranchCode obj) : (Data.Aeson..=) "country" (sourceTypeSepaDebitCountry obj) : (Data.Aeson..=) "fingerprint" (sourceTypeSepaDebitFingerprint obj) : (Data.Aeson..=) "last4" (sourceTypeSepaDebitLast4 obj) : (Data.Aeson..=) "mandate_reference" (sourceTypeSepaDebitMandateReference obj) : (Data.Aeson..=) "mandate_url" (sourceTypeSepaDebitMandateUrl obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_code" (sourceTypeSepaDebitBankCode obj) GHC.Base.<> ((Data.Aeson..=) "branch_code" (sourceTypeSepaDebitBranchCode obj) GHC.Base.<> ((Data.Aeson..=) "country" (sourceTypeSepaDebitCountry obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (sourceTypeSepaDebitFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "last4" (sourceTypeSepaDebitLast4 obj) GHC.Base.<> ((Data.Aeson..=) "mandate_reference" (sourceTypeSepaDebitMandateReference obj) GHC.Base.<> (Data.Aeson..=) "mandate_url" (sourceTypeSepaDebitMandateUrl obj)))))))

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTransaction
 module StripeAPI.Types.SourceTransaction where
 
 import qualified Prelude as GHC.Integer.Type
@@ -31,22 +32,63 @@ import StripeAPI.Types.SourceTransactionGbpCreditTransferData
 import StripeAPI.Types.SourceTransactionPaperCheckData
 import StripeAPI.Types.SourceTransactionSepaCreditTransferData
 
-data SourceTransaction
-    = SourceTransaction {sourceTransactionAchCreditTransfer :: (GHC.Maybe.Maybe SourceTransactionAchCreditTransferData),
-                         sourceTransactionAmount :: GHC.Integer.Type.Integer,
-                         sourceTransactionChfCreditTransfer :: (GHC.Maybe.Maybe SourceTransactionChfCreditTransferData),
-                         sourceTransactionCreated :: GHC.Integer.Type.Integer,
-                         sourceTransactionCurrency :: GHC.Base.String,
-                         sourceTransactionGbpCreditTransfer :: (GHC.Maybe.Maybe SourceTransactionGbpCreditTransferData),
-                         sourceTransactionId :: GHC.Base.String,
-                         sourceTransactionLivemode :: GHC.Types.Bool,
-                         sourceTransactionObject :: SourceTransactionObject',
-                         sourceTransactionPaperCheck :: (GHC.Maybe.Maybe SourceTransactionPaperCheckData),
-                         sourceTransactionSepaCreditTransfer :: (GHC.Maybe.Maybe SourceTransactionSepaCreditTransferData),
-                         sourceTransactionSource :: GHC.Base.String,
-                         sourceTransactionStatus :: GHC.Base.String,
-                         sourceTransactionType :: SourceTransactionType'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_transaction
+-- 
+-- Some payment methods have no required amount that a customer must send.
+-- Customers can be instructed to send any amount, and it can be made up of
+-- multiple transactions. As such, sources can have multiple associated
+-- transactions.
+data SourceTransaction = SourceTransaction {
+  -- | ach_credit_transfer: 
+  sourceTransactionAchCreditTransfer :: (GHC.Maybe.Maybe SourceTransactionAchCreditTransferData)
+  -- | amount: A positive integer in the smallest currency unit (that is, 100 cents for \$1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the amount your customer has pushed to the receiver.
+  , sourceTransactionAmount :: GHC.Integer.Type.Integer
+  -- | chf_credit_transfer: 
+  , sourceTransactionChfCreditTransfer :: (GHC.Maybe.Maybe SourceTransactionChfCreditTransferData)
+  -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
+  , sourceTransactionCreated :: GHC.Integer.Type.Integer
+  -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+  , sourceTransactionCurrency :: GHC.Base.String
+  -- | gbp_credit_transfer: 
+  , sourceTransactionGbpCreditTransfer :: (GHC.Maybe.Maybe SourceTransactionGbpCreditTransferData)
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionId :: GHC.Base.String
+  -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
+  , sourceTransactionLivemode :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , sourceTransactionObject :: SourceTransactionObject'
+  -- | paper_check: 
+  , sourceTransactionPaperCheck :: (GHC.Maybe.Maybe SourceTransactionPaperCheckData)
+  -- | sepa_credit_transfer: 
+  , sourceTransactionSepaCreditTransfer :: (GHC.Maybe.Maybe SourceTransactionSepaCreditTransferData)
+  -- | source: The ID of the source this transaction is attached to.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionSource :: GHC.Base.String
+  -- | status: The status of the transaction, one of \`succeeded\`, \`pending\`, or \`failed\`.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionStatus :: GHC.Base.String
+  -- | type: The type of source this transaction is attached to.
+  , sourceTransactionType :: SourceTransactionType'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON SourceTransaction
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "ach_credit_transfer" (sourceTransactionAchCreditTransfer obj) : (Data.Aeson..=) "amount" (sourceTransactionAmount obj) : (Data.Aeson..=) "chf_credit_transfer" (sourceTransactionChfCreditTransfer obj) : (Data.Aeson..=) "created" (sourceTransactionCreated obj) : (Data.Aeson..=) "currency" (sourceTransactionCurrency obj) : (Data.Aeson..=) "gbp_credit_transfer" (sourceTransactionGbpCreditTransfer obj) : (Data.Aeson..=) "id" (sourceTransactionId obj) : (Data.Aeson..=) "livemode" (sourceTransactionLivemode obj) : (Data.Aeson..=) "object" (sourceTransactionObject obj) : (Data.Aeson..=) "paper_check" (sourceTransactionPaperCheck obj) : (Data.Aeson..=) "sepa_credit_transfer" (sourceTransactionSepaCreditTransfer obj) : (Data.Aeson..=) "source" (sourceTransactionSource obj) : (Data.Aeson..=) "status" (sourceTransactionStatus obj) : (Data.Aeson..=) "type" (sourceTransactionType obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "ach_credit_transfer" (sourceTransactionAchCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "amount" (sourceTransactionAmount obj) GHC.Base.<> ((Data.Aeson..=) "chf_credit_transfer" (sourceTransactionChfCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "created" (sourceTransactionCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (sourceTransactionCurrency obj) GHC.Base.<> ((Data.Aeson..=) "gbp_credit_transfer" (sourceTransactionGbpCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "id" (sourceTransactionId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (sourceTransactionLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (sourceTransactionObject obj) GHC.Base.<> ((Data.Aeson..=) "paper_check" (sourceTransactionPaperCheck obj) GHC.Base.<> ((Data.Aeson..=) "sepa_credit_transfer" (sourceTransactionSepaCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "source" (sourceTransactionSource obj) GHC.Base.<> ((Data.Aeson..=) "status" (sourceTransactionStatus obj) GHC.Base.<> (Data.Aeson..=) "type" (sourceTransactionType obj))))))))))))))
+instance Data.Aeson.Types.FromJSON.FromJSON SourceTransaction
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransaction" (\obj -> (((((((((((((GHC.Base.pure SourceTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "chf_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gbp_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "paper_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+-- | Defines the enum schema source_transactionObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data SourceTransactionObject'
     = SourceTransactionObject'EnumOther Data.Aeson.Types.Internal.Value
     | SourceTransactionObject'EnumTyped GHC.Base.String
@@ -60,6 +102,9 @@ instance Data.Aeson.FromJSON SourceTransactionObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "source_transaction")
                                           then SourceTransactionObject'EnumStringSourceTransaction
                                           else SourceTransactionObject'EnumOther val)
+-- | Defines the enum schema source_transactionType\'
+-- 
+-- The type of source this transaction is attached to.
 data SourceTransactionType'
     = SourceTransactionType'EnumOther Data.Aeson.Types.Internal.Value
     | SourceTransactionType'EnumTyped GHC.Base.String
@@ -133,8 +178,3 @@ instance Data.Aeson.FromJSON SourceTransactionType'
                                                                                                                               else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "wechat")
                                                                                                                                     then SourceTransactionType'EnumStringWechat
                                                                                                                                     else SourceTransactionType'EnumOther val)
-instance Data.Aeson.ToJSON SourceTransaction
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "ach_credit_transfer" (sourceTransactionAchCreditTransfer obj) : (Data.Aeson..=) "amount" (sourceTransactionAmount obj) : (Data.Aeson..=) "chf_credit_transfer" (sourceTransactionChfCreditTransfer obj) : (Data.Aeson..=) "created" (sourceTransactionCreated obj) : (Data.Aeson..=) "currency" (sourceTransactionCurrency obj) : (Data.Aeson..=) "gbp_credit_transfer" (sourceTransactionGbpCreditTransfer obj) : (Data.Aeson..=) "id" (sourceTransactionId obj) : (Data.Aeson..=) "livemode" (sourceTransactionLivemode obj) : (Data.Aeson..=) "object" (sourceTransactionObject obj) : (Data.Aeson..=) "paper_check" (sourceTransactionPaperCheck obj) : (Data.Aeson..=) "sepa_credit_transfer" (sourceTransactionSepaCreditTransfer obj) : (Data.Aeson..=) "source" (sourceTransactionSource obj) : (Data.Aeson..=) "status" (sourceTransactionStatus obj) : (Data.Aeson..=) "type" (sourceTransactionType obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "ach_credit_transfer" (sourceTransactionAchCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "amount" (sourceTransactionAmount obj) GHC.Base.<> ((Data.Aeson..=) "chf_credit_transfer" (sourceTransactionChfCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "created" (sourceTransactionCreated obj) GHC.Base.<> ((Data.Aeson..=) "currency" (sourceTransactionCurrency obj) GHC.Base.<> ((Data.Aeson..=) "gbp_credit_transfer" (sourceTransactionGbpCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "id" (sourceTransactionId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (sourceTransactionLivemode obj) GHC.Base.<> ((Data.Aeson..=) "object" (sourceTransactionObject obj) GHC.Base.<> ((Data.Aeson..=) "paper_check" (sourceTransactionPaperCheck obj) GHC.Base.<> ((Data.Aeson..=) "sepa_credit_transfer" (sourceTransactionSepaCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "source" (sourceTransactionSource obj) GHC.Base.<> ((Data.Aeson..=) "status" (sourceTransactionStatus obj) GHC.Base.<> (Data.Aeson..=) "type" (sourceTransactionType obj))))))))))))))
-instance Data.Aeson.Types.FromJSON.FromJSON SourceTransaction
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "SourceTransaction" (\obj -> (((((((((((((GHC.Base.pure SourceTransaction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ach_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "chf_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gbp_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "paper_check")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "sepa_credit_transfer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "source")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))

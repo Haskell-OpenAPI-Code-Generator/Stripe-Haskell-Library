@@ -1,3 +1,4 @@
+-- | The main module which exports all functionality.
 module StripeAPI (
   module StripeAPI.Operations.Post3dSecure,
   module StripeAPI.Operations.Get3dSecureThreeDSecure,

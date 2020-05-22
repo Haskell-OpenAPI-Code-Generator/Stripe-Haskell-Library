@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getOrders
 module StripeAPI.Operations.GetOrders where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,25 +39,22 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/orders
-getOrders :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                           StripeAPI.Common.SecurityScheme s) =>
-             StripeAPI.Common.Configuration s ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GetOrdersRequestBody ->
-             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                   (Network.HTTP.Client.Types.Response GetOrdersResponse))
+-- | > GET /v1/orders
+-- 
+-- \<p>Returns a list of your orders. The orders are returned sorted by creation date, with the most recently created orders appearing first.\<\/p>
+getOrders :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ created: Date this order was created.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ customer: Only return orders for the given customer. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ ids: Only return orders with the given IDs.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                              -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ status: Only return orders that have the given status. One of \`created\`, \`paid\`, \`fulfilled\`, or \`refunded\`. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ status_transitions: Filter orders based on when they were paid, fulfilled, canceled, or returned.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ upstream_ids: Only return orders with the given upstream order IDs.
+  -> GetOrdersRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetOrdersResponse)) -- ^ Monad containing the result of the operation
 getOrders config
           created
           customer
@@ -83,6 +81,9 @@ getOrders config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> status) : ((Data.Text.pack "status_transitions",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> statusTransitions) : ((Data.Text.pack "upstream_ids",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> upstreamIds) : [])))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/orders
+-- 
+-- The same as 'getOrders' but returns the raw 'Data.ByteString.Char8.ByteString'
 getOrdersRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                               StripeAPI.Common.SecurityScheme s) =>
                 StripeAPI.Common.Configuration s ->
@@ -121,6 +122,9 @@ getOrdersRaw config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> status) : ((Data.Text.pack "status_transitions",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> statusTransitions) : ((Data.Text.pack "upstream_ids",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> upstreamIds) : [])))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/orders
+-- 
+-- Monadic version of 'getOrders' (use with 'StripeAPI.Common.runWithConfiguration')
 getOrdersM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                             StripeAPI.Common.SecurityScheme s) =>
               GHC.Maybe.Maybe GHC.Base.String ->
@@ -163,6 +167,9 @@ getOrdersM created
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> status) : ((Data.Text.pack "status_transitions",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> statusTransitions) : ((Data.Text.pack "upstream_ids",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> upstreamIds) : [])))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/orders
+-- 
+-- Monadic version of 'getOrdersRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getOrdersRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
                  GHC.Maybe.Maybe GHC.Base.String ->
@@ -201,26 +208,53 @@ getOrdersRawM created
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> status) : ((Data.Text.pack "status_transitions",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> statusTransitions) : ((Data.Text.pack "upstream_ids",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> upstreamIds) : [])))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetOrdersRequestBody
-    = GetOrdersRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getOrdersRequestBody
+-- 
+-- 
+data GetOrdersRequestBody = GetOrdersRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetOrdersRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersRequestBody" (\obj -> GHC.Base.pure GetOrdersRequestBody)
-
-data GetOrdersResponse
-    = GetOrdersResponseError GHC.Base.String
-    | GetOrdersResponse200 GetOrdersResponseBody200
-    | GetOrdersResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetOrdersResponseBody200
-    = GetOrdersResponseBody200 {getOrdersResponseBody200Data :: ([] Order),
-                                getOrdersResponseBody200HasMore :: GHC.Types.Bool,
-                                getOrdersResponseBody200Object :: GetOrdersResponseBody200Object',
-                                getOrdersResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getOrders'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetOrdersResponseError' is used.
+data GetOrdersResponse =                           
+   GetOrdersResponseError GHC.Base.String          -- ^ Means either no matching case available or a parse error
+  | GetOrdersResponse200 GetOrdersResponseBody200  -- ^ Successful response.
+  | GetOrdersResponseDefault Error                 -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetOrdersResponseBody200
+-- 
+-- 
+data GetOrdersResponseBody200 = GetOrdersResponseBody200 {
+  -- | data
+  getOrdersResponseBody200Data :: ([] Order)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getOrdersResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getOrdersResponseBody200Object :: GetOrdersResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  -- * Must match pattern \'^\/v1\/orders\'
+  , getOrdersResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetOrdersResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getOrdersResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getOrdersResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getOrdersResponseBody200Object obj) : (Data.Aeson..=) "url" (getOrdersResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getOrdersResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getOrdersResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getOrdersResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getOrdersResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersResponseBody200" (\obj -> (((GHC.Base.pure GetOrdersResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetOrdersResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetOrdersResponseBody200Object'
     = GetOrdersResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetOrdersResponseBody200Object'EnumTyped GHC.Base.String
@@ -234,8 +268,3 @@ instance Data.Aeson.FromJSON GetOrdersResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetOrdersResponseBody200Object'EnumStringList
                                           else GetOrdersResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetOrdersResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getOrdersResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getOrdersResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getOrdersResponseBody200Object obj) : (Data.Aeson..=) "url" (getOrdersResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getOrdersResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getOrdersResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getOrdersResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getOrdersResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetOrdersResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrdersResponseBody200" (\obj -> (((GHC.Base.pure GetOrdersResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

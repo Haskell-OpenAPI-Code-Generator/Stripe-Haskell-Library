@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema AccountDashboardSettings
 module StripeAPI.Types.AccountDashboardSettings where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data AccountDashboardSettings
-    = AccountDashboardSettings {accountDashboardSettingsDisplayName :: (GHC.Maybe.Maybe GHC.Base.String),
-                                accountDashboardSettingsTimezone :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema account_dashboard_settings
+-- 
+-- 
+data AccountDashboardSettings = AccountDashboardSettings {
+  -- | display_name: The display name for this account. This is used on the Stripe Dashboard to differentiate between accounts.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  accountDashboardSettingsDisplayName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | timezone: The timezone used in the Stripe Dashboard for this account. A list of possible time zone values is maintained at the [IANA Time Zone Database](http:\/\/www.iana.org\/time-zones).
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , accountDashboardSettingsTimezone :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountDashboardSettings
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "display_name" (accountDashboardSettingsDisplayName obj) : (Data.Aeson..=) "timezone" (accountDashboardSettingsTimezone obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "display_name" (accountDashboardSettingsDisplayName obj) GHC.Base.<> (Data.Aeson..=) "timezone" (accountDashboardSettingsTimezone obj))

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema PaymentMethodDetailsAchCreditTransfer
 module StripeAPI.Types.PaymentMethodDetailsAchCreditTransfer where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,36 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data PaymentMethodDetailsAchCreditTransfer
-    = PaymentMethodDetailsAchCreditTransfer {paymentMethodDetailsAchCreditTransferAccountNumber :: (GHC.Maybe.Maybe GHC.Base.String),
-                                             paymentMethodDetailsAchCreditTransferBankName :: (GHC.Maybe.Maybe GHC.Base.String),
-                                             paymentMethodDetailsAchCreditTransferRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String),
-                                             paymentMethodDetailsAchCreditTransferSwiftCode :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema payment_method_details_ach_credit_transfer
+-- 
+-- 
+data PaymentMethodDetailsAchCreditTransfer = PaymentMethodDetailsAchCreditTransfer {
+  -- | account_number: Account number to transfer funds to.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  paymentMethodDetailsAchCreditTransferAccountNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | bank_name: Name of the bank associated with the routing number.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsAchCreditTransferBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | routing_number: Routing transit number for the bank account to transfer funds to.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsAchCreditTransferRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | swift_code: SWIFT code of the bank associated with the routing number.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsAchCreditTransferSwiftCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsAchCreditTransfer
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account_number" (paymentMethodDetailsAchCreditTransferAccountNumber obj) : (Data.Aeson..=) "bank_name" (paymentMethodDetailsAchCreditTransferBankName obj) : (Data.Aeson..=) "routing_number" (paymentMethodDetailsAchCreditTransferRoutingNumber obj) : (Data.Aeson..=) "swift_code" (paymentMethodDetailsAchCreditTransferSwiftCode obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account_number" (paymentMethodDetailsAchCreditTransferAccountNumber obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (paymentMethodDetailsAchCreditTransferBankName obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (paymentMethodDetailsAchCreditTransferRoutingNumber obj) GHC.Base.<> (Data.Aeson..=) "swift_code" (paymentMethodDetailsAchCreditTransferSwiftCode obj))))

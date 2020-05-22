@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema PaymentMethodDetailsMultibanco
 module StripeAPI.Types.PaymentMethodDetailsMultibanco where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data PaymentMethodDetailsMultibanco
-    = PaymentMethodDetailsMultibanco {paymentMethodDetailsMultibancoEntity :: (GHC.Maybe.Maybe GHC.Base.String),
-                                      paymentMethodDetailsMultibancoReference :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema payment_method_details_multibanco
+-- 
+-- 
+data PaymentMethodDetailsMultibanco = PaymentMethodDetailsMultibanco {
+  -- | entity: Entity number associated with this Multibanco payment.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  paymentMethodDetailsMultibancoEntity :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | reference: Reference number associated with this Multibanco payment.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsMultibancoReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsMultibanco
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "entity" (paymentMethodDetailsMultibancoEntity obj) : (Data.Aeson..=) "reference" (paymentMethodDetailsMultibancoReference obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "entity" (paymentMethodDetailsMultibancoEntity obj) GHC.Base.<> (Data.Aeson..=) "reference" (paymentMethodDetailsMultibancoReference obj))

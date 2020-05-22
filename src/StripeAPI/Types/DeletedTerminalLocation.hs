@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema DeletedTerminalLocation
 module StripeAPI.Types.DeletedTerminalLocation where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,30 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data DeletedTerminal'location
-    = DeletedTerminal'location {deletedTerminal'locationDeleted :: DeletedTerminal'locationDeleted',
-                                deletedTerminal'locationId :: GHC.Base.String,
-                                deletedTerminal'locationObject :: DeletedTerminal'locationObject'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema deleted_terminal.location
+-- 
+-- 
+data DeletedTerminal'location = DeletedTerminal'location {
+  -- | deleted: Always true for a deleted object
+  deletedTerminal'locationDeleted :: DeletedTerminal'locationDeleted'
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , deletedTerminal'locationId :: GHC.Base.String
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , deletedTerminal'locationObject :: DeletedTerminal'locationObject'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON DeletedTerminal'location
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedTerminal'locationDeleted obj) : (Data.Aeson..=) "id" (deletedTerminal'locationId obj) : (Data.Aeson..=) "object" (deletedTerminal'locationObject obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedTerminal'locationDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedTerminal'locationId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedTerminal'locationObject obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON DeletedTerminal'location
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedTerminal'location" (\obj -> ((GHC.Base.pure DeletedTerminal'location GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+-- | Defines the enum schema deleted_terminal.locationDeleted\'
+-- 
+-- Always true for a deleted object
 data DeletedTerminal'locationDeleted'
     = DeletedTerminal'locationDeleted'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedTerminal'locationDeleted'EnumTyped GHC.Types.Bool
@@ -44,6 +64,9 @@ instance Data.Aeson.FromJSON DeletedTerminal'locationDeleted'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True
                                           then DeletedTerminal'locationDeleted'EnumBoolTrue
                                           else DeletedTerminal'locationDeleted'EnumOther val)
+-- | Defines the enum schema deleted_terminal.locationObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedTerminal'locationObject'
     = DeletedTerminal'locationObject'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedTerminal'locationObject'EnumTyped GHC.Base.String
@@ -57,8 +80,3 @@ instance Data.Aeson.FromJSON DeletedTerminal'locationObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "terminal.location")
                                           then DeletedTerminal'locationObject'EnumStringTerminal'location
                                           else DeletedTerminal'locationObject'EnumOther val)
-instance Data.Aeson.ToJSON DeletedTerminal'location
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedTerminal'locationDeleted obj) : (Data.Aeson..=) "id" (deletedTerminal'locationId obj) : (Data.Aeson..=) "object" (deletedTerminal'locationObject obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedTerminal'locationDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedTerminal'locationId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedTerminal'locationObject obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedTerminal'location
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedTerminal'location" (\obj -> ((GHC.Base.pure DeletedTerminal'location GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))

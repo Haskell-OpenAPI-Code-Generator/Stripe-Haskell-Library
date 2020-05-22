@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema AccountPayoutSettings
 module StripeAPI.Types.AccountPayoutSettings where
 
 import qualified Prelude as GHC.Integer.Type
@@ -27,11 +28,22 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.Types.TransferSchedule
 
-data AccountPayoutSettings
-    = AccountPayoutSettings {accountPayoutSettingsDebitNegativeBalances :: GHC.Types.Bool,
-                             accountPayoutSettingsSchedule :: TransferSchedule,
-                             accountPayoutSettingsStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema account_payout_settings
+-- 
+-- 
+data AccountPayoutSettings = AccountPayoutSettings {
+  -- | debit_negative_balances: A Boolean indicating if Stripe should try to reclaim negative balances from an attached bank account. See our [Understanding Connect Account Balances](https:\/\/stripe.com\/docs\/connect\/account-balances) documentation for details. Default value is \`true\` for Express accounts and \`false\` for Custom accounts.
+  accountPayoutSettingsDebitNegativeBalances :: GHC.Types.Bool
+  -- | schedule: 
+  , accountPayoutSettingsSchedule :: TransferSchedule
+  -- | statement_descriptor: The text that appears on the bank account statement for payouts. If not set, this defaults to the platform\'s bank descriptor as set in the Dashboard.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , accountPayoutSettingsStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountPayoutSettings
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "debit_negative_balances" (accountPayoutSettingsDebitNegativeBalances obj) : (Data.Aeson..=) "schedule" (accountPayoutSettingsSchedule obj) : (Data.Aeson..=) "statement_descriptor" (accountPayoutSettingsStatementDescriptor obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "debit_negative_balances" (accountPayoutSettingsDebitNegativeBalances obj) GHC.Base.<> ((Data.Aeson..=) "schedule" (accountPayoutSettingsSchedule obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (accountPayoutSettingsStatementDescriptor obj)))

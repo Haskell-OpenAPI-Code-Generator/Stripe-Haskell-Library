@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema AccountTosAcceptance
 module StripeAPI.Types.AccountTosAcceptance where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,26 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data AccountTosAcceptance
-    = AccountTosAcceptance {accountTosAcceptanceDate :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                            accountTosAcceptanceIp :: (GHC.Maybe.Maybe GHC.Base.String),
-                            accountTosAcceptanceUserAgent :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema account_tos_acceptance
+-- 
+-- 
+data AccountTosAcceptance = AccountTosAcceptance {
+  -- | date: The Unix timestamp marking when the Stripe Services Agreement was accepted by the account representative
+  accountTosAcceptanceDate :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | ip: The IP address from which the Stripe Services Agreement was accepted by the account representative
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , accountTosAcceptanceIp :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | user_agent: The user agent of the browser from which the Stripe Services Agreement was accepted by the account representative
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , accountTosAcceptanceUserAgent :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountTosAcceptance
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "date" (accountTosAcceptanceDate obj) : (Data.Aeson..=) "ip" (accountTosAcceptanceIp obj) : (Data.Aeson..=) "user_agent" (accountTosAcceptanceUserAgent obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "date" (accountTosAcceptanceDate obj) GHC.Base.<> ((Data.Aeson..=) "ip" (accountTosAcceptanceIp obj) GHC.Base.<> (Data.Aeson..=) "user_agent" (accountTosAcceptanceUserAgent obj)))

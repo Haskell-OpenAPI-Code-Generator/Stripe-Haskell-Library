@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getSigmaScheduledQueryRunsScheduledQueryRun
 module StripeAPI.Operations.GetSigmaScheduledQueryRunsScheduledQueryRun where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/sigma/scheduled_query_runs/{scheduled_query_run}
-getSigmaScheduledQueryRunsScheduledQueryRun :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                             StripeAPI.Common.SecurityScheme s) =>
-                                               StripeAPI.Common.Configuration s ->
-                                               GHC.Maybe.Maybe GHC.Base.String ->
-                                               GHC.Base.String ->
-                                               GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody ->
-                                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                                     (Network.HTTP.Client.Types.Response GetSigmaScheduledQueryRunsScheduledQueryRunResponse))
+-- | > GET /v1/sigma/scheduled_query_runs/{scheduled_query_run}
+-- 
+-- \<p>Retrieves the details of an scheduled query run.\<\/p>
+getSigmaScheduledQueryRunsScheduledQueryRun :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                         -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                                         -- ^ scheduled_query_run | Constraints: Maximum length of 5000
+  -> GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSigmaScheduledQueryRunsScheduledQueryRunResponse)) -- ^ Monad containing the result of the operation
 getSigmaScheduledQueryRunsScheduledQueryRun config
                                             expand
                                             scheduledQueryRun
@@ -58,6 +56,9 @@ getSigmaScheduledQueryRunsScheduledQueryRun config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Error)
                                                                                                                                                                                                                                         | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/sigma/scheduled_query_runs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel scheduledQueryRun)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/sigma/scheduled_query_runs/{scheduled_query_run}
+-- 
+-- The same as 'getSigmaScheduledQueryRunsScheduledQueryRun' but returns the raw 'Data.ByteString.Char8.ByteString'
 getSigmaScheduledQueryRunsScheduledQueryRunRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                 StripeAPI.Common.SecurityScheme s) =>
                                                   StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getSigmaScheduledQueryRunsScheduledQueryRunRaw config
                                                scheduledQueryRun
                                                body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/sigma/scheduled_query_runs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel scheduledQueryRun)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                       StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/sigma/scheduled_query_runs/{scheduled_query_run}
+-- 
+-- Monadic version of 'getSigmaScheduledQueryRunsScheduledQueryRun' (use with 'StripeAPI.Common.runWithConfiguration')
 getSigmaScheduledQueryRunsScheduledQueryRunM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                               StripeAPI.Common.SecurityScheme s) =>
                                                 GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getSigmaScheduledQueryRunsScheduledQueryRunM expand
                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Error)
                                                                                                                                                                                                                                          | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/sigma/scheduled_query_runs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel scheduledQueryRun)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/sigma/scheduled_query_runs/{scheduled_query_run}
+-- 
+-- Monadic version of 'getSigmaScheduledQueryRunsScheduledQueryRunRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSigmaScheduledQueryRunsScheduledQueryRunRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                  StripeAPI.Common.SecurityScheme s) =>
                                                    GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getSigmaScheduledQueryRunsScheduledQueryRunRawM expand
                                                 scheduledQueryRun
                                                 body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/sigma/scheduled_query_runs/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel scheduledQueryRun)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody
-    = GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getSigmaScheduledQueryRunsScheduledQueryRunRequestBody
+-- 
+-- 
+data GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody = GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody" (\obj -> GHC.Base.pure GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody)
-
-data GetSigmaScheduledQueryRunsScheduledQueryRunResponse
-    = GetSigmaScheduledQueryRunsScheduledQueryRunResponseError GHC.Base.String
-    | GetSigmaScheduledQueryRunsScheduledQueryRunResponse200 ScheduledQueryRun
-    | GetSigmaScheduledQueryRunsScheduledQueryRunResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getSigmaScheduledQueryRunsScheduledQueryRun'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetSigmaScheduledQueryRunsScheduledQueryRunResponseError' is used.
+data GetSigmaScheduledQueryRunsScheduledQueryRunResponse =                    
+   GetSigmaScheduledQueryRunsScheduledQueryRunResponseError GHC.Base.String   -- ^ Means either no matching case available or a parse error
+  | GetSigmaScheduledQueryRunsScheduledQueryRunResponse200 ScheduledQueryRun  -- ^ Successful response.
+  | GetSigmaScheduledQueryRunsScheduledQueryRunResponseDefault Error          -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

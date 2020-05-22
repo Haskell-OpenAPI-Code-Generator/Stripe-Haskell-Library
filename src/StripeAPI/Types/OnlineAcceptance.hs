@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema OnlineAcceptance
 module StripeAPI.Types.OnlineAcceptance where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data OnlineAcceptance
-    = OnlineAcceptance {onlineAcceptanceIpAddress :: (GHC.Maybe.Maybe GHC.Base.String),
-                        onlineAcceptanceUserAgent :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema online_acceptance
+-- 
+-- 
+data OnlineAcceptance = OnlineAcceptance {
+  -- | ip_address: The IP address from which the Mandate was accepted by the customer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  onlineAcceptanceIpAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | user_agent: The user agent of the browser from which the Mandate was accepted by the customer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , onlineAcceptanceUserAgent :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON OnlineAcceptance
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "ip_address" (onlineAcceptanceIpAddress obj) : (Data.Aeson..=) "user_agent" (onlineAcceptanceUserAgent obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "ip_address" (onlineAcceptanceIpAddress obj) GHC.Base.<> (Data.Aeson..=) "user_agent" (onlineAcceptanceUserAgent obj))

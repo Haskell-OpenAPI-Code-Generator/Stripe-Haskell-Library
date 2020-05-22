@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getCoupons
 module StripeAPI.Operations.GetCoupons where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,20 +39,17 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/coupons
-getCoupons :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                            StripeAPI.Common.SecurityScheme s) =>
-              StripeAPI.Common.Configuration s ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GetCouponsRequestBody ->
-              m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                    (Network.HTTP.Client.Types.Response GetCouponsResponse))
+-- | > GET /v1/coupons
+-- 
+-- \<p>Returns a list of your coupons.\<\/p>
+getCoupons :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ created: A filter on the list, based on the object \`created\` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                               -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GetCouponsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCouponsResponse)) -- ^ Monad containing the result of the operation
 getCoupons config
            created
            endingBefore
@@ -68,6 +66,9 @@ getCoupons config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/coupons
+-- 
+-- The same as 'getCoupons' but returns the raw 'Data.ByteString.Char8.ByteString'
 getCouponsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
                  StripeAPI.Common.Configuration s ->
@@ -91,6 +92,9 @@ getCouponsRaw config
                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/coupons
+-- 
+-- Monadic version of 'getCoupons' (use with 'StripeAPI.Common.runWithConfiguration')
 getCouponsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                              StripeAPI.Common.SecurityScheme s) =>
                GHC.Maybe.Maybe GHC.Base.String ->
@@ -118,6 +122,9 @@ getCouponsM created
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/coupons
+-- 
+-- Monadic version of 'getCouponsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCouponsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                 StripeAPI.Common.SecurityScheme s) =>
                   GHC.Maybe.Maybe GHC.Base.String ->
@@ -141,26 +148,53 @@ getCouponsRawM created
                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetCouponsRequestBody
-    = GetCouponsRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getCouponsRequestBody
+-- 
+-- 
+data GetCouponsRequestBody = GetCouponsRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetCouponsRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetCouponsRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsRequestBody" (\obj -> GHC.Base.pure GetCouponsRequestBody)
-
-data GetCouponsResponse
-    = GetCouponsResponseError GHC.Base.String
-    | GetCouponsResponse200 GetCouponsResponseBody200
-    | GetCouponsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetCouponsResponseBody200
-    = GetCouponsResponseBody200 {getCouponsResponseBody200Data :: ([] Coupon),
-                                 getCouponsResponseBody200HasMore :: GHC.Types.Bool,
-                                 getCouponsResponseBody200Object :: GetCouponsResponseBody200Object',
-                                 getCouponsResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getCoupons'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetCouponsResponseError' is used.
+data GetCouponsResponse =                            
+   GetCouponsResponseError GHC.Base.String           -- ^ Means either no matching case available or a parse error
+  | GetCouponsResponse200 GetCouponsResponseBody200  -- ^ Successful response.
+  | GetCouponsResponseDefault Error                  -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetCouponsResponseBody200
+-- 
+-- 
+data GetCouponsResponseBody200 = GetCouponsResponseBody200 {
+  -- | data
+  getCouponsResponseBody200Data :: ([] Coupon)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getCouponsResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getCouponsResponseBody200Object :: GetCouponsResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  -- * Must match pattern \'^\/v1\/coupons\'
+  , getCouponsResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetCouponsResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCouponsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCouponsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCouponsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCouponsResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCouponsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCouponsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCouponsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCouponsResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetCouponsResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsResponseBody200" (\obj -> (((GHC.Base.pure GetCouponsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetCouponsResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetCouponsResponseBody200Object'
     = GetCouponsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetCouponsResponseBody200Object'EnumTyped GHC.Base.String
@@ -174,8 +208,3 @@ instance Data.Aeson.FromJSON GetCouponsResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetCouponsResponseBody200Object'EnumStringList
                                           else GetCouponsResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetCouponsResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCouponsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCouponsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCouponsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCouponsResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCouponsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCouponsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCouponsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCouponsResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetCouponsResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCouponsResponseBody200" (\obj -> (((GHC.Base.pure GetCouponsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

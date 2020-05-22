@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema InvoiceTaxAmount
 module StripeAPI.Types.InvoiceTaxAmount where
 
 import qualified Prelude as GHC.Integer.Type
@@ -27,21 +28,31 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.Types.TaxRate
 
-data InvoiceTaxAmount
-    = InvoiceTaxAmount {invoiceTaxAmountAmount :: GHC.Integer.Type.Integer,
-                        invoiceTaxAmountInclusive :: GHC.Types.Bool,
-                        invoiceTaxAmountTaxRate :: InvoiceTaxAmountTaxRate'Variants}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data InvoiceTaxAmountTaxRate'Variants
-    = InvoiceTaxAmountTaxRate'Variant1 TaxRate
-    | InvoiceTaxAmountTaxRate'Variant2 GHC.Base.String
-    deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
-instance Data.Aeson.ToJSON InvoiceTaxAmountTaxRate'Variants
-    where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-instance Data.Aeson.FromJSON InvoiceTaxAmountTaxRate'Variants
-    where parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+-- | Defines the data type for the schema invoice_tax_amount
+-- 
+-- 
+data InvoiceTaxAmount = InvoiceTaxAmount {
+  -- | amount: The amount, in %s, of the tax.
+  invoiceTaxAmountAmount :: GHC.Integer.Type.Integer
+  -- | inclusive: Whether this tax amount is inclusive or exclusive.
+  , invoiceTaxAmountInclusive :: GHC.Types.Bool
+  -- | tax_rate: The tax rate that was applied to get this tax amount.
+  , invoiceTaxAmountTaxRate :: InvoiceTaxAmountTaxRate'Variants
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON InvoiceTaxAmount
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (invoiceTaxAmountAmount obj) : (Data.Aeson..=) "inclusive" (invoiceTaxAmountInclusive obj) : (Data.Aeson..=) "tax_rate" (invoiceTaxAmountTaxRate obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (invoiceTaxAmountAmount obj) GHC.Base.<> ((Data.Aeson..=) "inclusive" (invoiceTaxAmountInclusive obj) GHC.Base.<> (Data.Aeson..=) "tax_rate" (invoiceTaxAmountTaxRate obj)))
 instance Data.Aeson.Types.FromJSON.FromJSON InvoiceTaxAmount
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoiceTaxAmount" (\obj -> ((GHC.Base.pure InvoiceTaxAmount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inclusive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "tax_rate"))
+-- | Define the one-of schema invoice_tax_amountTax_rate\'
+-- 
+-- The tax rate that was applied to get this tax amount.
+data InvoiceTaxAmountTaxRate'Variants
+    = InvoiceTaxAmountTaxRate'TaxRate TaxRate
+    | InvoiceTaxAmountTaxRate'String GHC.Base.String
+    deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+instance Data.Aeson.ToJSON InvoiceTaxAmountTaxRate'Variants
+    where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.FromJSON InvoiceTaxAmountTaxRate'Variants
+    where parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTypeAchDebit
 module StripeAPI.Types.SourceTypeAchDebit where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,14 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTypeAchDebit
-    = SourceTypeAchDebit {sourceTypeAchDebitBankName :: (GHC.Maybe.Maybe GHC.Base.String),
-                          sourceTypeAchDebitCountry :: (GHC.Maybe.Maybe GHC.Base.String),
-                          sourceTypeAchDebitFingerprint :: (GHC.Maybe.Maybe GHC.Base.String),
-                          sourceTypeAchDebitLast4 :: (GHC.Maybe.Maybe GHC.Base.String),
-                          sourceTypeAchDebitRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String),
-                          sourceTypeAchDebitType :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_type_ach_debit
+-- 
+-- 
+data SourceTypeAchDebit = SourceTypeAchDebit {
+  -- | bank_name
+  sourceTypeAchDebitBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | country
+  , sourceTypeAchDebitCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | fingerprint
+  , sourceTypeAchDebitFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | last4
+  , sourceTypeAchDebitLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | routing_number
+  , sourceTypeAchDebitRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | type
+  , sourceTypeAchDebitType :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeAchDebit
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_name" (sourceTypeAchDebitBankName obj) : (Data.Aeson..=) "country" (sourceTypeAchDebitCountry obj) : (Data.Aeson..=) "fingerprint" (sourceTypeAchDebitFingerprint obj) : (Data.Aeson..=) "last4" (sourceTypeAchDebitLast4 obj) : (Data.Aeson..=) "routing_number" (sourceTypeAchDebitRoutingNumber obj) : (Data.Aeson..=) "type" (sourceTypeAchDebitType obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_name" (sourceTypeAchDebitBankName obj) GHC.Base.<> ((Data.Aeson..=) "country" (sourceTypeAchDebitCountry obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (sourceTypeAchDebitFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "last4" (sourceTypeAchDebitLast4 obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (sourceTypeAchDebitRoutingNumber obj) GHC.Base.<> (Data.Aeson..=) "type" (sourceTypeAchDebitType obj))))))

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema AccountCardPaymentsSettings
 module StripeAPI.Types.AccountCardPaymentsSettings where
 
 import qualified Prelude as GHC.Integer.Type
@@ -27,10 +28,20 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.Types.AccountDeclineChargeOn
 
-data AccountCardPaymentsSettings
-    = AccountCardPaymentsSettings {accountCardPaymentsSettingsDeclineOn :: (GHC.Maybe.Maybe AccountDeclineChargeOn),
-                                   accountCardPaymentsSettingsStatementDescriptorPrefix :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema account_card_payments_settings
+-- 
+-- 
+data AccountCardPaymentsSettings = AccountCardPaymentsSettings {
+  -- | decline_on: 
+  accountCardPaymentsSettingsDeclineOn :: (GHC.Maybe.Maybe AccountDeclineChargeOn)
+  -- | statement_descriptor_prefix: The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic \`statement_descriptor\` specified on the charge. \`statement_descriptor_prefix\` is useful for maximizing descriptor space for the dynamic portion.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , accountCardPaymentsSettingsStatementDescriptorPrefix :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountCardPaymentsSettings
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "decline_on" (accountCardPaymentsSettingsDeclineOn obj) : (Data.Aeson..=) "statement_descriptor_prefix" (accountCardPaymentsSettingsStatementDescriptorPrefix obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "decline_on" (accountCardPaymentsSettingsDeclineOn obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor_prefix" (accountCardPaymentsSettingsStatementDescriptorPrefix obj))

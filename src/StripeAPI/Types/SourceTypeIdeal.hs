@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTypeIdeal
 module StripeAPI.Types.SourceTypeIdeal where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,20 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTypeIdeal
-    = SourceTypeIdeal {sourceTypeIdealBank :: (GHC.Maybe.Maybe GHC.Base.String),
-                       sourceTypeIdealBic :: (GHC.Maybe.Maybe GHC.Base.String),
-                       sourceTypeIdealIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String),
-                       sourceTypeIdealStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_type_ideal
+-- 
+-- 
+data SourceTypeIdeal = SourceTypeIdeal {
+  -- | bank
+  sourceTypeIdealBank :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | bic
+  , sourceTypeIdealBic :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | iban_last4
+  , sourceTypeIdealIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | statement_descriptor
+  , sourceTypeIdealStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeIdeal
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank" (sourceTypeIdealBank obj) : (Data.Aeson..=) "bic" (sourceTypeIdealBic obj) : (Data.Aeson..=) "iban_last4" (sourceTypeIdealIbanLast4 obj) : (Data.Aeson..=) "statement_descriptor" (sourceTypeIdealStatementDescriptor obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank" (sourceTypeIdealBank obj) GHC.Base.<> ((Data.Aeson..=) "bic" (sourceTypeIdealBic obj) GHC.Base.<> ((Data.Aeson..=) "iban_last4" (sourceTypeIdealIbanLast4 obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (sourceTypeIdealStatementDescriptor obj))))

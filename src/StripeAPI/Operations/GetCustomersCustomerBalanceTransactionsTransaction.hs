@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getCustomersCustomerBalanceTransactionsTransaction
 module StripeAPI.Operations.GetCustomersCustomerBalanceTransactionsTransaction where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,18 +39,15 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/customers/{customer}/balance_transactions/{transaction}
-getCustomersCustomerBalanceTransactionsTransaction :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                                    StripeAPI.Common.SecurityScheme s) =>
-                                                      StripeAPI.Common.Configuration s ->
-                                                      GHC.Base.String ->
-                                                      GHC.Maybe.Maybe GHC.Base.String ->
-                                                      GHC.Base.String ->
-                                                      GetCustomersCustomerBalanceTransactionsTransactionRequestBody ->
-                                                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                                            (Network.HTTP.Client.Types.Response GetCustomersCustomerBalanceTransactionsTransactionResponse))
+-- | > GET /v1/customers/{customer}/balance_transactions/{transaction}
+-- 
+-- \<p>Retrieves a specific transaction that updated the customer’s \<a href=\"\/docs\/api\/customers\/object\#customer_object-balance\">\<code>balance\<\/code>\<\/a>.\<\/p>
+getCustomersCustomerBalanceTransactionsTransaction :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                                                -- ^ customer | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                                                -- ^ transaction | Constraints: Maximum length of 5000
+  -> GetCustomersCustomerBalanceTransactionsTransactionRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCustomersCustomerBalanceTransactionsTransactionResponse)) -- ^ Monad containing the result of the operation
 getCustomersCustomerBalanceTransactionsTransaction config
                                                    customer
                                                    expand
@@ -60,6 +58,9 @@ getCustomersCustomerBalanceTransactionsTransaction config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Error)
                                                                                                                                                                                                                                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/balance_transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transaction)) GHC.Base.++ ""))))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/customers/{customer}/balance_transactions/{transaction}
+-- 
+-- The same as 'getCustomersCustomerBalanceTransactionsTransaction' but returns the raw 'Data.ByteString.Char8.ByteString'
 getCustomersCustomerBalanceTransactionsTransactionRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                        StripeAPI.Common.SecurityScheme s) =>
                                                          StripeAPI.Common.Configuration s ->
@@ -75,6 +76,9 @@ getCustomersCustomerBalanceTransactionsTransactionRaw config
                                                       transaction
                                                       body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/balance_transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transaction)) GHC.Base.++ ""))))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/customers/{customer}/balance_transactions/{transaction}
+-- 
+-- Monadic version of 'getCustomersCustomerBalanceTransactionsTransaction' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerBalanceTransactionsTransactionM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                      StripeAPI.Common.SecurityScheme s) =>
                                                        GHC.Base.String ->
@@ -94,6 +98,9 @@ getCustomersCustomerBalanceTransactionsTransactionM customer
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            Error)
                                                                                                                                                                                                                                                        | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/balance_transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transaction)) GHC.Base.++ ""))))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/customers/{customer}/balance_transactions/{transaction}
+-- 
+-- Monadic version of 'getCustomersCustomerBalanceTransactionsTransactionRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerBalanceTransactionsTransactionRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                         StripeAPI.Common.SecurityScheme s) =>
                                                           GHC.Base.String ->
@@ -109,17 +116,23 @@ getCustomersCustomerBalanceTransactionsTransactionRawM customer
                                                        transaction
                                                        body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/balance_transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transaction)) GHC.Base.++ ""))))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetCustomersCustomerBalanceTransactionsTransactionRequestBody
-    = GetCustomersCustomerBalanceTransactionsTransactionRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getCustomersCustomerBalanceTransactionsTransactionRequestBody
+-- 
+-- 
+data GetCustomersCustomerBalanceTransactionsTransactionRequestBody = GetCustomersCustomerBalanceTransactionsTransactionRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetCustomersCustomerBalanceTransactionsTransactionRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerBalanceTransactionsTransactionRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerBalanceTransactionsTransactionRequestBody" (\obj -> GHC.Base.pure GetCustomersCustomerBalanceTransactionsTransactionRequestBody)
-
-data GetCustomersCustomerBalanceTransactionsTransactionResponse
-    = GetCustomersCustomerBalanceTransactionsTransactionResponseError GHC.Base.String
-    | GetCustomersCustomerBalanceTransactionsTransactionResponse200 CustomerBalanceTransaction
-    | GetCustomersCustomerBalanceTransactionsTransactionResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getCustomersCustomerBalanceTransactionsTransaction'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetCustomersCustomerBalanceTransactionsTransactionResponseError' is used.
+data GetCustomersCustomerBalanceTransactionsTransactionResponse =                             
+   GetCustomersCustomerBalanceTransactionsTransactionResponseError GHC.Base.String            -- ^ Means either no matching case available or a parse error
+  | GetCustomersCustomerBalanceTransactionsTransactionResponse200 CustomerBalanceTransaction  -- ^ Successful response.
+  | GetCustomersCustomerBalanceTransactionsTransactionResponseDefault Error                   -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

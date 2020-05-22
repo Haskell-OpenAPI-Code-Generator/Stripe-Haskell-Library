@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTypeBancontact
 module StripeAPI.Types.SourceTypeBancontact where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,14 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTypeBancontact
-    = SourceTypeBancontact {sourceTypeBancontactBankCode :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeBancontactBankName :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeBancontactBic :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeBancontactIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeBancontactPreferredLanguage :: (GHC.Maybe.Maybe GHC.Base.String),
-                            sourceTypeBancontactStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_type_bancontact
+-- 
+-- 
+data SourceTypeBancontact = SourceTypeBancontact {
+  -- | bank_code
+  sourceTypeBancontactBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | bank_name
+  , sourceTypeBancontactBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | bic
+  , sourceTypeBancontactBic :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | iban_last4
+  , sourceTypeBancontactIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | preferred_language
+  , sourceTypeBancontactPreferredLanguage :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | statement_descriptor
+  , sourceTypeBancontactStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeBancontact
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_code" (sourceTypeBancontactBankCode obj) : (Data.Aeson..=) "bank_name" (sourceTypeBancontactBankName obj) : (Data.Aeson..=) "bic" (sourceTypeBancontactBic obj) : (Data.Aeson..=) "iban_last4" (sourceTypeBancontactIbanLast4 obj) : (Data.Aeson..=) "preferred_language" (sourceTypeBancontactPreferredLanguage obj) : (Data.Aeson..=) "statement_descriptor" (sourceTypeBancontactStatementDescriptor obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_code" (sourceTypeBancontactBankCode obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (sourceTypeBancontactBankName obj) GHC.Base.<> ((Data.Aeson..=) "bic" (sourceTypeBancontactBic obj) GHC.Base.<> ((Data.Aeson..=) "iban_last4" (sourceTypeBancontactIbanLast4 obj) GHC.Base.<> ((Data.Aeson..=) "preferred_language" (sourceTypeBancontactPreferredLanguage obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (sourceTypeBancontactStatementDescriptor obj))))))

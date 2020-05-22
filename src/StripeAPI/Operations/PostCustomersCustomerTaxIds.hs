@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation postCustomersCustomerTaxIds
 module StripeAPI.Operations.PostCustomersCustomerTaxIds where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,16 +39,13 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- POST /v1/customers/{customer}/tax_ids
-postCustomersCustomerTaxIds :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                             StripeAPI.Common.SecurityScheme s) =>
-                               StripeAPI.Common.Configuration s ->
-                               GHC.Base.String ->
-                               PostCustomersCustomerTaxIdsRequestBody ->
-                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                     (Network.HTTP.Client.Types.Response PostCustomersCustomerTaxIdsResponse))
+-- | > POST /v1/customers/{customer}/tax_ids
+-- 
+-- \<p>Creates a new \<code>TaxID\<\/code> object for a customer.\<\/p>
+postCustomersCustomerTaxIds :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                         -- ^ customer | Constraints: Maximum length of 5000
+  -> PostCustomersCustomerTaxIdsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCustomersCustomerTaxIdsResponse)) -- ^ Monad containing the result of the operation
 postCustomersCustomerTaxIds config
                             customer
                             body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either PostCustomersCustomerTaxIdsResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> PostCustomersCustomerTaxIdsResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
@@ -55,6 +53,9 @@ postCustomersCustomerTaxIds config
                                                                                                                                                                                                         | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostCustomersCustomerTaxIdsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                      Error)
                                                                                                                                                                                                         | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/tax_ids"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/customers/{customer}/tax_ids
+-- 
+-- The same as 'postCustomersCustomerTaxIds' but returns the raw 'Data.ByteString.Char8.ByteString'
 postCustomersCustomerTaxIdsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   StripeAPI.Common.Configuration s ->
@@ -65,6 +66,9 @@ postCustomersCustomerTaxIdsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
 postCustomersCustomerTaxIdsRaw config
                                customer
                                body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/tax_ids"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/customers/{customer}/tax_ids
+-- 
+-- Monadic version of 'postCustomersCustomerTaxIds' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerTaxIdsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
                                 GHC.Base.String ->
@@ -79,6 +83,9 @@ postCustomersCustomerTaxIdsM customer
                                                                                                                                                                                                          | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostCustomersCustomerTaxIdsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                       Error)
                                                                                                                                                                                                          | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/tax_ids"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/customers/{customer}/tax_ids
+-- 
+-- Monadic version of 'postCustomersCustomerTaxIdsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerTaxIdsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
                                    GHC.Base.String ->
@@ -89,11 +96,30 @@ postCustomersCustomerTaxIdsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                                           (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postCustomersCustomerTaxIdsRawM customer
                                 body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/tax_ids"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data PostCustomersCustomerTaxIdsRequestBody
-    = PostCustomersCustomerTaxIdsRequestBody {postCustomersCustomerTaxIdsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String)),
-                                              postCustomersCustomerTaxIdsRequestBodyType :: PostCustomersCustomerTaxIdsRequestBodyType',
-                                              postCustomersCustomerTaxIdsRequestBodyValue :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postCustomersCustomerTaxIdsRequestBody
+-- 
+-- 
+data PostCustomersCustomerTaxIdsRequestBody = PostCustomersCustomerTaxIdsRequestBody {
+  -- | expand: Specifies which fields in the response should be expanded.
+  postCustomersCustomerTaxIdsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  -- | type: Type of the tax ID, one of \`eu_vat\`, \`nz_gst\`, \`au_abn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, or \`my_sst\`
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , postCustomersCustomerTaxIdsRequestBodyType :: PostCustomersCustomerTaxIdsRequestBodyType'
+  -- | value: Value of the tax ID.
+  , postCustomersCustomerTaxIdsRequestBodyValue :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostCustomersCustomerTaxIdsRequestBody
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postCustomersCustomerTaxIdsRequestBodyExpand obj) : (Data.Aeson..=) "type" (postCustomersCustomerTaxIdsRequestBodyType obj) : (Data.Aeson..=) "value" (postCustomersCustomerTaxIdsRequestBodyValue obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postCustomersCustomerTaxIdsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "type" (postCustomersCustomerTaxIdsRequestBodyType obj) GHC.Base.<> (Data.Aeson..=) "value" (postCustomersCustomerTaxIdsRequestBodyValue obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerTaxIdsRequestBody
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerTaxIdsRequestBody" (\obj -> ((GHC.Base.pure PostCustomersCustomerTaxIdsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value"))
+-- | Defines the enum schema postCustomersCustomerTaxIdsRequestBodyType\'
+-- 
+-- Type of the tax ID, one of \`eu_vat\`, \`nz_gst\`, \`au_abn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, or \`my_sst\`
 data PostCustomersCustomerTaxIdsRequestBodyType'
     = PostCustomersCustomerTaxIdsRequestBodyType'EnumOther Data.Aeson.Types.Internal.Value
     | PostCustomersCustomerTaxIdsRequestBodyType'EnumTyped GHC.Base.String
@@ -191,14 +217,11 @@ instance Data.Aeson.FromJSON PostCustomersCustomerTaxIdsRequestBodyType'
                                                                                                                                                                   else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "za_vat")
                                                                                                                                                                         then PostCustomersCustomerTaxIdsRequestBodyType'EnumStringZaVat
                                                                                                                                                                         else PostCustomersCustomerTaxIdsRequestBodyType'EnumOther val)
-instance Data.Aeson.ToJSON PostCustomersCustomerTaxIdsRequestBody
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postCustomersCustomerTaxIdsRequestBodyExpand obj) : (Data.Aeson..=) "type" (postCustomersCustomerTaxIdsRequestBodyType obj) : (Data.Aeson..=) "value" (postCustomersCustomerTaxIdsRequestBodyValue obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postCustomersCustomerTaxIdsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "type" (postCustomersCustomerTaxIdsRequestBodyType obj) GHC.Base.<> (Data.Aeson..=) "value" (postCustomersCustomerTaxIdsRequestBodyValue obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerTaxIdsRequestBody
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerTaxIdsRequestBody" (\obj -> ((GHC.Base.pure PostCustomersCustomerTaxIdsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "value"))
-
-data PostCustomersCustomerTaxIdsResponse
-    = PostCustomersCustomerTaxIdsResponseError GHC.Base.String
-    | PostCustomersCustomerTaxIdsResponse200 TaxId
-    | PostCustomersCustomerTaxIdsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'postCustomersCustomerTaxIds'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'PostCustomersCustomerTaxIdsResponseError' is used.
+data PostCustomersCustomerTaxIdsResponse =                   
+   PostCustomersCustomerTaxIdsResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | PostCustomersCustomerTaxIdsResponse200 TaxId             -- ^ Successful response.
+  | PostCustomersCustomerTaxIdsResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

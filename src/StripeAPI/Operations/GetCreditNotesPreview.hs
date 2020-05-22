@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getCreditNotesPreview
 module StripeAPI.Operations.GetCreditNotesPreview where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,26 +39,23 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/credit_notes/preview
-getCreditNotesPreview :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                       StripeAPI.Common.SecurityScheme s) =>
-                         StripeAPI.Common.Configuration s ->
-                         GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                         GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                         GetCreditNotesPreviewRequestBody ->
-                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                               (Network.HTTP.Client.Types.Response GetCreditNotesPreviewResponse))
+-- | > GET /v1/credit_notes/preview
+-- 
+-- \<p>Get a preview of a credit note without creating it.\<\/p>
+getCreditNotesPreview :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                          -- ^ amount: The integer amount in **%s** representing the total amount of the credit note.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                          -- ^ credit_amount: The integer amount in **%s** representing the amount to credit the customer\'s balance, which will be automatically applied to their next invoice.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                   -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                   -- ^ invoice: ID of the invoice. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                   -- ^ lines: Line items that make up the credit note.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                   -- ^ memo: The credit note\'s memo appears on the credit note PDF. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                   -- ^ metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                          -- ^ out_of_band_amount: The integer amount in **%s** representing the amount that is credited outside of Stripe.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                   -- ^ reason: Reason for issuing this credit note, one of \`duplicate\`, \`fraudulent\`, \`order_change\`, or \`product_unsatisfactory\`
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                   -- ^ refund: ID of an existing refund to link this credit note to.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                          -- ^ refund_amount: The integer amount in **%s** representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
+  -> GetCreditNotesPreviewRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCreditNotesPreviewResponse)) -- ^ Monad containing the result of the operation
 getCreditNotesPreview config
                       amount
                       creditAmount
@@ -86,6 +84,9 @@ getCreditNotesPreview config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> reason) : ((Data.Text.pack "refund",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> refund) : ((Data.Text.pack "refund_amount",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> refundAmount) : []))))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/credit_notes/preview
+-- 
+-- The same as 'getCreditNotesPreview' but returns the raw 'Data.ByteString.Char8.ByteString'
 getCreditNotesPreviewRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             StripeAPI.Common.Configuration s ->
@@ -127,6 +128,9 @@ getCreditNotesPreviewRaw config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> reason) : ((Data.Text.pack "refund",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> refund) : ((Data.Text.pack "refund_amount",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> refundAmount) : []))))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/credit_notes/preview
+-- 
+-- Monadic version of 'getCreditNotesPreview' (use with 'StripeAPI.Common.runWithConfiguration')
 getCreditNotesPreviewM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
@@ -172,6 +176,9 @@ getCreditNotesPreviewM amount
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> reason) : ((Data.Text.pack "refund",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> refund) : ((Data.Text.pack "refund_amount",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> refundAmount) : []))))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/credit_notes/preview
+-- 
+-- Monadic version of 'getCreditNotesPreviewRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCreditNotesPreviewRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
@@ -213,17 +220,23 @@ getCreditNotesPreviewRawM amount
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> reason) : ((Data.Text.pack "refund",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> refund) : ((Data.Text.pack "refund_amount",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> refundAmount) : []))))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetCreditNotesPreviewRequestBody
-    = GetCreditNotesPreviewRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getCreditNotesPreviewRequestBody
+-- 
+-- 
+data GetCreditNotesPreviewRequestBody = GetCreditNotesPreviewRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetCreditNotesPreviewRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetCreditNotesPreviewRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCreditNotesPreviewRequestBody" (\obj -> GHC.Base.pure GetCreditNotesPreviewRequestBody)
-
-data GetCreditNotesPreviewResponse
-    = GetCreditNotesPreviewResponseError GHC.Base.String
-    | GetCreditNotesPreviewResponse200 CreditNote
-    | GetCreditNotesPreviewResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getCreditNotesPreview'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetCreditNotesPreviewResponseError' is used.
+data GetCreditNotesPreviewResponse =                   
+   GetCreditNotesPreviewResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetCreditNotesPreviewResponse200 CreditNote        -- ^ Successful response.
+  | GetCreditNotesPreviewResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation postReportingReportRuns
 module StripeAPI.Operations.PostReportingReportRuns where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,21 +39,21 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- POST /v1/reporting/report_runs
-postReportingReportRuns :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                         StripeAPI.Common.SecurityScheme s) =>
-                           StripeAPI.Common.Configuration s ->
-                           PostReportingReportRunsRequestBody ->
-                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                 (Network.HTTP.Client.Types.Response PostReportingReportRunsResponse))
+-- | > POST /v1/reporting/report_runs
+-- 
+-- \<p>Creates a new object and begin running the report. (Requires a \<a href=\"https:\/\/stripe.com\/docs\/keys\#test-live-modes\">live-mode API key\<\/a>.)\<\/p>
+postReportingReportRuns :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> PostReportingReportRunsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostReportingReportRunsResponse)) -- ^ Monad containing the result of the operation
 postReportingReportRuns config
                         body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either PostReportingReportRunsResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> PostReportingReportRunsResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                        Reporting'reportRun)
                                                                                                                                                                                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostReportingReportRunsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                          Error)
                                                                                                                                                                                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/reporting/report_runs") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/reporting/report_runs
+-- 
+-- The same as 'postReportingReportRuns' but returns the raw 'Data.ByteString.Char8.ByteString'
 postReportingReportRunsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
@@ -61,6 +62,9 @@ postReportingReportRunsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postReportingReportRunsRaw config
                            body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/reporting/report_runs") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/reporting/report_runs
+-- 
+-- Monadic version of 'postReportingReportRuns' (use with 'StripeAPI.Common.runWithConfiguration')
 postReportingReportRunsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             PostReportingReportRunsRequestBody ->
@@ -73,6 +77,9 @@ postReportingReportRunsM body = GHC.Base.fmap (GHC.Base.fmap (\response_2 -> GHC
                                                                                                                                                                                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostReportingReportRunsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                           Error)
                                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/reporting/report_runs") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/reporting/report_runs
+-- 
+-- Monadic version of 'postReportingReportRunsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postReportingReportRunsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                PostReportingReportRunsRequestBody ->
@@ -81,21 +88,61 @@ postReportingReportRunsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                   (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                       (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postReportingReportRunsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/reporting/report_runs") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data PostReportingReportRunsRequestBody
-    = PostReportingReportRunsRequestBody {postReportingReportRunsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String)),
-                                          postReportingReportRunsRequestBodyParameters :: (GHC.Maybe.Maybe PostReportingReportRunsRequestBodyParameters'),
-                                          postReportingReportRunsRequestBodyReportType :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data PostReportingReportRunsRequestBodyParameters'
-    = PostReportingReportRunsRequestBodyParameters' {postReportingReportRunsRequestBodyParameters'Columns :: (GHC.Maybe.Maybe ([] GHC.Base.String)),
-                                                     postReportingReportRunsRequestBodyParameters'ConnectedAccount :: (GHC.Maybe.Maybe GHC.Base.String),
-                                                     postReportingReportRunsRequestBodyParameters'Currency :: (GHC.Maybe.Maybe GHC.Base.String),
-                                                     postReportingReportRunsRequestBodyParameters'IntervalEnd :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                                                     postReportingReportRunsRequestBodyParameters'IntervalStart :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                                                     postReportingReportRunsRequestBodyParameters'Payout :: (GHC.Maybe.Maybe GHC.Base.String),
-                                                     postReportingReportRunsRequestBodyParameters'ReportingCategory :: (GHC.Maybe.Maybe PostReportingReportRunsRequestBodyParameters'ReportingCategory'),
-                                                     postReportingReportRunsRequestBodyParameters'Timezone :: (GHC.Maybe.Maybe PostReportingReportRunsRequestBodyParameters'Timezone')}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postReportingReportRunsRequestBody
+-- 
+-- 
+data PostReportingReportRunsRequestBody = PostReportingReportRunsRequestBody {
+  -- | expand: Specifies which fields in the response should be expanded.
+  postReportingReportRunsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  -- | parameters: Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https:\/\/stripe.com\/docs\/reporting\/statements\/api) documentation.
+  , postReportingReportRunsRequestBodyParameters :: (GHC.Maybe.Maybe PostReportingReportRunsRequestBodyParameters')
+  -- | report_type: The ID of the [report type](https:\/\/stripe.com\/docs\/reporting\/statements\/api\#report-types) to run, such as \`\"balance.summary.1\"\`.
+  , postReportingReportRunsRequestBodyReportType :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostReportingReportRunsRequestBody
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postReportingReportRunsRequestBodyExpand obj) : (Data.Aeson..=) "parameters" (postReportingReportRunsRequestBodyParameters obj) : (Data.Aeson..=) "report_type" (postReportingReportRunsRequestBodyReportType obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postReportingReportRunsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "parameters" (postReportingReportRunsRequestBodyParameters obj) GHC.Base.<> (Data.Aeson..=) "report_type" (postReportingReportRunsRequestBodyReportType obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBody
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostReportingReportRunsRequestBody" (\obj -> ((GHC.Base.pure PostReportingReportRunsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "parameters")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "report_type"))
+-- | Defines the data type for the schema postReportingReportRunsRequestBodyParameters\'
+-- 
+-- Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https:\/\/stripe.com\/docs\/reporting\/statements\/api) documentation.
+data PostReportingReportRunsRequestBodyParameters' = PostReportingReportRunsRequestBodyParameters' {
+  -- | columns
+  postReportingReportRunsRequestBodyParameters'Columns :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  -- | connected_account
+  , postReportingReportRunsRequestBodyParameters'ConnectedAccount :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | currency
+  , postReportingReportRunsRequestBodyParameters'Currency :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | interval_end
+  , postReportingReportRunsRequestBodyParameters'IntervalEnd :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | interval_start
+  , postReportingReportRunsRequestBodyParameters'IntervalStart :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | payout
+  , postReportingReportRunsRequestBodyParameters'Payout :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | reporting_category
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , postReportingReportRunsRequestBodyParameters'ReportingCategory :: (GHC.Maybe.Maybe PostReportingReportRunsRequestBodyParameters'ReportingCategory')
+  -- | timezone
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , postReportingReportRunsRequestBodyParameters'Timezone :: (GHC.Maybe.Maybe PostReportingReportRunsRequestBodyParameters'Timezone')
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostReportingReportRunsRequestBodyParameters'
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "columns" (postReportingReportRunsRequestBodyParameters'Columns obj) : (Data.Aeson..=) "connected_account" (postReportingReportRunsRequestBodyParameters'ConnectedAccount obj) : (Data.Aeson..=) "currency" (postReportingReportRunsRequestBodyParameters'Currency obj) : (Data.Aeson..=) "interval_end" (postReportingReportRunsRequestBodyParameters'IntervalEnd obj) : (Data.Aeson..=) "interval_start" (postReportingReportRunsRequestBodyParameters'IntervalStart obj) : (Data.Aeson..=) "payout" (postReportingReportRunsRequestBodyParameters'Payout obj) : (Data.Aeson..=) "reporting_category" (postReportingReportRunsRequestBodyParameters'ReportingCategory obj) : (Data.Aeson..=) "timezone" (postReportingReportRunsRequestBodyParameters'Timezone obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "columns" (postReportingReportRunsRequestBodyParameters'Columns obj) GHC.Base.<> ((Data.Aeson..=) "connected_account" (postReportingReportRunsRequestBodyParameters'ConnectedAccount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postReportingReportRunsRequestBodyParameters'Currency obj) GHC.Base.<> ((Data.Aeson..=) "interval_end" (postReportingReportRunsRequestBodyParameters'IntervalEnd obj) GHC.Base.<> ((Data.Aeson..=) "interval_start" (postReportingReportRunsRequestBodyParameters'IntervalStart obj) GHC.Base.<> ((Data.Aeson..=) "payout" (postReportingReportRunsRequestBodyParameters'Payout obj) GHC.Base.<> ((Data.Aeson..=) "reporting_category" (postReportingReportRunsRequestBodyParameters'ReportingCategory obj) GHC.Base.<> (Data.Aeson..=) "timezone" (postReportingReportRunsRequestBodyParameters'Timezone obj))))))))
+instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyParameters'
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostReportingReportRunsRequestBodyParameters'" (\obj -> (((((((GHC.Base.pure PostReportingReportRunsRequestBodyParameters' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "columns")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "connected_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payout")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reporting_category")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "timezone"))
+-- | Defines the enum schema postReportingReportRunsRequestBodyParameters\'Reporting_category\'
+-- 
+-- 
 data PostReportingReportRunsRequestBodyParameters'ReportingCategory'
     = PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumOther Data.Aeson.Types.Internal.Value
     | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTyped GHC.Base.String
@@ -229,6 +276,9 @@ instance Data.Aeson.FromJSON PostReportingReportRunsRequestBodyParameters'Report
                                                                                                                                                                                                                         else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "transfer_reversal")
                                                                                                                                                                                                                               then PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringTransferReversal
                                                                                                                                                                                                                               else PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumOther val)
+-- | Defines the enum schema postReportingReportRunsRequestBodyParameters\'Timezone\'
+-- 
+-- 
 data PostReportingReportRunsRequestBodyParameters'Timezone'
     = PostReportingReportRunsRequestBodyParameters'Timezone'EnumOther Data.Aeson.Types.Internal.Value
     | PostReportingReportRunsRequestBodyParameters'Timezone'EnumTyped GHC.Base.String
@@ -2614,19 +2664,11 @@ instance Data.Aeson.FromJSON PostReportingReportRunsRequestBodyParameters'Timezo
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "Zulu")
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 then PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringZulu
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 else PostReportingReportRunsRequestBodyParameters'Timezone'EnumOther val)
-instance Data.Aeson.ToJSON PostReportingReportRunsRequestBodyParameters'
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "columns" (postReportingReportRunsRequestBodyParameters'Columns obj) : (Data.Aeson..=) "connected_account" (postReportingReportRunsRequestBodyParameters'ConnectedAccount obj) : (Data.Aeson..=) "currency" (postReportingReportRunsRequestBodyParameters'Currency obj) : (Data.Aeson..=) "interval_end" (postReportingReportRunsRequestBodyParameters'IntervalEnd obj) : (Data.Aeson..=) "interval_start" (postReportingReportRunsRequestBodyParameters'IntervalStart obj) : (Data.Aeson..=) "payout" (postReportingReportRunsRequestBodyParameters'Payout obj) : (Data.Aeson..=) "reporting_category" (postReportingReportRunsRequestBodyParameters'ReportingCategory obj) : (Data.Aeson..=) "timezone" (postReportingReportRunsRequestBodyParameters'Timezone obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "columns" (postReportingReportRunsRequestBodyParameters'Columns obj) GHC.Base.<> ((Data.Aeson..=) "connected_account" (postReportingReportRunsRequestBodyParameters'ConnectedAccount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postReportingReportRunsRequestBodyParameters'Currency obj) GHC.Base.<> ((Data.Aeson..=) "interval_end" (postReportingReportRunsRequestBodyParameters'IntervalEnd obj) GHC.Base.<> ((Data.Aeson..=) "interval_start" (postReportingReportRunsRequestBodyParameters'IntervalStart obj) GHC.Base.<> ((Data.Aeson..=) "payout" (postReportingReportRunsRequestBodyParameters'Payout obj) GHC.Base.<> ((Data.Aeson..=) "reporting_category" (postReportingReportRunsRequestBodyParameters'ReportingCategory obj) GHC.Base.<> (Data.Aeson..=) "timezone" (postReportingReportRunsRequestBodyParameters'Timezone obj))))))))
-instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyParameters'
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostReportingReportRunsRequestBodyParameters'" (\obj -> (((((((GHC.Base.pure PostReportingReportRunsRequestBodyParameters' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "columns")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "connected_account")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_end")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "interval_start")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payout")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "reporting_category")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "timezone"))
-instance Data.Aeson.ToJSON PostReportingReportRunsRequestBody
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postReportingReportRunsRequestBodyExpand obj) : (Data.Aeson..=) "parameters" (postReportingReportRunsRequestBodyParameters obj) : (Data.Aeson..=) "report_type" (postReportingReportRunsRequestBodyReportType obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postReportingReportRunsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "parameters" (postReportingReportRunsRequestBodyParameters obj) GHC.Base.<> (Data.Aeson..=) "report_type" (postReportingReportRunsRequestBodyReportType obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBody
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostReportingReportRunsRequestBody" (\obj -> ((GHC.Base.pure PostReportingReportRunsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "parameters")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "report_type"))
-
-data PostReportingReportRunsResponse
-    = PostReportingReportRunsResponseError GHC.Base.String
-    | PostReportingReportRunsResponse200 Reporting'reportRun
-    | PostReportingReportRunsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'postReportingReportRuns'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'PostReportingReportRunsResponseError' is used.
+data PostReportingReportRunsResponse =                      
+   PostReportingReportRunsResponseError GHC.Base.String     -- ^ Means either no matching case available or a parse error
+  | PostReportingReportRunsResponse200 Reporting'reportRun  -- ^ Successful response.
+  | PostReportingReportRunsResponseDefault Error            -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getIssuingSettlementsSettlement
 module StripeAPI.Operations.GetIssuingSettlementsSettlement where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/issuing/settlements/{settlement}
-getIssuingSettlementsSettlement :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                 StripeAPI.Common.SecurityScheme s) =>
-                                   StripeAPI.Common.Configuration s ->
-                                   GHC.Maybe.Maybe GHC.Base.String ->
-                                   GHC.Base.String ->
-                                   GetIssuingSettlementsSettlementRequestBody ->
-                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                         (Network.HTTP.Client.Types.Response GetIssuingSettlementsSettlementResponse))
+-- | > GET /v1/issuing/settlements/{settlement}
+-- 
+-- \<p>Retrieves an Issuing \<code>Settlement\<\/code> object.\<\/p>
+getIssuingSettlementsSettlement :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                             -- ^ settlement | Constraints: Maximum length of 5000
+  -> GetIssuingSettlementsSettlementRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingSettlementsSettlementResponse)) -- ^ Monad containing the result of the operation
 getIssuingSettlementsSettlement config
                                 expand
                                 settlement
@@ -58,6 +56,9 @@ getIssuingSettlementsSettlement config
                                                                                                                                                                                                                                                                                                                                                                                                                                  Error)
                                                                                                                                                                                                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/settlements/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel settlement)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/settlements/{settlement}
+-- 
+-- The same as 'getIssuingSettlementsSettlement' but returns the raw 'Data.ByteString.Char8.ByteString'
 getIssuingSettlementsSettlementRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
                                       StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getIssuingSettlementsSettlementRaw config
                                    settlement
                                    body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/settlements/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel settlement)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/settlements/{settlement}
+-- 
+-- Monadic version of 'getIssuingSettlementsSettlement' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingSettlementsSettlementM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getIssuingSettlementsSettlementM expand
                                                                                                                                                                                                                                                                                                                                                                                                                                   Error)
                                                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/settlements/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel settlement)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/settlements/{settlement}
+-- 
+-- Monadic version of 'getIssuingSettlementsSettlementRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingSettlementsSettlementRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
                                        GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getIssuingSettlementsSettlementRawM expand
                                     settlement
                                     body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/settlements/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel settlement)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetIssuingSettlementsSettlementRequestBody
-    = GetIssuingSettlementsSettlementRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getIssuingSettlementsSettlementRequestBody
+-- 
+-- 
+data GetIssuingSettlementsSettlementRequestBody = GetIssuingSettlementsSettlementRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetIssuingSettlementsSettlementRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingSettlementsSettlementRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingSettlementsSettlementRequestBody" (\obj -> GHC.Base.pure GetIssuingSettlementsSettlementRequestBody)
-
-data GetIssuingSettlementsSettlementResponse
-    = GetIssuingSettlementsSettlementResponseError GHC.Base.String
-    | GetIssuingSettlementsSettlementResponse200 Issuing'settlement
-    | GetIssuingSettlementsSettlementResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getIssuingSettlementsSettlement'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetIssuingSettlementsSettlementResponseError' is used.
+data GetIssuingSettlementsSettlementResponse =                     
+   GetIssuingSettlementsSettlementResponseError GHC.Base.String    -- ^ Means either no matching case available or a parse error
+  | GetIssuingSettlementsSettlementResponse200 Issuing'settlement  -- ^ Successful response.
+  | GetIssuingSettlementsSettlementResponseDefault Error           -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

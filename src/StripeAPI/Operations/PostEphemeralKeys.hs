@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation postEphemeralKeys
 module StripeAPI.Operations.PostEphemeralKeys where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,21 +39,21 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- POST /v1/ephemeral_keys
-postEphemeralKeys :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                   StripeAPI.Common.SecurityScheme s) =>
-                     StripeAPI.Common.Configuration s ->
-                     PostEphemeralKeysRequestBody ->
-                     m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                           (Network.HTTP.Client.Types.Response PostEphemeralKeysResponse))
+-- | > POST /v1/ephemeral_keys
+-- 
+-- \<p>Creates a short-lived API key for a given resource.\<\/p>
+postEphemeralKeys :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> PostEphemeralKeysRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostEphemeralKeysResponse)) -- ^ Monad containing the result of the operation
 postEphemeralKeys config
                   body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either PostEphemeralKeysResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> PostEphemeralKeysResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                      EphemeralKey)
                                                                                                                                                                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostEphemeralKeysResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                        Error)
                                                                                                                                                                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/ephemeral_keys") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/ephemeral_keys
+-- 
+-- The same as 'postEphemeralKeys' but returns the raw 'Data.ByteString.Char8.ByteString'
 postEphemeralKeysRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         StripeAPI.Common.Configuration s ->
@@ -61,6 +62,9 @@ postEphemeralKeysRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postEphemeralKeysRaw config
                      body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/ephemeral_keys") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/ephemeral_keys
+-- 
+-- Monadic version of 'postEphemeralKeys' (use with 'StripeAPI.Common.runWithConfiguration')
 postEphemeralKeysM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
                       PostEphemeralKeysRequestBody ->
@@ -73,6 +77,9 @@ postEphemeralKeysM body = GHC.Base.fmap (GHC.Base.fmap (\response_2 -> GHC.Base.
                                                                                                                                                                                      | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostEphemeralKeysResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                         Error)
                                                                                                                                                                                      | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/ephemeral_keys") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/ephemeral_keys
+-- 
+-- Monadic version of 'postEphemeralKeysRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postEphemeralKeysRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          PostEphemeralKeysRequestBody ->
@@ -81,19 +88,36 @@ postEphemeralKeysRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                             (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                 (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postEphemeralKeysRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/ephemeral_keys") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data PostEphemeralKeysRequestBody
-    = PostEphemeralKeysRequestBody {postEphemeralKeysRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String),
-                                    postEphemeralKeysRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String)),
-                                    postEphemeralKeysRequestBodyIssuingCard :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postEphemeralKeysRequestBody
+-- 
+-- 
+data PostEphemeralKeysRequestBody = PostEphemeralKeysRequestBody {
+  -- | customer: The ID of the Customer you\'d like to modify using the resulting ephemeral key.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  postEphemeralKeysRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | expand: Specifies which fields in the response should be expanded.
+  , postEphemeralKeysRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  -- | issuing_card: The ID of the Issuing Card you\'d like to access using the resulting ephemeral key.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , postEphemeralKeysRequestBodyIssuingCard :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostEphemeralKeysRequestBody
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "customer" (postEphemeralKeysRequestBodyCustomer obj) : (Data.Aeson..=) "expand" (postEphemeralKeysRequestBodyExpand obj) : (Data.Aeson..=) "issuing_card" (postEphemeralKeysRequestBodyIssuingCard obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "customer" (postEphemeralKeysRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postEphemeralKeysRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "issuing_card" (postEphemeralKeysRequestBodyIssuingCard obj)))
 instance Data.Aeson.Types.FromJSON.FromJSON PostEphemeralKeysRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostEphemeralKeysRequestBody" (\obj -> ((GHC.Base.pure PostEphemeralKeysRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "issuing_card"))
-
-data PostEphemeralKeysResponse
-    = PostEphemeralKeysResponseError GHC.Base.String
-    | PostEphemeralKeysResponse200 EphemeralKey
-    | PostEphemeralKeysResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'postEphemeralKeys'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'PostEphemeralKeysResponseError' is used.
+data PostEphemeralKeysResponse =                   
+   PostEphemeralKeysResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | PostEphemeralKeysResponse200 EphemeralKey      -- ^ Successful response.
+  | PostEphemeralKeysResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

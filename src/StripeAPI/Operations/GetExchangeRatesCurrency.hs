@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getExchangeRatesCurrency
 module StripeAPI.Operations.GetExchangeRatesCurrency where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/exchange_rates/{currency}
-getExchangeRatesCurrency :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                          StripeAPI.Common.SecurityScheme s) =>
-                            StripeAPI.Common.Configuration s ->
-                            GHC.Base.String ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GetExchangeRatesCurrencyRequestBody ->
-                            m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                  (Network.HTTP.Client.Types.Response GetExchangeRatesCurrencyResponse))
+-- | > GET /v1/exchange_rates/{currency}
+-- 
+-- \<p>Retrieves the exchange rates from the given currency to every supported currency.\<\/p>
+getExchangeRatesCurrency :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                      -- ^ currency | Constraints: Maximum length of 3
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GetExchangeRatesCurrencyRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetExchangeRatesCurrencyResponse)) -- ^ Monad containing the result of the operation
 getExchangeRatesCurrency config
                          currency
                          expand
@@ -58,6 +56,9 @@ getExchangeRatesCurrency config
                                                                                                                                                                                                                                                                                                                                                                                                             Error)
                                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/exchange_rates/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel currency)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/exchange_rates/{currency}
+-- 
+-- The same as 'getExchangeRatesCurrency' but returns the raw 'Data.ByteString.Char8.ByteString'
 getExchangeRatesCurrencyRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getExchangeRatesCurrencyRaw config
                             expand
                             body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/exchange_rates/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel currency)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/exchange_rates/{currency}
+-- 
+-- Monadic version of 'getExchangeRatesCurrency' (use with 'StripeAPI.Common.runWithConfiguration')
 getExchangeRatesCurrencyM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              GHC.Base.String ->
@@ -88,6 +92,9 @@ getExchangeRatesCurrencyM currency
                                                                                                                                                                                                                                                                                                                                                                                                              Error)
                                                                                                                                                                                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/exchange_rates/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel currency)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/exchange_rates/{currency}
+-- 
+-- Monadic version of 'getExchangeRatesCurrencyRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getExchangeRatesCurrencyRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
                                 GHC.Base.String ->
@@ -101,17 +108,23 @@ getExchangeRatesCurrencyRawM currency
                              expand
                              body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/exchange_rates/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel currency)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetExchangeRatesCurrencyRequestBody
-    = GetExchangeRatesCurrencyRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getExchangeRatesCurrencyRequestBody
+-- 
+-- 
+data GetExchangeRatesCurrencyRequestBody = GetExchangeRatesCurrencyRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetExchangeRatesCurrencyRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetExchangeRatesCurrencyRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetExchangeRatesCurrencyRequestBody" (\obj -> GHC.Base.pure GetExchangeRatesCurrencyRequestBody)
-
-data GetExchangeRatesCurrencyResponse
-    = GetExchangeRatesCurrencyResponseError GHC.Base.String
-    | GetExchangeRatesCurrencyResponse200 ExchangeRate
-    | GetExchangeRatesCurrencyResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getExchangeRatesCurrency'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetExchangeRatesCurrencyResponseError' is used.
+data GetExchangeRatesCurrencyResponse =                   
+   GetExchangeRatesCurrencyResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetExchangeRatesCurrencyResponse200 ExchangeRate      -- ^ Successful response.
+  | GetExchangeRatesCurrencyResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

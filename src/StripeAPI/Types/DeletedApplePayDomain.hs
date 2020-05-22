@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema DeletedApplePayDomain
 module StripeAPI.Types.DeletedApplePayDomain where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,30 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data DeletedApplePayDomain
-    = DeletedApplePayDomain {deletedApplePayDomainDeleted :: DeletedApplePayDomainDeleted',
-                             deletedApplePayDomainId :: GHC.Base.String,
-                             deletedApplePayDomainObject :: DeletedApplePayDomainObject'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema deleted_apple_pay_domain
+-- 
+-- 
+data DeletedApplePayDomain = DeletedApplePayDomain {
+  -- | deleted: Always true for a deleted object
+  deletedApplePayDomainDeleted :: DeletedApplePayDomainDeleted'
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , deletedApplePayDomainId :: GHC.Base.String
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , deletedApplePayDomainObject :: DeletedApplePayDomainObject'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON DeletedApplePayDomain
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedApplePayDomainDeleted obj) : (Data.Aeson..=) "id" (deletedApplePayDomainId obj) : (Data.Aeson..=) "object" (deletedApplePayDomainObject obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedApplePayDomainDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedApplePayDomainId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedApplePayDomainObject obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON DeletedApplePayDomain
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedApplePayDomain" (\obj -> ((GHC.Base.pure DeletedApplePayDomain GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+-- | Defines the enum schema deleted_apple_pay_domainDeleted\'
+-- 
+-- Always true for a deleted object
 data DeletedApplePayDomainDeleted'
     = DeletedApplePayDomainDeleted'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedApplePayDomainDeleted'EnumTyped GHC.Types.Bool
@@ -44,6 +64,9 @@ instance Data.Aeson.FromJSON DeletedApplePayDomainDeleted'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True
                                           then DeletedApplePayDomainDeleted'EnumBoolTrue
                                           else DeletedApplePayDomainDeleted'EnumOther val)
+-- | Defines the enum schema deleted_apple_pay_domainObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedApplePayDomainObject'
     = DeletedApplePayDomainObject'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedApplePayDomainObject'EnumTyped GHC.Base.String
@@ -57,8 +80,3 @@ instance Data.Aeson.FromJSON DeletedApplePayDomainObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "apple_pay_domain")
                                           then DeletedApplePayDomainObject'EnumStringApplePayDomain
                                           else DeletedApplePayDomainObject'EnumOther val)
-instance Data.Aeson.ToJSON DeletedApplePayDomain
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedApplePayDomainDeleted obj) : (Data.Aeson..=) "id" (deletedApplePayDomainId obj) : (Data.Aeson..=) "object" (deletedApplePayDomainObject obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedApplePayDomainDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedApplePayDomainId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedApplePayDomainObject obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedApplePayDomain
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedApplePayDomain" (\obj -> ((GHC.Base.pure DeletedApplePayDomain GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))

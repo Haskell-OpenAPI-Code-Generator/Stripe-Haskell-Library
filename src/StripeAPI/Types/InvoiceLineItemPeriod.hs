@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema InvoiceLineItemPeriod
 module StripeAPI.Types.InvoiceLineItemPeriod where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,16 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data InvoiceLineItemPeriod
-    = InvoiceLineItemPeriod {invoiceLineItemPeriodEnd :: GHC.Integer.Type.Integer,
-                             invoiceLineItemPeriodStart :: GHC.Integer.Type.Integer}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema invoice_line_item_period
+-- 
+-- 
+data InvoiceLineItemPeriod = InvoiceLineItemPeriod {
+  -- | end: End of the line item\'s billing period
+  invoiceLineItemPeriodEnd :: GHC.Integer.Type.Integer
+  -- | start: Start of the line item\'s billing period
+  , invoiceLineItemPeriodStart :: GHC.Integer.Type.Integer
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON InvoiceLineItemPeriod
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "end" (invoiceLineItemPeriodEnd obj) : (Data.Aeson..=) "start" (invoiceLineItemPeriodStart obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "end" (invoiceLineItemPeriodEnd obj) GHC.Base.<> (Data.Aeson..=) "start" (invoiceLineItemPeriodStart obj))

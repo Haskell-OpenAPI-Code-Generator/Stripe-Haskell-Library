@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getRadarValueListsValueList
 module StripeAPI.Operations.GetRadarValueListsValueList where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/radar/value_lists/{value_list}
-getRadarValueListsValueList :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                             StripeAPI.Common.SecurityScheme s) =>
-                               StripeAPI.Common.Configuration s ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Base.String ->
-                               GetRadarValueListsValueListRequestBody ->
-                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                     (Network.HTTP.Client.Types.Response GetRadarValueListsValueListResponse))
+-- | > GET /v1/radar/value_lists/{value_list}
+-- 
+-- \<p>Retrieves a \<code>ValueList\<\/code> object.\<\/p>
+getRadarValueListsValueList :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                         -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                         -- ^ value_list | Constraints: Maximum length of 5000
+  -> GetRadarValueListsValueListRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetRadarValueListsValueListResponse)) -- ^ Monad containing the result of the operation
 getRadarValueListsValueList config
                             expand
                             valueList
@@ -58,6 +56,9 @@ getRadarValueListsValueList config
                                                                                                                                                                                                                                                                                                                                                                                                                      Error)
                                                                                                                                                                                                         | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/radar/value_lists/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel valueList)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/radar/value_lists/{value_list}
+-- 
+-- The same as 'getRadarValueListsValueList' but returns the raw 'Data.ByteString.Char8.ByteString'
 getRadarValueListsValueListRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getRadarValueListsValueListRaw config
                                valueList
                                body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/radar/value_lists/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel valueList)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/radar/value_lists/{value_list}
+-- 
+-- Monadic version of 'getRadarValueListsValueList' (use with 'StripeAPI.Common.runWithConfiguration')
 getRadarValueListsValueListM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
                                 GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getRadarValueListsValueListM expand
                                                                                                                                                                                                                                                                                                                                                                                                                       Error)
                                                                                                                                                                                                          | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/radar/value_lists/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel valueList)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/radar/value_lists/{value_list}
+-- 
+-- Monadic version of 'getRadarValueListsValueListRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getRadarValueListsValueListRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
                                    GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getRadarValueListsValueListRawM expand
                                 valueList
                                 body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/radar/value_lists/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel valueList)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetRadarValueListsValueListRequestBody
-    = GetRadarValueListsValueListRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getRadarValueListsValueListRequestBody
+-- 
+-- 
+data GetRadarValueListsValueListRequestBody = GetRadarValueListsValueListRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetRadarValueListsValueListRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListsValueListRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRadarValueListsValueListRequestBody" (\obj -> GHC.Base.pure GetRadarValueListsValueListRequestBody)
-
-data GetRadarValueListsValueListResponse
-    = GetRadarValueListsValueListResponseError GHC.Base.String
-    | GetRadarValueListsValueListResponse200 Radar'valueList
-    | GetRadarValueListsValueListResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getRadarValueListsValueList'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetRadarValueListsValueListResponseError' is used.
+data GetRadarValueListsValueListResponse =                   
+   GetRadarValueListsValueListResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetRadarValueListsValueListResponse200 Radar'valueList   -- ^ Successful response.
+  | GetRadarValueListsValueListResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

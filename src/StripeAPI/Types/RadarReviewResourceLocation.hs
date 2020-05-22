@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema RadarReviewResourceLocation
 module StripeAPI.Types.RadarReviewResourceLocation where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,13 +27,34 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data RadarReviewResourceLocation
-    = RadarReviewResourceLocation {radarReviewResourceLocationCity :: (GHC.Maybe.Maybe GHC.Base.String),
-                                   radarReviewResourceLocationCountry :: (GHC.Maybe.Maybe GHC.Base.String),
-                                   radarReviewResourceLocationLatitude :: (GHC.Maybe.Maybe GHC.Types.Double),
-                                   radarReviewResourceLocationLongitude :: (GHC.Maybe.Maybe GHC.Types.Double),
-                                   radarReviewResourceLocationRegion :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema radar_review_resource_location
+-- 
+-- 
+data RadarReviewResourceLocation = RadarReviewResourceLocation {
+  -- | city: The city where the payment originated.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  radarReviewResourceLocationCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | country: Two-letter ISO code representing the country where the payment originated.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , radarReviewResourceLocationCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | latitude: The geographic latitude where the payment originated.
+  , radarReviewResourceLocationLatitude :: (GHC.Maybe.Maybe GHC.Types.Double)
+  -- | longitude: The geographic longitude where the payment originated.
+  , radarReviewResourceLocationLongitude :: (GHC.Maybe.Maybe GHC.Types.Double)
+  -- | region: The state\/county\/province\/region where the payment originated.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , radarReviewResourceLocationRegion :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON RadarReviewResourceLocation
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (radarReviewResourceLocationCity obj) : (Data.Aeson..=) "country" (radarReviewResourceLocationCountry obj) : (Data.Aeson..=) "latitude" (radarReviewResourceLocationLatitude obj) : (Data.Aeson..=) "longitude" (radarReviewResourceLocationLongitude obj) : (Data.Aeson..=) "region" (radarReviewResourceLocationRegion obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (radarReviewResourceLocationCity obj) GHC.Base.<> ((Data.Aeson..=) "country" (radarReviewResourceLocationCountry obj) GHC.Base.<> ((Data.Aeson..=) "latitude" (radarReviewResourceLocationLatitude obj) GHC.Base.<> ((Data.Aeson..=) "longitude" (radarReviewResourceLocationLongitude obj) GHC.Base.<> (Data.Aeson..=) "region" (radarReviewResourceLocationRegion obj)))))

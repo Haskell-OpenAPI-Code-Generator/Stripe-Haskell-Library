@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema IssuingAuthorizationViolatedAuthControl
 module StripeAPI.Types.IssuingAuthorizationViolatedAuthControl where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data IssuingAuthorizationViolatedAuthControl
-    = IssuingAuthorizationViolatedAuthControl {issuingAuthorizationViolatedAuthControlEntity :: IssuingAuthorizationViolatedAuthControlEntity',
-                                               issuingAuthorizationViolatedAuthControlName :: IssuingAuthorizationViolatedAuthControlName'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema issuing_authorization_violated_auth_control
+-- 
+-- 
+data IssuingAuthorizationViolatedAuthControl = IssuingAuthorizationViolatedAuthControl {
+  -- | entity: Entity which the authorization control acts on. One of \`card\`, \`cardholder\`, or \`account\`.
+  issuingAuthorizationViolatedAuthControlEntity :: IssuingAuthorizationViolatedAuthControlEntity'
+  -- | name: Name of the authorization control. One of \`allowed_categories\`, \`blocked_categories\`, \`spending_limits\`, \`max_approvals\`, or \`max_amount\`.
+  , issuingAuthorizationViolatedAuthControlName :: IssuingAuthorizationViolatedAuthControlName'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON IssuingAuthorizationViolatedAuthControl
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "entity" (issuingAuthorizationViolatedAuthControlEntity obj) : (Data.Aeson..=) "name" (issuingAuthorizationViolatedAuthControlName obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "entity" (issuingAuthorizationViolatedAuthControlEntity obj) GHC.Base.<> (Data.Aeson..=) "name" (issuingAuthorizationViolatedAuthControlName obj))
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationViolatedAuthControl
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingAuthorizationViolatedAuthControl" (\obj -> (GHC.Base.pure IssuingAuthorizationViolatedAuthControl GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "entity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name"))
+-- | Defines the enum schema issuing_authorization_violated_auth_controlEntity\'
+-- 
+-- Entity which the authorization control acts on. One of \`card\`, \`cardholder\`, or \`account\`.
 data IssuingAuthorizationViolatedAuthControlEntity'
     = IssuingAuthorizationViolatedAuthControlEntity'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingAuthorizationViolatedAuthControlEntity'EnumTyped GHC.Base.String
@@ -51,6 +66,9 @@ instance Data.Aeson.FromJSON IssuingAuthorizationViolatedAuthControlEntity'
                                                 else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "cardholder")
                                                       then IssuingAuthorizationViolatedAuthControlEntity'EnumStringCardholder
                                                       else IssuingAuthorizationViolatedAuthControlEntity'EnumOther val)
+-- | Defines the enum schema issuing_authorization_violated_auth_controlName\'
+-- 
+-- Name of the authorization control. One of \`allowed_categories\`, \`blocked_categories\`, \`spending_limits\`, \`max_approvals\`, or \`max_amount\`.
 data IssuingAuthorizationViolatedAuthControlName'
     = IssuingAuthorizationViolatedAuthControlName'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingAuthorizationViolatedAuthControlName'EnumTyped GHC.Base.String
@@ -80,8 +98,3 @@ instance Data.Aeson.FromJSON IssuingAuthorizationViolatedAuthControlName'
                                                             else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "spending_limits")
                                                                   then IssuingAuthorizationViolatedAuthControlName'EnumStringSpendingLimits
                                                                   else IssuingAuthorizationViolatedAuthControlName'EnumOther val)
-instance Data.Aeson.ToJSON IssuingAuthorizationViolatedAuthControl
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "entity" (issuingAuthorizationViolatedAuthControlEntity obj) : (Data.Aeson..=) "name" (issuingAuthorizationViolatedAuthControlName obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "entity" (issuingAuthorizationViolatedAuthControlEntity obj) GHC.Base.<> (Data.Aeson..=) "name" (issuingAuthorizationViolatedAuthControlName obj))
-instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationViolatedAuthControl
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingAuthorizationViolatedAuthControl" (\obj -> (GHC.Base.pure IssuingAuthorizationViolatedAuthControl GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "entity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name"))

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema RadarReviewResourceSession
 module StripeAPI.Types.RadarReviewResourceSession where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,36 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data RadarReviewResourceSession
-    = RadarReviewResourceSession {radarReviewResourceSessionBrowser :: (GHC.Maybe.Maybe GHC.Base.String),
-                                  radarReviewResourceSessionDevice :: (GHC.Maybe.Maybe GHC.Base.String),
-                                  radarReviewResourceSessionPlatform :: (GHC.Maybe.Maybe GHC.Base.String),
-                                  radarReviewResourceSessionVersion :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema radar_review_resource_session
+-- 
+-- 
+data RadarReviewResourceSession = RadarReviewResourceSession {
+  -- | browser: The browser used in this browser session (e.g., \`Chrome\`).
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  radarReviewResourceSessionBrowser :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | device: Information about the device used for the browser session (e.g., \`Samsung SM-G930T\`).
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , radarReviewResourceSessionDevice :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | platform: The platform for the browser session (e.g., \`Macintosh\`).
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , radarReviewResourceSessionPlatform :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | version: The version for the browser session (e.g., \`61.0.3163.100\`).
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , radarReviewResourceSessionVersion :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON RadarReviewResourceSession
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "browser" (radarReviewResourceSessionBrowser obj) : (Data.Aeson..=) "device" (radarReviewResourceSessionDevice obj) : (Data.Aeson..=) "platform" (radarReviewResourceSessionPlatform obj) : (Data.Aeson..=) "version" (radarReviewResourceSessionVersion obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "browser" (radarReviewResourceSessionBrowser obj) GHC.Base.<> ((Data.Aeson..=) "device" (radarReviewResourceSessionDevice obj) GHC.Base.<> ((Data.Aeson..=) "platform" (radarReviewResourceSessionPlatform obj) GHC.Base.<> (Data.Aeson..=) "version" (radarReviewResourceSessionVersion obj))))

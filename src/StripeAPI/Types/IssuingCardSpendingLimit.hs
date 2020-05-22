@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema IssuingCardSpendingLimit
 module StripeAPI.Types.IssuingCardSpendingLimit where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,26 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data IssuingCardSpendingLimit
-    = IssuingCardSpendingLimit {issuingCardSpendingLimitAmount :: GHC.Integer.Type.Integer,
-                                issuingCardSpendingLimitCategories :: (GHC.Maybe.Maybe ([] IssuingCardSpendingLimitCategories')),
-                                issuingCardSpendingLimitInterval :: IssuingCardSpendingLimitInterval'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema issuing_card_spending_limit
+-- 
+-- 
+data IssuingCardSpendingLimit = IssuingCardSpendingLimit {
+  -- | amount: Maximum amount allowed to spend per time interval.
+  issuingCardSpendingLimitAmount :: GHC.Integer.Type.Integer
+  -- | categories: Array of strings containing [categories](https:\/\/stripe.com\/docs\/api\#issuing_authorization_object-merchant_data-category) on which to apply the spending limit. Leave this blank to limit all charges.
+  , issuingCardSpendingLimitCategories :: (GHC.Maybe.Maybe ([] IssuingCardSpendingLimitCategories'))
+  -- | interval: The time interval or event with which to apply this spending limit towards.
+  , issuingCardSpendingLimitInterval :: IssuingCardSpendingLimitInterval'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON IssuingCardSpendingLimit
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (issuingCardSpendingLimitAmount obj) : (Data.Aeson..=) "categories" (issuingCardSpendingLimitCategories obj) : (Data.Aeson..=) "interval" (issuingCardSpendingLimitInterval obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (issuingCardSpendingLimitAmount obj) GHC.Base.<> ((Data.Aeson..=) "categories" (issuingCardSpendingLimitCategories obj) GHC.Base.<> (Data.Aeson..=) "interval" (issuingCardSpendingLimitInterval obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardSpendingLimit
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardSpendingLimit" (\obj -> ((GHC.Base.pure IssuingCardSpendingLimit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval"))
+-- | Defines the enum schema issuing_card_spending_limitCategories\'
+-- 
+-- 
 data IssuingCardSpendingLimitCategories'
     = IssuingCardSpendingLimitCategories'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingCardSpendingLimitCategories'EnumTyped GHC.Base.String
@@ -1192,6 +1208,9 @@ instance Data.Aeson.FromJSON IssuingCardSpendingLimitCategories'
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "wrecking_and_salvage_yards")
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     then IssuingCardSpendingLimitCategories'EnumStringWreckingAndSalvageYards
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     else IssuingCardSpendingLimitCategories'EnumOther val)
+-- | Defines the enum schema issuing_card_spending_limitInterval\'
+-- 
+-- The time interval or event with which to apply this spending limit towards.
 data IssuingCardSpendingLimitInterval'
     = IssuingCardSpendingLimitInterval'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingCardSpendingLimitInterval'EnumTyped GHC.Base.String
@@ -1225,8 +1244,3 @@ instance Data.Aeson.FromJSON IssuingCardSpendingLimitInterval'
                                                                   else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "yearly")
                                                                         then IssuingCardSpendingLimitInterval'EnumStringYearly
                                                                         else IssuingCardSpendingLimitInterval'EnumOther val)
-instance Data.Aeson.ToJSON IssuingCardSpendingLimit
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (issuingCardSpendingLimitAmount obj) : (Data.Aeson..=) "categories" (issuingCardSpendingLimitCategories obj) : (Data.Aeson..=) "interval" (issuingCardSpendingLimitInterval obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (issuingCardSpendingLimitAmount obj) GHC.Base.<> ((Data.Aeson..=) "categories" (issuingCardSpendingLimitCategories obj) GHC.Base.<> (Data.Aeson..=) "interval" (issuingCardSpendingLimitInterval obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardSpendingLimit
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardSpendingLimit" (\obj -> ((GHC.Base.pure IssuingCardSpendingLimit GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "categories")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval"))

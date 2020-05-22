@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema FinancialReportingFinanceReportRunRunParameters
 module StripeAPI.Types.FinancialReportingFinanceReportRunRunParameters where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,16 +27,44 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data FinancialReportingFinanceReportRunRunParameters
-    = FinancialReportingFinanceReportRunRunParameters {financialReportingFinanceReportRunRunParametersColumns :: (GHC.Maybe.Maybe ([] GHC.Base.String)),
-                                                       financialReportingFinanceReportRunRunParametersConnectedAccount :: (GHC.Maybe.Maybe GHC.Base.String),
-                                                       financialReportingFinanceReportRunRunParametersCurrency :: (GHC.Maybe.Maybe GHC.Base.String),
-                                                       financialReportingFinanceReportRunRunParametersIntervalEnd :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                                                       financialReportingFinanceReportRunRunParametersIntervalStart :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                                                       financialReportingFinanceReportRunRunParametersPayout :: (GHC.Maybe.Maybe GHC.Base.String),
-                                                       financialReportingFinanceReportRunRunParametersReportingCategory :: (GHC.Maybe.Maybe GHC.Base.String),
-                                                       financialReportingFinanceReportRunRunParametersTimezone :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema financial_reporting_finance_report_run_run_parameters
+-- 
+-- 
+data FinancialReportingFinanceReportRunRunParameters = FinancialReportingFinanceReportRunRunParameters {
+  -- | columns: The set of output columns requested for inclusion in the report run.
+  financialReportingFinanceReportRunRunParametersColumns :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  -- | connected_account: Connected account ID by which to filter the report run.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , financialReportingFinanceReportRunRunParametersConnectedAccount :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | currency: Currency of objects to be included in the report run.
+  , financialReportingFinanceReportRunRunParametersCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | interval_end: Ending timestamp of data to be included in the report run (exclusive).
+  , financialReportingFinanceReportRunRunParametersIntervalEnd :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | interval_start: Starting timestamp of data to be included in the report run.
+  , financialReportingFinanceReportRunRunParametersIntervalStart :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | payout: Payout ID by which to filter the report run.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , financialReportingFinanceReportRunRunParametersPayout :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | reporting_category: Category of balance transactions to be included in the report run.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , financialReportingFinanceReportRunRunParametersReportingCategory :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | timezone: Defaults to \`Etc\/UTC\`. The output timezone for all timestamps in the report. A list of possible time zone values is maintained at the [IANA Time Zone Database](http:\/\/www.iana.org\/time-zones). Has no effect on \`interval_start\` or \`interval_end\`.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , financialReportingFinanceReportRunRunParametersTimezone :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON FinancialReportingFinanceReportRunRunParameters
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "columns" (financialReportingFinanceReportRunRunParametersColumns obj) : (Data.Aeson..=) "connected_account" (financialReportingFinanceReportRunRunParametersConnectedAccount obj) : (Data.Aeson..=) "currency" (financialReportingFinanceReportRunRunParametersCurrency obj) : (Data.Aeson..=) "interval_end" (financialReportingFinanceReportRunRunParametersIntervalEnd obj) : (Data.Aeson..=) "interval_start" (financialReportingFinanceReportRunRunParametersIntervalStart obj) : (Data.Aeson..=) "payout" (financialReportingFinanceReportRunRunParametersPayout obj) : (Data.Aeson..=) "reporting_category" (financialReportingFinanceReportRunRunParametersReportingCategory obj) : (Data.Aeson..=) "timezone" (financialReportingFinanceReportRunRunParametersTimezone obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "columns" (financialReportingFinanceReportRunRunParametersColumns obj) GHC.Base.<> ((Data.Aeson..=) "connected_account" (financialReportingFinanceReportRunRunParametersConnectedAccount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (financialReportingFinanceReportRunRunParametersCurrency obj) GHC.Base.<> ((Data.Aeson..=) "interval_end" (financialReportingFinanceReportRunRunParametersIntervalEnd obj) GHC.Base.<> ((Data.Aeson..=) "interval_start" (financialReportingFinanceReportRunRunParametersIntervalStart obj) GHC.Base.<> ((Data.Aeson..=) "payout" (financialReportingFinanceReportRunRunParametersPayout obj) GHC.Base.<> ((Data.Aeson..=) "reporting_category" (financialReportingFinanceReportRunRunParametersReportingCategory obj) GHC.Base.<> (Data.Aeson..=) "timezone" (financialReportingFinanceReportRunRunParametersTimezone obj))))))))

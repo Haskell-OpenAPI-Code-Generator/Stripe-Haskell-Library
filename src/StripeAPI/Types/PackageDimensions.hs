@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema PackageDimensions
 module StripeAPI.Types.PackageDimensions where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,20 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data PackageDimensions
-    = PackageDimensions {packageDimensionsHeight :: GHC.Types.Double,
-                         packageDimensionsLength :: GHC.Types.Double,
-                         packageDimensionsWeight :: GHC.Types.Double,
-                         packageDimensionsWidth :: GHC.Types.Double}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema package_dimensions
+-- 
+-- 
+data PackageDimensions = PackageDimensions {
+  -- | height: Height, in inches.
+  packageDimensionsHeight :: GHC.Types.Double
+  -- | length: Length, in inches.
+  , packageDimensionsLength :: GHC.Types.Double
+  -- | weight: Weight, in ounces.
+  , packageDimensionsWeight :: GHC.Types.Double
+  -- | width: Width, in inches.
+  , packageDimensionsWidth :: GHC.Types.Double
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PackageDimensions
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "height" (packageDimensionsHeight obj) : (Data.Aeson..=) "length" (packageDimensionsLength obj) : (Data.Aeson..=) "weight" (packageDimensionsWeight obj) : (Data.Aeson..=) "width" (packageDimensionsWidth obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "height" (packageDimensionsHeight obj) GHC.Base.<> ((Data.Aeson..=) "length" (packageDimensionsLength obj) GHC.Base.<> ((Data.Aeson..=) "weight" (packageDimensionsWeight obj) GHC.Base.<> (Data.Aeson..=) "width" (packageDimensionsWidth obj))))

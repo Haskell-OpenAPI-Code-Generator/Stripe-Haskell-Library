@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceOrderItem
 module StripeAPI.Types.SourceOrderItem where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,13 +27,34 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceOrderItem
-    = SourceOrderItem {sourceOrderItemAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                       sourceOrderItemCurrency :: (GHC.Maybe.Maybe GHC.Base.String),
-                       sourceOrderItemDescription :: (GHC.Maybe.Maybe GHC.Base.String),
-                       sourceOrderItemQuantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                       sourceOrderItemType :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_order_item
+-- 
+-- 
+data SourceOrderItem = SourceOrderItem {
+  -- | amount: The amount (price) for this order item.
+  sourceOrderItemAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | currency: This currency of this order item. Required when \`amount\` is present.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceOrderItemCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | description: Human-readable description for this order item.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceOrderItemDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | quantity: The quantity of this order item. When type is \`sku\`, this is the number of instances of the SKU to be ordered.
+  , sourceOrderItemQuantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | type: The type of this order item. Must be \`sku\`, \`tax\`, or \`shipping\`.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceOrderItemType :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceOrderItem
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (sourceOrderItemAmount obj) : (Data.Aeson..=) "currency" (sourceOrderItemCurrency obj) : (Data.Aeson..=) "description" (sourceOrderItemDescription obj) : (Data.Aeson..=) "quantity" (sourceOrderItemQuantity obj) : (Data.Aeson..=) "type" (sourceOrderItemType obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (sourceOrderItemAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (sourceOrderItemCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (sourceOrderItemDescription obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (sourceOrderItemQuantity obj) GHC.Base.<> (Data.Aeson..=) "type" (sourceOrderItemType obj)))))

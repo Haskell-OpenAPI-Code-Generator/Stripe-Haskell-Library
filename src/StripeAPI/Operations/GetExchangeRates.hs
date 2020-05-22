@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getExchangeRates
 module StripeAPI.Operations.GetExchangeRates where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,19 +39,16 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/exchange_rates
-getExchangeRates :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                  StripeAPI.Common.SecurityScheme s) =>
-                    StripeAPI.Common.Configuration s ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GetExchangeRatesRequestBody ->
-                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                          (Network.HTTP.Client.Types.Response GetExchangeRatesResponse))
+-- | > GET /v1/exchange_rates
+-- 
+-- \<p>Returns a list of objects that contain the rates at which foreign currencies are converted to one another. Only shows the currencies for which Stripe supports.\<\/p>
+getExchangeRates :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is the currency that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with the exchange rate for currency X your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                     -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and total number of supported payout currencies, and the default is the max.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is the currency that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with the exchange rate for currency X, your subsequent call can include \`starting_after=X\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GetExchangeRatesRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetExchangeRatesResponse)) -- ^ Monad containing the result of the operation
 getExchangeRates config
                  endingBefore
                  expand
@@ -65,6 +63,9 @@ getExchangeRates config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/exchange_rates
+-- 
+-- The same as 'getExchangeRates' but returns the raw 'Data.ByteString.Char8.ByteString'
 getExchangeRatesRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        StripeAPI.Common.Configuration s ->
@@ -85,6 +86,9 @@ getExchangeRatesRaw config
                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/exchange_rates
+-- 
+-- Monadic version of 'getExchangeRates' (use with 'StripeAPI.Common.runWithConfiguration')
 getExchangeRatesM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
                      GHC.Maybe.Maybe GHC.Base.String ->
@@ -109,6 +113,9 @@ getExchangeRatesM endingBefore
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/exchange_rates
+-- 
+-- Monadic version of 'getExchangeRatesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getExchangeRatesRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         GHC.Maybe.Maybe GHC.Base.String ->
@@ -129,26 +136,53 @@ getExchangeRatesRawM endingBefore
                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetExchangeRatesRequestBody
-    = GetExchangeRatesRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getExchangeRatesRequestBody
+-- 
+-- 
+data GetExchangeRatesRequestBody = GetExchangeRatesRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetExchangeRatesRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetExchangeRatesRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetExchangeRatesRequestBody" (\obj -> GHC.Base.pure GetExchangeRatesRequestBody)
-
-data GetExchangeRatesResponse
-    = GetExchangeRatesResponseError GHC.Base.String
-    | GetExchangeRatesResponse200 GetExchangeRatesResponseBody200
-    | GetExchangeRatesResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetExchangeRatesResponseBody200
-    = GetExchangeRatesResponseBody200 {getExchangeRatesResponseBody200Data :: ([] ExchangeRate),
-                                       getExchangeRatesResponseBody200HasMore :: GHC.Types.Bool,
-                                       getExchangeRatesResponseBody200Object :: GetExchangeRatesResponseBody200Object',
-                                       getExchangeRatesResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getExchangeRates'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetExchangeRatesResponseError' is used.
+data GetExchangeRatesResponse =                                  
+   GetExchangeRatesResponseError GHC.Base.String                 -- ^ Means either no matching case available or a parse error
+  | GetExchangeRatesResponse200 GetExchangeRatesResponseBody200  -- ^ Successful response.
+  | GetExchangeRatesResponseDefault Error                        -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetExchangeRatesResponseBody200
+-- 
+-- 
+data GetExchangeRatesResponseBody200 = GetExchangeRatesResponseBody200 {
+  -- | data
+  getExchangeRatesResponseBody200Data :: ([] ExchangeRate)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getExchangeRatesResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getExchangeRatesResponseBody200Object :: GetExchangeRatesResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  -- * Must match pattern \'^\/v1\/exchange_rates\'
+  , getExchangeRatesResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetExchangeRatesResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getExchangeRatesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getExchangeRatesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getExchangeRatesResponseBody200Object obj) : (Data.Aeson..=) "url" (getExchangeRatesResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getExchangeRatesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getExchangeRatesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getExchangeRatesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getExchangeRatesResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetExchangeRatesResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetExchangeRatesResponseBody200" (\obj -> (((GHC.Base.pure GetExchangeRatesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetExchangeRatesResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetExchangeRatesResponseBody200Object'
     = GetExchangeRatesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetExchangeRatesResponseBody200Object'EnumTyped GHC.Base.String
@@ -162,8 +196,3 @@ instance Data.Aeson.FromJSON GetExchangeRatesResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetExchangeRatesResponseBody200Object'EnumStringList
                                           else GetExchangeRatesResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetExchangeRatesResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getExchangeRatesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getExchangeRatesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getExchangeRatesResponseBody200Object obj) : (Data.Aeson..=) "url" (getExchangeRatesResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getExchangeRatesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getExchangeRatesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getExchangeRatesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getExchangeRatesResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetExchangeRatesResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetExchangeRatesResponseBody200" (\obj -> (((GHC.Base.pure GetExchangeRatesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

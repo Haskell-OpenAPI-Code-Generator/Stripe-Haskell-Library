@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation deleteAccountsAccount
 module StripeAPI.Operations.DeleteAccountsAccount where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,16 +39,17 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- DELETE /v1/accounts/{account}
-deleteAccountsAccount :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                       StripeAPI.Common.SecurityScheme s) =>
-                         StripeAPI.Common.Configuration s ->
-                         GHC.Base.String ->
-                         DeleteAccountsAccountRequestBody ->
-                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                               (Network.HTTP.Client.Types.Response DeleteAccountsAccountResponse))
+-- | > DELETE /v1/accounts/{account}
+-- 
+-- \<p>With \<a href=\"\/docs\/connect\">Connect\<\/a>, you can delete Custom or Express accounts you manage.\<\/p>
+-- 
+-- \<p>Accounts created using test-mode keys can be deleted at any time. Accounts created using live-mode keys can only be deleted once all balances are zero.\<\/p>
+-- 
+-- \<p>If you want to delete your own account, use the \<a href=\"https:\/\/dashboard.stripe.com\/account\">account information tab in your account settings\<\/a> instead.\<\/p>
+deleteAccountsAccount :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                   -- ^ account | Constraints: Maximum length of 5000
+  -> DeleteAccountsAccountRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteAccountsAccountResponse)) -- ^ Monad containing the result of the operation
 deleteAccountsAccount config
                       account
                       body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either DeleteAccountsAccountResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> DeleteAccountsAccountResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
@@ -55,6 +57,9 @@ deleteAccountsAccount config
                                                                                                                                                                                             | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> DeleteAccountsAccountResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                    Error)
                                                                                                                                                                                             | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > DELETE /v1/accounts/{account}
+-- 
+-- The same as 'deleteAccountsAccount' but returns the raw 'Data.ByteString.Char8.ByteString'
 deleteAccountsAccountRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             StripeAPI.Common.Configuration s ->
@@ -65,6 +70,9 @@ deleteAccountsAccountRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
 deleteAccountsAccountRaw config
                          account
                          body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > DELETE /v1/accounts/{account}
+-- 
+-- Monadic version of 'deleteAccountsAccount' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteAccountsAccountM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           GHC.Base.String ->
@@ -79,6 +87,9 @@ deleteAccountsAccountM account
                                                                                                                                                                                              | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> DeleteAccountsAccountResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                     Error)
                                                                                                                                                                                              | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > DELETE /v1/accounts/{account}
+-- 
+-- Monadic version of 'deleteAccountsAccountRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteAccountsAccountRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              GHC.Base.String ->
@@ -89,17 +100,23 @@ deleteAccountsAccountRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 deleteAccountsAccountRawM account
                           body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data DeleteAccountsAccountRequestBody
-    = DeleteAccountsAccountRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema deleteAccountsAccountRequestBody
+-- 
+-- 
+data DeleteAccountsAccountRequestBody = DeleteAccountsAccountRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeleteAccountsAccountRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteAccountsAccountRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteAccountsAccountRequestBody" (\obj -> GHC.Base.pure DeleteAccountsAccountRequestBody)
-
-data DeleteAccountsAccountResponse
-    = DeleteAccountsAccountResponseError GHC.Base.String
-    | DeleteAccountsAccountResponse200 DeletedAccount
-    | DeleteAccountsAccountResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'deleteAccountsAccount'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'DeleteAccountsAccountResponseError' is used.
+data DeleteAccountsAccountResponse =                   
+   DeleteAccountsAccountResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | DeleteAccountsAccountResponse200 DeletedAccount    -- ^ Successful response.
+  | DeleteAccountsAccountResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getIssuingAuthorizationsAuthorization
 module StripeAPI.Operations.GetIssuingAuthorizationsAuthorization where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/issuing/authorizations/{authorization}
-getIssuingAuthorizationsAuthorization :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                       StripeAPI.Common.SecurityScheme s) =>
-                                         StripeAPI.Common.Configuration s ->
-                                         GHC.Base.String ->
-                                         GHC.Maybe.Maybe GHC.Base.String ->
-                                         GetIssuingAuthorizationsAuthorizationRequestBody ->
-                                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                               (Network.HTTP.Client.Types.Response GetIssuingAuthorizationsAuthorizationResponse))
+-- | > GET /v1/issuing/authorizations/{authorization}
+-- 
+-- \<p>Retrieves an Issuing \<code>Authorization\<\/code> object.\<\/p>
+getIssuingAuthorizationsAuthorization :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                                   -- ^ authorization | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                   -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GetIssuingAuthorizationsAuthorizationRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingAuthorizationsAuthorizationResponse)) -- ^ Monad containing the result of the operation
 getIssuingAuthorizationsAuthorization config
                                       authorization
                                       expand
@@ -58,6 +56,9 @@ getIssuingAuthorizationsAuthorization config
                                                                                                                                                                                                                                                                                                                                                                                                                                                    Error)
                                                                                                                                                                                                                             | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/authorizations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel authorization)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/authorizations/{authorization}
+-- 
+-- The same as 'getIssuingAuthorizationsAuthorization' but returns the raw 'Data.ByteString.Char8.ByteString'
 getIssuingAuthorizationsAuthorizationRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                           StripeAPI.Common.SecurityScheme s) =>
                                             StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getIssuingAuthorizationsAuthorizationRaw config
                                          expand
                                          body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/authorizations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel authorization)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/authorizations/{authorization}
+-- 
+-- Monadic version of 'getIssuingAuthorizationsAuthorization' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingAuthorizationsAuthorizationM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
                                           GHC.Base.String ->
@@ -88,6 +92,9 @@ getIssuingAuthorizationsAuthorizationM authorization
                                                                                                                                                                                                                                                                                                                                                                                                                                                     Error)
                                                                                                                                                                                                                              | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/authorizations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel authorization)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/authorizations/{authorization}
+-- 
+-- Monadic version of 'getIssuingAuthorizationsAuthorizationRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingAuthorizationsAuthorizationRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
                                              GHC.Base.String ->
@@ -101,17 +108,23 @@ getIssuingAuthorizationsAuthorizationRawM authorization
                                           expand
                                           body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/authorizations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel authorization)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetIssuingAuthorizationsAuthorizationRequestBody
-    = GetIssuingAuthorizationsAuthorizationRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getIssuingAuthorizationsAuthorizationRequestBody
+-- 
+-- 
+data GetIssuingAuthorizationsAuthorizationRequestBody = GetIssuingAuthorizationsAuthorizationRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetIssuingAuthorizationsAuthorizationRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingAuthorizationsAuthorizationRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingAuthorizationsAuthorizationRequestBody" (\obj -> GHC.Base.pure GetIssuingAuthorizationsAuthorizationRequestBody)
-
-data GetIssuingAuthorizationsAuthorizationResponse
-    = GetIssuingAuthorizationsAuthorizationResponseError GHC.Base.String
-    | GetIssuingAuthorizationsAuthorizationResponse200 Issuing'authorization
-    | GetIssuingAuthorizationsAuthorizationResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getIssuingAuthorizationsAuthorization'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetIssuingAuthorizationsAuthorizationResponseError' is used.
+data GetIssuingAuthorizationsAuthorizationResponse =                        
+   GetIssuingAuthorizationsAuthorizationResponseError GHC.Base.String       -- ^ Means either no matching case available or a parse error
+  | GetIssuingAuthorizationsAuthorizationResponse200 Issuing'authorization  -- ^ Successful response.
+  | GetIssuingAuthorizationsAuthorizationResponseDefault Error              -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

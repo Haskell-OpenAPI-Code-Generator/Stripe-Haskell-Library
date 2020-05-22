@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getDisputesDispute
 module StripeAPI.Operations.GetDisputesDispute where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/disputes/{dispute}
-getDisputesDispute :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                    StripeAPI.Common.SecurityScheme s) =>
-                      StripeAPI.Common.Configuration s ->
-                      GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GetDisputesDisputeRequestBody ->
-                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                            (Network.HTTP.Client.Types.Response GetDisputesDisputeResponse))
+-- | > GET /v1/disputes/{dispute}
+-- 
+-- \<p>Retrieves the dispute with the given ID.\<\/p>
+getDisputesDispute :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                -- ^ dispute | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GetDisputesDisputeRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetDisputesDisputeResponse)) -- ^ Monad containing the result of the operation
 getDisputesDispute config
                    dispute
                    expand
@@ -58,6 +56,9 @@ getDisputesDispute config
                                                                                                                                                                                                                                                                                                                                                                                           Error)
                                                                                                                                                                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/disputes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel dispute)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/disputes/{dispute}
+-- 
+-- The same as 'getDisputesDispute' but returns the raw 'Data.ByteString.Char8.ByteString'
 getDisputesDisputeRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getDisputesDisputeRaw config
                       expand
                       body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/disputes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel dispute)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/disputes/{dispute}
+-- 
+-- Monadic version of 'getDisputesDispute' (use with 'StripeAPI.Common.runWithConfiguration')
 getDisputesDisputeM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        GHC.Base.String ->
@@ -88,6 +92,9 @@ getDisputesDisputeM dispute
                                                                                                                                                                                                                                                                                                                                                                                            Error)
                                                                                                                                                                                        | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/disputes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel dispute)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/disputes/{dispute}
+-- 
+-- Monadic version of 'getDisputesDisputeRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getDisputesDisputeRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           GHC.Base.String ->
@@ -101,17 +108,23 @@ getDisputesDisputeRawM dispute
                        expand
                        body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/disputes/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel dispute)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetDisputesDisputeRequestBody
-    = GetDisputesDisputeRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getDisputesDisputeRequestBody
+-- 
+-- 
+data GetDisputesDisputeRequestBody = GetDisputesDisputeRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetDisputesDisputeRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetDisputesDisputeRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetDisputesDisputeRequestBody" (\obj -> GHC.Base.pure GetDisputesDisputeRequestBody)
-
-data GetDisputesDisputeResponse
-    = GetDisputesDisputeResponseError GHC.Base.String
-    | GetDisputesDisputeResponse200 Dispute
-    | GetDisputesDisputeResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getDisputesDispute'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetDisputesDisputeResponseError' is used.
+data GetDisputesDisputeResponse =                   
+   GetDisputesDisputeResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetDisputesDisputeResponse200 Dispute           -- ^ Successful response.
+  | GetDisputesDisputeResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

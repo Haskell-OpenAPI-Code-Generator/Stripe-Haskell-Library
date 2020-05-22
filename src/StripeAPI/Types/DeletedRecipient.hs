@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema DeletedRecipient
 module StripeAPI.Types.DeletedRecipient where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,30 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data DeletedRecipient
-    = DeletedRecipient {deletedRecipientDeleted :: DeletedRecipientDeleted',
-                        deletedRecipientId :: GHC.Base.String,
-                        deletedRecipientObject :: DeletedRecipientObject'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema deleted_recipient
+-- 
+-- 
+data DeletedRecipient = DeletedRecipient {
+  -- | deleted: Always true for a deleted object
+  deletedRecipientDeleted :: DeletedRecipientDeleted'
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , deletedRecipientId :: GHC.Base.String
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , deletedRecipientObject :: DeletedRecipientObject'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON DeletedRecipient
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedRecipientDeleted obj) : (Data.Aeson..=) "id" (deletedRecipientId obj) : (Data.Aeson..=) "object" (deletedRecipientObject obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedRecipientDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedRecipientId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedRecipientObject obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON DeletedRecipient
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedRecipient" (\obj -> ((GHC.Base.pure DeletedRecipient GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+-- | Defines the enum schema deleted_recipientDeleted\'
+-- 
+-- Always true for a deleted object
 data DeletedRecipientDeleted'
     = DeletedRecipientDeleted'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedRecipientDeleted'EnumTyped GHC.Types.Bool
@@ -44,6 +64,9 @@ instance Data.Aeson.FromJSON DeletedRecipientDeleted'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True
                                           then DeletedRecipientDeleted'EnumBoolTrue
                                           else DeletedRecipientDeleted'EnumOther val)
+-- | Defines the enum schema deleted_recipientObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedRecipientObject'
     = DeletedRecipientObject'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedRecipientObject'EnumTyped GHC.Base.String
@@ -57,8 +80,3 @@ instance Data.Aeson.FromJSON DeletedRecipientObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "recipient")
                                           then DeletedRecipientObject'EnumStringRecipient
                                           else DeletedRecipientObject'EnumOther val)
-instance Data.Aeson.ToJSON DeletedRecipient
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedRecipientDeleted obj) : (Data.Aeson..=) "id" (deletedRecipientId obj) : (Data.Aeson..=) "object" (deletedRecipientObject obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedRecipientDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedRecipientId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedRecipientObject obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedRecipient
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedRecipient" (\obj -> ((GHC.Base.pure DeletedRecipient GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))

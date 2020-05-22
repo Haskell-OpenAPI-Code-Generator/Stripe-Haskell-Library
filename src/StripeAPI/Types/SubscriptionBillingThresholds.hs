@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SubscriptionBillingThresholds
 module StripeAPI.Types.SubscriptionBillingThresholds where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,16 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SubscriptionBillingThresholds
-    = SubscriptionBillingThresholds {subscriptionBillingThresholdsAmountGte :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                                     subscriptionBillingThresholdsResetBillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Types.Bool)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema subscription_billing_thresholds
+-- 
+-- 
+data SubscriptionBillingThresholds = SubscriptionBillingThresholds {
+  -- | amount_gte: Monetary threshold that triggers the subscription to create an invoice
+  subscriptionBillingThresholdsAmountGte :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | reset_billing_cycle_anchor: Indicates if the \`billing_cycle_anchor\` should be reset when a threshold is reached. If true, \`billing_cycle_anchor\` will be updated to the date\/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be \`true\` if the subscription contains items with plans that have \`aggregate_usage=last_ever\`.
+  , subscriptionBillingThresholdsResetBillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Types.Bool)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SubscriptionBillingThresholds
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount_gte" (subscriptionBillingThresholdsAmountGte obj) : (Data.Aeson..=) "reset_billing_cycle_anchor" (subscriptionBillingThresholdsResetBillingCycleAnchor obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount_gte" (subscriptionBillingThresholdsAmountGte obj) GHC.Base.<> (Data.Aeson..=) "reset_billing_cycle_anchor" (subscriptionBillingThresholdsResetBillingCycleAnchor obj))

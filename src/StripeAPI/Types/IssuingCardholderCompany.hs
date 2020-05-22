@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema IssuingCardholderCompany
 module StripeAPI.Types.IssuingCardholderCompany where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,9 +27,14 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data IssuingCardholderCompany
-    = IssuingCardholderCompany {issuingCardholderCompanyTaxIdProvided :: GHC.Types.Bool}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema issuing_cardholder_company
+-- 
+-- 
+data IssuingCardholderCompany = IssuingCardholderCompany {
+  -- | tax_id_provided: Whether the company\'s business ID number was provided.
+  issuingCardholderCompanyTaxIdProvided :: GHC.Types.Bool
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON IssuingCardholderCompany
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "tax_id_provided" (issuingCardholderCompanyTaxIdProvided obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "tax_id_provided" (issuingCardholderCompanyTaxIdProvided obj))

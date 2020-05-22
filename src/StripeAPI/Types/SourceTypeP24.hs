@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTypeP24
 module StripeAPI.Types.SourceTypeP24 where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,9 +27,14 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTypeP24
-    = SourceTypeP24 {sourceTypeP24Reference :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_type_p24
+-- 
+-- 
+data SourceTypeP24 = SourceTypeP24 {
+  -- | reference
+  sourceTypeP24Reference :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeP24
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "reference" (sourceTypeP24Reference obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "reference" (sourceTypeP24Reference obj))

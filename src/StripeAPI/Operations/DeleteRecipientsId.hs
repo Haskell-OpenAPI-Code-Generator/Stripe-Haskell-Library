@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation deleteRecipientsId
 module StripeAPI.Operations.DeleteRecipientsId where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,16 +39,13 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- DELETE /v1/recipients/{id}
-deleteRecipientsId :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                    StripeAPI.Common.SecurityScheme s) =>
-                      StripeAPI.Common.Configuration s ->
-                      GHC.Base.String ->
-                      DeleteRecipientsIdRequestBody ->
-                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                            (Network.HTTP.Client.Types.Response DeleteRecipientsIdResponse))
+-- | > DELETE /v1/recipients/{id}
+-- 
+-- \<p>Permanently deletes a recipient. It cannot be undone.\<\/p>
+deleteRecipientsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                -- ^ id | Constraints: Maximum length of 5000
+  -> DeleteRecipientsIdRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteRecipientsIdResponse)) -- ^ Monad containing the result of the operation
 deleteRecipientsId config
                    id
                    body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either DeleteRecipientsIdResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> DeleteRecipientsIdResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
@@ -55,6 +53,9 @@ deleteRecipientsId config
                                                                                                                                                                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> DeleteRecipientsIdResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                           Error)
                                                                                                                                                                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > DELETE /v1/recipients/{id}
+-- 
+-- The same as 'deleteRecipientsId' but returns the raw 'Data.ByteString.Char8.ByteString'
 deleteRecipientsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          StripeAPI.Common.Configuration s ->
@@ -65,6 +66,9 @@ deleteRecipientsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
 deleteRecipientsIdRaw config
                       id
                       body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > DELETE /v1/recipients/{id}
+-- 
+-- Monadic version of 'deleteRecipientsId' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteRecipientsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        GHC.Base.String ->
@@ -79,6 +83,9 @@ deleteRecipientsIdM id
                                                                                                                                                                                        | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> DeleteRecipientsIdResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                            Error)
                                                                                                                                                                                        | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > DELETE /v1/recipients/{id}
+-- 
+-- Monadic version of 'deleteRecipientsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteRecipientsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           GHC.Base.String ->
@@ -89,17 +96,23 @@ deleteRecipientsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                                  (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 deleteRecipientsIdRawM id
                        body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data DeleteRecipientsIdRequestBody
-    = DeleteRecipientsIdRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema deleteRecipientsIdRequestBody
+-- 
+-- 
+data DeleteRecipientsIdRequestBody = DeleteRecipientsIdRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeleteRecipientsIdRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteRecipientsIdRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteRecipientsIdRequestBody" (\obj -> GHC.Base.pure DeleteRecipientsIdRequestBody)
-
-data DeleteRecipientsIdResponse
-    = DeleteRecipientsIdResponseError GHC.Base.String
-    | DeleteRecipientsIdResponse200 DeletedRecipient
-    | DeleteRecipientsIdResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'deleteRecipientsId'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'DeleteRecipientsIdResponseError' is used.
+data DeleteRecipientsIdResponse =                   
+   DeleteRecipientsIdResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | DeleteRecipientsIdResponse200 DeletedRecipient  -- ^ Successful response.
+  | DeleteRecipientsIdResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

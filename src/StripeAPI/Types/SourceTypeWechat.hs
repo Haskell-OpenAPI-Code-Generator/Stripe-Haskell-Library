@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTypeWechat
 module StripeAPI.Types.SourceTypeWechat where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,18 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTypeWechat
-    = SourceTypeWechat {sourceTypeWechatPrepayId :: (GHC.Maybe.Maybe GHC.Base.String),
-                        sourceTypeWechatQrCodeUrl :: (GHC.Maybe.Maybe GHC.Base.String),
-                        sourceTypeWechatStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_type_wechat
+-- 
+-- 
+data SourceTypeWechat = SourceTypeWechat {
+  -- | prepay_id
+  sourceTypeWechatPrepayId :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | qr_code_url
+  , sourceTypeWechatQrCodeUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | statement_descriptor
+  , sourceTypeWechatStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeWechat
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "prepay_id" (sourceTypeWechatPrepayId obj) : (Data.Aeson..=) "qr_code_url" (sourceTypeWechatQrCodeUrl obj) : (Data.Aeson..=) "statement_descriptor" (sourceTypeWechatStatementDescriptor obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "prepay_id" (sourceTypeWechatPrepayId obj) GHC.Base.<> ((Data.Aeson..=) "qr_code_url" (sourceTypeWechatQrCodeUrl obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (sourceTypeWechatStatementDescriptor obj)))

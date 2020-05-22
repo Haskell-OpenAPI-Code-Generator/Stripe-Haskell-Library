@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getRecipients
 module StripeAPI.Operations.GetRecipients where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,22 +39,19 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/recipients
-getRecipients :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                               StripeAPI.Common.SecurityScheme s) =>
-                 StripeAPI.Common.Configuration s ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Types.Bool ->
-                 GetRecipientsRequestBody ->
-                 m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                       (Network.HTTP.Client.Types.Response GetRecipientsResponse))
+-- | > GET /v1/recipients
+-- 
+-- \<p>Returns a list of your recipients. The recipients are returned sorted by creation date, with the most recently created recipients appearing first.\<\/p>
+getRecipients :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                           -- ^ created
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                           -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                           -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                  -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                           -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                           -- ^ type | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Types.Bool                                                                                            -- ^ verified: Only return recipients that are verified or unverified.
+  -> GetRecipientsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetRecipientsResponse)) -- ^ Monad containing the result of the operation
 getRecipients config
               created
               endingBefore
@@ -74,6 +72,9 @@ getRecipients config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "type",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> type') : ((Data.Text.pack "verified",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> verified) : []))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/recipients
+-- 
+-- The same as 'getRecipients' but returns the raw 'Data.ByteString.Char8.ByteString'
 getRecipientsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
                     StripeAPI.Common.Configuration s ->
@@ -103,6 +104,9 @@ getRecipientsRaw config
                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "type",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> type') : ((Data.Text.pack "verified",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> verified) : []))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/recipients
+-- 
+-- Monadic version of 'getRecipients' (use with 'StripeAPI.Common.runWithConfiguration')
 getRecipientsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                 StripeAPI.Common.SecurityScheme s) =>
                   GHC.Maybe.Maybe GHC.Base.String ->
@@ -136,6 +140,9 @@ getRecipientsM created
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "type",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> type') : ((Data.Text.pack "verified",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> verified) : []))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/recipients
+-- 
+-- Monadic version of 'getRecipientsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getRecipientsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
                      GHC.Maybe.Maybe GHC.Base.String ->
@@ -165,26 +172,53 @@ getRecipientsRawM created
                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "type",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> type') : ((Data.Text.pack "verified",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> verified) : []))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetRecipientsRequestBody
-    = GetRecipientsRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getRecipientsRequestBody
+-- 
+-- 
+data GetRecipientsRequestBody = GetRecipientsRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetRecipientsRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsRequestBody" (\obj -> GHC.Base.pure GetRecipientsRequestBody)
-
-data GetRecipientsResponse
-    = GetRecipientsResponseError GHC.Base.String
-    | GetRecipientsResponse200 GetRecipientsResponseBody200
-    | GetRecipientsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetRecipientsResponseBody200
-    = GetRecipientsResponseBody200 {getRecipientsResponseBody200Data :: ([] Recipient),
-                                    getRecipientsResponseBody200HasMore :: GHC.Types.Bool,
-                                    getRecipientsResponseBody200Object :: GetRecipientsResponseBody200Object',
-                                    getRecipientsResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getRecipients'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetRecipientsResponseError' is used.
+data GetRecipientsResponse =                               
+   GetRecipientsResponseError GHC.Base.String              -- ^ Means either no matching case available or a parse error
+  | GetRecipientsResponse200 GetRecipientsResponseBody200  -- ^ Successful response.
+  | GetRecipientsResponseDefault Error                     -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetRecipientsResponseBody200
+-- 
+-- 
+data GetRecipientsResponseBody200 = GetRecipientsResponseBody200 {
+  -- | data
+  getRecipientsResponseBody200Data :: ([] Recipient)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getRecipientsResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getRecipientsResponseBody200Object :: GetRecipientsResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  -- * Must match pattern \'^\/v1\/recipients\'
+  , getRecipientsResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetRecipientsResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getRecipientsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getRecipientsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getRecipientsResponseBody200Object obj) : (Data.Aeson..=) "url" (getRecipientsResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getRecipientsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getRecipientsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getRecipientsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getRecipientsResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsResponseBody200" (\obj -> (((GHC.Base.pure GetRecipientsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetRecipientsResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetRecipientsResponseBody200Object'
     = GetRecipientsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetRecipientsResponseBody200Object'EnumTyped GHC.Base.String
@@ -198,8 +232,3 @@ instance Data.Aeson.FromJSON GetRecipientsResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetRecipientsResponseBody200Object'EnumStringList
                                           else GetRecipientsResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetRecipientsResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getRecipientsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getRecipientsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getRecipientsResponseBody200Object obj) : (Data.Aeson..=) "url" (getRecipientsResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getRecipientsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getRecipientsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getRecipientsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getRecipientsResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsResponseBody200" (\obj -> (((GHC.Base.pure GetRecipientsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

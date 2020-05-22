@@ -1,3 +1,4 @@
+-- | Rexports all type modules (used in the operation modules).
 module StripeAPI.Types (
   module StripeAPI.CyclicTypes,
   module StripeAPI.Types.AccountCapabilities,

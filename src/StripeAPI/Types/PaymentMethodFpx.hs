@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema PaymentMethodFpx
 module StripeAPI.Types.PaymentMethodFpx where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,9 +27,22 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data PaymentMethodFpx
-    = PaymentMethodFpx {paymentMethodFpxBank :: PaymentMethodFpxBank'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema payment_method_fpx
+-- 
+-- 
+data PaymentMethodFpx = PaymentMethodFpx {
+  -- | bank: The customer\'s bank, if provided. Can be one of \`affin_bank\`, \`alliance_bank\`, \`ambank\`, \`bank_islam\`, \`bank_muamalat\`, \`bank_rakyat\`, \`bsn\`, \`cimb\`, \`hong_leong_bank\`, \`hsbc\`, \`kfh\`, \`maybank2u\`, \`ocbc\`, \`public_bank\`, \`rhb\`, \`standard_chartered\`, \`uob\`, \`deutsche_bank\`, \`maybank2e\`, or \`pb_enterprise\`.
+  paymentMethodFpxBank :: PaymentMethodFpxBank'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PaymentMethodFpx
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank" (paymentMethodFpxBank obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank" (paymentMethodFpxBank obj))
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodFpx
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodFpx" (\obj -> GHC.Base.pure PaymentMethodFpx GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bank"))
+-- | Defines the enum schema payment_method_fpxBank\'
+-- 
+-- The customer\'s bank, if provided. Can be one of \`affin_bank\`, \`alliance_bank\`, \`ambank\`, \`bank_islam\`, \`bank_muamalat\`, \`bank_rakyat\`, \`bsn\`, \`cimb\`, \`hong_leong_bank\`, \`hsbc\`, \`kfh\`, \`maybank2u\`, \`ocbc\`, \`public_bank\`, \`rhb\`, \`standard_chartered\`, \`uob\`, \`deutsche_bank\`, \`maybank2e\`, or \`pb_enterprise\`.
 data PaymentMethodFpxBank'
     = PaymentMethodFpxBank'EnumOther Data.Aeson.Types.Internal.Value
     | PaymentMethodFpxBank'EnumTyped GHC.Base.String
@@ -118,8 +132,3 @@ instance Data.Aeson.FromJSON PaymentMethodFpxBank'
                                                                                                                                                       else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "uob")
                                                                                                                                                             then PaymentMethodFpxBank'EnumStringUob
                                                                                                                                                             else PaymentMethodFpxBank'EnumOther val)
-instance Data.Aeson.ToJSON PaymentMethodFpx
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank" (paymentMethodFpxBank obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank" (paymentMethodFpxBank obj))
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodFpx
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodFpx" (\obj -> GHC.Base.pure PaymentMethodFpx GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bank"))

@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getAccountBankAccountsId
 module StripeAPI.Operations.GetAccountBankAccountsId where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/account/bank_accounts/{id}
-getAccountBankAccountsId :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                          StripeAPI.Common.SecurityScheme s) =>
-                            StripeAPI.Common.Configuration s ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Base.String ->
-                            GetAccountBankAccountsIdRequestBody ->
-                            m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                  (Network.HTTP.Client.Types.Response GetAccountBankAccountsIdResponse))
+-- | > GET /v1/account/bank_accounts/{id}
+-- 
+-- \<p>Retrieve a specified external account for a given account.\<\/p>
+getAccountBankAccountsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                      -- ^ id
+  -> GetAccountBankAccountsIdRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetAccountBankAccountsIdResponse)) -- ^ Monad containing the result of the operation
 getAccountBankAccountsId config
                          expand
                          id
@@ -58,6 +56,9 @@ getAccountBankAccountsId config
                                                                                                                                                                                                                                                                                                                                                                                                             Error)
                                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/account/bank_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/account/bank_accounts/{id}
+-- 
+-- The same as 'getAccountBankAccountsId' but returns the raw 'Data.ByteString.Char8.ByteString'
 getAccountBankAccountsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getAccountBankAccountsIdRaw config
                             id
                             body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/account/bank_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/account/bank_accounts/{id}
+-- 
+-- Monadic version of 'getAccountBankAccountsId' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountBankAccountsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getAccountBankAccountsIdM expand
                                                                                                                                                                                                                                                                                                                                                                                                              Error)
                                                                                                                                                                                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/account/bank_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/account/bank_accounts/{id}
+-- 
+-- Monadic version of 'getAccountBankAccountsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountBankAccountsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
                                 GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getAccountBankAccountsIdRawM expand
                              id
                              body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/account/bank_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetAccountBankAccountsIdRequestBody
-    = GetAccountBankAccountsIdRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getAccountBankAccountsIdRequestBody
+-- 
+-- 
+data GetAccountBankAccountsIdRequestBody = GetAccountBankAccountsIdRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetAccountBankAccountsIdRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetAccountBankAccountsIdRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountBankAccountsIdRequestBody" (\obj -> GHC.Base.pure GetAccountBankAccountsIdRequestBody)
-
-data GetAccountBankAccountsIdResponse
-    = GetAccountBankAccountsIdResponseError GHC.Base.String
-    | GetAccountBankAccountsIdResponse200 ExternalAccount
-    | GetAccountBankAccountsIdResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getAccountBankAccountsId'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetAccountBankAccountsIdResponseError' is used.
+data GetAccountBankAccountsIdResponse =                   
+   GetAccountBankAccountsIdResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetAccountBankAccountsIdResponse200 ExternalAccount   -- ^ Successful response.
+  | GetAccountBankAccountsIdResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

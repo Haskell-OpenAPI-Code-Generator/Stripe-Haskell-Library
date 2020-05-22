@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getIssuingCardsCard
 module StripeAPI.Operations.GetIssuingCardsCard where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/issuing/cards/{card}
-getIssuingCardsCard :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                     StripeAPI.Common.SecurityScheme s) =>
-                       StripeAPI.Common.Configuration s ->
-                       GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GetIssuingCardsCardRequestBody ->
-                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                             (Network.HTTP.Client.Types.Response GetIssuingCardsCardResponse))
+-- | > GET /v1/issuing/cards/{card}
+-- 
+-- \<p>Retrieves an Issuing \<code>Card\<\/code> object.\<\/p>
+getIssuingCardsCard :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                 -- ^ card | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                 -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GetIssuingCardsCardRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingCardsCardResponse)) -- ^ Monad containing the result of the operation
 getIssuingCardsCard config
                     card
                     expand
@@ -58,6 +56,9 @@ getIssuingCardsCard config
                                                                                                                                                                                                                                                                                                                                                                                              Error)
                                                                                                                                                                                         | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/cards/{card}
+-- 
+-- The same as 'getIssuingCardsCard' but returns the raw 'Data.ByteString.Char8.ByteString'
 getIssuingCardsCardRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getIssuingCardsCardRaw config
                        expand
                        body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/cards/{card}
+-- 
+-- Monadic version of 'getIssuingCardsCard' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingCardsCardM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         GHC.Base.String ->
@@ -88,6 +92,9 @@ getIssuingCardsCardM card
                                                                                                                                                                                                                                                                                                                                                                                               Error)
                                                                                                                                                                                          | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/cards/{card}
+-- 
+-- Monadic version of 'getIssuingCardsCardRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingCardsCardRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
                            GHC.Base.String ->
@@ -101,17 +108,23 @@ getIssuingCardsCardRawM card
                         expand
                         body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetIssuingCardsCardRequestBody
-    = GetIssuingCardsCardRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getIssuingCardsCardRequestBody
+-- 
+-- 
+data GetIssuingCardsCardRequestBody = GetIssuingCardsCardRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetIssuingCardsCardRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingCardsCardRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingCardsCardRequestBody" (\obj -> GHC.Base.pure GetIssuingCardsCardRequestBody)
-
-data GetIssuingCardsCardResponse
-    = GetIssuingCardsCardResponseError GHC.Base.String
-    | GetIssuingCardsCardResponse200 Issuing'card
-    | GetIssuingCardsCardResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getIssuingCardsCard'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetIssuingCardsCardResponseError' is used.
+data GetIssuingCardsCardResponse =                   
+   GetIssuingCardsCardResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetIssuingCardsCardResponse200 Issuing'card      -- ^ Successful response.
+  | GetIssuingCardsCardResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

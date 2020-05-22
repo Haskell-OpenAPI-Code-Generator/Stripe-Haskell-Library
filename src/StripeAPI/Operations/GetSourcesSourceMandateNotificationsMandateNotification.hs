@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getSourcesSourceMandateNotificationsMandateNotification
 module StripeAPI.Operations.GetSourcesSourceMandateNotificationsMandateNotification where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,18 +39,15 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/sources/{source}/mandate_notifications/{mandate_notification}
-getSourcesSourceMandateNotificationsMandateNotification :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                                         StripeAPI.Common.SecurityScheme s) =>
-                                                           StripeAPI.Common.Configuration s ->
-                                                           GHC.Maybe.Maybe GHC.Base.String ->
-                                                           GHC.Base.String ->
-                                                           GHC.Base.String ->
-                                                           GetSourcesSourceMandateNotificationsMandateNotificationRequestBody ->
-                                                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                                                 (Network.HTTP.Client.Types.Response GetSourcesSourceMandateNotificationsMandateNotificationResponse))
+-- | > GET /v1/sources/{source}/mandate_notifications/{mandate_notification}
+-- 
+-- \<p>Retrieves a new Source MandateNotification.\<\/p>
+getSourcesSourceMandateNotificationsMandateNotification :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                                                     -- ^ mandate_notification | Constraints: Maximum length of 5000
+  -> GHC.Base.String                                                                                                                                                     -- ^ source | Constraints: Maximum length of 5000
+  -> GetSourcesSourceMandateNotificationsMandateNotificationRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSourcesSourceMandateNotificationsMandateNotificationResponse)) -- ^ Monad containing the result of the operation
 getSourcesSourceMandateNotificationsMandateNotification config
                                                         expand
                                                         mandateNotification
@@ -60,6 +58,9 @@ getSourcesSourceMandateNotificationsMandateNotification config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Error)
                                                                                                                                                                                                                                                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack (("/v1/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel source)) GHC.Base.++ "/mandate_notifications/")) GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel mandateNotification)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/sources/{source}/mandate_notifications/{mandate_notification}
+-- 
+-- The same as 'getSourcesSourceMandateNotificationsMandateNotification' but returns the raw 'Data.ByteString.Char8.ByteString'
 getSourcesSourceMandateNotificationsMandateNotificationRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                             StripeAPI.Common.SecurityScheme s) =>
                                                               StripeAPI.Common.Configuration s ->
@@ -75,6 +76,9 @@ getSourcesSourceMandateNotificationsMandateNotificationRaw config
                                                            source
                                                            body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack (("/v1/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel source)) GHC.Base.++ "/mandate_notifications/")) GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel mandateNotification)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/sources/{source}/mandate_notifications/{mandate_notification}
+-- 
+-- Monadic version of 'getSourcesSourceMandateNotificationsMandateNotification' (use with 'StripeAPI.Common.runWithConfiguration')
 getSourcesSourceMandateNotificationsMandateNotificationM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                           StripeAPI.Common.SecurityScheme s) =>
                                                             GHC.Maybe.Maybe GHC.Base.String ->
@@ -94,6 +98,9 @@ getSourcesSourceMandateNotificationsMandateNotificationM expand
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Error)
                                                                                                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack (("/v1/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel source)) GHC.Base.++ "/mandate_notifications/")) GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel mandateNotification)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/sources/{source}/mandate_notifications/{mandate_notification}
+-- 
+-- Monadic version of 'getSourcesSourceMandateNotificationsMandateNotificationRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSourcesSourceMandateNotificationsMandateNotificationRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                              StripeAPI.Common.SecurityScheme s) =>
                                                                GHC.Maybe.Maybe GHC.Base.String ->
@@ -109,17 +116,23 @@ getSourcesSourceMandateNotificationsMandateNotificationRawM expand
                                                             source
                                                             body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack (("/v1/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel source)) GHC.Base.++ "/mandate_notifications/")) GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel mandateNotification)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetSourcesSourceMandateNotificationsMandateNotificationRequestBody
-    = GetSourcesSourceMandateNotificationsMandateNotificationRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getSourcesSourceMandateNotificationsMandateNotificationRequestBody
+-- 
+-- 
+data GetSourcesSourceMandateNotificationsMandateNotificationRequestBody = GetSourcesSourceMandateNotificationsMandateNotificationRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSourcesSourceMandateNotificationsMandateNotificationRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetSourcesSourceMandateNotificationsMandateNotificationRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSourcesSourceMandateNotificationsMandateNotificationRequestBody" (\obj -> GHC.Base.pure GetSourcesSourceMandateNotificationsMandateNotificationRequestBody)
-
-data GetSourcesSourceMandateNotificationsMandateNotificationResponse
-    = GetSourcesSourceMandateNotificationsMandateNotificationResponseError GHC.Base.String
-    | GetSourcesSourceMandateNotificationsMandateNotificationResponse200 SourceMandateNotification
-    | GetSourcesSourceMandateNotificationsMandateNotificationResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getSourcesSourceMandateNotificationsMandateNotification'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetSourcesSourceMandateNotificationsMandateNotificationResponseError' is used.
+data GetSourcesSourceMandateNotificationsMandateNotificationResponse =                            
+   GetSourcesSourceMandateNotificationsMandateNotificationResponseError GHC.Base.String           -- ^ Means either no matching case available or a parse error
+  | GetSourcesSourceMandateNotificationsMandateNotificationResponse200 SourceMandateNotification  -- ^ Successful response.
+  | GetSourcesSourceMandateNotificationsMandateNotificationResponseDefault Error                  -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

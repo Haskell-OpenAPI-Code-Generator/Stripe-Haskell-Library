@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema Inventory
 module StripeAPI.Types.Inventory where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,26 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data Inventory
-    = Inventory {inventoryQuantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                 inventoryType :: GHC.Base.String,
-                 inventoryValue :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema inventory
+-- 
+-- 
+data Inventory = Inventory {
+  -- | quantity: The count of inventory available. Will be present if and only if \`type\` is \`finite\`.
+  inventoryQuantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | type: Inventory type. Possible values are \`finite\`, \`bucket\` (not quantified), and \`infinite\`.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , inventoryType :: GHC.Base.String
+  -- | value: An indicator of the inventory available. Possible values are \`in_stock\`, \`limited\`, and \`out_of_stock\`. Will be present if and only if \`type\` is \`bucket\`.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , inventoryValue :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Inventory
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "quantity" (inventoryQuantity obj) : (Data.Aeson..=) "type" (inventoryType obj) : (Data.Aeson..=) "value" (inventoryValue obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "quantity" (inventoryQuantity obj) GHC.Base.<> ((Data.Aeson..=) "type" (inventoryType obj) GHC.Base.<> (Data.Aeson..=) "value" (inventoryValue obj)))

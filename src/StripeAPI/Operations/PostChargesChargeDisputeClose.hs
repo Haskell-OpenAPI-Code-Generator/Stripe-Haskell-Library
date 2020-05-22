@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation postChargesChargeDisputeClose
 module StripeAPI.Operations.PostChargesChargeDisputeClose where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,16 +39,13 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- POST /v1/charges/{charge}/dispute/close
-postChargesChargeDisputeClose :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                               StripeAPI.Common.SecurityScheme s) =>
-                                 StripeAPI.Common.Configuration s ->
-                                 GHC.Base.String ->
-                                 PostChargesChargeDisputeCloseRequestBody ->
-                                 m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                       (Network.HTTP.Client.Types.Response PostChargesChargeDisputeCloseResponse))
+-- | > POST /v1/charges/{charge}/dispute/close
+-- 
+-- 
+postChargesChargeDisputeClose :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                           -- ^ charge | Constraints: Maximum length of 5000
+  -> PostChargesChargeDisputeCloseRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostChargesChargeDisputeCloseResponse)) -- ^ Monad containing the result of the operation
 postChargesChargeDisputeClose config
                               charge
                               body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either PostChargesChargeDisputeCloseResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> PostChargesChargeDisputeCloseResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
@@ -55,6 +53,9 @@ postChargesChargeDisputeClose config
                                                                                                                                                                                                             | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostChargesChargeDisputeCloseResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                            Error)
                                                                                                                                                                                                             | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/dispute/close"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/charges/{charge}/dispute/close
+-- 
+-- The same as 'postChargesChargeDisputeClose' but returns the raw 'Data.ByteString.Char8.ByteString'
 postChargesChargeDisputeCloseRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     StripeAPI.Common.Configuration s ->
@@ -65,6 +66,9 @@ postChargesChargeDisputeCloseRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
 postChargesChargeDisputeCloseRaw config
                                  charge
                                  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/dispute/close"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/charges/{charge}/dispute/close
+-- 
+-- Monadic version of 'postChargesChargeDisputeClose' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeDisputeCloseM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   GHC.Base.String ->
@@ -79,6 +83,9 @@ postChargesChargeDisputeCloseM charge
                                                                                                                                                                                                              | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostChargesChargeDisputeCloseResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                             Error)
                                                                                                                                                                                                              | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/dispute/close"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/charges/{charge}/dispute/close
+-- 
+-- Monadic version of 'postChargesChargeDisputeCloseRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeDisputeCloseRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
                                      GHC.Base.String ->
@@ -89,17 +96,24 @@ postChargesChargeDisputeCloseRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postChargesChargeDisputeCloseRawM charge
                                   body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/dispute/close"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data PostChargesChargeDisputeCloseRequestBody
-    = PostChargesChargeDisputeCloseRequestBody {postChargesChargeDisputeCloseRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postChargesChargeDisputeCloseRequestBody
+-- 
+-- 
+data PostChargesChargeDisputeCloseRequestBody = PostChargesChargeDisputeCloseRequestBody {
+  -- | expand: Specifies which fields in the response should be expanded.
+  postChargesChargeDisputeCloseRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostChargesChargeDisputeCloseRequestBody
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postChargesChargeDisputeCloseRequestBodyExpand obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postChargesChargeDisputeCloseRequestBodyExpand obj))
 instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeDisputeCloseRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostChargesChargeDisputeCloseRequestBody" (\obj -> GHC.Base.pure PostChargesChargeDisputeCloseRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand"))
-
-data PostChargesChargeDisputeCloseResponse
-    = PostChargesChargeDisputeCloseResponseError GHC.Base.String
-    | PostChargesChargeDisputeCloseResponse200 Dispute
-    | PostChargesChargeDisputeCloseResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'postChargesChargeDisputeClose'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'PostChargesChargeDisputeCloseResponseError' is used.
+data PostChargesChargeDisputeCloseResponse =                   
+   PostChargesChargeDisputeCloseResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | PostChargesChargeDisputeCloseResponse200 Dispute           -- ^ Successful response.
+  | PostChargesChargeDisputeCloseResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

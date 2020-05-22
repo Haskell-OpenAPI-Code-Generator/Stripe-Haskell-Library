@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getCountrySpecs
 module StripeAPI.Operations.GetCountrySpecs where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,19 +39,16 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/country_specs
-getCountrySpecs :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                 StripeAPI.Common.SecurityScheme s) =>
-                   StripeAPI.Common.Configuration s ->
-                   GHC.Maybe.Maybe GHC.Base.String ->
-                   GHC.Maybe.Maybe GHC.Base.String ->
-                   GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                   GHC.Maybe.Maybe GHC.Base.String ->
-                   GetCountrySpecsRequestBody ->
-                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                         (Network.HTTP.Client.Types.Response GetCountrySpecsResponse))
+-- | > GET /v1/country_specs
+-- 
+-- \<p>Lists all Country Spec objects available in the API.\<\/p>
+getCountrySpecs :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                    -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GetCountrySpecsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCountrySpecsResponse)) -- ^ Monad containing the result of the operation
 getCountrySpecs config
                 endingBefore
                 expand
@@ -65,6 +63,9 @@ getCountrySpecs config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/country_specs
+-- 
+-- The same as 'getCountrySpecs' but returns the raw 'Data.ByteString.Char8.ByteString'
 getCountrySpecsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
                       StripeAPI.Common.Configuration s ->
@@ -85,6 +86,9 @@ getCountrySpecsRaw config
                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/country_specs
+-- 
+-- Monadic version of 'getCountrySpecs' (use with 'StripeAPI.Common.runWithConfiguration')
 getCountrySpecsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
                     GHC.Maybe.Maybe GHC.Base.String ->
@@ -109,6 +113,9 @@ getCountrySpecsM endingBefore
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/country_specs
+-- 
+-- Monadic version of 'getCountrySpecsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCountrySpecsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        GHC.Maybe.Maybe GHC.Base.String ->
@@ -129,26 +136,53 @@ getCountrySpecsRawM endingBefore
                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetCountrySpecsRequestBody
-    = GetCountrySpecsRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getCountrySpecsRequestBody
+-- 
+-- 
+data GetCountrySpecsRequestBody = GetCountrySpecsRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetCountrySpecsRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetCountrySpecsRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCountrySpecsRequestBody" (\obj -> GHC.Base.pure GetCountrySpecsRequestBody)
-
-data GetCountrySpecsResponse
-    = GetCountrySpecsResponseError GHC.Base.String
-    | GetCountrySpecsResponse200 GetCountrySpecsResponseBody200
-    | GetCountrySpecsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetCountrySpecsResponseBody200
-    = GetCountrySpecsResponseBody200 {getCountrySpecsResponseBody200Data :: ([] CountrySpec),
-                                      getCountrySpecsResponseBody200HasMore :: GHC.Types.Bool,
-                                      getCountrySpecsResponseBody200Object :: GetCountrySpecsResponseBody200Object',
-                                      getCountrySpecsResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getCountrySpecs'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetCountrySpecsResponseError' is used.
+data GetCountrySpecsResponse =                                 
+   GetCountrySpecsResponseError GHC.Base.String                -- ^ Means either no matching case available or a parse error
+  | GetCountrySpecsResponse200 GetCountrySpecsResponseBody200  -- ^ Successful response.
+  | GetCountrySpecsResponseDefault Error                       -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetCountrySpecsResponseBody200
+-- 
+-- 
+data GetCountrySpecsResponseBody200 = GetCountrySpecsResponseBody200 {
+  -- | data
+  getCountrySpecsResponseBody200Data :: ([] CountrySpec)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getCountrySpecsResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getCountrySpecsResponseBody200Object :: GetCountrySpecsResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  -- * Must match pattern \'^\/v1\/country_specs\'
+  , getCountrySpecsResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetCountrySpecsResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCountrySpecsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCountrySpecsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCountrySpecsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCountrySpecsResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCountrySpecsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCountrySpecsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCountrySpecsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCountrySpecsResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetCountrySpecsResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCountrySpecsResponseBody200" (\obj -> (((GHC.Base.pure GetCountrySpecsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetCountrySpecsResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetCountrySpecsResponseBody200Object'
     = GetCountrySpecsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetCountrySpecsResponseBody200Object'EnumTyped GHC.Base.String
@@ -162,8 +196,3 @@ instance Data.Aeson.FromJSON GetCountrySpecsResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetCountrySpecsResponseBody200Object'EnumStringList
                                           else GetCountrySpecsResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetCountrySpecsResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCountrySpecsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCountrySpecsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCountrySpecsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCountrySpecsResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCountrySpecsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCountrySpecsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCountrySpecsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCountrySpecsResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetCountrySpecsResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCountrySpecsResponseBody200" (\obj -> (((GHC.Base.pure GetCountrySpecsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

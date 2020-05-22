@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema ApplePayDomain
 module StripeAPI.Types.ApplePayDomain where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,13 +27,38 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data ApplePayDomain
-    = ApplePayDomain {applePayDomainCreated :: GHC.Integer.Type.Integer,
-                      applePayDomainDomainName :: GHC.Base.String,
-                      applePayDomainId :: GHC.Base.String,
-                      applePayDomainLivemode :: GHC.Types.Bool,
-                      applePayDomainObject :: ApplePayDomainObject'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema apple_pay_domain
+-- 
+-- 
+data ApplePayDomain = ApplePayDomain {
+  -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
+  applePayDomainCreated :: GHC.Integer.Type.Integer
+  -- | domain_name
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , applePayDomainDomainName :: GHC.Base.String
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , applePayDomainId :: GHC.Base.String
+  -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
+  , applePayDomainLivemode :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , applePayDomainObject :: ApplePayDomainObject'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON ApplePayDomain
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "created" (applePayDomainCreated obj) : (Data.Aeson..=) "domain_name" (applePayDomainDomainName obj) : (Data.Aeson..=) "id" (applePayDomainId obj) : (Data.Aeson..=) "livemode" (applePayDomainLivemode obj) : (Data.Aeson..=) "object" (applePayDomainObject obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "created" (applePayDomainCreated obj) GHC.Base.<> ((Data.Aeson..=) "domain_name" (applePayDomainDomainName obj) GHC.Base.<> ((Data.Aeson..=) "id" (applePayDomainId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (applePayDomainLivemode obj) GHC.Base.<> (Data.Aeson..=) "object" (applePayDomainObject obj)))))
+instance Data.Aeson.Types.FromJSON.FromJSON ApplePayDomain
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "ApplePayDomain" (\obj -> ((((GHC.Base.pure ApplePayDomain GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "domain_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+-- | Defines the enum schema apple_pay_domainObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data ApplePayDomainObject'
     = ApplePayDomainObject'EnumOther Data.Aeson.Types.Internal.Value
     | ApplePayDomainObject'EnumTyped GHC.Base.String
@@ -46,8 +72,3 @@ instance Data.Aeson.FromJSON ApplePayDomainObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "apple_pay_domain")
                                           then ApplePayDomainObject'EnumStringApplePayDomain
                                           else ApplePayDomainObject'EnumOther val)
-instance Data.Aeson.ToJSON ApplePayDomain
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "created" (applePayDomainCreated obj) : (Data.Aeson..=) "domain_name" (applePayDomainDomainName obj) : (Data.Aeson..=) "id" (applePayDomainId obj) : (Data.Aeson..=) "livemode" (applePayDomainLivemode obj) : (Data.Aeson..=) "object" (applePayDomainObject obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "created" (applePayDomainCreated obj) GHC.Base.<> ((Data.Aeson..=) "domain_name" (applePayDomainDomainName obj) GHC.Base.<> ((Data.Aeson..=) "id" (applePayDomainId obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (applePayDomainLivemode obj) GHC.Base.<> (Data.Aeson..=) "object" (applePayDomainObject obj)))))
-instance Data.Aeson.Types.FromJSON.FromJSON ApplePayDomain
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "ApplePayDomain" (\obj -> ((((GHC.Base.pure ApplePayDomain GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "domain_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))

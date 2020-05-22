@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema Period
 module StripeAPI.Types.Period where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,16 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data Period
-    = Period {periodEnd :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-              periodStart :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema period
+-- 
+-- 
+data Period = Period {
+  -- | end: The end date of this usage period. All usage up to and including this point in time is included.
+  periodEnd :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | start: The start date of this usage period. All usage after this point in time is included.
+  , periodStart :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Period
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "end" (periodEnd obj) : (Data.Aeson..=) "start" (periodStart obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "end" (periodEnd obj) GHC.Base.<> (Data.Aeson..=) "start" (periodStart obj))

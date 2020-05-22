@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTypeAchCreditTransfer
 module StripeAPI.Types.SourceTypeAchCreditTransfer where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,16 +27,28 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTypeAchCreditTransfer
-    = SourceTypeAchCreditTransfer {sourceTypeAchCreditTransferAccountNumber :: (GHC.Maybe.Maybe GHC.Base.String),
-                                   sourceTypeAchCreditTransferBankName :: (GHC.Maybe.Maybe GHC.Base.String),
-                                   sourceTypeAchCreditTransferFingerprint :: (GHC.Maybe.Maybe GHC.Base.String),
-                                   sourceTypeAchCreditTransferRefundAccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String),
-                                   sourceTypeAchCreditTransferRefundAccountHolderType :: (GHC.Maybe.Maybe GHC.Base.String),
-                                   sourceTypeAchCreditTransferRefundRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String),
-                                   sourceTypeAchCreditTransferRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String),
-                                   sourceTypeAchCreditTransferSwiftCode :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_type_ach_credit_transfer
+-- 
+-- 
+data SourceTypeAchCreditTransfer = SourceTypeAchCreditTransfer {
+  -- | account_number
+  sourceTypeAchCreditTransferAccountNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | bank_name
+  , sourceTypeAchCreditTransferBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | fingerprint
+  , sourceTypeAchCreditTransferFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | refund_account_holder_name
+  , sourceTypeAchCreditTransferRefundAccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | refund_account_holder_type
+  , sourceTypeAchCreditTransferRefundAccountHolderType :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | refund_routing_number
+  , sourceTypeAchCreditTransferRefundRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | routing_number
+  , sourceTypeAchCreditTransferRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | swift_code
+  , sourceTypeAchCreditTransferSwiftCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeAchCreditTransfer
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account_number" (sourceTypeAchCreditTransferAccountNumber obj) : (Data.Aeson..=) "bank_name" (sourceTypeAchCreditTransferBankName obj) : (Data.Aeson..=) "fingerprint" (sourceTypeAchCreditTransferFingerprint obj) : (Data.Aeson..=) "refund_account_holder_name" (sourceTypeAchCreditTransferRefundAccountHolderName obj) : (Data.Aeson..=) "refund_account_holder_type" (sourceTypeAchCreditTransferRefundAccountHolderType obj) : (Data.Aeson..=) "refund_routing_number" (sourceTypeAchCreditTransferRefundRoutingNumber obj) : (Data.Aeson..=) "routing_number" (sourceTypeAchCreditTransferRoutingNumber obj) : (Data.Aeson..=) "swift_code" (sourceTypeAchCreditTransferSwiftCode obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account_number" (sourceTypeAchCreditTransferAccountNumber obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (sourceTypeAchCreditTransferBankName obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (sourceTypeAchCreditTransferFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_name" (sourceTypeAchCreditTransferRefundAccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "refund_account_holder_type" (sourceTypeAchCreditTransferRefundAccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "refund_routing_number" (sourceTypeAchCreditTransferRefundRoutingNumber obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (sourceTypeAchCreditTransferRoutingNumber obj) GHC.Base.<> (Data.Aeson..=) "swift_code" (sourceTypeAchCreditTransferSwiftCode obj))))))))

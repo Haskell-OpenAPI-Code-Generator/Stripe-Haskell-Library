@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema BalanceAmountBySourceType
 module StripeAPI.Types.BalanceAmountBySourceType where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,18 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data BalanceAmountBySourceType
-    = BalanceAmountBySourceType {balanceAmountBySourceTypeBankAccount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                                 balanceAmountBySourceTypeCard :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                                 balanceAmountBySourceTypeFpx :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema balance_amount_by_source_type
+-- 
+-- 
+data BalanceAmountBySourceType = BalanceAmountBySourceType {
+  -- | bank_account: Amount for bank account.
+  balanceAmountBySourceTypeBankAccount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | card: Amount for card.
+  , balanceAmountBySourceTypeCard :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | fpx: Amount for FPX.
+  , balanceAmountBySourceTypeFpx :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON BalanceAmountBySourceType
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_account" (balanceAmountBySourceTypeBankAccount obj) : (Data.Aeson..=) "card" (balanceAmountBySourceTypeCard obj) : (Data.Aeson..=) "fpx" (balanceAmountBySourceTypeFpx obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_account" (balanceAmountBySourceTypeBankAccount obj) GHC.Base.<> ((Data.Aeson..=) "card" (balanceAmountBySourceTypeCard obj) GHC.Base.<> (Data.Aeson..=) "fpx" (balanceAmountBySourceTypeFpx obj)))

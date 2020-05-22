@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema TransferSchedule
 module StripeAPI.Types.TransferSchedule where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,28 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data TransferSchedule
-    = TransferSchedule {transferScheduleDelayDays :: GHC.Integer.Type.Integer,
-                        transferScheduleInterval :: GHC.Base.String,
-                        transferScheduleMonthlyAnchor :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                        transferScheduleWeeklyAnchor :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema transfer_schedule
+-- 
+-- 
+data TransferSchedule = TransferSchedule {
+  -- | delay_days: The number of days charges for the account will be held before being paid out.
+  transferScheduleDelayDays :: GHC.Integer.Type.Integer
+  -- | interval: How frequently funds will be paid out. One of \`manual\` (payouts only created via API call), \`daily\`, \`weekly\`, or \`monthly\`.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , transferScheduleInterval :: GHC.Base.String
+  -- | monthly_anchor: The day of the month funds will be paid out. Only shown if \`interval\` is monthly. Payouts scheduled between the 29th and 31st of the month are sent on the last day of shorter months.
+  , transferScheduleMonthlyAnchor :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | weekly_anchor: The day of the week funds will be paid out, of the style \'monday\', \'tuesday\', etc. Only shown if \`interval\` is weekly.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , transferScheduleWeeklyAnchor :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON TransferSchedule
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "delay_days" (transferScheduleDelayDays obj) : (Data.Aeson..=) "interval" (transferScheduleInterval obj) : (Data.Aeson..=) "monthly_anchor" (transferScheduleMonthlyAnchor obj) : (Data.Aeson..=) "weekly_anchor" (transferScheduleWeeklyAnchor obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "delay_days" (transferScheduleDelayDays obj) GHC.Base.<> ((Data.Aeson..=) "interval" (transferScheduleInterval obj) GHC.Base.<> ((Data.Aeson..=) "monthly_anchor" (transferScheduleMonthlyAnchor obj) GHC.Base.<> (Data.Aeson..=) "weekly_anchor" (transferScheduleWeeklyAnchor obj))))

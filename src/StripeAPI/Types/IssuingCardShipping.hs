@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema IssuingCardShipping
 module StripeAPI.Types.IssuingCardShipping where
 
 import qualified Prelude as GHC.Integer.Type
@@ -27,17 +28,50 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.Types.Address
 
-data IssuingCardShipping
-    = IssuingCardShipping {issuingCardShippingAddress :: Address,
-                           issuingCardShippingCarrier :: (GHC.Maybe.Maybe IssuingCardShippingCarrier'),
-                           issuingCardShippingEta :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                           issuingCardShippingName :: GHC.Base.String,
-                           issuingCardShippingSpeed :: IssuingCardShippingSpeed',
-                           issuingCardShippingStatus :: (GHC.Maybe.Maybe IssuingCardShippingStatus'),
-                           issuingCardShippingTrackingNumber :: (GHC.Maybe.Maybe GHC.Base.String),
-                           issuingCardShippingTrackingUrl :: (GHC.Maybe.Maybe GHC.Base.String),
-                           issuingCardShippingType :: IssuingCardShippingType'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema issuing_card_shipping
+-- 
+-- 
+data IssuingCardShipping = IssuingCardShipping {
+  -- | address: 
+  issuingCardShippingAddress :: Address
+  -- | carrier: The delivery company that shipped a card.
+  , issuingCardShippingCarrier :: (GHC.Maybe.Maybe IssuingCardShippingCarrier')
+  -- | eta: A unix timestamp representing a best estimate of when the card will be delivered.
+  , issuingCardShippingEta :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | name: Recipient name.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuingCardShippingName :: GHC.Base.String
+  -- | speed: Shipment speed.
+  , issuingCardShippingSpeed :: IssuingCardShippingSpeed'
+  -- | status: The delivery status of the card.
+  , issuingCardShippingStatus :: (GHC.Maybe.Maybe IssuingCardShippingStatus')
+  -- | tracking_number: A tracking number for a card shipment.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuingCardShippingTrackingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | tracking_url: A link to the shipping carrier\'s site where you can view detailed information about a card shipment.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuingCardShippingTrackingUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | type: Packaging options.
+  , issuingCardShippingType :: IssuingCardShippingType'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON IssuingCardShipping
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (issuingCardShippingAddress obj) : (Data.Aeson..=) "carrier" (issuingCardShippingCarrier obj) : (Data.Aeson..=) "eta" (issuingCardShippingEta obj) : (Data.Aeson..=) "name" (issuingCardShippingName obj) : (Data.Aeson..=) "speed" (issuingCardShippingSpeed obj) : (Data.Aeson..=) "status" (issuingCardShippingStatus obj) : (Data.Aeson..=) "tracking_number" (issuingCardShippingTrackingNumber obj) : (Data.Aeson..=) "tracking_url" (issuingCardShippingTrackingUrl obj) : (Data.Aeson..=) "type" (issuingCardShippingType obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (issuingCardShippingAddress obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (issuingCardShippingCarrier obj) GHC.Base.<> ((Data.Aeson..=) "eta" (issuingCardShippingEta obj) GHC.Base.<> ((Data.Aeson..=) "name" (issuingCardShippingName obj) GHC.Base.<> ((Data.Aeson..=) "speed" (issuingCardShippingSpeed obj) GHC.Base.<> ((Data.Aeson..=) "status" (issuingCardShippingStatus obj) GHC.Base.<> ((Data.Aeson..=) "tracking_number" (issuingCardShippingTrackingNumber obj) GHC.Base.<> ((Data.Aeson..=) "tracking_url" (issuingCardShippingTrackingUrl obj) GHC.Base.<> (Data.Aeson..=) "type" (issuingCardShippingType obj)))))))))
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardShipping
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardShipping" (\obj -> ((((((((GHC.Base.pure IssuingCardShipping GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eta")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "speed")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
+-- | Defines the enum schema issuing_card_shippingCarrier\'
+-- 
+-- The delivery company that shipped a card.
 data IssuingCardShippingCarrier'
     = IssuingCardShippingCarrier'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingCardShippingCarrier'EnumTyped GHC.Base.String
@@ -55,6 +89,9 @@ instance Data.Aeson.FromJSON IssuingCardShippingCarrier'
                                           else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "usps")
                                                 then IssuingCardShippingCarrier'EnumStringUsps
                                                 else IssuingCardShippingCarrier'EnumOther val)
+-- | Defines the enum schema issuing_card_shippingSpeed\'
+-- 
+-- Shipment speed.
 data IssuingCardShippingSpeed'
     = IssuingCardShippingSpeed'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingCardShippingSpeed'EnumTyped GHC.Base.String
@@ -76,6 +113,9 @@ instance Data.Aeson.FromJSON IssuingCardShippingSpeed'
                                                 else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "standard")
                                                       then IssuingCardShippingSpeed'EnumStringStandard
                                                       else IssuingCardShippingSpeed'EnumOther val)
+-- | Defines the enum schema issuing_card_shippingStatus\'
+-- 
+-- The delivery status of the card.
 data IssuingCardShippingStatus'
     = IssuingCardShippingStatus'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingCardShippingStatus'EnumTyped GHC.Base.String
@@ -109,6 +149,9 @@ instance Data.Aeson.FromJSON IssuingCardShippingStatus'
                                                                   else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "shipped")
                                                                         then IssuingCardShippingStatus'EnumStringShipped
                                                                         else IssuingCardShippingStatus'EnumOther val)
+-- | Defines the enum schema issuing_card_shippingType\'
+-- 
+-- Packaging options.
 data IssuingCardShippingType'
     = IssuingCardShippingType'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingCardShippingType'EnumTyped GHC.Base.String
@@ -126,8 +169,3 @@ instance Data.Aeson.FromJSON IssuingCardShippingType'
                                           else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "individual")
                                                 then IssuingCardShippingType'EnumStringIndividual
                                                 else IssuingCardShippingType'EnumOther val)
-instance Data.Aeson.ToJSON IssuingCardShipping
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (issuingCardShippingAddress obj) : (Data.Aeson..=) "carrier" (issuingCardShippingCarrier obj) : (Data.Aeson..=) "eta" (issuingCardShippingEta obj) : (Data.Aeson..=) "name" (issuingCardShippingName obj) : (Data.Aeson..=) "speed" (issuingCardShippingSpeed obj) : (Data.Aeson..=) "status" (issuingCardShippingStatus obj) : (Data.Aeson..=) "tracking_number" (issuingCardShippingTrackingNumber obj) : (Data.Aeson..=) "tracking_url" (issuingCardShippingTrackingUrl obj) : (Data.Aeson..=) "type" (issuingCardShippingType obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (issuingCardShippingAddress obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (issuingCardShippingCarrier obj) GHC.Base.<> ((Data.Aeson..=) "eta" (issuingCardShippingEta obj) GHC.Base.<> ((Data.Aeson..=) "name" (issuingCardShippingName obj) GHC.Base.<> ((Data.Aeson..=) "speed" (issuingCardShippingSpeed obj) GHC.Base.<> ((Data.Aeson..=) "status" (issuingCardShippingStatus obj) GHC.Base.<> ((Data.Aeson..=) "tracking_number" (issuingCardShippingTrackingNumber obj) GHC.Base.<> ((Data.Aeson..=) "tracking_url" (issuingCardShippingTrackingUrl obj) GHC.Base.<> (Data.Aeson..=) "type" (issuingCardShippingType obj)))))))))
-instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardShipping
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingCardShipping" (\obj -> ((((((((GHC.Base.pure IssuingCardShipping GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "carrier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "eta")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "speed")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tracking_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))

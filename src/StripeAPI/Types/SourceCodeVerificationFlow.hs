@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceCodeVerificationFlow
 module StripeAPI.Types.SourceCodeVerificationFlow where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,20 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceCodeVerificationFlow
-    = SourceCodeVerificationFlow {sourceCodeVerificationFlowAttemptsRemaining :: GHC.Integer.Type.Integer,
-                                  sourceCodeVerificationFlowStatus :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_code_verification_flow
+-- 
+-- 
+data SourceCodeVerificationFlow = SourceCodeVerificationFlow {
+  -- | attempts_remaining: The number of attempts remaining to authenticate the source object with a verification code.
+  sourceCodeVerificationFlowAttemptsRemaining :: GHC.Integer.Type.Integer
+  -- | status: The status of the code verification, either \`pending\` (awaiting verification, \`attempts_remaining\` should be greater than 0), \`succeeded\` (successful verification) or \`failed\` (failed verification, cannot be verified anymore as \`attempts_remaining\` should be 0).
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceCodeVerificationFlowStatus :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceCodeVerificationFlow
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "attempts_remaining" (sourceCodeVerificationFlowAttemptsRemaining obj) : (Data.Aeson..=) "status" (sourceCodeVerificationFlowStatus obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "attempts_remaining" (sourceCodeVerificationFlowAttemptsRemaining obj) GHC.Base.<> (Data.Aeson..=) "status" (sourceCodeVerificationFlowStatus obj))

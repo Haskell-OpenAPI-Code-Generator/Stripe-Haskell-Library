@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getFileLinks
 module StripeAPI.Operations.GetFileLinks where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,22 +39,19 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/file_links
-getFileLinks :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                              StripeAPI.Common.SecurityScheme s) =>
-                StripeAPI.Common.Configuration s ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GHC.Maybe.Maybe GHC.Types.Bool ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GetFileLinksRequestBody ->
-                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                      (Network.HTTP.Client.Types.Response GetFileLinksResponse))
+-- | > GET /v1/file_links
+-- 
+-- \<p>Returns a list of file links.\<\/p>
+getFileLinks :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ created
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Types.Bool                                                                                           -- ^ expired: Filter links by their expiration status. By default, all links are returned.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ file: Only return links for the given file. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                 -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+  -> GetFileLinksRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetFileLinksResponse)) -- ^ Monad containing the result of the operation
 getFileLinks config
              created
              endingBefore
@@ -74,6 +72,9 @@ getFileLinks config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> file) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/file_links
+-- 
+-- The same as 'getFileLinks' but returns the raw 'Data.ByteString.Char8.ByteString'
 getFileLinksRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                  StripeAPI.Common.SecurityScheme s) =>
                    StripeAPI.Common.Configuration s ->
@@ -103,6 +104,9 @@ getFileLinksRaw config
                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> file) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/file_links
+-- 
+-- Monadic version of 'getFileLinks' (use with 'StripeAPI.Common.runWithConfiguration')
 getFileLinksM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
                  GHC.Maybe.Maybe GHC.Base.String ->
@@ -136,6 +140,9 @@ getFileLinksM created
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> file) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/file_links
+-- 
+-- Monadic version of 'getFileLinksRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getFileLinksRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
                     GHC.Maybe.Maybe GHC.Base.String ->
@@ -165,26 +172,53 @@ getFileLinksRawM created
                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> file) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetFileLinksRequestBody
-    = GetFileLinksRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getFileLinksRequestBody
+-- 
+-- 
+data GetFileLinksRequestBody = GetFileLinksRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetFileLinksRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetFileLinksRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFileLinksRequestBody" (\obj -> GHC.Base.pure GetFileLinksRequestBody)
-
-data GetFileLinksResponse
-    = GetFileLinksResponseError GHC.Base.String
-    | GetFileLinksResponse200 GetFileLinksResponseBody200
-    | GetFileLinksResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetFileLinksResponseBody200
-    = GetFileLinksResponseBody200 {getFileLinksResponseBody200Data :: ([] FileLink),
-                                   getFileLinksResponseBody200HasMore :: GHC.Types.Bool,
-                                   getFileLinksResponseBody200Object :: GetFileLinksResponseBody200Object',
-                                   getFileLinksResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getFileLinks'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetFileLinksResponseError' is used.
+data GetFileLinksResponse =                              
+   GetFileLinksResponseError GHC.Base.String             -- ^ Means either no matching case available or a parse error
+  | GetFileLinksResponse200 GetFileLinksResponseBody200  -- ^ Successful response.
+  | GetFileLinksResponseDefault Error                    -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetFileLinksResponseBody200
+-- 
+-- 
+data GetFileLinksResponseBody200 = GetFileLinksResponseBody200 {
+  -- | data
+  getFileLinksResponseBody200Data :: ([] FileLink)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getFileLinksResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getFileLinksResponseBody200Object :: GetFileLinksResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  -- * Must match pattern \'^\/v1\/file_links\'
+  , getFileLinksResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetFileLinksResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getFileLinksResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getFileLinksResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getFileLinksResponseBody200Object obj) : (Data.Aeson..=) "url" (getFileLinksResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getFileLinksResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getFileLinksResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getFileLinksResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getFileLinksResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetFileLinksResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFileLinksResponseBody200" (\obj -> (((GHC.Base.pure GetFileLinksResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetFileLinksResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetFileLinksResponseBody200Object'
     = GetFileLinksResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetFileLinksResponseBody200Object'EnumTyped GHC.Base.String
@@ -198,8 +232,3 @@ instance Data.Aeson.FromJSON GetFileLinksResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetFileLinksResponseBody200Object'EnumStringList
                                           else GetFileLinksResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetFileLinksResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getFileLinksResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getFileLinksResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getFileLinksResponseBody200Object obj) : (Data.Aeson..=) "url" (getFileLinksResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getFileLinksResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getFileLinksResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getFileLinksResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getFileLinksResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetFileLinksResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetFileLinksResponseBody200" (\obj -> (((GHC.Base.pure GetFileLinksResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

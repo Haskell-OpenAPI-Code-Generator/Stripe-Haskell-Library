@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SubscriptionPendingInvoiceItemInterval
 module StripeAPI.Types.SubscriptionPendingInvoiceItemInterval where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SubscriptionPendingInvoiceItemInterval
-    = SubscriptionPendingInvoiceItemInterval {subscriptionPendingInvoiceItemIntervalInterval :: SubscriptionPendingInvoiceItemIntervalInterval',
-                                              subscriptionPendingInvoiceItemIntervalIntervalCount :: GHC.Integer.Type.Integer}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema subscription_pending_invoice_item_interval
+-- 
+-- 
+data SubscriptionPendingInvoiceItemInterval = SubscriptionPendingInvoiceItemInterval {
+  -- | interval: Specifies invoicing frequency. Either \`day\`, \`week\`, \`month\` or \`year\`.
+  subscriptionPendingInvoiceItemIntervalInterval :: SubscriptionPendingInvoiceItemIntervalInterval'
+  -- | interval_count: The number of intervals between invoices. For example, \`interval=month\` and \`interval_count=3\` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
+  , subscriptionPendingInvoiceItemIntervalIntervalCount :: GHC.Integer.Type.Integer
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON SubscriptionPendingInvoiceItemInterval
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "interval" (subscriptionPendingInvoiceItemIntervalInterval obj) : (Data.Aeson..=) "interval_count" (subscriptionPendingInvoiceItemIntervalIntervalCount obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "interval" (subscriptionPendingInvoiceItemIntervalInterval obj) GHC.Base.<> (Data.Aeson..=) "interval_count" (subscriptionPendingInvoiceItemIntervalIntervalCount obj))
+instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPendingInvoiceItemInterval
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionPendingInvoiceItemInterval" (\obj -> (GHC.Base.pure SubscriptionPendingInvoiceItemInterval GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval_count"))
+-- | Defines the enum schema subscription_pending_invoice_item_intervalInterval\'
+-- 
+-- Specifies invoicing frequency. Either \`day\`, \`week\`, \`month\` or \`year\`.
 data SubscriptionPendingInvoiceItemIntervalInterval'
     = SubscriptionPendingInvoiceItemIntervalInterval'EnumOther Data.Aeson.Types.Internal.Value
     | SubscriptionPendingInvoiceItemIntervalInterval'EnumTyped GHC.Base.String
@@ -55,8 +70,3 @@ instance Data.Aeson.FromJSON SubscriptionPendingInvoiceItemIntervalInterval'
                                                       else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "year")
                                                             then SubscriptionPendingInvoiceItemIntervalInterval'EnumStringYear
                                                             else SubscriptionPendingInvoiceItemIntervalInterval'EnumOther val)
-instance Data.Aeson.ToJSON SubscriptionPendingInvoiceItemInterval
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "interval" (subscriptionPendingInvoiceItemIntervalInterval obj) : (Data.Aeson..=) "interval_count" (subscriptionPendingInvoiceItemIntervalIntervalCount obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "interval" (subscriptionPendingInvoiceItemIntervalInterval obj) GHC.Base.<> (Data.Aeson..=) "interval_count" (subscriptionPendingInvoiceItemIntervalIntervalCount obj))
-instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPendingInvoiceItemInterval
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "SubscriptionPendingInvoiceItemInterval" (\obj -> (GHC.Base.pure SubscriptionPendingInvoiceItemInterval GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interval_count"))

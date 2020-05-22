@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceOrder
 module StripeAPI.Types.SourceOrder where
 
 import qualified Prelude as GHC.Integer.Type
@@ -28,13 +29,26 @@ import qualified StripeAPI.Common
 import StripeAPI.Types.Shipping
 import StripeAPI.Types.SourceOrderItem
 
-data SourceOrder
-    = SourceOrder {sourceOrderAmount :: GHC.Integer.Type.Integer,
-                   sourceOrderCurrency :: GHC.Base.String,
-                   sourceOrderEmail :: (GHC.Maybe.Maybe GHC.Base.String),
-                   sourceOrderItems :: (GHC.Maybe.Maybe ([] SourceOrderItem)),
-                   sourceOrderShipping :: (GHC.Maybe.Maybe Shipping)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_order
+-- 
+-- 
+data SourceOrder = SourceOrder {
+  -- | amount: A positive integer in the smallest currency unit (that is, 100 cents for \$1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount for the order.
+  sourceOrderAmount :: GHC.Integer.Type.Integer
+  -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+  , sourceOrderCurrency :: GHC.Base.String
+  -- | email: The email address of the customer placing the order.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceOrderEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | items: List of items constituting the order.
+  , sourceOrderItems :: (GHC.Maybe.Maybe ([] SourceOrderItem))
+  -- | shipping: 
+  , sourceOrderShipping :: (GHC.Maybe.Maybe Shipping)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceOrder
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (sourceOrderAmount obj) : (Data.Aeson..=) "currency" (sourceOrderCurrency obj) : (Data.Aeson..=) "email" (sourceOrderEmail obj) : (Data.Aeson..=) "items" (sourceOrderItems obj) : (Data.Aeson..=) "shipping" (sourceOrderShipping obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (sourceOrderAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (sourceOrderCurrency obj) GHC.Base.<> ((Data.Aeson..=) "email" (sourceOrderEmail obj) GHC.Base.<> ((Data.Aeson..=) "items" (sourceOrderItems obj) GHC.Base.<> (Data.Aeson..=) "shipping" (sourceOrderShipping obj)))))

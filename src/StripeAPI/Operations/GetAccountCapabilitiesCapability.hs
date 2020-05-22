@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getAccountCapabilitiesCapability
 module StripeAPI.Operations.GetAccountCapabilitiesCapability where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/account/capabilities/{capability}
-getAccountCapabilitiesCapability :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                  StripeAPI.Common.SecurityScheme s) =>
-                                    StripeAPI.Common.Configuration s ->
-                                    GHC.Base.String ->
-                                    GHC.Maybe.Maybe GHC.Base.String ->
-                                    GetAccountCapabilitiesCapabilityRequestBody ->
-                                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                          (Network.HTTP.Client.Types.Response GetAccountCapabilitiesCapabilityResponse))
+-- | > GET /v1/account/capabilities/{capability}
+-- 
+-- \<p>Retrieves information about the specified Account Capability.\<\/p>
+getAccountCapabilitiesCapability :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                              -- ^ capability
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GetAccountCapabilitiesCapabilityRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetAccountCapabilitiesCapabilityResponse)) -- ^ Monad containing the result of the operation
 getAccountCapabilitiesCapability config
                                  capability
                                  expand
@@ -58,6 +56,9 @@ getAccountCapabilitiesCapability config
                                                                                                                                                                                                                                                                                                                                                                                                                                     Error)
                                                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/account/capabilities/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel capability)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/account/capabilities/{capability}
+-- 
+-- The same as 'getAccountCapabilitiesCapability' but returns the raw 'Data.ByteString.Char8.ByteString'
 getAccountCapabilitiesCapabilityRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
                                        StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getAccountCapabilitiesCapabilityRaw config
                                     expand
                                     body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/account/capabilities/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel capability)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/account/capabilities/{capability}
+-- 
+-- Monadic version of 'getAccountCapabilitiesCapability' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountCapabilitiesCapabilityM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
                                      GHC.Base.String ->
@@ -88,6 +92,9 @@ getAccountCapabilitiesCapabilityM capability
                                                                                                                                                                                                                                                                                                                                                                                                                                      Error)
                                                                                                                                                                                                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/account/capabilities/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel capability)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/account/capabilities/{capability}
+-- 
+-- Monadic version of 'getAccountCapabilitiesCapabilityRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountCapabilitiesCapabilityRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                       StripeAPI.Common.SecurityScheme s) =>
                                         GHC.Base.String ->
@@ -101,17 +108,23 @@ getAccountCapabilitiesCapabilityRawM capability
                                      expand
                                      body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/account/capabilities/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel capability)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetAccountCapabilitiesCapabilityRequestBody
-    = GetAccountCapabilitiesCapabilityRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getAccountCapabilitiesCapabilityRequestBody
+-- 
+-- 
+data GetAccountCapabilitiesCapabilityRequestBody = GetAccountCapabilitiesCapabilityRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetAccountCapabilitiesCapabilityRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetAccountCapabilitiesCapabilityRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountCapabilitiesCapabilityRequestBody" (\obj -> GHC.Base.pure GetAccountCapabilitiesCapabilityRequestBody)
-
-data GetAccountCapabilitiesCapabilityResponse
-    = GetAccountCapabilitiesCapabilityResponseError GHC.Base.String
-    | GetAccountCapabilitiesCapabilityResponse200 Capability
-    | GetAccountCapabilitiesCapabilityResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getAccountCapabilitiesCapability'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetAccountCapabilitiesCapabilityResponseError' is used.
+data GetAccountCapabilitiesCapabilityResponse =                   
+   GetAccountCapabilitiesCapabilityResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetAccountCapabilitiesCapabilityResponse200 Capability        -- ^ Successful response.
+  | GetAccountCapabilitiesCapabilityResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

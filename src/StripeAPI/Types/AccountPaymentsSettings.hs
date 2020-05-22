@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema AccountPaymentsSettings
 module StripeAPI.Types.AccountPaymentsSettings where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,30 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data AccountPaymentsSettings
-    = AccountPaymentsSettings {accountPaymentsSettingsStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String),
-                               accountPaymentsSettingsStatementDescriptorKana :: (GHC.Maybe.Maybe GHC.Base.String),
-                               accountPaymentsSettingsStatementDescriptorKanji :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema account_payments_settings
+-- 
+-- 
+data AccountPaymentsSettings = AccountPaymentsSettings {
+  -- | statement_descriptor: The default text that appears on credit card statements when a charge is made. This field prefixes any dynamic \`statement_descriptor\` specified on the charge.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  accountPaymentsSettingsStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | statement_descriptor_kana: The Kana variation of the default text that appears on credit card statements when a charge is made (Japan only)
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , accountPaymentsSettingsStatementDescriptorKana :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | statement_descriptor_kanji: The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only)
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , accountPaymentsSettingsStatementDescriptorKanji :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountPaymentsSettings
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "statement_descriptor" (accountPaymentsSettingsStatementDescriptor obj) : (Data.Aeson..=) "statement_descriptor_kana" (accountPaymentsSettingsStatementDescriptorKana obj) : (Data.Aeson..=) "statement_descriptor_kanji" (accountPaymentsSettingsStatementDescriptorKanji obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "statement_descriptor" (accountPaymentsSettingsStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor_kana" (accountPaymentsSettingsStatementDescriptorKana obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor_kanji" (accountPaymentsSettingsStatementDescriptorKanji obj)))

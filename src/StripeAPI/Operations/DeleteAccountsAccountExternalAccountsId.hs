@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation deleteAccountsAccountExternalAccountsId
 module StripeAPI.Operations.DeleteAccountsAccountExternalAccountsId where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- DELETE /v1/accounts/{account}/external_accounts/{id}
-deleteAccountsAccountExternalAccountsId :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                         StripeAPI.Common.SecurityScheme s) =>
-                                           StripeAPI.Common.Configuration s ->
-                                           GHC.Base.String ->
-                                           GHC.Base.String ->
-                                           DeleteAccountsAccountExternalAccountsIdRequestBody ->
-                                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                                 (Network.HTTP.Client.Types.Response DeleteAccountsAccountExternalAccountsIdResponse))
+-- | > DELETE /v1/accounts/{account}/external_accounts/{id}
+-- 
+-- \<p>Delete a specified external account for a given account.\<\/p>
+deleteAccountsAccountExternalAccountsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                                     -- ^ account | Constraints: Maximum length of 5000
+  -> GHC.Base.String                                                                                                                                     -- ^ id
+  -> DeleteAccountsAccountExternalAccountsIdRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteAccountsAccountExternalAccountsIdResponse)) -- ^ Monad containing the result of the operation
 deleteAccountsAccountExternalAccountsId config
                                         account
                                         id
@@ -57,6 +55,9 @@ deleteAccountsAccountExternalAccountsId config
                                                                                                                                                                                                                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> DeleteAccountsAccountExternalAccountsIdResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                          Error)
                                                                                                                                                                                                                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ ("/external_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > DELETE /v1/accounts/{account}/external_accounts/{id}
+-- 
+-- The same as 'deleteAccountsAccountExternalAccountsId' but returns the raw 'Data.ByteString.Char8.ByteString'
 deleteAccountsAccountExternalAccountsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                             StripeAPI.Common.SecurityScheme s) =>
                                               StripeAPI.Common.Configuration s ->
@@ -69,6 +70,9 @@ deleteAccountsAccountExternalAccountsIdRaw config
                                            account
                                            id
                                            body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ ("/external_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > DELETE /v1/accounts/{account}/external_accounts/{id}
+-- 
+-- Monadic version of 'deleteAccountsAccountExternalAccountsId' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteAccountsAccountExternalAccountsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                           StripeAPI.Common.SecurityScheme s) =>
                                             GHC.Base.String ->
@@ -85,6 +89,9 @@ deleteAccountsAccountExternalAccountsIdM account
                                                                                                                                                                                                                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> DeleteAccountsAccountExternalAccountsIdResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                           Error)
                                                                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ ("/external_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > DELETE /v1/accounts/{account}/external_accounts/{id}
+-- 
+-- Monadic version of 'deleteAccountsAccountExternalAccountsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteAccountsAccountExternalAccountsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                              StripeAPI.Common.SecurityScheme s) =>
                                                GHC.Base.String ->
@@ -97,17 +104,23 @@ deleteAccountsAccountExternalAccountsIdRawM :: forall m s . (StripeAPI.Common.Mo
 deleteAccountsAccountExternalAccountsIdRawM account
                                             id
                                             body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ ("/external_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data DeleteAccountsAccountExternalAccountsIdRequestBody
-    = DeleteAccountsAccountExternalAccountsIdRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema deleteAccountsAccountExternalAccountsIdRequestBody
+-- 
+-- 
+data DeleteAccountsAccountExternalAccountsIdRequestBody = DeleteAccountsAccountExternalAccountsIdRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeleteAccountsAccountExternalAccountsIdRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteAccountsAccountExternalAccountsIdRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteAccountsAccountExternalAccountsIdRequestBody" (\obj -> GHC.Base.pure DeleteAccountsAccountExternalAccountsIdRequestBody)
-
-data DeleteAccountsAccountExternalAccountsIdResponse
-    = DeleteAccountsAccountExternalAccountsIdResponseError GHC.Base.String
-    | DeleteAccountsAccountExternalAccountsIdResponse200 DeletedExternalAccount
-    | DeleteAccountsAccountExternalAccountsIdResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'deleteAccountsAccountExternalAccountsId'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'DeleteAccountsAccountExternalAccountsIdResponseError' is used.
+data DeleteAccountsAccountExternalAccountsIdResponse =                         
+   DeleteAccountsAccountExternalAccountsIdResponseError GHC.Base.String        -- ^ Means either no matching case available or a parse error
+  | DeleteAccountsAccountExternalAccountsIdResponse200 DeletedExternalAccount  -- ^ Successful response.
+  | DeleteAccountsAccountExternalAccountsIdResponseDefault Error               -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

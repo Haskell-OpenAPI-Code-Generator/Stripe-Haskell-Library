@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema AccountRequirementsError
 module StripeAPI.Types.AccountRequirementsError where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,34 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data AccountRequirementsError
-    = AccountRequirementsError {accountRequirementsErrorCode :: AccountRequirementsErrorCode',
-                                accountRequirementsErrorReason :: GHC.Base.String,
-                                accountRequirementsErrorRequirement :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema account_requirements_error
+-- 
+-- 
+data AccountRequirementsError = AccountRequirementsError {
+  -- | code: The code for the type of error.
+  accountRequirementsErrorCode :: AccountRequirementsErrorCode'
+  -- | reason: An informative message that indicates the error type and provides additional details about the error.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , accountRequirementsErrorReason :: GHC.Base.String
+  -- | requirement: The specific user onboarding requirement field (in the requirements hash) that needs to be resolved.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , accountRequirementsErrorRequirement :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON AccountRequirementsError
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "code" (accountRequirementsErrorCode obj) : (Data.Aeson..=) "reason" (accountRequirementsErrorReason obj) : (Data.Aeson..=) "requirement" (accountRequirementsErrorRequirement obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "code" (accountRequirementsErrorCode obj) GHC.Base.<> ((Data.Aeson..=) "reason" (accountRequirementsErrorReason obj) GHC.Base.<> (Data.Aeson..=) "requirement" (accountRequirementsErrorRequirement obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON AccountRequirementsError
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountRequirementsError" (\obj -> ((GHC.Base.pure AccountRequirementsError GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "requirement"))
+-- | Defines the enum schema account_requirements_errorCode\'
+-- 
+-- The code for the type of error.
 data AccountRequirementsErrorCode'
     = AccountRequirementsErrorCode'EnumOther Data.Aeson.Types.Internal.Value
     | AccountRequirementsErrorCode'EnumTyped GHC.Base.String
@@ -192,8 +216,3 @@ instance Data.Aeson.FromJSON AccountRequirementsErrorCode'
                                                                                                                                                                                                                                                                   else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "verification_failed_other")
                                                                                                                                                                                                                                                                         then AccountRequirementsErrorCode'EnumStringVerificationFailedOther
                                                                                                                                                                                                                                                                         else AccountRequirementsErrorCode'EnumOther val)
-instance Data.Aeson.ToJSON AccountRequirementsError
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "code" (accountRequirementsErrorCode obj) : (Data.Aeson..=) "reason" (accountRequirementsErrorReason obj) : (Data.Aeson..=) "requirement" (accountRequirementsErrorRequirement obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "code" (accountRequirementsErrorCode obj) GHC.Base.<> ((Data.Aeson..=) "reason" (accountRequirementsErrorReason obj) GHC.Base.<> (Data.Aeson..=) "requirement" (accountRequirementsErrorRequirement obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON AccountRequirementsError
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountRequirementsError" (\obj -> ((GHC.Base.pure AccountRequirementsError GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "code")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "requirement"))

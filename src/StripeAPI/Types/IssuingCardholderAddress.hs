@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema IssuingCardholderAddress
 module StripeAPI.Types.IssuingCardholderAddress where
 
 import qualified Prelude as GHC.Integer.Type
@@ -27,10 +28,20 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.Types.Address
 
-data IssuingCardholderAddress
-    = IssuingCardholderAddress {issuingCardholderAddressAddress :: Address,
-                                issuingCardholderAddressName :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema issuing_cardholder_address
+-- 
+-- 
+data IssuingCardholderAddress = IssuingCardholderAddress {
+  -- | address: 
+  issuingCardholderAddressAddress :: Address
+  -- | name: The cardholder’s billing name.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuingCardholderAddressName :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON IssuingCardholderAddress
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (issuingCardholderAddressAddress obj) : (Data.Aeson..=) "name" (issuingCardholderAddressName obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (issuingCardholderAddressAddress obj) GHC.Base.<> (Data.Aeson..=) "name" (issuingCardholderAddressName obj))

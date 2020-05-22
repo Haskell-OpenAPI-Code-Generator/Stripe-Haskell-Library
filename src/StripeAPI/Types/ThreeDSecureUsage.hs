@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema ThreeDSecureUsage
 module StripeAPI.Types.ThreeDSecureUsage where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,9 +27,14 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data ThreeDSecureUsage
-    = ThreeDSecureUsage {threeDSecureUsageSupported :: GHC.Types.Bool}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema three_d_secure_usage
+-- 
+-- 
+data ThreeDSecureUsage = ThreeDSecureUsage {
+  -- | supported: Whether 3D Secure is supported on this card.
+  threeDSecureUsageSupported :: GHC.Types.Bool
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON ThreeDSecureUsage
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "supported" (threeDSecureUsageSupported obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "supported" (threeDSecureUsageSupported obj))

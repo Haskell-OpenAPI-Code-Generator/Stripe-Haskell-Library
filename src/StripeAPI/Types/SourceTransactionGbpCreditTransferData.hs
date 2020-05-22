@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTransactionGbpCreditTransferData
 module StripeAPI.Types.SourceTransactionGbpCreditTransferData where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,15 +27,54 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTransactionGbpCreditTransferData
-    = SourceTransactionGbpCreditTransferData {sourceTransactionGbpCreditTransferDataFingerprint :: (GHC.Maybe.Maybe GHC.Base.String),
-                                              sourceTransactionGbpCreditTransferDataFundingMethod :: (GHC.Maybe.Maybe GHC.Base.String),
-                                              sourceTransactionGbpCreditTransferDataLast4 :: (GHC.Maybe.Maybe GHC.Base.String),
-                                              sourceTransactionGbpCreditTransferDataReference :: (GHC.Maybe.Maybe GHC.Base.String),
-                                              sourceTransactionGbpCreditTransferDataSenderAccountNumber :: (GHC.Maybe.Maybe GHC.Base.String),
-                                              sourceTransactionGbpCreditTransferDataSenderName :: (GHC.Maybe.Maybe GHC.Base.String),
-                                              sourceTransactionGbpCreditTransferDataSenderSortCode :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_transaction_gbp_credit_transfer_data
+-- 
+-- 
+data SourceTransactionGbpCreditTransferData = SourceTransactionGbpCreditTransferData {
+  -- | fingerprint: Bank account fingerprint associated with the Stripe owned bank account receiving the transfer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  sourceTransactionGbpCreditTransferDataFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | funding_method: The credit transfer rails the sender used to push this transfer. The possible rails are: Faster Payments, BACS, CHAPS, and wire transfers. Currently only Faster Payments is supported.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionGbpCreditTransferDataFundingMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | last4: Last 4 digits of sender account number associated with the transfer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionGbpCreditTransferDataLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | reference: Sender entered arbitrary information about the transfer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionGbpCreditTransferDataReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | sender_account_number: Sender account number associated with the transfer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionGbpCreditTransferDataSenderAccountNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | sender_name: Sender name associated with the transfer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionGbpCreditTransferDataSenderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | sender_sort_code: Sender sort code associated with the transfer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionGbpCreditTransferDataSenderSortCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTransactionGbpCreditTransferData
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "fingerprint" (sourceTransactionGbpCreditTransferDataFingerprint obj) : (Data.Aeson..=) "funding_method" (sourceTransactionGbpCreditTransferDataFundingMethod obj) : (Data.Aeson..=) "last4" (sourceTransactionGbpCreditTransferDataLast4 obj) : (Data.Aeson..=) "reference" (sourceTransactionGbpCreditTransferDataReference obj) : (Data.Aeson..=) "sender_account_number" (sourceTransactionGbpCreditTransferDataSenderAccountNumber obj) : (Data.Aeson..=) "sender_name" (sourceTransactionGbpCreditTransferDataSenderName obj) : (Data.Aeson..=) "sender_sort_code" (sourceTransactionGbpCreditTransferDataSenderSortCode obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "fingerprint" (sourceTransactionGbpCreditTransferDataFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "funding_method" (sourceTransactionGbpCreditTransferDataFundingMethod obj) GHC.Base.<> ((Data.Aeson..=) "last4" (sourceTransactionGbpCreditTransferDataLast4 obj) GHC.Base.<> ((Data.Aeson..=) "reference" (sourceTransactionGbpCreditTransferDataReference obj) GHC.Base.<> ((Data.Aeson..=) "sender_account_number" (sourceTransactionGbpCreditTransferDataSenderAccountNumber obj) GHC.Base.<> ((Data.Aeson..=) "sender_name" (sourceTransactionGbpCreditTransferDataSenderName obj) GHC.Base.<> (Data.Aeson..=) "sender_sort_code" (sourceTransactionGbpCreditTransferDataSenderSortCode obj)))))))

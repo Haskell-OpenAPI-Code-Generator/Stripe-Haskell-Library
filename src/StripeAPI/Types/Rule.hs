@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema Rule
 module StripeAPI.Types.Rule where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,30 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data Rule
-    = Rule {ruleAction :: GHC.Base.String,
-            ruleId :: GHC.Base.String,
-            rulePredicate :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema rule
+-- 
+-- 
+data Rule = Rule {
+  -- | action: The action taken on the payment.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  ruleAction :: GHC.Base.String
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , ruleId :: GHC.Base.String
+  -- | predicate: The predicate to evaluate the payment against.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , rulePredicate :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Rule
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "action" (ruleAction obj) : (Data.Aeson..=) "id" (ruleId obj) : (Data.Aeson..=) "predicate" (rulePredicate obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "action" (ruleAction obj) GHC.Base.<> ((Data.Aeson..=) "id" (ruleId obj) GHC.Base.<> (Data.Aeson..=) "predicate" (rulePredicate obj)))

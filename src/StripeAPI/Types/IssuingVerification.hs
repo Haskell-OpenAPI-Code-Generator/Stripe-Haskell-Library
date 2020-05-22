@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema IssuingVerification
 module StripeAPI.Types.IssuingVerification where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,15 +27,42 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data Issuing'verification
-    = Issuing'verification {issuing'verificationCard :: GHC.Base.String,
-                            issuing'verificationCreated :: GHC.Integer.Type.Integer,
-                            issuing'verificationExpiresAt :: GHC.Integer.Type.Integer,
-                            issuing'verificationId :: GHC.Base.String,
-                            issuing'verificationObject :: Issuing'verificationObject',
-                            issuing'verificationScope :: Issuing'verificationScope',
-                            issuing'verificationVerificationMethod :: Issuing'verificationVerificationMethod'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema issuing.verification
+-- 
+-- An Issuing \`Verification\` object holds a one-time code request on behalf of a cardholder.
+data Issuing'verification = Issuing'verification {
+  -- | card: The id of the \`Card\` on which the verification was requested
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  issuing'verificationCard :: GHC.Base.String
+  -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
+  , issuing'verificationCreated :: GHC.Integer.Type.Integer
+  -- | expires_at: Timestamp of the expiry for that verification
+  , issuing'verificationExpiresAt :: GHC.Integer.Type.Integer
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuing'verificationId :: GHC.Base.String
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , issuing'verificationObject :: Issuing'verificationObject'
+  -- | scope: The scope of the verification (one of \`card_pin_retrieve\` or \`card_pin_update\`)
+  , issuing'verificationScope :: Issuing'verificationScope'
+  -- | verification_method: The method by which the cardholder will be sent a one-time code (one of \`email\` or \`sms\`)
+  , issuing'verificationVerificationMethod :: Issuing'verificationVerificationMethod'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON Issuing'verification
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card" (issuing'verificationCard obj) : (Data.Aeson..=) "created" (issuing'verificationCreated obj) : (Data.Aeson..=) "expires_at" (issuing'verificationExpiresAt obj) : (Data.Aeson..=) "id" (issuing'verificationId obj) : (Data.Aeson..=) "object" (issuing'verificationObject obj) : (Data.Aeson..=) "scope" (issuing'verificationScope obj) : (Data.Aeson..=) "verification_method" (issuing'verificationVerificationMethod obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card" (issuing'verificationCard obj) GHC.Base.<> ((Data.Aeson..=) "created" (issuing'verificationCreated obj) GHC.Base.<> ((Data.Aeson..=) "expires_at" (issuing'verificationExpiresAt obj) GHC.Base.<> ((Data.Aeson..=) "id" (issuing'verificationId obj) GHC.Base.<> ((Data.Aeson..=) "object" (issuing'verificationObject obj) GHC.Base.<> ((Data.Aeson..=) "scope" (issuing'verificationScope obj) GHC.Base.<> (Data.Aeson..=) "verification_method" (issuing'verificationVerificationMethod obj)))))))
+instance Data.Aeson.Types.FromJSON.FromJSON Issuing'verification
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'verification" (\obj -> ((((((GHC.Base.pure Issuing'verification GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "scope")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "verification_method"))
+-- | Defines the enum schema issuing.verificationObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data Issuing'verificationObject'
     = Issuing'verificationObject'EnumOther Data.Aeson.Types.Internal.Value
     | Issuing'verificationObject'EnumTyped GHC.Base.String
@@ -48,6 +76,9 @@ instance Data.Aeson.FromJSON Issuing'verificationObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "issuing.verification")
                                           then Issuing'verificationObject'EnumStringIssuing'verification
                                           else Issuing'verificationObject'EnumOther val)
+-- | Defines the enum schema issuing.verificationScope\'
+-- 
+-- The scope of the verification (one of \`card_pin_retrieve\` or \`card_pin_update\`)
 data Issuing'verificationScope'
     = Issuing'verificationScope'EnumOther Data.Aeson.Types.Internal.Value
     | Issuing'verificationScope'EnumTyped GHC.Base.String
@@ -65,6 +96,9 @@ instance Data.Aeson.FromJSON Issuing'verificationScope'
                                           else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card_pin_update")
                                                 then Issuing'verificationScope'EnumStringCardPinUpdate
                                                 else Issuing'verificationScope'EnumOther val)
+-- | Defines the enum schema issuing.verificationVerification_method\'
+-- 
+-- The method by which the cardholder will be sent a one-time code (one of \`email\` or \`sms\`)
 data Issuing'verificationVerificationMethod'
     = Issuing'verificationVerificationMethod'EnumOther Data.Aeson.Types.Internal.Value
     | Issuing'verificationVerificationMethod'EnumTyped GHC.Base.String
@@ -82,8 +116,3 @@ instance Data.Aeson.FromJSON Issuing'verificationVerificationMethod'
                                           else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sms")
                                                 then Issuing'verificationVerificationMethod'EnumStringSms
                                                 else Issuing'verificationVerificationMethod'EnumOther val)
-instance Data.Aeson.ToJSON Issuing'verification
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card" (issuing'verificationCard obj) : (Data.Aeson..=) "created" (issuing'verificationCreated obj) : (Data.Aeson..=) "expires_at" (issuing'verificationExpiresAt obj) : (Data.Aeson..=) "id" (issuing'verificationId obj) : (Data.Aeson..=) "object" (issuing'verificationObject obj) : (Data.Aeson..=) "scope" (issuing'verificationScope obj) : (Data.Aeson..=) "verification_method" (issuing'verificationVerificationMethod obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card" (issuing'verificationCard obj) GHC.Base.<> ((Data.Aeson..=) "created" (issuing'verificationCreated obj) GHC.Base.<> ((Data.Aeson..=) "expires_at" (issuing'verificationExpiresAt obj) GHC.Base.<> ((Data.Aeson..=) "id" (issuing'verificationId obj) GHC.Base.<> ((Data.Aeson..=) "object" (issuing'verificationObject obj) GHC.Base.<> ((Data.Aeson..=) "scope" (issuing'verificationScope obj) GHC.Base.<> (Data.Aeson..=) "verification_method" (issuing'verificationVerificationMethod obj)))))))
-instance Data.Aeson.Types.FromJSON.FromJSON Issuing'verification
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'verification" (\obj -> ((((((GHC.Base.pure Issuing'verification GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "card")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "expires_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "scope")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "verification_method"))

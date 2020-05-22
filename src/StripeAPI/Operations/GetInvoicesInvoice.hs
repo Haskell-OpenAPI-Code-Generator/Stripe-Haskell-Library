@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getInvoicesInvoice
 module StripeAPI.Operations.GetInvoicesInvoice where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/invoices/{invoice}
-getInvoicesInvoice :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                    StripeAPI.Common.SecurityScheme s) =>
-                      StripeAPI.Common.Configuration s ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Base.String ->
-                      GetInvoicesInvoiceRequestBody ->
-                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                            (Network.HTTP.Client.Types.Response GetInvoicesInvoiceResponse))
+-- | > GET /v1/invoices/{invoice}
+-- 
+-- \<p>Retrieves the invoice with the given ID.\<\/p>
+getInvoicesInvoice :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                -- ^ invoice | Constraints: Maximum length of 5000
+  -> GetInvoicesInvoiceRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetInvoicesInvoiceResponse)) -- ^ Monad containing the result of the operation
 getInvoicesInvoice config
                    expand
                    invoice
@@ -58,6 +56,9 @@ getInvoicesInvoice config
                                                                                                                                                                                                                                                                                                                                                                                           Error)
                                                                                                                                                                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/invoices/{invoice}
+-- 
+-- The same as 'getInvoicesInvoice' but returns the raw 'Data.ByteString.Char8.ByteString'
 getInvoicesInvoiceRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getInvoicesInvoiceRaw config
                       invoice
                       body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/invoices/{invoice}
+-- 
+-- Monadic version of 'getInvoicesInvoice' (use with 'StripeAPI.Common.runWithConfiguration')
 getInvoicesInvoiceM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getInvoicesInvoiceM expand
                                                                                                                                                                                                                                                                                                                                                                                            Error)
                                                                                                                                                                                        | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/invoices/{invoice}
+-- 
+-- Monadic version of 'getInvoicesInvoiceRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getInvoicesInvoiceRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getInvoicesInvoiceRawM expand
                        invoice
                        body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetInvoicesInvoiceRequestBody
-    = GetInvoicesInvoiceRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getInvoicesInvoiceRequestBody
+-- 
+-- 
+data GetInvoicesInvoiceRequestBody = GetInvoicesInvoiceRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetInvoicesInvoiceRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesInvoiceRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesInvoiceRequestBody" (\obj -> GHC.Base.pure GetInvoicesInvoiceRequestBody)
-
-data GetInvoicesInvoiceResponse
-    = GetInvoicesInvoiceResponseError GHC.Base.String
-    | GetInvoicesInvoiceResponse200 Invoice
-    | GetInvoicesInvoiceResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getInvoicesInvoice'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetInvoicesInvoiceResponseError' is used.
+data GetInvoicesInvoiceResponse =                   
+   GetInvoicesInvoiceResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetInvoicesInvoiceResponse200 Invoice           -- ^ Successful response.
+  | GetInvoicesInvoiceResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

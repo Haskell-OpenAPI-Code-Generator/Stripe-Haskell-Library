@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema DeletedSubscriptionItem
 module StripeAPI.Types.DeletedSubscriptionItem where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,30 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data DeletedSubscriptionItem
-    = DeletedSubscriptionItem {deletedSubscriptionItemDeleted :: DeletedSubscriptionItemDeleted',
-                               deletedSubscriptionItemId :: GHC.Base.String,
-                               deletedSubscriptionItemObject :: DeletedSubscriptionItemObject'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema deleted_subscription_item
+-- 
+-- 
+data DeletedSubscriptionItem = DeletedSubscriptionItem {
+  -- | deleted: Always true for a deleted object
+  deletedSubscriptionItemDeleted :: DeletedSubscriptionItemDeleted'
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , deletedSubscriptionItemId :: GHC.Base.String
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , deletedSubscriptionItemObject :: DeletedSubscriptionItemObject'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON DeletedSubscriptionItem
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedSubscriptionItemDeleted obj) : (Data.Aeson..=) "id" (deletedSubscriptionItemId obj) : (Data.Aeson..=) "object" (deletedSubscriptionItemObject obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedSubscriptionItemDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedSubscriptionItemId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedSubscriptionItemObject obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON DeletedSubscriptionItem
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedSubscriptionItem" (\obj -> ((GHC.Base.pure DeletedSubscriptionItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+-- | Defines the enum schema deleted_subscription_itemDeleted\'
+-- 
+-- Always true for a deleted object
 data DeletedSubscriptionItemDeleted'
     = DeletedSubscriptionItemDeleted'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedSubscriptionItemDeleted'EnumTyped GHC.Types.Bool
@@ -44,6 +64,9 @@ instance Data.Aeson.FromJSON DeletedSubscriptionItemDeleted'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True
                                           then DeletedSubscriptionItemDeleted'EnumBoolTrue
                                           else DeletedSubscriptionItemDeleted'EnumOther val)
+-- | Defines the enum schema deleted_subscription_itemObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedSubscriptionItemObject'
     = DeletedSubscriptionItemObject'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedSubscriptionItemObject'EnumTyped GHC.Base.String
@@ -57,8 +80,3 @@ instance Data.Aeson.FromJSON DeletedSubscriptionItemObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "subscription_item")
                                           then DeletedSubscriptionItemObject'EnumStringSubscriptionItem
                                           else DeletedSubscriptionItemObject'EnumOther val)
-instance Data.Aeson.ToJSON DeletedSubscriptionItem
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedSubscriptionItemDeleted obj) : (Data.Aeson..=) "id" (deletedSubscriptionItemId obj) : (Data.Aeson..=) "object" (deletedSubscriptionItemObject obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedSubscriptionItemDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedSubscriptionItemId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedSubscriptionItemObject obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedSubscriptionItem
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedSubscriptionItem" (\obj -> ((GHC.Base.pure DeletedSubscriptionItem GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))

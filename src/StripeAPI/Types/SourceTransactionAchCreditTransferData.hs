@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTransactionAchCreditTransferData
 module StripeAPI.Types.SourceTransactionAchCreditTransferData where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,36 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTransactionAchCreditTransferData
-    = SourceTransactionAchCreditTransferData {sourceTransactionAchCreditTransferDataCustomerData :: (GHC.Maybe.Maybe GHC.Base.String),
-                                              sourceTransactionAchCreditTransferDataFingerprint :: (GHC.Maybe.Maybe GHC.Base.String),
-                                              sourceTransactionAchCreditTransferDataLast4 :: (GHC.Maybe.Maybe GHC.Base.String),
-                                              sourceTransactionAchCreditTransferDataRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_transaction_ach_credit_transfer_data
+-- 
+-- 
+data SourceTransactionAchCreditTransferData = SourceTransactionAchCreditTransferData {
+  -- | customer_data: Customer data associated with the transfer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  sourceTransactionAchCreditTransferDataCustomerData :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | fingerprint: Bank account fingerprint associated with the transfer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionAchCreditTransferDataFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | last4: Last 4 digits of the account number associated with the transfer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionAchCreditTransferDataLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | routing_number: Routing number associated with the transfer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionAchCreditTransferDataRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTransactionAchCreditTransferData
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "customer_data" (sourceTransactionAchCreditTransferDataCustomerData obj) : (Data.Aeson..=) "fingerprint" (sourceTransactionAchCreditTransferDataFingerprint obj) : (Data.Aeson..=) "last4" (sourceTransactionAchCreditTransferDataLast4 obj) : (Data.Aeson..=) "routing_number" (sourceTransactionAchCreditTransferDataRoutingNumber obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "customer_data" (sourceTransactionAchCreditTransferDataCustomerData obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (sourceTransactionAchCreditTransferDataFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "last4" (sourceTransactionAchCreditTransferDataLast4 obj) GHC.Base.<> (Data.Aeson..=) "routing_number" (sourceTransactionAchCreditTransferDataRoutingNumber obj))))

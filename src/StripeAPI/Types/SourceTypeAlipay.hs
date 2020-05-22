@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTypeAlipay
 module StripeAPI.Types.SourceTypeAlipay where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,18 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTypeAlipay
-    = SourceTypeAlipay {sourceTypeAlipayDataString :: (GHC.Maybe.Maybe GHC.Base.String),
-                        sourceTypeAlipayNativeUrl :: (GHC.Maybe.Maybe GHC.Base.String),
-                        sourceTypeAlipayStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_type_alipay
+-- 
+-- 
+data SourceTypeAlipay = SourceTypeAlipay {
+  -- | data_string
+  sourceTypeAlipayDataString :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | native_url
+  , sourceTypeAlipayNativeUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | statement_descriptor
+  , sourceTypeAlipayStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeAlipay
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data_string" (sourceTypeAlipayDataString obj) : (Data.Aeson..=) "native_url" (sourceTypeAlipayNativeUrl obj) : (Data.Aeson..=) "statement_descriptor" (sourceTypeAlipayStatementDescriptor obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data_string" (sourceTypeAlipayDataString obj) GHC.Base.<> ((Data.Aeson..=) "native_url" (sourceTypeAlipayNativeUrl obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (sourceTypeAlipayStatementDescriptor obj)))

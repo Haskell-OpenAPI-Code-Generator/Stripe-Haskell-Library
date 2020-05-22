@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema IssuingCardholderIndividualDob
 module StripeAPI.Types.IssuingCardholderIndividualDob where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,18 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data IssuingCardholderIndividualDob
-    = IssuingCardholderIndividualDob {issuingCardholderIndividualDobDay :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                                      issuingCardholderIndividualDobMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                                      issuingCardholderIndividualDobYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema issuing_cardholder_individual_dob
+-- 
+-- 
+data IssuingCardholderIndividualDob = IssuingCardholderIndividualDob {
+  -- | day: The day of birth, between 1 and 31.
+  issuingCardholderIndividualDobDay :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | month: The month of birth, between 1 and 12.
+  , issuingCardholderIndividualDobMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | year: The four-digit year of birth.
+  , issuingCardholderIndividualDobYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON IssuingCardholderIndividualDob
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "day" (issuingCardholderIndividualDobDay obj) : (Data.Aeson..=) "month" (issuingCardholderIndividualDobMonth obj) : (Data.Aeson..=) "year" (issuingCardholderIndividualDobYear obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "day" (issuingCardholderIndividualDobDay obj) GHC.Base.<> ((Data.Aeson..=) "month" (issuingCardholderIndividualDobMonth obj) GHC.Base.<> (Data.Aeson..=) "year" (issuingCardholderIndividualDobYear obj)))

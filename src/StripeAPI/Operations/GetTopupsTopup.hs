@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getTopupsTopup
 module StripeAPI.Operations.GetTopupsTopup where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/topups/{topup}
-getTopupsTopup :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                StripeAPI.Common.SecurityScheme s) =>
-                  StripeAPI.Common.Configuration s ->
-                  GHC.Maybe.Maybe GHC.Base.String ->
-                  GHC.Base.String ->
-                  GetTopupsTopupRequestBody ->
-                  m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                        (Network.HTTP.Client.Types.Response GetTopupsTopupResponse))
+-- | > GET /v1/topups/{topup}
+-- 
+-- \<p>Retrieves the details of a top-up that has previously been created. Supply the unique top-up ID that was returned from your previous request, and Stripe will return the corresponding top-up information.\<\/p>
+getTopupsTopup :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                            -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                            -- ^ topup | Constraints: Maximum length of 5000
+  -> GetTopupsTopupRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetTopupsTopupResponse)) -- ^ Monad containing the result of the operation
 getTopupsTopup config
                expand
                topup
@@ -58,6 +56,9 @@ getTopupsTopup config
                                                                                                                                                                                                                                                                                                                                                                               Error)
                                                                                                                                                                               | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/topups/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel topup)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/topups/{topup}
+-- 
+-- The same as 'getTopupsTopup' but returns the raw 'Data.ByteString.Char8.ByteString'
 getTopupsTopupRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
                      StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getTopupsTopupRaw config
                   topup
                   body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/topups/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel topup)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/topups/{topup}
+-- 
+-- Monadic version of 'getTopupsTopup' (use with 'StripeAPI.Common.runWithConfiguration')
 getTopupsTopupM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                  StripeAPI.Common.SecurityScheme s) =>
                    GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getTopupsTopupM expand
                                                                                                                                                                                                                                                                                                                                                                                Error)
                                                                                                                                                                                | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/topups/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel topup)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/topups/{topup}
+-- 
+-- Monadic version of 'getTopupsTopupRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getTopupsTopupRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
                       GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getTopupsTopupRawM expand
                    topup
                    body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/topups/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel topup)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetTopupsTopupRequestBody
-    = GetTopupsTopupRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getTopupsTopupRequestBody
+-- 
+-- 
+data GetTopupsTopupRequestBody = GetTopupsTopupRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetTopupsTopupRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsTopupRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTopupsTopupRequestBody" (\obj -> GHC.Base.pure GetTopupsTopupRequestBody)
-
-data GetTopupsTopupResponse
-    = GetTopupsTopupResponseError GHC.Base.String
-    | GetTopupsTopupResponse200 Topup
-    | GetTopupsTopupResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getTopupsTopup'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetTopupsTopupResponseError' is used.
+data GetTopupsTopupResponse =                   
+   GetTopupsTopupResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetTopupsTopupResponse200 Topup             -- ^ Successful response.
+  | GetTopupsTopupResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

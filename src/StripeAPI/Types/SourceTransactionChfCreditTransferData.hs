@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTransactionChfCreditTransferData
 module StripeAPI.Types.SourceTransactionChfCreditTransferData where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,13 +27,42 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTransactionChfCreditTransferData
-    = SourceTransactionChfCreditTransferData {sourceTransactionChfCreditTransferDataReference :: (GHC.Maybe.Maybe GHC.Base.String),
-                                              sourceTransactionChfCreditTransferDataSenderAddressCountry :: (GHC.Maybe.Maybe GHC.Base.String),
-                                              sourceTransactionChfCreditTransferDataSenderAddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String),
-                                              sourceTransactionChfCreditTransferDataSenderIban :: (GHC.Maybe.Maybe GHC.Base.String),
-                                              sourceTransactionChfCreditTransferDataSenderName :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_transaction_chf_credit_transfer_data
+-- 
+-- 
+data SourceTransactionChfCreditTransferData = SourceTransactionChfCreditTransferData {
+  -- | reference: Reference associated with the transfer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  sourceTransactionChfCreditTransferDataReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | sender_address_country: Sender\'s country address.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionChfCreditTransferDataSenderAddressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | sender_address_line1: Sender\'s line 1 address.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionChfCreditTransferDataSenderAddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | sender_iban: Sender\'s bank account IBAN.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionChfCreditTransferDataSenderIban :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | sender_name: Sender\'s name.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionChfCreditTransferDataSenderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTransactionChfCreditTransferData
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "reference" (sourceTransactionChfCreditTransferDataReference obj) : (Data.Aeson..=) "sender_address_country" (sourceTransactionChfCreditTransferDataSenderAddressCountry obj) : (Data.Aeson..=) "sender_address_line1" (sourceTransactionChfCreditTransferDataSenderAddressLine1 obj) : (Data.Aeson..=) "sender_iban" (sourceTransactionChfCreditTransferDataSenderIban obj) : (Data.Aeson..=) "sender_name" (sourceTransactionChfCreditTransferDataSenderName obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "reference" (sourceTransactionChfCreditTransferDataReference obj) GHC.Base.<> ((Data.Aeson..=) "sender_address_country" (sourceTransactionChfCreditTransferDataSenderAddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "sender_address_line1" (sourceTransactionChfCreditTransferDataSenderAddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "sender_iban" (sourceTransactionChfCreditTransferDataSenderIban obj) GHC.Base.<> (Data.Aeson..=) "sender_name" (sourceTransactionChfCreditTransferDataSenderName obj)))))

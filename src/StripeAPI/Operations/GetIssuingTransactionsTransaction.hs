@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getIssuingTransactionsTransaction
 module StripeAPI.Operations.GetIssuingTransactionsTransaction where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/issuing/transactions/{transaction}
-getIssuingTransactionsTransaction :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                   StripeAPI.Common.SecurityScheme s) =>
-                                     StripeAPI.Common.Configuration s ->
-                                     GHC.Maybe.Maybe GHC.Base.String ->
-                                     GHC.Base.String ->
-                                     GetIssuingTransactionsTransactionRequestBody ->
-                                     m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                           (Network.HTTP.Client.Types.Response GetIssuingTransactionsTransactionResponse))
+-- | > GET /v1/issuing/transactions/{transaction}
+-- 
+-- \<p>Retrieves an Issuing \<code>Transaction\<\/code> object.\<\/p>
+getIssuingTransactionsTransaction :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                               -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                               -- ^ transaction | Constraints: Maximum length of 5000
+  -> GetIssuingTransactionsTransactionRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingTransactionsTransactionResponse)) -- ^ Monad containing the result of the operation
 getIssuingTransactionsTransaction config
                                   expand
                                   transaction
@@ -58,6 +56,9 @@ getIssuingTransactionsTransaction config
                                                                                                                                                                                                                                                                                                                                                                                                                                        Error)
                                                                                                                                                                                                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transaction)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/transactions/{transaction}
+-- 
+-- The same as 'getIssuingTransactionsTransaction' but returns the raw 'Data.ByteString.Char8.ByteString'
 getIssuingTransactionsTransactionRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                       StripeAPI.Common.SecurityScheme s) =>
                                         StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getIssuingTransactionsTransactionRaw config
                                      transaction
                                      body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transaction)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/transactions/{transaction}
+-- 
+-- Monadic version of 'getIssuingTransactionsTransaction' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingTransactionsTransactionM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
                                       GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getIssuingTransactionsTransactionM expand
                                                                                                                                                                                                                                                                                                                                                                                                                                         Error)
                                                                                                                                                                                                                      | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transaction)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/transactions/{transaction}
+-- 
+-- Monadic version of 'getIssuingTransactionsTransactionRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingTransactionsTransactionRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                        StripeAPI.Common.SecurityScheme s) =>
                                          GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getIssuingTransactionsTransactionRawM expand
                                       transaction
                                       body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/issuing/transactions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel transaction)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetIssuingTransactionsTransactionRequestBody
-    = GetIssuingTransactionsTransactionRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getIssuingTransactionsTransactionRequestBody
+-- 
+-- 
+data GetIssuingTransactionsTransactionRequestBody = GetIssuingTransactionsTransactionRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetIssuingTransactionsTransactionRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsTransactionRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingTransactionsTransactionRequestBody" (\obj -> GHC.Base.pure GetIssuingTransactionsTransactionRequestBody)
-
-data GetIssuingTransactionsTransactionResponse
-    = GetIssuingTransactionsTransactionResponseError GHC.Base.String
-    | GetIssuingTransactionsTransactionResponse200 Issuing'transaction
-    | GetIssuingTransactionsTransactionResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getIssuingTransactionsTransaction'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetIssuingTransactionsTransactionResponseError' is used.
+data GetIssuingTransactionsTransactionResponse =                      
+   GetIssuingTransactionsTransactionResponseError GHC.Base.String     -- ^ Means either no matching case available or a parse error
+  | GetIssuingTransactionsTransactionResponse200 Issuing'transaction  -- ^ Successful response.
+  | GetIssuingTransactionsTransactionResponseDefault Error            -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

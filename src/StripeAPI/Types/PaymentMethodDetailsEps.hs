@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema PaymentMethodDetailsEps
 module StripeAPI.Types.PaymentMethodDetailsEps where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,9 +27,19 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data PaymentMethodDetailsEps
-    = PaymentMethodDetailsEps {paymentMethodDetailsEpsVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema payment_method_details_eps
+-- 
+-- 
+data PaymentMethodDetailsEps = PaymentMethodDetailsEps {
+  -- | verified_name: Owner\'s verified full name. Values are verified or provided by EPS directly
+  -- (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  paymentMethodDetailsEpsVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsEps
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "verified_name" (paymentMethodDetailsEpsVerifiedName obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "verified_name" (paymentMethodDetailsEpsVerifiedName obj))

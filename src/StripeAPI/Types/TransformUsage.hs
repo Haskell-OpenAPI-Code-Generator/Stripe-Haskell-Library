@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema TransformUsage
 module StripeAPI.Types.TransformUsage where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data TransformUsage
-    = TransformUsage {transformUsageDivideBy :: GHC.Integer.Type.Integer,
-                      transformUsageRound :: TransformUsageRound'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema transform_usage
+-- 
+-- 
+data TransformUsage = TransformUsage {
+  -- | divide_by: Divide usage by this number.
+  transformUsageDivideBy :: GHC.Integer.Type.Integer
+  -- | round: After division, either round the result \`up\` or \`down\`.
+  , transformUsageRound :: TransformUsageRound'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON TransformUsage
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "divide_by" (transformUsageDivideBy obj) : (Data.Aeson..=) "round" (transformUsageRound obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "divide_by" (transformUsageDivideBy obj) GHC.Base.<> (Data.Aeson..=) "round" (transformUsageRound obj))
+instance Data.Aeson.Types.FromJSON.FromJSON TransformUsage
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "TransformUsage" (\obj -> (GHC.Base.pure TransformUsage GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "divide_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "round"))
+-- | Defines the enum schema transform_usageRound\'
+-- 
+-- After division, either round the result \`up\` or \`down\`.
 data TransformUsageRound'
     = TransformUsageRound'EnumOther Data.Aeson.Types.Internal.Value
     | TransformUsageRound'EnumTyped GHC.Base.String
@@ -47,8 +62,3 @@ instance Data.Aeson.FromJSON TransformUsageRound'
                                           else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "up")
                                                 then TransformUsageRound'EnumStringUp
                                                 else TransformUsageRound'EnumOther val)
-instance Data.Aeson.ToJSON TransformUsage
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "divide_by" (transformUsageDivideBy obj) : (Data.Aeson..=) "round" (transformUsageRound obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "divide_by" (transformUsageDivideBy obj) GHC.Base.<> (Data.Aeson..=) "round" (transformUsageRound obj))
-instance Data.Aeson.Types.FromJSON.FromJSON TransformUsage
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "TransformUsage" (\obj -> (GHC.Base.pure TransformUsage GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "divide_by")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "round"))

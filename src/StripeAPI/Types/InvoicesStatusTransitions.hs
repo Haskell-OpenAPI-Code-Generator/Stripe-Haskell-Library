@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema InvoicesStatusTransitions
 module StripeAPI.Types.InvoicesStatusTransitions where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,20 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data InvoicesStatusTransitions
-    = InvoicesStatusTransitions {invoicesStatusTransitionsFinalizedAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                                 invoicesStatusTransitionsMarkedUncollectibleAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                                 invoicesStatusTransitionsPaidAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                                 invoicesStatusTransitionsVoidedAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema invoices_status_transitions
+-- 
+-- 
+data InvoicesStatusTransitions = InvoicesStatusTransitions {
+  -- | finalized_at: The time that the invoice draft was finalized.
+  invoicesStatusTransitionsFinalizedAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | marked_uncollectible_at: The time that the invoice was marked uncollectible.
+  , invoicesStatusTransitionsMarkedUncollectibleAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | paid_at: The time that the invoice was paid.
+  , invoicesStatusTransitionsPaidAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | voided_at: The time that the invoice was voided.
+  , invoicesStatusTransitionsVoidedAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON InvoicesStatusTransitions
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "finalized_at" (invoicesStatusTransitionsFinalizedAt obj) : (Data.Aeson..=) "marked_uncollectible_at" (invoicesStatusTransitionsMarkedUncollectibleAt obj) : (Data.Aeson..=) "paid_at" (invoicesStatusTransitionsPaidAt obj) : (Data.Aeson..=) "voided_at" (invoicesStatusTransitionsVoidedAt obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "finalized_at" (invoicesStatusTransitionsFinalizedAt obj) GHC.Base.<> ((Data.Aeson..=) "marked_uncollectible_at" (invoicesStatusTransitionsMarkedUncollectibleAt obj) GHC.Base.<> ((Data.Aeson..=) "paid_at" (invoicesStatusTransitionsPaidAt obj) GHC.Base.<> (Data.Aeson..=) "voided_at" (invoicesStatusTransitionsVoidedAt obj))))

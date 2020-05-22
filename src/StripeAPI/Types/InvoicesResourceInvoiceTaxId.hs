@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema InvoicesResourceInvoiceTaxId
 module StripeAPI.Types.InvoicesResourceInvoiceTaxId where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,28 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data InvoicesResourceInvoiceTaxId
-    = InvoicesResourceInvoiceTaxId {invoicesResourceInvoiceTaxIdType :: InvoicesResourceInvoiceTaxIdType',
-                                    invoicesResourceInvoiceTaxIdValue :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema invoices_resource_invoice_tax_id
+-- 
+-- 
+data InvoicesResourceInvoiceTaxId = InvoicesResourceInvoiceTaxId {
+  -- | type: The type of the tax ID, one of \`eu_vat\`, \`nz_gst\`, \`au_abn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, \`my_sst\`, or \`unknown\`
+  invoicesResourceInvoiceTaxIdType :: InvoicesResourceInvoiceTaxIdType'
+  -- | value: The value of the tax ID.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , invoicesResourceInvoiceTaxIdValue :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON InvoicesResourceInvoiceTaxId
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "type" (invoicesResourceInvoiceTaxIdType obj) : (Data.Aeson..=) "value" (invoicesResourceInvoiceTaxIdValue obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "type" (invoicesResourceInvoiceTaxIdType obj) GHC.Base.<> (Data.Aeson..=) "value" (invoicesResourceInvoiceTaxIdValue obj))
+instance Data.Aeson.Types.FromJSON.FromJSON InvoicesResourceInvoiceTaxId
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesResourceInvoiceTaxId" (\obj -> (GHC.Base.pure InvoicesResourceInvoiceTaxId GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "value"))
+-- | Defines the enum schema invoices_resource_invoice_tax_idType\'
+-- 
+-- The type of the tax ID, one of \`eu_vat\`, \`nz_gst\`, \`au_abn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, \`my_sst\`, or \`unknown\`
 data InvoicesResourceInvoiceTaxIdType'
     = InvoicesResourceInvoiceTaxIdType'EnumOther Data.Aeson.Types.Internal.Value
     | InvoicesResourceInvoiceTaxIdType'EnumTyped GHC.Base.String
@@ -131,8 +150,3 @@ instance Data.Aeson.FromJSON InvoicesResourceInvoiceTaxIdType'
                                                                                                                                                                         else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "za_vat")
                                                                                                                                                                               then InvoicesResourceInvoiceTaxIdType'EnumStringZaVat
                                                                                                                                                                               else InvoicesResourceInvoiceTaxIdType'EnumOther val)
-instance Data.Aeson.ToJSON InvoicesResourceInvoiceTaxId
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "type" (invoicesResourceInvoiceTaxIdType obj) : (Data.Aeson..=) "value" (invoicesResourceInvoiceTaxIdValue obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "type" (invoicesResourceInvoiceTaxIdType obj) GHC.Base.<> (Data.Aeson..=) "value" (invoicesResourceInvoiceTaxIdValue obj))
-instance Data.Aeson.Types.FromJSON.FromJSON InvoicesResourceInvoiceTaxId
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "InvoicesResourceInvoiceTaxId" (\obj -> (GHC.Base.pure InvoicesResourceInvoiceTaxId GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "value"))

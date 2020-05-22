@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema PaymentMethodIdeal
 module StripeAPI.Types.PaymentMethodIdeal where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data PaymentMethodIdeal
-    = PaymentMethodIdeal {paymentMethodIdealBank :: (GHC.Maybe.Maybe PaymentMethodIdealBank'),
-                          paymentMethodIdealBic :: (GHC.Maybe.Maybe PaymentMethodIdealBic')}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema payment_method_ideal
+-- 
+-- 
+data PaymentMethodIdeal = PaymentMethodIdeal {
+  -- | bank: The customer\'s bank, if provided. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`rabobank\`, \`regiobank\`, \`sns_bank\`, \`triodos_bank\`, or \`van_lanschot\`.
+  paymentMethodIdealBank :: (GHC.Maybe.Maybe PaymentMethodIdealBank')
+  -- | bic: The Bank Identifier Code of the customer\'s bank, if the bank was provided.
+  , paymentMethodIdealBic :: (GHC.Maybe.Maybe PaymentMethodIdealBic')
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PaymentMethodIdeal
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank" (paymentMethodIdealBank obj) : (Data.Aeson..=) "bic" (paymentMethodIdealBic obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank" (paymentMethodIdealBank obj) GHC.Base.<> (Data.Aeson..=) "bic" (paymentMethodIdealBic obj))
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodIdeal
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodIdeal" (\obj -> (GHC.Base.pure PaymentMethodIdeal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic"))
+-- | Defines the enum schema payment_method_idealBank\'
+-- 
+-- The customer\'s bank, if provided. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`rabobank\`, \`regiobank\`, \`sns_bank\`, \`triodos_bank\`, or \`van_lanschot\`.
 data PaymentMethodIdealBank'
     = PaymentMethodIdealBank'EnumOther Data.Aeson.Types.Internal.Value
     | PaymentMethodIdealBank'EnumTyped GHC.Base.String
@@ -87,6 +102,9 @@ instance Data.Aeson.FromJSON PaymentMethodIdealBank'
                                                                                                       else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "van_lanschot")
                                                                                                             then PaymentMethodIdealBank'EnumStringVanLanschot
                                                                                                             else PaymentMethodIdealBank'EnumOther val)
+-- | Defines the enum schema payment_method_idealBic\'
+-- 
+-- The Bank Identifier Code of the customer\'s bank, if the bank was provided.
 data PaymentMethodIdealBic'
     = PaymentMethodIdealBic'EnumOther Data.Aeson.Types.Internal.Value
     | PaymentMethodIdealBic'EnumTyped GHC.Base.String
@@ -144,8 +162,3 @@ instance Data.Aeson.FromJSON PaymentMethodIdealBic'
                                                                                                       else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "TRIONL2U")
                                                                                                             then PaymentMethodIdealBic'EnumStringTRIONL2U
                                                                                                             else PaymentMethodIdealBic'EnumOther val)
-instance Data.Aeson.ToJSON PaymentMethodIdeal
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank" (paymentMethodIdealBank obj) : (Data.Aeson..=) "bic" (paymentMethodIdealBic obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank" (paymentMethodIdealBank obj) GHC.Base.<> (Data.Aeson..=) "bic" (paymentMethodIdealBic obj))
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodIdeal
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodIdeal" (\obj -> (GHC.Base.pure PaymentMethodIdeal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic"))

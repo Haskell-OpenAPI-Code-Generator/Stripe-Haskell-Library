@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema DeliveryEstimate
 module StripeAPI.Types.DeliveryEstimate where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,36 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data DeliveryEstimate
-    = DeliveryEstimate {deliveryEstimateDate :: (GHC.Maybe.Maybe GHC.Base.String),
-                        deliveryEstimateEarliest :: (GHC.Maybe.Maybe GHC.Base.String),
-                        deliveryEstimateLatest :: (GHC.Maybe.Maybe GHC.Base.String),
-                        deliveryEstimateType :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema delivery_estimate
+-- 
+-- 
+data DeliveryEstimate = DeliveryEstimate {
+  -- | date: If \`type\` is \`\"exact\"\`, \`date\` will be the expected delivery date in the format YYYY-MM-DD.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  deliveryEstimateDate :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | earliest: If \`type\` is \`\"range\"\`, \`earliest\` will be be the earliest delivery date in the format YYYY-MM-DD.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , deliveryEstimateEarliest :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | latest: If \`type\` is \`\"range\"\`, \`latest\` will be the latest delivery date in the format YYYY-MM-DD.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , deliveryEstimateLatest :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | type: The type of estimate. Must be either \`\"range\"\` or \`\"exact\"\`.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , deliveryEstimateType :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeliveryEstimate
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "date" (deliveryEstimateDate obj) : (Data.Aeson..=) "earliest" (deliveryEstimateEarliest obj) : (Data.Aeson..=) "latest" (deliveryEstimateLatest obj) : (Data.Aeson..=) "type" (deliveryEstimateType obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "date" (deliveryEstimateDate obj) GHC.Base.<> ((Data.Aeson..=) "earliest" (deliveryEstimateEarliest obj) GHC.Base.<> ((Data.Aeson..=) "latest" (deliveryEstimateLatest obj) GHC.Base.<> (Data.Aeson..=) "type" (deliveryEstimateType obj))))

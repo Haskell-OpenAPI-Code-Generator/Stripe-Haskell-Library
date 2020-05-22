@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema AccountDeclineChargeOn
 module StripeAPI.Types.AccountDeclineChargeOn where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,16 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data AccountDeclineChargeOn
-    = AccountDeclineChargeOn {accountDeclineChargeOnAvsFailure :: GHC.Types.Bool,
-                              accountDeclineChargeOnCvcFailure :: GHC.Types.Bool}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema account_decline_charge_on
+-- 
+-- 
+data AccountDeclineChargeOn = AccountDeclineChargeOn {
+  -- | avs_failure: Whether Stripe automatically declines charges with an incorrect ZIP or postal code. This setting only applies when a ZIP or postal code is provided and they fail bank verification.
+  accountDeclineChargeOnAvsFailure :: GHC.Types.Bool
+  -- | cvc_failure: Whether Stripe automatically declines charges with an incorrect CVC. This setting only applies when a CVC is provided and it fails bank verification.
+  , accountDeclineChargeOnCvcFailure :: GHC.Types.Bool
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountDeclineChargeOn
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "avs_failure" (accountDeclineChargeOnAvsFailure obj) : (Data.Aeson..=) "cvc_failure" (accountDeclineChargeOnCvcFailure obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "avs_failure" (accountDeclineChargeOnAvsFailure obj) GHC.Base.<> (Data.Aeson..=) "cvc_failure" (accountDeclineChargeOnCvcFailure obj))

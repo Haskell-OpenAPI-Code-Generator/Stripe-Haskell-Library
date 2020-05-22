@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema InvoiceSettingCustomField
 module StripeAPI.Types.InvoiceSettingCustomField where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data InvoiceSettingCustomField
-    = InvoiceSettingCustomField {invoiceSettingCustomFieldName :: GHC.Base.String,
-                                 invoiceSettingCustomFieldValue :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema invoice_setting_custom_field
+-- 
+-- 
+data InvoiceSettingCustomField = InvoiceSettingCustomField {
+  -- | name: The name of the custom field.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  invoiceSettingCustomFieldName :: GHC.Base.String
+  -- | value: The value of the custom field.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , invoiceSettingCustomFieldValue :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON InvoiceSettingCustomField
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "name" (invoiceSettingCustomFieldName obj) : (Data.Aeson..=) "value" (invoiceSettingCustomFieldValue obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "name" (invoiceSettingCustomFieldName obj) GHC.Base.<> (Data.Aeson..=) "value" (invoiceSettingCustomFieldValue obj))

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema CountrySpecVerificationFields
 module StripeAPI.Types.CountrySpecVerificationFields where
 
 import qualified Prelude as GHC.Integer.Type
@@ -27,10 +28,16 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.Types.CountrySpecVerificationFieldDetails
 
-data CountrySpecVerificationFields
-    = CountrySpecVerificationFields {countrySpecVerificationFieldsCompany :: CountrySpecVerificationFieldDetails,
-                                     countrySpecVerificationFieldsIndividual :: CountrySpecVerificationFieldDetails}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema country_spec_verification_fields
+-- 
+-- 
+data CountrySpecVerificationFields = CountrySpecVerificationFields {
+  -- | company: 
+  countrySpecVerificationFieldsCompany :: CountrySpecVerificationFieldDetails
+  -- | individual: 
+  , countrySpecVerificationFieldsIndividual :: CountrySpecVerificationFieldDetails
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON CountrySpecVerificationFields
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "company" (countrySpecVerificationFieldsCompany obj) : (Data.Aeson..=) "individual" (countrySpecVerificationFieldsIndividual obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "company" (countrySpecVerificationFieldsCompany obj) GHC.Base.<> (Data.Aeson..=) "individual" (countrySpecVerificationFieldsIndividual obj))

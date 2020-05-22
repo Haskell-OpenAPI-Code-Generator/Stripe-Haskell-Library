@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation postRadarValueLists
 module StripeAPI.Operations.PostRadarValueLists where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,21 +39,21 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- POST /v1/radar/value_lists
-postRadarValueLists :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                     StripeAPI.Common.SecurityScheme s) =>
-                       StripeAPI.Common.Configuration s ->
-                       PostRadarValueListsRequestBody ->
-                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                             (Network.HTTP.Client.Types.Response PostRadarValueListsResponse))
+-- | > POST /v1/radar/value_lists
+-- 
+-- \<p>Creates a new \<code>ValueList\<\/code> object, which can then be referenced in rules.\<\/p>
+postRadarValueLists :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> PostRadarValueListsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostRadarValueListsResponse)) -- ^ Monad containing the result of the operation
 postRadarValueLists config
                     body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either PostRadarValueListsResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> PostRadarValueListsResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                            Radar'valueList)
                                                                                                                                                                                         | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostRadarValueListsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                              Error)
                                                                                                                                                                                         | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/radar/value_lists") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/radar/value_lists
+-- 
+-- The same as 'postRadarValueLists' but returns the raw 'Data.ByteString.Char8.ByteString'
 postRadarValueListsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           StripeAPI.Common.Configuration s ->
@@ -61,6 +62,9 @@ postRadarValueListsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postRadarValueListsRaw config
                        body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/radar/value_lists") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/radar/value_lists
+-- 
+-- Monadic version of 'postRadarValueLists' (use with 'StripeAPI.Common.runWithConfiguration')
 postRadarValueListsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         PostRadarValueListsRequestBody ->
@@ -73,6 +77,9 @@ postRadarValueListsM body = GHC.Base.fmap (GHC.Base.fmap (\response_2 -> GHC.Bas
                                                                                                                                                                                          | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostRadarValueListsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                               Error)
                                                                                                                                                                                          | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/radar/value_lists") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/radar/value_lists
+-- 
+-- Monadic version of 'postRadarValueListsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postRadarValueListsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
                            PostRadarValueListsRequestBody ->
@@ -81,13 +88,42 @@ postRadarValueListsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                               (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postRadarValueListsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/radar/value_lists") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data PostRadarValueListsRequestBody
-    = PostRadarValueListsRequestBody {postRadarValueListsRequestBodyAlias :: GHC.Base.String,
-                                      postRadarValueListsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String)),
-                                      postRadarValueListsRequestBodyItemType :: (GHC.Maybe.Maybe PostRadarValueListsRequestBodyItemType'),
-                                      postRadarValueListsRequestBodyMetadata :: (GHC.Maybe.Maybe PostRadarValueListsRequestBodyMetadata'),
-                                      postRadarValueListsRequestBodyName :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postRadarValueListsRequestBody
+-- 
+-- 
+data PostRadarValueListsRequestBody = PostRadarValueListsRequestBody {
+  -- | alias: The name of the value list for use in rules.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 100
+  postRadarValueListsRequestBodyAlias :: GHC.Base.String
+  -- | expand: Specifies which fields in the response should be expanded.
+  , postRadarValueListsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  -- | item_type: Type of the items in the value list. One of \`card_fingerprint\`, \`card_bin\`, \`email\`, \`ip_address\`, \`country\`, \`string\`, or \`case_sensitive_string\`. Use \`string\` if the item type is unknown or mixed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , postRadarValueListsRequestBodyItemType :: (GHC.Maybe.Maybe PostRadarValueListsRequestBodyItemType')
+  -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
+  , postRadarValueListsRequestBodyMetadata :: (GHC.Maybe.Maybe PostRadarValueListsRequestBodyMetadata')
+  -- | name: The human-readable name of the value list.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 100
+  , postRadarValueListsRequestBodyName :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostRadarValueListsRequestBody
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "alias" (postRadarValueListsRequestBodyAlias obj) : (Data.Aeson..=) "expand" (postRadarValueListsRequestBodyExpand obj) : (Data.Aeson..=) "item_type" (postRadarValueListsRequestBodyItemType obj) : (Data.Aeson..=) "metadata" (postRadarValueListsRequestBodyMetadata obj) : (Data.Aeson..=) "name" (postRadarValueListsRequestBodyName obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "alias" (postRadarValueListsRequestBodyAlias obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postRadarValueListsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "item_type" (postRadarValueListsRequestBodyItemType obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postRadarValueListsRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "name" (postRadarValueListsRequestBodyName obj)))))
+instance Data.Aeson.Types.FromJSON.FromJSON PostRadarValueListsRequestBody
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostRadarValueListsRequestBody" (\obj -> ((((GHC.Base.pure PostRadarValueListsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "alias")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "item_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name"))
+-- | Defines the enum schema postRadarValueListsRequestBodyItem_type\'
+-- 
+-- Type of the items in the value list. One of \`card_fingerprint\`, \`card_bin\`, \`email\`, \`ip_address\`, \`country\`, \`string\`, or \`case_sensitive_string\`. Use \`string\` if the item type is unknown or mixed.
 data PostRadarValueListsRequestBodyItemType'
     = PostRadarValueListsRequestBodyItemType'EnumOther Data.Aeson.Types.Internal.Value
     | PostRadarValueListsRequestBodyItemType'EnumTyped GHC.Base.String
@@ -125,22 +161,23 @@ instance Data.Aeson.FromJSON PostRadarValueListsRequestBodyItemType'
                                                                         else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "string")
                                                                               then PostRadarValueListsRequestBodyItemType'EnumStringString
                                                                               else PostRadarValueListsRequestBodyItemType'EnumOther val)
-data PostRadarValueListsRequestBodyMetadata'
-    = PostRadarValueListsRequestBodyMetadata' {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postRadarValueListsRequestBodyMetadata\'
+-- 
+-- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
+data PostRadarValueListsRequestBodyMetadata' = PostRadarValueListsRequestBodyMetadata' {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostRadarValueListsRequestBodyMetadata'
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON PostRadarValueListsRequestBodyMetadata'
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostRadarValueListsRequestBodyMetadata'" (\obj -> GHC.Base.pure PostRadarValueListsRequestBodyMetadata')
-instance Data.Aeson.ToJSON PostRadarValueListsRequestBody
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "alias" (postRadarValueListsRequestBodyAlias obj) : (Data.Aeson..=) "expand" (postRadarValueListsRequestBodyExpand obj) : (Data.Aeson..=) "item_type" (postRadarValueListsRequestBodyItemType obj) : (Data.Aeson..=) "metadata" (postRadarValueListsRequestBodyMetadata obj) : (Data.Aeson..=) "name" (postRadarValueListsRequestBodyName obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "alias" (postRadarValueListsRequestBodyAlias obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postRadarValueListsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "item_type" (postRadarValueListsRequestBodyItemType obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postRadarValueListsRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "name" (postRadarValueListsRequestBodyName obj)))))
-instance Data.Aeson.Types.FromJSON.FromJSON PostRadarValueListsRequestBody
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostRadarValueListsRequestBody" (\obj -> ((((GHC.Base.pure PostRadarValueListsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "alias")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "item_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name"))
-
-data PostRadarValueListsResponse
-    = PostRadarValueListsResponseError GHC.Base.String
-    | PostRadarValueListsResponse200 Radar'valueList
-    | PostRadarValueListsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'postRadarValueLists'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'PostRadarValueListsResponseError' is used.
+data PostRadarValueListsResponse =                   
+   PostRadarValueListsResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | PostRadarValueListsResponse200 Radar'valueList   -- ^ Successful response.
+  | PostRadarValueListsResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

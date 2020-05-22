@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getSubscriptionsSubscriptionExposedId
 module StripeAPI.Operations.GetSubscriptionsSubscriptionExposedId where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/subscriptions/{subscription_exposed_id}
-getSubscriptionsSubscriptionExposedId :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                       StripeAPI.Common.SecurityScheme s) =>
-                                         StripeAPI.Common.Configuration s ->
-                                         GHC.Maybe.Maybe GHC.Base.String ->
-                                         GHC.Base.String ->
-                                         GetSubscriptionsSubscriptionExposedIdRequestBody ->
-                                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                               (Network.HTTP.Client.Types.Response GetSubscriptionsSubscriptionExposedIdResponse))
+-- | > GET /v1/subscriptions/{subscription_exposed_id}
+-- 
+-- \<p>Retrieves the subscription with the given ID.\<\/p>
+getSubscriptionsSubscriptionExposedId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                   -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                                   -- ^ subscription_exposed_id | Constraints: Maximum length of 5000
+  -> GetSubscriptionsSubscriptionExposedIdRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSubscriptionsSubscriptionExposedIdResponse)) -- ^ Monad containing the result of the operation
 getSubscriptionsSubscriptionExposedId config
                                       expand
                                       subscriptionExposedId
@@ -58,6 +56,9 @@ getSubscriptionsSubscriptionExposedId config
                                                                                                                                                                                                                                                                                                                                                                                                                                                    Error)
                                                                                                                                                                                                                             | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/subscriptions/{subscription_exposed_id}
+-- 
+-- The same as 'getSubscriptionsSubscriptionExposedId' but returns the raw 'Data.ByteString.Char8.ByteString'
 getSubscriptionsSubscriptionExposedIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                           StripeAPI.Common.SecurityScheme s) =>
                                             StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getSubscriptionsSubscriptionExposedIdRaw config
                                          subscriptionExposedId
                                          body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/subscriptions/{subscription_exposed_id}
+-- 
+-- Monadic version of 'getSubscriptionsSubscriptionExposedId' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionsSubscriptionExposedIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
                                           GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getSubscriptionsSubscriptionExposedIdM expand
                                                                                                                                                                                                                                                                                                                                                                                                                                                     Error)
                                                                                                                                                                                                                              | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/subscriptions/{subscription_exposed_id}
+-- 
+-- Monadic version of 'getSubscriptionsSubscriptionExposedIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionsSubscriptionExposedIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
                                              GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getSubscriptionsSubscriptionExposedIdRawM expand
                                           subscriptionExposedId
                                           body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetSubscriptionsSubscriptionExposedIdRequestBody
-    = GetSubscriptionsSubscriptionExposedIdRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getSubscriptionsSubscriptionExposedIdRequestBody
+-- 
+-- 
+data GetSubscriptionsSubscriptionExposedIdRequestBody = GetSubscriptionsSubscriptionExposedIdRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSubscriptionsSubscriptionExposedIdRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsSubscriptionExposedIdRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionsSubscriptionExposedIdRequestBody" (\obj -> GHC.Base.pure GetSubscriptionsSubscriptionExposedIdRequestBody)
-
-data GetSubscriptionsSubscriptionExposedIdResponse
-    = GetSubscriptionsSubscriptionExposedIdResponseError GHC.Base.String
-    | GetSubscriptionsSubscriptionExposedIdResponse200 Subscription
-    | GetSubscriptionsSubscriptionExposedIdResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getSubscriptionsSubscriptionExposedId'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetSubscriptionsSubscriptionExposedIdResponseError' is used.
+data GetSubscriptionsSubscriptionExposedIdResponse =                   
+   GetSubscriptionsSubscriptionExposedIdResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetSubscriptionsSubscriptionExposedIdResponse200 Subscription      -- ^ Successful response.
+  | GetSubscriptionsSubscriptionExposedIdResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

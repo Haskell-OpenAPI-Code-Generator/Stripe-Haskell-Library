@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getCharges
 module StripeAPI.Operations.GetCharges where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,23 +39,20 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/charges
-getCharges :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                            StripeAPI.Common.SecurityScheme s) =>
-              StripeAPI.Common.Configuration s ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GetChargesRequestBody ->
-              m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                    (Network.HTTP.Client.Types.Response GetChargesResponse))
+-- | > GET /v1/charges
+-- 
+-- \<p>Returns a list of charges you’ve previously created. The charges are returned in sorted order, with the most recent charges appearing first.\<\/p>
+getCharges :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ created
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ customer: Only return charges for the customer specified by this customer ID. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                               -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ payment_intent: Only return charges that were created by the PaymentIntent specified by this PaymentIntent ID. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ transfer_group: Only return charges for this transfer group. | Constraints: Maximum length of 5000
+  -> GetChargesRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetChargesResponse)) -- ^ Monad containing the result of the operation
 getCharges config
            created
            customer
@@ -77,6 +75,9 @@ getCharges config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> paymentIntent) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "transfer_group",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> transferGroup) : [])))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/charges
+-- 
+-- The same as 'getCharges' but returns the raw 'Data.ByteString.Char8.ByteString'
 getChargesRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
                  StripeAPI.Common.Configuration s ->
@@ -109,6 +110,9 @@ getChargesRaw config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> paymentIntent) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "transfer_group",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> transferGroup) : [])))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/charges
+-- 
+-- Monadic version of 'getCharges' (use with 'StripeAPI.Common.runWithConfiguration')
 getChargesM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                              StripeAPI.Common.SecurityScheme s) =>
                GHC.Maybe.Maybe GHC.Base.String ->
@@ -145,6 +149,9 @@ getChargesM created
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> paymentIntent) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "transfer_group",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       StripeAPI.Common.stringifyModel Data.Functor.<$> transferGroup) : [])))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/charges
+-- 
+-- Monadic version of 'getChargesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getChargesRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                 StripeAPI.Common.SecurityScheme s) =>
                   GHC.Maybe.Maybe GHC.Base.String ->
@@ -177,26 +184,53 @@ getChargesRawM created
                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> paymentIntent) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "transfer_group",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> transferGroup) : [])))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetChargesRequestBody
-    = GetChargesRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getChargesRequestBody
+-- 
+-- 
+data GetChargesRequestBody = GetChargesRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetChargesRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetChargesRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetChargesRequestBody" (\obj -> GHC.Base.pure GetChargesRequestBody)
-
-data GetChargesResponse
-    = GetChargesResponseError GHC.Base.String
-    | GetChargesResponse200 GetChargesResponseBody200
-    | GetChargesResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetChargesResponseBody200
-    = GetChargesResponseBody200 {getChargesResponseBody200Data :: ([] Charge),
-                                 getChargesResponseBody200HasMore :: GHC.Types.Bool,
-                                 getChargesResponseBody200Object :: GetChargesResponseBody200Object',
-                                 getChargesResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getCharges'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetChargesResponseError' is used.
+data GetChargesResponse =                            
+   GetChargesResponseError GHC.Base.String           -- ^ Means either no matching case available or a parse error
+  | GetChargesResponse200 GetChargesResponseBody200  -- ^ Successful response.
+  | GetChargesResponseDefault Error                  -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetChargesResponseBody200
+-- 
+-- 
+data GetChargesResponseBody200 = GetChargesResponseBody200 {
+  -- | data
+  getChargesResponseBody200Data :: ([] Charge)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getChargesResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getChargesResponseBody200Object :: GetChargesResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  -- * Must match pattern \'^\/v1\/charges\'
+  , getChargesResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetChargesResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getChargesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getChargesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getChargesResponseBody200Object obj) : (Data.Aeson..=) "url" (getChargesResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getChargesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getChargesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getChargesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getChargesResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetChargesResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetChargesResponseBody200" (\obj -> (((GHC.Base.pure GetChargesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetChargesResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetChargesResponseBody200Object'
     = GetChargesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetChargesResponseBody200Object'EnumTyped GHC.Base.String
@@ -210,8 +244,3 @@ instance Data.Aeson.FromJSON GetChargesResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetChargesResponseBody200Object'EnumStringList
                                           else GetChargesResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetChargesResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getChargesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getChargesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getChargesResponseBody200Object obj) : (Data.Aeson..=) "url" (getChargesResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getChargesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getChargesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getChargesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getChargesResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetChargesResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetChargesResponseBody200" (\obj -> (((GHC.Base.pure GetChargesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

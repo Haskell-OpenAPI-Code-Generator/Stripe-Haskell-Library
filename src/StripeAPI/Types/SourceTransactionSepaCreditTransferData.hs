@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTransactionSepaCreditTransferData
 module StripeAPI.Types.SourceTransactionSepaCreditTransferData where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,30 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTransactionSepaCreditTransferData
-    = SourceTransactionSepaCreditTransferData {sourceTransactionSepaCreditTransferDataReference :: (GHC.Maybe.Maybe GHC.Base.String),
-                                               sourceTransactionSepaCreditTransferDataSenderIban :: (GHC.Maybe.Maybe GHC.Base.String),
-                                               sourceTransactionSepaCreditTransferDataSenderName :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_transaction_sepa_credit_transfer_data
+-- 
+-- 
+data SourceTransactionSepaCreditTransferData = SourceTransactionSepaCreditTransferData {
+  -- | reference: Reference associated with the transfer.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  sourceTransactionSepaCreditTransferDataReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | sender_iban: Sender\'s bank account IBAN.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionSepaCreditTransferDataSenderIban :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | sender_name: Sender\'s name.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionSepaCreditTransferDataSenderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTransactionSepaCreditTransferData
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "reference" (sourceTransactionSepaCreditTransferDataReference obj) : (Data.Aeson..=) "sender_iban" (sourceTransactionSepaCreditTransferDataSenderIban obj) : (Data.Aeson..=) "sender_name" (sourceTransactionSepaCreditTransferDataSenderName obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "reference" (sourceTransactionSepaCreditTransferDataReference obj) GHC.Base.<> ((Data.Aeson..=) "sender_iban" (sourceTransactionSepaCreditTransferDataSenderIban obj) GHC.Base.<> (Data.Aeson..=) "sender_name" (sourceTransactionSepaCreditTransferDataSenderName obj)))

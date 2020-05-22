@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema Address
 module StripeAPI.Types.Address where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,14 +27,48 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data Address
-    = Address {addressCity :: (GHC.Maybe.Maybe GHC.Base.String),
-               addressCountry :: (GHC.Maybe.Maybe GHC.Base.String),
-               addressLine1 :: (GHC.Maybe.Maybe GHC.Base.String),
-               addressLine2 :: (GHC.Maybe.Maybe GHC.Base.String),
-               addressPostalCode :: (GHC.Maybe.Maybe GHC.Base.String),
-               addressState :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema address
+-- 
+-- 
+data Address = Address {
+  -- | city: City, district, suburb, town, or village.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  addressCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , addressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | line1: Address line 1 (e.g., street, PO Box, or company name).
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , addressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , addressLine2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | postal_code: ZIP or postal code.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , addressPostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | state: State, county, province, or region.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , addressState :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Address
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (addressCity obj) : (Data.Aeson..=) "country" (addressCountry obj) : (Data.Aeson..=) "line1" (addressLine1 obj) : (Data.Aeson..=) "line2" (addressLine2 obj) : (Data.Aeson..=) "postal_code" (addressPostalCode obj) : (Data.Aeson..=) "state" (addressState obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (addressCity obj) GHC.Base.<> ((Data.Aeson..=) "country" (addressCountry obj) GHC.Base.<> ((Data.Aeson..=) "line1" (addressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (addressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (addressPostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (addressState obj))))))

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTypeEps
 module StripeAPI.Types.SourceTypeEps where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,16 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTypeEps
-    = SourceTypeEps {sourceTypeEpsReference :: (GHC.Maybe.Maybe GHC.Base.String),
-                     sourceTypeEpsStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_type_eps
+-- 
+-- 
+data SourceTypeEps = SourceTypeEps {
+  -- | reference
+  sourceTypeEpsReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | statement_descriptor
+  , sourceTypeEpsStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeEps
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "reference" (sourceTypeEpsReference obj) : (Data.Aeson..=) "statement_descriptor" (sourceTypeEpsStatementDescriptor obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "reference" (sourceTypeEpsReference obj) GHC.Base.<> (Data.Aeson..=) "statement_descriptor" (sourceTypeEpsStatementDescriptor obj))

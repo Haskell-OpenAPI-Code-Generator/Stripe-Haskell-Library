@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema PaymentMethodDetailsKlarna
 module StripeAPI.Types.PaymentMethodDetailsKlarna where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,9 +27,13 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data PaymentMethodDetailsKlarna
-    = PaymentMethodDetailsKlarna {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema payment_method_details_klarna
+-- 
+-- 
+data PaymentMethodDetailsKlarna = PaymentMethodDetailsKlarna {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsKlarna
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SetupIntentNextActionRedirectToUrl
 module StripeAPI.Types.SetupIntentNextActionRedirectToUrl where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SetupIntentNextActionRedirectToUrl
-    = SetupIntentNextActionRedirectToUrl {setupIntentNextActionRedirectToUrlReturnUrl :: (GHC.Maybe.Maybe GHC.Base.String),
-                                          setupIntentNextActionRedirectToUrlUrl :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema setup_intent_next_action_redirect_to_url
+-- 
+-- 
+data SetupIntentNextActionRedirectToUrl = SetupIntentNextActionRedirectToUrl {
+  -- | return_url: If the customer does not exit their browser while authenticating, they will be redirected to this specified URL after completion.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  setupIntentNextActionRedirectToUrlReturnUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | url: The URL you must redirect your customer to in order to authenticate.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , setupIntentNextActionRedirectToUrlUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SetupIntentNextActionRedirectToUrl
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "return_url" (setupIntentNextActionRedirectToUrlReturnUrl obj) : (Data.Aeson..=) "url" (setupIntentNextActionRedirectToUrlUrl obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "return_url" (setupIntentNextActionRedirectToUrlReturnUrl obj) GHC.Base.<> (Data.Aeson..=) "url" (setupIntentNextActionRedirectToUrlUrl obj))

@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation deleteTerminalLocationsLocation
 module StripeAPI.Operations.DeleteTerminalLocationsLocation where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,16 +39,13 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- DELETE /v1/terminal/locations/{location}
-deleteTerminalLocationsLocation :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                 StripeAPI.Common.SecurityScheme s) =>
-                                   StripeAPI.Common.Configuration s ->
-                                   GHC.Base.String ->
-                                   DeleteTerminalLocationsLocationRequestBody ->
-                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                         (Network.HTTP.Client.Types.Response DeleteTerminalLocationsLocationResponse))
+-- | > DELETE /v1/terminal/locations/{location}
+-- 
+-- \<p>Deletes a \<code>Location\<\/code> object.\<\/p>
+deleteTerminalLocationsLocation :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                             -- ^ location | Constraints: Maximum length of 5000
+  -> DeleteTerminalLocationsLocationRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteTerminalLocationsLocationResponse)) -- ^ Monad containing the result of the operation
 deleteTerminalLocationsLocation config
                                 location
                                 body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either DeleteTerminalLocationsLocationResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> DeleteTerminalLocationsLocationResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
@@ -55,6 +53,9 @@ deleteTerminalLocationsLocation config
                                                                                                                                                                                                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> DeleteTerminalLocationsLocationResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                  Error)
                                                                                                                                                                                                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/terminal/locations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel location)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > DELETE /v1/terminal/locations/{location}
+-- 
+-- The same as 'deleteTerminalLocationsLocation' but returns the raw 'Data.ByteString.Char8.ByteString'
 deleteTerminalLocationsLocationRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
                                       StripeAPI.Common.Configuration s ->
@@ -65,6 +66,9 @@ deleteTerminalLocationsLocationRaw :: forall m s . (StripeAPI.Common.MonadHTTP m
 deleteTerminalLocationsLocationRaw config
                                    location
                                    body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/terminal/locations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel location)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > DELETE /v1/terminal/locations/{location}
+-- 
+-- Monadic version of 'deleteTerminalLocationsLocation' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteTerminalLocationsLocationM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     GHC.Base.String ->
@@ -79,6 +83,9 @@ deleteTerminalLocationsLocationM location
                                                                                                                                                                                                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> DeleteTerminalLocationsLocationResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                   Error)
                                                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/terminal/locations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel location)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > DELETE /v1/terminal/locations/{location}
+-- 
+-- Monadic version of 'deleteTerminalLocationsLocationRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteTerminalLocationsLocationRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
                                        GHC.Base.String ->
@@ -89,17 +96,23 @@ deleteTerminalLocationsLocationRawM :: forall m s . (StripeAPI.Common.MonadHTTP 
                                                                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 deleteTerminalLocationsLocationRawM location
                                     body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/terminal/locations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel location)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data DeleteTerminalLocationsLocationRequestBody
-    = DeleteTerminalLocationsLocationRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema deleteTerminalLocationsLocationRequestBody
+-- 
+-- 
+data DeleteTerminalLocationsLocationRequestBody = DeleteTerminalLocationsLocationRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeleteTerminalLocationsLocationRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON DeleteTerminalLocationsLocationRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteTerminalLocationsLocationRequestBody" (\obj -> GHC.Base.pure DeleteTerminalLocationsLocationRequestBody)
-
-data DeleteTerminalLocationsLocationResponse
-    = DeleteTerminalLocationsLocationResponseError GHC.Base.String
-    | DeleteTerminalLocationsLocationResponse200 DeletedTerminal'location
-    | DeleteTerminalLocationsLocationResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'deleteTerminalLocationsLocation'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'DeleteTerminalLocationsLocationResponseError' is used.
+data DeleteTerminalLocationsLocationResponse =                           
+   DeleteTerminalLocationsLocationResponseError GHC.Base.String          -- ^ Means either no matching case available or a parse error
+  | DeleteTerminalLocationsLocationResponse200 DeletedTerminal'location  -- ^ Successful response.
+  | DeleteTerminalLocationsLocationResponseDefault Error                 -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

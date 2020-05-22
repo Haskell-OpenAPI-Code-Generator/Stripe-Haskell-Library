@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema TaxIdVerification
 module StripeAPI.Types.TaxIdVerification where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,34 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data TaxIdVerification
-    = TaxIdVerification {taxIdVerificationStatus :: TaxIdVerificationStatus',
-                         taxIdVerificationVerifiedAddress :: (GHC.Maybe.Maybe GHC.Base.String),
-                         taxIdVerificationVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema tax_id_verification
+-- 
+-- 
+data TaxIdVerification = TaxIdVerification {
+  -- | status: Verification status, one of \`pending\`, \`verified\`, \`unverified\`, or \`unavailable\`.
+  taxIdVerificationStatus :: TaxIdVerificationStatus'
+  -- | verified_address: Verified address.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , taxIdVerificationVerifiedAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | verified_name: Verified name.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , taxIdVerificationVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON TaxIdVerification
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "status" (taxIdVerificationStatus obj) : (Data.Aeson..=) "verified_address" (taxIdVerificationVerifiedAddress obj) : (Data.Aeson..=) "verified_name" (taxIdVerificationVerifiedName obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "status" (taxIdVerificationStatus obj) GHC.Base.<> ((Data.Aeson..=) "verified_address" (taxIdVerificationVerifiedAddress obj) GHC.Base.<> (Data.Aeson..=) "verified_name" (taxIdVerificationVerifiedName obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON TaxIdVerification
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxIdVerification" (\obj -> ((GHC.Base.pure TaxIdVerification GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name"))
+-- | Defines the enum schema tax_id_verificationStatus\'
+-- 
+-- Verification status, one of \`pending\`, \`verified\`, \`unverified\`, or \`unavailable\`.
 data TaxIdVerificationStatus'
     = TaxIdVerificationStatus'EnumOther Data.Aeson.Types.Internal.Value
     | TaxIdVerificationStatus'EnumTyped GHC.Base.String
@@ -56,8 +80,3 @@ instance Data.Aeson.FromJSON TaxIdVerificationStatus'
                                                       else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "verified")
                                                             then TaxIdVerificationStatus'EnumStringVerified
                                                             else TaxIdVerificationStatus'EnumOther val)
-instance Data.Aeson.ToJSON TaxIdVerification
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "status" (taxIdVerificationStatus obj) : (Data.Aeson..=) "verified_address" (taxIdVerificationVerifiedAddress obj) : (Data.Aeson..=) "verified_name" (taxIdVerificationVerifiedName obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "status" (taxIdVerificationStatus obj) GHC.Base.<> ((Data.Aeson..=) "verified_address" (taxIdVerificationVerifiedAddress obj) GHC.Base.<> (Data.Aeson..=) "verified_name" (taxIdVerificationVerifiedName obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON TaxIdVerification
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxIdVerification" (\obj -> ((GHC.Base.pure TaxIdVerification GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "status")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name"))

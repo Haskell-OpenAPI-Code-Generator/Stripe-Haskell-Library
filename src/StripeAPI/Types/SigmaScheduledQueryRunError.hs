@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SigmaScheduledQueryRunError
 module StripeAPI.Types.SigmaScheduledQueryRunError where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,9 +27,18 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SigmaScheduledQueryRunError
-    = SigmaScheduledQueryRunError {sigmaScheduledQueryRunErrorMessage :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema sigma_scheduled_query_run_error
+-- 
+-- 
+data SigmaScheduledQueryRunError = SigmaScheduledQueryRunError {
+  -- | message: Information about the run failure.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  sigmaScheduledQueryRunErrorMessage :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SigmaScheduledQueryRunError
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "message" (sigmaScheduledQueryRunErrorMessage obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "message" (sigmaScheduledQueryRunErrorMessage obj))

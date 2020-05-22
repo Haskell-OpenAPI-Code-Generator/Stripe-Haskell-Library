@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation postAccountsAccountCapabilitiesCapability
 module StripeAPI.Operations.PostAccountsAccountCapabilitiesCapability where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- POST /v1/accounts/{account}/capabilities/{capability}
-postAccountsAccountCapabilitiesCapability :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                           StripeAPI.Common.SecurityScheme s) =>
-                                             StripeAPI.Common.Configuration s ->
-                                             GHC.Base.String ->
-                                             GHC.Base.String ->
-                                             PostAccountsAccountCapabilitiesCapabilityRequestBody ->
-                                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                                   (Network.HTTP.Client.Types.Response PostAccountsAccountCapabilitiesCapabilityResponse))
+-- | > POST /v1/accounts/{account}/capabilities/{capability}
+-- 
+-- \<p>Updates an existing Account Capability.\<\/p>
+postAccountsAccountCapabilitiesCapability :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                                       -- ^ account | Constraints: Maximum length of 5000
+  -> GHC.Base.String                                                                                                                                       -- ^ capability
+  -> PostAccountsAccountCapabilitiesCapabilityRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostAccountsAccountCapabilitiesCapabilityResponse)) -- ^ Monad containing the result of the operation
 postAccountsAccountCapabilitiesCapability config
                                           account
                                           capability
@@ -57,6 +55,9 @@ postAccountsAccountCapabilitiesCapability config
                                                                                                                                                                                                                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostAccountsAccountCapabilitiesCapabilityResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                Error)
                                                                                                                                                                                                                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ ("/capabilities/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel capability)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/accounts/{account}/capabilities/{capability}
+-- 
+-- The same as 'postAccountsAccountCapabilitiesCapability' but returns the raw 'Data.ByteString.Char8.ByteString'
 postAccountsAccountCapabilitiesCapabilityRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                               StripeAPI.Common.SecurityScheme s) =>
                                                 StripeAPI.Common.Configuration s ->
@@ -69,6 +70,9 @@ postAccountsAccountCapabilitiesCapabilityRaw config
                                              account
                                              capability
                                              body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ ("/capabilities/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel capability)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/accounts/{account}/capabilities/{capability}
+-- 
+-- Monadic version of 'postAccountsAccountCapabilitiesCapability' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountCapabilitiesCapabilityM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                             StripeAPI.Common.SecurityScheme s) =>
                                               GHC.Base.String ->
@@ -85,6 +89,9 @@ postAccountsAccountCapabilitiesCapabilityM account
                                                                                                                                                                                                                                      | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostAccountsAccountCapabilitiesCapabilityResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Error)
                                                                                                                                                                                                                                      | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ ("/capabilities/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel capability)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/accounts/{account}/capabilities/{capability}
+-- 
+-- Monadic version of 'postAccountsAccountCapabilitiesCapabilityRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountCapabilitiesCapabilityRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                StripeAPI.Common.SecurityScheme s) =>
                                                  GHC.Base.String ->
@@ -97,18 +104,26 @@ postAccountsAccountCapabilitiesCapabilityRawM :: forall m s . (StripeAPI.Common.
 postAccountsAccountCapabilitiesCapabilityRawM account
                                               capability
                                               body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ ("/capabilities/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel capability)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data PostAccountsAccountCapabilitiesCapabilityRequestBody
-    = PostAccountsAccountCapabilitiesCapabilityRequestBody {postAccountsAccountCapabilitiesCapabilityRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String)),
-                                                            postAccountsAccountCapabilitiesCapabilityRequestBodyRequested :: (GHC.Maybe.Maybe GHC.Types.Bool)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postAccountsAccountCapabilitiesCapabilityRequestBody
+-- 
+-- 
+data PostAccountsAccountCapabilitiesCapabilityRequestBody = PostAccountsAccountCapabilitiesCapabilityRequestBody {
+  -- | expand: Specifies which fields in the response should be expanded.
+  postAccountsAccountCapabilitiesCapabilityRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  -- | requested: Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the \`requirements\` arrays.
+  , postAccountsAccountCapabilitiesCapabilityRequestBodyRequested :: (GHC.Maybe.Maybe GHC.Types.Bool)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountsAccountCapabilitiesCapabilityRequestBody
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postAccountsAccountCapabilitiesCapabilityRequestBodyExpand obj) : (Data.Aeson..=) "requested" (postAccountsAccountCapabilitiesCapabilityRequestBodyRequested obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postAccountsAccountCapabilitiesCapabilityRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "requested" (postAccountsAccountCapabilitiesCapabilityRequestBodyRequested obj))
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountCapabilitiesCapabilityRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountsAccountCapabilitiesCapabilityRequestBody" (\obj -> (GHC.Base.pure PostAccountsAccountCapabilitiesCapabilityRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "requested"))
-
-data PostAccountsAccountCapabilitiesCapabilityResponse
-    = PostAccountsAccountCapabilitiesCapabilityResponseError GHC.Base.String
-    | PostAccountsAccountCapabilitiesCapabilityResponse200 Capability
-    | PostAccountsAccountCapabilitiesCapabilityResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'postAccountsAccountCapabilitiesCapability'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'PostAccountsAccountCapabilitiesCapabilityResponseError' is used.
+data PostAccountsAccountCapabilitiesCapabilityResponse =                   
+   PostAccountsAccountCapabilitiesCapabilityResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | PostAccountsAccountCapabilitiesCapabilityResponse200 Capability        -- ^ Successful response.
+  | PostAccountsAccountCapabilitiesCapabilityResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

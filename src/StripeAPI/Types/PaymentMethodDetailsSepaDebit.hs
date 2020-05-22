@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema PaymentMethodDetailsSepaDebit
 module StripeAPI.Types.PaymentMethodDetailsSepaDebit where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,14 +27,48 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data PaymentMethodDetailsSepaDebit
-    = PaymentMethodDetailsSepaDebit {paymentMethodDetailsSepaDebitBankCode :: (GHC.Maybe.Maybe GHC.Base.String),
-                                     paymentMethodDetailsSepaDebitBranchCode :: (GHC.Maybe.Maybe GHC.Base.String),
-                                     paymentMethodDetailsSepaDebitCountry :: (GHC.Maybe.Maybe GHC.Base.String),
-                                     paymentMethodDetailsSepaDebitFingerprint :: (GHC.Maybe.Maybe GHC.Base.String),
-                                     paymentMethodDetailsSepaDebitLast4 :: (GHC.Maybe.Maybe GHC.Base.String),
-                                     paymentMethodDetailsSepaDebitMandate :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema payment_method_details_sepa_debit
+-- 
+-- 
+data PaymentMethodDetailsSepaDebit = PaymentMethodDetailsSepaDebit {
+  -- | bank_code: Bank code of bank associated with the bank account.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  paymentMethodDetailsSepaDebitBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | branch_code: Branch code of bank associated with the bank account.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsSepaDebitBranchCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | country: Two-letter ISO code representing the country the bank account is located in.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsSepaDebitCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | fingerprint: Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsSepaDebitFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | last4: Last four characters of the IBAN.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsSepaDebitLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | mandate: ID of the mandate used to make this payment.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsSepaDebitMandate :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsSepaDebit
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_code" (paymentMethodDetailsSepaDebitBankCode obj) : (Data.Aeson..=) "branch_code" (paymentMethodDetailsSepaDebitBranchCode obj) : (Data.Aeson..=) "country" (paymentMethodDetailsSepaDebitCountry obj) : (Data.Aeson..=) "fingerprint" (paymentMethodDetailsSepaDebitFingerprint obj) : (Data.Aeson..=) "last4" (paymentMethodDetailsSepaDebitLast4 obj) : (Data.Aeson..=) "mandate" (paymentMethodDetailsSepaDebitMandate obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_code" (paymentMethodDetailsSepaDebitBankCode obj) GHC.Base.<> ((Data.Aeson..=) "branch_code" (paymentMethodDetailsSepaDebitBranchCode obj) GHC.Base.<> ((Data.Aeson..=) "country" (paymentMethodDetailsSepaDebitCountry obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (paymentMethodDetailsSepaDebitFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "last4" (paymentMethodDetailsSepaDebitLast4 obj) GHC.Base.<> (Data.Aeson..=) "mandate" (paymentMethodDetailsSepaDebitMandate obj))))))

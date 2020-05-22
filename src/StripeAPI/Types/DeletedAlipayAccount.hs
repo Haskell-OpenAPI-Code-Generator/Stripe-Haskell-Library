@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema DeletedAlipayAccount
 module StripeAPI.Types.DeletedAlipayAccount where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,30 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data DeletedAlipayAccount
-    = DeletedAlipayAccount {deletedAlipayAccountDeleted :: DeletedAlipayAccountDeleted',
-                            deletedAlipayAccountId :: GHC.Base.String,
-                            deletedAlipayAccountObject :: DeletedAlipayAccountObject'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema deleted_alipay_account
+-- 
+-- 
+data DeletedAlipayAccount = DeletedAlipayAccount {
+  -- | deleted: Always true for a deleted object
+  deletedAlipayAccountDeleted :: DeletedAlipayAccountDeleted'
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , deletedAlipayAccountId :: GHC.Base.String
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , deletedAlipayAccountObject :: DeletedAlipayAccountObject'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON DeletedAlipayAccount
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedAlipayAccountDeleted obj) : (Data.Aeson..=) "id" (deletedAlipayAccountId obj) : (Data.Aeson..=) "object" (deletedAlipayAccountObject obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedAlipayAccountDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedAlipayAccountId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedAlipayAccountObject obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON DeletedAlipayAccount
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedAlipayAccount" (\obj -> ((GHC.Base.pure DeletedAlipayAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+-- | Defines the enum schema deleted_alipay_accountDeleted\'
+-- 
+-- Always true for a deleted object
 data DeletedAlipayAccountDeleted'
     = DeletedAlipayAccountDeleted'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedAlipayAccountDeleted'EnumTyped GHC.Types.Bool
@@ -44,6 +64,9 @@ instance Data.Aeson.FromJSON DeletedAlipayAccountDeleted'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True
                                           then DeletedAlipayAccountDeleted'EnumBoolTrue
                                           else DeletedAlipayAccountDeleted'EnumOther val)
+-- | Defines the enum schema deleted_alipay_accountObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedAlipayAccountObject'
     = DeletedAlipayAccountObject'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedAlipayAccountObject'EnumTyped GHC.Base.String
@@ -57,8 +80,3 @@ instance Data.Aeson.FromJSON DeletedAlipayAccountObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "alipay_account")
                                           then DeletedAlipayAccountObject'EnumStringAlipayAccount
                                           else DeletedAlipayAccountObject'EnumOther val)
-instance Data.Aeson.ToJSON DeletedAlipayAccount
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedAlipayAccountDeleted obj) : (Data.Aeson..=) "id" (deletedAlipayAccountId obj) : (Data.Aeson..=) "object" (deletedAlipayAccountObject obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedAlipayAccountDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedAlipayAccountId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedAlipayAccountObject obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedAlipayAccount
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedAlipayAccount" (\obj -> ((GHC.Base.pure DeletedAlipayAccount GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))

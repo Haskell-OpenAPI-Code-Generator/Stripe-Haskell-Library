@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getSubscriptionItemsItem
 module StripeAPI.Operations.GetSubscriptionItemsItem where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/subscription_items/{item}
-getSubscriptionItemsItem :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                          StripeAPI.Common.SecurityScheme s) =>
-                            StripeAPI.Common.Configuration s ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Base.String ->
-                            GetSubscriptionItemsItemRequestBody ->
-                            m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                  (Network.HTTP.Client.Types.Response GetSubscriptionItemsItemResponse))
+-- | > GET /v1/subscription_items/{item}
+-- 
+-- \<p>Retrieves the invoice item with the given ID.\<\/p>
+getSubscriptionItemsItem :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                      -- ^ item | Constraints: Maximum length of 5000
+  -> GetSubscriptionItemsItemRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSubscriptionItemsItemResponse)) -- ^ Monad containing the result of the operation
 getSubscriptionItemsItem config
                          expand
                          item
@@ -58,6 +56,9 @@ getSubscriptionItemsItem config
                                                                                                                                                                                                                                                                                                                                                                                                             Error)
                                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel item)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/subscription_items/{item}
+-- 
+-- The same as 'getSubscriptionItemsItem' but returns the raw 'Data.ByteString.Char8.ByteString'
 getSubscriptionItemsItemRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getSubscriptionItemsItemRaw config
                             item
                             body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel item)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/subscription_items/{item}
+-- 
+-- Monadic version of 'getSubscriptionItemsItem' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionItemsItemM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getSubscriptionItemsItemM expand
                                                                                                                                                                                                                                                                                                                                                                                                              Error)
                                                                                                                                                                                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel item)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/subscription_items/{item}
+-- 
+-- Monadic version of 'getSubscriptionItemsItemRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionItemsItemRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
                                 GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getSubscriptionItemsItemRawM expand
                              item
                              body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel item)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetSubscriptionItemsItemRequestBody
-    = GetSubscriptionItemsItemRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getSubscriptionItemsItemRequestBody
+-- 
+-- 
+data GetSubscriptionItemsItemRequestBody = GetSubscriptionItemsItemRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSubscriptionItemsItemRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionItemsItemRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionItemsItemRequestBody" (\obj -> GHC.Base.pure GetSubscriptionItemsItemRequestBody)
-
-data GetSubscriptionItemsItemResponse
-    = GetSubscriptionItemsItemResponseError GHC.Base.String
-    | GetSubscriptionItemsItemResponse200 SubscriptionItem
-    | GetSubscriptionItemsItemResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getSubscriptionItemsItem'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetSubscriptionItemsItemResponseError' is used.
+data GetSubscriptionItemsItemResponse =                   
+   GetSubscriptionItemsItemResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetSubscriptionItemsItemResponse200 SubscriptionItem  -- ^ Successful response.
+  | GetSubscriptionItemsItemResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

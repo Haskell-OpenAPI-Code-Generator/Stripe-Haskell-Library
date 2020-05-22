@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getTerminalLocationsLocation
 module StripeAPI.Operations.GetTerminalLocationsLocation where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/terminal/locations/{location}
-getTerminalLocationsLocation :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                              StripeAPI.Common.SecurityScheme s) =>
-                                StripeAPI.Common.Configuration s ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Base.String ->
-                                GetTerminalLocationsLocationRequestBody ->
-                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                      (Network.HTTP.Client.Types.Response GetTerminalLocationsLocationResponse))
+-- | > GET /v1/terminal/locations/{location}
+-- 
+-- \<p>Retrieves a \<code>Location\<\/code> object.\<\/p>
+getTerminalLocationsLocation :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                          -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                          -- ^ location | Constraints: Maximum length of 5000
+  -> GetTerminalLocationsLocationRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetTerminalLocationsLocationResponse)) -- ^ Monad containing the result of the operation
 getTerminalLocationsLocation config
                              expand
                              location
@@ -58,6 +56,9 @@ getTerminalLocationsLocation config
                                                                                                                                                                                                                                                                                                                                                                                                                         Error)
                                                                                                                                                                                                           | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/terminal/locations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel location)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/terminal/locations/{location}
+-- 
+-- The same as 'getTerminalLocationsLocation' but returns the raw 'Data.ByteString.Char8.ByteString'
 getTerminalLocationsLocationRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
                                    StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getTerminalLocationsLocationRaw config
                                 location
                                 body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/terminal/locations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel location)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                       StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/terminal/locations/{location}
+-- 
+-- Monadic version of 'getTerminalLocationsLocation' (use with 'StripeAPI.Common.runWithConfiguration')
 getTerminalLocationsLocationM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
                                  GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getTerminalLocationsLocationM expand
                                                                                                                                                                                                                                                                                                                                                                                                                          Error)
                                                                                                                                                                                                            | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/terminal/locations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel location)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/terminal/locations/{location}
+-- 
+-- Monadic version of 'getTerminalLocationsLocationRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getTerminalLocationsLocationRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getTerminalLocationsLocationRawM expand
                                  location
                                  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/terminal/locations/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel location)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetTerminalLocationsLocationRequestBody
-    = GetTerminalLocationsLocationRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getTerminalLocationsLocationRequestBody
+-- 
+-- 
+data GetTerminalLocationsLocationRequestBody = GetTerminalLocationsLocationRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetTerminalLocationsLocationRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalLocationsLocationRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTerminalLocationsLocationRequestBody" (\obj -> GHC.Base.pure GetTerminalLocationsLocationRequestBody)
-
-data GetTerminalLocationsLocationResponse
-    = GetTerminalLocationsLocationResponseError GHC.Base.String
-    | GetTerminalLocationsLocationResponse200 Terminal'location
-    | GetTerminalLocationsLocationResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getTerminalLocationsLocation'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetTerminalLocationsLocationResponseError' is used.
+data GetTerminalLocationsLocationResponse =                    
+   GetTerminalLocationsLocationResponseError GHC.Base.String   -- ^ Means either no matching case available or a parse error
+  | GetTerminalLocationsLocationResponse200 Terminal'location  -- ^ Successful response.
+  | GetTerminalLocationsLocationResponseDefault Error          -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

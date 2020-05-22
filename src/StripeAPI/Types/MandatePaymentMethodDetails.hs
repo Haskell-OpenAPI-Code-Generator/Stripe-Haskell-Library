@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema MandatePaymentMethodDetails
 module StripeAPI.Types.MandatePaymentMethodDetails where
 
 import qualified Prelude as GHC.Integer.Type
@@ -28,11 +29,22 @@ import qualified StripeAPI.Common
 import StripeAPI.Types.CardMandatePaymentMethodDetails
 import StripeAPI.Types.MandateSepaDebit
 
-data MandatePaymentMethodDetails
-    = MandatePaymentMethodDetails {mandatePaymentMethodDetailsCard :: (GHC.Maybe.Maybe CardMandatePaymentMethodDetails),
-                                   mandatePaymentMethodDetailsSepaDebit :: (GHC.Maybe.Maybe MandateSepaDebit),
-                                   mandatePaymentMethodDetailsType :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema mandate_payment_method_details
+-- 
+-- 
+data MandatePaymentMethodDetails = MandatePaymentMethodDetails {
+  -- | card: 
+  mandatePaymentMethodDetailsCard :: (GHC.Maybe.Maybe CardMandatePaymentMethodDetails)
+  -- | sepa_debit: 
+  , mandatePaymentMethodDetailsSepaDebit :: (GHC.Maybe.Maybe MandateSepaDebit)
+  -- | type: The type of the payment method associated with this mandate. An additional hash is included on \`payment_method_details\` with a name matching this value. It contains mandate information specific to the payment method.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , mandatePaymentMethodDetailsType :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON MandatePaymentMethodDetails
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card" (mandatePaymentMethodDetailsCard obj) : (Data.Aeson..=) "sepa_debit" (mandatePaymentMethodDetailsSepaDebit obj) : (Data.Aeson..=) "type" (mandatePaymentMethodDetailsType obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card" (mandatePaymentMethodDetailsCard obj) GHC.Base.<> ((Data.Aeson..=) "sepa_debit" (mandatePaymentMethodDetailsSepaDebit obj) GHC.Base.<> (Data.Aeson..=) "type" (mandatePaymentMethodDetailsType obj)))

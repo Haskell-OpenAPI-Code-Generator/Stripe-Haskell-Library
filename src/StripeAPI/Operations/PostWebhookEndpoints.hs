@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation postWebhookEndpoints
 module StripeAPI.Operations.PostWebhookEndpoints where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,21 +39,21 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- POST /v1/webhook_endpoints
-postWebhookEndpoints :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                      StripeAPI.Common.SecurityScheme s) =>
-                        StripeAPI.Common.Configuration s ->
-                        PostWebhookEndpointsRequestBody ->
-                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                              (Network.HTTP.Client.Types.Response PostWebhookEndpointsResponse))
+-- | > POST /v1/webhook_endpoints
+-- 
+-- \<p>A webhook endpoint must have a \<code>url\<\/code> and a list of \<code>enabled_events\<\/code>. You may optionally specify the Boolean \<code>connect\<\/code> parameter. If set to true, then a Connect webhook endpoint that notifies the specified \<code>url\<\/code> about events from all connected accounts is created; otherwise an account webhook endpoint that notifies the specified \<code>url\<\/code> only about events from your account is created. You can also create webhook endpoints in the \<a href=\"https:\/\/dashboard.stripe.com\/account\/webhooks\">webhooks settings\<\/a> section of the Dashboard.\<\/p>
+postWebhookEndpoints :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> PostWebhookEndpointsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostWebhookEndpointsResponse)) -- ^ Monad containing the result of the operation
 postWebhookEndpoints config
                      body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either PostWebhookEndpointsResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> PostWebhookEndpointsResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                               WebhookEndpoint)
                                                                                                                                                                                           | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostWebhookEndpointsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                 Error)
                                                                                                                                                                                           | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/webhook_endpoints") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/webhook_endpoints
+-- 
+-- The same as 'postWebhookEndpoints' but returns the raw 'Data.ByteString.Char8.ByteString'
 postWebhookEndpointsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
                            StripeAPI.Common.Configuration s ->
@@ -61,6 +62,9 @@ postWebhookEndpointsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postWebhookEndpointsRaw config
                         body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/webhook_endpoints") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/webhook_endpoints
+-- 
+-- Monadic version of 'postWebhookEndpoints' (use with 'StripeAPI.Common.runWithConfiguration')
 postWebhookEndpointsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          PostWebhookEndpointsRequestBody ->
@@ -73,6 +77,9 @@ postWebhookEndpointsM body = GHC.Base.fmap (GHC.Base.fmap (\response_2 -> GHC.Ba
                                                                                                                                                                                            | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostWebhookEndpointsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                  Error)
                                                                                                                                                                                            | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/webhook_endpoints") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/webhook_endpoints
+-- 
+-- Monadic version of 'postWebhookEndpointsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postWebhookEndpointsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             PostWebhookEndpointsRequestBody ->
@@ -81,13 +88,34 @@ postWebhookEndpointsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                    (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postWebhookEndpointsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/webhook_endpoints") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data PostWebhookEndpointsRequestBody
-    = PostWebhookEndpointsRequestBody {postWebhookEndpointsRequestBodyApiVersion :: (GHC.Maybe.Maybe PostWebhookEndpointsRequestBodyApiVersion'),
-                                       postWebhookEndpointsRequestBodyConnect :: (GHC.Maybe.Maybe GHC.Types.Bool),
-                                       postWebhookEndpointsRequestBodyEnabledEvents :: ([] PostWebhookEndpointsRequestBodyEnabledEvents'),
-                                       postWebhookEndpointsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String)),
-                                       postWebhookEndpointsRequestBodyUrl :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postWebhookEndpointsRequestBody
+-- 
+-- 
+data PostWebhookEndpointsRequestBody = PostWebhookEndpointsRequestBody {
+  -- | api_version: Events sent to this endpoint will be generated with this Stripe Version instead of your account\'s default Stripe Version.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  postWebhookEndpointsRequestBodyApiVersion :: (GHC.Maybe.Maybe PostWebhookEndpointsRequestBodyApiVersion')
+  -- | connect: Whether this endpoint should receive events from connected accounts (\`true\`), or from your account (\`false\`). Defaults to \`false\`.
+  , postWebhookEndpointsRequestBodyConnect :: (GHC.Maybe.Maybe GHC.Types.Bool)
+  -- | enabled_events: The list of events to enable for this endpoint. You may specify \`[\'*\']\` to enable all events, except those that require explicit selection.
+  , postWebhookEndpointsRequestBodyEnabledEvents :: ([] PostWebhookEndpointsRequestBodyEnabledEvents')
+  -- | expand: Specifies which fields in the response should be expanded.
+  , postWebhookEndpointsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  -- | url: The URL of the webhook endpoint.
+  , postWebhookEndpointsRequestBodyUrl :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostWebhookEndpointsRequestBody
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "api_version" (postWebhookEndpointsRequestBodyApiVersion obj) : (Data.Aeson..=) "connect" (postWebhookEndpointsRequestBodyConnect obj) : (Data.Aeson..=) "enabled_events" (postWebhookEndpointsRequestBodyEnabledEvents obj) : (Data.Aeson..=) "expand" (postWebhookEndpointsRequestBodyExpand obj) : (Data.Aeson..=) "url" (postWebhookEndpointsRequestBodyUrl obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "api_version" (postWebhookEndpointsRequestBodyApiVersion obj) GHC.Base.<> ((Data.Aeson..=) "connect" (postWebhookEndpointsRequestBodyConnect obj) GHC.Base.<> ((Data.Aeson..=) "enabled_events" (postWebhookEndpointsRequestBodyEnabledEvents obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postWebhookEndpointsRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "url" (postWebhookEndpointsRequestBodyUrl obj)))))
+instance Data.Aeson.Types.FromJSON.FromJSON PostWebhookEndpointsRequestBody
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostWebhookEndpointsRequestBody" (\obj -> ((((GHC.Base.pure PostWebhookEndpointsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "api_version")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "connect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled_events")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema postWebhookEndpointsRequestBodyApi_version\'
+-- 
+-- Events sent to this endpoint will be generated with this Stripe Version instead of your account\'s default Stripe Version.
 data PostWebhookEndpointsRequestBodyApiVersion'
     = PostWebhookEndpointsRequestBodyApiVersion'EnumOther Data.Aeson.Types.Internal.Value
     | PostWebhookEndpointsRequestBodyApiVersion'EnumTyped GHC.Base.String
@@ -477,6 +505,9 @@ instance Data.Aeson.FromJSON PostWebhookEndpointsRequestBodyApiVersion'
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "2020-03-02")
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               then PostWebhookEndpointsRequestBodyApiVersion'EnumString_2020_03_02
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               else PostWebhookEndpointsRequestBodyApiVersion'EnumOther val)
+-- | Defines the enum schema postWebhookEndpointsRequestBodyEnabled_events\'
+-- 
+-- 
 data PostWebhookEndpointsRequestBodyEnabledEvents'
     = PostWebhookEndpointsRequestBodyEnabledEvents'EnumOther Data.Aeson.Types.Internal.Value
     | PostWebhookEndpointsRequestBodyEnabledEvents'EnumTyped GHC.Base.String
@@ -1098,14 +1129,11 @@ instance Data.Aeson.FromJSON PostWebhookEndpointsRequestBodyEnabledEvents'
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "transfer.updated")
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           then PostWebhookEndpointsRequestBodyEnabledEvents'EnumStringTransfer'updated
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           else PostWebhookEndpointsRequestBodyEnabledEvents'EnumOther val)
-instance Data.Aeson.ToJSON PostWebhookEndpointsRequestBody
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "api_version" (postWebhookEndpointsRequestBodyApiVersion obj) : (Data.Aeson..=) "connect" (postWebhookEndpointsRequestBodyConnect obj) : (Data.Aeson..=) "enabled_events" (postWebhookEndpointsRequestBodyEnabledEvents obj) : (Data.Aeson..=) "expand" (postWebhookEndpointsRequestBodyExpand obj) : (Data.Aeson..=) "url" (postWebhookEndpointsRequestBodyUrl obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "api_version" (postWebhookEndpointsRequestBodyApiVersion obj) GHC.Base.<> ((Data.Aeson..=) "connect" (postWebhookEndpointsRequestBodyConnect obj) GHC.Base.<> ((Data.Aeson..=) "enabled_events" (postWebhookEndpointsRequestBodyEnabledEvents obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postWebhookEndpointsRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "url" (postWebhookEndpointsRequestBodyUrl obj)))))
-instance Data.Aeson.Types.FromJSON.FromJSON PostWebhookEndpointsRequestBody
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostWebhookEndpointsRequestBody" (\obj -> ((((GHC.Base.pure PostWebhookEndpointsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "api_version")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "connect")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "enabled_events")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
-
-data PostWebhookEndpointsResponse
-    = PostWebhookEndpointsResponseError GHC.Base.String
-    | PostWebhookEndpointsResponse200 WebhookEndpoint
-    | PostWebhookEndpointsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'postWebhookEndpoints'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'PostWebhookEndpointsResponseError' is used.
+data PostWebhookEndpointsResponse =                   
+   PostWebhookEndpointsResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | PostWebhookEndpointsResponse200 WebhookEndpoint   -- ^ Successful response.
+  | PostWebhookEndpointsResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

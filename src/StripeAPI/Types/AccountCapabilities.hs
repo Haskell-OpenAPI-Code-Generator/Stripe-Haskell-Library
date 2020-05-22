@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema AccountCapabilities
 module StripeAPI.Types.AccountCapabilities where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,28 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data AccountCapabilities
-    = AccountCapabilities {accountCapabilitiesCardIssuing :: (GHC.Maybe.Maybe AccountCapabilitiesCardIssuing'),
-                           accountCapabilitiesCardPayments :: (GHC.Maybe.Maybe AccountCapabilitiesCardPayments'),
-                           accountCapabilitiesLegacyPayments :: (GHC.Maybe.Maybe AccountCapabilitiesLegacyPayments'),
-                           accountCapabilitiesTransfers :: (GHC.Maybe.Maybe AccountCapabilitiesTransfers')}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema account_capabilities
+-- 
+-- 
+data AccountCapabilities = AccountCapabilities {
+  -- | card_issuing: The status of the card issuing capability of the account, or whether you can use Issuing to distribute funds on cards
+  accountCapabilitiesCardIssuing :: (GHC.Maybe.Maybe AccountCapabilitiesCardIssuing')
+  -- | card_payments: The status of the card payments capability of the account, or whether the account can directly process credit and debit card charges.
+  , accountCapabilitiesCardPayments :: (GHC.Maybe.Maybe AccountCapabilitiesCardPayments')
+  -- | legacy_payments: The status of the legacy payments capability of the account.
+  , accountCapabilitiesLegacyPayments :: (GHC.Maybe.Maybe AccountCapabilitiesLegacyPayments')
+  -- | transfers: The status of the transfers capability of the account, or whether your platform can transfer funds to the account.
+  , accountCapabilitiesTransfers :: (GHC.Maybe.Maybe AccountCapabilitiesTransfers')
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON AccountCapabilities
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card_issuing" (accountCapabilitiesCardIssuing obj) : (Data.Aeson..=) "card_payments" (accountCapabilitiesCardPayments obj) : (Data.Aeson..=) "legacy_payments" (accountCapabilitiesLegacyPayments obj) : (Data.Aeson..=) "transfers" (accountCapabilitiesTransfers obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card_issuing" (accountCapabilitiesCardIssuing obj) GHC.Base.<> ((Data.Aeson..=) "card_payments" (accountCapabilitiesCardPayments obj) GHC.Base.<> ((Data.Aeson..=) "legacy_payments" (accountCapabilitiesLegacyPayments obj) GHC.Base.<> (Data.Aeson..=) "transfers" (accountCapabilitiesTransfers obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON AccountCapabilities
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountCapabilities" (\obj -> (((GHC.Base.pure AccountCapabilities GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_issuing")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "legacy_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfers"))
+-- | Defines the enum schema account_capabilitiesCard_issuing\'
+-- 
+-- The status of the card issuing capability of the account, or whether you can use Issuing to distribute funds on cards
 data AccountCapabilitiesCardIssuing'
     = AccountCapabilitiesCardIssuing'EnumOther Data.Aeson.Types.Internal.Value
     | AccountCapabilitiesCardIssuing'EnumTyped GHC.Base.String
@@ -53,6 +70,9 @@ instance Data.Aeson.FromJSON AccountCapabilitiesCardIssuing'
                                                 else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pending")
                                                       then AccountCapabilitiesCardIssuing'EnumStringPending
                                                       else AccountCapabilitiesCardIssuing'EnumOther val)
+-- | Defines the enum schema account_capabilitiesCard_payments\'
+-- 
+-- The status of the card payments capability of the account, or whether the account can directly process credit and debit card charges.
 data AccountCapabilitiesCardPayments'
     = AccountCapabilitiesCardPayments'EnumOther Data.Aeson.Types.Internal.Value
     | AccountCapabilitiesCardPayments'EnumTyped GHC.Base.String
@@ -74,6 +94,9 @@ instance Data.Aeson.FromJSON AccountCapabilitiesCardPayments'
                                                 else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pending")
                                                       then AccountCapabilitiesCardPayments'EnumStringPending
                                                       else AccountCapabilitiesCardPayments'EnumOther val)
+-- | Defines the enum schema account_capabilitiesLegacy_payments\'
+-- 
+-- The status of the legacy payments capability of the account.
 data AccountCapabilitiesLegacyPayments'
     = AccountCapabilitiesLegacyPayments'EnumOther Data.Aeson.Types.Internal.Value
     | AccountCapabilitiesLegacyPayments'EnumTyped GHC.Base.String
@@ -95,6 +118,9 @@ instance Data.Aeson.FromJSON AccountCapabilitiesLegacyPayments'
                                                 else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pending")
                                                       then AccountCapabilitiesLegacyPayments'EnumStringPending
                                                       else AccountCapabilitiesLegacyPayments'EnumOther val)
+-- | Defines the enum schema account_capabilitiesTransfers\'
+-- 
+-- The status of the transfers capability of the account, or whether your platform can transfer funds to the account.
 data AccountCapabilitiesTransfers'
     = AccountCapabilitiesTransfers'EnumOther Data.Aeson.Types.Internal.Value
     | AccountCapabilitiesTransfers'EnumTyped GHC.Base.String
@@ -116,8 +142,3 @@ instance Data.Aeson.FromJSON AccountCapabilitiesTransfers'
                                                 else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pending")
                                                       then AccountCapabilitiesTransfers'EnumStringPending
                                                       else AccountCapabilitiesTransfers'EnumOther val)
-instance Data.Aeson.ToJSON AccountCapabilities
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card_issuing" (accountCapabilitiesCardIssuing obj) : (Data.Aeson..=) "card_payments" (accountCapabilitiesCardPayments obj) : (Data.Aeson..=) "legacy_payments" (accountCapabilitiesLegacyPayments obj) : (Data.Aeson..=) "transfers" (accountCapabilitiesTransfers obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card_issuing" (accountCapabilitiesCardIssuing obj) GHC.Base.<> ((Data.Aeson..=) "card_payments" (accountCapabilitiesCardPayments obj) GHC.Base.<> ((Data.Aeson..=) "legacy_payments" (accountCapabilitiesLegacyPayments obj) GHC.Base.<> (Data.Aeson..=) "transfers" (accountCapabilitiesTransfers obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON AccountCapabilities
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "AccountCapabilities" (\obj -> (((GHC.Base.pure AccountCapabilities GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_issuing")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "card_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "legacy_payments")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transfers"))

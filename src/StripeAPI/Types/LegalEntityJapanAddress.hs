@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema LegalEntityJapanAddress
 module StripeAPI.Types.LegalEntityJapanAddress where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,15 +27,54 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data LegalEntityJapanAddress
-    = LegalEntityJapanAddress {legalEntityJapanAddressCity :: (GHC.Maybe.Maybe GHC.Base.String),
-                               legalEntityJapanAddressCountry :: (GHC.Maybe.Maybe GHC.Base.String),
-                               legalEntityJapanAddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String),
-                               legalEntityJapanAddressLine2 :: (GHC.Maybe.Maybe GHC.Base.String),
-                               legalEntityJapanAddressPostalCode :: (GHC.Maybe.Maybe GHC.Base.String),
-                               legalEntityJapanAddressState :: (GHC.Maybe.Maybe GHC.Base.String),
-                               legalEntityJapanAddressTown :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema legal_entity_japan_address
+-- 
+-- 
+data LegalEntityJapanAddress = LegalEntityJapanAddress {
+  -- | city: City\/Ward.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  legalEntityJapanAddressCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , legalEntityJapanAddressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | line1: Block\/Building number.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , legalEntityJapanAddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | line2: Building details.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , legalEntityJapanAddressLine2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | postal_code: ZIP or postal code.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , legalEntityJapanAddressPostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | state: Prefecture.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , legalEntityJapanAddressState :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | town: Town\/cho-me.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , legalEntityJapanAddressTown :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON LegalEntityJapanAddress
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (legalEntityJapanAddressCity obj) : (Data.Aeson..=) "country" (legalEntityJapanAddressCountry obj) : (Data.Aeson..=) "line1" (legalEntityJapanAddressLine1 obj) : (Data.Aeson..=) "line2" (legalEntityJapanAddressLine2 obj) : (Data.Aeson..=) "postal_code" (legalEntityJapanAddressPostalCode obj) : (Data.Aeson..=) "state" (legalEntityJapanAddressState obj) : (Data.Aeson..=) "town" (legalEntityJapanAddressTown obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (legalEntityJapanAddressCity obj) GHC.Base.<> ((Data.Aeson..=) "country" (legalEntityJapanAddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "line1" (legalEntityJapanAddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (legalEntityJapanAddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (legalEntityJapanAddressPostalCode obj) GHC.Base.<> ((Data.Aeson..=) "state" (legalEntityJapanAddressState obj) GHC.Base.<> (Data.Aeson..=) "town" (legalEntityJapanAddressTown obj)))))))

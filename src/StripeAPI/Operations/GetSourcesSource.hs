@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getSourcesSource
 module StripeAPI.Operations.GetSourcesSource where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,18 +39,15 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/sources/{source}
-getSourcesSource :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                  StripeAPI.Common.SecurityScheme s) =>
-                    StripeAPI.Common.Configuration s ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Base.String ->
-                    GetSourcesSourceRequestBody ->
-                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                          (Network.HTTP.Client.Types.Response GetSourcesSourceResponse))
+-- | > GET /v1/sources/{source}
+-- 
+-- \<p>Retrieves an existing source object. Supply the unique source ID from a source creation request and Stripe will return the corresponding up-to-date source object information.\<\/p>
+getSourcesSource :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ client_secret: The client secret of the source. Required if a publishable key is used to retrieve the source. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                              -- ^ source | Constraints: Maximum length of 5000
+  -> GetSourcesSourceRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSourcesSourceResponse)) -- ^ Monad containing the result of the operation
 getSourcesSource config
                  clientSecret
                  expand
@@ -61,6 +59,9 @@ getSourcesSource config
                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel source)) GHC.Base.++ ""))) ((Data.Text.pack "client_secret",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> clientSecret) : ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : [])) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/sources/{source}
+-- 
+-- The same as 'getSourcesSource' but returns the raw 'Data.ByteString.Char8.ByteString'
 getSourcesSourceRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        StripeAPI.Common.Configuration s ->
@@ -77,6 +78,9 @@ getSourcesSourceRaw config
                     body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel source)) GHC.Base.++ ""))) ((Data.Text.pack "client_secret",
                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> clientSecret) : ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : [])) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/sources/{source}
+-- 
+-- Monadic version of 'getSourcesSource' (use with 'StripeAPI.Common.runWithConfiguration')
 getSourcesSourceM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
                      GHC.Maybe.Maybe GHC.Base.String ->
@@ -97,6 +101,9 @@ getSourcesSourceM clientSecret
                                                                                                                                                                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel source)) GHC.Base.++ ""))) ((Data.Text.pack "client_secret",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       StripeAPI.Common.stringifyModel Data.Functor.<$> clientSecret) : ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : [])) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/sources/{source}
+-- 
+-- Monadic version of 'getSourcesSourceRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSourcesSourceRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         GHC.Maybe.Maybe GHC.Base.String ->
@@ -113,17 +120,23 @@ getSourcesSourceRawM clientSecret
                      body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel source)) GHC.Base.++ ""))) ((Data.Text.pack "client_secret",
                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> clientSecret) : ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : [])) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetSourcesSourceRequestBody
-    = GetSourcesSourceRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getSourcesSourceRequestBody
+-- 
+-- 
+data GetSourcesSourceRequestBody = GetSourcesSourceRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSourcesSourceRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetSourcesSourceRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSourcesSourceRequestBody" (\obj -> GHC.Base.pure GetSourcesSourceRequestBody)
-
-data GetSourcesSourceResponse
-    = GetSourcesSourceResponseError GHC.Base.String
-    | GetSourcesSourceResponse200 Source
-    | GetSourcesSourceResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getSourcesSource'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetSourcesSourceResponseError' is used.
+data GetSourcesSourceResponse =                   
+   GetSourcesSourceResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetSourcesSourceResponse200 Source            -- ^ Successful response.
+  | GetSourcesSourceResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

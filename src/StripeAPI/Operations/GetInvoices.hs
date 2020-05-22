@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getInvoices
 module StripeAPI.Operations.GetInvoices where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,25 +39,22 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/invoices
-getInvoices :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                             StripeAPI.Common.SecurityScheme s) =>
-               StripeAPI.Common.Configuration s ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GetInvoicesRequestBody ->
-               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                     (Network.HTTP.Client.Types.Response GetInvoicesResponse))
+-- | > GET /v1/invoices
+-- 
+-- \<p>You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.\<\/p>
+getInvoices :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                         -- ^ collection_method: The collection method of the invoice to retrieve. Either \`charge_automatically\` or \`send_invoice\`. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                         -- ^ created
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                         -- ^ customer: Only return invoices for the customer specified by this customer ID. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                         -- ^ due_date
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                         -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                         -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                         -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                         -- ^ status: The status of the invoice, one of \`draft\`, \`open\`, \`paid\`, \`uncollectible\`, or \`void\`. [Learn more](https:\/\/stripe.com\/docs\/billing\/invoices\/workflow\#workflow-overview) | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                         -- ^ subscription: Only return invoices for the subscription specified by this subscription ID. | Constraints: Maximum length of 5000
+  -> GetInvoicesRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetInvoicesResponse)) -- ^ Monad containing the result of the operation
 getInvoices config
             collectionMethod
             created
@@ -83,6 +81,9 @@ getInvoices config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "status",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> status) : ((Data.Text.pack "subscription",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> subscription) : [])))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/invoices
+-- 
+-- The same as 'getInvoices' but returns the raw 'Data.ByteString.Char8.ByteString'
 getInvoicesRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                 StripeAPI.Common.SecurityScheme s) =>
                   StripeAPI.Common.Configuration s ->
@@ -121,6 +122,9 @@ getInvoicesRaw config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "status",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> status) : ((Data.Text.pack "subscription",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> subscription) : [])))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/invoices
+-- 
+-- Monadic version of 'getInvoices' (use with 'StripeAPI.Common.runWithConfiguration')
 getInvoicesM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                               StripeAPI.Common.SecurityScheme s) =>
                 GHC.Maybe.Maybe GHC.Base.String ->
@@ -163,6 +167,9 @@ getInvoicesM collectionMethod
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "status",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> status) : ((Data.Text.pack "subscription",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> subscription) : [])))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/invoices
+-- 
+-- Monadic version of 'getInvoicesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getInvoicesRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                  StripeAPI.Common.SecurityScheme s) =>
                    GHC.Maybe.Maybe GHC.Base.String ->
@@ -201,26 +208,53 @@ getInvoicesRawM collectionMethod
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "status",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> status) : ((Data.Text.pack "subscription",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> subscription) : [])))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetInvoicesRequestBody
-    = GetInvoicesRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getInvoicesRequestBody
+-- 
+-- 
+data GetInvoicesRequestBody = GetInvoicesRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetInvoicesRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesRequestBody" (\obj -> GHC.Base.pure GetInvoicesRequestBody)
-
-data GetInvoicesResponse
-    = GetInvoicesResponseError GHC.Base.String
-    | GetInvoicesResponse200 GetInvoicesResponseBody200
-    | GetInvoicesResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetInvoicesResponseBody200
-    = GetInvoicesResponseBody200 {getInvoicesResponseBody200Data :: ([] Invoice),
-                                  getInvoicesResponseBody200HasMore :: GHC.Types.Bool,
-                                  getInvoicesResponseBody200Object :: GetInvoicesResponseBody200Object',
-                                  getInvoicesResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getInvoices'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetInvoicesResponseError' is used.
+data GetInvoicesResponse =                             
+   GetInvoicesResponseError GHC.Base.String            -- ^ Means either no matching case available or a parse error
+  | GetInvoicesResponse200 GetInvoicesResponseBody200  -- ^ Successful response.
+  | GetInvoicesResponseDefault Error                   -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetInvoicesResponseBody200
+-- 
+-- 
+data GetInvoicesResponseBody200 = GetInvoicesResponseBody200 {
+  -- | data
+  getInvoicesResponseBody200Data :: ([] Invoice)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getInvoicesResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getInvoicesResponseBody200Object :: GetInvoicesResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  -- * Must match pattern \'^\/v1\/invoices\'
+  , getInvoicesResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetInvoicesResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getInvoicesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getInvoicesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getInvoicesResponseBody200Object obj) : (Data.Aeson..=) "url" (getInvoicesResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getInvoicesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getInvoicesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getInvoicesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getInvoicesResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesResponseBody200" (\obj -> (((GHC.Base.pure GetInvoicesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetInvoicesResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetInvoicesResponseBody200Object'
     = GetInvoicesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetInvoicesResponseBody200Object'EnumTyped GHC.Base.String
@@ -234,8 +268,3 @@ instance Data.Aeson.FromJSON GetInvoicesResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetInvoicesResponseBody200Object'EnumStringList
                                           else GetInvoicesResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetInvoicesResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getInvoicesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getInvoicesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getInvoicesResponseBody200Object obj) : (Data.Aeson..=) "url" (getInvoicesResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getInvoicesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getInvoicesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getInvoicesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getInvoicesResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesResponseBody200" (\obj -> (((GHC.Base.pure GetInvoicesResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

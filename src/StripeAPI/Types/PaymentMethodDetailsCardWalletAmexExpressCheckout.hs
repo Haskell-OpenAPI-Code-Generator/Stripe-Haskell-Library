@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema PaymentMethodDetailsCardWalletAmexExpressCheckout
 module StripeAPI.Types.PaymentMethodDetailsCardWalletAmexExpressCheckout where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,9 +27,13 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data PaymentMethodDetailsCardWalletAmexExpressCheckout
-    = PaymentMethodDetailsCardWalletAmexExpressCheckout {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema payment_method_details_card_wallet_amex_express_checkout
+-- 
+-- 
+data PaymentMethodDetailsCardWalletAmexExpressCheckout = PaymentMethodDetailsCardWalletAmexExpressCheckout {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsCardWalletAmexExpressCheckout
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))

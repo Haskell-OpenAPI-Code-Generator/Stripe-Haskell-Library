@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getApplicationFeesFeeRefundsId
 module StripeAPI.Operations.GetApplicationFeesFeeRefundsId where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,18 +39,15 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/application_fees/{fee}/refunds/{id}
-getApplicationFeesFeeRefundsId :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                StripeAPI.Common.SecurityScheme s) =>
-                                  StripeAPI.Common.Configuration s ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
-                                  GHC.Base.String ->
-                                  GHC.Base.String ->
-                                  GetApplicationFeesFeeRefundsIdRequestBody ->
-                                  m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                        (Network.HTTP.Client.Types.Response GetApplicationFeesFeeRefundsIdResponse))
+-- | > GET /v1/application_fees/{fee}/refunds/{id}
+-- 
+-- \<p>By default, you can see the 10 most recent refunds stored directly on the application fee object, but you can also retrieve details about a specific refund stored on the application fee.\<\/p>
+getApplicationFeesFeeRefundsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                            -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                            -- ^ fee | Constraints: Maximum length of 5000
+  -> GHC.Base.String                                                                                                                            -- ^ id | Constraints: Maximum length of 5000
+  -> GetApplicationFeesFeeRefundsIdRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetApplicationFeesFeeRefundsIdResponse)) -- ^ Monad containing the result of the operation
 getApplicationFeesFeeRefundsId config
                                expand
                                fee
@@ -60,6 +58,9 @@ getApplicationFeesFeeRefundsId config
                                                                                                                                                                                                                                                                                                                                                                                                                               Error)
                                                                                                                                                                                                               | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/application_fees/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel fee)) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/application_fees/{fee}/refunds/{id}
+-- 
+-- The same as 'getApplicationFeesFeeRefundsId' but returns the raw 'Data.ByteString.Char8.ByteString'
 getApplicationFeesFeeRefundsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
                                      StripeAPI.Common.Configuration s ->
@@ -75,6 +76,9 @@ getApplicationFeesFeeRefundsIdRaw config
                                   id
                                   body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/application_fees/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel fee)) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/application_fees/{fee}/refunds/{id}
+-- 
+-- Monadic version of 'getApplicationFeesFeeRefundsId' (use with 'StripeAPI.Common.runWithConfiguration')
 getApplicationFeesFeeRefundsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
                                    GHC.Maybe.Maybe GHC.Base.String ->
@@ -94,6 +98,9 @@ getApplicationFeesFeeRefundsIdM expand
                                                                                                                                                                                                                                                                                                                                                                                                                                Error)
                                                                                                                                                                                                                | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/application_fees/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel fee)) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/application_fees/{fee}/refunds/{id}
+-- 
+-- Monadic version of 'getApplicationFeesFeeRefundsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getApplicationFeesFeeRefundsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
                                       GHC.Maybe.Maybe GHC.Base.String ->
@@ -109,17 +116,23 @@ getApplicationFeesFeeRefundsIdRawM expand
                                    id
                                    body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/application_fees/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel fee)) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetApplicationFeesFeeRefundsIdRequestBody
-    = GetApplicationFeesFeeRefundsIdRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getApplicationFeesFeeRefundsIdRequestBody
+-- 
+-- 
+data GetApplicationFeesFeeRefundsIdRequestBody = GetApplicationFeesFeeRefundsIdRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetApplicationFeesFeeRefundsIdRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetApplicationFeesFeeRefundsIdRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetApplicationFeesFeeRefundsIdRequestBody" (\obj -> GHC.Base.pure GetApplicationFeesFeeRefundsIdRequestBody)
-
-data GetApplicationFeesFeeRefundsIdResponse
-    = GetApplicationFeesFeeRefundsIdResponseError GHC.Base.String
-    | GetApplicationFeesFeeRefundsIdResponse200 FeeRefund
-    | GetApplicationFeesFeeRefundsIdResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getApplicationFeesFeeRefundsId'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetApplicationFeesFeeRefundsIdResponseError' is used.
+data GetApplicationFeesFeeRefundsIdResponse =                   
+   GetApplicationFeesFeeRefundsIdResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetApplicationFeesFeeRefundsIdResponse200 FeeRefund         -- ^ Successful response.
+  | GetApplicationFeesFeeRefundsIdResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

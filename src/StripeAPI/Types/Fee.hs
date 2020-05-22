@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema Fee
 module StripeAPI.Types.Fee where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,13 +27,34 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data Fee
-    = Fee {feeAmount :: GHC.Integer.Type.Integer,
-           feeApplication :: (GHC.Maybe.Maybe GHC.Base.String),
-           feeCurrency :: GHC.Base.String,
-           feeDescription :: (GHC.Maybe.Maybe GHC.Base.String),
-           feeType :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema fee
+-- 
+-- 
+data Fee = Fee {
+  -- | amount: Amount of the fee, in cents.
+  feeAmount :: GHC.Integer.Type.Integer
+  -- | application: ID of the Connect application that earned the fee.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , feeApplication :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+  , feeCurrency :: GHC.Base.String
+  -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , feeDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | type: Type of the fee, one of: \`application_fee\`, \`stripe_fee\` or \`tax\`.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , feeType :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Fee
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (feeAmount obj) : (Data.Aeson..=) "application" (feeApplication obj) : (Data.Aeson..=) "currency" (feeCurrency obj) : (Data.Aeson..=) "description" (feeDescription obj) : (Data.Aeson..=) "type" (feeType obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (feeAmount obj) GHC.Base.<> ((Data.Aeson..=) "application" (feeApplication obj) GHC.Base.<> ((Data.Aeson..=) "currency" (feeCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (feeDescription obj) GHC.Base.<> (Data.Aeson..=) "type" (feeType obj)))))

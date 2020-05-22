@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema InvoiceItemThresholdReason
 module StripeAPI.Types.InvoiceItemThresholdReason where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,16 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data InvoiceItemThresholdReason
-    = InvoiceItemThresholdReason {invoiceItemThresholdReasonLineItemIds :: ([] GHC.Base.String),
-                                  invoiceItemThresholdReasonUsageGte :: GHC.Integer.Type.Integer}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema invoice_item_threshold_reason
+-- 
+-- 
+data InvoiceItemThresholdReason = InvoiceItemThresholdReason {
+  -- | line_item_ids: The IDs of the line items that triggered the threshold invoice.
+  invoiceItemThresholdReasonLineItemIds :: ([] GHC.Base.String)
+  -- | usage_gte: The quantity threshold boundary that applied to the given line item.
+  , invoiceItemThresholdReasonUsageGte :: GHC.Integer.Type.Integer
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON InvoiceItemThresholdReason
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "line_item_ids" (invoiceItemThresholdReasonLineItemIds obj) : (Data.Aeson..=) "usage_gte" (invoiceItemThresholdReasonUsageGte obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "line_item_ids" (invoiceItemThresholdReasonLineItemIds obj) GHC.Base.<> (Data.Aeson..=) "usage_gte" (invoiceItemThresholdReasonUsageGte obj))

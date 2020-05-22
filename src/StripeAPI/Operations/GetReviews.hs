@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getReviews
 module StripeAPI.Operations.GetReviews where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,20 +39,17 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/reviews
-getReviews :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                            StripeAPI.Common.SecurityScheme s) =>
-              StripeAPI.Common.Configuration s ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GetReviewsRequestBody ->
-              m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                    (Network.HTTP.Client.Types.Response GetReviewsResponse))
+-- | > GET /v1/reviews
+-- 
+-- \<p>Returns a list of \<code>Review\<\/code> objects that have \<code>open\<\/code> set to \<code>true\<\/code>. The objects are sorted in descending order by creation date, with the most recently created object appearing first.\<\/p>
+getReviews :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ created
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                               -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GetReviewsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetReviewsResponse)) -- ^ Monad containing the result of the operation
 getReviews config
            created
            endingBefore
@@ -68,6 +66,9 @@ getReviews config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/reviews
+-- 
+-- The same as 'getReviews' but returns the raw 'Data.ByteString.Char8.ByteString'
 getReviewsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
                  StripeAPI.Common.Configuration s ->
@@ -91,6 +92,9 @@ getReviewsRaw config
                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/reviews
+-- 
+-- Monadic version of 'getReviews' (use with 'StripeAPI.Common.runWithConfiguration')
 getReviewsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                              StripeAPI.Common.SecurityScheme s) =>
                GHC.Maybe.Maybe GHC.Base.String ->
@@ -118,6 +122,9 @@ getReviewsM created
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/reviews
+-- 
+-- Monadic version of 'getReviewsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getReviewsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                 StripeAPI.Common.SecurityScheme s) =>
                   GHC.Maybe.Maybe GHC.Base.String ->
@@ -141,26 +148,53 @@ getReviewsRawM created
                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetReviewsRequestBody
-    = GetReviewsRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getReviewsRequestBody
+-- 
+-- 
+data GetReviewsRequestBody = GetReviewsRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetReviewsRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetReviewsRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReviewsRequestBody" (\obj -> GHC.Base.pure GetReviewsRequestBody)
-
-data GetReviewsResponse
-    = GetReviewsResponseError GHC.Base.String
-    | GetReviewsResponse200 GetReviewsResponseBody200
-    | GetReviewsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetReviewsResponseBody200
-    = GetReviewsResponseBody200 {getReviewsResponseBody200Data :: ([] Review),
-                                 getReviewsResponseBody200HasMore :: GHC.Types.Bool,
-                                 getReviewsResponseBody200Object :: GetReviewsResponseBody200Object',
-                                 getReviewsResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getReviews'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetReviewsResponseError' is used.
+data GetReviewsResponse =                            
+   GetReviewsResponseError GHC.Base.String           -- ^ Means either no matching case available or a parse error
+  | GetReviewsResponse200 GetReviewsResponseBody200  -- ^ Successful response.
+  | GetReviewsResponseDefault Error                  -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetReviewsResponseBody200
+-- 
+-- 
+data GetReviewsResponseBody200 = GetReviewsResponseBody200 {
+  -- | data
+  getReviewsResponseBody200Data :: ([] Review)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getReviewsResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getReviewsResponseBody200Object :: GetReviewsResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  -- * Must match pattern \'^\/v1\/reviews\'
+  , getReviewsResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetReviewsResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getReviewsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getReviewsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getReviewsResponseBody200Object obj) : (Data.Aeson..=) "url" (getReviewsResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getReviewsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getReviewsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getReviewsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getReviewsResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetReviewsResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReviewsResponseBody200" (\obj -> (((GHC.Base.pure GetReviewsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetReviewsResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetReviewsResponseBody200Object'
     = GetReviewsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetReviewsResponseBody200Object'EnumTyped GHC.Base.String
@@ -174,8 +208,3 @@ instance Data.Aeson.FromJSON GetReviewsResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetReviewsResponseBody200Object'EnumStringList
                                           else GetReviewsResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetReviewsResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getReviewsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getReviewsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getReviewsResponseBody200Object obj) : (Data.Aeson..=) "url" (getReviewsResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getReviewsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getReviewsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getReviewsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getReviewsResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetReviewsResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetReviewsResponseBody200" (\obj -> (((GHC.Base.pure GetReviewsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

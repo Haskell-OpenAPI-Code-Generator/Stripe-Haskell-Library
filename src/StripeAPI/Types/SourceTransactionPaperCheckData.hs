@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTransactionPaperCheckData
 module StripeAPI.Types.SourceTransactionPaperCheckData where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,24 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTransactionPaperCheckData
-    = SourceTransactionPaperCheckData {sourceTransactionPaperCheckDataAvailableAt :: (GHC.Maybe.Maybe GHC.Base.String),
-                                       sourceTransactionPaperCheckDataInvoices :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_transaction_paper_check_data
+-- 
+-- 
+data SourceTransactionPaperCheckData = SourceTransactionPaperCheckData {
+  -- | available_at: Time at which the deposited funds will be available for use. Measured in seconds since the Unix epoch.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  sourceTransactionPaperCheckDataAvailableAt :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | invoices: Comma-separated list of invoice IDs associated with the paper check.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , sourceTransactionPaperCheckDataInvoices :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTransactionPaperCheckData
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "available_at" (sourceTransactionPaperCheckDataAvailableAt obj) : (Data.Aeson..=) "invoices" (sourceTransactionPaperCheckDataInvoices obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "available_at" (sourceTransactionPaperCheckDataAvailableAt obj) GHC.Base.<> (Data.Aeson..=) "invoices" (sourceTransactionPaperCheckDataInvoices obj))

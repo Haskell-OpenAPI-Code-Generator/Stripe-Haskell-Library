@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema TerminalReader
 module StripeAPI.Types.TerminalReader where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,19 +27,72 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data Terminal'reader
-    = Terminal'reader {terminal'readerDeviceSwVersion :: (GHC.Maybe.Maybe GHC.Base.String),
-                       terminal'readerDeviceType :: Terminal'readerDeviceType',
-                       terminal'readerId :: GHC.Base.String,
-                       terminal'readerIpAddress :: (GHC.Maybe.Maybe GHC.Base.String),
-                       terminal'readerLabel :: GHC.Base.String,
-                       terminal'readerLivemode :: GHC.Types.Bool,
-                       terminal'readerLocation :: (GHC.Maybe.Maybe GHC.Base.String),
-                       terminal'readerMetadata :: Terminal'readerMetadata',
-                       terminal'readerObject :: Terminal'readerObject',
-                       terminal'readerSerialNumber :: GHC.Base.String,
-                       terminal'readerStatus :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema terminal.reader
+-- 
+-- A Reader represents a physical device for accepting payment details.
+-- 
+-- Related guide: [Connecting to a Reader](https:\/\/stripe.com\/docs\/terminal\/readers\/connecting).
+data Terminal'reader = Terminal'reader {
+  -- | device_sw_version: The current software version of the reader.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  terminal'readerDeviceSwVersion :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | device_type: Type of reader, one of \`bbpos_chipper2x\` or \`verifone_P400\`.
+  , terminal'readerDeviceType :: Terminal'readerDeviceType'
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , terminal'readerId :: GHC.Base.String
+  -- | ip_address: The local IP address of the reader.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , terminal'readerIpAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | label: Custom label given to the reader for easier identification.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , terminal'readerLabel :: GHC.Base.String
+  -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
+  , terminal'readerLivemode :: GHC.Types.Bool
+  -- | location: The location identifier of the reader.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , terminal'readerLocation :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+  , terminal'readerMetadata :: Terminal'readerMetadata'
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , terminal'readerObject :: Terminal'readerObject'
+  -- | serial_number: Serial number of the reader.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , terminal'readerSerialNumber :: GHC.Base.String
+  -- | status: The networking status of the reader.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , terminal'readerStatus :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON Terminal'reader
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "device_sw_version" (terminal'readerDeviceSwVersion obj) : (Data.Aeson..=) "device_type" (terminal'readerDeviceType obj) : (Data.Aeson..=) "id" (terminal'readerId obj) : (Data.Aeson..=) "ip_address" (terminal'readerIpAddress obj) : (Data.Aeson..=) "label" (terminal'readerLabel obj) : (Data.Aeson..=) "livemode" (terminal'readerLivemode obj) : (Data.Aeson..=) "location" (terminal'readerLocation obj) : (Data.Aeson..=) "metadata" (terminal'readerMetadata obj) : (Data.Aeson..=) "object" (terminal'readerObject obj) : (Data.Aeson..=) "serial_number" (terminal'readerSerialNumber obj) : (Data.Aeson..=) "status" (terminal'readerStatus obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "device_sw_version" (terminal'readerDeviceSwVersion obj) GHC.Base.<> ((Data.Aeson..=) "device_type" (terminal'readerDeviceType obj) GHC.Base.<> ((Data.Aeson..=) "id" (terminal'readerId obj) GHC.Base.<> ((Data.Aeson..=) "ip_address" (terminal'readerIpAddress obj) GHC.Base.<> ((Data.Aeson..=) "label" (terminal'readerLabel obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (terminal'readerLivemode obj) GHC.Base.<> ((Data.Aeson..=) "location" (terminal'readerLocation obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (terminal'readerMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (terminal'readerObject obj) GHC.Base.<> ((Data.Aeson..=) "serial_number" (terminal'readerSerialNumber obj) GHC.Base.<> (Data.Aeson..=) "status" (terminal'readerStatus obj)))))))))))
+instance Data.Aeson.Types.FromJSON.FromJSON Terminal'reader
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'reader" (\obj -> ((((((((((GHC.Base.pure Terminal'reader GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "device_sw_version")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "device_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "serial_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))
+-- | Defines the enum schema terminal.readerDevice_type\'
+-- 
+-- Type of reader, one of \`bbpos_chipper2x\` or \`verifone_P400\`.
 data Terminal'readerDeviceType'
     = Terminal'readerDeviceType'EnumOther Data.Aeson.Types.Internal.Value
     | Terminal'readerDeviceType'EnumTyped GHC.Base.String
@@ -56,14 +110,21 @@ instance Data.Aeson.FromJSON Terminal'readerDeviceType'
                                           else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "verifone_P400")
                                                 then Terminal'readerDeviceType'EnumStringVerifoneP400
                                                 else Terminal'readerDeviceType'EnumOther val)
-data Terminal'readerMetadata'
-    = Terminal'readerMetadata' {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema terminal.readerMetadata\'
+-- 
+-- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
+data Terminal'readerMetadata' = Terminal'readerMetadata' {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Terminal'readerMetadata'
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerMetadata'
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'readerMetadata'" (\obj -> GHC.Base.pure Terminal'readerMetadata')
+-- | Defines the enum schema terminal.readerObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data Terminal'readerObject'
     = Terminal'readerObject'EnumOther Data.Aeson.Types.Internal.Value
     | Terminal'readerObject'EnumTyped GHC.Base.String
@@ -77,8 +138,3 @@ instance Data.Aeson.FromJSON Terminal'readerObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "terminal.reader")
                                           then Terminal'readerObject'EnumStringTerminal'reader
                                           else Terminal'readerObject'EnumOther val)
-instance Data.Aeson.ToJSON Terminal'reader
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "device_sw_version" (terminal'readerDeviceSwVersion obj) : (Data.Aeson..=) "device_type" (terminal'readerDeviceType obj) : (Data.Aeson..=) "id" (terminal'readerId obj) : (Data.Aeson..=) "ip_address" (terminal'readerIpAddress obj) : (Data.Aeson..=) "label" (terminal'readerLabel obj) : (Data.Aeson..=) "livemode" (terminal'readerLivemode obj) : (Data.Aeson..=) "location" (terminal'readerLocation obj) : (Data.Aeson..=) "metadata" (terminal'readerMetadata obj) : (Data.Aeson..=) "object" (terminal'readerObject obj) : (Data.Aeson..=) "serial_number" (terminal'readerSerialNumber obj) : (Data.Aeson..=) "status" (terminal'readerStatus obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "device_sw_version" (terminal'readerDeviceSwVersion obj) GHC.Base.<> ((Data.Aeson..=) "device_type" (terminal'readerDeviceType obj) GHC.Base.<> ((Data.Aeson..=) "id" (terminal'readerId obj) GHC.Base.<> ((Data.Aeson..=) "ip_address" (terminal'readerIpAddress obj) GHC.Base.<> ((Data.Aeson..=) "label" (terminal'readerLabel obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (terminal'readerLivemode obj) GHC.Base.<> ((Data.Aeson..=) "location" (terminal'readerLocation obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (terminal'readerMetadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (terminal'readerObject obj) GHC.Base.<> ((Data.Aeson..=) "serial_number" (terminal'readerSerialNumber obj) GHC.Base.<> (Data.Aeson..=) "status" (terminal'readerStatus obj)))))))))))
-instance Data.Aeson.Types.FromJSON.FromJSON Terminal'reader
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'reader" (\obj -> ((((((((((GHC.Base.pure Terminal'reader GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "device_sw_version")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "device_type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "ip_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "label")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "location")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "serial_number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "status"))

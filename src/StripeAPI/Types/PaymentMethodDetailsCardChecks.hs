@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema PaymentMethodDetailsCardChecks
 module StripeAPI.Types.PaymentMethodDetailsCardChecks where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,30 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data PaymentMethodDetailsCardChecks
-    = PaymentMethodDetailsCardChecks {paymentMethodDetailsCardChecksAddressLine1Check :: (GHC.Maybe.Maybe GHC.Base.String),
-                                      paymentMethodDetailsCardChecksAddressPostalCodeCheck :: (GHC.Maybe.Maybe GHC.Base.String),
-                                      paymentMethodDetailsCardChecksCvcCheck :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema payment_method_details_card_checks
+-- 
+-- 
+data PaymentMethodDetailsCardChecks = PaymentMethodDetailsCardChecks {
+  -- | address_line1_check: If a address line1 was provided, results of the check, one of \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  paymentMethodDetailsCardChecksAddressLine1Check :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | address_postal_code_check: If a address postal code was provided, results of the check, one of \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsCardChecksAddressPostalCodeCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | cvc_check: If a CVC was provided, results of the check, one of \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsCardChecksCvcCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsCardChecks
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address_line1_check" (paymentMethodDetailsCardChecksAddressLine1Check obj) : (Data.Aeson..=) "address_postal_code_check" (paymentMethodDetailsCardChecksAddressPostalCodeCheck obj) : (Data.Aeson..=) "cvc_check" (paymentMethodDetailsCardChecksCvcCheck obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address_line1_check" (paymentMethodDetailsCardChecksAddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_postal_code_check" (paymentMethodDetailsCardChecksAddressPostalCodeCheck obj) GHC.Base.<> (Data.Aeson..=) "cvc_check" (paymentMethodDetailsCardChecksCvcCheck obj)))

@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getEvents
 module StripeAPI.Operations.GetEvents where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,23 +39,20 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/events
-getEvents :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                           StripeAPI.Common.SecurityScheme s) =>
-             StripeAPI.Common.Configuration s ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GHC.Maybe.Maybe GHC.Types.Bool ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GHC.Maybe.Maybe GHC.Base.String ->
-             GetEventsRequestBody ->
-             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                   (Network.HTTP.Client.Types.Response GetEventsResponse))
+-- | > GET /v1/events
+-- 
+-- \<p>List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in \<a href=\"\/docs\/api\/events\/object\">event object\<\/a> \<code>api_version\<\/code> attribute (not according to your current Stripe API version or \<code>Stripe-Version\<\/code> header).\<\/p>
+getEvents :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ created
+  -> GHC.Maybe.Maybe GHC.Types.Bool                                                                                        -- ^ delivery_success: Filter events by whether all webhooks were successfully delivered. If false, events which are still pending or have failed all delivery attempts to a webhook endpoint will be returned.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                              -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ type: A string containing a specific event name, or group of events using * as a wildcard. The list will be filtered to include only events with a matching event property. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ types: An array of up to 20 strings containing specific event names. The list will be filtered to include only events with a matching event property. You may pass either \`type\` or \`types\`, but not both.
+  -> GetEventsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetEventsResponse)) -- ^ Monad containing the result of the operation
 getEvents config
           created
           deliverySuccess
@@ -77,6 +75,9 @@ getEvents config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "type",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> type') : ((Data.Text.pack "types",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> types) : [])))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/events
+-- 
+-- The same as 'getEvents' but returns the raw 'Data.ByteString.Char8.ByteString'
 getEventsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                               StripeAPI.Common.SecurityScheme s) =>
                 StripeAPI.Common.Configuration s ->
@@ -109,6 +110,9 @@ getEventsRaw config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "type",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       StripeAPI.Common.stringifyModel Data.Functor.<$> type') : ((Data.Text.pack "types",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> types) : [])))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/events
+-- 
+-- Monadic version of 'getEvents' (use with 'StripeAPI.Common.runWithConfiguration')
 getEventsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                             StripeAPI.Common.SecurityScheme s) =>
               GHC.Maybe.Maybe GHC.Base.String ->
@@ -145,6 +149,9 @@ getEventsM created
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "type",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> type') : ((Data.Text.pack "types",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> types) : [])))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/events
+-- 
+-- Monadic version of 'getEventsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getEventsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
                  GHC.Maybe.Maybe GHC.Base.String ->
@@ -177,26 +184,53 @@ getEventsRawM created
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "type",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> type') : ((Data.Text.pack "types",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> types) : [])))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetEventsRequestBody
-    = GetEventsRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getEventsRequestBody
+-- 
+-- 
+data GetEventsRequestBody = GetEventsRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetEventsRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetEventsRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetEventsRequestBody" (\obj -> GHC.Base.pure GetEventsRequestBody)
-
-data GetEventsResponse
-    = GetEventsResponseError GHC.Base.String
-    | GetEventsResponse200 GetEventsResponseBody200
-    | GetEventsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetEventsResponseBody200
-    = GetEventsResponseBody200 {getEventsResponseBody200Data :: ([] Event),
-                                getEventsResponseBody200HasMore :: GHC.Types.Bool,
-                                getEventsResponseBody200Object :: GetEventsResponseBody200Object',
-                                getEventsResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getEvents'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetEventsResponseError' is used.
+data GetEventsResponse =                           
+   GetEventsResponseError GHC.Base.String          -- ^ Means either no matching case available or a parse error
+  | GetEventsResponse200 GetEventsResponseBody200  -- ^ Successful response.
+  | GetEventsResponseDefault Error                 -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetEventsResponseBody200
+-- 
+-- 
+data GetEventsResponseBody200 = GetEventsResponseBody200 {
+  -- | data
+  getEventsResponseBody200Data :: ([] Event)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getEventsResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getEventsResponseBody200Object :: GetEventsResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  -- * Must match pattern \'^\/v1\/events\'
+  , getEventsResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetEventsResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getEventsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getEventsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getEventsResponseBody200Object obj) : (Data.Aeson..=) "url" (getEventsResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getEventsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getEventsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getEventsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getEventsResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetEventsResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetEventsResponseBody200" (\obj -> (((GHC.Base.pure GetEventsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetEventsResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetEventsResponseBody200Object'
     = GetEventsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetEventsResponseBody200Object'EnumTyped GHC.Base.String
@@ -210,8 +244,3 @@ instance Data.Aeson.FromJSON GetEventsResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetEventsResponseBody200Object'EnumStringList
                                           else GetEventsResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetEventsResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getEventsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getEventsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getEventsResponseBody200Object obj) : (Data.Aeson..=) "url" (getEventsResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getEventsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getEventsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getEventsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getEventsResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetEventsResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetEventsResponseBody200" (\obj -> (((GHC.Base.pure GetEventsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

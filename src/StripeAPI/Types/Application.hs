@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema Application
 module StripeAPI.Types.Application where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,34 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data Application
-    = Application {applicationId :: GHC.Base.String,
-                   applicationName :: (GHC.Maybe.Maybe GHC.Base.String),
-                   applicationObject :: ApplicationObject'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema application
+-- 
+-- 
+data Application = Application {
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  applicationId :: GHC.Base.String
+  -- | name: The name of the application.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , applicationName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , applicationObject :: ApplicationObject'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON Application
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "id" (applicationId obj) : (Data.Aeson..=) "name" (applicationName obj) : (Data.Aeson..=) "object" (applicationObject obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "id" (applicationId obj) GHC.Base.<> ((Data.Aeson..=) "name" (applicationName obj) GHC.Base.<> (Data.Aeson..=) "object" (applicationObject obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON Application
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "Application" (\obj -> ((GHC.Base.pure Application GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+-- | Defines the enum schema applicationObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data ApplicationObject'
     = ApplicationObject'EnumOther Data.Aeson.Types.Internal.Value
     | ApplicationObject'EnumTyped GHC.Base.String
@@ -44,8 +68,3 @@ instance Data.Aeson.FromJSON ApplicationObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "application")
                                           then ApplicationObject'EnumStringApplication
                                           else ApplicationObject'EnumOther val)
-instance Data.Aeson.ToJSON Application
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "id" (applicationId obj) : (Data.Aeson..=) "name" (applicationName obj) : (Data.Aeson..=) "object" (applicationObject obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "id" (applicationId obj) GHC.Base.<> ((Data.Aeson..=) "name" (applicationName obj) GHC.Base.<> (Data.Aeson..=) "object" (applicationObject obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON Application
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "Application" (\obj -> ((GHC.Base.pure Application GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))

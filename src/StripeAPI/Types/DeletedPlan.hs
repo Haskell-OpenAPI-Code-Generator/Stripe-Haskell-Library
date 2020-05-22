@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema DeletedPlan
 module StripeAPI.Types.DeletedPlan where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,30 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data DeletedPlan
-    = DeletedPlan {deletedPlanDeleted :: DeletedPlanDeleted',
-                   deletedPlanId :: GHC.Base.String,
-                   deletedPlanObject :: DeletedPlanObject'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema deleted_plan
+-- 
+-- 
+data DeletedPlan = DeletedPlan {
+  -- | deleted: Always true for a deleted object
+  deletedPlanDeleted :: DeletedPlanDeleted'
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , deletedPlanId :: GHC.Base.String
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , deletedPlanObject :: DeletedPlanObject'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON DeletedPlan
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedPlanDeleted obj) : (Data.Aeson..=) "id" (deletedPlanId obj) : (Data.Aeson..=) "object" (deletedPlanObject obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedPlanDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedPlanId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedPlanObject obj)))
+instance Data.Aeson.Types.FromJSON.FromJSON DeletedPlan
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedPlan" (\obj -> ((GHC.Base.pure DeletedPlan GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+-- | Defines the enum schema deleted_planDeleted\'
+-- 
+-- Always true for a deleted object
 data DeletedPlanDeleted'
     = DeletedPlanDeleted'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedPlanDeleted'EnumTyped GHC.Types.Bool
@@ -44,6 +64,9 @@ instance Data.Aeson.FromJSON DeletedPlanDeleted'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True
                                           then DeletedPlanDeleted'EnumBoolTrue
                                           else DeletedPlanDeleted'EnumOther val)
+-- | Defines the enum schema deleted_planObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedPlanObject'
     = DeletedPlanObject'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedPlanObject'EnumTyped GHC.Base.String
@@ -57,8 +80,3 @@ instance Data.Aeson.FromJSON DeletedPlanObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "plan")
                                           then DeletedPlanObject'EnumStringPlan
                                           else DeletedPlanObject'EnumOther val)
-instance Data.Aeson.ToJSON DeletedPlan
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "deleted" (deletedPlanDeleted obj) : (Data.Aeson..=) "id" (deletedPlanId obj) : (Data.Aeson..=) "object" (deletedPlanObject obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "deleted" (deletedPlanDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedPlanId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedPlanObject obj)))
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedPlan
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedPlan" (\obj -> ((GHC.Base.pure DeletedPlan GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))

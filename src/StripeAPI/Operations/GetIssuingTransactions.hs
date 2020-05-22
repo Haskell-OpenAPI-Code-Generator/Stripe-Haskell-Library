@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getIssuingTransactions
 module StripeAPI.Operations.GetIssuingTransactions where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,24 +39,21 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/issuing/transactions
-getIssuingTransactions :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                        StripeAPI.Common.SecurityScheme s) =>
-                          StripeAPI.Common.Configuration s ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GetIssuingTransactionsRequestBody ->
-                          m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                (Network.HTTP.Client.Types.Response GetIssuingTransactionsResponse))
+-- | > GET /v1/issuing/transactions
+-- 
+-- \<p>Returns a list of Issuing \<code>Transaction\<\/code> objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.\<\/p>
+getIssuingTransactions :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ card: Only return transactions that belong to the given card. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ cardholder: Only return transactions that belong to the given cardholder. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ created: Only return transactions that were created during the given date interval.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ dispute: Only return transactions that originate from a given dispute. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                           -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ settlement: Only return transactions that are associated with the given settlement. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GetIssuingTransactionsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingTransactionsResponse)) -- ^ Monad containing the result of the operation
 getIssuingTransactions config
                        card
                        cardholder
@@ -80,6 +78,9 @@ getIssuingTransactions config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "settlement",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> settlement) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/transactions
+-- 
+-- The same as 'getIssuingTransactions' but returns the raw 'Data.ByteString.Char8.ByteString'
 getIssuingTransactionsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              StripeAPI.Common.Configuration s ->
@@ -115,6 +116,9 @@ getIssuingTransactionsRaw config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "settlement",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> settlement) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/transactions
+-- 
+-- Monadic version of 'getIssuingTransactions' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingTransactionsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
                            GHC.Maybe.Maybe GHC.Base.String ->
@@ -154,6 +158,9 @@ getIssuingTransactionsM card
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "settlement",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> settlement) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/issuing/transactions
+-- 
+-- Monadic version of 'getIssuingTransactionsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingTransactionsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               GHC.Maybe.Maybe GHC.Base.String ->
@@ -189,26 +196,53 @@ getIssuingTransactionsRawM card
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "settlement",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> settlement) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : []))))))))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetIssuingTransactionsRequestBody
-    = GetIssuingTransactionsRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getIssuingTransactionsRequestBody
+-- 
+-- 
+data GetIssuingTransactionsRequestBody = GetIssuingTransactionsRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetIssuingTransactionsRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingTransactionsRequestBody" (\obj -> GHC.Base.pure GetIssuingTransactionsRequestBody)
-
-data GetIssuingTransactionsResponse
-    = GetIssuingTransactionsResponseError GHC.Base.String
-    | GetIssuingTransactionsResponse200 GetIssuingTransactionsResponseBody200
-    | GetIssuingTransactionsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetIssuingTransactionsResponseBody200
-    = GetIssuingTransactionsResponseBody200 {getIssuingTransactionsResponseBody200Data :: ([] Issuing'transaction),
-                                             getIssuingTransactionsResponseBody200HasMore :: GHC.Types.Bool,
-                                             getIssuingTransactionsResponseBody200Object :: GetIssuingTransactionsResponseBody200Object',
-                                             getIssuingTransactionsResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getIssuingTransactions'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetIssuingTransactionsResponseError' is used.
+data GetIssuingTransactionsResponse =                                        
+   GetIssuingTransactionsResponseError GHC.Base.String                       -- ^ Means either no matching case available or a parse error
+  | GetIssuingTransactionsResponse200 GetIssuingTransactionsResponseBody200  -- ^ Successful response.
+  | GetIssuingTransactionsResponseDefault Error                              -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetIssuingTransactionsResponseBody200
+-- 
+-- 
+data GetIssuingTransactionsResponseBody200 = GetIssuingTransactionsResponseBody200 {
+  -- | data
+  getIssuingTransactionsResponseBody200Data :: ([] Issuing'transaction)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getIssuingTransactionsResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getIssuingTransactionsResponseBody200Object :: GetIssuingTransactionsResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  -- * Must match pattern \'^\/v1\/issuing\/transactions\'
+  , getIssuingTransactionsResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetIssuingTransactionsResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getIssuingTransactionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getIssuingTransactionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getIssuingTransactionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getIssuingTransactionsResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getIssuingTransactionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getIssuingTransactionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getIssuingTransactionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getIssuingTransactionsResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingTransactionsResponseBody200" (\obj -> (((GHC.Base.pure GetIssuingTransactionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetIssuingTransactionsResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetIssuingTransactionsResponseBody200Object'
     = GetIssuingTransactionsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetIssuingTransactionsResponseBody200Object'EnumTyped GHC.Base.String
@@ -222,8 +256,3 @@ instance Data.Aeson.FromJSON GetIssuingTransactionsResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetIssuingTransactionsResponseBody200Object'EnumStringList
                                           else GetIssuingTransactionsResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetIssuingTransactionsResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getIssuingTransactionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getIssuingTransactionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getIssuingTransactionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getIssuingTransactionsResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getIssuingTransactionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getIssuingTransactionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getIssuingTransactionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getIssuingTransactionsResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingTransactionsResponseBody200" (\obj -> (((GHC.Base.pure GetIssuingTransactionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

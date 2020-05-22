@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceTypeThreeDSecure
 module StripeAPI.Types.SourceTypeThreeDSecure where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,25 +27,46 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceTypeThreeDSecure
-    = SourceTypeThreeDSecure {sourceTypeThreeDSecureAddressLine1Check :: (GHC.Maybe.Maybe GHC.Base.String),
-                              sourceTypeThreeDSecureAddressZipCheck :: (GHC.Maybe.Maybe GHC.Base.String),
-                              sourceTypeThreeDSecureAuthenticated :: (GHC.Maybe.Maybe GHC.Types.Bool),
-                              sourceTypeThreeDSecureBrand :: (GHC.Maybe.Maybe GHC.Base.String),
-                              sourceTypeThreeDSecureCard :: (GHC.Maybe.Maybe GHC.Base.String),
-                              sourceTypeThreeDSecureCountry :: (GHC.Maybe.Maybe GHC.Base.String),
-                              sourceTypeThreeDSecureCustomer :: (GHC.Maybe.Maybe GHC.Base.String),
-                              sourceTypeThreeDSecureCvcCheck :: (GHC.Maybe.Maybe GHC.Base.String),
-                              sourceTypeThreeDSecureDynamicLast4 :: (GHC.Maybe.Maybe GHC.Base.String),
-                              sourceTypeThreeDSecureExpMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                              sourceTypeThreeDSecureExpYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                              sourceTypeThreeDSecureFingerprint :: (GHC.Maybe.Maybe GHC.Base.String),
-                              sourceTypeThreeDSecureFunding :: (GHC.Maybe.Maybe GHC.Base.String),
-                              sourceTypeThreeDSecureLast4 :: (GHC.Maybe.Maybe GHC.Base.String),
-                              sourceTypeThreeDSecureName :: (GHC.Maybe.Maybe GHC.Base.String),
-                              sourceTypeThreeDSecureThreeDSecure :: (GHC.Maybe.Maybe GHC.Base.String),
-                              sourceTypeThreeDSecureTokenizationMethod :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_type_three_d_secure
+-- 
+-- 
+data SourceTypeThreeDSecure = SourceTypeThreeDSecure {
+  -- | address_line1_check
+  sourceTypeThreeDSecureAddressLine1Check :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | address_zip_check
+  , sourceTypeThreeDSecureAddressZipCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | authenticated
+  , sourceTypeThreeDSecureAuthenticated :: (GHC.Maybe.Maybe GHC.Types.Bool)
+  -- | brand
+  , sourceTypeThreeDSecureBrand :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | card
+  , sourceTypeThreeDSecureCard :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | country
+  , sourceTypeThreeDSecureCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | customer
+  , sourceTypeThreeDSecureCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | cvc_check
+  , sourceTypeThreeDSecureCvcCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | dynamic_last4
+  , sourceTypeThreeDSecureDynamicLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | exp_month
+  , sourceTypeThreeDSecureExpMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | exp_year
+  , sourceTypeThreeDSecureExpYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | fingerprint
+  , sourceTypeThreeDSecureFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | funding
+  , sourceTypeThreeDSecureFunding :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | last4
+  , sourceTypeThreeDSecureLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | name
+  , sourceTypeThreeDSecureName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | three_d_secure
+  , sourceTypeThreeDSecureThreeDSecure :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | tokenization_method
+  , sourceTypeThreeDSecureTokenizationMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeThreeDSecure
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address_line1_check" (sourceTypeThreeDSecureAddressLine1Check obj) : (Data.Aeson..=) "address_zip_check" (sourceTypeThreeDSecureAddressZipCheck obj) : (Data.Aeson..=) "authenticated" (sourceTypeThreeDSecureAuthenticated obj) : (Data.Aeson..=) "brand" (sourceTypeThreeDSecureBrand obj) : (Data.Aeson..=) "card" (sourceTypeThreeDSecureCard obj) : (Data.Aeson..=) "country" (sourceTypeThreeDSecureCountry obj) : (Data.Aeson..=) "customer" (sourceTypeThreeDSecureCustomer obj) : (Data.Aeson..=) "cvc_check" (sourceTypeThreeDSecureCvcCheck obj) : (Data.Aeson..=) "dynamic_last4" (sourceTypeThreeDSecureDynamicLast4 obj) : (Data.Aeson..=) "exp_month" (sourceTypeThreeDSecureExpMonth obj) : (Data.Aeson..=) "exp_year" (sourceTypeThreeDSecureExpYear obj) : (Data.Aeson..=) "fingerprint" (sourceTypeThreeDSecureFingerprint obj) : (Data.Aeson..=) "funding" (sourceTypeThreeDSecureFunding obj) : (Data.Aeson..=) "last4" (sourceTypeThreeDSecureLast4 obj) : (Data.Aeson..=) "name" (sourceTypeThreeDSecureName obj) : (Data.Aeson..=) "three_d_secure" (sourceTypeThreeDSecureThreeDSecure obj) : (Data.Aeson..=) "tokenization_method" (sourceTypeThreeDSecureTokenizationMethod obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address_line1_check" (sourceTypeThreeDSecureAddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_zip_check" (sourceTypeThreeDSecureAddressZipCheck obj) GHC.Base.<> ((Data.Aeson..=) "authenticated" (sourceTypeThreeDSecureAuthenticated obj) GHC.Base.<> ((Data.Aeson..=) "brand" (sourceTypeThreeDSecureBrand obj) GHC.Base.<> ((Data.Aeson..=) "card" (sourceTypeThreeDSecureCard obj) GHC.Base.<> ((Data.Aeson..=) "country" (sourceTypeThreeDSecureCountry obj) GHC.Base.<> ((Data.Aeson..=) "customer" (sourceTypeThreeDSecureCustomer obj) GHC.Base.<> ((Data.Aeson..=) "cvc_check" (sourceTypeThreeDSecureCvcCheck obj) GHC.Base.<> ((Data.Aeson..=) "dynamic_last4" (sourceTypeThreeDSecureDynamicLast4 obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (sourceTypeThreeDSecureExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (sourceTypeThreeDSecureExpYear obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (sourceTypeThreeDSecureFingerprint obj) GHC.Base.<> ((Data.Aeson..=) "funding" (sourceTypeThreeDSecureFunding obj) GHC.Base.<> ((Data.Aeson..=) "last4" (sourceTypeThreeDSecureLast4 obj) GHC.Base.<> ((Data.Aeson..=) "name" (sourceTypeThreeDSecureName obj) GHC.Base.<> ((Data.Aeson..=) "three_d_secure" (sourceTypeThreeDSecureThreeDSecure obj) GHC.Base.<> (Data.Aeson..=) "tokenization_method" (sourceTypeThreeDSecureTokenizationMethod obj)))))))))))))))))

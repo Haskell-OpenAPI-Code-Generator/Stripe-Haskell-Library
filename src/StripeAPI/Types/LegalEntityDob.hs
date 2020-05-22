@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema LegalEntityDob
 module StripeAPI.Types.LegalEntityDob where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,11 +27,18 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data LegalEntityDob
-    = LegalEntityDob {legalEntityDobDay :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                      legalEntityDobMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                      legalEntityDobYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema legal_entity_dob
+-- 
+-- 
+data LegalEntityDob = LegalEntityDob {
+  -- | day: The day of birth, between 1 and 31.
+  legalEntityDobDay :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | month: The month of birth, between 1 and 12.
+  , legalEntityDobMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | year: The four-digit year of birth.
+  , legalEntityDobYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON LegalEntityDob
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "day" (legalEntityDobDay obj) : (Data.Aeson..=) "month" (legalEntityDobMonth obj) : (Data.Aeson..=) "year" (legalEntityDobYear obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "day" (legalEntityDobDay obj) GHC.Base.<> ((Data.Aeson..=) "month" (legalEntityDobMonth obj) GHC.Base.<> (Data.Aeson..=) "year" (legalEntityDobYear obj)))

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SourceMandateNotificationBacsDebitData
 module StripeAPI.Types.SourceMandateNotificationBacsDebitData where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,9 +27,18 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SourceMandateNotificationBacsDebitData
-    = SourceMandateNotificationBacsDebitData {sourceMandateNotificationBacsDebitDataLast4 :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema source_mandate_notification_bacs_debit_data
+-- 
+-- 
+data SourceMandateNotificationBacsDebitData = SourceMandateNotificationBacsDebitData {
+  -- | last4: Last 4 digits of the account number associated with the debit.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  sourceMandateNotificationBacsDebitDataLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceMandateNotificationBacsDebitData
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "last4" (sourceMandateNotificationBacsDebitDataLast4 obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "last4" (sourceMandateNotificationBacsDebitDataLast4 obj))

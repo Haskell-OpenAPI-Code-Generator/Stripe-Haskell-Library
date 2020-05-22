@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getTaxRatesTaxRate
 module StripeAPI.Operations.GetTaxRatesTaxRate where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/tax_rates/{tax_rate}
-getTaxRatesTaxRate :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                    StripeAPI.Common.SecurityScheme s) =>
-                      StripeAPI.Common.Configuration s ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Base.String ->
-                      GetTaxRatesTaxRateRequestBody ->
-                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                            (Network.HTTP.Client.Types.Response GetTaxRatesTaxRateResponse))
+-- | > GET /v1/tax_rates/{tax_rate}
+-- 
+-- \<p>Retrieves a tax rate with the given ID\<\/p>
+getTaxRatesTaxRate :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                -- ^ tax_rate | Constraints: Maximum length of 5000
+  -> GetTaxRatesTaxRateRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetTaxRatesTaxRateResponse)) -- ^ Monad containing the result of the operation
 getTaxRatesTaxRate config
                    expand
                    taxRate
@@ -58,6 +56,9 @@ getTaxRatesTaxRate config
                                                                                                                                                                                                                                                                                                                                                                                           Error)
                                                                                                                                                                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/tax_rates/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel taxRate)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/tax_rates/{tax_rate}
+-- 
+-- The same as 'getTaxRatesTaxRate' but returns the raw 'Data.ByteString.Char8.ByteString'
 getTaxRatesTaxRateRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getTaxRatesTaxRateRaw config
                       taxRate
                       body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/tax_rates/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel taxRate)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/tax_rates/{tax_rate}
+-- 
+-- Monadic version of 'getTaxRatesTaxRate' (use with 'StripeAPI.Common.runWithConfiguration')
 getTaxRatesTaxRateM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getTaxRatesTaxRateM expand
                                                                                                                                                                                                                                                                                                                                                                                            Error)
                                                                                                                                                                                        | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/tax_rates/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel taxRate)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/tax_rates/{tax_rate}
+-- 
+-- Monadic version of 'getTaxRatesTaxRateRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getTaxRatesTaxRateRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getTaxRatesTaxRateRawM expand
                        taxRate
                        body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/tax_rates/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel taxRate)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetTaxRatesTaxRateRequestBody
-    = GetTaxRatesTaxRateRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getTaxRatesTaxRateRequestBody
+-- 
+-- 
+data GetTaxRatesTaxRateRequestBody = GetTaxRatesTaxRateRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetTaxRatesTaxRateRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetTaxRatesTaxRateRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTaxRatesTaxRateRequestBody" (\obj -> GHC.Base.pure GetTaxRatesTaxRateRequestBody)
-
-data GetTaxRatesTaxRateResponse
-    = GetTaxRatesTaxRateResponseError GHC.Base.String
-    | GetTaxRatesTaxRateResponse200 TaxRate
-    | GetTaxRatesTaxRateResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getTaxRatesTaxRate'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetTaxRatesTaxRateResponseError' is used.
+data GetTaxRatesTaxRateResponse =                   
+   GetTaxRatesTaxRateResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | GetTaxRatesTaxRateResponse200 TaxRate           -- ^ Successful response.
+  | GetTaxRatesTaxRateResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

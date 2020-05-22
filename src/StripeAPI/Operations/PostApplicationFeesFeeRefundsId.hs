@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation postApplicationFeesFeeRefundsId
 module StripeAPI.Operations.PostApplicationFeesFeeRefundsId where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,16 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- POST /v1/application_fees/{fee}/refunds/{id}
-postApplicationFeesFeeRefundsId :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                 StripeAPI.Common.SecurityScheme s) =>
-                                   StripeAPI.Common.Configuration s ->
-                                   GHC.Base.String ->
-                                   GHC.Base.String ->
-                                   PostApplicationFeesFeeRefundsIdRequestBody ->
-                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                         (Network.HTTP.Client.Types.Response PostApplicationFeesFeeRefundsIdResponse))
+-- | > POST /v1/application_fees/{fee}/refunds/{id}
+-- 
+-- \<p>Updates the specified application fee refund by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
+-- 
+-- \<p>This request only accepts metadata as an argument.\<\/p>
+postApplicationFeesFeeRefundsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Base.String                                                                                                                             -- ^ fee | Constraints: Maximum length of 5000
+  -> GHC.Base.String                                                                                                                             -- ^ id | Constraints: Maximum length of 5000
+  -> PostApplicationFeesFeeRefundsIdRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostApplicationFeesFeeRefundsIdResponse)) -- ^ Monad containing the result of the operation
 postApplicationFeesFeeRefundsId config
                                 fee
                                 id
@@ -57,6 +57,9 @@ postApplicationFeesFeeRefundsId config
                                                                                                                                                                                                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostApplicationFeesFeeRefundsIdResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                  Error)
                                                                                                                                                                                                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/application_fees/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel fee)) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/application_fees/{fee}/refunds/{id}
+-- 
+-- The same as 'postApplicationFeesFeeRefundsId' but returns the raw 'Data.ByteString.Char8.ByteString'
 postApplicationFeesFeeRefundsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
                                       StripeAPI.Common.Configuration s ->
@@ -69,6 +72,9 @@ postApplicationFeesFeeRefundsIdRaw config
                                    fee
                                    id
                                    body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/application_fees/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel fee)) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/application_fees/{fee}/refunds/{id}
+-- 
+-- Monadic version of 'postApplicationFeesFeeRefundsId' (use with 'StripeAPI.Common.runWithConfiguration')
 postApplicationFeesFeeRefundsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     GHC.Base.String ->
@@ -85,6 +91,9 @@ postApplicationFeesFeeRefundsIdM fee
                                                                                                                                                                                                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostApplicationFeesFeeRefundsIdResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                   Error)
                                                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/application_fees/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel fee)) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > POST /v1/application_fees/{fee}/refunds/{id}
+-- 
+-- Monadic version of 'postApplicationFeesFeeRefundsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postApplicationFeesFeeRefundsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
                                        GHC.Base.String ->
@@ -97,26 +106,38 @@ postApplicationFeesFeeRefundsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP 
 postApplicationFeesFeeRefundsIdRawM fee
                                     id
                                     body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/application_fees/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel fee)) GHC.Base.++ ("/refunds/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-data PostApplicationFeesFeeRefundsIdRequestBody
-    = PostApplicationFeesFeeRefundsIdRequestBody {postApplicationFeesFeeRefundsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String)),
-                                                  postApplicationFeesFeeRefundsIdRequestBodyMetadata :: (GHC.Maybe.Maybe PostApplicationFeesFeeRefundsIdRequestBodyMetadata')}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data PostApplicationFeesFeeRefundsIdRequestBodyMetadata'
-    = PostApplicationFeesFeeRefundsIdRequestBodyMetadata' {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-instance Data.Aeson.ToJSON PostApplicationFeesFeeRefundsIdRequestBodyMetadata'
-    where toJSON obj = Data.Aeson.object []
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-instance Data.Aeson.Types.FromJSON.FromJSON PostApplicationFeesFeeRefundsIdRequestBodyMetadata'
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostApplicationFeesFeeRefundsIdRequestBodyMetadata'" (\obj -> GHC.Base.pure PostApplicationFeesFeeRefundsIdRequestBodyMetadata')
+-- | Defines the data type for the schema postApplicationFeesFeeRefundsIdRequestBody
+-- 
+-- 
+data PostApplicationFeesFeeRefundsIdRequestBody = PostApplicationFeesFeeRefundsIdRequestBody {
+  -- | expand: Specifies which fields in the response should be expanded.
+  postApplicationFeesFeeRefundsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
+  , postApplicationFeesFeeRefundsIdRequestBodyMetadata :: (GHC.Maybe.Maybe PostApplicationFeesFeeRefundsIdRequestBodyMetadata')
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostApplicationFeesFeeRefundsIdRequestBody
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postApplicationFeesFeeRefundsIdRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postApplicationFeesFeeRefundsIdRequestBodyMetadata obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postApplicationFeesFeeRefundsIdRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postApplicationFeesFeeRefundsIdRequestBodyMetadata obj))
 instance Data.Aeson.Types.FromJSON.FromJSON PostApplicationFeesFeeRefundsIdRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostApplicationFeesFeeRefundsIdRequestBody" (\obj -> (GHC.Base.pure PostApplicationFeesFeeRefundsIdRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
-
-data PostApplicationFeesFeeRefundsIdResponse
-    = PostApplicationFeesFeeRefundsIdResponseError GHC.Base.String
-    | PostApplicationFeesFeeRefundsIdResponse200 FeeRefund
-    | PostApplicationFeesFeeRefundsIdResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema postApplicationFeesFeeRefundsIdRequestBodyMetadata\'
+-- 
+-- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
+data PostApplicationFeesFeeRefundsIdRequestBodyMetadata' = PostApplicationFeesFeeRefundsIdRequestBodyMetadata' {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PostApplicationFeesFeeRefundsIdRequestBodyMetadata'
+    where toJSON obj = Data.Aeson.object []
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.Types.FromJSON.FromJSON PostApplicationFeesFeeRefundsIdRequestBodyMetadata'
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PostApplicationFeesFeeRefundsIdRequestBodyMetadata'" (\obj -> GHC.Base.pure PostApplicationFeesFeeRefundsIdRequestBodyMetadata')
+-- | Represents a response of the operation 'postApplicationFeesFeeRefundsId'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'PostApplicationFeesFeeRefundsIdResponseError' is used.
+data PostApplicationFeesFeeRefundsIdResponse =                   
+   PostApplicationFeesFeeRefundsIdResponseError GHC.Base.String  -- ^ Means either no matching case available or a parse error
+  | PostApplicationFeesFeeRefundsIdResponse200 FeeRefund         -- ^ Successful response.
+  | PostApplicationFeesFeeRefundsIdResponseDefault Error         -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

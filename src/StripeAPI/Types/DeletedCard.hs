@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema DeletedCard
 module StripeAPI.Types.DeletedCard where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,36 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data DeletedCard
-    = DeletedCard {deletedCardCurrency :: (GHC.Maybe.Maybe GHC.Base.String),
-                   deletedCardDeleted :: DeletedCardDeleted',
-                   deletedCardId :: GHC.Base.String,
-                   deletedCardObject :: DeletedCardObject'}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema deleted_card
+-- 
+-- 
+data DeletedCard = DeletedCard {
+  -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/payouts) paid out to the bank account.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  deletedCardCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | deleted: Always true for a deleted object
+  , deletedCardDeleted :: DeletedCardDeleted'
+  -- | id: Unique identifier for the object.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , deletedCardId :: GHC.Base.String
+  -- | object: String representing the object\'s type. Objects of the same type share the same value.
+  , deletedCardObject :: DeletedCardObject'
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON DeletedCard
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "currency" (deletedCardCurrency obj) : (Data.Aeson..=) "deleted" (deletedCardDeleted obj) : (Data.Aeson..=) "id" (deletedCardId obj) : (Data.Aeson..=) "object" (deletedCardObject obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "currency" (deletedCardCurrency obj) GHC.Base.<> ((Data.Aeson..=) "deleted" (deletedCardDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedCardId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedCardObject obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON DeletedCard
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedCard" (\obj -> (((GHC.Base.pure DeletedCard GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
+-- | Defines the enum schema deleted_cardDeleted\'
+-- 
+-- Always true for a deleted object
 data DeletedCardDeleted'
     = DeletedCardDeleted'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedCardDeleted'EnumTyped GHC.Types.Bool
@@ -45,6 +70,9 @@ instance Data.Aeson.FromJSON DeletedCardDeleted'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True
                                           then DeletedCardDeleted'EnumBoolTrue
                                           else DeletedCardDeleted'EnumOther val)
+-- | Defines the enum schema deleted_cardObject\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedCardObject'
     = DeletedCardObject'EnumOther Data.Aeson.Types.Internal.Value
     | DeletedCardObject'EnumTyped GHC.Base.String
@@ -58,8 +86,3 @@ instance Data.Aeson.FromJSON DeletedCardObject'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card")
                                           then DeletedCardObject'EnumStringCard
                                           else DeletedCardObject'EnumOther val)
-instance Data.Aeson.ToJSON DeletedCard
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "currency" (deletedCardCurrency obj) : (Data.Aeson..=) "deleted" (deletedCardDeleted obj) : (Data.Aeson..=) "id" (deletedCardId obj) : (Data.Aeson..=) "object" (deletedCardObject obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "currency" (deletedCardCurrency obj) GHC.Base.<> ((Data.Aeson..=) "deleted" (deletedCardDeleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deletedCardId obj) GHC.Base.<> (Data.Aeson..=) "object" (deletedCardObject obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON DeletedCard
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "DeletedCard" (\obj -> (((GHC.Base.pure DeletedCard GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))

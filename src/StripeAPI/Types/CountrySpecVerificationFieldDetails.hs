@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema CountrySpecVerificationFieldDetails
 module StripeAPI.Types.CountrySpecVerificationFieldDetails where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,16 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data CountrySpecVerificationFieldDetails
-    = CountrySpecVerificationFieldDetails {countrySpecVerificationFieldDetailsAdditional :: ([] GHC.Base.String),
-                                           countrySpecVerificationFieldDetailsMinimum :: ([] GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema country_spec_verification_field_details
+-- 
+-- 
+data CountrySpecVerificationFieldDetails = CountrySpecVerificationFieldDetails {
+  -- | additional: Additional fields which are only required for some users.
+  countrySpecVerificationFieldDetailsAdditional :: ([] GHC.Base.String)
+  -- | minimum: Fields which every account must eventually provide.
+  , countrySpecVerificationFieldDetailsMinimum :: ([] GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON CountrySpecVerificationFieldDetails
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "additional" (countrySpecVerificationFieldDetailsAdditional obj) : (Data.Aeson..=) "minimum" (countrySpecVerificationFieldDetailsMinimum obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "additional" (countrySpecVerificationFieldDetailsAdditional obj) GHC.Base.<> (Data.Aeson..=) "minimum" (countrySpecVerificationFieldDetailsMinimum obj))

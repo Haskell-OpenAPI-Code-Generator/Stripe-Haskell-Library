@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema IssuingAuthorizationMerchantData
 module StripeAPI.Types.IssuingAuthorizationMerchantData where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,16 +27,60 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data IssuingAuthorizationMerchantData
-    = IssuingAuthorizationMerchantData {issuingAuthorizationMerchantDataCategory :: GHC.Base.String,
-                                        issuingAuthorizationMerchantDataCity :: (GHC.Maybe.Maybe GHC.Base.String),
-                                        issuingAuthorizationMerchantDataCountry :: (GHC.Maybe.Maybe GHC.Base.String),
-                                        issuingAuthorizationMerchantDataName :: (GHC.Maybe.Maybe GHC.Base.String),
-                                        issuingAuthorizationMerchantDataNetworkId :: GHC.Base.String,
-                                        issuingAuthorizationMerchantDataPostalCode :: (GHC.Maybe.Maybe GHC.Base.String),
-                                        issuingAuthorizationMerchantDataState :: (GHC.Maybe.Maybe GHC.Base.String),
-                                        issuingAuthorizationMerchantDataUrl :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema issuing_authorization_merchant_data
+-- 
+-- 
+data IssuingAuthorizationMerchantData = IssuingAuthorizationMerchantData {
+  -- | category: A categorization of the seller\'s type of business. See our [merchant categories guide](https:\/\/stripe.com\/docs\/issuing\/merchant-categories) for a list of possible values.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  issuingAuthorizationMerchantDataCategory :: GHC.Base.String
+  -- | city: City where the seller is located
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuingAuthorizationMerchantDataCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | country: Country where the seller is located
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuingAuthorizationMerchantDataCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | name: Name of the seller
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuingAuthorizationMerchantDataName :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | network_id: Identifier assigned to the seller by the card brand
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuingAuthorizationMerchantDataNetworkId :: GHC.Base.String
+  -- | postal_code: Postal code where the seller is located
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuingAuthorizationMerchantDataPostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | state: State where the seller is located
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuingAuthorizationMerchantDataState :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | url: The url an online purchase was made from
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuingAuthorizationMerchantDataUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON IssuingAuthorizationMerchantData
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "category" (issuingAuthorizationMerchantDataCategory obj) : (Data.Aeson..=) "city" (issuingAuthorizationMerchantDataCity obj) : (Data.Aeson..=) "country" (issuingAuthorizationMerchantDataCountry obj) : (Data.Aeson..=) "name" (issuingAuthorizationMerchantDataName obj) : (Data.Aeson..=) "network_id" (issuingAuthorizationMerchantDataNetworkId obj) : (Data.Aeson..=) "postal_code" (issuingAuthorizationMerchantDataPostalCode obj) : (Data.Aeson..=) "state" (issuingAuthorizationMerchantDataState obj) : (Data.Aeson..=) "url" (issuingAuthorizationMerchantDataUrl obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "category" (issuingAuthorizationMerchantDataCategory obj) GHC.Base.<> ((Data.Aeson..=) "city" (issuingAuthorizationMerchantDataCity obj) GHC.Base.<> ((Data.Aeson..=) "country" (issuingAuthorizationMerchantDataCountry obj) GHC.Base.<> ((Data.Aeson..=) "name" (issuingAuthorizationMerchantDataName obj) GHC.Base.<> ((Data.Aeson..=) "network_id" (issuingAuthorizationMerchantDataNetworkId obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (issuingAuthorizationMerchantDataPostalCode obj) GHC.Base.<> ((Data.Aeson..=) "state" (issuingAuthorizationMerchantDataState obj) GHC.Base.<> (Data.Aeson..=) "url" (issuingAuthorizationMerchantDataUrl obj))))))))

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema PaymentMethodDetailsIdeal
 module StripeAPI.Types.PaymentMethodDetailsIdeal where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,37 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data PaymentMethodDetailsIdeal
-    = PaymentMethodDetailsIdeal {paymentMethodDetailsIdealBank :: (GHC.Maybe.Maybe PaymentMethodDetailsIdealBank'),
-                                 paymentMethodDetailsIdealBic :: (GHC.Maybe.Maybe PaymentMethodDetailsIdealBic'),
-                                 paymentMethodDetailsIdealIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String),
-                                 paymentMethodDetailsIdealVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema payment_method_details_ideal
+-- 
+-- 
+data PaymentMethodDetailsIdeal = PaymentMethodDetailsIdeal {
+  -- | bank: The customer\'s bank. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`rabobank\`, \`regiobank\`, \`sns_bank\`, \`triodos_bank\`, or \`van_lanschot\`.
+  paymentMethodDetailsIdealBank :: (GHC.Maybe.Maybe PaymentMethodDetailsIdealBank')
+  -- | bic: The Bank Identifier Code of the customer\'s bank.
+  , paymentMethodDetailsIdealBic :: (GHC.Maybe.Maybe PaymentMethodDetailsIdealBic')
+  -- | iban_last4: Last four characters of the IBAN.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsIdealIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  -- | verified_name: Owner\'s verified full name. Values are verified or provided by iDEAL directly
+  -- (if supported) at the time of authorization or settlement. They cannot be set or mutated.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , paymentMethodDetailsIdealVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON PaymentMethodDetailsIdeal
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank" (paymentMethodDetailsIdealBank obj) : (Data.Aeson..=) "bic" (paymentMethodDetailsIdealBic obj) : (Data.Aeson..=) "iban_last4" (paymentMethodDetailsIdealIbanLast4 obj) : (Data.Aeson..=) "verified_name" (paymentMethodDetailsIdealVerifiedName obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank" (paymentMethodDetailsIdealBank obj) GHC.Base.<> ((Data.Aeson..=) "bic" (paymentMethodDetailsIdealBic obj) GHC.Base.<> ((Data.Aeson..=) "iban_last4" (paymentMethodDetailsIdealIbanLast4 obj) GHC.Base.<> (Data.Aeson..=) "verified_name" (paymentMethodDetailsIdealVerifiedName obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsIdeal
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsIdeal" (\obj -> (((GHC.Base.pure PaymentMethodDetailsIdeal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "iban_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name"))
+-- | Defines the enum schema payment_method_details_idealBank\'
+-- 
+-- The customer\'s bank. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`rabobank\`, \`regiobank\`, \`sns_bank\`, \`triodos_bank\`, or \`van_lanschot\`.
 data PaymentMethodDetailsIdealBank'
     = PaymentMethodDetailsIdealBank'EnumOther Data.Aeson.Types.Internal.Value
     | PaymentMethodDetailsIdealBank'EnumTyped GHC.Base.String
@@ -89,6 +115,9 @@ instance Data.Aeson.FromJSON PaymentMethodDetailsIdealBank'
                                                                                                       else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "van_lanschot")
                                                                                                             then PaymentMethodDetailsIdealBank'EnumStringVanLanschot
                                                                                                             else PaymentMethodDetailsIdealBank'EnumOther val)
+-- | Defines the enum schema payment_method_details_idealBic\'
+-- 
+-- The Bank Identifier Code of the customer\'s bank.
 data PaymentMethodDetailsIdealBic'
     = PaymentMethodDetailsIdealBic'EnumOther Data.Aeson.Types.Internal.Value
     | PaymentMethodDetailsIdealBic'EnumTyped GHC.Base.String
@@ -146,8 +175,3 @@ instance Data.Aeson.FromJSON PaymentMethodDetailsIdealBic'
                                                                                                       else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "TRIONL2U")
                                                                                                             then PaymentMethodDetailsIdealBic'EnumStringTRIONL2U
                                                                                                             else PaymentMethodDetailsIdealBic'EnumOther val)
-instance Data.Aeson.ToJSON PaymentMethodDetailsIdeal
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank" (paymentMethodDetailsIdealBank obj) : (Data.Aeson..=) "bic" (paymentMethodDetailsIdealBic obj) : (Data.Aeson..=) "iban_last4" (paymentMethodDetailsIdealIbanLast4 obj) : (Data.Aeson..=) "verified_name" (paymentMethodDetailsIdealVerifiedName obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank" (paymentMethodDetailsIdealBank obj) GHC.Base.<> ((Data.Aeson..=) "bic" (paymentMethodDetailsIdealBic obj) GHC.Base.<> ((Data.Aeson..=) "iban_last4" (paymentMethodDetailsIdealIbanLast4 obj) GHC.Base.<> (Data.Aeson..=) "verified_name" (paymentMethodDetailsIdealVerifiedName obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsIdeal
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsIdeal" (\obj -> (((GHC.Base.pure PaymentMethodDetailsIdeal GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bank")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "bic")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "iban_last4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "verified_name"))

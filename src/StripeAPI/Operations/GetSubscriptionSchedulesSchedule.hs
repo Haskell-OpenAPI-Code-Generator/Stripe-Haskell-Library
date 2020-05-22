@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getSubscriptionSchedulesSchedule
 module StripeAPI.Operations.GetSubscriptionSchedulesSchedule where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,17 +39,14 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/subscription_schedules/{schedule}
-getSubscriptionSchedulesSchedule :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                                  StripeAPI.Common.SecurityScheme s) =>
-                                    StripeAPI.Common.Configuration s ->
-                                    GHC.Maybe.Maybe GHC.Base.String ->
-                                    GHC.Base.String ->
-                                    GetSubscriptionSchedulesScheduleRequestBody ->
-                                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                          (Network.HTTP.Client.Types.Response GetSubscriptionSchedulesScheduleResponse))
+-- | > GET /v1/subscription_schedules/{schedule}
+-- 
+-- \<p>Retrieves the details of an existing subscription schedule. You only need to supply the unique subscription schedule identifier that was returned upon subscription schedule creation.\<\/p>
+getSubscriptionSchedulesSchedule :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                              -- ^ schedule | Constraints: Maximum length of 5000
+  -> GetSubscriptionSchedulesScheduleRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSubscriptionSchedulesScheduleResponse)) -- ^ Monad containing the result of the operation
 getSubscriptionSchedulesSchedule config
                                  expand
                                  schedule
@@ -58,6 +56,9 @@ getSubscriptionSchedulesSchedule config
                                                                                                                                                                                                                                                                                                                                                                                                                                     Error)
                                                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/subscription_schedules/{schedule}
+-- 
+-- The same as 'getSubscriptionSchedulesSchedule' but returns the raw 'Data.ByteString.Char8.ByteString'
 getSubscriptionSchedulesScheduleRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
                                        StripeAPI.Common.Configuration s ->
@@ -71,6 +72,9 @@ getSubscriptionSchedulesScheduleRaw config
                                     schedule
                                     body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/subscription_schedules/{schedule}
+-- 
+-- Monadic version of 'getSubscriptionSchedulesSchedule' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionSchedulesScheduleM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
                                      GHC.Maybe.Maybe GHC.Base.String ->
@@ -88,6 +92,9 @@ getSubscriptionSchedulesScheduleM expand
                                                                                                                                                                                                                                                                                                                                                                                                                                      Error)
                                                                                                                                                                                                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/subscription_schedules/{schedule}
+-- 
+-- Monadic version of 'getSubscriptionSchedulesScheduleRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionSchedulesScheduleRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                       StripeAPI.Common.SecurityScheme s) =>
                                         GHC.Maybe.Maybe GHC.Base.String ->
@@ -101,17 +108,23 @@ getSubscriptionSchedulesScheduleRawM expand
                                      schedule
                                      body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ ""))) ((Data.Text.pack "expand",
                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetSubscriptionSchedulesScheduleRequestBody
-    = GetSubscriptionSchedulesScheduleRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getSubscriptionSchedulesScheduleRequestBody
+-- 
+-- 
+data GetSubscriptionSchedulesScheduleRequestBody = GetSubscriptionSchedulesScheduleRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSubscriptionSchedulesScheduleRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesScheduleRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSubscriptionSchedulesScheduleRequestBody" (\obj -> GHC.Base.pure GetSubscriptionSchedulesScheduleRequestBody)
-
-data GetSubscriptionSchedulesScheduleResponse
-    = GetSubscriptionSchedulesScheduleResponseError GHC.Base.String
-    | GetSubscriptionSchedulesScheduleResponse200 SubscriptionSchedule
-    | GetSubscriptionSchedulesScheduleResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getSubscriptionSchedulesSchedule'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetSubscriptionSchedulesScheduleResponseError' is used.
+data GetSubscriptionSchedulesScheduleResponse =                       
+   GetSubscriptionSchedulesScheduleResponseError GHC.Base.String      -- ^ Means either no matching case available or a parse error
+  | GetSubscriptionSchedulesScheduleResponse200 SubscriptionSchedule  -- ^ Successful response.
+  | GetSubscriptionSchedulesScheduleResponseDefault Error             -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)

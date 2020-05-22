@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema StatusTransitions
 module StripeAPI.Types.StatusTransitions where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,12 +27,20 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data StatusTransitions
-    = StatusTransitions {statusTransitionsCanceled :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                         statusTransitionsFulfiled :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                         statusTransitionsPaid :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
-                         statusTransitionsReturned :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema status_transitions
+-- 
+-- 
+data StatusTransitions = StatusTransitions {
+  -- | canceled: The time that the order was canceled.
+  statusTransitionsCanceled :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | fulfiled: The time that the order was fulfilled.
+  , statusTransitionsFulfiled :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | paid: The time that the order was paid.
+  , statusTransitionsPaid :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  -- | returned: The time that the order was returned.
+  , statusTransitionsReturned :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON StatusTransitions
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "canceled" (statusTransitionsCanceled obj) : (Data.Aeson..=) "fulfiled" (statusTransitionsFulfiled obj) : (Data.Aeson..=) "paid" (statusTransitionsPaid obj) : (Data.Aeson..=) "returned" (statusTransitionsReturned obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "canceled" (statusTransitionsCanceled obj) GHC.Base.<> ((Data.Aeson..=) "fulfiled" (statusTransitionsFulfiled obj) GHC.Base.<> ((Data.Aeson..=) "paid" (statusTransitionsPaid obj) GHC.Base.<> (Data.Aeson..=) "returned" (statusTransitionsReturned obj))))

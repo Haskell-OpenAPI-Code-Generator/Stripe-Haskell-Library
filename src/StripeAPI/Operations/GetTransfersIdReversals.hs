@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getTransfersIdReversals
 module StripeAPI.Operations.GetTransfersIdReversals where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,20 +39,17 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/transfers/{id}/reversals
-getTransfersIdReversals :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                         StripeAPI.Common.SecurityScheme s) =>
-                           StripeAPI.Common.Configuration s ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Base.String ->
-                           GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GetTransfersIdReversalsRequestBody ->
-                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                                 (Network.HTTP.Client.Types.Response GetTransfersIdReversalsResponse))
+-- | > GET /v1/transfers/{id}/reversals
+-- 
+-- \<p>You can see a list of the reversals belonging to a specific transfer. Note that the 10 most recent reversals are always available by default on the transfer object. If you need more than those 10, you can use this API method and the \<code>limit\<\/code> and \<code>starting_after\<\/code> parameters to page through additional reversals.\<\/p>
+getTransfersIdReversals :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                     -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Base.String                                                                                                                     -- ^ id | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                            -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                     -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GetTransfersIdReversalsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetTransfersIdReversalsResponse)) -- ^ Monad containing the result of the operation
 getTransfersIdReversals config
                         endingBefore
                         expand
@@ -67,6 +65,9 @@ getTransfersIdReversals config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/transfers/{id}/reversals
+-- 
+-- The same as 'getTransfersIdReversals' but returns the raw 'Data.ByteString.Char8.ByteString'
 getTransfersIdReversalsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
@@ -89,6 +90,9 @@ getTransfersIdReversalsRaw config
                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/transfers/{id}/reversals
+-- 
+-- Monadic version of 'getTransfersIdReversals' (use with 'StripeAPI.Common.runWithConfiguration')
 getTransfersIdReversalsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             GHC.Maybe.Maybe GHC.Base.String ->
@@ -115,6 +119,9 @@ getTransfersIdReversalsM endingBefore
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/transfers/{id}/reversals
+-- 
+-- Monadic version of 'getTransfersIdReversalsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getTransfersIdReversalsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                GHC.Maybe.Maybe GHC.Base.String ->
@@ -137,26 +144,52 @@ getTransfersIdReversalsRawM endingBefore
                                                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : ((Data.Text.pack "limit",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> limit) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : [])))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetTransfersIdReversalsRequestBody
-    = GetTransfersIdReversalsRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getTransfersIdReversalsRequestBody
+-- 
+-- 
+data GetTransfersIdReversalsRequestBody = GetTransfersIdReversalsRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetTransfersIdReversalsRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersIdReversalsRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersIdReversalsRequestBody" (\obj -> GHC.Base.pure GetTransfersIdReversalsRequestBody)
-
-data GetTransfersIdReversalsResponse
-    = GetTransfersIdReversalsResponseError GHC.Base.String
-    | GetTransfersIdReversalsResponse200 GetTransfersIdReversalsResponseBody200
-    | GetTransfersIdReversalsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetTransfersIdReversalsResponseBody200
-    = GetTransfersIdReversalsResponseBody200 {getTransfersIdReversalsResponseBody200Data :: ([] TransferReversal),
-                                              getTransfersIdReversalsResponseBody200HasMore :: GHC.Types.Bool,
-                                              getTransfersIdReversalsResponseBody200Object :: GetTransfersIdReversalsResponseBody200Object',
-                                              getTransfersIdReversalsResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getTransfersIdReversals'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetTransfersIdReversalsResponseError' is used.
+data GetTransfersIdReversalsResponse =                                         
+   GetTransfersIdReversalsResponseError GHC.Base.String                        -- ^ Means either no matching case available or a parse error
+  | GetTransfersIdReversalsResponse200 GetTransfersIdReversalsResponseBody200  -- ^ Successful response.
+  | GetTransfersIdReversalsResponseDefault Error                               -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetTransfersIdReversalsResponseBody200
+-- 
+-- 
+data GetTransfersIdReversalsResponseBody200 = GetTransfersIdReversalsResponseBody200 {
+  -- | data: Details about each object.
+  getTransfersIdReversalsResponseBody200Data :: ([] TransferReversal)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getTransfersIdReversalsResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getTransfersIdReversalsResponseBody200Object :: GetTransfersIdReversalsResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , getTransfersIdReversalsResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetTransfersIdReversalsResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getTransfersIdReversalsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getTransfersIdReversalsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getTransfersIdReversalsResponseBody200Object obj) : (Data.Aeson..=) "url" (getTransfersIdReversalsResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getTransfersIdReversalsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getTransfersIdReversalsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getTransfersIdReversalsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getTransfersIdReversalsResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersIdReversalsResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersIdReversalsResponseBody200" (\obj -> (((GHC.Base.pure GetTransfersIdReversalsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetTransfersIdReversalsResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetTransfersIdReversalsResponseBody200Object'
     = GetTransfersIdReversalsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetTransfersIdReversalsResponseBody200Object'EnumTyped GHC.Base.String
@@ -170,8 +203,3 @@ instance Data.Aeson.FromJSON GetTransfersIdReversalsResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetTransfersIdReversalsResponseBody200Object'EnumStringList
                                           else GetTransfersIdReversalsResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetTransfersIdReversalsResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getTransfersIdReversalsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getTransfersIdReversalsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getTransfersIdReversalsResponseBody200Object obj) : (Data.Aeson..=) "url" (getTransfersIdReversalsResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getTransfersIdReversalsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getTransfersIdReversalsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getTransfersIdReversalsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getTransfersIdReversalsResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersIdReversalsResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTransfersIdReversalsResponseBody200" (\obj -> (((GHC.Base.pure GetTransfersIdReversalsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))

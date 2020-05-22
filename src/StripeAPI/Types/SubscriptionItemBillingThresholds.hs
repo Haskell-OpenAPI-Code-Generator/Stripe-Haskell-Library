@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema SubscriptionItemBillingThresholds
 module StripeAPI.Types.SubscriptionItemBillingThresholds where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,9 +27,14 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data SubscriptionItemBillingThresholds
-    = SubscriptionItemBillingThresholds {subscriptionItemBillingThresholdsUsageGte :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema subscription_item_billing_thresholds
+-- 
+-- 
+data SubscriptionItemBillingThresholds = SubscriptionItemBillingThresholds {
+  -- | usage_gte: Usage threshold that triggers the subscription to create an invoice
+  subscriptionItemBillingThresholdsUsageGte :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SubscriptionItemBillingThresholds
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "usage_gte" (subscriptionItemBillingThresholdsUsageGte obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "usage_gte" (subscriptionItemBillingThresholdsUsageGte obj))

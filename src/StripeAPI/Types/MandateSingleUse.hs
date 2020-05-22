@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema MandateSingleUse
 module StripeAPI.Types.MandateSingleUse where
 
 import qualified Prelude as GHC.Integer.Type
@@ -26,10 +27,16 @@ import qualified GHC.Show
 import qualified GHC.Types
 import qualified StripeAPI.Common
 
-data MandateSingleUse
-    = MandateSingleUse {mandateSingleUseAmount :: GHC.Integer.Type.Integer,
-                        mandateSingleUseCurrency :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema mandate_single_use
+-- 
+-- 
+data MandateSingleUse = MandateSingleUse {
+  -- | amount: On a single use mandate, the amount of the payment.
+  mandateSingleUseAmount :: GHC.Integer.Type.Integer
+  -- | currency: On a single use mandate, the currency of the payment.
+  , mandateSingleUseCurrency :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON MandateSingleUse
     where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (mandateSingleUseAmount obj) : (Data.Aeson..=) "currency" (mandateSingleUseCurrency obj) : [])
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (mandateSingleUseAmount obj) GHC.Base.<> (Data.Aeson..=) "currency" (mandateSingleUseCurrency obj))

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the types generated from the schema IssuingAuthorizationRequest
 module StripeAPI.Types.IssuingAuthorizationRequest where
 
 import qualified Prelude as GHC.Integer.Type
@@ -27,16 +28,44 @@ import qualified GHC.Types
 import qualified StripeAPI.Common
 import StripeAPI.Types.IssuingAuthorizationViolatedAuthControl
 
-data IssuingAuthorizationRequest
-    = IssuingAuthorizationRequest {issuingAuthorizationRequestApproved :: GHC.Types.Bool,
-                                   issuingAuthorizationRequestAuthorizedAmount :: GHC.Integer.Type.Integer,
-                                   issuingAuthorizationRequestAuthorizedCurrency :: GHC.Base.String,
-                                   issuingAuthorizationRequestCreated :: GHC.Integer.Type.Integer,
-                                   issuingAuthorizationRequestHeldAmount :: GHC.Integer.Type.Integer,
-                                   issuingAuthorizationRequestHeldCurrency :: GHC.Base.String,
-                                   issuingAuthorizationRequestReason :: IssuingAuthorizationRequestReason',
-                                   issuingAuthorizationRequestViolatedAuthorizationControls :: ([] IssuingAuthorizationViolatedAuthControl)}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema issuing_authorization_request
+-- 
+-- 
+data IssuingAuthorizationRequest = IssuingAuthorizationRequest {
+  -- | approved: Whether this request was approved.
+  issuingAuthorizationRequestApproved :: GHC.Types.Bool
+  -- | authorized_amount: The amount that was authorized at the time of this request
+  , issuingAuthorizationRequestAuthorizedAmount :: GHC.Integer.Type.Integer
+  -- | authorized_currency: The currency that was presented to the cardholder for the authorization. Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuingAuthorizationRequestAuthorizedCurrency :: GHC.Base.String
+  -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
+  , issuingAuthorizationRequestCreated :: GHC.Integer.Type.Integer
+  -- | held_amount: The amount Stripe held from your account to fund the authorization, if the request was approved
+  , issuingAuthorizationRequestHeldAmount :: GHC.Integer.Type.Integer
+  -- | held_currency: The currency of the [held amount](https:\/\/stripe.com\/docs\/api\#issuing_authorization_object-held_amount)
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , issuingAuthorizationRequestHeldCurrency :: GHC.Base.String
+  -- | reason: The reason for the approval or decline.
+  , issuingAuthorizationRequestReason :: IssuingAuthorizationRequestReason'
+  -- | violated_authorization_controls: When an authorization is declined due to \`authorization_controls\`, this array contains details about the authorization controls that were violated. Otherwise, it is empty.
+  , issuingAuthorizationRequestViolatedAuthorizationControls :: ([] IssuingAuthorizationViolatedAuthControl)
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON IssuingAuthorizationRequest
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "approved" (issuingAuthorizationRequestApproved obj) : (Data.Aeson..=) "authorized_amount" (issuingAuthorizationRequestAuthorizedAmount obj) : (Data.Aeson..=) "authorized_currency" (issuingAuthorizationRequestAuthorizedCurrency obj) : (Data.Aeson..=) "created" (issuingAuthorizationRequestCreated obj) : (Data.Aeson..=) "held_amount" (issuingAuthorizationRequestHeldAmount obj) : (Data.Aeson..=) "held_currency" (issuingAuthorizationRequestHeldCurrency obj) : (Data.Aeson..=) "reason" (issuingAuthorizationRequestReason obj) : (Data.Aeson..=) "violated_authorization_controls" (issuingAuthorizationRequestViolatedAuthorizationControls obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "approved" (issuingAuthorizationRequestApproved obj) GHC.Base.<> ((Data.Aeson..=) "authorized_amount" (issuingAuthorizationRequestAuthorizedAmount obj) GHC.Base.<> ((Data.Aeson..=) "authorized_currency" (issuingAuthorizationRequestAuthorizedCurrency obj) GHC.Base.<> ((Data.Aeson..=) "created" (issuingAuthorizationRequestCreated obj) GHC.Base.<> ((Data.Aeson..=) "held_amount" (issuingAuthorizationRequestHeldAmount obj) GHC.Base.<> ((Data.Aeson..=) "held_currency" (issuingAuthorizationRequestHeldCurrency obj) GHC.Base.<> ((Data.Aeson..=) "reason" (issuingAuthorizationRequestReason obj) GHC.Base.<> (Data.Aeson..=) "violated_authorization_controls" (issuingAuthorizationRequestViolatedAuthorizationControls obj))))))))
+instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationRequest
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingAuthorizationRequest" (\obj -> (((((((GHC.Base.pure IssuingAuthorizationRequest GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "approved")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authorized_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authorized_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "held_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "held_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "violated_authorization_controls"))
+-- | Defines the enum schema issuing_authorization_requestReason\'
+-- 
+-- The reason for the approval or decline.
 data IssuingAuthorizationRequestReason'
     = IssuingAuthorizationRequestReason'EnumOther Data.Aeson.Types.Internal.Value
     | IssuingAuthorizationRequestReason'EnumTyped GHC.Base.String
@@ -102,8 +131,3 @@ instance Data.Aeson.FromJSON IssuingAuthorizationRequestReason'
                                                                                                                   else if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "webhook_timeout")
                                                                                                                         then IssuingAuthorizationRequestReason'EnumStringWebhookTimeout
                                                                                                                         else IssuingAuthorizationRequestReason'EnumOther val)
-instance Data.Aeson.ToJSON IssuingAuthorizationRequest
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "approved" (issuingAuthorizationRequestApproved obj) : (Data.Aeson..=) "authorized_amount" (issuingAuthorizationRequestAuthorizedAmount obj) : (Data.Aeson..=) "authorized_currency" (issuingAuthorizationRequestAuthorizedCurrency obj) : (Data.Aeson..=) "created" (issuingAuthorizationRequestCreated obj) : (Data.Aeson..=) "held_amount" (issuingAuthorizationRequestHeldAmount obj) : (Data.Aeson..=) "held_currency" (issuingAuthorizationRequestHeldCurrency obj) : (Data.Aeson..=) "reason" (issuingAuthorizationRequestReason obj) : (Data.Aeson..=) "violated_authorization_controls" (issuingAuthorizationRequestViolatedAuthorizationControls obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "approved" (issuingAuthorizationRequestApproved obj) GHC.Base.<> ((Data.Aeson..=) "authorized_amount" (issuingAuthorizationRequestAuthorizedAmount obj) GHC.Base.<> ((Data.Aeson..=) "authorized_currency" (issuingAuthorizationRequestAuthorizedCurrency obj) GHC.Base.<> ((Data.Aeson..=) "created" (issuingAuthorizationRequestCreated obj) GHC.Base.<> ((Data.Aeson..=) "held_amount" (issuingAuthorizationRequestHeldAmount obj) GHC.Base.<> ((Data.Aeson..=) "held_currency" (issuingAuthorizationRequestHeldCurrency obj) GHC.Base.<> ((Data.Aeson..=) "reason" (issuingAuthorizationRequestReason obj) GHC.Base.<> (Data.Aeson..=) "violated_authorization_controls" (issuingAuthorizationRequestViolatedAuthorizationControls obj))))))))
-instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationRequest
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "IssuingAuthorizationRequest" (\obj -> (((((((GHC.Base.pure IssuingAuthorizationRequest GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "approved")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authorized_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "authorized_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "held_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "held_currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "reason")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "violated_authorization_controls"))

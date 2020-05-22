@@ -3,6 +3,7 @@
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 
+-- | Contains the different functions to run the operation getCheckoutSessions
 module StripeAPI.Operations.GetCheckoutSessions where
 
 import qualified Prelude as GHC.Integer.Type
@@ -38,21 +39,18 @@ import qualified Network.HTTP.Types as Network.HTTP.Types.URI
 import qualified StripeAPI.Common
 import StripeAPI.Types
 
--- | No summary provided
---
--- GET /v1/checkout/sessions
-getCheckoutSessions :: forall m s . (StripeAPI.Common.MonadHTTP m,
-                                     StripeAPI.Common.SecurityScheme s) =>
-                       StripeAPI.Common.Configuration s ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GetCheckoutSessionsRequestBody ->
-                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
-                                             (Network.HTTP.Client.Types.Response GetCheckoutSessionsResponse))
+-- | > GET /v1/checkout/sessions
+-- 
+-- \<p>Returns a list of Checkout Sessions.\<\/p>
+getCheckoutSessions :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                 -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                 -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                        -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                 -- ^ payment_intent: Only return the Checkout Session for the PaymentIntent specified. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                 -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                 -- ^ subscription: Only return the Checkout Session for the subscription specified. | Constraints: Maximum length of 5000
+  -> GetCheckoutSessionsRequestBody                                                                                                  -- ^ The request body to send
+  -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCheckoutSessionsResponse)) -- ^ Monad containing the result of the operation
 getCheckoutSessions config
                     endingBefore
                     expand
@@ -71,6 +69,9 @@ getCheckoutSessions config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           StripeAPI.Common.stringifyModel Data.Functor.<$> paymentIntent) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "subscription",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               StripeAPI.Common.stringifyModel Data.Functor.<$> subscription) : [])))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/checkout/sessions
+-- 
+-- The same as 'getCheckoutSessions' but returns the raw 'Data.ByteString.Char8.ByteString'
 getCheckoutSessionsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           StripeAPI.Common.Configuration s ->
@@ -97,6 +98,9 @@ getCheckoutSessionsRaw config
                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> paymentIntent) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "subscription",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> subscription) : [])))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/checkout/sessions
+-- 
+-- Monadic version of 'getCheckoutSessions' (use with 'StripeAPI.Common.runWithConfiguration')
 getCheckoutSessionsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         GHC.Maybe.Maybe GHC.Base.String ->
@@ -127,6 +131,9 @@ getCheckoutSessionsM endingBefore
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> paymentIntent) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "subscription",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> subscription) : [])))))) body StripeAPI.Common.RequestBodyEncodingFormData)
+-- | > GET /v1/checkout/sessions
+-- 
+-- Monadic version of 'getCheckoutSessionsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCheckoutSessionsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
                            GHC.Maybe.Maybe GHC.Base.String ->
@@ -153,26 +160,52 @@ getCheckoutSessionsRawM endingBefore
                                                                                                                                                                                                                                                                                                                                                                     StripeAPI.Common.stringifyModel Data.Functor.<$> paymentIntent) : ((Data.Text.pack "starting_after",
                                                                                                                                                                                                                                                                                                                                                                                                                                       StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter) : ((Data.Text.pack "subscription",
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> subscription) : [])))))) body StripeAPI.Common.RequestBodyEncodingFormData)
-data GetCheckoutSessionsRequestBody
-    = GetCheckoutSessionsRequestBody {}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema getCheckoutSessionsRequestBody
+-- 
+-- 
+data GetCheckoutSessionsRequestBody = GetCheckoutSessionsRequestBody {
+  
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetCheckoutSessionsRequestBody
     where toJSON obj = Data.Aeson.object []
           toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
 instance Data.Aeson.Types.FromJSON.FromJSON GetCheckoutSessionsRequestBody
     where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCheckoutSessionsRequestBody" (\obj -> GHC.Base.pure GetCheckoutSessionsRequestBody)
-
-data GetCheckoutSessionsResponse
-    = GetCheckoutSessionsResponseError GHC.Base.String
-    | GetCheckoutSessionsResponse200 GetCheckoutSessionsResponseBody200
-    | GetCheckoutSessionsResponseDefault Error
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
-data GetCheckoutSessionsResponseBody200
-    = GetCheckoutSessionsResponseBody200 {getCheckoutSessionsResponseBody200Data :: ([] Checkout'session),
-                                          getCheckoutSessionsResponseBody200HasMore :: GHC.Types.Bool,
-                                          getCheckoutSessionsResponseBody200Object :: GetCheckoutSessionsResponseBody200Object',
-                                          getCheckoutSessionsResponseBody200Url :: GHC.Base.String}
-    deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Represents a response of the operation 'getCheckoutSessions'.
+-- 
+-- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'GetCheckoutSessionsResponseError' is used.
+data GetCheckoutSessionsResponse =                                     
+   GetCheckoutSessionsResponseError GHC.Base.String                    -- ^ Means either no matching case available or a parse error
+  | GetCheckoutSessionsResponse200 GetCheckoutSessionsResponseBody200  -- ^ Successful response.
+  | GetCheckoutSessionsResponseDefault Error                           -- ^ Error response.
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+-- | Defines the data type for the schema GetCheckoutSessionsResponseBody200
+-- 
+-- 
+data GetCheckoutSessionsResponseBody200 = GetCheckoutSessionsResponseBody200 {
+  -- | data
+  getCheckoutSessionsResponseBody200Data :: ([] Checkout'session)
+  -- | has_more: True if this list has another page of items after this one that can be fetched.
+  , getCheckoutSessionsResponseBody200HasMore :: GHC.Types.Bool
+  -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
+  , getCheckoutSessionsResponseBody200Object :: GetCheckoutSessionsResponseBody200Object'
+  -- | url: The URL where this list can be accessed.
+  -- 
+  -- Constraints:
+  -- 
+  -- * Maximum length of 5000
+  , getCheckoutSessionsResponseBody200Url :: GHC.Base.String
+  } deriving (GHC.Show.Show
+  , GHC.Classes.Eq)
+instance Data.Aeson.ToJSON GetCheckoutSessionsResponseBody200
+    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCheckoutSessionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCheckoutSessionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCheckoutSessionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCheckoutSessionsResponseBody200Url obj) : [])
+          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCheckoutSessionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCheckoutSessionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCheckoutSessionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCheckoutSessionsResponseBody200Url obj))))
+instance Data.Aeson.Types.FromJSON.FromJSON GetCheckoutSessionsResponseBody200
+    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCheckoutSessionsResponseBody200" (\obj -> (((GHC.Base.pure GetCheckoutSessionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
+-- | Defines the enum schema GetCheckoutSessionsResponseBody200Object\'
+-- 
+-- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetCheckoutSessionsResponseBody200Object'
     = GetCheckoutSessionsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
     | GetCheckoutSessionsResponseBody200Object'EnumTyped GHC.Base.String
@@ -186,8 +219,3 @@ instance Data.Aeson.FromJSON GetCheckoutSessionsResponseBody200Object'
     where parseJSON val = GHC.Base.pure (if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
                                           then GetCheckoutSessionsResponseBody200Object'EnumStringList
                                           else GetCheckoutSessionsResponseBody200Object'EnumOther val)
-instance Data.Aeson.ToJSON GetCheckoutSessionsResponseBody200
-    where toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCheckoutSessionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCheckoutSessionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCheckoutSessionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCheckoutSessionsResponseBody200Url obj) : [])
-          toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCheckoutSessionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCheckoutSessionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCheckoutSessionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCheckoutSessionsResponseBody200Url obj))))
-instance Data.Aeson.Types.FromJSON.FromJSON GetCheckoutSessionsResponseBody200
-    where parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCheckoutSessionsResponseBody200" (\obj -> (((GHC.Base.pure GetCheckoutSessionsResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "data")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "has_more")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "url"))
