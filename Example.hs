@@ -120,7 +120,7 @@ security =
   Security.BasicAuthenticationSecurityScheme
     { -- we should not publish the demo server
       -- just a test key
-      Security.basicAuthenticationSecuritySchemeUsername = T.pack "sk_test_8C3VJJ8CqkW1evRLwxwFgvc700OGG5VGOV",
+      Security.basicAuthenticationSecuritySchemeUsername = T.pack "sk_test_XXXXXXXXXX",
       Security.basicAuthenticationSecuritySchemePassword = T.pack ""
     }
 

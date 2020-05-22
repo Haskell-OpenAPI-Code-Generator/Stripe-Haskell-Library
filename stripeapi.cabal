@@ -2,7 +2,13 @@ cabal-version: 1.12
 
 name:           stripeapi
 version:        0.1.0.0
+synopsis:       Stripe-Library
+description:    Stripe-Library generated from https://github.com/Haskell-OpenAPI-Code-Generator/Haskell-OpenAPI-Client-Code-Generator
+maintainer:     Remo Dörig <remo.doerig@gmail.com> & Joel Fisch <jfisch@hsr.ch>
+license-file:   LICENSE
+category:       PSP
 build-type:     Simple
+license:        MIT
 
 library
   exposed-modules:
