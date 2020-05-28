@@ -12,7 +12,8 @@ See Example.hs for an example usage.
 ## On the package level
 ### From hackage
 -  install [cabal](https://www.haskell.org/cabal/)
-- `cabal install stripeapi`
+- `cabal install stripeapi` (This may take a while, 24gb of memory is recommended)
+
 ### From source
 See https://github.com/Haskell-OpenAPI-Code-Generator/Haskell-OpenAPI-Client-Code-Generator#example-package for an example project generated with the same code generator.
 
