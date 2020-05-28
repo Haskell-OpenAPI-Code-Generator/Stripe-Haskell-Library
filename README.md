@@ -9,5 +9,12 @@ The files were auto generated with
 # How to use
 See Example.hs for an example usage.
 
+## On the package level
+### From hackage
+-  install [cabal](https://www.haskell.org/cabal/)
+- `cabal install stripeapi`
+### From source
+See https://github.com/Haskell-OpenAPI-Code-Generator/Haskell-OpenAPI-Client-Code-Generator#example-package for an example project generated with the same code generator.
+
 # Hackage
 This library is available at https://hackage.haskell.org/package/stripeapi.
