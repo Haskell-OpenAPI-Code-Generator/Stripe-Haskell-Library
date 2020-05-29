@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Verify a specified bank account for a given customer.\<\/p>
 postCustomersCustomerBankAccountsIdVerify :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                       -- ^ customer | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                                       -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                               -- ^ customer | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                               -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdVerifyRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCustomersCustomerBankAccountsIdVerifyResponse)) -- ^ Monad containing the result of the operation
 postCustomersCustomerBankAccountsIdVerify config
@@ -62,8 +62,8 @@ postCustomersCustomerBankAccountsIdVerify config
 postCustomersCustomerBankAccountsIdVerifyRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                               StripeAPI.Common.SecurityScheme s) =>
                                                 StripeAPI.Common.Configuration s ->
-                                                GHC.Base.String ->
-                                                GHC.Base.String ->
+                                                Data.Text.Internal.Text ->
+                                                Data.Text.Internal.Text ->
                                                 GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdVerifyRequestBody ->
                                                 m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                       (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,8 +76,8 @@ postCustomersCustomerBankAccountsIdVerifyRaw config
 -- Monadic version of 'postCustomersCustomerBankAccountsIdVerify' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerBankAccountsIdVerifyM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                             StripeAPI.Common.SecurityScheme s) =>
-                                              GHC.Base.String ->
-                                              GHC.Base.String ->
+                                              Data.Text.Internal.Text ->
+                                              Data.Text.Internal.Text ->
                                               GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdVerifyRequestBody ->
                                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                  m
@@ -95,8 +95,8 @@ postCustomersCustomerBankAccountsIdVerifyM customer
 -- Monadic version of 'postCustomersCustomerBankAccountsIdVerifyRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerBankAccountsIdVerifyRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                StripeAPI.Common.SecurityScheme s) =>
-                                                 GHC.Base.String ->
-                                                 GHC.Base.String ->
+                                                 Data.Text.Internal.Text ->
+                                                 Data.Text.Internal.Text ->
                                                  GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdVerifyRequestBody ->
                                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                     m
@@ -112,7 +112,7 @@ data PostCustomersCustomerBankAccountsIdVerifyRequestBody = PostCustomersCustome
   -- | amounts: Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
   postCustomersCustomerBankAccountsIdVerifyRequestBodyAmounts :: (GHC.Maybe.Maybe ([] GHC.Integer.Type.Integer))
   -- | expand: Specifies which fields in the response should be expanded.
-  , postCustomersCustomerBankAccountsIdVerifyRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCustomersCustomerBankAccountsIdVerifyRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdVerifyRequestBody

@@ -40,7 +40,7 @@ data ThreeDSecureDetails = ThreeDSecureDetails {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , threeDSecureDetailsVersion :: GHC.Base.String
+  , threeDSecureDetailsVersion :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON ThreeDSecureDetails

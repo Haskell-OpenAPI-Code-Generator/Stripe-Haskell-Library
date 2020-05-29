@@ -42,23 +42,23 @@ data WebhookEndpoint = WebhookEndpoint {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  webhookEndpointApiVersion :: (GHC.Maybe.Maybe GHC.Base.String)
+  webhookEndpointApiVersion :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | application: The ID of the associated Connect application.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , webhookEndpointApplication :: (GHC.Maybe.Maybe GHC.Base.String)
+  , webhookEndpointApplication :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
   , webhookEndpointCreated :: GHC.Integer.Type.Integer
   -- | enabled_events: The list of events to enable for this endpoint. \`[\'*\']\` indicates that all events are enabled, except those that require explicit selection.
-  , webhookEndpointEnabledEvents :: ([] GHC.Base.String)
+  , webhookEndpointEnabledEvents :: ([] Data.Text.Internal.Text)
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , webhookEndpointId :: GHC.Base.String
+  , webhookEndpointId :: Data.Text.Internal.Text
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , webhookEndpointLivemode :: GHC.Types.Bool
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
@@ -68,19 +68,19 @@ data WebhookEndpoint = WebhookEndpoint {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , webhookEndpointSecret :: (GHC.Maybe.Maybe GHC.Base.String)
+  , webhookEndpointSecret :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | status: The status of the webhook. It can be \`enabled\` or \`disabled\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , webhookEndpointStatus :: GHC.Base.String
+  , webhookEndpointStatus :: Data.Text.Internal.Text
   -- | url: The URL of the webhook endpoint.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , webhookEndpointUrl :: GHC.Base.String
+  , webhookEndpointUrl :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON WebhookEndpoint
@@ -93,7 +93,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON WebhookEndpoint
 -- String representing the object\'s type. Objects of the same type share the same value.
 data WebhookEndpointObject'
     = WebhookEndpointObject'EnumOther Data.Aeson.Types.Internal.Value
-    | WebhookEndpointObject'EnumTyped GHC.Base.String
+    | WebhookEndpointObject'EnumTyped Data.Text.Internal.Text
     | WebhookEndpointObject'EnumStringWebhookEndpoint
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON WebhookEndpointObject'

@@ -32,7 +32,7 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeP24 = SourceTypeP24 {
   -- | reference
-  sourceTypeP24Reference :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeP24Reference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeP24

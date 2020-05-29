@@ -36,19 +36,19 @@ data PaymentMethodDetailsCardChecks = PaymentMethodDetailsCardChecks {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  paymentMethodDetailsCardChecksAddressLine1Check :: (GHC.Maybe.Maybe GHC.Base.String)
+  paymentMethodDetailsCardChecksAddressLine1Check :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_postal_code_check: If a address postal code was provided, results of the check, one of \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsCardChecksAddressPostalCodeCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsCardChecksAddressPostalCodeCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | cvc_check: If a CVC was provided, results of the check, one of \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsCardChecksCvcCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsCardChecksCvcCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsCardChecks

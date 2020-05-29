@@ -47,29 +47,29 @@ data BitcoinReceiver = BitcoinReceiver {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , bitcoinReceiverBitcoinUri :: GHC.Base.String
+  , bitcoinReceiverBitcoinUri :: Data.Text.Internal.Text
   -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
   , bitcoinReceiverCreated :: GHC.Integer.Type.Integer
   -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/currencies) to which the bitcoin will be converted.
-  , bitcoinReceiverCurrency :: GHC.Base.String
+  , bitcoinReceiverCurrency :: Data.Text.Internal.Text
   -- | customer: The customer ID of the bitcoin receiver.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , bitcoinReceiverCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  , bitcoinReceiverCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , bitcoinReceiverDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , bitcoinReceiverDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | email: The customer\'s email address, set by the API call that creates the receiver.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , bitcoinReceiverEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , bitcoinReceiverEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | filled: This flag is initially false and updates to true when the customer sends the \`bitcoin_amount\` to this receiver.
   , bitcoinReceiverFilled :: GHC.Types.Bool
   -- | id: Unique identifier for the object.
@@ -77,13 +77,13 @@ data BitcoinReceiver = BitcoinReceiver {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , bitcoinReceiverId :: GHC.Base.String
+  , bitcoinReceiverId :: Data.Text.Internal.Text
   -- | inbound_address: A bitcoin address that is specific to this receiver. The customer can send bitcoin to this address to fill the receiver.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , bitcoinReceiverInboundAddress :: GHC.Base.String
+  , bitcoinReceiverInboundAddress :: Data.Text.Internal.Text
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , bitcoinReceiverLivemode :: GHC.Types.Bool
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -95,13 +95,13 @@ data BitcoinReceiver = BitcoinReceiver {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , bitcoinReceiverPayment :: (GHC.Maybe.Maybe GHC.Base.String)
+  , bitcoinReceiverPayment :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_address: The refund address of this bitcoin receiver.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , bitcoinReceiverRefundAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  , bitcoinReceiverRefundAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | transactions: A list with one entry for each time that the customer sent bitcoin to the receiver. Hidden when viewing the receiver with a publishable key.
   , bitcoinReceiverTransactions :: (GHC.Maybe.Maybe BitcoinReceiverTransactions')
   -- | uncaptured_funds: This receiver contains uncaptured funds that can be used for a payment or refunded.
@@ -132,7 +132,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON BitcoinReceiverMetadata'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data BitcoinReceiverObject'
     = BitcoinReceiverObject'EnumOther Data.Aeson.Types.Internal.Value
-    | BitcoinReceiverObject'EnumTyped GHC.Base.String
+    | BitcoinReceiverObject'EnumTyped Data.Text.Internal.Text
     | BitcoinReceiverObject'EnumStringBitcoinReceiver
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON BitcoinReceiverObject'
@@ -158,7 +158,7 @@ data BitcoinReceiverTransactions' = BitcoinReceiverTransactions' {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , bitcoinReceiverTransactions'Url :: GHC.Base.String
+  , bitcoinReceiverTransactions'Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON BitcoinReceiverTransactions'
@@ -171,7 +171,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON BitcoinReceiverTransactions'
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data BitcoinReceiverTransactions'Object'
     = BitcoinReceiverTransactions'Object'EnumOther Data.Aeson.Types.Internal.Value
-    | BitcoinReceiverTransactions'Object'EnumTyped GHC.Base.String
+    | BitcoinReceiverTransactions'Object'EnumTyped Data.Text.Internal.Text
     | BitcoinReceiverTransactions'Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON BitcoinReceiverTransactions'Object'

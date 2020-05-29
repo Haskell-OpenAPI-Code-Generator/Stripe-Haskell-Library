@@ -46,7 +46,7 @@ import StripeAPI.Types
 -- 
 -- \<p>The status of the dispute will change from \<code>needs_response\<\/code> to \<code>lost\<\/code>. \<em>Closing a dispute is irreversible\<\/em>.\<\/p>
 postDisputesDisputeClose :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                      -- ^ dispute | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                              -- ^ dispute | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostDisputesDisputeCloseRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostDisputesDisputeCloseResponse)) -- ^ Monad containing the result of the operation
 postDisputesDisputeClose config
@@ -62,7 +62,7 @@ postDisputesDisputeClose config
 postDisputesDisputeCloseRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                StripeAPI.Common.Configuration s ->
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe PostDisputesDisputeCloseRequestBody ->
                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -74,7 +74,7 @@ postDisputesDisputeCloseRaw config
 -- Monadic version of 'postDisputesDisputeClose' (use with 'StripeAPI.Common.runWithConfiguration')
 postDisputesDisputeCloseM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe PostDisputesDisputeCloseRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m
@@ -91,7 +91,7 @@ postDisputesDisputeCloseM dispute
 -- Monadic version of 'postDisputesDisputeCloseRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postDisputesDisputeCloseRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe PostDisputesDisputeCloseRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -104,7 +104,7 @@ postDisputesDisputeCloseRawM dispute
 -- 
 data PostDisputesDisputeCloseRequestBody = PostDisputesDisputeCloseRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postDisputesDisputeCloseRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postDisputesDisputeCloseRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostDisputesDisputeCloseRequestBody

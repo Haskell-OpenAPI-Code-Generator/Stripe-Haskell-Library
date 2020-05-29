@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of an existing order return. Supply the unique order ID from either an order return creation request or the order return list, and Stripe will return the corresponding order information.\<\/p>
 getOrderReturnsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                               -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                               -- ^ id | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                       -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                       -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetOrderReturnsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetOrderReturnsIdResponse)) -- ^ Monad containing the result of the operation
 getOrderReturnsId config
@@ -68,8 +68,8 @@ getOrderReturnsId config
 getOrderReturnsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         StripeAPI.Common.Configuration s ->
-                        GHC.Maybe.Maybe GHC.Base.String ->
-                        GHC.Base.String ->
+                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe GetOrderReturnsIdRequestBody ->
                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getOrderReturnsIdRaw config
 -- Monadic version of 'getOrderReturnsId' (use with 'StripeAPI.Common.runWithConfiguration')
 getOrderReturnsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Base.String ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe GetOrderReturnsIdRequestBody ->
                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                          m
@@ -113,8 +113,8 @@ getOrderReturnsIdM expand
 -- Monadic version of 'getOrderReturnsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getOrderReturnsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Base.String ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe GetOrderReturnsIdRequestBody ->
                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                             m

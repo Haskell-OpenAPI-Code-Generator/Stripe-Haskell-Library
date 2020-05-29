@@ -38,7 +38,7 @@ data DeletedBitcoinReceiver = DeletedBitcoinReceiver {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedBitcoinReceiverId :: GHC.Base.String
+  , deletedBitcoinReceiverId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedBitcoinReceiverObject :: DeletedBitcoinReceiverObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedBitcoinReceiverDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedBitcoinReceiverObject'
     = DeletedBitcoinReceiverObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedBitcoinReceiverObject'EnumTyped GHC.Base.String
+    | DeletedBitcoinReceiverObject'EnumTyped Data.Text.Internal.Text
     | DeletedBitcoinReceiverObject'EnumStringBitcoinReceiver
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedBitcoinReceiverObject'

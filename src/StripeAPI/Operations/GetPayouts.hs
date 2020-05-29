@@ -44,14 +44,14 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a list of existing payouts sent to third-party bank accounts or that Stripe has sent you. The payouts are returned in sorted order, with the most recently created payouts appearing first.\<\/p>
 getPayouts :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ arrival_date
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ created
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ destination: The ID of an external account - only return payouts sent to this external account.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                -- ^ arrival_date
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                -- ^ created
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                -- ^ destination: The ID of an external account - only return payouts sent to this external account.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                               -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ status: Only return payouts that have the given status: \`pending\`, \`paid\`, \`failed\`, or \`canceled\`. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                -- ^ status: Only return payouts that have the given status: \`pending\`, \`paid\`, \`failed\`, or \`canceled\`. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetPayoutsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetPayoutsResponse)) -- ^ Monad containing the result of the operation
 getPayouts config
@@ -148,14 +148,14 @@ getPayouts config
 getPayoutsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
                  StripeAPI.Common.Configuration s ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GetPayoutsRequestBody ->
                  m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -248,14 +248,14 @@ getPayoutsRaw config
 -- Monadic version of 'getPayouts' (use with 'StripeAPI.Common.runWithConfiguration')
 getPayoutsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                              StripeAPI.Common.SecurityScheme s) =>
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                GHC.Maybe.Maybe GetPayoutsRequestBody ->
                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                   m
@@ -353,14 +353,14 @@ getPayoutsM arrivalDate
 -- Monadic version of 'getPayoutsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getPayoutsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                 StripeAPI.Common.SecurityScheme s) =>
-                  GHC.Maybe.Maybe GHC.Base.String ->
-                  GHC.Maybe.Maybe GHC.Base.String ->
-                  GHC.Maybe.Maybe GHC.Base.String ->
-                  GHC.Maybe.Maybe GHC.Base.String ->
-                  GHC.Maybe.Maybe GHC.Base.String ->
+                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
                   GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                  GHC.Maybe.Maybe GHC.Base.String ->
-                  GHC.Maybe.Maybe GHC.Base.String ->
+                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
                   GHC.Maybe.Maybe GetPayoutsRequestBody ->
                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                      m
@@ -485,7 +485,7 @@ data GetPayoutsResponseBody200 = GetPayoutsResponseBody200 {
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/payouts\'
-  , getPayoutsResponseBody200Url :: GHC.Base.String
+  , getPayoutsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetPayoutsResponseBody200
@@ -498,7 +498,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsResponseBody200
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetPayoutsResponseBody200Object'
     = GetPayoutsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetPayoutsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetPayoutsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetPayoutsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetPayoutsResponseBody200Object'

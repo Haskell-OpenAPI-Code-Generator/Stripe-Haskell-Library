@@ -36,25 +36,25 @@ data PaymentMethodDetailsAchCreditTransfer = PaymentMethodDetailsAchCreditTransf
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  paymentMethodDetailsAchCreditTransferAccountNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  paymentMethodDetailsAchCreditTransferAccountNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bank_name: Name of the bank associated with the routing number.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsAchCreditTransferBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsAchCreditTransferBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | routing_number: Routing transit number for the bank account to transfer funds to.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsAchCreditTransferRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsAchCreditTransferRoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | swift_code: SWIFT code of the bank associated with the routing number.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsAchCreditTransferSwiftCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsAchCreditTransferSwiftCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsAchCreditTransfer

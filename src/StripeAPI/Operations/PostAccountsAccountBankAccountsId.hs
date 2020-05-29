@@ -45,8 +45,8 @@ import StripeAPI.Types
 -- \<p>Updates the metadata, account holder name, and account holder type of a bank account belonging to a \<a href=\"\/docs\/connect\/custom-accounts\">Custom account\<\/a>, and optionally sets it as the default for its currency. Other bank account details are not editable by design.\<\/p>
 -- \<p>You can re-enable a disabled bank account by performing an update call without providing any arguments or changes.\<\/p>
 postAccountsAccountBankAccountsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                               -- ^ account | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                               -- ^ id
+  -> Data.Text.Internal.Text                                                                                                                       -- ^ account | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                       -- ^ id
   -> GHC.Maybe.Maybe PostAccountsAccountBankAccountsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostAccountsAccountBankAccountsIdResponse)) -- ^ Monad containing the result of the operation
 postAccountsAccountBankAccountsId config
@@ -63,8 +63,8 @@ postAccountsAccountBankAccountsId config
 postAccountsAccountBankAccountsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                       StripeAPI.Common.SecurityScheme s) =>
                                         StripeAPI.Common.Configuration s ->
-                                        GHC.Base.String ->
-                                        GHC.Base.String ->
+                                        Data.Text.Internal.Text ->
+                                        Data.Text.Internal.Text ->
                                         GHC.Maybe.Maybe PostAccountsAccountBankAccountsIdRequestBody ->
                                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -77,8 +77,8 @@ postAccountsAccountBankAccountsIdRaw config
 -- Monadic version of 'postAccountsAccountBankAccountsId' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountBankAccountsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
-                                      GHC.Base.String ->
-                                      GHC.Base.String ->
+                                      Data.Text.Internal.Text ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe PostAccountsAccountBankAccountsIdRequestBody ->
                                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                          m
@@ -96,8 +96,8 @@ postAccountsAccountBankAccountsIdM account
 -- Monadic version of 'postAccountsAccountBankAccountsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountBankAccountsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                        StripeAPI.Common.SecurityScheme s) =>
-                                         GHC.Base.String ->
-                                         GHC.Base.String ->
+                                         Data.Text.Internal.Text ->
+                                         Data.Text.Internal.Text ->
                                          GHC.Maybe.Maybe PostAccountsAccountBankAccountsIdRequestBody ->
                                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                             m
@@ -115,7 +115,7 @@ data PostAccountsAccountBankAccountsIdRequestBody = PostAccountsAccountBankAccou
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postAccountsAccountBankAccountsIdRequestBodyAccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  postAccountsAccountBankAccountsIdRequestBodyAccountHolderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | account_holder_type: The type of entity that holds the account. This can be either \`individual\` or \`company\`.
   -- 
   -- Constraints:
@@ -127,37 +127,37 @@ data PostAccountsAccountBankAccountsIdRequestBody = PostAccountsAccountBankAccou
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountBankAccountsIdRequestBodyAddressCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountBankAccountsIdRequestBodyAddressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_country: Billing address country, if provided when creating card.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountBankAccountsIdRequestBodyAddressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountBankAccountsIdRequestBodyAddressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line1: Address line 1 (Street address\/PO Box\/Company name).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountBankAccountsIdRequestBodyAddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountBankAccountsIdRequestBodyAddressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line2: Address line 2 (Apartment\/Suite\/Unit\/Building).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountBankAccountsIdRequestBodyAddressLine2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountBankAccountsIdRequestBodyAddressLine2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_state: State\/County\/Province\/Region.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountBankAccountsIdRequestBodyAddressState :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountBankAccountsIdRequestBodyAddressState :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_zip: ZIP or postal code.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountBankAccountsIdRequestBodyAddressZip :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountBankAccountsIdRequestBodyAddressZip :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_for_currency: When set to true, this becomes the default external account for its currency.
   , postAccountsAccountBankAccountsIdRequestBodyDefaultForCurrency :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | exp_month: Two digit number representing the card’s expiration month.
@@ -165,15 +165,15 @@ data PostAccountsAccountBankAccountsIdRequestBody = PostAccountsAccountBankAccou
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountBankAccountsIdRequestBodyExpMonth :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountBankAccountsIdRequestBodyExpMonth :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | exp_year: Four digit number representing the card’s expiration year.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountBankAccountsIdRequestBodyExpYear :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountBankAccountsIdRequestBodyExpYear :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postAccountsAccountBankAccountsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postAccountsAccountBankAccountsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postAccountsAccountBankAccountsIdRequestBodyMetadata :: (GHC.Maybe.Maybe PostAccountsAccountBankAccountsIdRequestBodyMetadata')
   -- | name: Cardholder name.
@@ -181,7 +181,7 @@ data PostAccountsAccountBankAccountsIdRequestBody = PostAccountsAccountBankAccou
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountBankAccountsIdRequestBodyName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountBankAccountsIdRequestBodyName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountsAccountBankAccountsIdRequestBody
@@ -194,7 +194,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountBankAccountsIdReq
 -- The type of entity that holds the account. This can be either \`individual\` or \`company\`.
 data PostAccountsAccountBankAccountsIdRequestBodyAccountHolderType'
     = PostAccountsAccountBankAccountsIdRequestBodyAccountHolderType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostAccountsAccountBankAccountsIdRequestBodyAccountHolderType'EnumTyped GHC.Base.String
+    | PostAccountsAccountBankAccountsIdRequestBodyAccountHolderType'EnumTyped Data.Text.Internal.Text
     | PostAccountsAccountBankAccountsIdRequestBodyAccountHolderType'EnumString_
     | PostAccountsAccountBankAccountsIdRequestBodyAccountHolderType'EnumStringCompany
     | PostAccountsAccountBankAccountsIdRequestBodyAccountHolderType'EnumStringIndividual

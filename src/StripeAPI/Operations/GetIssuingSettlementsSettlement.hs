@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves an Issuing \<code>Settlement\<\/code> object.\<\/p>
 getIssuingSettlementsSettlement :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                             -- ^ settlement | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                     -- ^ settlement | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetIssuingSettlementsSettlementRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingSettlementsSettlementResponse)) -- ^ Monad containing the result of the operation
 getIssuingSettlementsSettlement config
@@ -68,8 +68,8 @@ getIssuingSettlementsSettlement config
 getIssuingSettlementsSettlementRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
                                       StripeAPI.Common.Configuration s ->
-                                      GHC.Maybe.Maybe GHC.Base.String ->
-                                      GHC.Base.String ->
+                                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe GetIssuingSettlementsSettlementRequestBody ->
                                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getIssuingSettlementsSettlementRaw config
 -- Monadic version of 'getIssuingSettlementsSettlement' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingSettlementsSettlementM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    GHC.Maybe.Maybe GHC.Base.String ->
-                                    GHC.Base.String ->
+                                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe GetIssuingSettlementsSettlementRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m
@@ -113,8 +113,8 @@ getIssuingSettlementsSettlementM expand
 -- Monadic version of 'getIssuingSettlementsSettlementRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingSettlementsSettlementRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
-                                       GHC.Maybe.Maybe GHC.Base.String ->
-                                       GHC.Base.String ->
+                                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe GetIssuingSettlementsSettlementRequestBody ->
                                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                           m

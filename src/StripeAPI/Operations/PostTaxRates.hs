@@ -100,15 +100,15 @@ data PostTaxRatesRequestBody = PostTaxRatesRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTaxRatesRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTaxRatesRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | display_name: The display name of the tax rate, which will be shown to users.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 50
-  , postTaxRatesRequestBodyDisplayName :: GHC.Base.String
+  , postTaxRatesRequestBodyDisplayName :: Data.Text.Internal.Text
   -- | expand: Specifies which fields in the response should be expanded.
-  , postTaxRatesRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postTaxRatesRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | inclusive: This specifies if the tax rate is inclusive or exclusive.
   , postTaxRatesRequestBodyInclusive :: GHC.Types.Bool
   -- | jurisdiction: The jurisdiction for the tax rate.
@@ -116,7 +116,7 @@ data PostTaxRatesRequestBody = PostTaxRatesRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 50
-  , postTaxRatesRequestBodyJurisdiction :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTaxRatesRequestBodyJurisdiction :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postTaxRatesRequestBodyMetadata :: (GHC.Maybe.Maybe PostTaxRatesRequestBodyMetadata')
   -- | percentage: This represents the tax rate percent out of 100.

@@ -48,7 +48,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Learn more about \<a href=\"\/docs\/payments\/capture-later\">separate authorization and capture\<\/a>.\<\/p>
 postPaymentIntentsIntentCapture :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                             -- ^ intent | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                     -- ^ intent | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostPaymentIntentsIntentCaptureRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPaymentIntentsIntentCaptureResponse)) -- ^ Monad containing the result of the operation
 postPaymentIntentsIntentCapture config
@@ -64,7 +64,7 @@ postPaymentIntentsIntentCapture config
 postPaymentIntentsIntentCaptureRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
                                       StripeAPI.Common.Configuration s ->
-                                      GHC.Base.String ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe PostPaymentIntentsIntentCaptureRequestBody ->
                                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,7 +76,7 @@ postPaymentIntentsIntentCaptureRaw config
 -- Monadic version of 'postPaymentIntentsIntentCapture' (use with 'StripeAPI.Common.runWithConfiguration')
 postPaymentIntentsIntentCaptureM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe PostPaymentIntentsIntentCaptureRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m
@@ -93,7 +93,7 @@ postPaymentIntentsIntentCaptureM intent
 -- Monadic version of 'postPaymentIntentsIntentCaptureRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postPaymentIntentsIntentCaptureRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
-                                       GHC.Base.String ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe PostPaymentIntentsIntentCaptureRequestBody ->
                                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                           m
@@ -112,19 +112,19 @@ data PostPaymentIntentsIntentCaptureRequestBody = PostPaymentIntentsIntentCaptur
   -- more information, see the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts).
   , postPaymentIntentsIntentCaptureRequestBodyApplicationFeeAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postPaymentIntentsIntentCaptureRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postPaymentIntentsIntentCaptureRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | statement_descriptor: For non-card charges, you can use this value as the complete description that appears on your customers’ statements. Must contain at least one letter, maximum 22 characters.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postPaymentIntentsIntentCaptureRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsIntentCaptureRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor_suffix: Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that’s set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postPaymentIntentsIntentCaptureRequestBodyStatementDescriptorSuffix :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsIntentCaptureRequestBodyStatementDescriptorSuffix :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | transfer_data: The parameters used to automatically create a Transfer when the payment
   -- is captured. For more information, see the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts).
   , postPaymentIntentsIntentCaptureRequestBodyTransferData :: (GHC.Maybe.Maybe PostPaymentIntentsIntentCaptureRequestBodyTransferData')

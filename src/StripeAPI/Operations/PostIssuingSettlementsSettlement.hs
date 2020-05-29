@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the specified Issuing \<code>Settlement\<\/code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
 postIssuingSettlementsSettlement :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                              -- ^ settlement | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                      -- ^ settlement | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostIssuingSettlementsSettlementRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostIssuingSettlementsSettlementResponse)) -- ^ Monad containing the result of the operation
 postIssuingSettlementsSettlement config
@@ -60,7 +60,7 @@ postIssuingSettlementsSettlement config
 postIssuingSettlementsSettlementRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
                                        StripeAPI.Common.Configuration s ->
-                                       GHC.Base.String ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe PostIssuingSettlementsSettlementRequestBody ->
                                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postIssuingSettlementsSettlementRaw config
 -- Monadic version of 'postIssuingSettlementsSettlement' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingSettlementsSettlementM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
-                                     GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe PostIssuingSettlementsSettlementRequestBody ->
                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                         m
@@ -89,7 +89,7 @@ postIssuingSettlementsSettlementM settlement
 -- Monadic version of 'postIssuingSettlementsSettlementRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingSettlementsSettlementRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                       StripeAPI.Common.SecurityScheme s) =>
-                                        GHC.Base.String ->
+                                        Data.Text.Internal.Text ->
                                         GHC.Maybe.Maybe PostIssuingSettlementsSettlementRequestBody ->
                                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                            m
@@ -102,7 +102,7 @@ postIssuingSettlementsSettlementRawM settlement
 -- 
 data PostIssuingSettlementsSettlementRequestBody = PostIssuingSettlementsSettlementRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postIssuingSettlementsSettlementRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postIssuingSettlementsSettlementRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postIssuingSettlementsSettlementRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingSettlementsSettlementRequestBodyMetadata')
   } deriving (GHC.Show.Show

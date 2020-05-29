@@ -37,19 +37,19 @@ data ChargeOutcome = ChargeOutcome {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  chargeOutcomeNetworkStatus :: (GHC.Maybe.Maybe GHC.Base.String)
+  chargeOutcomeNetworkStatus :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | reason: An enumerated value providing a more detailed explanation of the outcome\'s \`type\`. Charges blocked by Radar\'s default block rule have the value \`highest_risk_level\`. Charges placed in review by Radar\'s default review rule have the value \`elevated_risk_level\`. Charges authorized, blocked, or placed in review by custom rules have the value \`rule\`. See [understanding declines](https:\/\/stripe.com\/docs\/declines) for more details.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , chargeOutcomeReason :: (GHC.Maybe.Maybe GHC.Base.String)
+  , chargeOutcomeReason :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | risk_level: Stripe\'s evaluation of the riskiness of the payment. Possible values for evaluated payments are \`normal\`, \`elevated\`, \`highest\`. For non-card payments, and card-based payments predating the public assignment of risk levels, this field will have the value \`not_assessed\`. In the event of an error in the evaluation, this field will have the value \`unknown\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , chargeOutcomeRiskLevel :: (GHC.Maybe.Maybe GHC.Base.String)
+  , chargeOutcomeRiskLevel :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | risk_score: Stripe\'s evaluation of the riskiness of the payment. Possible values for evaluated payments are between 0 and 100. For non-card payments, card-based payments predating the public assignment of risk scores, or in the event of an error during evaluation, this field will not be present. This field is only available with Radar for Fraud Teams.
   , chargeOutcomeRiskScore :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | rule: The ID of the Radar rule that matched the payment, if applicable.
@@ -59,13 +59,13 @@ data ChargeOutcome = ChargeOutcome {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , chargeOutcomeSellerMessage :: (GHC.Maybe.Maybe GHC.Base.String)
+  , chargeOutcomeSellerMessage :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | type: Possible values are \`authorized\`, \`manual_review\`, \`issuer_declined\`, \`blocked\`, and \`invalid\`. See [understanding declines](https:\/\/stripe.com\/docs\/declines) and [Radar reviews](https:\/\/stripe.com\/docs\/radar\/reviews) for details.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , chargeOutcomeType :: GHC.Base.String
+  , chargeOutcomeType :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON ChargeOutcome
@@ -78,7 +78,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON ChargeOutcome
 -- The ID of the Radar rule that matched the payment, if applicable.
 data ChargeOutcomeRule'Variants
     = ChargeOutcomeRule'Rule Rule
-    | ChargeOutcomeRule'String GHC.Base.String
+    | ChargeOutcomeRule'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON ChargeOutcomeRule'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}

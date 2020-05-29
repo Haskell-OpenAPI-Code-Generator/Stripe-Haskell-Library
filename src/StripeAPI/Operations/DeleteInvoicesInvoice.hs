@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Permanently deletes a draft invoice. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized, it must be \<a href=\"\#void_invoice\">voided\<\/a>.\<\/p>
 deleteInvoicesInvoice :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                   -- ^ invoice | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                           -- ^ invoice | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteInvoicesInvoiceRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteInvoicesInvoiceResponse)) -- ^ Monad containing the result of the operation
 deleteInvoicesInvoice config
@@ -60,7 +60,7 @@ deleteInvoicesInvoice config
 deleteInvoicesInvoiceRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             StripeAPI.Common.Configuration s ->
-                            GHC.Base.String ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe DeleteInvoicesInvoiceRequestBody ->
                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteInvoicesInvoiceRaw config
 -- Monadic version of 'deleteInvoicesInvoice' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteInvoicesInvoiceM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Base.String ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe DeleteInvoicesInvoiceRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m
@@ -89,7 +89,7 @@ deleteInvoicesInvoiceM invoice
 -- Monadic version of 'deleteInvoicesInvoiceRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteInvoicesInvoiceRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe DeleteInvoicesInvoiceRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m

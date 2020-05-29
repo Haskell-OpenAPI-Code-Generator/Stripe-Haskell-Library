@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of an existing subscription schedule. You only need to supply the unique subscription schedule identifier that was returned upon subscription schedule creation.\<\/p>
 getSubscriptionSchedulesSchedule :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                              -- ^ schedule | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                      -- ^ schedule | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetSubscriptionSchedulesScheduleRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSubscriptionSchedulesScheduleResponse)) -- ^ Monad containing the result of the operation
 getSubscriptionSchedulesSchedule config
@@ -68,8 +68,8 @@ getSubscriptionSchedulesSchedule config
 getSubscriptionSchedulesScheduleRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
                                        StripeAPI.Common.Configuration s ->
-                                       GHC.Maybe.Maybe GHC.Base.String ->
-                                       GHC.Base.String ->
+                                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe GetSubscriptionSchedulesScheduleRequestBody ->
                                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getSubscriptionSchedulesScheduleRaw config
 -- Monadic version of 'getSubscriptionSchedulesSchedule' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionSchedulesScheduleM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
-                                     GHC.Maybe.Maybe GHC.Base.String ->
-                                     GHC.Base.String ->
+                                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe GetSubscriptionSchedulesScheduleRequestBody ->
                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                         m
@@ -113,8 +113,8 @@ getSubscriptionSchedulesScheduleM expand
 -- Monadic version of 'getSubscriptionSchedulesScheduleRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionSchedulesScheduleRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                       StripeAPI.Common.SecurityScheme s) =>
-                                        GHC.Maybe.Maybe GHC.Base.String ->
-                                        GHC.Base.String ->
+                                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                        Data.Text.Internal.Text ->
                                         GHC.Maybe.Maybe GetSubscriptionSchedulesScheduleRequestBody ->
                                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                            m

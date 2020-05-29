@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the amount or description of an invoice item on an upcoming invoice. Updating an invoice item is only possible before the invoice it’s attached to is closed.\<\/p>
 postInvoiceitemsInvoiceitem :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                         -- ^ invoiceitem | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                 -- ^ invoiceitem | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostInvoiceitemsInvoiceitemRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostInvoiceitemsInvoiceitemResponse)) -- ^ Monad containing the result of the operation
 postInvoiceitemsInvoiceitem config
@@ -60,7 +60,7 @@ postInvoiceitemsInvoiceitem config
 postInvoiceitemsInvoiceitemRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   StripeAPI.Common.Configuration s ->
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe PostInvoiceitemsInvoiceitemRequestBody ->
                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                         (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postInvoiceitemsInvoiceitemRaw config
 -- Monadic version of 'postInvoiceitemsInvoiceitem' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoiceitemsInvoiceitemM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe PostInvoiceitemsInvoiceitemRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -89,7 +89,7 @@ postInvoiceitemsInvoiceitemM invoiceitem
 -- Monadic version of 'postInvoiceitemsInvoiceitemRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoiceitemsInvoiceitemRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe PostInvoiceitemsInvoiceitemRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m
@@ -108,11 +108,11 @@ data PostInvoiceitemsInvoiceitemRequestBody = PostInvoiceitemsInvoiceitemRequest
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoiceitemsInvoiceitemRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoiceitemsInvoiceitemRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | discountable: Controls whether discounts apply to this invoice item. Defaults to false for prorations or negative invoice items, and true for all other invoice items. Cannot be set to true for prorations.
   , postInvoiceitemsInvoiceitemRequestBodyDiscountable :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postInvoiceitemsInvoiceitemRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postInvoiceitemsInvoiceitemRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postInvoiceitemsInvoiceitemRequestBodyMetadata :: (GHC.Maybe.Maybe PostInvoiceitemsInvoiceitemRequestBodyMetadata')
   -- | period: The period associated with this invoice item.
@@ -124,7 +124,7 @@ data PostInvoiceitemsInvoiceitemRequestBody = PostInvoiceitemsInvoiceitemRequest
   -- | unit_amount: The integer unit amount in **%s** of the charge to be applied to the upcoming invoice. This unit_amount will be multiplied by the quantity to get the full amount. If you want to apply a credit to the customer\'s account, pass a negative unit_amount.
   , postInvoiceitemsInvoiceitemRequestBodyUnitAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | unit_amount_decimal: Same as \`unit_amount\`, but accepts a decimal value with at most 12 decimal places. Only one of \`unit_amount\` and \`unit_amount_decimal\` can be set.
-  , postInvoiceitemsInvoiceitemRequestBodyUnitAmountDecimal :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoiceitemsInvoiceitemRequestBodyUnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoiceitemsInvoiceitemRequestBody
@@ -164,7 +164,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostInvoiceitemsInvoiceitemRequestBo
 -- 
 data PostInvoiceitemsInvoiceitemRequestBodyTaxRates'OneOf1
     = PostInvoiceitemsInvoiceitemRequestBodyTaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostInvoiceitemsInvoiceitemRequestBodyTaxRates'OneOf1EnumTyped GHC.Base.String
+    | PostInvoiceitemsInvoiceitemRequestBodyTaxRates'OneOf1EnumTyped Data.Text.Internal.Text
     | PostInvoiceitemsInvoiceitemRequestBodyTaxRates'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoiceitemsInvoiceitemRequestBodyTaxRates'OneOf1
@@ -180,7 +180,7 @@ instance Data.Aeson.FromJSON PostInvoiceitemsInvoiceitemRequestBodyTaxRates'OneO
 -- The tax rates which apply to the invoice item. When set, the \`default_tax_rates\` on the invoice do not apply to this invoice item. Pass an empty string to remove previously-defined tax rates.
 data PostInvoiceitemsInvoiceitemRequestBodyTaxRates'Variants
     = PostInvoiceitemsInvoiceitemRequestBodyTaxRates'PostInvoiceitemsInvoiceitemRequestBodyTaxRates'OneOf1 PostInvoiceitemsInvoiceitemRequestBodyTaxRates'OneOf1
-    | PostInvoiceitemsInvoiceitemRequestBodyTaxRates'ListString ([] GHC.Base.String)
+    | PostInvoiceitemsInvoiceitemRequestBodyTaxRates'ListText ([] Data.Text.Internal.Text)
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostInvoiceitemsInvoiceitemRequestBodyTaxRates'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}

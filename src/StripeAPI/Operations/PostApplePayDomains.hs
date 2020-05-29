@@ -94,9 +94,9 @@ postApplePayDomainsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfi
 -- 
 data PostApplePayDomainsRequestBody = PostApplePayDomainsRequestBody {
   -- | domain_name
-  postApplePayDomainsRequestBodyDomainName :: GHC.Base.String
+  postApplePayDomainsRequestBodyDomainName :: Data.Text.Internal.Text
   -- | expand: Specifies which fields in the response should be expanded.
-  , postApplePayDomainsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postApplePayDomainsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostApplePayDomainsRequestBody

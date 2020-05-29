@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of an existing payout. Supply the unique payout ID from either a payout creation request or the payout list, and Stripe will return the corresponding payout information.\<\/p>
 getPayoutsPayout :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                              -- ^ payout | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                      -- ^ payout | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetPayoutsPayoutRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetPayoutsPayoutResponse)) -- ^ Monad containing the result of the operation
 getPayoutsPayout config
@@ -68,8 +68,8 @@ getPayoutsPayout config
 getPayoutsPayoutRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        StripeAPI.Common.Configuration s ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetPayoutsPayoutRequestBody ->
                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getPayoutsPayoutRaw config
 -- Monadic version of 'getPayoutsPayout' (use with 'StripeAPI.Common.runWithConfiguration')
 getPayoutsPayoutM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
-                     GHC.Maybe.Maybe GHC.Base.String ->
-                     GHC.Base.String ->
+                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                     Data.Text.Internal.Text ->
                      GHC.Maybe.Maybe GetPayoutsPayoutRequestBody ->
                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                         m
@@ -113,8 +113,8 @@ getPayoutsPayoutM expand
 -- Monadic version of 'getPayoutsPayoutRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getPayoutsPayoutRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Maybe.Maybe GHC.Base.String ->
-                        GHC.Base.String ->
+                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe GetPayoutsPayoutRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m

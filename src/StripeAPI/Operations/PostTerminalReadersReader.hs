@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates a \<code>Reader\<\/code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
 postTerminalReadersReader :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                       -- ^ reader | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                               -- ^ reader | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostTerminalReadersReaderRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostTerminalReadersReaderResponse)) -- ^ Monad containing the result of the operation
 postTerminalReadersReader config
@@ -60,7 +60,7 @@ postTerminalReadersReader config
 postTerminalReadersReaderRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
                                 StripeAPI.Common.Configuration s ->
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe PostTerminalReadersReaderRequestBody ->
                                 m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                       (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postTerminalReadersReaderRaw config
 -- Monadic version of 'postTerminalReadersReader' (use with 'StripeAPI.Common.runWithConfiguration')
 postTerminalReadersReaderM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
-                              GHC.Base.String ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe PostTerminalReadersReaderRequestBody ->
                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                  m
@@ -89,7 +89,7 @@ postTerminalReadersReaderM reader
 -- Monadic version of 'postTerminalReadersReaderRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postTerminalReadersReaderRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
-                                 GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe PostTerminalReadersReaderRequestBody ->
                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                     m
@@ -102,13 +102,13 @@ postTerminalReadersReaderRawM reader
 -- 
 data PostTerminalReadersReaderRequestBody = PostTerminalReadersReaderRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postTerminalReadersReaderRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postTerminalReadersReaderRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | label: The new label of the reader.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalReadersReaderRequestBodyLabel :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTerminalReadersReaderRequestBodyLabel :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postTerminalReadersReaderRequestBodyMetadata :: (GHC.Maybe.Maybe PostTerminalReadersReaderRequestBodyMetadata')
   } deriving (GHC.Show.Show

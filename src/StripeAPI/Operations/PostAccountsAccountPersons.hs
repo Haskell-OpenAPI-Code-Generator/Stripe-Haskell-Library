@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Creates a new person.\<\/p>
 postAccountsAccountPersons :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                        -- ^ account | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                -- ^ account | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostAccountsAccountPersonsResponse)) -- ^ Monad containing the result of the operation
 postAccountsAccountPersons config
@@ -60,7 +60,7 @@ postAccountsAccountPersons config
 postAccountsAccountPersonsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
                                  StripeAPI.Common.Configuration s ->
-                                 GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBody ->
                                  m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postAccountsAccountPersonsRaw config
 -- Monadic version of 'postAccountsAccountPersons' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountPersonsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -89,7 +89,7 @@ postAccountsAccountPersonsM account
 -- Monadic version of 'postAccountsAccountPersonsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountPersonsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m
@@ -110,63 +110,63 @@ data PostAccountsAccountPersonsRequestBody = PostAccountsAccountPersonsRequestBo
   -- | dob: The person\'s date of birth.
   , postAccountsAccountPersonsRequestBodyDob :: (GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBodyDob'Variants)
   -- | email: The person\'s email address.
-  , postAccountsAccountPersonsRequestBodyEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postAccountsAccountPersonsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postAccountsAccountPersonsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | first_name: The person\'s first name.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyFirstName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyFirstName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | first_name_kana: The Kana variation of the person\'s first name (Japan only).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyFirstNameKana :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyFirstNameKana :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | first_name_kanji: The Kanji variation of the person\'s first name (Japan only).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyFirstNameKanji :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyFirstNameKanji :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | gender: The person\'s gender (International regulations require either \"male\" or \"female\").
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyGender :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyGender :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | id_number: The person\'s ID number, as appropriate for their country. For example, a social security number in the U.S., social insurance number in Canada, etc. Instead of the number itself, you can also provide a [PII token provided by Stripe.js](https:\/\/stripe.com\/docs\/stripe.js\#collecting-pii-data).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyIdNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyIdNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last_name: The person\'s last name.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyLastName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyLastName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last_name_kana: The Kana variation of the person\'s last name (Japan only).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyLastNameKana :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyLastNameKana :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last_name_kanji: The Kanji variation of the person\'s last name (Japan only).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyLastNameKanji :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyLastNameKanji :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | maiden_name: The person\'s maiden name.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyMaidenName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyMaidenName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postAccountsAccountPersonsRequestBodyMetadata :: (GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBodyMetadata')
   -- | person_token: A [person token](https:\/\/stripe.com\/docs\/connect\/account-tokens), used to securely provide details to the person.
@@ -174,13 +174,13 @@ data PostAccountsAccountPersonsRequestBody = PostAccountsAccountPersonsRequestBo
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyPersonToken :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyPersonToken :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | phone: The person\'s phone number.
-  , postAccountsAccountPersonsRequestBodyPhone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyPhone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | relationship: The relationship that this person has with the account\'s legal entity.
   , postAccountsAccountPersonsRequestBodyRelationship :: (GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBodyRelationship')
   -- | ssn_last_4: The last 4 digits of the person\'s social security number.
-  , postAccountsAccountPersonsRequestBodySsnLast_4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodySsnLast_4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | verification: The person\'s verification status.
   , postAccountsAccountPersonsRequestBodyVerification :: (GHC.Maybe.Maybe PostAccountsAccountPersonsRequestBodyVerification')
   } deriving (GHC.Show.Show
@@ -199,37 +199,37 @@ data PostAccountsAccountPersonsRequestBodyAddress' = PostAccountsAccountPersonsR
   -- Constraints:
   -- 
   -- * Maximum length of 100
-  postAccountsAccountPersonsRequestBodyAddress'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postAccountsAccountPersonsRequestBodyAddress'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddress'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddress'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 200
-  , postAccountsAccountPersonsRequestBodyAddress'Line1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddress'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 200
-  , postAccountsAccountPersonsRequestBodyAddress'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddress'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddress'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddress'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddress'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddress'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountsAccountPersonsRequestBodyAddress'
@@ -246,43 +246,43 @@ data PostAccountsAccountPersonsRequestBodyAddressKana' = PostAccountsAccountPers
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postAccountsAccountPersonsRequestBodyAddressKana'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postAccountsAccountPersonsRequestBodyAddressKana'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddressKana'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddressKana'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddressKana'Line1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddressKana'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddressKana'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddressKana'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddressKana'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddressKana'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddressKana'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddressKana'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | town
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddressKana'Town :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddressKana'Town :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountsAccountPersonsRequestBodyAddressKana'
@@ -299,43 +299,43 @@ data PostAccountsAccountPersonsRequestBodyAddressKanji' = PostAccountsAccountPer
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postAccountsAccountPersonsRequestBodyAddressKanji'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postAccountsAccountPersonsRequestBodyAddressKanji'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddressKanji'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddressKanji'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddressKanji'Line1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddressKanji'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddressKanji'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddressKanji'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddressKanji'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddressKanji'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddressKanji'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddressKanji'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | town
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyAddressKanji'Town :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyAddressKanji'Town :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountsAccountPersonsRequestBodyAddressKanji'
@@ -348,7 +348,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBod
 -- 
 data PostAccountsAccountPersonsRequestBodyDob'OneOf1
     = PostAccountsAccountPersonsRequestBodyDob'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostAccountsAccountPersonsRequestBodyDob'OneOf1EnumTyped GHC.Base.String
+    | PostAccountsAccountPersonsRequestBodyDob'OneOf1EnumTyped Data.Text.Internal.Text
     | PostAccountsAccountPersonsRequestBodyDob'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountsAccountPersonsRequestBodyDob'OneOf1
@@ -418,7 +418,7 @@ data PostAccountsAccountPersonsRequestBodyRelationship' = PostAccountsAccountPer
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountPersonsRequestBodyRelationship'Title :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyRelationship'Title :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountsAccountPersonsRequestBodyRelationship'
@@ -431,7 +431,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountPersonsRequestBod
 -- 
 data PostAccountsAccountPersonsRequestBodyRelationship'PercentOwnership'OneOf1
     = PostAccountsAccountPersonsRequestBodyRelationship'PercentOwnership'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostAccountsAccountPersonsRequestBodyRelationship'PercentOwnership'OneOf1EnumTyped GHC.Base.String
+    | PostAccountsAccountPersonsRequestBodyRelationship'PercentOwnership'OneOf1EnumTyped Data.Text.Internal.Text
     | PostAccountsAccountPersonsRequestBodyRelationship'PercentOwnership'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountsAccountPersonsRequestBodyRelationship'PercentOwnership'OneOf1
@@ -477,13 +477,13 @@ data PostAccountsAccountPersonsRequestBodyVerification'AdditionalDocument' = Pos
   -- Constraints:
   -- 
   -- * Maximum length of 500
-  postAccountsAccountPersonsRequestBodyVerification'AdditionalDocument'Back :: (GHC.Maybe.Maybe GHC.Base.String)
+  postAccountsAccountPersonsRequestBodyVerification'AdditionalDocument'Back :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | front
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 500
-  , postAccountsAccountPersonsRequestBodyVerification'AdditionalDocument'Front :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyVerification'AdditionalDocument'Front :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountsAccountPersonsRequestBodyVerification'AdditionalDocument'
@@ -500,13 +500,13 @@ data PostAccountsAccountPersonsRequestBodyVerification'Document' = PostAccountsA
   -- Constraints:
   -- 
   -- * Maximum length of 500
-  postAccountsAccountPersonsRequestBodyVerification'Document'Back :: (GHC.Maybe.Maybe GHC.Base.String)
+  postAccountsAccountPersonsRequestBodyVerification'Document'Back :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | front
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 500
-  , postAccountsAccountPersonsRequestBodyVerification'Document'Front :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountPersonsRequestBodyVerification'Document'Front :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountsAccountPersonsRequestBodyVerification'Document'

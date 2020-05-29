@@ -36,13 +36,13 @@ data SourceTransactionPaperCheckData = SourceTransactionPaperCheckData {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  sourceTransactionPaperCheckDataAvailableAt :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTransactionPaperCheckDataAvailableAt :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | invoices: Comma-separated list of invoice IDs associated with the paper check.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionPaperCheckDataInvoices :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionPaperCheckDataInvoices :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTransactionPaperCheckData

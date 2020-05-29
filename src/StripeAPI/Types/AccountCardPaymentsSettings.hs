@@ -39,7 +39,7 @@ data AccountCardPaymentsSettings = AccountCardPaymentsSettings {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , accountCardPaymentsSettingsStatementDescriptorPrefix :: (GHC.Maybe.Maybe GHC.Base.String)
+  , accountCardPaymentsSettingsStatementDescriptorPrefix :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountCardPaymentsSettings

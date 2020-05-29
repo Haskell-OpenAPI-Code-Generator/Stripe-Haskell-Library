@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Delete a specified external account for a given account.\<\/p>
 deleteAccountExternalAccountsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                             -- ^ id
+  -> Data.Text.Internal.Text                                                                                                                     -- ^ id
   -> GHC.Maybe.Maybe DeleteAccountExternalAccountsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteAccountExternalAccountsIdResponse)) -- ^ Monad containing the result of the operation
 deleteAccountExternalAccountsId config
@@ -60,7 +60,7 @@ deleteAccountExternalAccountsId config
 deleteAccountExternalAccountsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
                                       StripeAPI.Common.Configuration s ->
-                                      GHC.Base.String ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe DeleteAccountExternalAccountsIdRequestBody ->
                                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteAccountExternalAccountsIdRaw config
 -- Monadic version of 'deleteAccountExternalAccountsId' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteAccountExternalAccountsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe DeleteAccountExternalAccountsIdRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m
@@ -89,7 +89,7 @@ deleteAccountExternalAccountsIdM id
 -- Monadic version of 'deleteAccountExternalAccountsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteAccountExternalAccountsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
-                                       GHC.Base.String ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe DeleteAccountExternalAccountsIdRequestBody ->
                                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                           m

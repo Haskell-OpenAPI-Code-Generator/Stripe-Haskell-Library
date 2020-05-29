@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves information about the specified Account Capability.\<\/p>
 getAccountCapabilitiesCapability :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                              -- ^ capability
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                      -- ^ capability
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetAccountCapabilitiesCapabilityRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetAccountCapabilitiesCapabilityResponse)) -- ^ Monad containing the result of the operation
 getAccountCapabilitiesCapability config
@@ -68,8 +68,8 @@ getAccountCapabilitiesCapability config
 getAccountCapabilitiesCapabilityRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
                                        StripeAPI.Common.Configuration s ->
-                                       GHC.Base.String ->
-                                       GHC.Maybe.Maybe GHC.Base.String ->
+                                       Data.Text.Internal.Text ->
+                                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe GetAccountCapabilitiesCapabilityRequestBody ->
                                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getAccountCapabilitiesCapabilityRaw config
 -- Monadic version of 'getAccountCapabilitiesCapability' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountCapabilitiesCapabilityM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
-                                     GHC.Base.String ->
-                                     GHC.Maybe.Maybe GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
+                                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe GetAccountCapabilitiesCapabilityRequestBody ->
                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                         m
@@ -113,8 +113,8 @@ getAccountCapabilitiesCapabilityM capability
 -- Monadic version of 'getAccountCapabilitiesCapabilityRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountCapabilitiesCapabilityRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                       StripeAPI.Common.SecurityScheme s) =>
-                                        GHC.Base.String ->
-                                        GHC.Maybe.Maybe GHC.Base.String ->
+                                        Data.Text.Internal.Text ->
+                                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                         GHC.Maybe.Maybe GetAccountCapabilitiesCapabilityRequestBody ->
                                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                            m

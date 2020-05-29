@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a full list of Report Types. (Requires a \<a href=\"https:\/\/stripe.com\/docs\/keys\#test-live-modes\">live-mode API key\<\/a>.)\<\/p>
 getReportingReportTypes :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetReportingReportTypesRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetReportingReportTypesResponse)) -- ^ Monad containing the result of the operation
 getReportingReportTypes config
@@ -66,7 +66,7 @@ getReportingReportTypes config
 getReportingReportTypesRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe GetReportingReportTypesRequestBody ->
                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -84,7 +84,7 @@ getReportingReportTypesRaw config
 -- Monadic version of 'getReportingReportTypes' (use with 'StripeAPI.Common.runWithConfiguration')
 getReportingReportTypesM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Maybe.Maybe GHC.Base.String ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe GetReportingReportTypesRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -107,7 +107,7 @@ getReportingReportTypesM expand
 -- Monadic version of 'getReportingReportTypesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getReportingReportTypesRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GetReportingReportTypesRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -156,7 +156,7 @@ data GetReportingReportTypesResponseBody200 = GetReportingReportTypesResponseBod
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getReportingReportTypesResponseBody200Url :: GHC.Base.String
+  , getReportingReportTypesResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetReportingReportTypesResponseBody200
@@ -169,7 +169,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportTypesResponseBody2
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetReportingReportTypesResponseBody200Object'
     = GetReportingReportTypesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetReportingReportTypesResponseBody200Object'EnumTyped GHC.Base.String
+    | GetReportingReportTypesResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetReportingReportTypesResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetReportingReportTypesResponseBody200Object'

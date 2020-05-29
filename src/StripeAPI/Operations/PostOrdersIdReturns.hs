@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Return all or part of an order. The order must have a status of \<code>paid\<\/code> or \<code>fulfilled\<\/code> before it can be returned. Once all items have been returned, the order will become \<code>canceled\<\/code> or \<code>returned\<\/code> depending on which status the order started in.\<\/p>
 postOrdersIdReturns :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                 -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                         -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostOrdersIdReturnsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostOrdersIdReturnsResponse)) -- ^ Monad containing the result of the operation
 postOrdersIdReturns config
@@ -60,7 +60,7 @@ postOrdersIdReturns config
 postOrdersIdReturnsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           StripeAPI.Common.Configuration s ->
-                          GHC.Base.String ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe PostOrdersIdReturnsRequestBody ->
                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                 (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postOrdersIdReturnsRaw config
 -- Monadic version of 'postOrdersIdReturns' (use with 'StripeAPI.Common.runWithConfiguration')
 postOrdersIdReturnsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Base.String ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe PostOrdersIdReturnsRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m
@@ -89,7 +89,7 @@ postOrdersIdReturnsM id
 -- Monadic version of 'postOrdersIdReturnsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postOrdersIdReturnsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Base.String ->
+                           Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe PostOrdersIdReturnsRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m
@@ -102,7 +102,7 @@ postOrdersIdReturnsRawM id
 -- 
 data PostOrdersIdReturnsRequestBody = PostOrdersIdReturnsRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postOrdersIdReturnsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postOrdersIdReturnsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | items: List of items to return.
   , postOrdersIdReturnsRequestBodyItems :: (GHC.Maybe.Maybe PostOrdersIdReturnsRequestBodyItems'Variants)
   } deriving (GHC.Show.Show
@@ -117,7 +117,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersIdReturnsRequestBody
 -- 
 data PostOrdersIdReturnsRequestBodyItems'OneOf1
     = PostOrdersIdReturnsRequestBodyItems'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostOrdersIdReturnsRequestBodyItems'OneOf1EnumTyped GHC.Base.String
+    | PostOrdersIdReturnsRequestBodyItems'OneOf1EnumTyped Data.Text.Internal.Text
     | PostOrdersIdReturnsRequestBodyItems'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostOrdersIdReturnsRequestBodyItems'OneOf1
@@ -139,13 +139,13 @@ data PostOrdersIdReturnsRequestBodyItems'OneOf2 = PostOrdersIdReturnsRequestBody
   -- Constraints:
   -- 
   -- * Maximum length of 1000
-  , postOrdersIdReturnsRequestBodyItems'OneOf2Description :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersIdReturnsRequestBodyItems'OneOf2Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | parent
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersIdReturnsRequestBodyItems'OneOf2Parent :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersIdReturnsRequestBodyItems'OneOf2Parent :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | quantity
   , postOrdersIdReturnsRequestBodyItems'OneOf2Quantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | type
@@ -166,7 +166,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersIdReturnsRequestBodyItems'
 -- 
 data PostOrdersIdReturnsRequestBodyItems'OneOf2Type'
     = PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumTyped GHC.Base.String
+    | PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumTyped Data.Text.Internal.Text
     | PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringDiscount
     | PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringShipping
     | PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringSku

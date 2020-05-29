@@ -32,17 +32,17 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeAchDebit = SourceTypeAchDebit {
   -- | bank_name
-  sourceTypeAchDebitBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeAchDebitBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
-  , sourceTypeAchDebitCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAchDebitCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | fingerprint
-  , sourceTypeAchDebitFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAchDebitFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last4
-  , sourceTypeAchDebitLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAchDebitLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | routing_number
-  , sourceTypeAchDebitRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAchDebitRoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | type
-  , sourceTypeAchDebitType :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAchDebitType :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeAchDebit

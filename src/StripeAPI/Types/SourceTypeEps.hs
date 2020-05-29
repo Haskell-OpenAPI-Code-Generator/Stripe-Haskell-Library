@@ -32,9 +32,9 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeEps = SourceTypeEps {
   -- | reference
-  sourceTypeEpsReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeEpsReference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor
-  , sourceTypeEpsStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeEpsStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeEps

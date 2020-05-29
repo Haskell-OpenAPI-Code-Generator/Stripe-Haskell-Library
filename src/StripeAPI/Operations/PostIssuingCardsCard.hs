@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the specified Issuing \<code>Card\<\/code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
 postIssuingCardsCard :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                  -- ^ card | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                          -- ^ card | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostIssuingCardsCardRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostIssuingCardsCardResponse)) -- ^ Monad containing the result of the operation
 postIssuingCardsCard config
@@ -60,7 +60,7 @@ postIssuingCardsCard config
 postIssuingCardsCardRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
                            StripeAPI.Common.Configuration s ->
-                           GHC.Base.String ->
+                           Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe PostIssuingCardsCardRequestBody ->
                            m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                  (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postIssuingCardsCardRaw config
 -- Monadic version of 'postIssuingCardsCard' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingCardsCardM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
-                         GHC.Base.String ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe PostIssuingCardsCardRequestBody ->
                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                             m
@@ -89,7 +89,7 @@ postIssuingCardsCardM card
 -- Monadic version of 'postIssuingCardsCardRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingCardsCardRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Base.String ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe PostIssuingCardsCardRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -104,7 +104,7 @@ data PostIssuingCardsCardRequestBody = PostIssuingCardsCardRequestBody {
   -- | authorization_controls: Spending rules that give you some control over how your cards can be used. Refer to our [authorizations](https:\/\/stripe.com\/docs\/issuing\/authorizations) documentation for more details.
   postIssuingCardsCardRequestBodyAuthorizationControls :: (GHC.Maybe.Maybe PostIssuingCardsCardRequestBodyAuthorizationControls')
   -- | expand: Specifies which fields in the response should be expanded.
-  , postIssuingCardsCardRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postIssuingCardsCardRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postIssuingCardsCardRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingCardsCardRequestBodyMetadata'Variants)
   -- | status: Whether authorizations can be approved on this card.
@@ -140,7 +140,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsCardRequestBodyAutho
 -- 
 data PostIssuingCardsCardRequestBodyAuthorizationControls'AllowedCategories'
     = PostIssuingCardsCardRequestBodyAuthorizationControls'AllowedCategories'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsCardRequestBodyAuthorizationControls'AllowedCategories'EnumTyped GHC.Base.String
+    | PostIssuingCardsCardRequestBodyAuthorizationControls'AllowedCategories'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsCardRequestBodyAuthorizationControls'AllowedCategories'EnumStringAcRefrigerationRepair
     | PostIssuingCardsCardRequestBodyAuthorizationControls'AllowedCategories'EnumStringAccountingBookkeepingServices
     | PostIssuingCardsCardRequestBodyAuthorizationControls'AllowedCategories'EnumStringAdvertisingServices
@@ -1304,7 +1304,7 @@ instance Data.Aeson.FromJSON PostIssuingCardsCardRequestBodyAuthorizationControl
 -- 
 data PostIssuingCardsCardRequestBodyAuthorizationControls'BlockedCategories'
     = PostIssuingCardsCardRequestBodyAuthorizationControls'BlockedCategories'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsCardRequestBodyAuthorizationControls'BlockedCategories'EnumTyped GHC.Base.String
+    | PostIssuingCardsCardRequestBodyAuthorizationControls'BlockedCategories'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsCardRequestBodyAuthorizationControls'BlockedCategories'EnumStringAcRefrigerationRepair
     | PostIssuingCardsCardRequestBodyAuthorizationControls'BlockedCategories'EnumStringAccountingBookkeepingServices
     | PostIssuingCardsCardRequestBodyAuthorizationControls'BlockedCategories'EnumStringAdvertisingServices
@@ -2485,7 +2485,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsCardRequestBodyAutho
 -- 
 data PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Categories'
     = PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTyped GHC.Base.String
+    | PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAcRefrigerationRepair
     | PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAccountingBookkeepingServices
     | PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAdvertisingServices
@@ -3649,7 +3649,7 @@ instance Data.Aeson.FromJSON PostIssuingCardsCardRequestBodyAuthorizationControl
 -- 
 data PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Interval'
     = PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumTyped GHC.Base.String
+    | PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringAllTime
     | PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringDaily
     | PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringMonthly
@@ -3685,7 +3685,7 @@ instance Data.Aeson.FromJSON PostIssuingCardsCardRequestBodyAuthorizationControl
 -- 
 data PostIssuingCardsCardRequestBodyMetadata'OneOf1
     = PostIssuingCardsCardRequestBodyMetadata'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsCardRequestBodyMetadata'OneOf1EnumTyped GHC.Base.String
+    | PostIssuingCardsCardRequestBodyMetadata'OneOf1EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsCardRequestBodyMetadata'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingCardsCardRequestBodyMetadata'OneOf1
@@ -3724,7 +3724,7 @@ instance Data.Aeson.FromJSON PostIssuingCardsCardRequestBodyMetadata'Variants
 -- Whether authorizations can be approved on this card.
 data PostIssuingCardsCardRequestBodyStatus'
     = PostIssuingCardsCardRequestBodyStatus'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsCardRequestBodyStatus'EnumTyped GHC.Base.String
+    | PostIssuingCardsCardRequestBodyStatus'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsCardRequestBodyStatus'EnumStringActive
     | PostIssuingCardsCardRequestBodyStatus'EnumStringCanceled
     | PostIssuingCardsCardRequestBodyStatus'EnumStringInactive

@@ -38,7 +38,7 @@ data DeletedSku = DeletedSku {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedSkuId :: GHC.Base.String
+  , deletedSkuId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedSkuObject :: DeletedSkuObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedSkuDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedSkuObject'
     = DeletedSkuObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedSkuObject'EnumTyped GHC.Base.String
+    | DeletedSkuObject'EnumTyped Data.Text.Internal.Text
     | DeletedSkuObject'EnumStringSku
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedSkuObject'

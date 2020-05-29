@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves an Issuing \<code>Card\<\/code> object.\<\/p>
 getIssuingCardsCard :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                 -- ^ card | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                 -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                         -- ^ card | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                         -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetIssuingCardsCardRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingCardsCardResponse)) -- ^ Monad containing the result of the operation
 getIssuingCardsCard config
@@ -68,8 +68,8 @@ getIssuingCardsCard config
 getIssuingCardsCardRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           StripeAPI.Common.Configuration s ->
-                          GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
+                          Data.Text.Internal.Text ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe GetIssuingCardsCardRequestBody ->
                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                 (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getIssuingCardsCardRaw config
 -- Monadic version of 'getIssuingCardsCard' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingCardsCardM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Base.String ->
-                        GHC.Maybe.Maybe GHC.Base.String ->
+                        Data.Text.Internal.Text ->
+                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe GetIssuingCardsCardRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m
@@ -113,8 +113,8 @@ getIssuingCardsCardM card
 -- Monadic version of 'getIssuingCardsCardRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingCardsCardRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Base.String ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
+                           Data.Text.Internal.Text ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe GetIssuingCardsCardRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m

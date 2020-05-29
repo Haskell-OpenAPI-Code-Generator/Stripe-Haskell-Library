@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieve an apple pay domain.\<\/p>
 getApplePayDomainsDomain :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                      -- ^ domain | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                              -- ^ domain | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetApplePayDomainsDomainRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetApplePayDomainsDomainResponse)) -- ^ Monad containing the result of the operation
 getApplePayDomainsDomain config
@@ -68,8 +68,8 @@ getApplePayDomainsDomain config
 getApplePayDomainsDomainRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                StripeAPI.Common.Configuration s ->
-                               GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GetApplePayDomainsDomainRequestBody ->
                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getApplePayDomainsDomainRaw config
 -- Monadic version of 'getApplePayDomainsDomain' (use with 'StripeAPI.Common.runWithConfiguration')
 getApplePayDomainsDomainM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GetApplePayDomainsDomainRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m
@@ -113,8 +113,8 @@ getApplePayDomainsDomainM domain
 -- Monadic version of 'getApplePayDomainsDomainRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getApplePayDomainsDomainRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
+                                Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GetApplePayDomainsDomainRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m

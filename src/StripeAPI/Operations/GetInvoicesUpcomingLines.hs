@@ -44,27 +44,27 @@ import StripeAPI.Types
 -- 
 -- \<p>When retrieving an upcoming invoice, you’ll get a \<strong>lines\<\/strong> property containing the total count of line items and the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.\<\/p>
 getInvoicesUpcomingLines :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ coupon: The code of the coupon to apply. If \`subscription\` or \`subscription_items\` is provided, the invoice returned will preview updating or creating a subscription with that coupon. Otherwise, it will preview applying that coupon to the customer for the next upcoming invoice from among the customer\'s subscriptions. The invoice can be previewed without a coupon by passing this value as an empty string. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ customer: The identifier of the customer whose upcoming invoice you\'d like to retrieve. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ invoice_items: List of invoice items to add or update in the upcoming invoice preview.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ coupon: The code of the coupon to apply. If \`subscription\` or \`subscription_items\` is provided, the invoice returned will preview updating or creating a subscription with that coupon. Otherwise, it will preview applying that coupon to the customer for the next upcoming invoice from among the customer\'s subscriptions. The invoice can be previewed without a coupon by passing this value as an empty string. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ customer: The identifier of the customer whose upcoming invoice you\'d like to retrieve. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ invoice_items: List of invoice items to add or update in the upcoming invoice preview.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                             -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ schedule: The identifier of the unstarted schedule whose upcoming invoice you\'d like to retrieve. Cannot be used with subscription or subscription fields. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ subscription: The identifier of the subscription for which you\'d like to retrieve the upcoming invoice. If not provided, but a \`subscription_items\` is provided, you will preview creating a subscription with those items. If neither \`subscription\` nor \`subscription_items\` is provided, you will retrieve the next upcoming invoice from among the customer\'s subscriptions. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ subscription_billing_cycle_anchor: For new subscriptions, a future timestamp to anchor the subscription\'s [billing cycle](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with \`month\` or \`year\` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to \`now\` or \`unchanged\`.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ subscription_cancel_at: Timestamp indicating when the subscription should be scheduled to cancel. Will prorate if within the current period and prorations have been enabled using \`proration_behavior\`.\`
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ schedule: The identifier of the unstarted schedule whose upcoming invoice you\'d like to retrieve. Cannot be used with subscription or subscription fields. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ subscription: The identifier of the subscription for which you\'d like to retrieve the upcoming invoice. If not provided, but a \`subscription_items\` is provided, you will preview creating a subscription with those items. If neither \`subscription\` nor \`subscription_items\` is provided, you will retrieve the next upcoming invoice from among the customer\'s subscriptions. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ subscription_billing_cycle_anchor: For new subscriptions, a future timestamp to anchor the subscription\'s [billing cycle](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with \`month\` or \`year\` intervals, the day of the month for subsequent invoices. For existing subscriptions, the value can only be set to \`now\` or \`unchanged\`.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ subscription_cancel_at: Timestamp indicating when the subscription should be scheduled to cancel. Will prorate if within the current period and prorations have been enabled using \`proration_behavior\`.\`
   -> GHC.Maybe.Maybe GHC.Types.Bool                                                                                                       -- ^ subscription_cancel_at_period_end: Boolean indicating whether this subscription should cancel at the end of the current period.
   -> GHC.Maybe.Maybe GHC.Types.Bool                                                                                                       -- ^ subscription_cancel_now: This simulates the subscription being canceled or expired immediately.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ subscription_default_tax_rates: If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have \`tax_rates\` set.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ subscription_items: List of subscription items, each with an attached plan.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ subscription_default_tax_rates: If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have \`tax_rates\` set.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ subscription_items: List of subscription items, each with an attached plan.
   -> GHC.Maybe.Maybe GHC.Types.Bool                                                                                                       -- ^ subscription_prorate: If previewing an update to a subscription, this decides whether the preview will show the result of applying prorations or not. If set, one of \`subscription_items\` or \`subscription\`, and one of \`subscription_items\` or \`subscription_trial_end\` are required.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ subscription_proration_behavior: Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes. Valid values are \`create_prorations\`, \`none\`, or \`always_invoice\`.  Passing \`create_prorations\` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https:\/\/stripe.com\/docs\/subscriptions\/upgrading-downgrading\#immediate-payment). In order to always invoice immediately for prorations, pass \`always_invoice\`.  Prorations can be disabled by passing \`none\`.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ subscription_proration_behavior: Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes. Valid values are \`create_prorations\`, \`none\`, or \`always_invoice\`.  Passing \`create_prorations\` will cause proration invoice items to be created when applicable. These proration items will only be invoiced immediately under [certain conditions](https:\/\/stripe.com\/docs\/subscriptions\/upgrading-downgrading\#immediate-payment). In order to always invoice immediately for prorations, pass \`always_invoice\`.  Prorations can be disabled by passing \`none\`.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                             -- ^ subscription_proration_date: If previewing an update to a subscription, and doing proration, \`subscription_proration_date\` forces the proration to be calculated as though the update was done at the specified time. The time given must be within the current subscription period, and cannot be before the subscription was on its current plan. If set, \`subscription\`, and one of \`subscription_items\`, or \`subscription_trial_end\` are required. Also, \`subscription_proration\` cannot be set to false.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                             -- ^ subscription_start_date: Date a subscription is intended to start (can be future or past)
   -> GHC.Maybe.Maybe GHC.Types.Double                                                                                                     -- ^ subscription_tax_percent: If provided, the invoice returned will preview updating or creating a subscription with that tax percent. If set, one of \`subscription_items\` or \`subscription\` is required. This field has been deprecated and will be removed in a future API version, for further information view the [migration docs](https:\/\/stripe.com\/docs\/billing\/migration\/taxes) for \`tax_rates\`.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ subscription_trial_end: If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of \`subscription_items\` or \`subscription\` is required.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ subscription_trial_end: If provided, the invoice returned will preview updating or creating a subscription with that trial end. If set, one of \`subscription_items\` or \`subscription\` is required.
   -> GHC.Maybe.Maybe GHC.Types.Bool                                                                                                       -- ^ subscription_trial_from_plan: Indicates if a plan\'s \`trial_period_days\` should be applied to the subscription. Setting \`subscription_trial_end\` per subscription is preferred, and this defaults to \`false\`. Setting this flag to \`true\` together with \`subscription_trial_end\` is not allowed.
   -> GHC.Maybe.Maybe GetInvoicesUpcomingLinesRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetInvoicesUpcomingLinesResponse)) -- ^ Monad containing the result of the operation
@@ -521,27 +521,27 @@ getInvoicesUpcomingLines config
 getInvoicesUpcomingLinesRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                StripeAPI.Common.Configuration s ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GHC.Types.Bool ->
                                GHC.Maybe.Maybe GHC.Types.Bool ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GHC.Types.Bool ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                                GHC.Maybe.Maybe GHC.Types.Double ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GHC.Types.Bool ->
                                GHC.Maybe.Maybe GetInvoicesUpcomingLinesRequestBody ->
                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
@@ -994,27 +994,27 @@ getInvoicesUpcomingLinesRaw config
 -- Monadic version of 'getInvoicesUpcomingLines' (use with 'StripeAPI.Common.runWithConfiguration')
 getInvoicesUpcomingLinesM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GHC.Types.Bool ->
                              GHC.Maybe.Maybe GHC.Types.Bool ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GHC.Types.Bool ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                              GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                              GHC.Maybe.Maybe GHC.Types.Double ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GHC.Types.Bool ->
                              GHC.Maybe.Maybe GetInvoicesUpcomingLinesRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
@@ -1472,27 +1472,27 @@ getInvoicesUpcomingLinesM coupon
 -- Monadic version of 'getInvoicesUpcomingLinesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getInvoicesUpcomingLinesRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GHC.Types.Bool ->
                                 GHC.Maybe.Maybe GHC.Types.Bool ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GHC.Types.Bool ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                                 GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                                 GHC.Maybe.Maybe GHC.Types.Double ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GHC.Types.Bool ->
                                 GHC.Maybe.Maybe GetInvoicesUpcomingLinesRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
@@ -1976,7 +1976,7 @@ data GetInvoicesUpcomingLinesResponseBody200 = GetInvoicesUpcomingLinesResponseB
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getInvoicesUpcomingLinesResponseBody200Url :: GHC.Base.String
+  , getInvoicesUpcomingLinesResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetInvoicesUpcomingLinesResponseBody200
@@ -1989,7 +1989,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingLinesResponseBody
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetInvoicesUpcomingLinesResponseBody200Object'
     = GetInvoicesUpcomingLinesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetInvoicesUpcomingLinesResponseBody200Object'EnumTyped GHC.Base.String
+    | GetInvoicesUpcomingLinesResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetInvoicesUpcomingLinesResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetInvoicesUpcomingLinesResponseBody200Object'

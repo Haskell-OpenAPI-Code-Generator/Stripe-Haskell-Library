@@ -45,14 +45,14 @@ import StripeAPI.Types
 -- \<p>Returns a list of your SKUs. The SKUs are returned sorted by creation date, with the most recently created SKUs appearing first.\<\/p>
 getSkus :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
   -> GHC.Maybe.Maybe GHC.Types.Bool                                                                                      -- ^ active: Only return SKUs that are active or inactive (e.g., pass \`false\` to list all inactive products).
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                     -- ^ attributes: Only return SKUs that have the specified key-value pairs in this partially constructed dictionary. Can be specified only if \`product\` is also supplied. For instance, if the associated product has attributes \`[\"color\", \"size\"]\`, passing in \`attributes[color]=red\` returns all the SKUs for this product that have \`color\` set to \`red\`.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                     -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                     -- ^ ids: Only return SKUs with the given IDs.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                             -- ^ attributes: Only return SKUs that have the specified key-value pairs in this partially constructed dictionary. Can be specified only if \`product\` is also supplied. For instance, if the associated product has attributes \`[\"color\", \"size\"]\`, passing in \`attributes[color]=red\` returns all the SKUs for this product that have \`color\` set to \`red\`.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                             -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                             -- ^ ids: Only return SKUs with the given IDs.
   -> GHC.Maybe.Maybe GHC.Types.Bool                                                                                      -- ^ in_stock: Only return SKUs that are either in stock or out of stock (e.g., pass \`false\` to list all SKUs that are out of stock). If no value is provided, all SKUs are returned.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                            -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                     -- ^ product: The ID of the product whose SKUs will be retrieved. Must be a product with type \`good\`. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                     -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                             -- ^ product: The ID of the product whose SKUs will be retrieved. Must be a product with type \`good\`. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                             -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetSkusRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSkusResponse)) -- ^ Monad containing the result of the operation
 getSkus config
@@ -149,14 +149,14 @@ getSkusRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                             StripeAPI.Common.SecurityScheme s) =>
               StripeAPI.Common.Configuration s ->
               GHC.Maybe.Maybe GHC.Types.Bool ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
               GHC.Maybe.Maybe GHC.Types.Bool ->
               GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
               GHC.Maybe.Maybe GetSkusRequestBody ->
               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -249,14 +249,14 @@ getSkusRaw config
 getSkusM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                           StripeAPI.Common.SecurityScheme s) =>
             GHC.Maybe.Maybe GHC.Types.Bool ->
-            GHC.Maybe.Maybe GHC.Base.String ->
-            GHC.Maybe.Maybe GHC.Base.String ->
-            GHC.Maybe.Maybe GHC.Base.String ->
-            GHC.Maybe.Maybe GHC.Base.String ->
+            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+            GHC.Maybe.Maybe Data.Text.Internal.Text ->
             GHC.Maybe.Maybe GHC.Types.Bool ->
             GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-            GHC.Maybe.Maybe GHC.Base.String ->
-            GHC.Maybe.Maybe GHC.Base.String ->
+            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+            GHC.Maybe.Maybe Data.Text.Internal.Text ->
             GHC.Maybe.Maybe GetSkusRequestBody ->
             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                m
@@ -354,14 +354,14 @@ getSkusM active
 getSkusRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                              StripeAPI.Common.SecurityScheme s) =>
                GHC.Maybe.Maybe GHC.Types.Bool ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                GHC.Maybe.Maybe GHC.Types.Bool ->
                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-               GHC.Maybe.Maybe GHC.Base.String ->
-               GHC.Maybe.Maybe GHC.Base.String ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                GHC.Maybe.Maybe GetSkusRequestBody ->
                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                   m
@@ -485,7 +485,7 @@ data GetSkusResponseBody200 = GetSkusResponseBody200 {
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/skus\'
-  , getSkusResponseBody200Url :: GHC.Base.String
+  , getSkusResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSkusResponseBody200
@@ -498,7 +498,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSkusResponseBody200
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetSkusResponseBody200Object'
     = GetSkusResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetSkusResponseBody200Object'EnumTyped GHC.Base.String
+    | GetSkusResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetSkusResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSkusResponseBody200Object'

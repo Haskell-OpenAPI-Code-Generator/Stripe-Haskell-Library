@@ -36,25 +36,25 @@ data SourceTransactionAchCreditTransferData = SourceTransactionAchCreditTransfer
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  sourceTransactionAchCreditTransferDataCustomerData :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTransactionAchCreditTransferDataCustomerData :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | fingerprint: Bank account fingerprint associated with the transfer.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionAchCreditTransferDataFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionAchCreditTransferDataFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last4: Last 4 digits of the account number associated with the transfer.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionAchCreditTransferDataLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionAchCreditTransferDataLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | routing_number: Routing number associated with the transfer.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionAchCreditTransferDataRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionAchCreditTransferDataRoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTransactionAchCreditTransferData

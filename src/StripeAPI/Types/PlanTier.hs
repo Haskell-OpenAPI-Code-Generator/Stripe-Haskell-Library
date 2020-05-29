@@ -34,11 +34,11 @@ data PlanTier = PlanTier {
   -- | flat_amount: Price for the entire tier.
   planTierFlatAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | flat_amount_decimal: Same as \`flat_amount\`, but contains a decimal value with at most 12 decimal places.
-  , planTierFlatAmountDecimal :: (GHC.Maybe.Maybe GHC.Base.String)
+  , planTierFlatAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | unit_amount: Per unit price for units relevant to the tier.
   , planTierUnitAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | unit_amount_decimal: Same as \`unit_amount\`, but contains a decimal value with at most 12 decimal places.
-  , planTierUnitAmountDecimal :: (GHC.Maybe.Maybe GHC.Base.String)
+  , planTierUnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | up_to: Up to and including to this quantity will be contained in the tier.
   , planTierUpTo :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   } deriving (GHC.Show.Show

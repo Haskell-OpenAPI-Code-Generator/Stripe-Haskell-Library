@@ -39,7 +39,7 @@ data IssuingCardholderAddress = IssuingCardholderAddress {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuingCardholderAddressName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , issuingCardholderAddressName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON IssuingCardholderAddress

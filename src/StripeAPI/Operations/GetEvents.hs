@@ -44,14 +44,14 @@ import StripeAPI.Types
 -- 
 -- \<p>List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in \<a href=\"\/docs\/api\/events\/object\">event object\<\/a> \<code>api_version\<\/code> attribute (not according to your current Stripe API version or \<code>Stripe-Version\<\/code> header).\<\/p>
 getEvents :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ created
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                               -- ^ created
   -> GHC.Maybe.Maybe GHC.Types.Bool                                                                                        -- ^ delivery_success: Filter events by whether all webhooks were successfully delivered. If false, events which are still pending or have failed all delivery attempts to a webhook endpoint will be returned.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                               -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                               -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                              -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ type: A string containing a specific event name, or group of events using * as a wildcard. The list will be filtered to include only events with a matching event property. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ types: An array of up to 20 strings containing specific event names. The list will be filtered to include only events with a matching event property. You may pass either \`type\` or \`types\`, but not both.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                               -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                               -- ^ type: A string containing a specific event name, or group of events using * as a wildcard. The list will be filtered to include only events with a matching event property. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                               -- ^ types: An array of up to 20 strings containing specific event names. The list will be filtered to include only events with a matching event property. You may pass either \`type\` or \`types\`, but not both.
   -> GHC.Maybe.Maybe GetEventsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetEventsResponse)) -- ^ Monad containing the result of the operation
 getEvents config
@@ -144,14 +144,14 @@ getEvents config
 getEventsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                               StripeAPI.Common.SecurityScheme s) =>
                 StripeAPI.Common.Configuration s ->
-                GHC.Maybe.Maybe GHC.Base.String ->
+                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                 GHC.Maybe.Maybe GHC.Types.Bool ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GHC.Maybe.Maybe GHC.Base.String ->
+                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                 GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GHC.Maybe.Maybe GHC.Base.String ->
+                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                 GHC.Maybe.Maybe GetEventsRequestBody ->
                 m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                       (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -240,14 +240,14 @@ getEventsRaw config
 -- Monadic version of 'getEvents' (use with 'StripeAPI.Common.runWithConfiguration')
 getEventsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                             StripeAPI.Common.SecurityScheme s) =>
-              GHC.Maybe.Maybe GHC.Base.String ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
               GHC.Maybe.Maybe GHC.Types.Bool ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
               GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
               GHC.Maybe.Maybe GetEventsRequestBody ->
               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                  m
@@ -341,14 +341,14 @@ getEventsM created
 -- Monadic version of 'getEventsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getEventsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
-                 GHC.Maybe.Maybe GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GHC.Types.Bool ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GetEventsRequestBody ->
                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                     m
@@ -469,7 +469,7 @@ data GetEventsResponseBody200 = GetEventsResponseBody200 {
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/events\'
-  , getEventsResponseBody200Url :: GHC.Base.String
+  , getEventsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetEventsResponseBody200
@@ -482,7 +482,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetEventsResponseBody200
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetEventsResponseBody200Object'
     = GetEventsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetEventsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetEventsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetEventsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetEventsResponseBody200Object'

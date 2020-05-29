@@ -100,7 +100,7 @@ data PostCheckoutSessionsRequestBody = PostCheckoutSessionsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyCancelUrl :: GHC.Base.String
+  , postCheckoutSessionsRequestBodyCancelUrl :: Data.Text.Internal.Text
   -- | client_reference_id: A unique string to reference the Checkout Session. This can be a
   -- customer ID, a cart ID, or similar, and can be used to reconcile the
   -- session with your internal systems.
@@ -108,7 +108,7 @@ data PostCheckoutSessionsRequestBody = PostCheckoutSessionsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 200
-  , postCheckoutSessionsRequestBodyClientReferenceId :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyClientReferenceId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer: ID of an existing customer, if one exists. Only supported for Checkout
   -- Sessions in \`payment\` or \`subscription\` mode, but not Checkout Sessions
   -- in \`setup\` mode. The email stored on the customer will be used to prefill
@@ -122,15 +122,15 @@ data PostCheckoutSessionsRequestBody = PostCheckoutSessionsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer_email: If provided, this value will be used when the Customer object is created.
   -- If not provided, customers will be asked to enter their email address.
   -- Use this parameter to prefill customer data if you already have an email
   -- on file. To access information about the customer once a session is
   -- complete, use the \`customer\` field.
-  , postCheckoutSessionsRequestBodyCustomerEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyCustomerEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postCheckoutSessionsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCheckoutSessionsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | line_items: A list of items the customer is purchasing. Use this parameter for
   -- one-time payments or adding invoice line items to a subscription (used
   -- in conjunction with \`subscription_data\`).
@@ -164,7 +164,7 @@ data PostCheckoutSessionsRequestBody = PostCheckoutSessionsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodySuccessUrl :: GHC.Base.String
+  , postCheckoutSessionsRequestBodySuccessUrl :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCheckoutSessionsRequestBody
@@ -177,7 +177,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBody
 -- Specify whether Checkout should collect the customer\'s billing address.
 data PostCheckoutSessionsRequestBodyBillingAddressCollection'
     = PostCheckoutSessionsRequestBodyBillingAddressCollection'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCheckoutSessionsRequestBodyBillingAddressCollection'EnumTyped GHC.Base.String
+    | PostCheckoutSessionsRequestBodyBillingAddressCollection'EnumTyped Data.Text.Internal.Text
     | PostCheckoutSessionsRequestBodyBillingAddressCollection'EnumStringAuto
     | PostCheckoutSessionsRequestBodyBillingAddressCollection'EnumStringRequired
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -199,25 +199,25 @@ data PostCheckoutSessionsRequestBodyLineItems' = PostCheckoutSessionsRequestBody
   -- | amount
   postCheckoutSessionsRequestBodyLineItems'Amount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | currency
-  , postCheckoutSessionsRequestBodyLineItems'Currency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyLineItems'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | description
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyLineItems'Description :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyLineItems'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | images
-  , postCheckoutSessionsRequestBodyLineItems'Images :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCheckoutSessionsRequestBodyLineItems'Images :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | name
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyLineItems'Name :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyLineItems'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | quantity
   , postCheckoutSessionsRequestBodyLineItems'Quantity :: GHC.Integer.Type.Integer
   -- | tax_rates
-  , postCheckoutSessionsRequestBodyLineItems'TaxRates :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCheckoutSessionsRequestBodyLineItems'TaxRates :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCheckoutSessionsRequestBodyLineItems'
@@ -230,7 +230,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyLineI
 -- The IETF language tag of the locale Checkout is displayed in. If blank or \`auto\`, the browser\'s locale is used.
 data PostCheckoutSessionsRequestBodyLocale'
     = PostCheckoutSessionsRequestBodyLocale'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCheckoutSessionsRequestBodyLocale'EnumTyped GHC.Base.String
+    | PostCheckoutSessionsRequestBodyLocale'EnumTyped Data.Text.Internal.Text
     | PostCheckoutSessionsRequestBodyLocale'EnumStringAuto
     | PostCheckoutSessionsRequestBodyLocale'EnumStringDa
     | PostCheckoutSessionsRequestBodyLocale'EnumStringDe
@@ -318,7 +318,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyMetad
 -- The mode of the Checkout Session, one of \`payment\`, \`setup\`, or \`subscription\`.
 data PostCheckoutSessionsRequestBodyMode'
     = PostCheckoutSessionsRequestBodyMode'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCheckoutSessionsRequestBodyMode'EnumTyped GHC.Base.String
+    | PostCheckoutSessionsRequestBodyMode'EnumTyped Data.Text.Internal.Text
     | PostCheckoutSessionsRequestBodyMode'EnumStringPayment
     | PostCheckoutSessionsRequestBodyMode'EnumStringSetup
     | PostCheckoutSessionsRequestBodyMode'EnumStringSubscription
@@ -350,17 +350,17 @@ data PostCheckoutSessionsRequestBodyPaymentIntentData' = PostCheckoutSessionsReq
   -- Constraints:
   -- 
   -- * Maximum length of 1000
-  , postCheckoutSessionsRequestBodyPaymentIntentData'Description :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyPaymentIntentData'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata
   , postCheckoutSessionsRequestBodyPaymentIntentData'Metadata :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentIntentData'Metadata')
   -- | on_behalf_of
-  , postCheckoutSessionsRequestBodyPaymentIntentData'OnBehalfOf :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyPaymentIntentData'OnBehalfOf :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | receipt_email
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyPaymentIntentData'ReceiptEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyPaymentIntentData'ReceiptEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | setup_future_usage
   , postCheckoutSessionsRequestBodyPaymentIntentData'SetupFutureUsage :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentIntentData'SetupFutureUsage')
   -- | shipping
@@ -370,13 +370,13 @@ data PostCheckoutSessionsRequestBodyPaymentIntentData' = PostCheckoutSessionsReq
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postCheckoutSessionsRequestBodyPaymentIntentData'StatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyPaymentIntentData'StatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor_suffix
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postCheckoutSessionsRequestBodyPaymentIntentData'StatementDescriptorSuffix :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyPaymentIntentData'StatementDescriptorSuffix :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | transfer_data
   , postCheckoutSessionsRequestBodyPaymentIntentData'TransferData :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentIntentData'TransferData')
   } deriving (GHC.Show.Show
@@ -391,7 +391,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
 -- 
 data PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'
     = PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumTyped GHC.Base.String
+    | PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumTyped Data.Text.Internal.Text
     | PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumStringAutomatic
     | PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumStringManual
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -423,7 +423,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
 -- 
 data PostCheckoutSessionsRequestBodyPaymentIntentData'SetupFutureUsage'
     = PostCheckoutSessionsRequestBodyPaymentIntentData'SetupFutureUsage'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCheckoutSessionsRequestBodyPaymentIntentData'SetupFutureUsage'EnumTyped GHC.Base.String
+    | PostCheckoutSessionsRequestBodyPaymentIntentData'SetupFutureUsage'EnumTyped Data.Text.Internal.Text
     | PostCheckoutSessionsRequestBodyPaymentIntentData'SetupFutureUsage'EnumStringOffSession
     | PostCheckoutSessionsRequestBodyPaymentIntentData'SetupFutureUsage'EnumStringOnSession
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -449,25 +449,25 @@ data PostCheckoutSessionsRequestBodyPaymentIntentData'Shipping' = PostCheckoutSe
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Carrier :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Carrier :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Name :: GHC.Base.String
+  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Name :: Data.Text.Internal.Text
   -- | phone
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Phone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tracking_number
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'TrackingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'TrackingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCheckoutSessionsRequestBodyPaymentIntentData'Shipping'
@@ -484,37 +484,37 @@ data PostCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address' = PostCh
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address'Line1 :: GHC.Base.String
+  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address'Line1 :: Data.Text.Internal.Text
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCheckoutSessionsRequestBodyPaymentIntentData'Shipping'Address'
@@ -529,7 +529,7 @@ data PostCheckoutSessionsRequestBodyPaymentIntentData'TransferData' = PostChecko
   -- | amount
   postCheckoutSessionsRequestBodyPaymentIntentData'TransferData'Amount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | destination
-  , postCheckoutSessionsRequestBodyPaymentIntentData'TransferData'Destination :: GHC.Base.String
+  , postCheckoutSessionsRequestBodyPaymentIntentData'TransferData'Destination :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCheckoutSessionsRequestBodyPaymentIntentData'TransferData'
@@ -542,7 +542,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
 -- 
 data PostCheckoutSessionsRequestBodyPaymentMethodTypes'
     = PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumTyped GHC.Base.String
+    | PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumTyped Data.Text.Internal.Text
     | PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumStringCard
     | PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumStringFpx
     | PostCheckoutSessionsRequestBodyPaymentMethodTypes'EnumStringIdeal
@@ -570,11 +570,11 @@ data PostCheckoutSessionsRequestBodySetupIntentData' = PostCheckoutSessionsReque
   -- Constraints:
   -- 
   -- * Maximum length of 1000
-  postCheckoutSessionsRequestBodySetupIntentData'Description :: (GHC.Maybe.Maybe GHC.Base.String)
+  postCheckoutSessionsRequestBodySetupIntentData'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata
   , postCheckoutSessionsRequestBodySetupIntentData'Metadata :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodySetupIntentData'Metadata')
   -- | on_behalf_of
-  , postCheckoutSessionsRequestBodySetupIntentData'OnBehalfOf :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCheckoutSessionsRequestBodySetupIntentData'OnBehalfOf :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCheckoutSessionsRequestBodySetupIntentData'
@@ -602,7 +602,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodySetup
 -- in \`subscription\` or \`setup\` mode.
 data PostCheckoutSessionsRequestBodySubmitType'
     = PostCheckoutSessionsRequestBodySubmitType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCheckoutSessionsRequestBodySubmitType'EnumTyped GHC.Base.String
+    | PostCheckoutSessionsRequestBodySubmitType'EnumTyped Data.Text.Internal.Text
     | PostCheckoutSessionsRequestBodySubmitType'EnumStringAuto
     | PostCheckoutSessionsRequestBodySubmitType'EnumStringBook
     | PostCheckoutSessionsRequestBodySubmitType'EnumStringDonate
@@ -632,7 +632,7 @@ data PostCheckoutSessionsRequestBodySubscriptionData' = PostCheckoutSessionsRequ
   -- | application_fee_percent
   postCheckoutSessionsRequestBodySubscriptionData'ApplicationFeePercent :: (GHC.Maybe.Maybe GHC.Types.Double)
   -- | default_tax_rates
-  , postCheckoutSessionsRequestBodySubscriptionData'DefaultTaxRates :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCheckoutSessionsRequestBodySubscriptionData'DefaultTaxRates :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | items
   , postCheckoutSessionsRequestBodySubscriptionData'Items :: (GHC.Maybe.Maybe ([] PostCheckoutSessionsRequestBodySubscriptionData'Items'))
   -- | metadata
@@ -659,11 +659,11 @@ data PostCheckoutSessionsRequestBodySubscriptionData'Items' = PostCheckoutSessio
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postCheckoutSessionsRequestBodySubscriptionData'Items'Plan :: GHC.Base.String
+  postCheckoutSessionsRequestBodySubscriptionData'Items'Plan :: Data.Text.Internal.Text
   -- | quantity
   , postCheckoutSessionsRequestBodySubscriptionData'Items'Quantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | tax_rates
-  , postCheckoutSessionsRequestBodySubscriptionData'Items'TaxRates :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCheckoutSessionsRequestBodySubscriptionData'Items'TaxRates :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCheckoutSessionsRequestBodySubscriptionData'Items'

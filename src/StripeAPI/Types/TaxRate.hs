@@ -42,19 +42,19 @@ data TaxRate = TaxRate {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , taxRateDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , taxRateDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | display_name: The display name of the tax rates as it will appear to your customer on their receipt email, PDF, and the hosted invoice page.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , taxRateDisplayName :: GHC.Base.String
+  , taxRateDisplayName :: Data.Text.Internal.Text
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , taxRateId :: GHC.Base.String
+  , taxRateId :: Data.Text.Internal.Text
   -- | inclusive: This specifies if the tax rate is inclusive or exclusive.
   , taxRateInclusive :: GHC.Types.Bool
   -- | jurisdiction: The jurisdiction for the tax rate.
@@ -62,7 +62,7 @@ data TaxRate = TaxRate {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , taxRateJurisdiction :: (GHC.Maybe.Maybe GHC.Base.String)
+  , taxRateJurisdiction :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , taxRateLivemode :: GHC.Types.Bool
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -95,7 +95,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON TaxRateMetadata'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data TaxRateObject'
     = TaxRateObject'EnumOther Data.Aeson.Types.Internal.Value
-    | TaxRateObject'EnumTyped GHC.Base.String
+    | TaxRateObject'EnumTyped Data.Text.Internal.Text
     | TaxRateObject'EnumStringTaxRate
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON TaxRateObject'

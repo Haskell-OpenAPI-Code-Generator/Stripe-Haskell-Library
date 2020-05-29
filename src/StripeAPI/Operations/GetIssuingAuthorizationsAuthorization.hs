@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves an Issuing \<code>Authorization\<\/code> object.\<\/p>
 getIssuingAuthorizationsAuthorization :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                   -- ^ authorization | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                   -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                           -- ^ authorization | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                           -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetIssuingAuthorizationsAuthorizationRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingAuthorizationsAuthorizationResponse)) -- ^ Monad containing the result of the operation
 getIssuingAuthorizationsAuthorization config
@@ -68,8 +68,8 @@ getIssuingAuthorizationsAuthorization config
 getIssuingAuthorizationsAuthorizationRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                           StripeAPI.Common.SecurityScheme s) =>
                                             StripeAPI.Common.Configuration s ->
-                                            GHC.Base.String ->
-                                            GHC.Maybe.Maybe GHC.Base.String ->
+                                            Data.Text.Internal.Text ->
+                                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                             GHC.Maybe.Maybe GetIssuingAuthorizationsAuthorizationRequestBody ->
                                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getIssuingAuthorizationsAuthorizationRaw config
 -- Monadic version of 'getIssuingAuthorizationsAuthorization' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingAuthorizationsAuthorizationM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
-                                          GHC.Base.String ->
-                                          GHC.Maybe.Maybe GHC.Base.String ->
+                                          Data.Text.Internal.Text ->
+                                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                           GHC.Maybe.Maybe GetIssuingAuthorizationsAuthorizationRequestBody ->
                                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                              m
@@ -113,8 +113,8 @@ getIssuingAuthorizationsAuthorizationM authorization
 -- Monadic version of 'getIssuingAuthorizationsAuthorizationRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingAuthorizationsAuthorizationRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
-                                             GHC.Base.String ->
-                                             GHC.Maybe.Maybe GHC.Base.String ->
+                                             Data.Text.Internal.Text ->
+                                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                              GHC.Maybe.Maybe GetIssuingAuthorizationsAuthorizationRequestBody ->
                                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                 m

@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Removes the currently applied discount on a customer.\<\/p>
 deleteCustomersCustomerDiscount :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                             -- ^ customer | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                     -- ^ customer | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteCustomersCustomerDiscountRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteCustomersCustomerDiscountResponse)) -- ^ Monad containing the result of the operation
 deleteCustomersCustomerDiscount config
@@ -60,7 +60,7 @@ deleteCustomersCustomerDiscount config
 deleteCustomersCustomerDiscountRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
                                       StripeAPI.Common.Configuration s ->
-                                      GHC.Base.String ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe DeleteCustomersCustomerDiscountRequestBody ->
                                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteCustomersCustomerDiscountRaw config
 -- Monadic version of 'deleteCustomersCustomerDiscount' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteCustomersCustomerDiscountM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe DeleteCustomersCustomerDiscountRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m
@@ -89,7 +89,7 @@ deleteCustomersCustomerDiscountM customer
 -- Monadic version of 'deleteCustomersCustomerDiscountRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteCustomersCustomerDiscountRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
-                                       GHC.Base.String ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe DeleteCustomersCustomerDiscountRequestBody ->
                                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                           m

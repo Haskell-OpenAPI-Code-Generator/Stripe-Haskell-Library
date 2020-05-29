@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Approves a \<code>Review\<\/code> object, closing it and removing it from the list of reviews.\<\/p>
 postReviewsReviewApprove :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                      -- ^ review | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                              -- ^ review | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostReviewsReviewApproveRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostReviewsReviewApproveResponse)) -- ^ Monad containing the result of the operation
 postReviewsReviewApprove config
@@ -60,7 +60,7 @@ postReviewsReviewApprove config
 postReviewsReviewApproveRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                StripeAPI.Common.Configuration s ->
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe PostReviewsReviewApproveRequestBody ->
                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postReviewsReviewApproveRaw config
 -- Monadic version of 'postReviewsReviewApprove' (use with 'StripeAPI.Common.runWithConfiguration')
 postReviewsReviewApproveM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe PostReviewsReviewApproveRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m
@@ -89,7 +89,7 @@ postReviewsReviewApproveM review
 -- Monadic version of 'postReviewsReviewApproveRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postReviewsReviewApproveRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe PostReviewsReviewApproveRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -102,7 +102,7 @@ postReviewsReviewApproveRawM review
 -- 
 data PostReviewsReviewApproveRequestBody = PostReviewsReviewApproveRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postReviewsReviewApproveRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postReviewsReviewApproveRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostReviewsReviewApproveRequestBody

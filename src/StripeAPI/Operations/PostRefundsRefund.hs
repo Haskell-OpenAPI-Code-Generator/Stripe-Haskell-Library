@@ -46,7 +46,7 @@ import StripeAPI.Types
 -- 
 -- \<p>This request only accepts \<code>metadata\<\/code> as an argument.\<\/p>
 postRefundsRefund :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                               -- ^ refund
+  -> Data.Text.Internal.Text                                                                                                       -- ^ refund
   -> GHC.Maybe.Maybe PostRefundsRefundRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostRefundsRefundResponse)) -- ^ Monad containing the result of the operation
 postRefundsRefund config
@@ -62,7 +62,7 @@ postRefundsRefund config
 postRefundsRefundRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         StripeAPI.Common.Configuration s ->
-                        GHC.Base.String ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe PostRefundsRefundRequestBody ->
                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -74,7 +74,7 @@ postRefundsRefundRaw config
 -- Monadic version of 'postRefundsRefund' (use with 'StripeAPI.Common.runWithConfiguration')
 postRefundsRefundM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
-                      GHC.Base.String ->
+                      Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe PostRefundsRefundRequestBody ->
                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                          m
@@ -91,7 +91,7 @@ postRefundsRefundM refund
 -- Monadic version of 'postRefundsRefundRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postRefundsRefundRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
-                         GHC.Base.String ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe PostRefundsRefundRequestBody ->
                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                             m
@@ -104,7 +104,7 @@ postRefundsRefundRawM refund
 -- 
 data PostRefundsRefundRequestBody = PostRefundsRefundRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postRefundsRefundRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postRefundsRefundRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postRefundsRefundRequestBodyMetadata :: (GHC.Maybe.Maybe PostRefundsRefundRequestBodyMetadata')
   } deriving (GHC.Show.Show

@@ -32,25 +32,25 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeMultibanco = SourceTypeMultibanco {
   -- | entity
-  sourceTypeMultibancoEntity :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeMultibancoEntity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | reference
-  , sourceTypeMultibancoReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeMultibancoReference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_account_holder_address_city
-  , sourceTypeMultibancoRefundAccountHolderAddressCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeMultibancoRefundAccountHolderAddressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_account_holder_address_country
-  , sourceTypeMultibancoRefundAccountHolderAddressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeMultibancoRefundAccountHolderAddressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_account_holder_address_line1
-  , sourceTypeMultibancoRefundAccountHolderAddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeMultibancoRefundAccountHolderAddressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_account_holder_address_line2
-  , sourceTypeMultibancoRefundAccountHolderAddressLine2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeMultibancoRefundAccountHolderAddressLine2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_account_holder_address_postal_code
-  , sourceTypeMultibancoRefundAccountHolderAddressPostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeMultibancoRefundAccountHolderAddressPostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_account_holder_address_state
-  , sourceTypeMultibancoRefundAccountHolderAddressState :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeMultibancoRefundAccountHolderAddressState :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_account_holder_name
-  , sourceTypeMultibancoRefundAccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeMultibancoRefundAccountHolderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_iban
-  , sourceTypeMultibancoRefundIban :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeMultibancoRefundIban :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeMultibanco

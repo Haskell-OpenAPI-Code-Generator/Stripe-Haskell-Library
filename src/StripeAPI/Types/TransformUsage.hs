@@ -47,7 +47,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON TransformUsage
 -- After division, either round the result \`up\` or \`down\`.
 data TransformUsageRound'
     = TransformUsageRound'EnumOther Data.Aeson.Types.Internal.Value
-    | TransformUsageRound'EnumTyped GHC.Base.String
+    | TransformUsageRound'EnumTyped Data.Text.Internal.Text
     | TransformUsageRound'EnumStringDown
     | TransformUsageRound'EnumStringUp
     deriving (GHC.Show.Show, GHC.Classes.Eq)

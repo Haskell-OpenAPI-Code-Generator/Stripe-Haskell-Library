@@ -38,13 +38,13 @@ data TaxIdVerification = TaxIdVerification {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , taxIdVerificationVerifiedAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  , taxIdVerificationVerifiedAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | verified_name: Verified name.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , taxIdVerificationVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , taxIdVerificationVerifiedName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON TaxIdVerification
@@ -57,7 +57,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON TaxIdVerification
 -- Verification status, one of \`pending\`, \`verified\`, \`unverified\`, or \`unavailable\`.
 data TaxIdVerificationStatus'
     = TaxIdVerificationStatus'EnumOther Data.Aeson.Types.Internal.Value
-    | TaxIdVerificationStatus'EnumTyped GHC.Base.String
+    | TaxIdVerificationStatus'EnumTyped Data.Text.Internal.Text
     | TaxIdVerificationStatus'EnumStringPending
     | TaxIdVerificationStatus'EnumStringUnavailable
     | TaxIdVerificationStatus'EnumStringUnverified

@@ -38,13 +38,13 @@ data BitcoinTransaction = BitcoinTransaction {
   -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
   , bitcoinTransactionCreated :: GHC.Integer.Type.Integer
   -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/currencies) to which this transaction was converted.
-  , bitcoinTransactionCurrency :: GHC.Base.String
+  , bitcoinTransactionCurrency :: Data.Text.Internal.Text
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , bitcoinTransactionId :: GHC.Base.String
+  , bitcoinTransactionId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , bitcoinTransactionObject :: BitcoinTransactionObject'
   -- | receiver: The receiver to which this transaction was sent.
@@ -52,7 +52,7 @@ data BitcoinTransaction = BitcoinTransaction {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , bitcoinTransactionReceiver :: GHC.Base.String
+  , bitcoinTransactionReceiver :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON BitcoinTransaction
@@ -65,7 +65,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON BitcoinTransaction
 -- String representing the object\'s type. Objects of the same type share the same value.
 data BitcoinTransactionObject'
     = BitcoinTransactionObject'EnumOther Data.Aeson.Types.Internal.Value
-    | BitcoinTransactionObject'EnumTyped GHC.Base.String
+    | BitcoinTransactionObject'EnumTyped Data.Text.Internal.Text
     | BitcoinTransactionObject'EnumStringBitcoinTransaction
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON BitcoinTransactionObject'

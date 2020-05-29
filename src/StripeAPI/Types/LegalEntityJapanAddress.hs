@@ -36,43 +36,43 @@ data LegalEntityJapanAddress = LegalEntityJapanAddress {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  legalEntityJapanAddressCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  legalEntityJapanAddressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , legalEntityJapanAddressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , legalEntityJapanAddressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1: Block\/Building number.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , legalEntityJapanAddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , legalEntityJapanAddressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line2: Building details.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , legalEntityJapanAddressLine2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , legalEntityJapanAddressLine2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code: ZIP or postal code.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , legalEntityJapanAddressPostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , legalEntityJapanAddressPostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state: Prefecture.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , legalEntityJapanAddressState :: (GHC.Maybe.Maybe GHC.Base.String)
+  , legalEntityJapanAddressState :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | town: Town\/cho-me.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , legalEntityJapanAddressTown :: (GHC.Maybe.Maybe GHC.Base.String)
+  , legalEntityJapanAddressTown :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON LegalEntityJapanAddress

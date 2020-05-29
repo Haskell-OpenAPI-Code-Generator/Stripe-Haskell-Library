@@ -42,7 +42,7 @@ data MandatePaymentMethodDetails = MandatePaymentMethodDetails {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , mandatePaymentMethodDetailsType :: GHC.Base.String
+  , mandatePaymentMethodDetailsType :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON MandatePaymentMethodDetails

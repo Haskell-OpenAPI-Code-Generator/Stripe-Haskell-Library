@@ -100,9 +100,9 @@ data PutAccountLogoutRequestBody = PutAccountLogoutRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  putAccountLogoutRequestBodyAccount :: GHC.Base.String
+  putAccountLogoutRequestBodyAccount :: Data.Text.Internal.Text
   -- | expand: Specifies which fields in the response should be expanded.
-  , putAccountLogoutRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , putAccountLogoutRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PutAccountLogoutRequestBody

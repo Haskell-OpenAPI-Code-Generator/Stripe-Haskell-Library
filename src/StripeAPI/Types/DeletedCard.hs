@@ -36,7 +36,7 @@ data DeletedCard = DeletedCard {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  deletedCardCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  deletedCardCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | deleted: Always true for a deleted object
   , deletedCardDeleted :: DeletedCardDeleted'
   -- | id: Unique identifier for the object.
@@ -44,7 +44,7 @@ data DeletedCard = DeletedCard {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedCardId :: GHC.Base.String
+  , deletedCardId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedCardObject :: DeletedCardObject'
   } deriving (GHC.Show.Show
@@ -75,7 +75,7 @@ instance Data.Aeson.FromJSON DeletedCardDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedCardObject'
     = DeletedCardObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedCardObject'EnumTyped GHC.Base.String
+    | DeletedCardObject'EnumTyped Data.Text.Internal.Text
     | DeletedCardObject'EnumStringCard
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedCardObject'

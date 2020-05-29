@@ -41,7 +41,7 @@ data IssuingAuthorizationRequest = IssuingAuthorizationRequest {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuingAuthorizationRequestAuthorizedCurrency :: GHC.Base.String
+  , issuingAuthorizationRequestAuthorizedCurrency :: Data.Text.Internal.Text
   -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
   , issuingAuthorizationRequestCreated :: GHC.Integer.Type.Integer
   -- | held_amount: The amount Stripe held from your account to fund the authorization, if the request was approved
@@ -51,7 +51,7 @@ data IssuingAuthorizationRequest = IssuingAuthorizationRequest {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuingAuthorizationRequestHeldCurrency :: GHC.Base.String
+  , issuingAuthorizationRequestHeldCurrency :: Data.Text.Internal.Text
   -- | reason: The reason for the approval or decline.
   , issuingAuthorizationRequestReason :: IssuingAuthorizationRequestReason'
   -- | violated_authorization_controls: When an authorization is declined due to \`authorization_controls\`, this array contains details about the authorization controls that were violated. Otherwise, it is empty.
@@ -68,7 +68,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationRequest
 -- The reason for the approval or decline.
 data IssuingAuthorizationRequestReason'
     = IssuingAuthorizationRequestReason'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingAuthorizationRequestReason'EnumTyped GHC.Base.String
+    | IssuingAuthorizationRequestReason'EnumTyped Data.Text.Internal.Text
     | IssuingAuthorizationRequestReason'EnumStringAccountComplianceDisabled
     | IssuingAuthorizationRequestReason'EnumStringAccountInactive
     | IssuingAuthorizationRequestReason'EnumStringAuthenticationFailed

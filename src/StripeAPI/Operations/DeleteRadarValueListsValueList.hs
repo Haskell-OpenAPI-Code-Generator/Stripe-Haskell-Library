@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Deletes a \<code>ValueList\<\/code> object, also deleting any items contained within the value list. To be deleted, a value list must not be referenced in any rules.\<\/p>
 deleteRadarValueListsValueList :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                            -- ^ value_list | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                    -- ^ value_list | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteRadarValueListsValueListRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteRadarValueListsValueListResponse)) -- ^ Monad containing the result of the operation
 deleteRadarValueListsValueList config
@@ -60,7 +60,7 @@ deleteRadarValueListsValueList config
 deleteRadarValueListsValueListRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
                                      StripeAPI.Common.Configuration s ->
-                                     GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe DeleteRadarValueListsValueListRequestBody ->
                                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                            (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteRadarValueListsValueListRaw config
 -- Monadic version of 'deleteRadarValueListsValueList' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteRadarValueListsValueListM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe DeleteRadarValueListsValueListRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m
@@ -89,7 +89,7 @@ deleteRadarValueListsValueListM valueList
 -- Monadic version of 'deleteRadarValueListsValueListRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteRadarValueListsValueListRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
-                                      GHC.Base.String ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe DeleteRadarValueListsValueListRequestBody ->
                                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                          m

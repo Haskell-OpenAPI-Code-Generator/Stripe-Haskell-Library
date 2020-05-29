@@ -39,25 +39,25 @@ data Shipping = Shipping {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , shippingCarrier :: (GHC.Maybe.Maybe GHC.Base.String)
+  , shippingCarrier :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name: Recipient name.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , shippingName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , shippingName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | phone: Recipient phone (including extension).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , shippingPhone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , shippingPhone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tracking_number: The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , shippingTrackingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , shippingTrackingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Shipping

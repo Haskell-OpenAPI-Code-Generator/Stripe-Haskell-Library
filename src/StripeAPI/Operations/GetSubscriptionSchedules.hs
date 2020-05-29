@@ -44,16 +44,16 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the list of your subscription schedules.\<\/p>
 getSubscriptionSchedules :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ canceled_at: Only return subscription schedules that were created canceled the given date interval.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ completed_at: Only return subscription schedules that completed during the given date interval.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ created: Only return subscription schedules that were created during the given date interval.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ customer: Only return subscription schedules for the given customer. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ canceled_at: Only return subscription schedules that were created canceled the given date interval.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ completed_at: Only return subscription schedules that completed during the given date interval.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ created: Only return subscription schedules that were created during the given date interval.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ customer: Only return subscription schedules for the given customer. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                             -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ released_at: Only return subscription schedules that were released during the given date interval.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ released_at: Only return subscription schedules that were released during the given date interval.
   -> GHC.Maybe.Maybe GHC.Types.Bool                                                                                                       -- ^ scheduled: Only return subscription schedules that have not started yet.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetSubscriptionSchedulesRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSubscriptionSchedulesResponse)) -- ^ Monad containing the result of the operation
 getSubscriptionSchedules config
@@ -174,16 +174,16 @@ getSubscriptionSchedules config
 getSubscriptionSchedulesRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                StripeAPI.Common.Configuration s ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GHC.Types.Bool ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GetSubscriptionSchedulesRequestBody ->
                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -300,16 +300,16 @@ getSubscriptionSchedulesRaw config
 -- Monadic version of 'getSubscriptionSchedules' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionSchedulesM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GHC.Types.Bool ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GetSubscriptionSchedulesRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m
@@ -431,16 +431,16 @@ getSubscriptionSchedulesM canceledAt
 -- Monadic version of 'getSubscriptionSchedulesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionSchedulesRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GHC.Types.Bool ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GetSubscriptionSchedulesRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -589,7 +589,7 @@ data GetSubscriptionSchedulesResponseBody200 = GetSubscriptionSchedulesResponseB
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/subscription_schedules\'
-  , getSubscriptionSchedulesResponseBody200Url :: GHC.Base.String
+  , getSubscriptionSchedulesResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSubscriptionSchedulesResponseBody200
@@ -602,7 +602,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesResponseBody
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetSubscriptionSchedulesResponseBody200Object'
     = GetSubscriptionSchedulesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetSubscriptionSchedulesResponseBody200Object'EnumTyped GHC.Base.String
+    | GetSubscriptionSchedulesResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetSubscriptionSchedulesResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSubscriptionSchedulesResponseBody200Object'

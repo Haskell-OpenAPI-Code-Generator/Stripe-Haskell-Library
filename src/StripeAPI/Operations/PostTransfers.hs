@@ -96,21 +96,21 @@ data PostTransfersRequestBody = PostTransfersRequestBody {
   -- | amount: A positive integer in %s representing how much to transfer.
   postTransfersRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | currency: 3-letter [ISO code for currency](https:\/\/stripe.com\/docs\/payouts).
-  , postTransfersRequestBodyCurrency :: GHC.Base.String
+  , postTransfersRequestBodyCurrency :: Data.Text.Internal.Text
   -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTransfersRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTransfersRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | destination: The ID of a connected Stripe account. \<a href=\"\/docs\/connect\/charges-transfers\">See the Connect documentation\<\/a> for details.
-  , postTransfersRequestBodyDestination :: GHC.Base.String
+  , postTransfersRequestBodyDestination :: Data.Text.Internal.Text
   -- | expand: Specifies which fields in the response should be expanded.
-  , postTransfersRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postTransfersRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postTransfersRequestBodyMetadata :: (GHC.Maybe.Maybe PostTransfersRequestBodyMetadata')
   -- | source_transaction: You can use this parameter to transfer funds from a charge before they are added to your available balance. A pending balance will transfer immediately but the funds will not become available until the original charge becomes available. [See the Connect documentation](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#transfer-availability) for details.
-  , postTransfersRequestBodySourceTransaction :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTransfersRequestBodySourceTransaction :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | source_type: The source balance to use for this transfer. One of \`bank_account\`, \`card\`, or \`fpx\`. For most users, this will default to \`card\`.
   -- 
   -- Constraints:
@@ -118,7 +118,7 @@ data PostTransfersRequestBody = PostTransfersRequestBody {
   -- * Maximum length of 5000
   , postTransfersRequestBodySourceType :: (GHC.Maybe.Maybe PostTransfersRequestBodySourceType')
   -- | transfer_group: A string that identifies this transaction as part of a group. See the [Connect documentation](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#transfer-options) for details.
-  , postTransfersRequestBodyTransferGroup :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTransfersRequestBodyTransferGroup :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostTransfersRequestBody
@@ -143,7 +143,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostTransfersRequestBodyMetadata'
 -- The source balance to use for this transfer. One of \`bank_account\`, \`card\`, or \`fpx\`. For most users, this will default to \`card\`.
 data PostTransfersRequestBodySourceType'
     = PostTransfersRequestBodySourceType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostTransfersRequestBodySourceType'EnumTyped GHC.Base.String
+    | PostTransfersRequestBodySourceType'EnumTyped Data.Text.Internal.Text
     | PostTransfersRequestBodySourceType'EnumStringBankAccount
     | PostTransfersRequestBodySourceType'EnumStringCard
     | PostTransfersRequestBodySourceType'EnumStringFpx

@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates an existing tax rate.\<\/p>
 postTaxRatesTaxRate :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                 -- ^ tax_rate | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                         -- ^ tax_rate | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostTaxRatesTaxRateRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostTaxRatesTaxRateResponse)) -- ^ Monad containing the result of the operation
 postTaxRatesTaxRate config
@@ -60,7 +60,7 @@ postTaxRatesTaxRate config
 postTaxRatesTaxRateRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           StripeAPI.Common.Configuration s ->
-                          GHC.Base.String ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe PostTaxRatesTaxRateRequestBody ->
                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                 (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postTaxRatesTaxRateRaw config
 -- Monadic version of 'postTaxRatesTaxRate' (use with 'StripeAPI.Common.runWithConfiguration')
 postTaxRatesTaxRateM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Base.String ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe PostTaxRatesTaxRateRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m
@@ -89,7 +89,7 @@ postTaxRatesTaxRateM taxRate
 -- Monadic version of 'postTaxRatesTaxRateRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postTaxRatesTaxRateRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Base.String ->
+                           Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe PostTaxRatesTaxRateRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m
@@ -108,21 +108,21 @@ data PostTaxRatesTaxRateRequestBody = PostTaxRatesTaxRateRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTaxRatesTaxRateRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTaxRatesTaxRateRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | display_name: The display name of the tax rate, which will be shown to users.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 50
-  , postTaxRatesTaxRateRequestBodyDisplayName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTaxRatesTaxRateRequestBodyDisplayName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postTaxRatesTaxRateRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postTaxRatesTaxRateRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | jurisdiction: The jurisdiction for the tax rate.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 50
-  , postTaxRatesTaxRateRequestBodyJurisdiction :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTaxRatesTaxRateRequestBodyJurisdiction :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postTaxRatesTaxRateRequestBodyMetadata :: (GHC.Maybe.Maybe PostTaxRatesTaxRateRequestBodyMetadata')
   } deriving (GHC.Show.Show

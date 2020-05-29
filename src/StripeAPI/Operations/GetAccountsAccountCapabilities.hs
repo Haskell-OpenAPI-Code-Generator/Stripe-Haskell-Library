@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a list of capabilities associated with the account. The capabilities are returned sorted by creation date, with the most recent capability appearing first.\<\/p>
 getAccountsAccountCapabilities :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                            -- ^ account | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                            -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                    -- ^ account | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                    -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetAccountsAccountCapabilitiesRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetAccountsAccountCapabilitiesResponse)) -- ^ Monad containing the result of the operation
 getAccountsAccountCapabilities config
@@ -68,8 +68,8 @@ getAccountsAccountCapabilities config
 getAccountsAccountCapabilitiesRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
                                      StripeAPI.Common.Configuration s ->
-                                     GHC.Base.String ->
-                                     GHC.Maybe.Maybe GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
+                                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe GetAccountsAccountCapabilitiesRequestBody ->
                                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                            (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getAccountsAccountCapabilitiesRaw config
 -- Monadic version of 'getAccountsAccountCapabilities' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountsAccountCapabilitiesM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Base.String ->
-                                   GHC.Maybe.Maybe GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
+                                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe GetAccountsAccountCapabilitiesRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m
@@ -113,8 +113,8 @@ getAccountsAccountCapabilitiesM account
 -- Monadic version of 'getAccountsAccountCapabilitiesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountsAccountCapabilitiesRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
-                                      GHC.Base.String ->
-                                      GHC.Maybe.Maybe GHC.Base.String ->
+                                      Data.Text.Internal.Text ->
+                                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe GetAccountsAccountCapabilitiesRequestBody ->
                                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                          m
@@ -164,7 +164,7 @@ data GetAccountsAccountCapabilitiesResponseBody200 = GetAccountsAccountCapabilit
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountCapabilitiesResponseBody200Url :: GHC.Base.String
+  , getAccountsAccountCapabilitiesResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetAccountsAccountCapabilitiesResponseBody200
@@ -177,7 +177,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetAccountsAccountCapabilitiesRespon
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetAccountsAccountCapabilitiesResponseBody200Object'
     = GetAccountsAccountCapabilitiesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetAccountsAccountCapabilitiesResponseBody200Object'EnumTyped GHC.Base.String
+    | GetAccountsAccountCapabilitiesResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetAccountsAccountCapabilitiesResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetAccountsAccountCapabilitiesResponseBody200Object'

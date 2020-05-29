@@ -41,7 +41,7 @@ data AccountPayoutSettings = AccountPayoutSettings {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , accountPayoutSettingsStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , accountPayoutSettingsStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountPayoutSettings

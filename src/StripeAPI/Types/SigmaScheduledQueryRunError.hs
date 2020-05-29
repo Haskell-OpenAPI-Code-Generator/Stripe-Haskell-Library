@@ -36,7 +36,7 @@ data SigmaScheduledQueryRunError = SigmaScheduledQueryRunError {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  sigmaScheduledQueryRunErrorMessage :: GHC.Base.String
+  sigmaScheduledQueryRunErrorMessage :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SigmaScheduledQueryRunError

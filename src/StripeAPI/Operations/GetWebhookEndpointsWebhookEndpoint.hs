@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the webhook endpoint with the given ID.\<\/p>
 getWebhookEndpointsWebhookEndpoint :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                                -- ^ webhook_endpoint | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                        -- ^ webhook_endpoint | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetWebhookEndpointsWebhookEndpointRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetWebhookEndpointsWebhookEndpointResponse)) -- ^ Monad containing the result of the operation
 getWebhookEndpointsWebhookEndpoint config
@@ -68,8 +68,8 @@ getWebhookEndpointsWebhookEndpoint config
 getWebhookEndpointsWebhookEndpointRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                        StripeAPI.Common.SecurityScheme s) =>
                                          StripeAPI.Common.Configuration s ->
-                                         GHC.Maybe.Maybe GHC.Base.String ->
-                                         GHC.Base.String ->
+                                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                         Data.Text.Internal.Text ->
                                          GHC.Maybe.Maybe GetWebhookEndpointsWebhookEndpointRequestBody ->
                                          m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getWebhookEndpointsWebhookEndpointRaw config
 -- Monadic version of 'getWebhookEndpointsWebhookEndpoint' (use with 'StripeAPI.Common.runWithConfiguration')
 getWebhookEndpointsWebhookEndpointM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
-                                       GHC.Maybe.Maybe GHC.Base.String ->
-                                       GHC.Base.String ->
+                                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe GetWebhookEndpointsWebhookEndpointRequestBody ->
                                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                           m
@@ -113,8 +113,8 @@ getWebhookEndpointsWebhookEndpointM expand
 -- Monadic version of 'getWebhookEndpointsWebhookEndpointRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getWebhookEndpointsWebhookEndpointRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
-                                          GHC.Maybe.Maybe GHC.Base.String ->
-                                          GHC.Base.String ->
+                                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                          Data.Text.Internal.Text ->
                                           GHC.Maybe.Maybe GetWebhookEndpointsWebhookEndpointRequestBody ->
                                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                              m

@@ -48,7 +48,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Once entirely reversed, a transfer can’t be reversed again. This method will return an error when called on an already-reversed transfer, or when trying to reverse more money than is left on a transfer.\<\/p>
 postTransfersIdReversals :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                      -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                              -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostTransfersIdReversalsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostTransfersIdReversalsResponse)) -- ^ Monad containing the result of the operation
 postTransfersIdReversals config
@@ -64,7 +64,7 @@ postTransfersIdReversals config
 postTransfersIdReversalsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                StripeAPI.Common.Configuration s ->
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe PostTransfersIdReversalsRequestBody ->
                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,7 +76,7 @@ postTransfersIdReversalsRaw config
 -- Monadic version of 'postTransfersIdReversals' (use with 'StripeAPI.Common.runWithConfiguration')
 postTransfersIdReversalsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe PostTransfersIdReversalsRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m
@@ -93,7 +93,7 @@ postTransfersIdReversalsM id
 -- Monadic version of 'postTransfersIdReversalsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postTransfersIdReversalsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe PostTransfersIdReversalsRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -112,9 +112,9 @@ data PostTransfersIdReversalsRequestBody = PostTransfersIdReversalsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTransfersIdReversalsRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTransfersIdReversalsRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postTransfersIdReversalsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postTransfersIdReversalsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postTransfersIdReversalsRequestBodyMetadata :: (GHC.Maybe.Maybe PostTransfersIdReversalsRequestBodyMetadata')
   -- | refund_application_fee: Boolean indicating whether the application fee should be refunded when reversing this transfer. If a full transfer reversal is given, the full application fee will be refunded. Otherwise, the application fee will be refunded with an amount proportional to the amount of the transfer reversed.

@@ -32,19 +32,19 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeSepaDebit = SourceTypeSepaDebit {
   -- | bank_code
-  sourceTypeSepaDebitBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeSepaDebitBankCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | branch_code
-  , sourceTypeSepaDebitBranchCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeSepaDebitBranchCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
-  , sourceTypeSepaDebitCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeSepaDebitCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | fingerprint
-  , sourceTypeSepaDebitFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeSepaDebitFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last4
-  , sourceTypeSepaDebitLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeSepaDebitLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | mandate_reference
-  , sourceTypeSepaDebitMandateReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeSepaDebitMandateReference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | mandate_url
-  , sourceTypeSepaDebitMandateUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeSepaDebitMandateUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeSepaDebit

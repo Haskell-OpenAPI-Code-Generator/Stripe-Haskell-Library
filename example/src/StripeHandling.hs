@@ -1,9 +1,12 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module StripeHandling where
 
 import qualified Data.ByteString.Char8 as B8
 import qualified Data.Either as Either
 import qualified Data.Maybe as Maybe
 import qualified Data.Text as T
+import Data.Text (Text)
 import qualified Network.HTTP.Simple as HS
 import qualified StripeAPI.Common as Common
 import qualified StripeAPI.Configuration as Config
@@ -13,8 +16,8 @@ import qualified StripeAPI.Operations.PostPaymentIntents as OpPaymentIntent
 import qualified StripeAPI.SecuritySchemes as Security
 import qualified StripeAPI.Types as Types
 
-stripeAPIKey :: T.Text
-stripeAPIKey = T.pack "sk_test_XXXXXXXXXX" -- Insert your API key here
+stripeAPIKey :: Text
+stripeAPIKey = "sk_test_XXXXXXXXXX" -- Insert your API key here
 
 paymentIntentRequestBody :: OpPaymentIntent.PostPaymentIntentsRequestBody
 paymentIntentRequestBody =
@@ -122,7 +125,7 @@ defaultConf = Config.defaultConfiguration
 security =
   Security.BasicAuthenticationSecurityScheme
     { Security.basicAuthenticationSecuritySchemeUsername = stripeAPIKey,
-      Security.basicAuthenticationSecuritySchemePassword = T.pack ""
+      Security.basicAuthenticationSecuritySchemePassword = ""
     }
 
 conf = defaultConf {Common.configSecurityScheme = security}
@@ -141,7 +144,7 @@ getCheckoutSessionId = do
   print resp
   pure $ case resp of
     Right serverResponse ->
-      case HS.getResponseBody serverResponse of
+      T.unpack $ case HS.getResponseBody serverResponse of
         OpCheckout.PostCheckoutSessionsResponse200 session ->
           Types.checkout'sessionId session
         _ -> "wrong type of response"
@@ -156,7 +159,7 @@ makePaymentIntentCall = do
 
 getPaymentIntentCallSecret :: IO String
 getPaymentIntentCallSecret =
-  let trans response = case HS.getResponseBody response of
+  let trans response = T.unpack $ case HS.getResponseBody response of
         OpPaymentIntent.PostPaymentIntentsResponse200 paymentIntent ->
           Maybe.fromMaybe "no secret given" (Types.paymentIntentClientSecret paymentIntent)
         _ -> "invalid response"
@@ -169,7 +172,7 @@ getPaymentIntentCallSecret =
 -- for SEPA. A customer has to be created
 getPaymentIntentSepaCallSecret :: IO String
 getPaymentIntentSepaCallSecret =
-  let trans response = case HS.getResponseBody response of
+  let trans response = T.unpack $ case HS.getResponseBody response of
         OpPaymentIntent.PostPaymentIntentsResponse200 paymentIntent ->
           Maybe.fromMaybe "no secret given" (Types.paymentIntentClientSecret paymentIntent)
         _ -> "invalid response from payment intent creation"

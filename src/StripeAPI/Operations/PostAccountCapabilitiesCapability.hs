@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates an existing Account Capability.\<\/p>
 postAccountCapabilitiesCapability :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                               -- ^ capability
+  -> Data.Text.Internal.Text                                                                                                                       -- ^ capability
   -> GHC.Maybe.Maybe PostAccountCapabilitiesCapabilityRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostAccountCapabilitiesCapabilityResponse)) -- ^ Monad containing the result of the operation
 postAccountCapabilitiesCapability config
@@ -60,7 +60,7 @@ postAccountCapabilitiesCapability config
 postAccountCapabilitiesCapabilityRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                       StripeAPI.Common.SecurityScheme s) =>
                                         StripeAPI.Common.Configuration s ->
-                                        GHC.Base.String ->
+                                        Data.Text.Internal.Text ->
                                         GHC.Maybe.Maybe PostAccountCapabilitiesCapabilityRequestBody ->
                                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postAccountCapabilitiesCapabilityRaw config
 -- Monadic version of 'postAccountCapabilitiesCapability' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountCapabilitiesCapabilityM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
-                                      GHC.Base.String ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe PostAccountCapabilitiesCapabilityRequestBody ->
                                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                          m
@@ -89,7 +89,7 @@ postAccountCapabilitiesCapabilityM capability
 -- Monadic version of 'postAccountCapabilitiesCapabilityRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountCapabilitiesCapabilityRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                        StripeAPI.Common.SecurityScheme s) =>
-                                         GHC.Base.String ->
+                                         Data.Text.Internal.Text ->
                                          GHC.Maybe.Maybe PostAccountCapabilitiesCapabilityRequestBody ->
                                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                             m
@@ -102,7 +102,7 @@ postAccountCapabilitiesCapabilityRawM capability
 -- 
 data PostAccountCapabilitiesCapabilityRequestBody = PostAccountCapabilitiesCapabilityRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postAccountCapabilitiesCapabilityRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postAccountCapabilitiesCapabilityRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | requested: Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the \`requirements\` arrays.
   , postAccountCapabilitiesCapabilityRequestBodyRequested :: (GHC.Maybe.Maybe GHC.Types.Bool)
   } deriving (GHC.Show.Show

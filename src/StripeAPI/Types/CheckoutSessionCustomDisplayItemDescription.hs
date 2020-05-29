@@ -36,15 +36,15 @@ data CheckoutSessionCustomDisplayItemDescription = CheckoutSessionCustomDisplayI
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  checkoutSessionCustomDisplayItemDescriptionDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  checkoutSessionCustomDisplayItemDescriptionDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | images: The images of the line item.
-  , checkoutSessionCustomDisplayItemDescriptionImages :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , checkoutSessionCustomDisplayItemDescriptionImages :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | name: The name of the line item.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , checkoutSessionCustomDisplayItemDescriptionName :: GHC.Base.String
+  , checkoutSessionCustomDisplayItemDescriptionName :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON CheckoutSessionCustomDisplayItemDescription

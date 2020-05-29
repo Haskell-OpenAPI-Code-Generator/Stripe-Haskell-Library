@@ -110,7 +110,7 @@ data PostInvoicesRequestBody = PostInvoicesRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoicesRequestBodyCustomer :: GHC.Base.String
+  , postInvoicesRequestBodyCustomer :: Data.Text.Internal.Text
   -- | days_until_due: The number of days from when the invoice is created until it is due. Valid only for invoices where \`collection_method=send_invoice\`.
   , postInvoicesRequestBodyDaysUntilDue :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | default_payment_method: ID of the default payment method for the invoice. It must belong to the customer associated with the invoice. If not set, defaults to the subscription\'s default payment method, if any, or to the default payment method in the customer\'s invoice settings.
@@ -118,31 +118,31 @@ data PostInvoicesRequestBody = PostInvoicesRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoicesRequestBodyDefaultPaymentMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoicesRequestBodyDefaultPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_source: ID of the default payment source for the invoice. It must belong to the customer associated with the invoice and be in a chargeable state. If not set, defaults to the subscription\'s default source, if any, or to the customer\'s default source.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoicesRequestBodyDefaultSource :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoicesRequestBodyDefaultSource :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_tax_rates: The tax rates that will apply to any line item that does not have \`tax_rates\` set.
-  , postInvoicesRequestBodyDefaultTaxRates :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postInvoicesRequestBodyDefaultTaxRates :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | description: An arbitrary string attached to the object. Often useful for displaying to users. Referenced as \'memo\' in the Dashboard.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 1500
-  , postInvoicesRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoicesRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | due_date: The date on which payment for this invoice is due. Valid only for invoices where \`collection_method=send_invoice\`.
   , postInvoicesRequestBodyDueDate :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postInvoicesRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postInvoicesRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | footer: Footer to be displayed on the invoice.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoicesRequestBodyFooter :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoicesRequestBodyFooter :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postInvoicesRequestBodyMetadata :: (GHC.Maybe.Maybe PostInvoicesRequestBodyMetadata')
   -- | statement_descriptor: Extra information about a charge for the customer\'s credit card statement. It must contain at least one letter. If not specified and this invoice is part of a subscription, the default \`statement_descriptor\` will be set to the first subscription item\'s product\'s \`statement_descriptor\`.
@@ -150,13 +150,13 @@ data PostInvoicesRequestBody = PostInvoicesRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postInvoicesRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoicesRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | subscription: The ID of the subscription to invoice, if any. If not set, the created invoice will include all pending invoice items for the customer. If set, the created invoice will only include pending invoice items for that subscription and pending invoice items not associated with any subscription. The subscription\'s billing cycle and regular subscription events won\'t be affected.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoicesRequestBodySubscription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoicesRequestBodySubscription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tax_percent: The percent tax rate applied to the invoice, represented as a decimal number. This field has been deprecated and will be removed in a future API version, for further information view the [migration docs](https:\/\/stripe.com\/docs\/billing\/migration\/taxes) for \`tax_rates\`.
   , postInvoicesRequestBodyTaxPercent :: (GHC.Maybe.Maybe GHC.Types.Double)
   } deriving (GHC.Show.Show
@@ -171,7 +171,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesRequestBody
 -- Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions. Defaults to \`charge_automatically\`.
 data PostInvoicesRequestBodyCollectionMethod'
     = PostInvoicesRequestBodyCollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
-    | PostInvoicesRequestBodyCollectionMethod'EnumTyped GHC.Base.String
+    | PostInvoicesRequestBodyCollectionMethod'EnumTyped Data.Text.Internal.Text
     | PostInvoicesRequestBodyCollectionMethod'EnumStringChargeAutomatically
     | PostInvoicesRequestBodyCollectionMethod'EnumStringSendInvoice
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -191,7 +191,7 @@ instance Data.Aeson.FromJSON PostInvoicesRequestBodyCollectionMethod'
 -- 
 data PostInvoicesRequestBodyCustomFields'OneOf1
     = PostInvoicesRequestBodyCustomFields'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostInvoicesRequestBodyCustomFields'OneOf1EnumTyped GHC.Base.String
+    | PostInvoicesRequestBodyCustomFields'OneOf1EnumTyped Data.Text.Internal.Text
     | PostInvoicesRequestBodyCustomFields'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoicesRequestBodyCustomFields'OneOf1
@@ -211,13 +211,13 @@ data PostInvoicesRequestBodyCustomFields'OneOf2 = PostInvoicesRequestBodyCustomF
   -- Constraints:
   -- 
   -- * Maximum length of 30
-  postInvoicesRequestBodyCustomFields'OneOf2Name :: GHC.Base.String
+  postInvoicesRequestBodyCustomFields'OneOf2Name :: Data.Text.Internal.Text
   -- | value
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 30
-  , postInvoicesRequestBodyCustomFields'OneOf2Value :: GHC.Base.String
+  , postInvoicesRequestBodyCustomFields'OneOf2Value :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoicesRequestBodyCustomFields'OneOf2

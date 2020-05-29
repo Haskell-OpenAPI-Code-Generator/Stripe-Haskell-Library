@@ -98,13 +98,13 @@ data PostAccountExternalAccountsRequestBody = PostAccountExternalAccountsRequest
   -- | default_for_currency: When set to true, or if this is the first external account added in this currency, this account becomes the default external account for its currency.
   , postAccountExternalAccountsRequestBodyDefaultForCurrency :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postAccountExternalAccountsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postAccountExternalAccountsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | external_account: Please refer to full [documentation](https:\/\/stripe.com\/docs\/api) instead.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountExternalAccountsRequestBodyExternalAccount :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountExternalAccountsRequestBodyExternalAccount :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postAccountExternalAccountsRequestBodyMetadata :: (GHC.Maybe.Maybe PostAccountExternalAccountsRequestBodyMetadata')
   } deriving (GHC.Show.Show
@@ -123,7 +123,7 @@ data PostAccountExternalAccountsRequestBodyBankAccount'OneOf2 = PostAccountExter
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postAccountExternalAccountsRequestBodyBankAccount'OneOf2AccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  postAccountExternalAccountsRequestBodyBankAccount'OneOf2AccountHolderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | account_holder_type
   -- 
   -- Constraints:
@@ -135,15 +135,15 @@ data PostAccountExternalAccountsRequestBodyBankAccount'OneOf2 = PostAccountExter
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountExternalAccountsRequestBodyBankAccount'OneOf2AccountNumber :: GHC.Base.String
+  , postAccountExternalAccountsRequestBodyBankAccount'OneOf2AccountNumber :: Data.Text.Internal.Text
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountExternalAccountsRequestBodyBankAccount'OneOf2Country :: GHC.Base.String
+  , postAccountExternalAccountsRequestBodyBankAccount'OneOf2Country :: Data.Text.Internal.Text
   -- | currency
-  , postAccountExternalAccountsRequestBodyBankAccount'OneOf2Currency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountExternalAccountsRequestBodyBankAccount'OneOf2Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | object
   -- 
   -- Constraints:
@@ -155,7 +155,7 @@ data PostAccountExternalAccountsRequestBodyBankAccount'OneOf2 = PostAccountExter
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountExternalAccountsRequestBodyBankAccount'OneOf2RoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountExternalAccountsRequestBodyBankAccount'OneOf2RoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountExternalAccountsRequestBodyBankAccount'OneOf2
@@ -168,7 +168,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountExternalAccountsRequestBo
 -- 
 data PostAccountExternalAccountsRequestBodyBankAccount'OneOf2AccountHolderType'
     = PostAccountExternalAccountsRequestBodyBankAccount'OneOf2AccountHolderType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostAccountExternalAccountsRequestBodyBankAccount'OneOf2AccountHolderType'EnumTyped GHC.Base.String
+    | PostAccountExternalAccountsRequestBodyBankAccount'OneOf2AccountHolderType'EnumTyped Data.Text.Internal.Text
     | PostAccountExternalAccountsRequestBodyBankAccount'OneOf2AccountHolderType'EnumStringCompany
     | PostAccountExternalAccountsRequestBodyBankAccount'OneOf2AccountHolderType'EnumStringIndividual
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -188,7 +188,7 @@ instance Data.Aeson.FromJSON PostAccountExternalAccountsRequestBodyBankAccount'O
 -- 
 data PostAccountExternalAccountsRequestBodyBankAccount'OneOf2Object'
     = PostAccountExternalAccountsRequestBodyBankAccount'OneOf2Object'EnumOther Data.Aeson.Types.Internal.Value
-    | PostAccountExternalAccountsRequestBodyBankAccount'OneOf2Object'EnumTyped GHC.Base.String
+    | PostAccountExternalAccountsRequestBodyBankAccount'OneOf2Object'EnumTyped Data.Text.Internal.Text
     | PostAccountExternalAccountsRequestBodyBankAccount'OneOf2Object'EnumStringBankAccount
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountExternalAccountsRequestBodyBankAccount'OneOf2Object'
@@ -203,7 +203,7 @@ instance Data.Aeson.FromJSON PostAccountExternalAccountsRequestBodyBankAccount'O
 -- 
 -- Either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe.js), or a dictionary containing a user\'s bank account details.
 data PostAccountExternalAccountsRequestBodyBankAccount'Variants
-    = PostAccountExternalAccountsRequestBodyBankAccount'String GHC.Base.String
+    = PostAccountExternalAccountsRequestBodyBankAccount'Text Data.Text.Internal.Text
     | PostAccountExternalAccountsRequestBodyBankAccount'PostAccountExternalAccountsRequestBodyBankAccount'OneOf2 PostAccountExternalAccountsRequestBodyBankAccount'OneOf2
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostAccountExternalAccountsRequestBodyBankAccount'Variants

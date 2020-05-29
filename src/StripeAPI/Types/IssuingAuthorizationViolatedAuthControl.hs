@@ -47,7 +47,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationViolatedAuthCont
 -- Entity which the authorization control acts on. One of \`card\`, \`cardholder\`, or \`account\`.
 data IssuingAuthorizationViolatedAuthControlEntity'
     = IssuingAuthorizationViolatedAuthControlEntity'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingAuthorizationViolatedAuthControlEntity'EnumTyped GHC.Base.String
+    | IssuingAuthorizationViolatedAuthControlEntity'EnumTyped Data.Text.Internal.Text
     | IssuingAuthorizationViolatedAuthControlEntity'EnumStringAccount
     | IssuingAuthorizationViolatedAuthControlEntity'EnumStringCard
     | IssuingAuthorizationViolatedAuthControlEntity'EnumStringCardholder
@@ -71,7 +71,7 @@ instance Data.Aeson.FromJSON IssuingAuthorizationViolatedAuthControlEntity'
 -- Name of the authorization control. One of \`allowed_categories\`, \`blocked_categories\`, \`spending_limits\`, \`max_approvals\`, or \`max_amount\`.
 data IssuingAuthorizationViolatedAuthControlName'
     = IssuingAuthorizationViolatedAuthControlName'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingAuthorizationViolatedAuthControlName'EnumTyped GHC.Base.String
+    | IssuingAuthorizationViolatedAuthControlName'EnumTyped Data.Text.Internal.Text
     | IssuingAuthorizationViolatedAuthControlName'EnumStringAllowedCategories
     | IssuingAuthorizationViolatedAuthControlName'EnumStringBlockedCategories
     | IssuingAuthorizationViolatedAuthControlName'EnumStringMaxAmount

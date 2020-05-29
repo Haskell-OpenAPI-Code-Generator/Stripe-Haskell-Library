@@ -44,9 +44,9 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves an existing source object. Supply the unique source ID from a source creation request and Stripe will return the corresponding up-to-date source object information.\<\/p>
 getSourcesSource :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ client_secret: The client secret of the source. Required if a publishable key is used to retrieve the source. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                              -- ^ source | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                      -- ^ client_secret: The client secret of the source. Required if a publishable key is used to retrieve the source. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                      -- ^ source | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetSourcesSourceRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSourcesSourceResponse)) -- ^ Monad containing the result of the operation
 getSourcesSource config
@@ -83,9 +83,9 @@ getSourcesSource config
 getSourcesSourceRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        StripeAPI.Common.Configuration s ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetSourcesSourceRequestBody ->
                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -118,9 +118,9 @@ getSourcesSourceRaw config
 -- Monadic version of 'getSourcesSource' (use with 'StripeAPI.Common.runWithConfiguration')
 getSourcesSourceM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
-                     GHC.Maybe.Maybe GHC.Base.String ->
-                     GHC.Maybe.Maybe GHC.Base.String ->
-                     GHC.Base.String ->
+                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                     Data.Text.Internal.Text ->
                      GHC.Maybe.Maybe GetSourcesSourceRequestBody ->
                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                         m
@@ -158,9 +158,9 @@ getSourcesSourceM clientSecret
 -- Monadic version of 'getSourcesSourceRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSourcesSourceRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Maybe.Maybe GHC.Base.String ->
-                        GHC.Maybe.Maybe GHC.Base.String ->
-                        GHC.Base.String ->
+                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe GetSourcesSourceRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m

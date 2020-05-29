@@ -36,19 +36,19 @@ data Rule = Rule {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  ruleAction :: GHC.Base.String
+  ruleAction :: Data.Text.Internal.Text
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , ruleId :: GHC.Base.String
+  , ruleId :: Data.Text.Internal.Text
   -- | predicate: The predicate to evaluate the payment against.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , rulePredicate :: GHC.Base.String
+  , rulePredicate :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Rule

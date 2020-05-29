@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Delete a specified source for a given customer.\<\/p>
 deleteCustomersCustomerCardsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                            -- ^ customer | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                            -- ^ id
+  -> Data.Text.Internal.Text                                                                                                                    -- ^ customer | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                    -- ^ id
   -> GHC.Maybe.Maybe DeleteCustomersCustomerCardsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteCustomersCustomerCardsIdResponse)) -- ^ Monad containing the result of the operation
 deleteCustomersCustomerCardsId config
@@ -62,8 +62,8 @@ deleteCustomersCustomerCardsId config
 deleteCustomersCustomerCardsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
                                      StripeAPI.Common.Configuration s ->
-                                     GHC.Base.String ->
-                                     GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe DeleteCustomersCustomerCardsIdRequestBody ->
                                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                            (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,8 +76,8 @@ deleteCustomersCustomerCardsIdRaw config
 -- Monadic version of 'deleteCustomersCustomerCardsId' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteCustomersCustomerCardsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Base.String ->
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe DeleteCustomersCustomerCardsIdRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m
@@ -95,8 +95,8 @@ deleteCustomersCustomerCardsIdM customer
 -- Monadic version of 'deleteCustomersCustomerCardsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteCustomersCustomerCardsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
-                                      GHC.Base.String ->
-                                      GHC.Base.String ->
+                                      Data.Text.Internal.Text ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe DeleteCustomersCustomerCardsIdRequestBody ->
                                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                          m
@@ -110,7 +110,7 @@ deleteCustomersCustomerCardsIdRawM customer
 -- 
 data DeleteCustomersCustomerCardsIdRequestBody = DeleteCustomersCustomerCardsIdRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  deleteCustomersCustomerCardsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  deleteCustomersCustomerCardsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeleteCustomersCustomerCardsIdRequestBody
@@ -135,7 +135,7 @@ data DeleteCustomersCustomerCardsIdResponseBody200 = DeleteCustomersCustomerCard
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  deleteCustomersCustomerCardsIdResponseBody200Currency :: (GHC.Maybe.Maybe GHC.Base.String)
+  deleteCustomersCustomerCardsIdResponseBody200Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | deleted: Always true for a deleted object
   , deleteCustomersCustomerCardsIdResponseBody200Deleted :: (GHC.Maybe.Maybe DeleteCustomersCustomerCardsIdResponseBody200Deleted')
   -- | id: Unique identifier for the object.
@@ -143,7 +143,7 @@ data DeleteCustomersCustomerCardsIdResponseBody200 = DeleteCustomersCustomerCard
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deleteCustomersCustomerCardsIdResponseBody200Id :: (GHC.Maybe.Maybe GHC.Base.String)
+  , deleteCustomersCustomerCardsIdResponseBody200Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deleteCustomersCustomerCardsIdResponseBody200Object :: (GHC.Maybe.Maybe DeleteCustomersCustomerCardsIdResponseBody200Object')
   } deriving (GHC.Show.Show
@@ -174,7 +174,7 @@ instance Data.Aeson.FromJSON DeleteCustomersCustomerCardsIdResponseBody200Delete
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeleteCustomersCustomerCardsIdResponseBody200Object'
     = DeleteCustomersCustomerCardsIdResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | DeleteCustomersCustomerCardsIdResponseBody200Object'EnumTyped GHC.Base.String
+    | DeleteCustomersCustomerCardsIdResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | DeleteCustomersCustomerCardsIdResponseBody200Object'EnumStringAlipayAccount
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeleteCustomersCustomerCardsIdResponseBody200Object'

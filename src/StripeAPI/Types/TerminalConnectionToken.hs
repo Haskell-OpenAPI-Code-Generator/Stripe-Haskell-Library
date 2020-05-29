@@ -38,7 +38,7 @@ data Terminal'connectionToken = Terminal'connectionToken {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  terminal'connectionTokenLocation :: (GHC.Maybe.Maybe GHC.Base.String)
+  terminal'connectionTokenLocation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , terminal'connectionTokenObject :: Terminal'connectionTokenObject'
   -- | secret: Your application should pass this token to the Stripe Terminal SDK.
@@ -46,7 +46,7 @@ data Terminal'connectionToken = Terminal'connectionToken {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , terminal'connectionTokenSecret :: GHC.Base.String
+  , terminal'connectionTokenSecret :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Terminal'connectionToken
@@ -59,7 +59,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Terminal'connectionToken
 -- String representing the object\'s type. Objects of the same type share the same value.
 data Terminal'connectionTokenObject'
     = Terminal'connectionTokenObject'EnumOther Data.Aeson.Types.Internal.Value
-    | Terminal'connectionTokenObject'EnumTyped GHC.Base.String
+    | Terminal'connectionTokenObject'EnumTyped Data.Text.Internal.Text
     | Terminal'connectionTokenObject'EnumStringTerminal'connectionToken
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Terminal'connectionTokenObject'

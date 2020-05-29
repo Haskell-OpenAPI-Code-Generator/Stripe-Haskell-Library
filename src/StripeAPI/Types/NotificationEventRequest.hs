@@ -36,13 +36,13 @@ data NotificationEventRequest = NotificationEventRequest {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  notificationEventRequestId :: (GHC.Maybe.Maybe GHC.Base.String)
+  notificationEventRequestId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | idempotency_key: The idempotency key transmitted during the request, if any. *Note: This property is populated only for events on or after May 23, 2017*.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , notificationEventRequestIdempotencyKey :: (GHC.Maybe.Maybe GHC.Base.String)
+  , notificationEventRequestIdempotencyKey :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON NotificationEventRequest

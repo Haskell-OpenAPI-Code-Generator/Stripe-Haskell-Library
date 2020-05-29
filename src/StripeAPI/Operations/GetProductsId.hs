@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of an existing product. Supply the unique product ID from either a product creation request or the product list, and Stripe will return the corresponding product information.\<\/p>
 getProductsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                           -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                           -- ^ id | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                   -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                   -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetProductsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetProductsIdResponse)) -- ^ Monad containing the result of the operation
 getProductsId config
@@ -68,8 +68,8 @@ getProductsId config
 getProductsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
                     StripeAPI.Common.Configuration s ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Base.String ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe GetProductsIdRequestBody ->
                     m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                           (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getProductsIdRaw config
 -- Monadic version of 'getProductsId' (use with 'StripeAPI.Common.runWithConfiguration')
 getProductsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                 StripeAPI.Common.SecurityScheme s) =>
-                  GHC.Maybe.Maybe GHC.Base.String ->
-                  GHC.Base.String ->
+                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                  Data.Text.Internal.Text ->
                   GHC.Maybe.Maybe GetProductsIdRequestBody ->
                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                      m
@@ -113,8 +113,8 @@ getProductsIdM expand
 -- Monadic version of 'getProductsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getProductsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
-                     GHC.Maybe.Maybe GHC.Base.String ->
-                     GHC.Base.String ->
+                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                     Data.Text.Internal.Text ->
                      GHC.Maybe.Maybe GetProductsIdRequestBody ->
                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                         m

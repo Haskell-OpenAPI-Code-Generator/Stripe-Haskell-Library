@@ -38,7 +38,7 @@ data SourceCodeVerificationFlow = SourceCodeVerificationFlow {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceCodeVerificationFlowStatus :: GHC.Base.String
+  , sourceCodeVerificationFlowStatus :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceCodeVerificationFlow

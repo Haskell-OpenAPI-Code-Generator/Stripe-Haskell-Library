@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Detaches a PaymentMethod object from a Customer.\<\/p>
 postPaymentMethodsPaymentMethodDetach :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                   -- ^ payment_method | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                           -- ^ payment_method | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodDetachRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPaymentMethodsPaymentMethodDetachResponse)) -- ^ Monad containing the result of the operation
 postPaymentMethodsPaymentMethodDetach config
@@ -60,7 +60,7 @@ postPaymentMethodsPaymentMethodDetach config
 postPaymentMethodsPaymentMethodDetachRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                           StripeAPI.Common.SecurityScheme s) =>
                                             StripeAPI.Common.Configuration s ->
-                                            GHC.Base.String ->
+                                            Data.Text.Internal.Text ->
                                             GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodDetachRequestBody ->
                                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postPaymentMethodsPaymentMethodDetachRaw config
 -- Monadic version of 'postPaymentMethodsPaymentMethodDetach' (use with 'StripeAPI.Common.runWithConfiguration')
 postPaymentMethodsPaymentMethodDetachM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
-                                          GHC.Base.String ->
+                                          Data.Text.Internal.Text ->
                                           GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodDetachRequestBody ->
                                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                              m
@@ -89,7 +89,7 @@ postPaymentMethodsPaymentMethodDetachM paymentMethod
 -- Monadic version of 'postPaymentMethodsPaymentMethodDetachRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postPaymentMethodsPaymentMethodDetachRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
-                                             GHC.Base.String ->
+                                             Data.Text.Internal.Text ->
                                              GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodDetachRequestBody ->
                                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                 m
@@ -102,7 +102,7 @@ postPaymentMethodsPaymentMethodDetachRawM paymentMethod
 -- 
 data PostPaymentMethodsPaymentMethodDetachRequestBody = PostPaymentMethodsPaymentMethodDetachRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postPaymentMethodsPaymentMethodDetachRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postPaymentMethodsPaymentMethodDetachRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentMethodsPaymentMethodDetachRequestBody

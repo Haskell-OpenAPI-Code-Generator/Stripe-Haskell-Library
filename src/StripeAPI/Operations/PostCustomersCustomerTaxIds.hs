@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Creates a new \<code>TaxID\<\/code> object for a customer.\<\/p>
 postCustomersCustomerTaxIds :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                         -- ^ customer | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                 -- ^ customer | Constraints: Maximum length of 5000
   -> PostCustomersCustomerTaxIdsRequestBody                                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCustomersCustomerTaxIdsResponse)) -- ^ Monad containing the result of the operation
 postCustomersCustomerTaxIds config
@@ -60,7 +60,7 @@ postCustomersCustomerTaxIds config
 postCustomersCustomerTaxIdsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   StripeAPI.Common.Configuration s ->
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   PostCustomersCustomerTaxIdsRequestBody ->
                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                         (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postCustomersCustomerTaxIdsRaw config
 -- Monadic version of 'postCustomersCustomerTaxIds' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerTaxIdsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 PostCustomersCustomerTaxIdsRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -89,7 +89,7 @@ postCustomersCustomerTaxIdsM customer
 -- Monadic version of 'postCustomersCustomerTaxIdsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerTaxIdsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
                                    PostCustomersCustomerTaxIdsRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m
@@ -102,7 +102,7 @@ postCustomersCustomerTaxIdsRawM customer
 -- 
 data PostCustomersCustomerTaxIdsRequestBody = PostCustomersCustomerTaxIdsRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postCustomersCustomerTaxIdsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postCustomersCustomerTaxIdsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | type: Type of the tax ID, one of \`eu_vat\`, \`nz_gst\`, \`au_abn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, or \`my_sst\`
   -- 
   -- Constraints:
@@ -110,7 +110,7 @@ data PostCustomersCustomerTaxIdsRequestBody = PostCustomersCustomerTaxIdsRequest
   -- * Maximum length of 5000
   , postCustomersCustomerTaxIdsRequestBodyType :: PostCustomersCustomerTaxIdsRequestBodyType'
   -- | value: Value of the tax ID.
-  , postCustomersCustomerTaxIdsRequestBodyValue :: GHC.Base.String
+  , postCustomersCustomerTaxIdsRequestBodyValue :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerTaxIdsRequestBody
@@ -123,7 +123,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerTaxIdsRequestBo
 -- Type of the tax ID, one of \`eu_vat\`, \`nz_gst\`, \`au_abn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, or \`my_sst\`
 data PostCustomersCustomerTaxIdsRequestBodyType'
     = PostCustomersCustomerTaxIdsRequestBodyType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerTaxIdsRequestBodyType'EnumTyped GHC.Base.String
+    | PostCustomersCustomerTaxIdsRequestBodyType'EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringAuAbn
     | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaBn
     | PostCustomersCustomerTaxIdsRequestBodyType'EnumStringCaQst

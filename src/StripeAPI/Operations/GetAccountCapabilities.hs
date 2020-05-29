@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a list of capabilities associated with the account. The capabilities are returned sorted by creation date, with the most recent capability appearing first.\<\/p>
 getAccountCapabilities :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                            -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetAccountCapabilitiesRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetAccountCapabilitiesResponse)) -- ^ Monad containing the result of the operation
 getAccountCapabilities config
@@ -66,7 +66,7 @@ getAccountCapabilities config
 getAccountCapabilitiesRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              StripeAPI.Common.Configuration s ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GetAccountCapabilitiesRequestBody ->
                              m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                    (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -84,7 +84,7 @@ getAccountCapabilitiesRaw config
 -- Monadic version of 'getAccountCapabilities' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountCapabilitiesM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Maybe.Maybe GHC.Base.String ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe GetAccountCapabilitiesRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m
@@ -107,7 +107,7 @@ getAccountCapabilitiesM expand
 -- Monadic version of 'getAccountCapabilitiesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountCapabilitiesRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
-                              GHC.Maybe.Maybe GHC.Base.String ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe GetAccountCapabilitiesRequestBody ->
                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                  m
@@ -156,7 +156,7 @@ data GetAccountCapabilitiesResponseBody200 = GetAccountCapabilitiesResponseBody2
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountCapabilitiesResponseBody200Url :: GHC.Base.String
+  , getAccountCapabilitiesResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetAccountCapabilitiesResponseBody200
@@ -169,7 +169,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetAccountCapabilitiesResponseBody20
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetAccountCapabilitiesResponseBody200Object'
     = GetAccountCapabilitiesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetAccountCapabilitiesResponseBody200Object'EnumTyped GHC.Base.String
+    | GetAccountCapabilitiesResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetAccountCapabilitiesResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetAccountCapabilitiesResponseBody200Object'

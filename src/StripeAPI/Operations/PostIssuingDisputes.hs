@@ -100,11 +100,11 @@ data PostIssuingDisputesRequestBody = PostIssuingDisputesRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingDisputesRequestBodyDisputedTransaction :: GHC.Base.String
+  , postIssuingDisputesRequestBodyDisputedTransaction :: Data.Text.Internal.Text
   -- | evidence: A hash containing all the evidence related to the dispute. This should have a single key, equal to the provided \`reason\`, mapping to an appropriate evidence object.
   , postIssuingDisputesRequestBodyEvidence :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyEvidence')
   -- | expand: Specifies which fields in the response should be expanded.
-  , postIssuingDisputesRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postIssuingDisputesRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postIssuingDisputesRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingDisputesRequestBodyMetadata')
   -- | reason: The reason for the dispute.
@@ -144,15 +144,15 @@ data PostIssuingDisputesRequestBodyEvidence'Duplicate' = PostIssuingDisputesRequ
   -- Constraints:
   -- 
   -- * Maximum length of 10000
-  postIssuingDisputesRequestBodyEvidence'Duplicate'DisputeExplanation :: GHC.Base.String
+  postIssuingDisputesRequestBodyEvidence'Duplicate'DisputeExplanation :: Data.Text.Internal.Text
   -- | original_transaction
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingDisputesRequestBodyEvidence'Duplicate'OriginalTransaction :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingDisputesRequestBodyEvidence'Duplicate'OriginalTransaction :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | uncategorized_file
-  , postIssuingDisputesRequestBodyEvidence'Duplicate'UncategorizedFile :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingDisputesRequestBodyEvidence'Duplicate'UncategorizedFile :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingDisputesRequestBodyEvidence'Duplicate'
@@ -169,9 +169,9 @@ data PostIssuingDisputesRequestBodyEvidence'Fraudulent' = PostIssuingDisputesReq
   -- Constraints:
   -- 
   -- * Maximum length of 10000
-  postIssuingDisputesRequestBodyEvidence'Fraudulent'DisputeExplanation :: GHC.Base.String
+  postIssuingDisputesRequestBodyEvidence'Fraudulent'DisputeExplanation :: Data.Text.Internal.Text
   -- | uncategorized_file
-  , postIssuingDisputesRequestBodyEvidence'Fraudulent'UncategorizedFile :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingDisputesRequestBodyEvidence'Fraudulent'UncategorizedFile :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingDisputesRequestBodyEvidence'Fraudulent'
@@ -188,9 +188,9 @@ data PostIssuingDisputesRequestBodyEvidence'Other' = PostIssuingDisputesRequestB
   -- Constraints:
   -- 
   -- * Maximum length of 10000
-  postIssuingDisputesRequestBodyEvidence'Other'DisputeExplanation :: GHC.Base.String
+  postIssuingDisputesRequestBodyEvidence'Other'DisputeExplanation :: Data.Text.Internal.Text
   -- | uncategorized_file
-  , postIssuingDisputesRequestBodyEvidence'Other'UncategorizedFile :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingDisputesRequestBodyEvidence'Other'UncategorizedFile :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingDisputesRequestBodyEvidence'Other'
@@ -207,9 +207,9 @@ data PostIssuingDisputesRequestBodyEvidence'ProductNotReceived' = PostIssuingDis
   -- Constraints:
   -- 
   -- * Maximum length of 10000
-  postIssuingDisputesRequestBodyEvidence'ProductNotReceived'DisputeExplanation :: GHC.Base.String
+  postIssuingDisputesRequestBodyEvidence'ProductNotReceived'DisputeExplanation :: Data.Text.Internal.Text
   -- | uncategorized_file
-  , postIssuingDisputesRequestBodyEvidence'ProductNotReceived'UncategorizedFile :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingDisputesRequestBodyEvidence'ProductNotReceived'UncategorizedFile :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingDisputesRequestBodyEvidence'ProductNotReceived'
@@ -234,7 +234,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingDisputesRequestBodyMetada
 -- The reason for the dispute.
 data PostIssuingDisputesRequestBodyReason'
     = PostIssuingDisputesRequestBodyReason'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingDisputesRequestBodyReason'EnumTyped GHC.Base.String
+    | PostIssuingDisputesRequestBodyReason'EnumTyped Data.Text.Internal.Text
     | PostIssuingDisputesRequestBodyReason'EnumStringDuplicate
     | PostIssuingDisputesRequestBodyReason'EnumStringFraudulent
     | PostIssuingDisputesRequestBodyReason'EnumStringOther

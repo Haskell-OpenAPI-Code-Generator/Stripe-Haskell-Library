@@ -53,7 +53,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON CustomerAcceptance
 -- The type of customer acceptance information included with the Mandate. One of \`online\` or \`offline\`.
 data CustomerAcceptanceType'
     = CustomerAcceptanceType'EnumOther Data.Aeson.Types.Internal.Value
-    | CustomerAcceptanceType'EnumTyped GHC.Base.String
+    | CustomerAcceptanceType'EnumTyped Data.Text.Internal.Text
     | CustomerAcceptanceType'EnumStringOffline
     | CustomerAcceptanceType'EnumStringOnline
     deriving (GHC.Show.Show, GHC.Classes.Eq)

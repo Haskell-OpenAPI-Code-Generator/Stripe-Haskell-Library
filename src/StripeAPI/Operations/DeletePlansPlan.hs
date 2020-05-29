@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Deleting plans means new subscribers can’t be added. Existing subscribers aren’t affected.\<\/p>
 deletePlansPlan :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                             -- ^ plan | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                     -- ^ plan | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeletePlansPlanRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeletePlansPlanResponse)) -- ^ Monad containing the result of the operation
 deletePlansPlan config
@@ -60,7 +60,7 @@ deletePlansPlan config
 deletePlansPlanRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
                       StripeAPI.Common.Configuration s ->
-                      GHC.Base.String ->
+                      Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe DeletePlansPlanRequestBody ->
                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deletePlansPlanRaw config
 -- Monadic version of 'deletePlansPlan' (use with 'StripeAPI.Common.runWithConfiguration')
 deletePlansPlanM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
-                    GHC.Base.String ->
+                    Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe DeletePlansPlanRequestBody ->
                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                        m
@@ -89,7 +89,7 @@ deletePlansPlanM plan
 -- Monadic version of 'deletePlansPlanRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deletePlansPlanRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
-                       GHC.Base.String ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe DeletePlansPlanRequestBody ->
                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                           m

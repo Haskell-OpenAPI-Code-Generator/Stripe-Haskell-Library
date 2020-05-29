@@ -32,33 +32,33 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeCard = SourceTypeCard {
   -- | address_line1_check
-  sourceTypeCardAddressLine1Check :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeCardAddressLine1Check :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_zip_check
-  , sourceTypeCardAddressZipCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardAddressZipCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | brand
-  , sourceTypeCardBrand :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardBrand :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
-  , sourceTypeCardCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | cvc_check
-  , sourceTypeCardCvcCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardCvcCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | dynamic_last4
-  , sourceTypeCardDynamicLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardDynamicLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | exp_month
   , sourceTypeCardExpMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | exp_year
   , sourceTypeCardExpYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | fingerprint
-  , sourceTypeCardFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | funding
-  , sourceTypeCardFunding :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardFunding :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last4
-  , sourceTypeCardLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name
-  , sourceTypeCardName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | three_d_secure
-  , sourceTypeCardThreeDSecure :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardThreeDSecure :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tokenization_method
-  , sourceTypeCardTokenizationMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardTokenizationMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeCard

@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves an Issuing \<code>Transaction\<\/code> object.\<\/p>
 getIssuingTransactionsTransaction :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                               -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                               -- ^ transaction | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                       -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                       -- ^ transaction | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetIssuingTransactionsTransactionRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingTransactionsTransactionResponse)) -- ^ Monad containing the result of the operation
 getIssuingTransactionsTransaction config
@@ -68,8 +68,8 @@ getIssuingTransactionsTransaction config
 getIssuingTransactionsTransactionRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                       StripeAPI.Common.SecurityScheme s) =>
                                         StripeAPI.Common.Configuration s ->
-                                        GHC.Maybe.Maybe GHC.Base.String ->
-                                        GHC.Base.String ->
+                                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                        Data.Text.Internal.Text ->
                                         GHC.Maybe.Maybe GetIssuingTransactionsTransactionRequestBody ->
                                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getIssuingTransactionsTransactionRaw config
 -- Monadic version of 'getIssuingTransactionsTransaction' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingTransactionsTransactionM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
-                                      GHC.Maybe.Maybe GHC.Base.String ->
-                                      GHC.Base.String ->
+                                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe GetIssuingTransactionsTransactionRequestBody ->
                                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                          m
@@ -113,8 +113,8 @@ getIssuingTransactionsTransactionM expand
 -- Monadic version of 'getIssuingTransactionsTransactionRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingTransactionsTransactionRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                        StripeAPI.Common.SecurityScheme s) =>
-                                         GHC.Maybe.Maybe GHC.Base.String ->
-                                         GHC.Base.String ->
+                                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                         Data.Text.Internal.Text ->
                                          GHC.Maybe.Maybe GetIssuingTransactionsTransactionRequestBody ->
                                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                             m

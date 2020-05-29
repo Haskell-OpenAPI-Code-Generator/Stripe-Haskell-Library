@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- 
 getCustomersCustomerDiscount :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                          -- ^ customer | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                          -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                  -- ^ customer | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                  -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetCustomersCustomerDiscountRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCustomersCustomerDiscountResponse)) -- ^ Monad containing the result of the operation
 getCustomersCustomerDiscount config
@@ -68,8 +68,8 @@ getCustomersCustomerDiscount config
 getCustomersCustomerDiscountRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
                                    StripeAPI.Common.Configuration s ->
-                                   GHC.Base.String ->
-                                   GHC.Maybe.Maybe GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
+                                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe GetCustomersCustomerDiscountRequestBody ->
                                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                          (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getCustomersCustomerDiscountRaw config
 -- Monadic version of 'getCustomersCustomerDiscount' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerDiscountM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
-                                 GHC.Base.String ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe GetCustomersCustomerDiscountRequestBody ->
                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                     m
@@ -113,8 +113,8 @@ getCustomersCustomerDiscountM customer
 -- Monadic version of 'getCustomersCustomerDiscountRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerDiscountRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    GHC.Base.String ->
-                                    GHC.Maybe.Maybe GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
+                                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe GetCustomersCustomerDiscountRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m

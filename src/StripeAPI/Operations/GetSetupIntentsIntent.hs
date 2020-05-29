@@ -48,9 +48,9 @@ import StripeAPI.Types
 -- 
 -- \<p>When retrieved with a publishable key, only a subset of properties will be returned. Please refer to the \<a href=\"\#setup_intent_object\">SetupIntent\<\/a> object reference for more details.\<\/p>
 getSetupIntentsIntent :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                   -- ^ client_secret: The client secret of the SetupIntent. Required if a publishable key is used to retrieve the SetupIntent.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                   -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                   -- ^ intent | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                           -- ^ client_secret: The client secret of the SetupIntent. Required if a publishable key is used to retrieve the SetupIntent.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                           -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                           -- ^ intent | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetSetupIntentsIntentRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSetupIntentsIntentResponse)) -- ^ Monad containing the result of the operation
 getSetupIntentsIntent config
@@ -87,9 +87,9 @@ getSetupIntentsIntent config
 getSetupIntentsIntentRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             StripeAPI.Common.Configuration s ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Base.String ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe GetSetupIntentsIntentRequestBody ->
                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -122,9 +122,9 @@ getSetupIntentsIntentRaw config
 -- Monadic version of 'getSetupIntentsIntent' (use with 'StripeAPI.Common.runWithConfiguration')
 getSetupIntentsIntentM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Base.String ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe GetSetupIntentsIntentRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m
@@ -162,9 +162,9 @@ getSetupIntentsIntentM clientSecret
 -- Monadic version of 'getSetupIntentsIntentRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSetupIntentsIntentRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GetSetupIntentsIntentRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m

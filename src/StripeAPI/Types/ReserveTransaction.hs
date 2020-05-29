@@ -34,19 +34,19 @@ data ReserveTransaction = ReserveTransaction {
   -- | amount
   reserveTransactionAmount :: GHC.Integer.Type.Integer
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , reserveTransactionCurrency :: GHC.Base.String
+  , reserveTransactionCurrency :: Data.Text.Internal.Text
   -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , reserveTransactionDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , reserveTransactionDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , reserveTransactionId :: GHC.Base.String
+  , reserveTransactionId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , reserveTransactionObject :: ReserveTransactionObject'
   } deriving (GHC.Show.Show
@@ -61,7 +61,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON ReserveTransaction
 -- String representing the object\'s type. Objects of the same type share the same value.
 data ReserveTransactionObject'
     = ReserveTransactionObject'EnumOther Data.Aeson.Types.Internal.Value
-    | ReserveTransactionObject'EnumTyped GHC.Base.String
+    | ReserveTransactionObject'EnumTyped Data.Text.Internal.Text
     | ReserveTransactionObject'EnumStringReserveTransaction
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON ReserveTransactionObject'

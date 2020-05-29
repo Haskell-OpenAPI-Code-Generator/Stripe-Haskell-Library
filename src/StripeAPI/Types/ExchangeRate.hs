@@ -46,7 +46,7 @@ data ExchangeRate = ExchangeRate {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  exchangeRateId :: GHC.Base.String
+  exchangeRateId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , exchangeRateObject :: ExchangeRateObject'
   -- | rates: Hash where the keys are supported currencies and the values are the exchange rate at which the base id currency converts to the key currency.
@@ -63,7 +63,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON ExchangeRate
 -- String representing the object\'s type. Objects of the same type share the same value.
 data ExchangeRateObject'
     = ExchangeRateObject'EnumOther Data.Aeson.Types.Internal.Value
-    | ExchangeRateObject'EnumTyped GHC.Base.String
+    | ExchangeRateObject'EnumTyped Data.Text.Internal.Text
     | ExchangeRateObject'EnumStringExchangeRate
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON ExchangeRateObject'

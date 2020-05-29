@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Invalidates a short-lived API key for a given resource.\<\/p>
 deleteEphemeralKeysKey :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                    -- ^ key | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                            -- ^ key | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteEphemeralKeysKeyRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteEphemeralKeysKeyResponse)) -- ^ Monad containing the result of the operation
 deleteEphemeralKeysKey config
@@ -60,7 +60,7 @@ deleteEphemeralKeysKey config
 deleteEphemeralKeysKeyRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              StripeAPI.Common.Configuration s ->
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe DeleteEphemeralKeysKeyRequestBody ->
                              m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                    (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteEphemeralKeysKeyRaw config
 -- Monadic version of 'deleteEphemeralKeysKey' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteEphemeralKeysKeyM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Base.String ->
+                           Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe DeleteEphemeralKeysKeyRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m
@@ -89,7 +89,7 @@ deleteEphemeralKeysKeyM key
 -- Monadic version of 'deleteEphemeralKeysKeyRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteEphemeralKeysKeyRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
-                              GHC.Base.String ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe DeleteEphemeralKeysKeyRequestBody ->
                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                  m
@@ -102,7 +102,7 @@ deleteEphemeralKeysKeyRawM key
 -- 
 data DeleteEphemeralKeysKeyRequestBody = DeleteEphemeralKeysKeyRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  deleteEphemeralKeysKeyRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  deleteEphemeralKeysKeyRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeleteEphemeralKeysKeyRequestBody

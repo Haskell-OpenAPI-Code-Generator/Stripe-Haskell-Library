@@ -36,25 +36,25 @@ data RadarReviewResourceSession = RadarReviewResourceSession {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  radarReviewResourceSessionBrowser :: (GHC.Maybe.Maybe GHC.Base.String)
+  radarReviewResourceSessionBrowser :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | device: Information about the device used for the browser session (e.g., \`Samsung SM-G930T\`).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , radarReviewResourceSessionDevice :: (GHC.Maybe.Maybe GHC.Base.String)
+  , radarReviewResourceSessionDevice :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | platform: The platform for the browser session (e.g., \`Macintosh\`).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , radarReviewResourceSessionPlatform :: (GHC.Maybe.Maybe GHC.Base.String)
+  , radarReviewResourceSessionPlatform :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | version: The version for the browser session (e.g., \`61.0.3163.100\`).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , radarReviewResourceSessionVersion :: (GHC.Maybe.Maybe GHC.Base.String)
+  , radarReviewResourceSessionVersion :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON RadarReviewResourceSession

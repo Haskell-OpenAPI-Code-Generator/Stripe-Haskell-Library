@@ -48,9 +48,9 @@ import StripeAPI.Types
 -- 
 -- \<p>When retrieved with a publishable key, only a subset of properties will be returned. Please refer to the \<a href=\"\#payment_intent_object\">payment intent\<\/a> object reference for more details.\<\/p>
 getPaymentIntentsIntent :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                     -- ^ client_secret: The client secret of the PaymentIntent. Required if a publishable key is used to retrieve the source.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                     -- ^ intent | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                             -- ^ client_secret: The client secret of the PaymentIntent. Required if a publishable key is used to retrieve the source.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                             -- ^ intent | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetPaymentIntentsIntentRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetPaymentIntentsIntentResponse)) -- ^ Monad containing the result of the operation
 getPaymentIntentsIntent config
@@ -87,9 +87,9 @@ getPaymentIntentsIntent config
 getPaymentIntentsIntentRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Base.String ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe GetPaymentIntentsIntentRequestBody ->
                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -122,9 +122,9 @@ getPaymentIntentsIntentRaw config
 -- Monadic version of 'getPaymentIntentsIntent' (use with 'StripeAPI.Common.runWithConfiguration')
 getPaymentIntentsIntentM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Base.String ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe GetPaymentIntentsIntentRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -162,9 +162,9 @@ getPaymentIntentsIntentM clientSecret
 -- Monadic version of 'getPaymentIntentsIntentRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getPaymentIntentsIntentRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GetPaymentIntentsIntentRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m

@@ -49,7 +49,7 @@ import StripeAPI.Types
 -- sending reminders for, or \<a href=\"\/docs\/billing\/invoices\/reconciliation\">automatically reconciling\<\/a> invoices, pass
 -- \<code>auto_advance=false\<\/code>.\<\/p>
 postInvoicesInvoice :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                 -- ^ invoice | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                         -- ^ invoice | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostInvoicesInvoiceRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostInvoicesInvoiceResponse)) -- ^ Monad containing the result of the operation
 postInvoicesInvoice config
@@ -65,7 +65,7 @@ postInvoicesInvoice config
 postInvoicesInvoiceRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           StripeAPI.Common.Configuration s ->
-                          GHC.Base.String ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe PostInvoicesInvoiceRequestBody ->
                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                 (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -77,7 +77,7 @@ postInvoicesInvoiceRaw config
 -- Monadic version of 'postInvoicesInvoice' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoicesInvoiceM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Base.String ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe PostInvoicesInvoiceRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m
@@ -94,7 +94,7 @@ postInvoicesInvoiceM invoice
 -- Monadic version of 'postInvoicesInvoiceRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoicesInvoiceRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Base.String ->
+                           Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe PostInvoicesInvoiceRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m
@@ -125,13 +125,13 @@ data PostInvoicesInvoiceRequestBody = PostInvoicesInvoiceRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoicesInvoiceRequestBodyDefaultPaymentMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoicesInvoiceRequestBodyDefaultPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_source: ID of the default payment source for the invoice. It must belong to the customer associated with the invoice and be in a chargeable state. If not set, defaults to the subscription\'s default source, if any, or to the customer\'s default source.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoicesInvoiceRequestBodyDefaultSource :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoicesInvoiceRequestBodyDefaultSource :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_tax_rates: The tax rates that will apply to any line item that does not have \`tax_rates\` set. Pass an empty string to remove previously-defined tax rates.
   , postInvoicesInvoiceRequestBodyDefaultTaxRates :: (GHC.Maybe.Maybe PostInvoicesInvoiceRequestBodyDefaultTaxRates'Variants)
   -- | description: An arbitrary string attached to the object. Often useful for displaying to users. Referenced as \'memo\' in the Dashboard.
@@ -139,17 +139,17 @@ data PostInvoicesInvoiceRequestBody = PostInvoicesInvoiceRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 1500
-  , postInvoicesInvoiceRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoicesInvoiceRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | due_date: The date on which payment for this invoice is due. Only valid for invoices where \`collection_method=send_invoice\`. This field can only be updated on \`draft\` invoices.
   , postInvoicesInvoiceRequestBodyDueDate :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postInvoicesInvoiceRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postInvoicesInvoiceRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | footer: Footer to be displayed on the invoice.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoicesInvoiceRequestBodyFooter :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoicesInvoiceRequestBodyFooter :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postInvoicesInvoiceRequestBodyMetadata :: (GHC.Maybe.Maybe PostInvoicesInvoiceRequestBodyMetadata')
   -- | statement_descriptor: Extra information about a charge for the customer\'s credit card statement. It must contain at least one letter. If not specified and this invoice is part of a subscription, the default \`statement_descriptor\` will be set to the first subscription item\'s product\'s \`statement_descriptor\`.
@@ -157,7 +157,7 @@ data PostInvoicesInvoiceRequestBody = PostInvoicesInvoiceRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postInvoicesInvoiceRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoicesInvoiceRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tax_percent: The percent tax rate applied to the invoice, represented as a non-negative decimal number (with at most four decimal places) between 0 and 100. To unset a previously-set value, pass an empty string. This field can be updated only on \`draft\` invoices. This field has been deprecated and will be removed in a future API version, for further information view the [migration docs](https:\/\/stripe.com\/docs\/billing\/migration\/taxes) for \`tax_rates\`.
   , postInvoicesInvoiceRequestBodyTaxPercent :: (GHC.Maybe.Maybe PostInvoicesInvoiceRequestBodyTaxPercent'Variants)
   } deriving (GHC.Show.Show
@@ -172,7 +172,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesInvoiceRequestBody
 -- Either \`charge_automatically\` or \`send_invoice\`. This field can be updated only on \`draft\` invoices.
 data PostInvoicesInvoiceRequestBodyCollectionMethod'
     = PostInvoicesInvoiceRequestBodyCollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
-    | PostInvoicesInvoiceRequestBodyCollectionMethod'EnumTyped GHC.Base.String
+    | PostInvoicesInvoiceRequestBodyCollectionMethod'EnumTyped Data.Text.Internal.Text
     | PostInvoicesInvoiceRequestBodyCollectionMethod'EnumStringChargeAutomatically
     | PostInvoicesInvoiceRequestBodyCollectionMethod'EnumStringSendInvoice
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -192,7 +192,7 @@ instance Data.Aeson.FromJSON PostInvoicesInvoiceRequestBodyCollectionMethod'
 -- 
 data PostInvoicesInvoiceRequestBodyCustomFields'OneOf1
     = PostInvoicesInvoiceRequestBodyCustomFields'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostInvoicesInvoiceRequestBodyCustomFields'OneOf1EnumTyped GHC.Base.String
+    | PostInvoicesInvoiceRequestBodyCustomFields'OneOf1EnumTyped Data.Text.Internal.Text
     | PostInvoicesInvoiceRequestBodyCustomFields'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoicesInvoiceRequestBodyCustomFields'OneOf1
@@ -212,13 +212,13 @@ data PostInvoicesInvoiceRequestBodyCustomFields'OneOf2 = PostInvoicesInvoiceRequ
   -- Constraints:
   -- 
   -- * Maximum length of 30
-  postInvoicesInvoiceRequestBodyCustomFields'OneOf2Name :: GHC.Base.String
+  postInvoicesInvoiceRequestBodyCustomFields'OneOf2Name :: Data.Text.Internal.Text
   -- | value
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 30
-  , postInvoicesInvoiceRequestBodyCustomFields'OneOf2Value :: GHC.Base.String
+  , postInvoicesInvoiceRequestBodyCustomFields'OneOf2Value :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoicesInvoiceRequestBodyCustomFields'OneOf2
@@ -242,7 +242,7 @@ instance Data.Aeson.FromJSON PostInvoicesInvoiceRequestBodyCustomFields'Variants
 -- 
 data PostInvoicesInvoiceRequestBodyDefaultTaxRates'OneOf1
     = PostInvoicesInvoiceRequestBodyDefaultTaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostInvoicesInvoiceRequestBodyDefaultTaxRates'OneOf1EnumTyped GHC.Base.String
+    | PostInvoicesInvoiceRequestBodyDefaultTaxRates'OneOf1EnumTyped Data.Text.Internal.Text
     | PostInvoicesInvoiceRequestBodyDefaultTaxRates'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoicesInvoiceRequestBodyDefaultTaxRates'OneOf1
@@ -258,7 +258,7 @@ instance Data.Aeson.FromJSON PostInvoicesInvoiceRequestBodyDefaultTaxRates'OneOf
 -- The tax rates that will apply to any line item that does not have \`tax_rates\` set. Pass an empty string to remove previously-defined tax rates.
 data PostInvoicesInvoiceRequestBodyDefaultTaxRates'Variants
     = PostInvoicesInvoiceRequestBodyDefaultTaxRates'PostInvoicesInvoiceRequestBodyDefaultTaxRates'OneOf1 PostInvoicesInvoiceRequestBodyDefaultTaxRates'OneOf1
-    | PostInvoicesInvoiceRequestBodyDefaultTaxRates'ListString ([] GHC.Base.String)
+    | PostInvoicesInvoiceRequestBodyDefaultTaxRates'ListText ([] Data.Text.Internal.Text)
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostInvoicesInvoiceRequestBodyDefaultTaxRates'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -281,7 +281,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesInvoiceRequestBodyMetada
 -- 
 data PostInvoicesInvoiceRequestBodyTaxPercent'OneOf1
     = PostInvoicesInvoiceRequestBodyTaxPercent'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostInvoicesInvoiceRequestBodyTaxPercent'OneOf1EnumTyped GHC.Base.String
+    | PostInvoicesInvoiceRequestBodyTaxPercent'OneOf1EnumTyped Data.Text.Internal.Text
     | PostInvoicesInvoiceRequestBodyTaxPercent'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoicesInvoiceRequestBodyTaxPercent'OneOf1

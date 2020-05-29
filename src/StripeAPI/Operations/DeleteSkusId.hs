@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Delete a SKU. Deleting a SKU is only possible until it has been used in an order.\<\/p>
 deleteSkusId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                          -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                  -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteSkusIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteSkusIdResponse)) -- ^ Monad containing the result of the operation
 deleteSkusId config
@@ -60,7 +60,7 @@ deleteSkusId config
 deleteSkusIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                  StripeAPI.Common.SecurityScheme s) =>
                    StripeAPI.Common.Configuration s ->
-                   GHC.Base.String ->
+                   Data.Text.Internal.Text ->
                    GHC.Maybe.Maybe DeleteSkusIdRequestBody ->
                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                          (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteSkusIdRaw config
 -- Monadic version of 'deleteSkusId' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteSkusIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
-                 GHC.Base.String ->
+                 Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe DeleteSkusIdRequestBody ->
                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                     m
@@ -89,7 +89,7 @@ deleteSkusIdM id
 -- Monadic version of 'deleteSkusIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteSkusIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
-                    GHC.Base.String ->
+                    Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe DeleteSkusIdRequestBody ->
                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                        m

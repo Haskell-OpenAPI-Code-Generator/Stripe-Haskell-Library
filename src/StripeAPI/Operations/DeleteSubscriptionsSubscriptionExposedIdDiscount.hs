@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Removes the currently applied discount on a subscription.\<\/p>
 deleteSubscriptionsSubscriptionExposedIdDiscount :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                              -- ^ subscription_exposed_id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                                      -- ^ subscription_exposed_id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteSubscriptionsSubscriptionExposedIdDiscountRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteSubscriptionsSubscriptionExposedIdDiscountResponse)) -- ^ Monad containing the result of the operation
 deleteSubscriptionsSubscriptionExposedIdDiscount config
@@ -60,7 +60,7 @@ deleteSubscriptionsSubscriptionExposedIdDiscount config
 deleteSubscriptionsSubscriptionExposedIdDiscountRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                      StripeAPI.Common.SecurityScheme s) =>
                                                        StripeAPI.Common.Configuration s ->
-                                                       GHC.Base.String ->
+                                                       Data.Text.Internal.Text ->
                                                        GHC.Maybe.Maybe DeleteSubscriptionsSubscriptionExposedIdDiscountRequestBody ->
                                                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteSubscriptionsSubscriptionExposedIdDiscountRaw config
 -- Monadic version of 'deleteSubscriptionsSubscriptionExposedIdDiscount' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteSubscriptionsSubscriptionExposedIdDiscountM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                    StripeAPI.Common.SecurityScheme s) =>
-                                                     GHC.Base.String ->
+                                                     Data.Text.Internal.Text ->
                                                      GHC.Maybe.Maybe DeleteSubscriptionsSubscriptionExposedIdDiscountRequestBody ->
                                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                         m
@@ -89,7 +89,7 @@ deleteSubscriptionsSubscriptionExposedIdDiscountM subscriptionExposedId
 -- Monadic version of 'deleteSubscriptionsSubscriptionExposedIdDiscountRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteSubscriptionsSubscriptionExposedIdDiscountRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                       StripeAPI.Common.SecurityScheme s) =>
-                                                        GHC.Base.String ->
+                                                        Data.Text.Internal.Text ->
                                                         GHC.Maybe.Maybe DeleteSubscriptionsSubscriptionExposedIdDiscountRequestBody ->
                                                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                            m

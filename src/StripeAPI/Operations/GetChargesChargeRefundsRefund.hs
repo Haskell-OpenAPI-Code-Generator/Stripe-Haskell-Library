@@ -44,9 +44,9 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of an existing refund.\<\/p>
 getChargesChargeRefundsRefund :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                           -- ^ charge
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                           -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                           -- ^ refund
+  -> Data.Text.Internal.Text                                                                                                                   -- ^ charge
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                   -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                   -- ^ refund
   -> GHC.Maybe.Maybe GetChargesChargeRefundsRefundRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetChargesChargeRefundsRefundResponse)) -- ^ Monad containing the result of the operation
 getChargesChargeRefundsRefund config
@@ -70,9 +70,9 @@ getChargesChargeRefundsRefund config
 getChargesChargeRefundsRefundRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     StripeAPI.Common.Configuration s ->
-                                    GHC.Base.String ->
-                                    GHC.Maybe.Maybe GHC.Base.String ->
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
+                                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe GetChargesChargeRefundsRefundRequestBody ->
                                     m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                           (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -92,9 +92,9 @@ getChargesChargeRefundsRefundRaw config
 -- Monadic version of 'getChargesChargeRefundsRefund' (use with 'StripeAPI.Common.runWithConfiguration')
 getChargesChargeRefundsRefundM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
-                                  GHC.Base.String ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe GetChargesChargeRefundsRefundRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m
@@ -119,9 +119,9 @@ getChargesChargeRefundsRefundM charge
 -- Monadic version of 'getChargesChargeRefundsRefundRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getChargesChargeRefundsRefundRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
-                                     GHC.Base.String ->
-                                     GHC.Maybe.Maybe GHC.Base.String ->
-                                     GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
+                                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe GetChargesChargeRefundsRefundRequestBody ->
                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                         m

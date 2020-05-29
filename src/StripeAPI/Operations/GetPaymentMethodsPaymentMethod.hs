@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves a PaymentMethod object.\<\/p>
 getPaymentMethodsPaymentMethod :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                            -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                            -- ^ payment_method | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                    -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                    -- ^ payment_method | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetPaymentMethodsPaymentMethodRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetPaymentMethodsPaymentMethodResponse)) -- ^ Monad containing the result of the operation
 getPaymentMethodsPaymentMethod config
@@ -68,8 +68,8 @@ getPaymentMethodsPaymentMethod config
 getPaymentMethodsPaymentMethodRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
                                      StripeAPI.Common.Configuration s ->
-                                     GHC.Maybe.Maybe GHC.Base.String ->
-                                     GHC.Base.String ->
+                                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe GetPaymentMethodsPaymentMethodRequestBody ->
                                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                            (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getPaymentMethodsPaymentMethodRaw config
 -- Monadic version of 'getPaymentMethodsPaymentMethod' (use with 'StripeAPI.Common.runWithConfiguration')
 getPaymentMethodsPaymentMethodM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Maybe.Maybe GHC.Base.String ->
-                                   GHC.Base.String ->
+                                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe GetPaymentMethodsPaymentMethodRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m
@@ -113,8 +113,8 @@ getPaymentMethodsPaymentMethodM expand
 -- Monadic version of 'getPaymentMethodsPaymentMethodRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getPaymentMethodsPaymentMethodRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
-                                      GHC.Maybe.Maybe GHC.Base.String ->
-                                      GHC.Base.String ->
+                                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe GetPaymentMethodsPaymentMethodRequestBody ->
                                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                          m

@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves a \<code>ValueList\<\/code> object.\<\/p>
 getRadarValueListsValueList :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                         -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                         -- ^ value_list | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                 -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                 -- ^ value_list | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetRadarValueListsValueListRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetRadarValueListsValueListResponse)) -- ^ Monad containing the result of the operation
 getRadarValueListsValueList config
@@ -68,8 +68,8 @@ getRadarValueListsValueList config
 getRadarValueListsValueListRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   StripeAPI.Common.Configuration s ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
-                                  GHC.Base.String ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe GetRadarValueListsValueListRequestBody ->
                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                         (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getRadarValueListsValueListRaw config
 -- Monadic version of 'getRadarValueListsValueList' (use with 'StripeAPI.Common.runWithConfiguration')
 getRadarValueListsValueListM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Base.String ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GetRadarValueListsValueListRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -113,8 +113,8 @@ getRadarValueListsValueListM expand
 -- Monadic version of 'getRadarValueListsValueListRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getRadarValueListsValueListRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Maybe.Maybe GHC.Base.String ->
-                                   GHC.Base.String ->
+                                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe GetRadarValueListsValueListRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m

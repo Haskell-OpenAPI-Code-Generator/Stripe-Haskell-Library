@@ -36,13 +36,13 @@ data PaymentMethodDetailsMultibanco = PaymentMethodDetailsMultibanco {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  paymentMethodDetailsMultibancoEntity :: (GHC.Maybe.Maybe GHC.Base.String)
+  paymentMethodDetailsMultibancoEntity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | reference: Reference number associated with this Multibanco payment.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsMultibancoReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsMultibancoReference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsMultibanco

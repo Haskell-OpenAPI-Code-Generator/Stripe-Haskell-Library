@@ -44,13 +44,13 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a list of \<code>ValueList\<\/code> objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.\<\/p>
 getRadarValueLists :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ alias: The alias used to reference the value list when writing rules. | Constraints: Maximum length of 100
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ contains: A value contained within a value list - returns all value lists containing this value. | Constraints: Maximum length of 800
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ created
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ alias: The alias used to reference the value list when writing rules. | Constraints: Maximum length of 100
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ contains: A value contained within a value list - returns all value lists containing this value. | Constraints: Maximum length of 800
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ created
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                       -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetRadarValueListsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetRadarValueListsResponse)) -- ^ Monad containing the result of the operation
 getRadarValueLists config
@@ -130,13 +130,13 @@ getRadarValueLists config
 getRadarValueListsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          StripeAPI.Common.Configuration s ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe GetRadarValueListsRequestBody ->
                          m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -212,13 +212,13 @@ getRadarValueListsRaw config
 -- Monadic version of 'getRadarValueLists' (use with 'StripeAPI.Common.runWithConfiguration')
 getRadarValueListsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetRadarValueListsRequestBody ->
                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                           m
@@ -299,13 +299,13 @@ getRadarValueListsM alias
 -- Monadic version of 'getRadarValueListsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getRadarValueListsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe GetRadarValueListsRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m
@@ -413,7 +413,7 @@ data GetRadarValueListsResponseBody200 = GetRadarValueListsResponseBody200 {
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/radar\/value_lists\'
-  , getRadarValueListsResponseBody200Url :: GHC.Base.String
+  , getRadarValueListsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetRadarValueListsResponseBody200
@@ -426,7 +426,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetRadarValueListsResponseBody200
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetRadarValueListsResponseBody200Object'
     = GetRadarValueListsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetRadarValueListsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetRadarValueListsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetRadarValueListsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetRadarValueListsResponseBody200Object'

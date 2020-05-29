@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Update a specified refund.\<\/p>
 postChargesChargeRefundsRefund :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                            -- ^ charge
-  -> GHC.Base.String                                                                                                                            -- ^ refund
+  -> Data.Text.Internal.Text                                                                                                                    -- ^ charge
+  -> Data.Text.Internal.Text                                                                                                                    -- ^ refund
   -> GHC.Maybe.Maybe PostChargesChargeRefundsRefundRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostChargesChargeRefundsRefundResponse)) -- ^ Monad containing the result of the operation
 postChargesChargeRefundsRefund config
@@ -62,8 +62,8 @@ postChargesChargeRefundsRefund config
 postChargesChargeRefundsRefundRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
                                      StripeAPI.Common.Configuration s ->
-                                     GHC.Base.String ->
-                                     GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe PostChargesChargeRefundsRefundRequestBody ->
                                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                            (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,8 +76,8 @@ postChargesChargeRefundsRefundRaw config
 -- Monadic version of 'postChargesChargeRefundsRefund' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeRefundsRefundM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Base.String ->
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe PostChargesChargeRefundsRefundRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m
@@ -95,8 +95,8 @@ postChargesChargeRefundsRefundM charge
 -- Monadic version of 'postChargesChargeRefundsRefundRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeRefundsRefundRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
-                                      GHC.Base.String ->
-                                      GHC.Base.String ->
+                                      Data.Text.Internal.Text ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe PostChargesChargeRefundsRefundRequestBody ->
                                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                          m
@@ -110,7 +110,7 @@ postChargesChargeRefundsRefundRawM charge
 -- 
 data PostChargesChargeRefundsRefundRequestBody = PostChargesChargeRefundsRefundRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postChargesChargeRefundsRefundRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postChargesChargeRefundsRefundRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata
   , postChargesChargeRefundsRefundRequestBodyMetadata :: (GHC.Maybe.Maybe PostChargesChargeRefundsRefundRequestBodyMetadata')
   } deriving (GHC.Show.Show

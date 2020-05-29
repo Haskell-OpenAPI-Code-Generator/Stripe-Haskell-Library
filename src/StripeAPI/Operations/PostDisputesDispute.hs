@@ -46,7 +46,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Depending on your dispute type, different evidence fields will give you a better chance of winning your dispute. To figure out which evidence fields to provide, see our \<a href=\"\/docs\/disputes\/categories\">guide to dispute types\<\/a>.\<\/p>
 postDisputesDispute :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                 -- ^ dispute | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                         -- ^ dispute | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostDisputesDisputeRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostDisputesDisputeResponse)) -- ^ Monad containing the result of the operation
 postDisputesDispute config
@@ -62,7 +62,7 @@ postDisputesDispute config
 postDisputesDisputeRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           StripeAPI.Common.Configuration s ->
-                          GHC.Base.String ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe PostDisputesDisputeRequestBody ->
                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                 (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -74,7 +74,7 @@ postDisputesDisputeRaw config
 -- Monadic version of 'postDisputesDispute' (use with 'StripeAPI.Common.runWithConfiguration')
 postDisputesDisputeM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Base.String ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe PostDisputesDisputeRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m
@@ -91,7 +91,7 @@ postDisputesDisputeM dispute
 -- Monadic version of 'postDisputesDisputeRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postDisputesDisputeRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Base.String ->
+                           Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe PostDisputesDisputeRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m
@@ -106,7 +106,7 @@ data PostDisputesDisputeRequestBody = PostDisputesDisputeRequestBody {
   -- | evidence: Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
   postDisputesDisputeRequestBodyEvidence :: (GHC.Maybe.Maybe PostDisputesDisputeRequestBodyEvidence')
   -- | expand: Specifies which fields in the response should be expanded.
-  , postDisputesDisputeRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postDisputesDisputeRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postDisputesDisputeRequestBodyMetadata :: (GHC.Maybe.Maybe PostDisputesDisputeRequestBodyMetadata')
   -- | submit: Whether to immediately submit evidence to the bank. If \`false\`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to \`true\` (the default).
@@ -127,127 +127,127 @@ data PostDisputesDisputeRequestBodyEvidence' = PostDisputesDisputeRequestBodyEvi
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  postDisputesDisputeRequestBodyEvidence'AccessActivityLog :: (GHC.Maybe.Maybe GHC.Base.String)
+  postDisputesDisputeRequestBodyEvidence'AccessActivityLog :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | billing_address
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postDisputesDisputeRequestBodyEvidence'BillingAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'BillingAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | cancellation_policy
-  , postDisputesDisputeRequestBodyEvidence'CancellationPolicy :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'CancellationPolicy :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | cancellation_policy_disclosure
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postDisputesDisputeRequestBodyEvidence'CancellationPolicyDisclosure :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'CancellationPolicyDisclosure :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | cancellation_rebuttal
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postDisputesDisputeRequestBodyEvidence'CancellationRebuttal :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'CancellationRebuttal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer_communication
-  , postDisputesDisputeRequestBodyEvidence'CustomerCommunication :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'CustomerCommunication :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer_email_address
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postDisputesDisputeRequestBodyEvidence'CustomerEmailAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'CustomerEmailAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer_name
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postDisputesDisputeRequestBodyEvidence'CustomerName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'CustomerName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer_purchase_ip
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postDisputesDisputeRequestBodyEvidence'CustomerPurchaseIp :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'CustomerPurchaseIp :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer_signature
-  , postDisputesDisputeRequestBodyEvidence'CustomerSignature :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'CustomerSignature :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | duplicate_charge_documentation
-  , postDisputesDisputeRequestBodyEvidence'DuplicateChargeDocumentation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'DuplicateChargeDocumentation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | duplicate_charge_explanation
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postDisputesDisputeRequestBodyEvidence'DuplicateChargeExplanation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'DuplicateChargeExplanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | duplicate_charge_id
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postDisputesDisputeRequestBodyEvidence'DuplicateChargeId :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'DuplicateChargeId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | product_description
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postDisputesDisputeRequestBodyEvidence'ProductDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'ProductDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | receipt
-  , postDisputesDisputeRequestBodyEvidence'Receipt :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'Receipt :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_policy
-  , postDisputesDisputeRequestBodyEvidence'RefundPolicy :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'RefundPolicy :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_policy_disclosure
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postDisputesDisputeRequestBodyEvidence'RefundPolicyDisclosure :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'RefundPolicyDisclosure :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_refusal_explanation
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postDisputesDisputeRequestBodyEvidence'RefundRefusalExplanation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'RefundRefusalExplanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | service_date
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postDisputesDisputeRequestBodyEvidence'ServiceDate :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'ServiceDate :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | service_documentation
-  , postDisputesDisputeRequestBodyEvidence'ServiceDocumentation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'ServiceDocumentation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping_address
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postDisputesDisputeRequestBodyEvidence'ShippingAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'ShippingAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping_carrier
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postDisputesDisputeRequestBodyEvidence'ShippingCarrier :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'ShippingCarrier :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping_date
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postDisputesDisputeRequestBodyEvidence'ShippingDate :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'ShippingDate :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping_documentation
-  , postDisputesDisputeRequestBodyEvidence'ShippingDocumentation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'ShippingDocumentation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping_tracking_number
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postDisputesDisputeRequestBodyEvidence'ShippingTrackingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'ShippingTrackingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | uncategorized_file
-  , postDisputesDisputeRequestBodyEvidence'UncategorizedFile :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'UncategorizedFile :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | uncategorized_text
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postDisputesDisputeRequestBodyEvidence'UncategorizedText :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postDisputesDisputeRequestBodyEvidence'UncategorizedText :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostDisputesDisputeRequestBodyEvidence'

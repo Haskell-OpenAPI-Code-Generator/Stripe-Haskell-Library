@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the specified Issuing \<code>Transaction\<\/code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
 postIssuingTransactionsTransaction :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                -- ^ transaction | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                        -- ^ transaction | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostIssuingTransactionsTransactionRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostIssuingTransactionsTransactionResponse)) -- ^ Monad containing the result of the operation
 postIssuingTransactionsTransaction config
@@ -60,7 +60,7 @@ postIssuingTransactionsTransaction config
 postIssuingTransactionsTransactionRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                        StripeAPI.Common.SecurityScheme s) =>
                                          StripeAPI.Common.Configuration s ->
-                                         GHC.Base.String ->
+                                         Data.Text.Internal.Text ->
                                          GHC.Maybe.Maybe PostIssuingTransactionsTransactionRequestBody ->
                                          m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postIssuingTransactionsTransactionRaw config
 -- Monadic version of 'postIssuingTransactionsTransaction' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingTransactionsTransactionM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
-                                       GHC.Base.String ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe PostIssuingTransactionsTransactionRequestBody ->
                                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                           m
@@ -89,7 +89,7 @@ postIssuingTransactionsTransactionM transaction
 -- Monadic version of 'postIssuingTransactionsTransactionRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingTransactionsTransactionRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
-                                          GHC.Base.String ->
+                                          Data.Text.Internal.Text ->
                                           GHC.Maybe.Maybe PostIssuingTransactionsTransactionRequestBody ->
                                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                              m
@@ -102,7 +102,7 @@ postIssuingTransactionsTransactionRawM transaction
 -- 
 data PostIssuingTransactionsTransactionRequestBody = PostIssuingTransactionsTransactionRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postIssuingTransactionsTransactionRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postIssuingTransactionsTransactionRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postIssuingTransactionsTransactionRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingTransactionsTransactionRequestBodyMetadata'Variants)
   } deriving (GHC.Show.Show
@@ -117,7 +117,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingTransactionsTransactionRe
 -- 
 data PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1
     = PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumTyped GHC.Base.String
+    | PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumTyped Data.Text.Internal.Text
     | PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingTransactionsTransactionRequestBodyMetadata'OneOf1

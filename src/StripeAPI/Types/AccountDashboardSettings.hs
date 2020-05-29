@@ -36,13 +36,13 @@ data AccountDashboardSettings = AccountDashboardSettings {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  accountDashboardSettingsDisplayName :: (GHC.Maybe.Maybe GHC.Base.String)
+  accountDashboardSettingsDisplayName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | timezone: The timezone used in the Stripe Dashboard for this account. A list of possible time zone values is maintained at the [IANA Time Zone Database](http:\/\/www.iana.org\/time-zones).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , accountDashboardSettingsTimezone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , accountDashboardSettingsTimezone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountDashboardSettings

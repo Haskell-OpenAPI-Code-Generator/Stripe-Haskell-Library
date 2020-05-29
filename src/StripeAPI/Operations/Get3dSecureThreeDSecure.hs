@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves a 3D Secure object.\<\/p>
 get3dSecureThreeDSecure :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                     -- ^ three_d_secure | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                             -- ^ three_d_secure | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe Get3dSecureThreeDSecureRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response Get3dSecureThreeDSecureResponse)) -- ^ Monad containing the result of the operation
 get3dSecureThreeDSecure config
@@ -68,8 +68,8 @@ get3dSecureThreeDSecure config
 get3dSecureThreeDSecureRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Base.String ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe Get3dSecureThreeDSecureRequestBody ->
                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ get3dSecureThreeDSecureRaw config
 -- Monadic version of 'get3dSecureThreeDSecure' (use with 'StripeAPI.Common.runWithConfiguration')
 get3dSecureThreeDSecureM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Base.String ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe Get3dSecureThreeDSecureRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -113,8 +113,8 @@ get3dSecureThreeDSecureM expand
 -- Monadic version of 'get3dSecureThreeDSecureRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 get3dSecureThreeDSecureRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe Get3dSecureThreeDSecureRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m

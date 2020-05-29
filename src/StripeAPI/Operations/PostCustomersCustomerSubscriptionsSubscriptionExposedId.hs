@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates an existing subscription on a customer to match the specified parameters. When changing plans or quantities, we will optionally prorate the price we charge next month to make up for any price changes. To preview how the proration will be calculated, use the \<a href=\"\#upcoming_invoice\">upcoming invoice\<\/a> endpoint.\<\/p>
 postCustomersCustomerSubscriptionsSubscriptionExposedId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                                     -- ^ customer | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                                                     -- ^ subscription_exposed_id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                                             -- ^ customer | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                                             -- ^ subscription_exposed_id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCustomersCustomerSubscriptionsSubscriptionExposedIdResponse)) -- ^ Monad containing the result of the operation
 postCustomersCustomerSubscriptionsSubscriptionExposedId config
@@ -62,8 +62,8 @@ postCustomersCustomerSubscriptionsSubscriptionExposedId config
 postCustomersCustomerSubscriptionsSubscriptionExposedIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                             StripeAPI.Common.SecurityScheme s) =>
                                                               StripeAPI.Common.Configuration s ->
-                                                              GHC.Base.String ->
-                                                              GHC.Base.String ->
+                                                              Data.Text.Internal.Text ->
+                                                              Data.Text.Internal.Text ->
                                                               GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody ->
                                                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,8 +76,8 @@ postCustomersCustomerSubscriptionsSubscriptionExposedIdRaw config
 -- Monadic version of 'postCustomersCustomerSubscriptionsSubscriptionExposedId' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerSubscriptionsSubscriptionExposedIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                           StripeAPI.Common.SecurityScheme s) =>
-                                                            GHC.Base.String ->
-                                                            GHC.Base.String ->
+                                                            Data.Text.Internal.Text ->
+                                                            Data.Text.Internal.Text ->
                                                             GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody ->
                                                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                                m
@@ -95,8 +95,8 @@ postCustomersCustomerSubscriptionsSubscriptionExposedIdM customer
 -- Monadic version of 'postCustomersCustomerSubscriptionsSubscriptionExposedIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerSubscriptionsSubscriptionExposedIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                              StripeAPI.Common.SecurityScheme s) =>
-                                                               GHC.Base.String ->
-                                                               GHC.Base.String ->
+                                                               Data.Text.Internal.Text ->
+                                                               Data.Text.Internal.Text ->
                                                                GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody ->
                                                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                                   m
@@ -134,7 +134,7 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody = PostCu
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCoupon :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCoupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | days_until_due: Number of days a customer has to pay invoices generated by this subscription. Valid only for subscriptions where \`collection_method\` is set to \`send_invoice\`.
   , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDaysUntilDue :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | default_payment_method: ID of the default payment method for the subscription. It must belong to the customer associated with the subscription. If not set, invoices will use the default payment method in the customer\'s invoice settings.
@@ -142,17 +142,17 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBody = PostCu
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultPaymentMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_source: ID of the default payment source for the subscription. It must belong to the customer associated with the subscription and be in a chargeable state. If not set, defaults to the customer\'s default source.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultSource :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultSource :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_tax_rates: The tax rates that will apply to any subscription item that does not have \`tax_rates\` set. Invoices created will have their \`default_tax_rates\` populated from the subscription. Pass an empty string to remove previously-defined tax rates.
   , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'Variants)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | items: List of subscription items, each with an attached plan.
   , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems :: (GHC.Maybe.Maybe ([] PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -195,7 +195,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSu
 -- Either \`now\` or \`unchanged\`. Setting the value to \`now\` resets the subscription\'s billing cycle anchor to the current time. For more information, see the billing cycle [documentation](https:\/\/stripe.com\/docs\/billing\/subscriptions\/billing-cycle).
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumTyped GHC.Base.String
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumStringNow
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingCycleAnchor'EnumStringUnchanged
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -215,7 +215,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExpos
 -- 
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1EnumTyped GHC.Base.String
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyBillingThresholds'OneOf1
@@ -257,7 +257,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExpos
 -- 
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1EnumTyped GHC.Base.String
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCancelAt'OneOf1
@@ -284,7 +284,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExpos
 -- Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to \`charge_automatically\`.
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumTyped GHC.Base.String
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumStringChargeAutomatically
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyCollectionMethod'EnumStringSendInvoice
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -304,7 +304,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExpos
 -- 
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1EnumTyped GHC.Base.String
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1
@@ -320,7 +320,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExpos
 -- The tax rates that will apply to any subscription item that does not have \`tax_rates\` set. Invoices created will have their \`default_tax_rates\` populated from the subscription. Pass an empty string to remove previously-defined tax rates.
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'Variants
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1 PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'OneOf1
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'ListString ([] GHC.Base.String)
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'ListText ([] Data.Text.Internal.Text)
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyDefaultTaxRates'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -341,7 +341,7 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems' = 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Id :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata
   , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Metadata :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Metadata')
   -- | plan
@@ -349,7 +349,7 @@ data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems' = 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Plan :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Plan :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | quantity
   , postCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'Quantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | tax_rates
@@ -366,7 +366,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSu
 -- 
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1EnumTyped GHC.Base.String
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'BillingThresholds'OneOf1
@@ -418,7 +418,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSu
 -- 
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1EnumTyped GHC.Base.String
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1
@@ -434,7 +434,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExpos
 -- 
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'Variants
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1 PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'OneOf1
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'ListString ([] GHC.Base.String)
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'ListText ([] Data.Text.Internal.Text)
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyItems'TaxRates'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -461,7 +461,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSu
 -- Use \`error_if_incomplete\` if you want Stripe to return an HTTP 402 status code if a subscription\'s first invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not create a subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https:\/\/stripe.com\/docs\/upgrades\#2019-03-14) to learn more.
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumTyped GHC.Base.String
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumStringAllowIncomplete
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumStringErrorIfIncomplete
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPaymentBehavior'EnumStringPendingIfIncomplete
@@ -485,7 +485,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExpos
 -- 
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1EnumTyped GHC.Base.String
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf1
@@ -516,7 +516,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsSu
 -- 
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumTyped GHC.Base.String
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringDay
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringMonth
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyPendingInvoiceItemInterval'OneOf2Interval'EnumStringWeek
@@ -559,7 +559,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExpos
 -- Prorations can be disabled by passing \`none\`.
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumTyped GHC.Base.String
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumStringAlwaysInvoice
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumStringCreateProrations
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyProrationBehavior'EnumStringNone
@@ -583,7 +583,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExpos
 -- 
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1EnumTyped GHC.Base.String
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTaxPercent'OneOf1
@@ -610,7 +610,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsSubscriptionExpos
 -- 
 data PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1
     = PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1EnumTyped GHC.Base.String
+    | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1EnumStringNow
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsSubscriptionExposedIdRequestBodyTrialEnd'OneOf1

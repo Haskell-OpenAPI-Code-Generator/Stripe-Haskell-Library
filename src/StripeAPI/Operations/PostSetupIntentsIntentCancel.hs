@@ -46,7 +46,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Once canceled, setup is abandoned and any operations on the SetupIntent will fail with an error.\<\/p>
 postSetupIntentsIntentCancel :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                          -- ^ intent | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                  -- ^ intent | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostSetupIntentsIntentCancelRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSetupIntentsIntentCancelResponse)) -- ^ Monad containing the result of the operation
 postSetupIntentsIntentCancel config
@@ -62,7 +62,7 @@ postSetupIntentsIntentCancel config
 postSetupIntentsIntentCancelRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
                                    StripeAPI.Common.Configuration s ->
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe PostSetupIntentsIntentCancelRequestBody ->
                                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                          (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -74,7 +74,7 @@ postSetupIntentsIntentCancelRaw config
 -- Monadic version of 'postSetupIntentsIntentCancel' (use with 'StripeAPI.Common.runWithConfiguration')
 postSetupIntentsIntentCancelM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
-                                 GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe PostSetupIntentsIntentCancelRequestBody ->
                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                     m
@@ -91,7 +91,7 @@ postSetupIntentsIntentCancelM intent
 -- Monadic version of 'postSetupIntentsIntentCancelRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postSetupIntentsIntentCancelRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe PostSetupIntentsIntentCancelRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m
@@ -110,7 +110,7 @@ data PostSetupIntentsIntentCancelRequestBody = PostSetupIntentsIntentCancelReque
   -- * Maximum length of 5000
   postSetupIntentsIntentCancelRequestBodyCancellationReason :: (GHC.Maybe.Maybe PostSetupIntentsIntentCancelRequestBodyCancellationReason')
   -- | expand: Specifies which fields in the response should be expanded.
-  , postSetupIntentsIntentCancelRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postSetupIntentsIntentCancelRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSetupIntentsIntentCancelRequestBody
@@ -123,7 +123,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsIntentCancelRequestB
 -- Reason for canceling this SetupIntent. Possible values are \`abandoned\`, \`requested_by_customer\`, or \`duplicate\`
 data PostSetupIntentsIntentCancelRequestBodyCancellationReason'
     = PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumTyped GHC.Base.String
+    | PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumTyped Data.Text.Internal.Text
     | PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumStringAbandoned
     | PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumStringDuplicate
     | PostSetupIntentsIntentCancelRequestBodyCancellationReason'EnumStringRequestedByCustomer

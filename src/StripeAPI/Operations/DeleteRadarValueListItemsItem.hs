@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Deletes a \<code>ValueListItem\<\/code> object, removing it from its parent value list.\<\/p>
 deleteRadarValueListItemsItem :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                           -- ^ item | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                   -- ^ item | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteRadarValueListItemsItemRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteRadarValueListItemsItemResponse)) -- ^ Monad containing the result of the operation
 deleteRadarValueListItemsItem config
@@ -60,7 +60,7 @@ deleteRadarValueListItemsItem config
 deleteRadarValueListItemsItemRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     StripeAPI.Common.Configuration s ->
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe DeleteRadarValueListItemsItemRequestBody ->
                                     m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                           (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteRadarValueListItemsItemRaw config
 -- Monadic version of 'deleteRadarValueListItemsItem' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteRadarValueListItemsItemM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe DeleteRadarValueListItemsItemRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m
@@ -89,7 +89,7 @@ deleteRadarValueListItemsItemM item
 -- Monadic version of 'deleteRadarValueListItemsItemRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteRadarValueListItemsItemRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
-                                     GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe DeleteRadarValueListItemsItemRequestBody ->
                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                         m

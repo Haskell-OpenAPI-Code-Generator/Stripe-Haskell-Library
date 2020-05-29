@@ -40,13 +40,13 @@ data Radar'valueListItem = Radar'valueListItem {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , radar'valueListItemCreatedBy :: GHC.Base.String
+  , radar'valueListItemCreatedBy :: Data.Text.Internal.Text
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , radar'valueListItemId :: GHC.Base.String
+  , radar'valueListItemId :: Data.Text.Internal.Text
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , radar'valueListItemLivemode :: GHC.Types.Bool
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
@@ -56,13 +56,13 @@ data Radar'valueListItem = Radar'valueListItem {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , radar'valueListItemValue :: GHC.Base.String
+  , radar'valueListItemValue :: Data.Text.Internal.Text
   -- | value_list: The identifier of the value list this item belongs to.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , radar'valueListItemValueList :: GHC.Base.String
+  , radar'valueListItemValueList :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Radar'valueListItem
@@ -75,7 +75,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Radar'valueListItem
 -- String representing the object\'s type. Objects of the same type share the same value.
 data Radar'valueListItemObject'
     = Radar'valueListItemObject'EnumOther Data.Aeson.Types.Internal.Value
-    | Radar'valueListItemObject'EnumTyped GHC.Base.String
+    | Radar'valueListItemObject'EnumTyped Data.Text.Internal.Text
     | Radar'valueListItemObject'EnumStringRadar'valueListItem
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Radar'valueListItemObject'

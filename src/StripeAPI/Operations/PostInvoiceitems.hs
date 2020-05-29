@@ -96,29 +96,29 @@ data PostInvoiceitemsRequestBody = PostInvoiceitemsRequestBody {
   -- | amount: The integer amount in **%s** of the charge to be applied to the upcoming invoice. Passing in a negative \`amount\` will reduce the \`amount_due\` on the invoice.
   postInvoiceitemsRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , postInvoiceitemsRequestBodyCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoiceitemsRequestBodyCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer: The ID of the customer who will be billed when this invoice item is billed.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoiceitemsRequestBodyCustomer :: GHC.Base.String
+  , postInvoiceitemsRequestBodyCustomer :: Data.Text.Internal.Text
   -- | description: An arbitrary string which you can attach to the invoice item. The description is displayed in the invoice for easy tracking.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoiceitemsRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoiceitemsRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | discountable: Controls whether discounts apply to this invoice item. Defaults to false for prorations or negative invoice items, and true for all other invoice items.
   , postInvoiceitemsRequestBodyDiscountable :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postInvoiceitemsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postInvoiceitemsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | invoice: The ID of an existing invoice to add this invoice item to. When left blank, the invoice item will be added to the next upcoming scheduled invoice. This is useful when adding invoice items in response to an invoice.created webhook. You can only add invoice items to draft invoices.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoiceitemsRequestBodyInvoice :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoiceitemsRequestBodyInvoice :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postInvoiceitemsRequestBodyMetadata :: (GHC.Maybe.Maybe PostInvoiceitemsRequestBodyMetadata')
   -- | period: The period associated with this invoice item.
@@ -130,13 +130,13 @@ data PostInvoiceitemsRequestBody = PostInvoiceitemsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoiceitemsRequestBodySubscription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoiceitemsRequestBodySubscription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tax_rates: The tax rates which apply to the invoice item. When set, the \`default_tax_rates\` on the invoice do not apply to this invoice item.
-  , postInvoiceitemsRequestBodyTaxRates :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postInvoiceitemsRequestBodyTaxRates :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | unit_amount: The integer unit amount in **%s** of the charge to be applied to the upcoming invoice. This \`unit_amount\` will be multiplied by the quantity to get the full amount. Passing in a negative \`unit_amount\` will reduce the \`amount_due\` on the invoice.
   , postInvoiceitemsRequestBodyUnitAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | unit_amount_decimal: Same as \`unit_amount\`, but accepts a decimal value with at most 12 decimal places. Only one of \`unit_amount\` and \`unit_amount_decimal\` can be set.
-  , postInvoiceitemsRequestBodyUnitAmountDecimal :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoiceitemsRequestBodyUnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoiceitemsRequestBody

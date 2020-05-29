@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieve a dispute for a specified charge.\<\/p>
 getChargesChargeDispute :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                     -- ^ charge | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                             -- ^ charge | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetChargesChargeDisputeRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetChargesChargeDisputeResponse)) -- ^ Monad containing the result of the operation
 getChargesChargeDispute config
@@ -68,8 +68,8 @@ getChargesChargeDispute config
 getChargesChargeDisputeRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
-                              GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
+                              Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe GetChargesChargeDisputeRequestBody ->
                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getChargesChargeDisputeRaw config
 -- Monadic version of 'getChargesChargeDispute' (use with 'StripeAPI.Common.runWithConfiguration')
 getChargesChargeDisputeM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Base.String ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
+                            Data.Text.Internal.Text ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe GetChargesChargeDisputeRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -113,8 +113,8 @@ getChargesChargeDisputeM charge
 -- Monadic version of 'getChargesChargeDisputeRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getChargesChargeDisputeRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GetChargesChargeDisputeRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m

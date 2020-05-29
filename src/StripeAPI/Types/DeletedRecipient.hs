@@ -38,7 +38,7 @@ data DeletedRecipient = DeletedRecipient {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedRecipientId :: GHC.Base.String
+  , deletedRecipientId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedRecipientObject :: DeletedRecipientObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedRecipientDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedRecipientObject'
     = DeletedRecipientObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedRecipientObject'EnumTyped GHC.Base.String
+    | DeletedRecipientObject'EnumTyped Data.Text.Internal.Text
     | DeletedRecipientObject'EnumStringRecipient
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedRecipientObject'

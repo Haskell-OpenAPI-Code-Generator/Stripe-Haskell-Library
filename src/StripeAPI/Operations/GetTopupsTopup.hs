@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of a top-up that has previously been created. Supply the unique top-up ID that was returned from your previous request, and Stripe will return the corresponding top-up information.\<\/p>
 getTopupsTopup :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                            -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                            -- ^ topup | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                    -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                    -- ^ topup | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetTopupsTopupRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetTopupsTopupResponse)) -- ^ Monad containing the result of the operation
 getTopupsTopup config
@@ -68,8 +68,8 @@ getTopupsTopup config
 getTopupsTopupRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
                      StripeAPI.Common.Configuration s ->
-                     GHC.Maybe.Maybe GHC.Base.String ->
-                     GHC.Base.String ->
+                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                     Data.Text.Internal.Text ->
                      GHC.Maybe.Maybe GetTopupsTopupRequestBody ->
                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                            (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getTopupsTopupRaw config
 -- Monadic version of 'getTopupsTopup' (use with 'StripeAPI.Common.runWithConfiguration')
 getTopupsTopupM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                  StripeAPI.Common.SecurityScheme s) =>
-                   GHC.Maybe.Maybe GHC.Base.String ->
-                   GHC.Base.String ->
+                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                   Data.Text.Internal.Text ->
                    GHC.Maybe.Maybe GetTopupsTopupRequestBody ->
                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                       m
@@ -113,8 +113,8 @@ getTopupsTopupM expand
 -- Monadic version of 'getTopupsTopupRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getTopupsTopupRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Base.String ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe GetTopupsTopupRequestBody ->
                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                          m

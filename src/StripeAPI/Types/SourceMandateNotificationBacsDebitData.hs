@@ -36,7 +36,7 @@ data SourceMandateNotificationBacsDebitData = SourceMandateNotificationBacsDebit
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  sourceMandateNotificationBacsDebitDataLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceMandateNotificationBacsDebitDataLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceMandateNotificationBacsDebitData

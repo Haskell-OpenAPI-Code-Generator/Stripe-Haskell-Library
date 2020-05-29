@@ -32,13 +32,13 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeIdeal = SourceTypeIdeal {
   -- | bank
-  sourceTypeIdealBank :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeIdealBank :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bic
-  , sourceTypeIdealBic :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeIdealBic :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | iban_last4
-  , sourceTypeIdealIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeIdealIbanLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor
-  , sourceTypeIdealStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeIdealStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeIdeal

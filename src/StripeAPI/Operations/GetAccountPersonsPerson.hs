@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves an existing person.\<\/p>
 getAccountPersonsPerson :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                     -- ^ person | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                             -- ^ person | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetAccountPersonsPersonRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetAccountPersonsPersonResponse)) -- ^ Monad containing the result of the operation
 getAccountPersonsPerson config
@@ -68,8 +68,8 @@ getAccountPersonsPerson config
 getAccountPersonsPersonRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Base.String ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe GetAccountPersonsPersonRequestBody ->
                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getAccountPersonsPersonRaw config
 -- Monadic version of 'getAccountPersonsPerson' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountPersonsPersonM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Base.String ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe GetAccountPersonsPersonRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -113,8 +113,8 @@ getAccountPersonsPersonM expand
 -- Monadic version of 'getAccountPersonsPersonRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountPersonsPersonRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GetAccountPersonsPersonRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m

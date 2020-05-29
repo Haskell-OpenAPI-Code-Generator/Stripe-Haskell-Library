@@ -98,17 +98,17 @@ data PostSkusRequestBody = PostSkusRequestBody {
   -- | attributes: A dictionary of attributes and values for the attributes defined by the product. If, for example, a product\'s attributes are \`[\"size\", \"gender\"]\`, a valid SKU has the following dictionary of attributes: \`{\"size\": \"Medium\", \"gender\": \"Unisex\"}\`.
   , postSkusRequestBodyAttributes :: (GHC.Maybe.Maybe PostSkusRequestBodyAttributes')
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , postSkusRequestBodyCurrency :: GHC.Base.String
+  , postSkusRequestBodyCurrency :: Data.Text.Internal.Text
   -- | expand: Specifies which fields in the response should be expanded.
-  , postSkusRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postSkusRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | id: The identifier for the SKU. Must be unique. If not provided, an identifier will be randomly generated.
-  , postSkusRequestBodyId :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSkusRequestBodyId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | image: The URL of an image for this SKU, meant to be displayable to the customer.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSkusRequestBodyImage :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSkusRequestBodyImage :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | inventory: Description of the SKU\'s inventory.
   , postSkusRequestBodyInventory :: PostSkusRequestBodyInventory'
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -122,7 +122,7 @@ data PostSkusRequestBody = PostSkusRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSkusRequestBodyProduct :: GHC.Base.String
+  , postSkusRequestBodyProduct :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSkusRequestBody
@@ -172,7 +172,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSkusRequestBodyInventory'
 -- 
 data PostSkusRequestBodyInventory'Type'
     = PostSkusRequestBodyInventory'Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSkusRequestBodyInventory'Type'EnumTyped GHC.Base.String
+    | PostSkusRequestBodyInventory'Type'EnumTyped Data.Text.Internal.Text
     | PostSkusRequestBodyInventory'Type'EnumStringBucket
     | PostSkusRequestBodyInventory'Type'EnumStringFinite
     | PostSkusRequestBodyInventory'Type'EnumStringInfinite
@@ -196,7 +196,7 @@ instance Data.Aeson.FromJSON PostSkusRequestBodyInventory'Type'
 -- 
 data PostSkusRequestBodyInventory'Value'
     = PostSkusRequestBodyInventory'Value'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSkusRequestBodyInventory'Value'EnumTyped GHC.Base.String
+    | PostSkusRequestBodyInventory'Value'EnumTyped Data.Text.Internal.Text
     | PostSkusRequestBodyInventory'Value'EnumString_
     | PostSkusRequestBodyInventory'Value'EnumStringInStock
     | PostSkusRequestBodyInventory'Value'EnumStringLimited

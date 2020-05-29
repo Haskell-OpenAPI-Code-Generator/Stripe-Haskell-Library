@@ -38,7 +38,7 @@ data Coupon = Coupon {
   -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
   , couponCreated :: GHC.Integer.Type.Integer
   -- | currency: If \`amount_off\` has been set, the three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/currencies) of the amount to take off.
-  , couponCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , couponCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | duration: One of \`forever\`, \`once\`, and \`repeating\`. Describes how long a customer who applies this coupon will get the discount.
   , couponDuration :: CouponDuration'
   -- | duration_in_months: If \`duration\` is \`repeating\`, the number of months the coupon applies. Null if coupon \`duration\` is \`forever\` or \`once\`.
@@ -48,7 +48,7 @@ data Coupon = Coupon {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , couponId :: GHC.Base.String
+  , couponId :: Data.Text.Internal.Text
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , couponLivemode :: GHC.Types.Bool
   -- | max_redemptions: Maximum number of times this coupon can be redeemed, in total, across all customers, before it is no longer valid.
@@ -60,7 +60,7 @@ data Coupon = Coupon {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , couponName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , couponName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , couponObject :: CouponObject'
   -- | percent_off: Percent that will be taken off the subtotal of any invoices for this customer for the duration of the coupon. For example, a coupon with percent_off of 50 will make a %s100 invoice %s50 instead.
@@ -83,7 +83,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Coupon
 -- One of \`forever\`, \`once\`, and \`repeating\`. Describes how long a customer who applies this coupon will get the discount.
 data CouponDuration'
     = CouponDuration'EnumOther Data.Aeson.Types.Internal.Value
-    | CouponDuration'EnumTyped GHC.Base.String
+    | CouponDuration'EnumTyped Data.Text.Internal.Text
     | CouponDuration'EnumStringForever
     | CouponDuration'EnumStringOnce
     | CouponDuration'EnumStringRepeating
@@ -119,7 +119,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON CouponMetadata'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data CouponObject'
     = CouponObject'EnumOther Data.Aeson.Types.Internal.Value
-    | CouponObject'EnumTyped GHC.Base.String
+    | CouponObject'EnumTyped Data.Text.Internal.Text
     | CouponObject'EnumStringCoupon
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON CouponObject'

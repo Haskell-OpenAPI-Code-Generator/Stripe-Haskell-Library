@@ -51,7 +51,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingAuthorizationVerificationData
 -- Whether the cardholder provided an address first line and if it matched the cardholder’s \`billing.address.line1\`.
 data IssuingAuthorizationVerificationDataAddressLine1Check'
     = IssuingAuthorizationVerificationDataAddressLine1Check'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingAuthorizationVerificationDataAddressLine1Check'EnumTyped GHC.Base.String
+    | IssuingAuthorizationVerificationDataAddressLine1Check'EnumTyped Data.Text.Internal.Text
     | IssuingAuthorizationVerificationDataAddressLine1Check'EnumStringMatch
     | IssuingAuthorizationVerificationDataAddressLine1Check'EnumStringMismatch
     | IssuingAuthorizationVerificationDataAddressLine1Check'EnumStringNotProvided
@@ -75,7 +75,7 @@ instance Data.Aeson.FromJSON IssuingAuthorizationVerificationDataAddressLine1Che
 -- Whether the cardholder provided a zip (or postal code) and if it matched the cardholder’s \`billing.address.postal_code\`.
 data IssuingAuthorizationVerificationDataAddressZipCheck'
     = IssuingAuthorizationVerificationDataAddressZipCheck'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingAuthorizationVerificationDataAddressZipCheck'EnumTyped GHC.Base.String
+    | IssuingAuthorizationVerificationDataAddressZipCheck'EnumTyped Data.Text.Internal.Text
     | IssuingAuthorizationVerificationDataAddressZipCheck'EnumStringMatch
     | IssuingAuthorizationVerificationDataAddressZipCheck'EnumStringMismatch
     | IssuingAuthorizationVerificationDataAddressZipCheck'EnumStringNotProvided
@@ -99,7 +99,7 @@ instance Data.Aeson.FromJSON IssuingAuthorizationVerificationDataAddressZipCheck
 -- Whether 3DS authentication was performed.
 data IssuingAuthorizationVerificationDataAuthentication'
     = IssuingAuthorizationVerificationDataAuthentication'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingAuthorizationVerificationDataAuthentication'EnumTyped GHC.Base.String
+    | IssuingAuthorizationVerificationDataAuthentication'EnumTyped Data.Text.Internal.Text
     | IssuingAuthorizationVerificationDataAuthentication'EnumStringFailure
     | IssuingAuthorizationVerificationDataAuthentication'EnumStringNone
     | IssuingAuthorizationVerificationDataAuthentication'EnumStringSuccess
@@ -123,7 +123,7 @@ instance Data.Aeson.FromJSON IssuingAuthorizationVerificationDataAuthentication'
 -- Whether the cardholder provided a CVC and if it matched Stripe’s record.
 data IssuingAuthorizationVerificationDataCvcCheck'
     = IssuingAuthorizationVerificationDataCvcCheck'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingAuthorizationVerificationDataCvcCheck'EnumTyped GHC.Base.String
+    | IssuingAuthorizationVerificationDataCvcCheck'EnumTyped Data.Text.Internal.Text
     | IssuingAuthorizationVerificationDataCvcCheck'EnumStringMatch
     | IssuingAuthorizationVerificationDataCvcCheck'EnumStringMismatch
     | IssuingAuthorizationVerificationDataCvcCheck'EnumStringNotProvided

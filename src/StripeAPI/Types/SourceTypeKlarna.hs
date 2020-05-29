@@ -32,55 +32,55 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeKlarna = SourceTypeKlarna {
   -- | background_image_url
-  sourceTypeKlarnaBackgroundImageUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeKlarnaBackgroundImageUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | client_token
-  , sourceTypeKlarnaClientToken :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaClientToken :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | first_name
-  , sourceTypeKlarnaFirstName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaFirstName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last_name
-  , sourceTypeKlarnaLastName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaLastName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | locale
-  , sourceTypeKlarnaLocale :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaLocale :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | logo_url
-  , sourceTypeKlarnaLogoUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaLogoUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | page_title
-  , sourceTypeKlarnaPageTitle :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPageTitle :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pay_later_asset_urls_descriptive
-  , sourceTypeKlarnaPayLaterAssetUrlsDescriptive :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPayLaterAssetUrlsDescriptive :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pay_later_asset_urls_standard
-  , sourceTypeKlarnaPayLaterAssetUrlsStandard :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPayLaterAssetUrlsStandard :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pay_later_name
-  , sourceTypeKlarnaPayLaterName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPayLaterName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pay_later_redirect_url
-  , sourceTypeKlarnaPayLaterRedirectUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPayLaterRedirectUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pay_now_asset_urls_descriptive
-  , sourceTypeKlarnaPayNowAssetUrlsDescriptive :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPayNowAssetUrlsDescriptive :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pay_now_asset_urls_standard
-  , sourceTypeKlarnaPayNowAssetUrlsStandard :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPayNowAssetUrlsStandard :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pay_now_name
-  , sourceTypeKlarnaPayNowName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPayNowName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pay_now_redirect_url
-  , sourceTypeKlarnaPayNowRedirectUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPayNowRedirectUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pay_over_time_asset_urls_descriptive
-  , sourceTypeKlarnaPayOverTimeAssetUrlsDescriptive :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPayOverTimeAssetUrlsDescriptive :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pay_over_time_asset_urls_standard
-  , sourceTypeKlarnaPayOverTimeAssetUrlsStandard :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPayOverTimeAssetUrlsStandard :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pay_over_time_name
-  , sourceTypeKlarnaPayOverTimeName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPayOverTimeName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pay_over_time_redirect_url
-  , sourceTypeKlarnaPayOverTimeRedirectUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPayOverTimeRedirectUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | payment_method_categories
-  , sourceTypeKlarnaPaymentMethodCategories :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPaymentMethodCategories :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | purchase_country
-  , sourceTypeKlarnaPurchaseCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPurchaseCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | purchase_type
-  , sourceTypeKlarnaPurchaseType :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaPurchaseType :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | redirect_url
-  , sourceTypeKlarnaRedirectUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaRedirectUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping_first_name
-  , sourceTypeKlarnaShippingFirstName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaShippingFirstName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping_last_name
-  , sourceTypeKlarnaShippingLastName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeKlarnaShippingLastName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeKlarna

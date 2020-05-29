@@ -38,7 +38,7 @@ data DeletedRadar'valueListItem = DeletedRadar'valueListItem {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedRadar'valueListItemId :: GHC.Base.String
+  , deletedRadar'valueListItemId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedRadar'valueListItemObject :: DeletedRadar'valueListItemObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedRadar'valueListItemDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedRadar'valueListItemObject'
     = DeletedRadar'valueListItemObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedRadar'valueListItemObject'EnumTyped GHC.Base.String
+    | DeletedRadar'valueListItemObject'EnumTyped Data.Text.Internal.Text
     | DeletedRadar'valueListItemObject'EnumStringRadar'valueListItem
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedRadar'valueListItemObject'

@@ -50,7 +50,7 @@ import StripeAPI.Types
 -- 
 -- \<p>The default pricing model for metered billing is \<a href=\"\/docs\/api\/plans\/object\#plan_object-billing_scheme\">per-unit pricing\<\/a>. For finer granularity, you can configure metered billing to have a \<a href=\"https:\/\/stripe.com\/docs\/billing\/subscriptions\/tiers\">tiered pricing\<\/a> model.\<\/p>
 postSubscriptionItemsSubscriptionItemUsageRecords :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                               -- ^ subscription_item
+  -> Data.Text.Internal.Text                                                                                                                                       -- ^ subscription_item
   -> PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody                                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSubscriptionItemsSubscriptionItemUsageRecordsResponse)) -- ^ Monad containing the result of the operation
 postSubscriptionItemsSubscriptionItemUsageRecords config
@@ -66,7 +66,7 @@ postSubscriptionItemsSubscriptionItemUsageRecords config
 postSubscriptionItemsSubscriptionItemUsageRecordsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                       StripeAPI.Common.SecurityScheme s) =>
                                                         StripeAPI.Common.Configuration s ->
-                                                        GHC.Base.String ->
+                                                        Data.Text.Internal.Text ->
                                                         PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
                                                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -78,7 +78,7 @@ postSubscriptionItemsSubscriptionItemUsageRecordsRaw config
 -- Monadic version of 'postSubscriptionItemsSubscriptionItemUsageRecords' (use with 'StripeAPI.Common.runWithConfiguration')
 postSubscriptionItemsSubscriptionItemUsageRecordsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                     StripeAPI.Common.SecurityScheme s) =>
-                                                      GHC.Base.String ->
+                                                      Data.Text.Internal.Text ->
                                                       PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
                                                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                          m
@@ -95,7 +95,7 @@ postSubscriptionItemsSubscriptionItemUsageRecordsM subscriptionItem
 -- Monadic version of 'postSubscriptionItemsSubscriptionItemUsageRecordsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postSubscriptionItemsSubscriptionItemUsageRecordsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                        StripeAPI.Common.SecurityScheme s) =>
-                                                         GHC.Base.String ->
+                                                         Data.Text.Internal.Text ->
                                                          PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
                                                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                             m
@@ -114,7 +114,7 @@ data PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody = PostSubscrip
   -- * Maximum length of 5000
   postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction :: (GHC.Maybe.Maybe PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction')
   -- | expand: Specifies which fields in the response should be expanded.
-  , postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | quantity: The usage quantity for the specified timestamp.
   , postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity :: GHC.Integer.Type.Integer
   -- | timestamp: The timestamp for the usage event. This timestamp must be within the current billing period of the subscription of the provided \`subscription_item\`.
@@ -131,7 +131,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionItemsSubscriptionIte
 -- Valid values are \`increment\` (default) or \`set\`. When using \`increment\` the specified \`quantity\` will be added to the usage at the specified timestamp. The \`set\` action will overwrite the usage quantity at that timestamp. If the subscription has [billing thresholds](https:\/\/stripe.com\/docs\/api\/subscriptions\/object\#subscription_object-billing_thresholds), \`increment\` is the only allowed value.
 data PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'
     = PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumTyped GHC.Base.String
+    | PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumTyped Data.Text.Internal.Text
     | PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringIncrement
     | PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyAction'EnumStringSet
     deriving (GHC.Show.Show, GHC.Classes.Eq)

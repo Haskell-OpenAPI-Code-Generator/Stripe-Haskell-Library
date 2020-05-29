@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Cancels a subscription schedule and its associated subscription immediately (if the subscription schedule has an active subscription). A subscription schedule can only be canceled if its status is \<code>not_started\<\/code> or \<code>active\<\/code>.\<\/p>
 postSubscriptionSchedulesScheduleCancel :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                     -- ^ schedule | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                             -- ^ schedule | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostSubscriptionSchedulesScheduleCancelRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSubscriptionSchedulesScheduleCancelResponse)) -- ^ Monad containing the result of the operation
 postSubscriptionSchedulesScheduleCancel config
@@ -60,7 +60,7 @@ postSubscriptionSchedulesScheduleCancel config
 postSubscriptionSchedulesScheduleCancelRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                             StripeAPI.Common.SecurityScheme s) =>
                                               StripeAPI.Common.Configuration s ->
-                                              GHC.Base.String ->
+                                              Data.Text.Internal.Text ->
                                               GHC.Maybe.Maybe PostSubscriptionSchedulesScheduleCancelRequestBody ->
                                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postSubscriptionSchedulesScheduleCancelRaw config
 -- Monadic version of 'postSubscriptionSchedulesScheduleCancel' (use with 'StripeAPI.Common.runWithConfiguration')
 postSubscriptionSchedulesScheduleCancelM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                           StripeAPI.Common.SecurityScheme s) =>
-                                            GHC.Base.String ->
+                                            Data.Text.Internal.Text ->
                                             GHC.Maybe.Maybe PostSubscriptionSchedulesScheduleCancelRequestBody ->
                                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                m
@@ -89,7 +89,7 @@ postSubscriptionSchedulesScheduleCancelM schedule
 -- Monadic version of 'postSubscriptionSchedulesScheduleCancelRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postSubscriptionSchedulesScheduleCancelRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                              StripeAPI.Common.SecurityScheme s) =>
-                                               GHC.Base.String ->
+                                               Data.Text.Internal.Text ->
                                                GHC.Maybe.Maybe PostSubscriptionSchedulesScheduleCancelRequestBody ->
                                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                   m
@@ -102,7 +102,7 @@ postSubscriptionSchedulesScheduleCancelRawM schedule
 -- 
 data PostSubscriptionSchedulesScheduleCancelRequestBody = PostSubscriptionSchedulesScheduleCancelRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postSubscriptionSchedulesScheduleCancelRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postSubscriptionSchedulesScheduleCancelRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | invoice_now: If the subscription schedule is \`active\`, indicates whether or not to generate a final invoice that contains any un-invoiced metered usage and new\/pending proration invoice items. Defaults to \`true\`.
   , postSubscriptionSchedulesScheduleCancelRequestBodyInvoiceNow :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | prorate: If the subscription schedule is \`active\`, indicates if the cancellation should be prorated. Defaults to \`true\`.

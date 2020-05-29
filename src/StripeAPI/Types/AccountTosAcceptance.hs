@@ -38,13 +38,13 @@ data AccountTosAcceptance = AccountTosAcceptance {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , accountTosAcceptanceIp :: (GHC.Maybe.Maybe GHC.Base.String)
+  , accountTosAcceptanceIp :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | user_agent: The user agent of the browser from which the Stripe Services Agreement was accepted by the account representative
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , accountTosAcceptanceUserAgent :: (GHC.Maybe.Maybe GHC.Base.String)
+  , accountTosAcceptanceUserAgent :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountTosAcceptance

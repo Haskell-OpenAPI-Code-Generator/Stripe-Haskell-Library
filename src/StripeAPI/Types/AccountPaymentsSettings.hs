@@ -36,19 +36,19 @@ data AccountPaymentsSettings = AccountPaymentsSettings {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  accountPaymentsSettingsStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  accountPaymentsSettingsStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor_kana: The Kana variation of the default text that appears on credit card statements when a charge is made (Japan only)
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , accountPaymentsSettingsStatementDescriptorKana :: (GHC.Maybe.Maybe GHC.Base.String)
+  , accountPaymentsSettingsStatementDescriptorKana :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor_kanji: The Kanji variation of the default text that appears on credit card statements when a charge is made (Japan only)
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , accountPaymentsSettingsStatementDescriptorKanji :: (GHC.Maybe.Maybe GHC.Base.String)
+  , accountPaymentsSettingsStatementDescriptorKanji :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountPaymentsSettings

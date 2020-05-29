@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of an existing file object. Supply the unique file ID from a file, and Stripe will return the corresponding file object. To access file contents, see the \<a href=\"\/docs\/file-upload\#download-file-contents\">File Upload Guide\<\/a>.\<\/p>
 getFilesFile :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                          -- ^ file | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                  -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                  -- ^ file | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetFilesFileRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetFilesFileResponse)) -- ^ Monad containing the result of the operation
 getFilesFile config
@@ -68,8 +68,8 @@ getFilesFile config
 getFilesFileRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                  StripeAPI.Common.SecurityScheme s) =>
                    StripeAPI.Common.Configuration s ->
-                   GHC.Maybe.Maybe GHC.Base.String ->
-                   GHC.Base.String ->
+                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                   Data.Text.Internal.Text ->
                    GHC.Maybe.Maybe GetFilesFileRequestBody ->
                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                          (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getFilesFileRaw config
 -- Monadic version of 'getFilesFile' (use with 'StripeAPI.Common.runWithConfiguration')
 getFilesFileM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GetFilesFileRequestBody ->
                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                     m
@@ -113,8 +113,8 @@ getFilesFileM expand
 -- Monadic version of 'getFilesFileRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getFilesFileRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Base.String ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe GetFilesFileRequestBody ->
                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                        m

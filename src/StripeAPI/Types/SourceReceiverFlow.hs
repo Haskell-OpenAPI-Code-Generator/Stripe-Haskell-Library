@@ -36,7 +36,7 @@ data SourceReceiverFlow = SourceReceiverFlow {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  sourceReceiverFlowAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceReceiverFlowAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | amount_charged: The total amount that was charged by you. The amount charged is expressed in the source\'s currency.
   , sourceReceiverFlowAmountCharged :: GHC.Integer.Type.Integer
   -- | amount_received: The total amount received by the receiver source. \`amount_received = amount_returned + amount_charged\` is true at all time. The amount received is expressed in the source\'s currency.
@@ -48,13 +48,13 @@ data SourceReceiverFlow = SourceReceiverFlow {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceReceiverFlowRefundAttributesMethod :: GHC.Base.String
+  , sourceReceiverFlowRefundAttributesMethod :: Data.Text.Internal.Text
   -- | refund_attributes_status: Type of refund attribute status, one of \`missing\`, \`requested\`, or \`available\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceReceiverFlowRefundAttributesStatus :: GHC.Base.String
+  , sourceReceiverFlowRefundAttributesStatus :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceReceiverFlow

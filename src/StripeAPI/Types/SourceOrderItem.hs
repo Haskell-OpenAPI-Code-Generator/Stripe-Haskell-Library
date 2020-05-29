@@ -38,13 +38,13 @@ data SourceOrderItem = SourceOrderItem {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceOrderItemCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceOrderItemCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | description: Human-readable description for this order item.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceOrderItemDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceOrderItemDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | quantity: The quantity of this order item. When type is \`sku\`, this is the number of instances of the SKU to be ordered.
   , sourceOrderItemQuantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | type: The type of this order item. Must be \`sku\`, \`tax\`, or \`shipping\`.
@@ -52,7 +52,7 @@ data SourceOrderItem = SourceOrderItem {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceOrderItemType :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceOrderItemType :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceOrderItem

@@ -37,13 +37,13 @@ data UsageRecordSummary = UsageRecordSummary {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  usageRecordSummaryId :: GHC.Base.String
+  usageRecordSummaryId :: Data.Text.Internal.Text
   -- | invoice: The invoice in which this usage period has been billed for.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , usageRecordSummaryInvoice :: (GHC.Maybe.Maybe GHC.Base.String)
+  , usageRecordSummaryInvoice :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , usageRecordSummaryLivemode :: GHC.Types.Bool
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
@@ -55,7 +55,7 @@ data UsageRecordSummary = UsageRecordSummary {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , usageRecordSummarySubscriptionItem :: GHC.Base.String
+  , usageRecordSummarySubscriptionItem :: Data.Text.Internal.Text
   -- | total_usage: The total usage within this usage period.
   , usageRecordSummaryTotalUsage :: GHC.Integer.Type.Integer
   } deriving (GHC.Show.Show
@@ -70,7 +70,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON UsageRecordSummary
 -- String representing the object\'s type. Objects of the same type share the same value.
 data UsageRecordSummaryObject'
     = UsageRecordSummaryObject'EnumOther Data.Aeson.Types.Internal.Value
-    | UsageRecordSummaryObject'EnumTyped GHC.Base.String
+    | UsageRecordSummaryObject'EnumTyped Data.Text.Internal.Text
     | UsageRecordSummaryObject'EnumStringUsageRecordSummary
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON UsageRecordSummaryObject'

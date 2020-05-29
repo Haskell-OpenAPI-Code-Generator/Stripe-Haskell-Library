@@ -38,7 +38,7 @@ data DeletedPlan = DeletedPlan {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedPlanId :: GHC.Base.String
+  , deletedPlanId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedPlanObject :: DeletedPlanObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedPlanDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedPlanObject'
     = DeletedPlanObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedPlanObject'EnumTyped GHC.Base.String
+    | DeletedPlanObject'EnumTyped Data.Text.Internal.Text
     | DeletedPlanObject'EnumStringPlan
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedPlanObject'

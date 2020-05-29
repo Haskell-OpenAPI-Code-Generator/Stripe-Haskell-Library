@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a Country Spec for a given Country code.\<\/p>
 getCountrySpecsCountry :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                    -- ^ country | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                            -- ^ country | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                            -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetCountrySpecsCountryRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCountrySpecsCountryResponse)) -- ^ Monad containing the result of the operation
 getCountrySpecsCountry config
@@ -68,8 +68,8 @@ getCountrySpecsCountry config
 getCountrySpecsCountryRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              StripeAPI.Common.Configuration s ->
-                             GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GetCountrySpecsCountryRequestBody ->
                              m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                    (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getCountrySpecsCountryRaw config
 -- Monadic version of 'getCountrySpecsCountry' (use with 'StripeAPI.Common.runWithConfiguration')
 getCountrySpecsCountryM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Base.String ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
+                           Data.Text.Internal.Text ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe GetCountrySpecsCountryRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m
@@ -113,8 +113,8 @@ getCountrySpecsCountryM country
 -- Monadic version of 'getCountrySpecsCountryRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCountrySpecsCountryRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
-                              GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
+                              Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe GetCountrySpecsCountryRequestBody ->
                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                  m

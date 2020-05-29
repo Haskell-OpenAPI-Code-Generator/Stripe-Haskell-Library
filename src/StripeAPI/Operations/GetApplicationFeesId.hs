@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of an application fee that your account has collected. The same information is returned when refunding the application fee.\<\/p>
 getApplicationFeesId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                  -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                  -- ^ id | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                          -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                          -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetApplicationFeesIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetApplicationFeesIdResponse)) -- ^ Monad containing the result of the operation
 getApplicationFeesId config
@@ -68,8 +68,8 @@ getApplicationFeesId config
 getApplicationFeesIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
                            StripeAPI.Common.Configuration s ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Base.String ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                           Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe GetApplicationFeesIdRequestBody ->
                            m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                  (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getApplicationFeesIdRaw config
 -- Monadic version of 'getApplicationFeesId' (use with 'StripeAPI.Common.runWithConfiguration')
 getApplicationFeesIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Base.String ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe GetApplicationFeesIdRequestBody ->
                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                             m
@@ -113,8 +113,8 @@ getApplicationFeesIdM expand
 -- Monadic version of 'getApplicationFeesIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getApplicationFeesIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Base.String ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe GetApplicationFeesIdRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m

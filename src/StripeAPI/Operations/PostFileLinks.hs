@@ -94,7 +94,7 @@ postFileLinksRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurati
 -- 
 data PostFileLinksRequestBody = PostFileLinksRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postFileLinksRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postFileLinksRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | expires_at: A future timestamp after which the link will no longer be usable.
   , postFileLinksRequestBodyExpiresAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | file: The ID of the file. The file\'s \`purpose\` must be one of the following: \`business_icon\`, \`business_logo\`, \`customer_signature\`, \`dispute_evidence\`, \`finance_report_run\`, \`pci_document\`, \`sigma_scheduled_query\`, or \`tax_document_user_upload\`.
@@ -102,7 +102,7 @@ data PostFileLinksRequestBody = PostFileLinksRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postFileLinksRequestBodyFile :: GHC.Base.String
+  , postFileLinksRequestBodyFile :: Data.Text.Internal.Text
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postFileLinksRequestBodyMetadata :: (GHC.Maybe.Maybe PostFileLinksRequestBodyMetadata')
   } deriving (GHC.Show.Show

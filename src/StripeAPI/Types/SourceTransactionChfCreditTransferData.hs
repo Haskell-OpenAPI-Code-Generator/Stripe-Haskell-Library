@@ -36,31 +36,31 @@ data SourceTransactionChfCreditTransferData = SourceTransactionChfCreditTransfer
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  sourceTransactionChfCreditTransferDataReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTransactionChfCreditTransferDataReference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | sender_address_country: Sender\'s country address.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionChfCreditTransferDataSenderAddressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionChfCreditTransferDataSenderAddressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | sender_address_line1: Sender\'s line 1 address.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionChfCreditTransferDataSenderAddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionChfCreditTransferDataSenderAddressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | sender_iban: Sender\'s bank account IBAN.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionChfCreditTransferDataSenderIban :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionChfCreditTransferDataSenderIban :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | sender_name: Sender\'s name.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionChfCreditTransferDataSenderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionChfCreditTransferDataSenderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTransactionChfCreditTransferData

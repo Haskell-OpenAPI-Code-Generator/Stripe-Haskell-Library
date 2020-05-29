@@ -38,7 +38,7 @@ data DeletedProduct = DeletedProduct {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedProductId :: GHC.Base.String
+  , deletedProductId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedProductObject :: DeletedProductObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedProductDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedProductObject'
     = DeletedProductObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedProductObject'EnumTyped GHC.Base.String
+    | DeletedProductObject'EnumTyped Data.Text.Internal.Text
     | DeletedProductObject'EnumStringProduct
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedProductObject'

@@ -37,7 +37,7 @@ data PaymentMethodDetailsEps = PaymentMethodDetailsEps {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  paymentMethodDetailsEpsVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)
+  paymentMethodDetailsEpsVerifiedName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsEps

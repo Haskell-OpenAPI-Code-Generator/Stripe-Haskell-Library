@@ -46,7 +46,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Requests made in test-mode result in no emails being sent, despite sending an \<code>invoice.sent\<\/code> event.\<\/p>
 postInvoicesInvoiceSend :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                     -- ^ invoice | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                             -- ^ invoice | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostInvoicesInvoiceSendRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostInvoicesInvoiceSendResponse)) -- ^ Monad containing the result of the operation
 postInvoicesInvoiceSend config
@@ -62,7 +62,7 @@ postInvoicesInvoiceSend config
 postInvoicesInvoiceSendRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
-                              GHC.Base.String ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe PostInvoicesInvoiceSendRequestBody ->
                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -74,7 +74,7 @@ postInvoicesInvoiceSendRaw config
 -- Monadic version of 'postInvoicesInvoiceSend' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoicesInvoiceSendM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Base.String ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe PostInvoicesInvoiceSendRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -91,7 +91,7 @@ postInvoicesInvoiceSendM invoice
 -- Monadic version of 'postInvoicesInvoiceSendRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoicesInvoiceSendRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe PostInvoicesInvoiceSendRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -104,7 +104,7 @@ postInvoicesInvoiceSendRawM invoice
 -- 
 data PostInvoicesInvoiceSendRequestBody = PostInvoicesInvoiceSendRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postInvoicesInvoiceSendRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postInvoicesInvoiceSendRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoicesInvoiceSendRequestBody

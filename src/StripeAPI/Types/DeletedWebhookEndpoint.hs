@@ -38,7 +38,7 @@ data DeletedWebhookEndpoint = DeletedWebhookEndpoint {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedWebhookEndpointId :: GHC.Base.String
+  , deletedWebhookEndpointId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedWebhookEndpointObject :: DeletedWebhookEndpointObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedWebhookEndpointDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedWebhookEndpointObject'
     = DeletedWebhookEndpointObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedWebhookEndpointObject'EnumTyped GHC.Base.String
+    | DeletedWebhookEndpointObject'EnumTyped Data.Text.Internal.Text
     | DeletedWebhookEndpointObject'EnumStringWebhookEndpoint
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedWebhookEndpointObject'

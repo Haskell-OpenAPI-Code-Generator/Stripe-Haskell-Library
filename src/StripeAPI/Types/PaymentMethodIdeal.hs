@@ -47,7 +47,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodIdeal
 -- The customer\'s bank, if provided. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`rabobank\`, \`regiobank\`, \`sns_bank\`, \`triodos_bank\`, or \`van_lanschot\`.
 data PaymentMethodIdealBank'
     = PaymentMethodIdealBank'EnumOther Data.Aeson.Types.Internal.Value
-    | PaymentMethodIdealBank'EnumTyped GHC.Base.String
+    | PaymentMethodIdealBank'EnumTyped Data.Text.Internal.Text
     | PaymentMethodIdealBank'EnumStringAbnAmro
     | PaymentMethodIdealBank'EnumStringAsnBank
     | PaymentMethodIdealBank'EnumStringBunq
@@ -107,7 +107,7 @@ instance Data.Aeson.FromJSON PaymentMethodIdealBank'
 -- The Bank Identifier Code of the customer\'s bank, if the bank was provided.
 data PaymentMethodIdealBic'
     = PaymentMethodIdealBic'EnumOther Data.Aeson.Types.Internal.Value
-    | PaymentMethodIdealBic'EnumTyped GHC.Base.String
+    | PaymentMethodIdealBic'EnumTyped Data.Text.Internal.Text
     | PaymentMethodIdealBic'EnumStringABNANL2A
     | PaymentMethodIdealBic'EnumStringASNBNL21
     | PaymentMethodIdealBic'EnumStringBUNQNL2A

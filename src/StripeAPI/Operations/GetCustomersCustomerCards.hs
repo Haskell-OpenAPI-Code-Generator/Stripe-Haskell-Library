@@ -46,11 +46,11 @@ import StripeAPI.Types
 -- Note that the 10 most recent sources are always available on the \<code>Customer\<\/code> object.
 -- If you need more than those 10, you can use this API method and the \<code>limit\<\/code> and \<code>starting_after\<\/code> parameters to page through additional cards.\<\/p>
 getCustomersCustomerCards :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                       -- ^ customer | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                       -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                       -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                               -- ^ customer | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                               -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                               -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                              -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                       -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                               -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
   -> GHC.Maybe.Maybe GetCustomersCustomerCardsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCustomersCustomerCardsResponse)) -- ^ Monad containing the result of the operation
 getCustomersCustomerCards config
@@ -108,11 +108,11 @@ getCustomersCustomerCards config
 getCustomersCustomerCardsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
                                 StripeAPI.Common.Configuration s ->
-                                GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
+                                Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GetCustomersCustomerCardsRequestBody ->
                                 m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                       (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -166,11 +166,11 @@ getCustomersCustomerCardsRaw config
 -- Monadic version of 'getCustomersCustomerCards' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerCardsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
-                              GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
+                              Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe GetCustomersCustomerCardsRequestBody ->
                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                  m
@@ -229,11 +229,11 @@ getCustomersCustomerCardsM customer
 -- Monadic version of 'getCustomersCustomerCardsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerCardsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
-                                 GHC.Base.String ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe GetCustomersCustomerCardsRequestBody ->
                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                     m
@@ -318,7 +318,7 @@ data GetCustomersCustomerCardsResponseBody200 = GetCustomersCustomerCardsRespons
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getCustomersCustomerCardsResponseBody200Url :: GHC.Base.String
+  , getCustomersCustomerCardsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetCustomersCustomerCardsResponseBody200
@@ -331,7 +331,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerCardsResponseBod
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetCustomersCustomerCardsResponseBody200Object'
     = GetCustomersCustomerCardsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetCustomersCustomerCardsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetCustomersCustomerCardsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetCustomersCustomerCardsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetCustomersCustomerCardsResponseBody200Object'

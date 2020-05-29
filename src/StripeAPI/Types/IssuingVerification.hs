@@ -36,7 +36,7 @@ data Issuing'verification = Issuing'verification {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  issuing'verificationCard :: GHC.Base.String
+  issuing'verificationCard :: Data.Text.Internal.Text
   -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
   , issuing'verificationCreated :: GHC.Integer.Type.Integer
   -- | expires_at: Timestamp of the expiry for that verification
@@ -46,7 +46,7 @@ data Issuing'verification = Issuing'verification {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuing'verificationId :: GHC.Base.String
+  , issuing'verificationId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , issuing'verificationObject :: Issuing'verificationObject'
   -- | scope: The scope of the verification (one of \`card_pin_retrieve\` or \`card_pin_update\`)
@@ -65,7 +65,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Issuing'verification
 -- String representing the object\'s type. Objects of the same type share the same value.
 data Issuing'verificationObject'
     = Issuing'verificationObject'EnumOther Data.Aeson.Types.Internal.Value
-    | Issuing'verificationObject'EnumTyped GHC.Base.String
+    | Issuing'verificationObject'EnumTyped Data.Text.Internal.Text
     | Issuing'verificationObject'EnumStringIssuing'verification
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Issuing'verificationObject'
@@ -81,7 +81,7 @@ instance Data.Aeson.FromJSON Issuing'verificationObject'
 -- The scope of the verification (one of \`card_pin_retrieve\` or \`card_pin_update\`)
 data Issuing'verificationScope'
     = Issuing'verificationScope'EnumOther Data.Aeson.Types.Internal.Value
-    | Issuing'verificationScope'EnumTyped GHC.Base.String
+    | Issuing'verificationScope'EnumTyped Data.Text.Internal.Text
     | Issuing'verificationScope'EnumStringCardPinRetrieve
     | Issuing'verificationScope'EnumStringCardPinUpdate
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -101,7 +101,7 @@ instance Data.Aeson.FromJSON Issuing'verificationScope'
 -- The method by which the cardholder will be sent a one-time code (one of \`email\` or \`sms\`)
 data Issuing'verificationVerificationMethod'
     = Issuing'verificationVerificationMethod'EnumOther Data.Aeson.Types.Internal.Value
-    | Issuing'verificationVerificationMethod'EnumTyped GHC.Base.String
+    | Issuing'verificationVerificationMethod'EnumTyped Data.Text.Internal.Text
     | Issuing'verificationVerificationMethod'EnumStringEmail
     | Issuing'verificationVerificationMethod'EnumStringSms
     deriving (GHC.Show.Show, GHC.Classes.Eq)

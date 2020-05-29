@@ -38,7 +38,7 @@ data DeletedApplePayDomain = DeletedApplePayDomain {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedApplePayDomainId :: GHC.Base.String
+  , deletedApplePayDomainId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedApplePayDomainObject :: DeletedApplePayDomainObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedApplePayDomainDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedApplePayDomainObject'
     = DeletedApplePayDomainObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedApplePayDomainObject'EnumTyped GHC.Base.String
+    | DeletedApplePayDomainObject'EnumTyped Data.Text.Internal.Text
     | DeletedApplePayDomainObject'EnumStringApplePayDomain
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedApplePayDomainObject'

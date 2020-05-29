@@ -94,11 +94,11 @@ postReportingReportRunsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithC
 -- 
 data PostReportingReportRunsRequestBody = PostReportingReportRunsRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postReportingReportRunsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postReportingReportRunsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | parameters: Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https:\/\/stripe.com\/docs\/reporting\/statements\/api) documentation.
   , postReportingReportRunsRequestBodyParameters :: (GHC.Maybe.Maybe PostReportingReportRunsRequestBodyParameters')
   -- | report_type: The ID of the [report type](https:\/\/stripe.com\/docs\/reporting\/statements\/api\#report-types) to run, such as \`\"balance.summary.1\"\`.
-  , postReportingReportRunsRequestBodyReportType :: GHC.Base.String
+  , postReportingReportRunsRequestBodyReportType :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostReportingReportRunsRequestBody
@@ -111,17 +111,17 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBody
 -- Parameters specifying how the report should be run. Different Report Types have different required and optional parameters, listed in the [API Access to Reports](https:\/\/stripe.com\/docs\/reporting\/statements\/api) documentation.
 data PostReportingReportRunsRequestBodyParameters' = PostReportingReportRunsRequestBodyParameters' {
   -- | columns
-  postReportingReportRunsRequestBodyParameters'Columns :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postReportingReportRunsRequestBodyParameters'Columns :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | connected_account
-  , postReportingReportRunsRequestBodyParameters'ConnectedAccount :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postReportingReportRunsRequestBodyParameters'ConnectedAccount :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | currency
-  , postReportingReportRunsRequestBodyParameters'Currency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postReportingReportRunsRequestBodyParameters'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | interval_end
   , postReportingReportRunsRequestBodyParameters'IntervalEnd :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | interval_start
   , postReportingReportRunsRequestBodyParameters'IntervalStart :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | payout
-  , postReportingReportRunsRequestBodyParameters'Payout :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postReportingReportRunsRequestBodyParameters'Payout :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | reporting_category
   -- 
   -- Constraints:
@@ -146,7 +146,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostReportingReportRunsRequestBodyPa
 -- 
 data PostReportingReportRunsRequestBodyParameters'ReportingCategory'
     = PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumOther Data.Aeson.Types.Internal.Value
-    | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTyped GHC.Base.String
+    | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumTyped Data.Text.Internal.Text
     | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringAdvance
     | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringAdvanceFunding
     | PostReportingReportRunsRequestBodyParameters'ReportingCategory'EnumStringCharge
@@ -282,7 +282,7 @@ instance Data.Aeson.FromJSON PostReportingReportRunsRequestBodyParameters'Report
 -- 
 data PostReportingReportRunsRequestBodyParameters'Timezone'
     = PostReportingReportRunsRequestBodyParameters'Timezone'EnumOther Data.Aeson.Types.Internal.Value
-    | PostReportingReportRunsRequestBodyParameters'Timezone'EnumTyped GHC.Base.String
+    | PostReportingReportRunsRequestBodyParameters'Timezone'EnumTyped Data.Text.Internal.Text
     | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAbidjan
     | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAccra
     | PostReportingReportRunsRequestBodyParameters'Timezone'EnumStringAfricaAddisAbaba

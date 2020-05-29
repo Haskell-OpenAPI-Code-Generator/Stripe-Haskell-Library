@@ -100,11 +100,11 @@ data PostAccountLoginLinksRequestBody = PostAccountLoginLinksRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postAccountLoginLinksRequestBodyAccount :: GHC.Base.String
+  postAccountLoginLinksRequestBodyAccount :: Data.Text.Internal.Text
   -- | expand: Specifies which fields in the response should be expanded.
-  , postAccountLoginLinksRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postAccountLoginLinksRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | redirect_url: Where to redirect the user after they log out of their dashboard.
-  , postAccountLoginLinksRequestBodyRedirectUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountLoginLinksRequestBodyRedirectUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountLoginLinksRequestBody

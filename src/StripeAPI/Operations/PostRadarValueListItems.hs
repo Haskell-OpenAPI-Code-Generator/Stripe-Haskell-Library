@@ -94,19 +94,19 @@ postRadarValueListItemsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithC
 -- 
 data PostRadarValueListItemsRequestBody = PostRadarValueListItemsRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postRadarValueListItemsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postRadarValueListItemsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | value: The value of the item (whose type must match the type of the parent value list).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 800
-  , postRadarValueListItemsRequestBodyValue :: GHC.Base.String
+  , postRadarValueListItemsRequestBodyValue :: Data.Text.Internal.Text
   -- | value_list: The identifier of the value list which the created item will be added to.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRadarValueListItemsRequestBodyValueList :: GHC.Base.String
+  , postRadarValueListItemsRequestBodyValueList :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostRadarValueListItemsRequestBody

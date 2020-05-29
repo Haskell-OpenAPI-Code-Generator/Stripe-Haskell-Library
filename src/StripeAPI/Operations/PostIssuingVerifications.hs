@@ -98,9 +98,9 @@ data PostIssuingVerificationsRequestBody = PostIssuingVerificationsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postIssuingVerificationsRequestBodyCard :: GHC.Base.String
+  postIssuingVerificationsRequestBodyCard :: Data.Text.Internal.Text
   -- | expand: Specifies which fields in the response should be expanded.
-  , postIssuingVerificationsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postIssuingVerificationsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | scope: The scope of the verification (one of \`card_pin_retrieve\` or \`card_pin_update\`)
   -- 
   -- Constraints:
@@ -125,7 +125,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingVerificationsRequestBody
 -- The scope of the verification (one of \`card_pin_retrieve\` or \`card_pin_update\`)
 data PostIssuingVerificationsRequestBodyScope'
     = PostIssuingVerificationsRequestBodyScope'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingVerificationsRequestBodyScope'EnumTyped GHC.Base.String
+    | PostIssuingVerificationsRequestBodyScope'EnumTyped Data.Text.Internal.Text
     | PostIssuingVerificationsRequestBodyScope'EnumStringCardPinRetrieve
     | PostIssuingVerificationsRequestBodyScope'EnumStringCardPinUpdate
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -145,7 +145,7 @@ instance Data.Aeson.FromJSON PostIssuingVerificationsRequestBodyScope'
 -- The method used to send the cardholder the verification (one of \`email\` or \`sms\`)
 data PostIssuingVerificationsRequestBodyVerificationMethod'
     = PostIssuingVerificationsRequestBodyVerificationMethod'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingVerificationsRequestBodyVerificationMethod'EnumTyped GHC.Base.String
+    | PostIssuingVerificationsRequestBodyVerificationMethod'EnumTyped Data.Text.Internal.Text
     | PostIssuingVerificationsRequestBodyVerificationMethod'EnumStringEmail
     | PostIssuingVerificationsRequestBodyVerificationMethod'EnumStringSms
     deriving (GHC.Show.Show, GHC.Classes.Eq)

@@ -100,9 +100,9 @@ data PostTerminalLocationsRequestBody = PostTerminalLocationsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalLocationsRequestBodyDisplayName :: GHC.Base.String
+  , postTerminalLocationsRequestBodyDisplayName :: Data.Text.Internal.Text
   -- | expand: Specifies which fields in the response should be expanded.
-  , postTerminalLocationsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postTerminalLocationsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postTerminalLocationsRequestBodyMetadata :: (GHC.Maybe.Maybe PostTerminalLocationsRequestBodyMetadata')
   } deriving (GHC.Show.Show
@@ -121,37 +121,37 @@ data PostTerminalLocationsRequestBodyAddress' = PostTerminalLocationsRequestBody
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postTerminalLocationsRequestBodyAddress'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postTerminalLocationsRequestBodyAddress'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalLocationsRequestBodyAddress'Country :: GHC.Base.String
+  , postTerminalLocationsRequestBodyAddress'Country :: Data.Text.Internal.Text
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalLocationsRequestBodyAddress'Line1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTerminalLocationsRequestBodyAddress'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalLocationsRequestBodyAddress'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTerminalLocationsRequestBodyAddress'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalLocationsRequestBodyAddress'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTerminalLocationsRequestBodyAddress'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalLocationsRequestBodyAddress'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTerminalLocationsRequestBodyAddress'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostTerminalLocationsRequestBodyAddress'

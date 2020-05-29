@@ -49,7 +49,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardSpendingLimit
 -- 
 data IssuingCardSpendingLimitCategories'
     = IssuingCardSpendingLimitCategories'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingCardSpendingLimitCategories'EnumTyped GHC.Base.String
+    | IssuingCardSpendingLimitCategories'EnumTyped Data.Text.Internal.Text
     | IssuingCardSpendingLimitCategories'EnumStringAcRefrigerationRepair
     | IssuingCardSpendingLimitCategories'EnumStringAccountingBookkeepingServices
     | IssuingCardSpendingLimitCategories'EnumStringAdvertisingServices
@@ -1213,7 +1213,7 @@ instance Data.Aeson.FromJSON IssuingCardSpendingLimitCategories'
 -- The time interval or event with which to apply this spending limit towards.
 data IssuingCardSpendingLimitInterval'
     = IssuingCardSpendingLimitInterval'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingCardSpendingLimitInterval'EnumTyped GHC.Base.String
+    | IssuingCardSpendingLimitInterval'EnumTyped Data.Text.Internal.Text
     | IssuingCardSpendingLimitInterval'EnumStringAllTime
     | IssuingCardSpendingLimitInterval'EnumStringDaily
     | IssuingCardSpendingLimitInterval'EnumStringMonthly

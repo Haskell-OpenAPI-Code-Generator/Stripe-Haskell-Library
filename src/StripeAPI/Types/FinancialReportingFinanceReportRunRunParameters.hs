@@ -32,15 +32,15 @@ import qualified StripeAPI.Common
 -- 
 data FinancialReportingFinanceReportRunRunParameters = FinancialReportingFinanceReportRunRunParameters {
   -- | columns: The set of output columns requested for inclusion in the report run.
-  financialReportingFinanceReportRunRunParametersColumns :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  financialReportingFinanceReportRunRunParametersColumns :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | connected_account: Connected account ID by which to filter the report run.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , financialReportingFinanceReportRunRunParametersConnectedAccount :: (GHC.Maybe.Maybe GHC.Base.String)
+  , financialReportingFinanceReportRunRunParametersConnectedAccount :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | currency: Currency of objects to be included in the report run.
-  , financialReportingFinanceReportRunRunParametersCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , financialReportingFinanceReportRunRunParametersCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | interval_end: Ending timestamp of data to be included in the report run (exclusive).
   , financialReportingFinanceReportRunRunParametersIntervalEnd :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | interval_start: Starting timestamp of data to be included in the report run.
@@ -50,19 +50,19 @@ data FinancialReportingFinanceReportRunRunParameters = FinancialReportingFinance
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , financialReportingFinanceReportRunRunParametersPayout :: (GHC.Maybe.Maybe GHC.Base.String)
+  , financialReportingFinanceReportRunRunParametersPayout :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | reporting_category: Category of balance transactions to be included in the report run.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , financialReportingFinanceReportRunRunParametersReportingCategory :: (GHC.Maybe.Maybe GHC.Base.String)
+  , financialReportingFinanceReportRunRunParametersReportingCategory :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | timezone: Defaults to \`Etc\/UTC\`. The output timezone for all timestamps in the report. A list of possible time zone values is maintained at the [IANA Time Zone Database](http:\/\/www.iana.org\/time-zones). Has no effect on \`interval_start\` or \`interval_end\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , financialReportingFinanceReportRunRunParametersTimezone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , financialReportingFinanceReportRunRunParametersTimezone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON FinancialReportingFinanceReportRunRunParameters

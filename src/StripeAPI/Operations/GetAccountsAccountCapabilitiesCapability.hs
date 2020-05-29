@@ -44,9 +44,9 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves information about the specified Account Capability.\<\/p>
 getAccountsAccountCapabilitiesCapability :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                      -- ^ account | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                                      -- ^ capability
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                              -- ^ account | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                              -- ^ capability
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetAccountsAccountCapabilitiesCapabilityRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetAccountsAccountCapabilitiesCapabilityResponse)) -- ^ Monad containing the result of the operation
 getAccountsAccountCapabilitiesCapability config
@@ -70,9 +70,9 @@ getAccountsAccountCapabilitiesCapability config
 getAccountsAccountCapabilitiesCapabilityRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                              StripeAPI.Common.SecurityScheme s) =>
                                                StripeAPI.Common.Configuration s ->
-                                               GHC.Base.String ->
-                                               GHC.Base.String ->
-                                               GHC.Maybe.Maybe GHC.Base.String ->
+                                               Data.Text.Internal.Text ->
+                                               Data.Text.Internal.Text ->
+                                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                                GHC.Maybe.Maybe GetAccountsAccountCapabilitiesCapabilityRequestBody ->
                                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -92,9 +92,9 @@ getAccountsAccountCapabilitiesCapabilityRaw config
 -- Monadic version of 'getAccountsAccountCapabilitiesCapability' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountsAccountCapabilitiesCapabilityM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
-                                             GHC.Base.String ->
-                                             GHC.Base.String ->
-                                             GHC.Maybe.Maybe GHC.Base.String ->
+                                             Data.Text.Internal.Text ->
+                                             Data.Text.Internal.Text ->
+                                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                              GHC.Maybe.Maybe GetAccountsAccountCapabilitiesCapabilityRequestBody ->
                                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                 m
@@ -119,9 +119,9 @@ getAccountsAccountCapabilitiesCapabilityM account
 -- Monadic version of 'getAccountsAccountCapabilitiesCapabilityRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountsAccountCapabilitiesCapabilityRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                               StripeAPI.Common.SecurityScheme s) =>
-                                                GHC.Base.String ->
-                                                GHC.Base.String ->
-                                                GHC.Maybe.Maybe GHC.Base.String ->
+                                                Data.Text.Internal.Text ->
+                                                Data.Text.Internal.Text ->
+                                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                                 GHC.Maybe.Maybe GetAccountsAccountCapabilitiesCapabilityRequestBody ->
                                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                    m

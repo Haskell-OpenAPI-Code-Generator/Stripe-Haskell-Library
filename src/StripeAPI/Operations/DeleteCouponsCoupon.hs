@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>You can delete coupons via the \<a href=\"https:\/\/dashboard.stripe.com\/coupons\">coupon management\<\/a> page of the Stripe dashboard. However, deleting a coupon does not affect any customers who have already applied the coupon; it means that new customers can’t redeem the coupon. You can also delete coupons via the API.\<\/p>
 deleteCouponsCoupon :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                 -- ^ coupon | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                         -- ^ coupon | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteCouponsCouponRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteCouponsCouponResponse)) -- ^ Monad containing the result of the operation
 deleteCouponsCoupon config
@@ -60,7 +60,7 @@ deleteCouponsCoupon config
 deleteCouponsCouponRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           StripeAPI.Common.Configuration s ->
-                          GHC.Base.String ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe DeleteCouponsCouponRequestBody ->
                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                 (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteCouponsCouponRaw config
 -- Monadic version of 'deleteCouponsCoupon' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteCouponsCouponM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Base.String ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe DeleteCouponsCouponRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m
@@ -89,7 +89,7 @@ deleteCouponsCouponM coupon
 -- Monadic version of 'deleteCouponsCouponRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteCouponsCouponRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Base.String ->
+                           Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe DeleteCouponsCouponRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m

@@ -38,7 +38,7 @@ data InvoicesResourceInvoiceTaxId = InvoicesResourceInvoiceTaxId {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , invoicesResourceInvoiceTaxIdValue :: (GHC.Maybe.Maybe GHC.Base.String)
+  , invoicesResourceInvoiceTaxIdValue :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON InvoicesResourceInvoiceTaxId
@@ -51,7 +51,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON InvoicesResourceInvoiceTaxId
 -- The type of the tax ID, one of \`eu_vat\`, \`nz_gst\`, \`au_abn\`, \`in_gst\`, \`no_vat\`, \`za_vat\`, \`ch_vat\`, \`mx_rfc\`, \`sg_uen\`, \`ru_inn\`, \`ca_bn\`, \`hk_br\`, \`es_cif\`, \`tw_vat\`, \`th_vat\`, \`jp_cn\`, \`li_uid\`, \`my_itn\`, \`us_ein\`, \`kr_brn\`, \`ca_qst\`, \`my_sst\`, or \`unknown\`
 data InvoicesResourceInvoiceTaxIdType'
     = InvoicesResourceInvoiceTaxIdType'EnumOther Data.Aeson.Types.Internal.Value
-    | InvoicesResourceInvoiceTaxIdType'EnumTyped GHC.Base.String
+    | InvoicesResourceInvoiceTaxIdType'EnumTyped Data.Text.Internal.Text
     | InvoicesResourceInvoiceTaxIdType'EnumStringAuAbn
     | InvoicesResourceInvoiceTaxIdType'EnumStringCaBn
     | InvoicesResourceInvoiceTaxIdType'EnumStringCaQst

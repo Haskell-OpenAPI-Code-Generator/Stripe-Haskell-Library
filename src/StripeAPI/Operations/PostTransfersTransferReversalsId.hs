@@ -46,8 +46,8 @@ import StripeAPI.Types
 -- 
 -- \<p>This request only accepts metadata and description as arguments.\<\/p>
 postTransfersTransferReversalsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                              -- ^ id | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                              -- ^ transfer | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                      -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                      -- ^ transfer | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostTransfersTransferReversalsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostTransfersTransferReversalsIdResponse)) -- ^ Monad containing the result of the operation
 postTransfersTransferReversalsId config
@@ -64,8 +64,8 @@ postTransfersTransferReversalsId config
 postTransfersTransferReversalsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
                                        StripeAPI.Common.Configuration s ->
-                                       GHC.Base.String ->
-                                       GHC.Base.String ->
+                                       Data.Text.Internal.Text ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe PostTransfersTransferReversalsIdRequestBody ->
                                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -78,8 +78,8 @@ postTransfersTransferReversalsIdRaw config
 -- Monadic version of 'postTransfersTransferReversalsId' (use with 'StripeAPI.Common.runWithConfiguration')
 postTransfersTransferReversalsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
-                                     GHC.Base.String ->
-                                     GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe PostTransfersTransferReversalsIdRequestBody ->
                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                         m
@@ -97,8 +97,8 @@ postTransfersTransferReversalsIdM id
 -- Monadic version of 'postTransfersTransferReversalsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postTransfersTransferReversalsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                       StripeAPI.Common.SecurityScheme s) =>
-                                        GHC.Base.String ->
-                                        GHC.Base.String ->
+                                        Data.Text.Internal.Text ->
+                                        Data.Text.Internal.Text ->
                                         GHC.Maybe.Maybe PostTransfersTransferReversalsIdRequestBody ->
                                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                            m
@@ -112,7 +112,7 @@ postTransfersTransferReversalsIdRawM id
 -- 
 data PostTransfersTransferReversalsIdRequestBody = PostTransfersTransferReversalsIdRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postTransfersTransferReversalsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postTransfersTransferReversalsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postTransfersTransferReversalsIdRequestBodyMetadata :: (GHC.Maybe.Maybe PostTransfersTransferReversalsIdRequestBodyMetadata')
   } deriving (GHC.Show.Show

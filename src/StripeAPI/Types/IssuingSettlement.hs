@@ -36,19 +36,19 @@ data Issuing'settlement = Issuing'settlement {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  issuing'settlementBin :: GHC.Base.String
+  issuing'settlementBin :: Data.Text.Internal.Text
   -- | clearing_date: The date that the transactions are cleared and posted to user\'s accounts.
   , issuing'settlementClearingDate :: GHC.Integer.Type.Integer
   -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
   , issuing'settlementCreated :: GHC.Integer.Type.Integer
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , issuing'settlementCurrency :: GHC.Base.String
+  , issuing'settlementCurrency :: Data.Text.Internal.Text
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuing'settlementId :: GHC.Base.String
+  , issuing'settlementId :: Data.Text.Internal.Text
   -- | interchange_fees: The total interchange received as reimbursement for the transactions.
   , issuing'settlementInterchangeFees :: GHC.Integer.Type.Integer
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
@@ -66,7 +66,7 @@ data Issuing'settlement = Issuing'settlement {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuing'settlementNetworkSettlementIdentifier :: GHC.Base.String
+  , issuing'settlementNetworkSettlementIdentifier :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , issuing'settlementObject :: Issuing'settlementObject'
   -- | settlement_service: One of \`international\` or \`uk_national_net\`.
@@ -74,7 +74,7 @@ data Issuing'settlement = Issuing'settlement {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuing'settlementSettlementService :: GHC.Base.String
+  , issuing'settlementSettlementService :: Data.Text.Internal.Text
   -- | transaction_count: The total number of transactions reflected in this settlement.
   , issuing'settlementTransactionCount :: GHC.Integer.Type.Integer
   -- | transaction_volume: The total transaction amount reflected in this settlement.
@@ -103,7 +103,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Issuing'settlementMetadata'
 -- The card network for this settlement report. One of [\"visa\"]
 data Issuing'settlementNetwork'
     = Issuing'settlementNetwork'EnumOther Data.Aeson.Types.Internal.Value
-    | Issuing'settlementNetwork'EnumTyped GHC.Base.String
+    | Issuing'settlementNetwork'EnumTyped Data.Text.Internal.Text
     | Issuing'settlementNetwork'EnumStringVisa
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Issuing'settlementNetwork'
@@ -119,7 +119,7 @@ instance Data.Aeson.FromJSON Issuing'settlementNetwork'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data Issuing'settlementObject'
     = Issuing'settlementObject'EnumOther Data.Aeson.Types.Internal.Value
-    | Issuing'settlementObject'EnumTyped GHC.Base.String
+    | Issuing'settlementObject'EnumTyped Data.Text.Internal.Text
     | Issuing'settlementObject'EnumStringIssuing'settlement
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Issuing'settlementObject'

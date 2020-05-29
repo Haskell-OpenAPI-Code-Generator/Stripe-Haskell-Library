@@ -44,9 +44,9 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieve an existing source transaction object. Supply the unique source ID from a source creation request and the source transaction ID and Stripe will return the corresponding up-to-date source object information.\<\/p>
 getSourcesSourceSourceTransactionsSourceTransaction :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                                 -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                                                 -- ^ source | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                                                 -- ^ source_transaction | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                                         -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                                         -- ^ source | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                                         -- ^ source_transaction | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetSourcesSourceSourceTransactionsSourceTransactionRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSourcesSourceSourceTransactionsSourceTransactionResponse)) -- ^ Monad containing the result of the operation
 getSourcesSourceSourceTransactionsSourceTransaction config
@@ -70,9 +70,9 @@ getSourcesSourceSourceTransactionsSourceTransaction config
 getSourcesSourceSourceTransactionsSourceTransactionRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                         StripeAPI.Common.SecurityScheme s) =>
                                                           StripeAPI.Common.Configuration s ->
-                                                          GHC.Maybe.Maybe GHC.Base.String ->
-                                                          GHC.Base.String ->
-                                                          GHC.Base.String ->
+                                                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                                          Data.Text.Internal.Text ->
+                                                          Data.Text.Internal.Text ->
                                                           GHC.Maybe.Maybe GetSourcesSourceSourceTransactionsSourceTransactionRequestBody ->
                                                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                 (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -92,9 +92,9 @@ getSourcesSourceSourceTransactionsSourceTransactionRaw config
 -- Monadic version of 'getSourcesSourceSourceTransactionsSourceTransaction' (use with 'StripeAPI.Common.runWithConfiguration')
 getSourcesSourceSourceTransactionsSourceTransactionM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                       StripeAPI.Common.SecurityScheme s) =>
-                                                        GHC.Maybe.Maybe GHC.Base.String ->
-                                                        GHC.Base.String ->
-                                                        GHC.Base.String ->
+                                                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                                        Data.Text.Internal.Text ->
+                                                        Data.Text.Internal.Text ->
                                                         GHC.Maybe.Maybe GetSourcesSourceSourceTransactionsSourceTransactionRequestBody ->
                                                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                            m
@@ -119,9 +119,9 @@ getSourcesSourceSourceTransactionsSourceTransactionM expand
 -- Monadic version of 'getSourcesSourceSourceTransactionsSourceTransactionRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSourcesSourceSourceTransactionsSourceTransactionRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                          StripeAPI.Common.SecurityScheme s) =>
-                                                           GHC.Maybe.Maybe GHC.Base.String ->
-                                                           GHC.Base.String ->
-                                                           GHC.Base.String ->
+                                                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                                           Data.Text.Internal.Text ->
+                                                           Data.Text.Internal.Text ->
                                                            GHC.Maybe.Maybe GetSourcesSourceSourceTransactionsSourceTransactionRequestBody ->
                                                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                               m

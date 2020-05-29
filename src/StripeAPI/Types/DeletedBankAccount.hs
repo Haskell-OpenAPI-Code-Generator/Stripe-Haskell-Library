@@ -36,7 +36,7 @@ data DeletedBankAccount = DeletedBankAccount {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  deletedBankAccountCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  deletedBankAccountCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | deleted: Always true for a deleted object
   , deletedBankAccountDeleted :: DeletedBankAccountDeleted'
   -- | id: Unique identifier for the object.
@@ -44,7 +44,7 @@ data DeletedBankAccount = DeletedBankAccount {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedBankAccountId :: GHC.Base.String
+  , deletedBankAccountId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedBankAccountObject :: DeletedBankAccountObject'
   } deriving (GHC.Show.Show
@@ -75,7 +75,7 @@ instance Data.Aeson.FromJSON DeletedBankAccountDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedBankAccountObject'
     = DeletedBankAccountObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedBankAccountObject'EnumTyped GHC.Base.String
+    | DeletedBankAccountObject'EnumTyped Data.Text.Internal.Text
     | DeletedBankAccountObject'EnumStringBankAccount
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedBankAccountObject'

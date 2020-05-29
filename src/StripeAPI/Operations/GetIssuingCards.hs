@@ -44,19 +44,19 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a list of Issuing \<code>Card\<\/code> objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.\<\/p>
 getIssuingCards :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ cardholder: Only return cards belonging to the Cardholder with the provided ID. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ created: Only return cards that were issued during the given date interval.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ cardholder: Only return cards belonging to the Cardholder with the provided ID. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ created: Only return cards that were issued during the given date interval.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                    -- ^ exp_month: Only return cards that have the given expiration month.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                    -- ^ exp_year: Only return cards that have the given expiration year.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ last4: Only return cards that have the given last four digits. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ last4: Only return cards that have the given last four digits. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                    -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ name: Only return cards that have the given name. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ source: Only return cards whose full card number matches that of this card source ID. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ status: Only return cards that have the given status. One of \`active\`, \`inactive\`, \`canceled\`, \`lost\`, or \`stolen\`. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ type: Only return cards that have the given type. One of \`virtual\` or \`physical\`. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ name: Only return cards that have the given name. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ source: Only return cards whose full card number matches that of this card source ID. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ status: Only return cards that have the given status. One of \`active\`, \`inactive\`, \`canceled\`, \`lost\`, or \`stolen\`. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ type: Only return cards that have the given type. One of \`virtual\` or \`physical\`. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetIssuingCardsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingCardsResponse)) -- ^ Monad containing the result of the operation
 getIssuingCards config
@@ -181,19 +181,19 @@ getIssuingCards config
 getIssuingCardsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
                       StripeAPI.Common.Configuration s ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                       GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe GetIssuingCardsRequestBody ->
                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -314,19 +314,19 @@ getIssuingCardsRaw config
 -- Monadic version of 'getIssuingCards' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingCardsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                     GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe GetIssuingCardsRequestBody ->
                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                        m
@@ -452,19 +452,19 @@ getIssuingCardsM cardholder
 -- Monadic version of 'getIssuingCardsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingCardsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                        GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetIssuingCardsRequestBody ->
                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                           m
@@ -617,7 +617,7 @@ data GetIssuingCardsResponseBody200 = GetIssuingCardsResponseBody200 {
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/issuing\/cards\'
-  , getIssuingCardsResponseBody200Url :: GHC.Base.String
+  , getIssuingCardsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetIssuingCardsResponseBody200
@@ -630,7 +630,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingCardsResponseBody200
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetIssuingCardsResponseBody200Object'
     = GetIssuingCardsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetIssuingCardsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetIssuingCardsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetIssuingCardsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetIssuingCardsResponseBody200Object'

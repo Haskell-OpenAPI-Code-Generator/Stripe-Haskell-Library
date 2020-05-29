@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the specified Issuing \<code>Authorization\<\/code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
 postIssuingAuthorizationsAuthorization :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                    -- ^ authorization | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                            -- ^ authorization | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostIssuingAuthorizationsAuthorizationResponse)) -- ^ Monad containing the result of the operation
 postIssuingAuthorizationsAuthorization config
@@ -60,7 +60,7 @@ postIssuingAuthorizationsAuthorization config
 postIssuingAuthorizationsAuthorizationRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
                                              StripeAPI.Common.Configuration s ->
-                                             GHC.Base.String ->
+                                             Data.Text.Internal.Text ->
                                              GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationRequestBody ->
                                              m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                    (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postIssuingAuthorizationsAuthorizationRaw config
 -- Monadic version of 'postIssuingAuthorizationsAuthorization' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingAuthorizationsAuthorizationM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                          StripeAPI.Common.SecurityScheme s) =>
-                                           GHC.Base.String ->
+                                           Data.Text.Internal.Text ->
                                            GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationRequestBody ->
                                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                               m
@@ -89,7 +89,7 @@ postIssuingAuthorizationsAuthorizationM authorization
 -- Monadic version of 'postIssuingAuthorizationsAuthorizationRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingAuthorizationsAuthorizationRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                             StripeAPI.Common.SecurityScheme s) =>
-                                              GHC.Base.String ->
+                                              Data.Text.Internal.Text ->
                                               GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationRequestBody ->
                                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                  m
@@ -102,7 +102,7 @@ postIssuingAuthorizationsAuthorizationRawM authorization
 -- 
 data PostIssuingAuthorizationsAuthorizationRequestBody = PostIssuingAuthorizationsAuthorizationRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postIssuingAuthorizationsAuthorizationRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postIssuingAuthorizationsAuthorizationRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postIssuingAuthorizationsAuthorizationRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationRequestBodyMetadata'Variants)
   } deriving (GHC.Show.Show
@@ -117,7 +117,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingAuthorizationsAuthorizati
 -- 
 data PostIssuingAuthorizationsAuthorizationRequestBodyMetadata'OneOf1
     = PostIssuingAuthorizationsAuthorizationRequestBodyMetadata'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingAuthorizationsAuthorizationRequestBodyMetadata'OneOf1EnumTyped GHC.Base.String
+    | PostIssuingAuthorizationsAuthorizationRequestBodyMetadata'OneOf1EnumTyped Data.Text.Internal.Text
     | PostIssuingAuthorizationsAuthorizationRequestBodyMetadata'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingAuthorizationsAuthorizationRequestBodyMetadata'OneOf1

@@ -38,7 +38,7 @@ data DeletedAlipayAccount = DeletedAlipayAccount {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedAlipayAccountId :: GHC.Base.String
+  , deletedAlipayAccountId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedAlipayAccountObject :: DeletedAlipayAccountObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedAlipayAccountDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedAlipayAccountObject'
     = DeletedAlipayAccountObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedAlipayAccountObject'EnumTyped GHC.Base.String
+    | DeletedAlipayAccountObject'EnumTyped Data.Text.Internal.Text
     | DeletedAlipayAccountObject'EnumStringAlipayAccount
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedAlipayAccountObject'

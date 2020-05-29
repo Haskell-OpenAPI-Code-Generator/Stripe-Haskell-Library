@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>You can also delete webhook endpoints via the \<a href=\"https:\/\/dashboard.stripe.com\/account\/webhooks\">webhook endpoint management\<\/a> page of the Stripe dashboard.\<\/p>
 deleteWebhookEndpointsWebhookEndpoint :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                   -- ^ webhook_endpoint | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                           -- ^ webhook_endpoint | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteWebhookEndpointsWebhookEndpointRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteWebhookEndpointsWebhookEndpointResponse)) -- ^ Monad containing the result of the operation
 deleteWebhookEndpointsWebhookEndpoint config
@@ -60,7 +60,7 @@ deleteWebhookEndpointsWebhookEndpoint config
 deleteWebhookEndpointsWebhookEndpointRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                           StripeAPI.Common.SecurityScheme s) =>
                                             StripeAPI.Common.Configuration s ->
-                                            GHC.Base.String ->
+                                            Data.Text.Internal.Text ->
                                             GHC.Maybe.Maybe DeleteWebhookEndpointsWebhookEndpointRequestBody ->
                                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteWebhookEndpointsWebhookEndpointRaw config
 -- Monadic version of 'deleteWebhookEndpointsWebhookEndpoint' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteWebhookEndpointsWebhookEndpointM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
-                                          GHC.Base.String ->
+                                          Data.Text.Internal.Text ->
                                           GHC.Maybe.Maybe DeleteWebhookEndpointsWebhookEndpointRequestBody ->
                                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                              m
@@ -89,7 +89,7 @@ deleteWebhookEndpointsWebhookEndpointM webhookEndpoint
 -- Monadic version of 'deleteWebhookEndpointsWebhookEndpointRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteWebhookEndpointsWebhookEndpointRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
-                                             GHC.Base.String ->
+                                             Data.Text.Internal.Text ->
                                              GHC.Maybe.Maybe DeleteWebhookEndpointsWebhookEndpointRequestBody ->
                                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                 m

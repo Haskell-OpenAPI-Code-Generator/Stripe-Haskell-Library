@@ -38,7 +38,7 @@ data DeletedSubscriptionItem = DeletedSubscriptionItem {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedSubscriptionItemId :: GHC.Base.String
+  , deletedSubscriptionItemId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedSubscriptionItemObject :: DeletedSubscriptionItemObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedSubscriptionItemDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedSubscriptionItemObject'
     = DeletedSubscriptionItemObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedSubscriptionItemObject'EnumTyped GHC.Base.String
+    | DeletedSubscriptionItemObject'EnumTyped Data.Text.Internal.Text
     | DeletedSubscriptionItemObject'EnumStringSubscriptionItem
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedSubscriptionItemObject'

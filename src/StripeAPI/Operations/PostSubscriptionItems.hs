@@ -96,7 +96,7 @@ data PostSubscriptionItemsRequestBody = PostSubscriptionItemsRequestBody {
   -- | billing_thresholds: Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
   postSubscriptionItemsRequestBodyBillingThresholds :: (GHC.Maybe.Maybe PostSubscriptionItemsRequestBodyBillingThresholds'Variants)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postSubscriptionItemsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postSubscriptionItemsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postSubscriptionItemsRequestBodyMetadata :: (GHC.Maybe.Maybe PostSubscriptionItemsRequestBodyMetadata')
   -- | payment_behavior: Use \`allow_incomplete\` to transition the subscription to \`status=past_due\` if a payment is required but cannot be paid. This allows you to manage scenarios where additional user actions are needed to pay a subscription\'s invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https:\/\/stripe.com\/docs\/billing\/migration\/strong-customer-authentication) for Billing to learn more. This is the default behavior.
@@ -110,7 +110,7 @@ data PostSubscriptionItemsRequestBody = PostSubscriptionItemsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSubscriptionItemsRequestBodyPlan :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSubscriptionItemsRequestBodyPlan :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | prorate: This field has been renamed to \`proration_behavior\`. \`prorate=true\` can be replaced with \`proration_behavior=create_prorations\` and \`prorate=false\` can be replaced with \`proration_behavior=none\`.
   , postSubscriptionItemsRequestBodyProrate :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | proration_behavior: Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes. Valid values are \`create_prorations\`, \`none\`, or \`always_invoice\`.
@@ -128,7 +128,7 @@ data PostSubscriptionItemsRequestBody = PostSubscriptionItemsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSubscriptionItemsRequestBodySubscription :: GHC.Base.String
+  , postSubscriptionItemsRequestBodySubscription :: Data.Text.Internal.Text
   -- | tax_rates: A list of [Tax Rate](https:\/\/stripe.com\/docs\/api\/tax_rates) ids. These Tax Rates will override the [\`default_tax_rates\`](https:\/\/stripe.com\/docs\/api\/subscriptions\/create\#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
   , postSubscriptionItemsRequestBodyTaxRates :: (GHC.Maybe.Maybe PostSubscriptionItemsRequestBodyTaxRates'Variants)
   } deriving (GHC.Show.Show
@@ -143,7 +143,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionItemsRequestBody
 -- 
 data PostSubscriptionItemsRequestBodyBillingThresholds'OneOf1
     = PostSubscriptionItemsRequestBodyBillingThresholds'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionItemsRequestBodyBillingThresholds'OneOf1EnumTyped GHC.Base.String
+    | PostSubscriptionItemsRequestBodyBillingThresholds'OneOf1EnumTyped Data.Text.Internal.Text
     | PostSubscriptionItemsRequestBodyBillingThresholds'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSubscriptionItemsRequestBodyBillingThresholds'OneOf1
@@ -199,7 +199,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionItemsRequestBodyMeta
 -- Use \`error_if_incomplete\` if you want Stripe to return an HTTP 402 status code if a subscription\'s first invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not create a subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https:\/\/stripe.com\/docs\/upgrades\#2019-03-14) to learn more.
 data PostSubscriptionItemsRequestBodyPaymentBehavior'
     = PostSubscriptionItemsRequestBodyPaymentBehavior'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionItemsRequestBodyPaymentBehavior'EnumTyped GHC.Base.String
+    | PostSubscriptionItemsRequestBodyPaymentBehavior'EnumTyped Data.Text.Internal.Text
     | PostSubscriptionItemsRequestBodyPaymentBehavior'EnumStringAllowIncomplete
     | PostSubscriptionItemsRequestBodyPaymentBehavior'EnumStringErrorIfIncomplete
     | PostSubscriptionItemsRequestBodyPaymentBehavior'EnumStringPendingIfIncomplete
@@ -227,7 +227,7 @@ instance Data.Aeson.FromJSON PostSubscriptionItemsRequestBodyPaymentBehavior'
 -- Prorations can be disabled by passing \`none\`.
 data PostSubscriptionItemsRequestBodyProrationBehavior'
     = PostSubscriptionItemsRequestBodyProrationBehavior'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionItemsRequestBodyProrationBehavior'EnumTyped GHC.Base.String
+    | PostSubscriptionItemsRequestBodyProrationBehavior'EnumTyped Data.Text.Internal.Text
     | PostSubscriptionItemsRequestBodyProrationBehavior'EnumStringAlwaysInvoice
     | PostSubscriptionItemsRequestBodyProrationBehavior'EnumStringCreateProrations
     | PostSubscriptionItemsRequestBodyProrationBehavior'EnumStringNone
@@ -251,7 +251,7 @@ instance Data.Aeson.FromJSON PostSubscriptionItemsRequestBodyProrationBehavior'
 -- 
 data PostSubscriptionItemsRequestBodyTaxRates'OneOf1
     = PostSubscriptionItemsRequestBodyTaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionItemsRequestBodyTaxRates'OneOf1EnumTyped GHC.Base.String
+    | PostSubscriptionItemsRequestBodyTaxRates'OneOf1EnumTyped Data.Text.Internal.Text
     | PostSubscriptionItemsRequestBodyTaxRates'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSubscriptionItemsRequestBodyTaxRates'OneOf1
@@ -267,7 +267,7 @@ instance Data.Aeson.FromJSON PostSubscriptionItemsRequestBodyTaxRates'OneOf1
 -- A list of [Tax Rate](https:\/\/stripe.com\/docs\/api\/tax_rates) ids. These Tax Rates will override the [\`default_tax_rates\`](https:\/\/stripe.com\/docs\/api\/subscriptions\/create\#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 data PostSubscriptionItemsRequestBodyTaxRates'Variants
     = PostSubscriptionItemsRequestBodyTaxRates'PostSubscriptionItemsRequestBodyTaxRates'OneOf1 PostSubscriptionItemsRequestBodyTaxRates'OneOf1
-    | PostSubscriptionItemsRequestBodyTaxRates'ListString ([] GHC.Base.String)
+    | PostSubscriptionItemsRequestBodyTaxRates'ListText ([] Data.Text.Internal.Text)
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostSubscriptionItemsRequestBodyTaxRates'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}

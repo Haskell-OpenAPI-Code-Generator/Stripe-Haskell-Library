@@ -33,15 +33,15 @@ import StripeAPI.Types.AccountRequirementsError
 -- 
 data PersonRequirements = PersonRequirements {
   -- | currently_due: Fields that need to be collected to keep the person\'s account enabled. If not collected by the account\'s \`current_deadline\`, these fields appear in \`past_due\` as well, and the account is disabled.
-  personRequirementsCurrentlyDue :: ([] GHC.Base.String)
+  personRequirementsCurrentlyDue :: ([] Data.Text.Internal.Text)
   -- | errors: The fields that need to be collected again because validation or verification failed for some reason.
   , personRequirementsErrors :: (GHC.Maybe.Maybe ([] AccountRequirementsError))
   -- | eventually_due: Fields that need to be collected assuming all volume thresholds are reached. As fields are needed, they are moved to \`currently_due\` and the account\'s \`current_deadline\` is set.
-  , personRequirementsEventuallyDue :: ([] GHC.Base.String)
+  , personRequirementsEventuallyDue :: ([] Data.Text.Internal.Text)
   -- | past_due: Fields that weren\'t collected by the account\'s \`current_deadline\`. These fields need to be collected to enable payouts for the person\'s account.
-  , personRequirementsPastDue :: ([] GHC.Base.String)
+  , personRequirementsPastDue :: ([] Data.Text.Internal.Text)
   -- | pending_verification: Fields that may become required depending on the results of verification or review. An empty array unless an asynchronous verification is pending. If verification fails, the fields in this array become required and move to \`currently_due\` or \`past_due\`.
-  , personRequirementsPendingVerification :: ([] GHC.Base.String)
+  , personRequirementsPendingVerification :: ([] Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PersonRequirements

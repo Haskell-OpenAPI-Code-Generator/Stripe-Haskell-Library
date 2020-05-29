@@ -52,7 +52,7 @@ import StripeAPI.Types
 -- This method will raise an error when called on an already-refunded application fee,
 -- or when trying to refund more money than is left on an application fee.\<\/p>
 postApplicationFeesIdRefunds :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                          -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                  -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostApplicationFeesIdRefundsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostApplicationFeesIdRefundsResponse)) -- ^ Monad containing the result of the operation
 postApplicationFeesIdRefunds config
@@ -68,7 +68,7 @@ postApplicationFeesIdRefunds config
 postApplicationFeesIdRefundsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
                                    StripeAPI.Common.Configuration s ->
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe PostApplicationFeesIdRefundsRequestBody ->
                                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                          (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -80,7 +80,7 @@ postApplicationFeesIdRefundsRaw config
 -- Monadic version of 'postApplicationFeesIdRefunds' (use with 'StripeAPI.Common.runWithConfiguration')
 postApplicationFeesIdRefundsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
-                                 GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe PostApplicationFeesIdRefundsRequestBody ->
                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                     m
@@ -97,7 +97,7 @@ postApplicationFeesIdRefundsM id
 -- Monadic version of 'postApplicationFeesIdRefundsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postApplicationFeesIdRefundsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe PostApplicationFeesIdRefundsRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m
@@ -112,7 +112,7 @@ data PostApplicationFeesIdRefundsRequestBody = PostApplicationFeesIdRefundsReque
   -- | amount: A positive integer, in _%s_, representing how much of this fee to refund. Can refund only up to the remaining unrefunded amount of the fee.
   postApplicationFeesIdRefundsRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postApplicationFeesIdRefundsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postApplicationFeesIdRefundsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postApplicationFeesIdRefundsRequestBodyMetadata :: (GHC.Maybe.Maybe PostApplicationFeesIdRefundsRequestBodyMetadata')
   } deriving (GHC.Show.Show

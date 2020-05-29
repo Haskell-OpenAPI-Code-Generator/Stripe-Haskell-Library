@@ -46,7 +46,7 @@ import StripeAPI.Types
 -- 
 -- \<p>This request accepts only metadata as an argument.\<\/p>
 postTransfersTransfer :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                   -- ^ transfer | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                           -- ^ transfer | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostTransfersTransferRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostTransfersTransferResponse)) -- ^ Monad containing the result of the operation
 postTransfersTransfer config
@@ -62,7 +62,7 @@ postTransfersTransfer config
 postTransfersTransferRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             StripeAPI.Common.Configuration s ->
-                            GHC.Base.String ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe PostTransfersTransferRequestBody ->
                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -74,7 +74,7 @@ postTransfersTransferRaw config
 -- Monadic version of 'postTransfersTransfer' (use with 'StripeAPI.Common.runWithConfiguration')
 postTransfersTransferM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Base.String ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe PostTransfersTransferRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m
@@ -91,7 +91,7 @@ postTransfersTransferM transfer
 -- Monadic version of 'postTransfersTransferRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postTransfersTransferRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe PostTransfersTransferRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m
@@ -108,9 +108,9 @@ data PostTransfersTransferRequestBody = PostTransfersTransferRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postTransfersTransferRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  postTransfersTransferRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postTransfersTransferRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postTransfersTransferRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postTransfersTransferRequestBodyMetadata :: (GHC.Maybe.Maybe PostTransfersTransferRequestBodyMetadata')
   } deriving (GHC.Show.Show
