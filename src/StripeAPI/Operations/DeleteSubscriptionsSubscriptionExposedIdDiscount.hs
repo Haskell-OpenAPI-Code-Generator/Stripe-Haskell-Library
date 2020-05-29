@@ -23,6 +23,7 @@ import qualified Data.Text
 import qualified Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
+import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
 import qualified GHC.Generics
@@ -44,7 +45,7 @@ import StripeAPI.Types
 -- \<p>Removes the currently applied discount on a subscription.\<\/p>
 deleteSubscriptionsSubscriptionExposedIdDiscount :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
   -> GHC.Base.String                                                                                                                                              -- ^ subscription_exposed_id | Constraints: Maximum length of 5000
-  -> DeleteSubscriptionsSubscriptionExposedIdDiscountRequestBody                                                                                                  -- ^ The request body to send
+  -> GHC.Maybe.Maybe DeleteSubscriptionsSubscriptionExposedIdDiscountRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteSubscriptionsSubscriptionExposedIdDiscountResponse)) -- ^ Monad containing the result of the operation
 deleteSubscriptionsSubscriptionExposedIdDiscount config
                                                  subscriptionExposedId
@@ -52,7 +53,7 @@ deleteSubscriptionsSubscriptionExposedIdDiscount config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   DeletedDiscount)
                                                                                                                                                                                                                                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> DeleteSubscriptionsSubscriptionExposedIdDiscountResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Error)
-                                                                                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ "/discount"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ "/discount"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > DELETE /v1/subscriptions/{subscription_exposed_id}/discount
 -- 
 -- The same as 'deleteSubscriptionsSubscriptionExposedIdDiscount' but returns the raw 'Data.ByteString.Char8.ByteString'
@@ -60,19 +61,19 @@ deleteSubscriptionsSubscriptionExposedIdDiscountRaw :: forall m s . (StripeAPI.C
                                                                      StripeAPI.Common.SecurityScheme s) =>
                                                        StripeAPI.Common.Configuration s ->
                                                        GHC.Base.String ->
-                                                       DeleteSubscriptionsSubscriptionExposedIdDiscountRequestBody ->
+                                                       GHC.Maybe.Maybe DeleteSubscriptionsSubscriptionExposedIdDiscountRequestBody ->
                                                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 deleteSubscriptionsSubscriptionExposedIdDiscountRaw config
                                                     subscriptionExposedId
-                                                    body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ "/discount"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                    body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ "/discount"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > DELETE /v1/subscriptions/{subscription_exposed_id}/discount
 -- 
 -- Monadic version of 'deleteSubscriptionsSubscriptionExposedIdDiscount' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteSubscriptionsSubscriptionExposedIdDiscountM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                    StripeAPI.Common.SecurityScheme s) =>
                                                      GHC.Base.String ->
-                                                     DeleteSubscriptionsSubscriptionExposedIdDiscountRequestBody ->
+                                                     GHC.Maybe.Maybe DeleteSubscriptionsSubscriptionExposedIdDiscountRequestBody ->
                                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                         m
                                                                                         (Data.Either.Either Network.HTTP.Client.Types.HttpException
@@ -82,20 +83,20 @@ deleteSubscriptionsSubscriptionExposedIdDiscountM subscriptionExposedId
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    DeletedDiscount)
                                                                                                                                                                                                                                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> DeleteSubscriptionsSubscriptionExposedIdDiscountResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Error)
-                                                                                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ "/discount"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ "/discount"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > DELETE /v1/subscriptions/{subscription_exposed_id}/discount
 -- 
 -- Monadic version of 'deleteSubscriptionsSubscriptionExposedIdDiscountRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteSubscriptionsSubscriptionExposedIdDiscountRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                       StripeAPI.Common.SecurityScheme s) =>
                                                         GHC.Base.String ->
-                                                        DeleteSubscriptionsSubscriptionExposedIdDiscountRequestBody ->
+                                                        GHC.Maybe.Maybe DeleteSubscriptionsSubscriptionExposedIdDiscountRequestBody ->
                                                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                            m
                                                                                            (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 deleteSubscriptionsSubscriptionExposedIdDiscountRawM subscriptionExposedId
-                                                     body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "DELETE")) (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ "/discount"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                     body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionExposedId)) GHC.Base.++ "/discount"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | Defines the data type for the schema deleteSubscriptionsSubscriptionExposedIdDiscountRequestBody
 -- 
 -- 

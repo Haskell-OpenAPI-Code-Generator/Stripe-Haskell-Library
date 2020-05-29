@@ -17,7 +17,7 @@ import qualified StripeAPI.Common
 -- 
 -- @
 -- 'StripeAPI.Configuration.defaultConfiguration'
---   { _securityScheme =
+--   { configSecurityScheme =
 --       'BasicAuthenticationSecurityScheme'
 --         { 'basicAuthenticationSecuritySchemeUsername' = "user",
 --           'basicAuthenticationSecuritySchemePassword' = "pw"
@@ -38,7 +38,7 @@ instance StripeAPI.Common.SecurityScheme BasicAuthenticationSecurityScheme
 -- 
 -- @
 -- 'StripeAPI.Configuration.defaultConfiguration'
---   { _securityScheme = 'BearerAuthenticationSecurityScheme' "token"
+--   { configSecurityScheme = 'BearerAuthenticationSecurityScheme' "token"
 --   }
 -- @
 data BearerAuthenticationSecurityScheme
