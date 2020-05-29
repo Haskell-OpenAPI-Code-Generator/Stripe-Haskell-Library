@@ -40,7 +40,7 @@ data CreditNoteLineItem = CreditNoteLineItem {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , creditNoteLineItemDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , creditNoteLineItemDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | discount_amount: The integer amount in **%s** representing the discount being credited for this line item.
   , creditNoteLineItemDiscountAmount :: GHC.Integer.Type.Integer
   -- | id: Unique identifier for the object.
@@ -48,13 +48,13 @@ data CreditNoteLineItem = CreditNoteLineItem {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , creditNoteLineItemId :: GHC.Base.String
+  , creditNoteLineItemId :: Data.Text.Internal.Text
   -- | invoice_line_item: ID of the invoice line item being credited
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , creditNoteLineItemInvoiceLineItem :: (GHC.Maybe.Maybe GHC.Base.String)
+  , creditNoteLineItemInvoiceLineItem :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , creditNoteLineItemLivemode :: GHC.Types.Bool
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
@@ -70,7 +70,7 @@ data CreditNoteLineItem = CreditNoteLineItem {
   -- | unit_amount: The cost of each unit of product being credited.
   , creditNoteLineItemUnitAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | unit_amount_decimal: Same as \`unit_amount\`, but contains a decimal value with at most 12 decimal places.
-  , creditNoteLineItemUnitAmountDecimal :: (GHC.Maybe.Maybe GHC.Base.String)
+  , creditNoteLineItemUnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON CreditNoteLineItem
@@ -83,7 +83,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON CreditNoteLineItem
 -- String representing the object\'s type. Objects of the same type share the same value.
 data CreditNoteLineItemObject'
     = CreditNoteLineItemObject'EnumOther Data.Aeson.Types.Internal.Value
-    | CreditNoteLineItemObject'EnumTyped GHC.Base.String
+    | CreditNoteLineItemObject'EnumTyped Data.Text.Internal.Text
     | CreditNoteLineItemObject'EnumStringCreditNoteLineItem
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON CreditNoteLineItemObject'
@@ -99,7 +99,7 @@ instance Data.Aeson.FromJSON CreditNoteLineItemObject'
 -- The type of the credit note line item, one of \`invoice_line_item\` or \`custom_line_item\`. When the type is \`invoice_line_item\` there is an additional \`invoice_line_item\` property on the resource the value of which is the id of the credited line item on the invoice.
 data CreditNoteLineItemType'
     = CreditNoteLineItemType'EnumOther Data.Aeson.Types.Internal.Value
-    | CreditNoteLineItemType'EnumTyped GHC.Base.String
+    | CreditNoteLineItemType'EnumTyped Data.Text.Internal.Text
     | CreditNoteLineItemType'EnumStringCustomLineItem
     | CreditNoteLineItemType'EnumStringInvoiceLineItem
     deriving (GHC.Show.Show, GHC.Classes.Eq)

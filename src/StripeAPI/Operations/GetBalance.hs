@@ -45,7 +45,7 @@ import StripeAPI.Types
 -- \<p>Retrieves the current account balance, based on the authentication that was used to make the request.
 --  For a sample request, see \<a href=\"\/docs\/connect\/account-balances\#accounting-for-negative-balances\">Accounting for negative balances\<\/a>.\<\/p>
 getBalance :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetBalanceRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetBalanceResponse)) -- ^ Monad containing the result of the operation
 getBalance config
@@ -67,7 +67,7 @@ getBalance config
 getBalanceRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
                  StripeAPI.Common.Configuration s ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GetBalanceRequestBody ->
                  m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -85,7 +85,7 @@ getBalanceRaw config
 -- Monadic version of 'getBalance' (use with 'StripeAPI.Common.runWithConfiguration')
 getBalanceM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                              StripeAPI.Common.SecurityScheme s) =>
-               GHC.Maybe.Maybe GHC.Base.String ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                GHC.Maybe.Maybe GetBalanceRequestBody ->
                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                   m
@@ -108,7 +108,7 @@ getBalanceM expand
 -- Monadic version of 'getBalanceRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getBalanceRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                 StripeAPI.Common.SecurityScheme s) =>
-                  GHC.Maybe.Maybe GHC.Base.String ->
+                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
                   GHC.Maybe.Maybe GetBalanceRequestBody ->
                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                      m

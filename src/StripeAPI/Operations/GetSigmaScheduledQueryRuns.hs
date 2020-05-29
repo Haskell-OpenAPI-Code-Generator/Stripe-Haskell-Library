@@ -44,10 +44,10 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a list of scheduled query runs.\<\/p>
 getSigmaScheduledQueryRuns :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                        -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                               -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                        -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetSigmaScheduledQueryRunsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSigmaScheduledQueryRunsResponse)) -- ^ Monad containing the result of the operation
 getSigmaScheduledQueryRuns config
@@ -104,10 +104,10 @@ getSigmaScheduledQueryRuns config
 getSigmaScheduledQueryRunsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
                                  StripeAPI.Common.Configuration s ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe GetSigmaScheduledQueryRunsRequestBody ->
                                  m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -160,10 +160,10 @@ getSigmaScheduledQueryRunsRaw config
 -- Monadic version of 'getSigmaScheduledQueryRuns' (use with 'StripeAPI.Common.runWithConfiguration')
 getSigmaScheduledQueryRunsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GetSigmaScheduledQueryRunsRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -221,10 +221,10 @@ getSigmaScheduledQueryRunsM endingBefore
 -- Monadic version of 'getSigmaScheduledQueryRunsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSigmaScheduledQueryRunsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
-                                  GHC.Maybe.Maybe GHC.Base.String ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe GetSigmaScheduledQueryRunsRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m
@@ -309,7 +309,7 @@ data GetSigmaScheduledQueryRunsResponseBody200 = GetSigmaScheduledQueryRunsRespo
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/sigma\/scheduled_query_runs\'
-  , getSigmaScheduledQueryRunsResponseBody200Url :: GHC.Base.String
+  , getSigmaScheduledQueryRunsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSigmaScheduledQueryRunsResponseBody200
@@ -322,7 +322,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSigmaScheduledQueryRunsResponseBo
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetSigmaScheduledQueryRunsResponseBody200Object'
     = GetSigmaScheduledQueryRunsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetSigmaScheduledQueryRunsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetSigmaScheduledQueryRunsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetSigmaScheduledQueryRunsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSigmaScheduledQueryRunsResponseBody200Object'

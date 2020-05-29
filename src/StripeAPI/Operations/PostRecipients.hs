@@ -99,27 +99,27 @@ data PostRecipientsRequestBody = PostRecipientsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postRecipientsRequestBodyBankAccount :: (GHC.Maybe.Maybe GHC.Base.String)
+  postRecipientsRequestBodyBankAccount :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | card: A U.S. Visa or MasterCard debit card (_not_ prepaid) to attach to the recipient. If the debit card is not valid, recipient creation will fail. You can provide either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe-js), or a dictionary containing a user\'s debit card details, with the options described below. Although not all information is required, the extra info helps prevent fraud.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRecipientsRequestBodyCard :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postRecipientsRequestBodyCard :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | description: An arbitrary string which you can attach to a \`Recipient\` object. It is displayed alongside the recipient in the web interface.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRecipientsRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postRecipientsRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | email: The recipient\'s email address. It is displayed alongside the recipient in the web interface, and can be useful for searching and tracking.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRecipientsRequestBodyEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postRecipientsRequestBodyEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postRecipientsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postRecipientsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postRecipientsRequestBodyMetadata :: (GHC.Maybe.Maybe PostRecipientsRequestBodyMetadata')
   -- | name: The recipient\'s full, legal name. For type \`individual\`, should be in the format \`First Last\`, \`First Middle Last\`, or \`First M Last\` (no prefixes or suffixes). For \`corporation\`, the full, incorporated name.
@@ -127,19 +127,19 @@ data PostRecipientsRequestBody = PostRecipientsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRecipientsRequestBodyName :: GHC.Base.String
+  , postRecipientsRequestBodyName :: Data.Text.Internal.Text
   -- | tax_id: The recipient\'s tax ID, as a string. For type \`individual\`, the full SSN; for type \`corporation\`, the full EIN.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRecipientsRequestBodyTaxId :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postRecipientsRequestBodyTaxId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | type: Type of the recipient: either \`individual\` or \`corporation\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRecipientsRequestBodyType :: GHC.Base.String
+  , postRecipientsRequestBodyType :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostRecipientsRequestBody

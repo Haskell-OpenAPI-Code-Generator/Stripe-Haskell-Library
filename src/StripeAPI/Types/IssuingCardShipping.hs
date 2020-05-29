@@ -43,7 +43,7 @@ data IssuingCardShipping = IssuingCardShipping {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuingCardShippingName :: GHC.Base.String
+  , issuingCardShippingName :: Data.Text.Internal.Text
   -- | speed: Shipment speed.
   , issuingCardShippingSpeed :: IssuingCardShippingSpeed'
   -- | status: The delivery status of the card.
@@ -53,13 +53,13 @@ data IssuingCardShipping = IssuingCardShipping {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuingCardShippingTrackingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , issuingCardShippingTrackingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tracking_url: A link to the shipping carrier\'s site where you can view detailed information about a card shipment.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuingCardShippingTrackingUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , issuingCardShippingTrackingUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | type: Packaging options.
   , issuingCardShippingType :: IssuingCardShippingType'
   } deriving (GHC.Show.Show
@@ -74,7 +74,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardShipping
 -- The delivery company that shipped a card.
 data IssuingCardShippingCarrier'
     = IssuingCardShippingCarrier'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingCardShippingCarrier'EnumTyped GHC.Base.String
+    | IssuingCardShippingCarrier'EnumTyped Data.Text.Internal.Text
     | IssuingCardShippingCarrier'EnumStringFedex
     | IssuingCardShippingCarrier'EnumStringUsps
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -94,7 +94,7 @@ instance Data.Aeson.FromJSON IssuingCardShippingCarrier'
 -- Shipment speed.
 data IssuingCardShippingSpeed'
     = IssuingCardShippingSpeed'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingCardShippingSpeed'EnumTyped GHC.Base.String
+    | IssuingCardShippingSpeed'EnumTyped Data.Text.Internal.Text
     | IssuingCardShippingSpeed'EnumStringExpress
     | IssuingCardShippingSpeed'EnumStringOvernight
     | IssuingCardShippingSpeed'EnumStringStandard
@@ -118,7 +118,7 @@ instance Data.Aeson.FromJSON IssuingCardShippingSpeed'
 -- The delivery status of the card.
 data IssuingCardShippingStatus'
     = IssuingCardShippingStatus'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingCardShippingStatus'EnumTyped GHC.Base.String
+    | IssuingCardShippingStatus'EnumTyped Data.Text.Internal.Text
     | IssuingCardShippingStatus'EnumStringCanceled
     | IssuingCardShippingStatus'EnumStringDelivered
     | IssuingCardShippingStatus'EnumStringFailure
@@ -154,7 +154,7 @@ instance Data.Aeson.FromJSON IssuingCardShippingStatus'
 -- Packaging options.
 data IssuingCardShippingType'
     = IssuingCardShippingType'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingCardShippingType'EnumTyped GHC.Base.String
+    | IssuingCardShippingType'EnumTyped Data.Text.Internal.Text
     | IssuingCardShippingType'EnumStringBulk
     | IssuingCardShippingType'EnumStringIndividual
     deriving (GHC.Show.Show, GHC.Classes.Eq)

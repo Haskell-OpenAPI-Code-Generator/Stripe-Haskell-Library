@@ -32,51 +32,51 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeCardPresent = SourceTypeCardPresent {
   -- | application_cryptogram
-  sourceTypeCardPresentApplicationCryptogram :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeCardPresentApplicationCryptogram :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | application_preferred_name
-  , sourceTypeCardPresentApplicationPreferredName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentApplicationPreferredName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | authorization_code
-  , sourceTypeCardPresentAuthorizationCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentAuthorizationCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | authorization_response_code
-  , sourceTypeCardPresentAuthorizationResponseCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentAuthorizationResponseCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | brand
-  , sourceTypeCardPresentBrand :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentBrand :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
-  , sourceTypeCardPresentCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | cvm_type
-  , sourceTypeCardPresentCvmType :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentCvmType :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | data_type
-  , sourceTypeCardPresentDataType :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentDataType :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | dedicated_file_name
-  , sourceTypeCardPresentDedicatedFileName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentDedicatedFileName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | emv_auth_data
-  , sourceTypeCardPresentEmvAuthData :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentEmvAuthData :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | evidence_customer_signature
-  , sourceTypeCardPresentEvidenceCustomerSignature :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentEvidenceCustomerSignature :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | evidence_transaction_certificate
-  , sourceTypeCardPresentEvidenceTransactionCertificate :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentEvidenceTransactionCertificate :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | exp_month
   , sourceTypeCardPresentExpMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | exp_year
   , sourceTypeCardPresentExpYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | fingerprint
-  , sourceTypeCardPresentFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | funding
-  , sourceTypeCardPresentFunding :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentFunding :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last4
-  , sourceTypeCardPresentLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pos_device_id
-  , sourceTypeCardPresentPosDeviceId :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentPosDeviceId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | pos_entry_mode
-  , sourceTypeCardPresentPosEntryMode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentPosEntryMode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | read_method
-  , sourceTypeCardPresentReadMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentReadMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | reader
-  , sourceTypeCardPresentReader :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentReader :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | terminal_verification_results
-  , sourceTypeCardPresentTerminalVerificationResults :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentTerminalVerificationResults :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | transaction_status_information
-  , sourceTypeCardPresentTransactionStatusInformation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeCardPresentTransactionStatusInformation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeCardPresent

@@ -39,7 +39,7 @@ data IssuingCardholderAuthorizationControls = IssuingCardholderAuthorizationCont
   -- | spending_limits: Limit the spending with rules based on time intervals and categories.
   , issuingCardholderAuthorizationControlsSpendingLimits :: (GHC.Maybe.Maybe ([] IssuingCardholderSpendingLimit))
   -- | spending_limits_currency: Currency for the amounts within spending_limits.
-  , issuingCardholderAuthorizationControlsSpendingLimitsCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , issuingCardholderAuthorizationControlsSpendingLimitsCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON IssuingCardholderAuthorizationControls
@@ -52,7 +52,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderAuthorizationContro
 -- 
 data IssuingCardholderAuthorizationControlsAllowedCategories'
     = IssuingCardholderAuthorizationControlsAllowedCategories'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingCardholderAuthorizationControlsAllowedCategories'EnumTyped GHC.Base.String
+    | IssuingCardholderAuthorizationControlsAllowedCategories'EnumTyped Data.Text.Internal.Text
     | IssuingCardholderAuthorizationControlsAllowedCategories'EnumStringAcRefrigerationRepair
     | IssuingCardholderAuthorizationControlsAllowedCategories'EnumStringAccountingBookkeepingServices
     | IssuingCardholderAuthorizationControlsAllowedCategories'EnumStringAdvertisingServices
@@ -1216,7 +1216,7 @@ instance Data.Aeson.FromJSON IssuingCardholderAuthorizationControlsAllowedCatego
 -- 
 data IssuingCardholderAuthorizationControlsBlockedCategories'
     = IssuingCardholderAuthorizationControlsBlockedCategories'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingCardholderAuthorizationControlsBlockedCategories'EnumTyped GHC.Base.String
+    | IssuingCardholderAuthorizationControlsBlockedCategories'EnumTyped Data.Text.Internal.Text
     | IssuingCardholderAuthorizationControlsBlockedCategories'EnumStringAcRefrigerationRepair
     | IssuingCardholderAuthorizationControlsBlockedCategories'EnumStringAccountingBookkeepingServices
     | IssuingCardholderAuthorizationControlsBlockedCategories'EnumStringAdvertisingServices

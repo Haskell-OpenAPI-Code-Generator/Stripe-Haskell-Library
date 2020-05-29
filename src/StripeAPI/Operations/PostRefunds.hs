@@ -100,9 +100,9 @@ data PostRefundsRequestBody = PostRefundsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRefundsRequestBodyCharge :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postRefundsRequestBodyCharge :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postRefundsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postRefundsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postRefundsRequestBodyMetadata :: (GHC.Maybe.Maybe PostRefundsRequestBodyMetadata')
   -- | payment_intent
@@ -110,7 +110,7 @@ data PostRefundsRequestBody = PostRefundsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRefundsRequestBodyPaymentIntent :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postRefundsRequestBodyPaymentIntent :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | reason
   -- 
   -- Constraints:
@@ -145,7 +145,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostRefundsRequestBodyMetadata'
 -- 
 data PostRefundsRequestBodyReason'
     = PostRefundsRequestBodyReason'EnumOther Data.Aeson.Types.Internal.Value
-    | PostRefundsRequestBodyReason'EnumTyped GHC.Base.String
+    | PostRefundsRequestBodyReason'EnumTyped Data.Text.Internal.Text
     | PostRefundsRequestBodyReason'EnumStringDuplicate
     | PostRefundsRequestBodyReason'EnumStringFraudulent
     | PostRefundsRequestBodyReason'EnumStringRequestedByCustomer

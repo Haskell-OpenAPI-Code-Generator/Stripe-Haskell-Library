@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates a \<code>Location\<\/code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
 postTerminalLocationsLocation :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                           -- ^ location | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                   -- ^ location | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostTerminalLocationsLocationRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostTerminalLocationsLocationResponse)) -- ^ Monad containing the result of the operation
 postTerminalLocationsLocation config
@@ -60,7 +60,7 @@ postTerminalLocationsLocation config
 postTerminalLocationsLocationRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     StripeAPI.Common.Configuration s ->
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe PostTerminalLocationsLocationRequestBody ->
                                     m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                           (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postTerminalLocationsLocationRaw config
 -- Monadic version of 'postTerminalLocationsLocation' (use with 'StripeAPI.Common.runWithConfiguration')
 postTerminalLocationsLocationM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe PostTerminalLocationsLocationRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m
@@ -89,7 +89,7 @@ postTerminalLocationsLocationM location
 -- Monadic version of 'postTerminalLocationsLocationRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postTerminalLocationsLocationRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
-                                     GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe PostTerminalLocationsLocationRequestBody ->
                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                         m
@@ -108,9 +108,9 @@ data PostTerminalLocationsLocationRequestBody = PostTerminalLocationsLocationReq
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalLocationsLocationRequestBodyDisplayName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTerminalLocationsLocationRequestBodyDisplayName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postTerminalLocationsLocationRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postTerminalLocationsLocationRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postTerminalLocationsLocationRequestBodyMetadata :: (GHC.Maybe.Maybe PostTerminalLocationsLocationRequestBodyMetadata')
   } deriving (GHC.Show.Show
@@ -129,37 +129,37 @@ data PostTerminalLocationsLocationRequestBodyAddress' = PostTerminalLocationsLoc
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postTerminalLocationsLocationRequestBodyAddress'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postTerminalLocationsLocationRequestBodyAddress'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalLocationsLocationRequestBodyAddress'Country :: GHC.Base.String
+  , postTerminalLocationsLocationRequestBodyAddress'Country :: Data.Text.Internal.Text
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalLocationsLocationRequestBodyAddress'Line1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTerminalLocationsLocationRequestBodyAddress'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalLocationsLocationRequestBodyAddress'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTerminalLocationsLocationRequestBodyAddress'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalLocationsLocationRequestBodyAddress'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTerminalLocationsLocationRequestBodyAddress'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalLocationsLocationRequestBodyAddress'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTerminalLocationsLocationRequestBodyAddress'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostTerminalLocationsLocationRequestBodyAddress'

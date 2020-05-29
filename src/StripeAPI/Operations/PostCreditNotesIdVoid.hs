@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Marks a credit note as void. Learn more about \<a href=\"\/docs\/billing\/invoices\/credit-notes\#voiding\">voiding credit notes\<\/a>.\<\/p>
 postCreditNotesIdVoid :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                   -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                           -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostCreditNotesIdVoidRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCreditNotesIdVoidResponse)) -- ^ Monad containing the result of the operation
 postCreditNotesIdVoid config
@@ -60,7 +60,7 @@ postCreditNotesIdVoid config
 postCreditNotesIdVoidRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             StripeAPI.Common.Configuration s ->
-                            GHC.Base.String ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe PostCreditNotesIdVoidRequestBody ->
                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postCreditNotesIdVoidRaw config
 -- Monadic version of 'postCreditNotesIdVoid' (use with 'StripeAPI.Common.runWithConfiguration')
 postCreditNotesIdVoidM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Base.String ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe PostCreditNotesIdVoidRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m
@@ -89,7 +89,7 @@ postCreditNotesIdVoidM id
 -- Monadic version of 'postCreditNotesIdVoidRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postCreditNotesIdVoidRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe PostCreditNotesIdVoidRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m
@@ -102,7 +102,7 @@ postCreditNotesIdVoidRawM id
 -- 
 data PostCreditNotesIdVoidRequestBody = PostCreditNotesIdVoidRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postCreditNotesIdVoidRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postCreditNotesIdVoidRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCreditNotesIdVoidRequestBody

@@ -98,19 +98,19 @@ data PostSubscriptionSchedulesRequestBody = PostSubscriptionSchedulesRequestBody
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postSubscriptionSchedulesRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  postSubscriptionSchedulesRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_settings: Object representing the subscription schedule\'s default settings.
   , postSubscriptionSchedulesRequestBodyDefaultSettings :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyDefaultSettings')
   -- | end_behavior: Configures how the subscription schedule behaves when it ends. Possible values are \`release\` or \`cancel\` with the default being \`release\`. \`release\` will end the subscription schedule and keep the underlying subscription running.\`cancel\` will end the subscription schedule and cancel the underlying subscription.
   , postSubscriptionSchedulesRequestBodyEndBehavior :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyEndBehavior')
   -- | expand: Specifies which fields in the response should be expanded.
-  , postSubscriptionSchedulesRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postSubscriptionSchedulesRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | from_subscription: Migrate an existing subscription to be managed by a subscription schedule. If this parameter is set, a subscription schedule will be created using the subscription\'s plan(s), set to auto-renew using the subscription\'s interval. When using this parameter, other parameters (such as phase values) cannot be set. To create a subscription schedule with other modifications, we recommend making two separate API calls.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSubscriptionSchedulesRequestBodyFromSubscription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSubscriptionSchedulesRequestBodyFromSubscription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postSubscriptionSchedulesRequestBodyMetadata :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyMetadata')
   -- | phases: List representing phases of the subscription schedule. Each phase can be customized to have different durations, plans, and coupons. If there are multiple phases, the \`end_date\` of one phase will always equal the \`start_date\` of the next phase.
@@ -137,7 +137,7 @@ data PostSubscriptionSchedulesRequestBodyDefaultSettings' = PostSubscriptionSche
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSubscriptionSchedulesRequestBodyDefaultSettings'DefaultPaymentMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSubscriptionSchedulesRequestBodyDefaultSettings'DefaultPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | invoice_settings
   , postSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyDefaultSettings'InvoiceSettings')
   } deriving (GHC.Show.Show
@@ -152,7 +152,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
 -- 
 data PostSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds'OneOf1
     = PostSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds'OneOf1EnumTyped GHC.Base.String
+    | PostSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds'OneOf1EnumTyped Data.Text.Internal.Text
     | PostSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSubscriptionSchedulesRequestBodyDefaultSettings'BillingThresholds'OneOf1
@@ -194,7 +194,7 @@ instance Data.Aeson.FromJSON PostSubscriptionSchedulesRequestBodyDefaultSettings
 -- 
 data PostSubscriptionSchedulesRequestBodyDefaultSettings'CollectionMethod'
     = PostSubscriptionSchedulesRequestBodyDefaultSettings'CollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionSchedulesRequestBodyDefaultSettings'CollectionMethod'EnumTyped GHC.Base.String
+    | PostSubscriptionSchedulesRequestBodyDefaultSettings'CollectionMethod'EnumTyped Data.Text.Internal.Text
     | PostSubscriptionSchedulesRequestBodyDefaultSettings'CollectionMethod'EnumStringChargeAutomatically
     | PostSubscriptionSchedulesRequestBodyDefaultSettings'CollectionMethod'EnumStringSendInvoice
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -227,7 +227,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
 -- Configures how the subscription schedule behaves when it ends. Possible values are \`release\` or \`cancel\` with the default being \`release\`. \`release\` will end the subscription schedule and keep the underlying subscription running.\`cancel\` will end the subscription schedule and cancel the underlying subscription.
 data PostSubscriptionSchedulesRequestBodyEndBehavior'
     = PostSubscriptionSchedulesRequestBodyEndBehavior'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionSchedulesRequestBodyEndBehavior'EnumTyped GHC.Base.String
+    | PostSubscriptionSchedulesRequestBodyEndBehavior'EnumTyped Data.Text.Internal.Text
     | PostSubscriptionSchedulesRequestBodyEndBehavior'EnumStringCancel
     | PostSubscriptionSchedulesRequestBodyEndBehavior'EnumStringNone
     | PostSubscriptionSchedulesRequestBodyEndBehavior'EnumStringRelease
@@ -277,13 +277,13 @@ data PostSubscriptionSchedulesRequestBodyPhases' = PostSubscriptionSchedulesRequ
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSubscriptionSchedulesRequestBodyPhases'Coupon :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSubscriptionSchedulesRequestBodyPhases'Coupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_payment_method
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSubscriptionSchedulesRequestBodyPhases'DefaultPaymentMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSubscriptionSchedulesRequestBodyPhases'DefaultPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_tax_rates
   , postSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates :: (GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'Variants)
   -- | end_date
@@ -314,7 +314,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
 -- 
 data PostSubscriptionSchedulesRequestBodyPhases'BillingThresholds'OneOf1
     = PostSubscriptionSchedulesRequestBodyPhases'BillingThresholds'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionSchedulesRequestBodyPhases'BillingThresholds'OneOf1EnumTyped GHC.Base.String
+    | PostSubscriptionSchedulesRequestBodyPhases'BillingThresholds'OneOf1EnumTyped Data.Text.Internal.Text
     | PostSubscriptionSchedulesRequestBodyPhases'BillingThresholds'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSubscriptionSchedulesRequestBodyPhases'BillingThresholds'OneOf1
@@ -356,7 +356,7 @@ instance Data.Aeson.FromJSON PostSubscriptionSchedulesRequestBodyPhases'BillingT
 -- 
 data PostSubscriptionSchedulesRequestBodyPhases'CollectionMethod'
     = PostSubscriptionSchedulesRequestBodyPhases'CollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionSchedulesRequestBodyPhases'CollectionMethod'EnumTyped GHC.Base.String
+    | PostSubscriptionSchedulesRequestBodyPhases'CollectionMethod'EnumTyped Data.Text.Internal.Text
     | PostSubscriptionSchedulesRequestBodyPhases'CollectionMethod'EnumStringChargeAutomatically
     | PostSubscriptionSchedulesRequestBodyPhases'CollectionMethod'EnumStringSendInvoice
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -376,7 +376,7 @@ instance Data.Aeson.FromJSON PostSubscriptionSchedulesRequestBodyPhases'Collecti
 -- 
 data PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'OneOf1
     = PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'OneOf1EnumTyped GHC.Base.String
+    | PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'OneOf1EnumTyped Data.Text.Internal.Text
     | PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'OneOf1
@@ -392,7 +392,7 @@ instance Data.Aeson.FromJSON PostSubscriptionSchedulesRequestBodyPhases'DefaultT
 -- 
 data PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'Variants
     = PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'OneOf1 PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'OneOf1
-    | PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'ListString ([] GHC.Base.String)
+    | PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'ListText ([] Data.Text.Internal.Text)
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostSubscriptionSchedulesRequestBodyPhases'DefaultTaxRates'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -422,7 +422,7 @@ data PostSubscriptionSchedulesRequestBodyPhases'Plans' = PostSubscriptionSchedul
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSubscriptionSchedulesRequestBodyPhases'Plans'Plan :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSubscriptionSchedulesRequestBodyPhases'Plans'Plan :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | quantity
   , postSubscriptionSchedulesRequestBodyPhases'Plans'Quantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | tax_rates
@@ -439,7 +439,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionSchedulesRequestBody
 -- 
 data PostSubscriptionSchedulesRequestBodyPhases'Plans'BillingThresholds'OneOf1
     = PostSubscriptionSchedulesRequestBodyPhases'Plans'BillingThresholds'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionSchedulesRequestBodyPhases'Plans'BillingThresholds'OneOf1EnumTyped GHC.Base.String
+    | PostSubscriptionSchedulesRequestBodyPhases'Plans'BillingThresholds'OneOf1EnumTyped Data.Text.Internal.Text
     | PostSubscriptionSchedulesRequestBodyPhases'Plans'BillingThresholds'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSubscriptionSchedulesRequestBodyPhases'Plans'BillingThresholds'OneOf1
@@ -479,7 +479,7 @@ instance Data.Aeson.FromJSON PostSubscriptionSchedulesRequestBodyPhases'Plans'Bi
 -- 
 data PostSubscriptionSchedulesRequestBodyPhases'Plans'TaxRates'OneOf1
     = PostSubscriptionSchedulesRequestBodyPhases'Plans'TaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionSchedulesRequestBodyPhases'Plans'TaxRates'OneOf1EnumTyped GHC.Base.String
+    | PostSubscriptionSchedulesRequestBodyPhases'Plans'TaxRates'OneOf1EnumTyped Data.Text.Internal.Text
     | PostSubscriptionSchedulesRequestBodyPhases'Plans'TaxRates'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSubscriptionSchedulesRequestBodyPhases'Plans'TaxRates'OneOf1
@@ -495,7 +495,7 @@ instance Data.Aeson.FromJSON PostSubscriptionSchedulesRequestBodyPhases'Plans'Ta
 -- 
 data PostSubscriptionSchedulesRequestBodyPhases'Plans'TaxRates'Variants
     = PostSubscriptionSchedulesRequestBodyPhases'Plans'TaxRates'PostSubscriptionSchedulesRequestBodyPhases'Plans'TaxRates'OneOf1 PostSubscriptionSchedulesRequestBodyPhases'Plans'TaxRates'OneOf1
-    | PostSubscriptionSchedulesRequestBodyPhases'Plans'TaxRates'ListString ([] GHC.Base.String)
+    | PostSubscriptionSchedulesRequestBodyPhases'Plans'TaxRates'ListText ([] Data.Text.Internal.Text)
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostSubscriptionSchedulesRequestBodyPhases'Plans'TaxRates'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -506,7 +506,7 @@ instance Data.Aeson.FromJSON PostSubscriptionSchedulesRequestBodyPhases'Plans'Ta
 -- 
 data PostSubscriptionSchedulesRequestBodyPhases'ProrationBehavior'
     = PostSubscriptionSchedulesRequestBodyPhases'ProrationBehavior'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionSchedulesRequestBodyPhases'ProrationBehavior'EnumTyped GHC.Base.String
+    | PostSubscriptionSchedulesRequestBodyPhases'ProrationBehavior'EnumTyped Data.Text.Internal.Text
     | PostSubscriptionSchedulesRequestBodyPhases'ProrationBehavior'EnumStringAlwaysInvoice
     | PostSubscriptionSchedulesRequestBodyPhases'ProrationBehavior'EnumStringCreateProrations
     | PostSubscriptionSchedulesRequestBodyPhases'ProrationBehavior'EnumStringNone
@@ -530,7 +530,7 @@ instance Data.Aeson.FromJSON PostSubscriptionSchedulesRequestBodyPhases'Proratio
 -- 
 data PostSubscriptionSchedulesRequestBodyStartDate'OneOf1
     = PostSubscriptionSchedulesRequestBodyStartDate'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionSchedulesRequestBodyStartDate'OneOf1EnumTyped GHC.Base.String
+    | PostSubscriptionSchedulesRequestBodyStartDate'OneOf1EnumTyped Data.Text.Internal.Text
     | PostSubscriptionSchedulesRequestBodyStartDate'OneOf1EnumStringNow
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSubscriptionSchedulesRequestBodyStartDate'OneOf1

@@ -36,13 +36,13 @@ data ChargeFraudDetails = ChargeFraudDetails {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  chargeFraudDetailsStripeReport :: (GHC.Maybe.Maybe GHC.Base.String)
+  chargeFraudDetailsStripeReport :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | user_report: Assessments reported by you. If set, possible values of are \`safe\` and \`fraudulent\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , chargeFraudDetailsUserReport :: (GHC.Maybe.Maybe GHC.Base.String)
+  , chargeFraudDetailsUserReport :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON ChargeFraudDetails

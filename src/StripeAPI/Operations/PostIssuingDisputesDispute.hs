@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the specified Issuing \<code>Dispute\<\/code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
 postIssuingDisputesDispute :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                        -- ^ dispute | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                -- ^ dispute | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostIssuingDisputesDisputeRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostIssuingDisputesDisputeResponse)) -- ^ Monad containing the result of the operation
 postIssuingDisputesDispute config
@@ -60,7 +60,7 @@ postIssuingDisputesDispute config
 postIssuingDisputesDisputeRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
                                  StripeAPI.Common.Configuration s ->
-                                 GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe PostIssuingDisputesDisputeRequestBody ->
                                  m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postIssuingDisputesDisputeRaw config
 -- Monadic version of 'postIssuingDisputesDispute' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingDisputesDisputeM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe PostIssuingDisputesDisputeRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -89,7 +89,7 @@ postIssuingDisputesDisputeM dispute
 -- Monadic version of 'postIssuingDisputesDisputeRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingDisputesDisputeRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe PostIssuingDisputesDisputeRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m
@@ -102,7 +102,7 @@ postIssuingDisputesDisputeRawM dispute
 -- 
 data PostIssuingDisputesDisputeRequestBody = PostIssuingDisputesDisputeRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postIssuingDisputesDisputeRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postIssuingDisputesDisputeRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postIssuingDisputesDisputeRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingDisputesDisputeRequestBodyMetadata')
   } deriving (GHC.Show.Show

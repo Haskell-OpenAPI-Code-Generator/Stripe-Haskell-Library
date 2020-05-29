@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Marking an invoice as uncollectible is useful for keeping track of bad debts that can be written off for accounting purposes.\<\/p>
 postInvoicesInvoiceMarkUncollectible :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                  -- ^ invoice | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                          -- ^ invoice | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostInvoicesInvoiceMarkUncollectibleRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostInvoicesInvoiceMarkUncollectibleResponse)) -- ^ Monad containing the result of the operation
 postInvoicesInvoiceMarkUncollectible config
@@ -60,7 +60,7 @@ postInvoicesInvoiceMarkUncollectible config
 postInvoicesInvoiceMarkUncollectibleRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                          StripeAPI.Common.SecurityScheme s) =>
                                            StripeAPI.Common.Configuration s ->
-                                           GHC.Base.String ->
+                                           Data.Text.Internal.Text ->
                                            GHC.Maybe.Maybe PostInvoicesInvoiceMarkUncollectibleRequestBody ->
                                            m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                  (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postInvoicesInvoiceMarkUncollectibleRaw config
 -- Monadic version of 'postInvoicesInvoiceMarkUncollectible' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoicesInvoiceMarkUncollectibleM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                        StripeAPI.Common.SecurityScheme s) =>
-                                         GHC.Base.String ->
+                                         Data.Text.Internal.Text ->
                                          GHC.Maybe.Maybe PostInvoicesInvoiceMarkUncollectibleRequestBody ->
                                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                             m
@@ -89,7 +89,7 @@ postInvoicesInvoiceMarkUncollectibleM invoice
 -- Monadic version of 'postInvoicesInvoiceMarkUncollectibleRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoicesInvoiceMarkUncollectibleRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                           StripeAPI.Common.SecurityScheme s) =>
-                                            GHC.Base.String ->
+                                            Data.Text.Internal.Text ->
                                             GHC.Maybe.Maybe PostInvoicesInvoiceMarkUncollectibleRequestBody ->
                                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                m
@@ -102,7 +102,7 @@ postInvoicesInvoiceMarkUncollectibleRawM invoice
 -- 
 data PostInvoicesInvoiceMarkUncollectibleRequestBody = PostInvoicesInvoiceMarkUncollectibleRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postInvoicesInvoiceMarkUncollectibleRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postInvoicesInvoiceMarkUncollectibleRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoicesInvoiceMarkUncollectibleRequestBody

@@ -111,13 +111,13 @@ data PostCreditNotesRequestBody = PostCreditNotesRequestBody {
   -- | credit_amount: The integer amount in **%s** representing the amount to credit the customer\'s balance, which will be automatically applied to their next invoice.
   , postCreditNotesRequestBodyCreditAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postCreditNotesRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCreditNotesRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | invoice: ID of the invoice.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCreditNotesRequestBodyInvoice :: GHC.Base.String
+  , postCreditNotesRequestBodyInvoice :: Data.Text.Internal.Text
   -- | lines: Line items that make up the credit note.
   , postCreditNotesRequestBodyLines :: (GHC.Maybe.Maybe ([] PostCreditNotesRequestBodyLines'))
   -- | memo: The credit note\'s memo appears on the credit note PDF.
@@ -125,7 +125,7 @@ data PostCreditNotesRequestBody = PostCreditNotesRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCreditNotesRequestBodyMemo :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCreditNotesRequestBodyMemo :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postCreditNotesRequestBodyMetadata :: (GHC.Maybe.Maybe PostCreditNotesRequestBodyMetadata')
   -- | out_of_band_amount: The integer amount in **%s** representing the amount that is credited outside of Stripe.
@@ -133,7 +133,7 @@ data PostCreditNotesRequestBody = PostCreditNotesRequestBody {
   -- | reason: Reason for issuing this credit note, one of \`duplicate\`, \`fraudulent\`, \`order_change\`, or \`product_unsatisfactory\`
   , postCreditNotesRequestBodyReason :: (GHC.Maybe.Maybe PostCreditNotesRequestBodyReason')
   -- | refund: ID of an existing refund to link this credit note to.
-  , postCreditNotesRequestBodyRefund :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCreditNotesRequestBodyRefund :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_amount: The integer amount in **%s** representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
   , postCreditNotesRequestBodyRefundAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   } deriving (GHC.Show.Show
@@ -154,13 +154,13 @@ data PostCreditNotesRequestBodyLines' = PostCreditNotesRequestBodyLines' {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCreditNotesRequestBodyLines'Description :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCreditNotesRequestBodyLines'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | invoice_line_item
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCreditNotesRequestBodyLines'InvoiceLineItem :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCreditNotesRequestBodyLines'InvoiceLineItem :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | quantity
   , postCreditNotesRequestBodyLines'Quantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | tax_rates
@@ -170,7 +170,7 @@ data PostCreditNotesRequestBodyLines' = PostCreditNotesRequestBodyLines' {
   -- | unit_amount
   , postCreditNotesRequestBodyLines'UnitAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | unit_amount_decimal
-  , postCreditNotesRequestBodyLines'UnitAmountDecimal :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCreditNotesRequestBodyLines'UnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCreditNotesRequestBodyLines'
@@ -183,7 +183,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCreditNotesRequestBodyLines'
 -- 
 data PostCreditNotesRequestBodyLines'TaxRates'OneOf1
     = PostCreditNotesRequestBodyLines'TaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostCreditNotesRequestBodyLines'TaxRates'OneOf1EnumTyped GHC.Base.String
+    | PostCreditNotesRequestBodyLines'TaxRates'OneOf1EnumTyped Data.Text.Internal.Text
     | PostCreditNotesRequestBodyLines'TaxRates'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCreditNotesRequestBodyLines'TaxRates'OneOf1
@@ -199,7 +199,7 @@ instance Data.Aeson.FromJSON PostCreditNotesRequestBodyLines'TaxRates'OneOf1
 -- 
 data PostCreditNotesRequestBodyLines'TaxRates'Variants
     = PostCreditNotesRequestBodyLines'TaxRates'PostCreditNotesRequestBodyLines'TaxRates'OneOf1 PostCreditNotesRequestBodyLines'TaxRates'OneOf1
-    | PostCreditNotesRequestBodyLines'TaxRates'ListString ([] GHC.Base.String)
+    | PostCreditNotesRequestBodyLines'TaxRates'ListText ([] Data.Text.Internal.Text)
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostCreditNotesRequestBodyLines'TaxRates'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -210,7 +210,7 @@ instance Data.Aeson.FromJSON PostCreditNotesRequestBodyLines'TaxRates'Variants
 -- 
 data PostCreditNotesRequestBodyLines'Type'
     = PostCreditNotesRequestBodyLines'Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCreditNotesRequestBodyLines'Type'EnumTyped GHC.Base.String
+    | PostCreditNotesRequestBodyLines'Type'EnumTyped Data.Text.Internal.Text
     | PostCreditNotesRequestBodyLines'Type'EnumStringCustomLineItem
     | PostCreditNotesRequestBodyLines'Type'EnumStringInvoiceLineItem
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -242,7 +242,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCreditNotesRequestBodyMetadata'
 -- Reason for issuing this credit note, one of \`duplicate\`, \`fraudulent\`, \`order_change\`, or \`product_unsatisfactory\`
 data PostCreditNotesRequestBodyReason'
     = PostCreditNotesRequestBodyReason'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCreditNotesRequestBodyReason'EnumTyped GHC.Base.String
+    | PostCreditNotesRequestBodyReason'EnumTyped Data.Text.Internal.Text
     | PostCreditNotesRequestBodyReason'EnumStringDuplicate
     | PostCreditNotesRequestBodyReason'EnumStringFraudulent
     | PostCreditNotesRequestBodyReason'EnumStringOrderChange

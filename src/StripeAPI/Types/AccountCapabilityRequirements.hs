@@ -35,21 +35,21 @@ data AccountCapabilityRequirements = AccountCapabilityRequirements {
   -- | current_deadline: The date the fields in \`currently_due\` must be collected by to keep the capability enabled for the account.
   accountCapabilityRequirementsCurrentDeadline :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | currently_due: The fields that need to be collected to keep the capability enabled. If not collected by the \`current_deadline\`, these fields appear in \`past_due\` as well, and the capability is disabled.
-  , accountCapabilityRequirementsCurrentlyDue :: ([] GHC.Base.String)
+  , accountCapabilityRequirementsCurrentlyDue :: ([] Data.Text.Internal.Text)
   -- | disabled_reason: If the capability is disabled, this string describes why. Possible values are \`requirement.fields_needed\`, \`pending.onboarding\`, \`pending.review\`, \`rejected_fraud\`, or \`rejected.other\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , accountCapabilityRequirementsDisabledReason :: (GHC.Maybe.Maybe GHC.Base.String)
+  , accountCapabilityRequirementsDisabledReason :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | errors: The fields that need to be collected again because validation or verification failed for some reason.
   , accountCapabilityRequirementsErrors :: (GHC.Maybe.Maybe ([] AccountRequirementsError))
   -- | eventually_due: The fields that need to be collected assuming all volume thresholds are reached. As they become required, these fields appear in \`currently_due\` as well, and the \`current_deadline\` is set.
-  , accountCapabilityRequirementsEventuallyDue :: ([] GHC.Base.String)
+  , accountCapabilityRequirementsEventuallyDue :: ([] Data.Text.Internal.Text)
   -- | past_due: The fields that weren\'t collected by the \`current_deadline\`. These fields need to be collected to enable the capability for the account.
-  , accountCapabilityRequirementsPastDue :: ([] GHC.Base.String)
+  , accountCapabilityRequirementsPastDue :: ([] Data.Text.Internal.Text)
   -- | pending_verification: Fields that may become required depending on the results of verification or review. An empty array unless an asynchronous verification is pending. If verification fails, the fields in this array become required and move to \`currently_due\` or \`past_due\`.
-  , accountCapabilityRequirementsPendingVerification :: ([] GHC.Base.String)
+  , accountCapabilityRequirementsPendingVerification :: ([] Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountCapabilityRequirements

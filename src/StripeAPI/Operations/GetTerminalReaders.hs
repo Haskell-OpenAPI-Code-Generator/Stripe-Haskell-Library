@@ -44,13 +44,13 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a list of \<code>Reader\<\/code> objects.\<\/p>
 getTerminalReaders :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ device_type: Filters readers by device type
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ device_type: Filters readers by device type
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                       -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ location: A location ID to filter the response list to only readers at the specific location | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ status: A status filter to filter readers to only offline or online readers
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ location: A location ID to filter the response list to only readers at the specific location | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ status: A status filter to filter readers to only offline or online readers
   -> GHC.Maybe.Maybe GetTerminalReadersRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetTerminalReadersResponse)) -- ^ Monad containing the result of the operation
 getTerminalReaders config
@@ -135,13 +135,13 @@ getTerminalReaders config
 getTerminalReadersRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          StripeAPI.Common.Configuration s ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe GetTerminalReadersRequestBody ->
                          m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -222,13 +222,13 @@ getTerminalReadersRaw config
 -- Monadic version of 'getTerminalReaders' (use with 'StripeAPI.Common.runWithConfiguration')
 getTerminalReadersM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetTerminalReadersRequestBody ->
                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                           m
@@ -314,13 +314,13 @@ getTerminalReadersM deviceType
 -- Monadic version of 'getTerminalReadersRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getTerminalReadersRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe GetTerminalReadersRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m
@@ -432,7 +432,7 @@ data GetTerminalReadersResponseBody200 = GetTerminalReadersResponseBody200 {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getTerminalReadersResponseBody200Url :: GHC.Base.String
+  , getTerminalReadersResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetTerminalReadersResponseBody200
@@ -445,7 +445,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalReadersResponseBody200
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetTerminalReadersResponseBody200Object'
     = GetTerminalReadersResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetTerminalReadersResponseBody200Object'EnumTyped GHC.Base.String
+    | GetTerminalReadersResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetTerminalReadersResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetTerminalReadersResponseBody200Object'

@@ -44,14 +44,14 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.\<\/p>
 getInvoiceitems :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ created
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ customer: The identifier of the customer whose invoice items to return. If none is provided, all invoice items will be returned. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ invoice: Only return invoice items belonging to this invoice. If none is provided, all invoice items will be returned. If specifying an invoice, no customer identifier is needed. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ created
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ customer: The identifier of the customer whose invoice items to return. If none is provided, all invoice items will be returned. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ invoice: Only return invoice items belonging to this invoice. If none is provided, all invoice items will be returned. If specifying an invoice, no customer identifier is needed. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                    -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
   -> GHC.Maybe.Maybe GHC.Types.Bool                                                                                              -- ^ pending: Set to \`true\` to only show pending invoice items, which are not yet attached to any invoices. Set to \`false\` to only show invoice items already attached to invoices. If unspecified, no filter is applied.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetInvoiceitemsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetInvoiceitemsResponse)) -- ^ Monad containing the result of the operation
 getInvoiceitems config
@@ -141,14 +141,14 @@ getInvoiceitems config
 getInvoiceitemsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
                       StripeAPI.Common.Configuration s ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                       GHC.Maybe.Maybe GHC.Types.Bool ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe GetInvoiceitemsRequestBody ->
                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -234,14 +234,14 @@ getInvoiceitemsRaw config
 -- Monadic version of 'getInvoiceitems' (use with 'StripeAPI.Common.runWithConfiguration')
 getInvoiceitemsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                     GHC.Maybe.Maybe GHC.Types.Bool ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe GetInvoiceitemsRequestBody ->
                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                        m
@@ -332,14 +332,14 @@ getInvoiceitemsM created
 -- Monadic version of 'getInvoiceitemsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getInvoiceitemsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                        GHC.Maybe.Maybe GHC.Types.Bool ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetInvoiceitemsRequestBody ->
                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                           m
@@ -457,7 +457,7 @@ data GetInvoiceitemsResponseBody200 = GetInvoiceitemsResponseBody200 {
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/invoiceitems\'
-  , getInvoiceitemsResponseBody200Url :: GHC.Base.String
+  , getInvoiceitemsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetInvoiceitemsResponseBody200
@@ -470,7 +470,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetInvoiceitemsResponseBody200
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetInvoiceitemsResponseBody200Object'
     = GetInvoiceitemsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetInvoiceitemsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetInvoiceitemsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetInvoiceitemsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetInvoiceitemsResponseBody200Object'

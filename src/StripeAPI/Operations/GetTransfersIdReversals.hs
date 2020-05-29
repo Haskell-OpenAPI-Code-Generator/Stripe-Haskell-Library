@@ -44,11 +44,11 @@ import StripeAPI.Types
 -- 
 -- \<p>You can see a list of the reversals belonging to a specific transfer. Note that the 10 most recent reversals are always available by default on the transfer object. If you need more than those 10, you can use this API method and the \<code>limit\<\/code> and \<code>starting_after\<\/code> parameters to page through additional reversals.\<\/p>
 getTransfersIdReversals :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                     -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                     -- ^ id | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                             -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                             -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                            -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                     -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                             -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetTransfersIdReversalsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetTransfersIdReversalsResponse)) -- ^ Monad containing the result of the operation
 getTransfersIdReversals config
@@ -106,11 +106,11 @@ getTransfersIdReversals config
 getTransfersIdReversalsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Base.String ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe GetTransfersIdReversalsRequestBody ->
                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -164,11 +164,11 @@ getTransfersIdReversalsRaw config
 -- Monadic version of 'getTransfersIdReversals' (use with 'StripeAPI.Common.runWithConfiguration')
 getTransfersIdReversalsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Base.String ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe GetTransfersIdReversalsRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -227,11 +227,11 @@ getTransfersIdReversalsM endingBefore
 -- Monadic version of 'getTransfersIdReversalsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getTransfersIdReversalsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GetTransfersIdReversalsRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -316,7 +316,7 @@ data GetTransfersIdReversalsResponseBody200 = GetTransfersIdReversalsResponseBod
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getTransfersIdReversalsResponseBody200Url :: GHC.Base.String
+  , getTransfersIdReversalsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetTransfersIdReversalsResponseBody200
@@ -329,7 +329,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersIdReversalsResponseBody2
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetTransfersIdReversalsResponseBody200Object'
     = GetTransfersIdReversalsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetTransfersIdReversalsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetTransfersIdReversalsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetTransfersIdReversalsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetTransfersIdReversalsResponseBody200Object'

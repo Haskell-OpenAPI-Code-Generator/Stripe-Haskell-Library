@@ -38,7 +38,7 @@ data DeletedTerminal'reader = DeletedTerminal'reader {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedTerminal'readerId :: GHC.Base.String
+  , deletedTerminal'readerId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedTerminal'readerObject :: DeletedTerminal'readerObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedTerminal'readerDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedTerminal'readerObject'
     = DeletedTerminal'readerObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedTerminal'readerObject'EnumTyped GHC.Base.String
+    | DeletedTerminal'readerObject'EnumTyped Data.Text.Internal.Text
     | DeletedTerminal'readerObject'EnumStringTerminal'reader
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedTerminal'readerObject'

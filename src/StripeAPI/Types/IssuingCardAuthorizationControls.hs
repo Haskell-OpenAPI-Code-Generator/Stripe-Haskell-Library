@@ -37,13 +37,13 @@ data IssuingCardAuthorizationControls = IssuingCardAuthorizationControls {
   -- | blocked_categories: Array of strings containing [categories](https:\/\/stripe.com\/docs\/api\#issuing_authorization_object-merchant_data-category) of authorizations to always decline on this card.
   , issuingCardAuthorizationControlsBlockedCategories :: (GHC.Maybe.Maybe ([] IssuingCardAuthorizationControlsBlockedCategories'))
   -- | currency: The currency of the card. See [max_amount](https:\/\/stripe.com\/docs\/api\#issuing_card_object-authorization_controls-max_amount)
-  , issuingCardAuthorizationControlsCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , issuingCardAuthorizationControlsCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | max_approvals: Maximum count of approved authorizations on this card. Counts all authorizations retroactively.
   , issuingCardAuthorizationControlsMaxApprovals :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | spending_limits: Limit the spending with rules based on time intervals and categories.
   , issuingCardAuthorizationControlsSpendingLimits :: (GHC.Maybe.Maybe ([] IssuingCardSpendingLimit))
   -- | spending_limits_currency: Currency for the amounts within spending_limits. Locked to the currency of the card.
-  , issuingCardAuthorizationControlsSpendingLimitsCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , issuingCardAuthorizationControlsSpendingLimitsCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON IssuingCardAuthorizationControls
@@ -56,7 +56,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardAuthorizationControls
 -- 
 data IssuingCardAuthorizationControlsAllowedCategories'
     = IssuingCardAuthorizationControlsAllowedCategories'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingCardAuthorizationControlsAllowedCategories'EnumTyped GHC.Base.String
+    | IssuingCardAuthorizationControlsAllowedCategories'EnumTyped Data.Text.Internal.Text
     | IssuingCardAuthorizationControlsAllowedCategories'EnumStringAcRefrigerationRepair
     | IssuingCardAuthorizationControlsAllowedCategories'EnumStringAccountingBookkeepingServices
     | IssuingCardAuthorizationControlsAllowedCategories'EnumStringAdvertisingServices
@@ -1220,7 +1220,7 @@ instance Data.Aeson.FromJSON IssuingCardAuthorizationControlsAllowedCategories'
 -- 
 data IssuingCardAuthorizationControlsBlockedCategories'
     = IssuingCardAuthorizationControlsBlockedCategories'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingCardAuthorizationControlsBlockedCategories'EnumTyped GHC.Base.String
+    | IssuingCardAuthorizationControlsBlockedCategories'EnumTyped Data.Text.Internal.Text
     | IssuingCardAuthorizationControlsBlockedCategories'EnumStringAcRefrigerationRepair
     | IssuingCardAuthorizationControlsBlockedCategories'EnumStringAccountingBookkeepingServices
     | IssuingCardAuthorizationControlsBlockedCategories'EnumStringAdvertisingServices

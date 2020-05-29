@@ -36,13 +36,13 @@ data SourceOrder = SourceOrder {
   -- | amount: A positive integer in the smallest currency unit (that is, 100 cents for \$1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount for the order.
   sourceOrderAmount :: GHC.Integer.Type.Integer
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , sourceOrderCurrency :: GHC.Base.String
+  , sourceOrderCurrency :: Data.Text.Internal.Text
   -- | email: The email address of the customer placing the order.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceOrderEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceOrderEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | items: List of items constituting the order.
   , sourceOrderItems :: (GHC.Maybe.Maybe ([] SourceOrderItem))
   -- | shipping: 

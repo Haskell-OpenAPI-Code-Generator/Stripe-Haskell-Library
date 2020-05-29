@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates a SetupIntent object.\<\/p>
 postSetupIntentsIntent :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                    -- ^ intent | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                            -- ^ intent | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostSetupIntentsIntentRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSetupIntentsIntentResponse)) -- ^ Monad containing the result of the operation
 postSetupIntentsIntent config
@@ -60,7 +60,7 @@ postSetupIntentsIntent config
 postSetupIntentsIntentRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              StripeAPI.Common.Configuration s ->
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe PostSetupIntentsIntentRequestBody ->
                              m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                    (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postSetupIntentsIntentRaw config
 -- Monadic version of 'postSetupIntentsIntent' (use with 'StripeAPI.Common.runWithConfiguration')
 postSetupIntentsIntentM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Base.String ->
+                           Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe PostSetupIntentsIntentRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m
@@ -89,7 +89,7 @@ postSetupIntentsIntentM intent
 -- Monadic version of 'postSetupIntentsIntentRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postSetupIntentsIntentRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
-                              GHC.Base.String ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe PostSetupIntentsIntentRequestBody ->
                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                  m
@@ -108,15 +108,15 @@ data PostSetupIntentsIntentRequestBody = PostSetupIntentsIntentRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postSetupIntentsIntentRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  postSetupIntentsIntentRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 1000
-  , postSetupIntentsIntentRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSetupIntentsIntentRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postSetupIntentsIntentRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postSetupIntentsIntentRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postSetupIntentsIntentRequestBodyMetadata :: (GHC.Maybe.Maybe PostSetupIntentsIntentRequestBodyMetadata')
   -- | payment_method: ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
@@ -124,11 +124,11 @@ data PostSetupIntentsIntentRequestBody = PostSetupIntentsIntentRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSetupIntentsIntentRequestBodyPaymentMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSetupIntentsIntentRequestBodyPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | payment_method_options: Payment-method-specific configuration for this SetupIntent.
   , postSetupIntentsIntentRequestBodyPaymentMethodOptions :: (GHC.Maybe.Maybe PostSetupIntentsIntentRequestBodyPaymentMethodOptions')
   -- | payment_method_types: The list of payment method types (e.g. card) that this SetupIntent is allowed to set up. If this is not provided, defaults to [\"card\"].
-  , postSetupIntentsIntentRequestBodyPaymentMethodTypes :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postSetupIntentsIntentRequestBodyPaymentMethodTypes :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSetupIntentsIntentRequestBody
@@ -183,7 +183,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsIntentRequestBodyPay
 -- 
 data PostSetupIntentsIntentRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'
     = PostSetupIntentsIntentRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSetupIntentsIntentRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumTyped GHC.Base.String
+    | PostSetupIntentsIntentRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumTyped Data.Text.Internal.Text
     | PostSetupIntentsIntentRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAny
     | PostSetupIntentsIntentRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAutomatic
     deriving (GHC.Show.Show, GHC.Classes.Eq)

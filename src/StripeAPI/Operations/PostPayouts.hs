@@ -100,17 +100,17 @@ data PostPayoutsRequestBody = PostPayoutsRequestBody {
   -- | amount: A positive integer in cents representing how much to payout.
   postPayoutsRequestBodyAmount :: GHC.Integer.Type.Integer
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , postPayoutsRequestBodyCurrency :: GHC.Base.String
+  , postPayoutsRequestBodyCurrency :: Data.Text.Internal.Text
   -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPayoutsRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPayoutsRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | destination: The ID of a bank account or a card to send the payout to. If no destination is supplied, the default external account for the specified currency will be used.
-  , postPayoutsRequestBodyDestination :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPayoutsRequestBodyDestination :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postPayoutsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postPayoutsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postPayoutsRequestBodyMetadata :: (GHC.Maybe.Maybe PostPayoutsRequestBodyMetadata')
   -- | method: The method used to send this payout, which can be \`standard\` or \`instant\`. \`instant\` is only supported for payouts to debit cards. (See [Instant payouts for marketplaces for more information](https:\/\/stripe.com\/blog\/instant-payouts-for-marketplaces).)
@@ -130,7 +130,7 @@ data PostPayoutsRequestBody = PostPayoutsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postPayoutsRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPayoutsRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPayoutsRequestBody
@@ -155,7 +155,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPayoutsRequestBodyMetadata'
 -- The method used to send this payout, which can be \`standard\` or \`instant\`. \`instant\` is only supported for payouts to debit cards. (See [Instant payouts for marketplaces for more information](https:\/\/stripe.com\/blog\/instant-payouts-for-marketplaces).)
 data PostPayoutsRequestBodyMethod'
     = PostPayoutsRequestBodyMethod'EnumOther Data.Aeson.Types.Internal.Value
-    | PostPayoutsRequestBodyMethod'EnumTyped GHC.Base.String
+    | PostPayoutsRequestBodyMethod'EnumTyped Data.Text.Internal.Text
     | PostPayoutsRequestBodyMethod'EnumStringInstant
     | PostPayoutsRequestBodyMethod'EnumStringStandard
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -175,7 +175,7 @@ instance Data.Aeson.FromJSON PostPayoutsRequestBodyMethod'
 -- The balance type of your Stripe balance to draw this payout from. Balances for different payment sources are kept separately. You can find the amounts with the balances API. One of \`bank_account\`, \`card\`, or \`fpx\`.
 data PostPayoutsRequestBodySourceType'
     = PostPayoutsRequestBodySourceType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostPayoutsRequestBodySourceType'EnumTyped GHC.Base.String
+    | PostPayoutsRequestBodySourceType'EnumTyped Data.Text.Internal.Text
     | PostPayoutsRequestBodySourceType'EnumStringBankAccount
     | PostPayoutsRequestBodySourceType'EnumStringCard
     | PostPayoutsRequestBodySourceType'EnumStringFpx

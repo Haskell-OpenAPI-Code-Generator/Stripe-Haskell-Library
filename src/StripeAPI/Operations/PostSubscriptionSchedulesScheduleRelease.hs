@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Releases the subscription schedule immediately, which will stop scheduling of its phases, but leave any existing subscription in place. A schedule can only be released if its status is \<code>not_started\<\/code> or \<code>active\<\/code>. If the subscription schedule is currently associated with a subscription, releasing it will remove its \<code>subscription\<\/code> property and set the subscription’s ID to the \<code>released_subscription\<\/code> property.\<\/p>
 postSubscriptionSchedulesScheduleRelease :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                      -- ^ schedule | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                              -- ^ schedule | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostSubscriptionSchedulesScheduleReleaseRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSubscriptionSchedulesScheduleReleaseResponse)) -- ^ Monad containing the result of the operation
 postSubscriptionSchedulesScheduleRelease config
@@ -60,7 +60,7 @@ postSubscriptionSchedulesScheduleRelease config
 postSubscriptionSchedulesScheduleReleaseRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                              StripeAPI.Common.SecurityScheme s) =>
                                                StripeAPI.Common.Configuration s ->
-                                               GHC.Base.String ->
+                                               Data.Text.Internal.Text ->
                                                GHC.Maybe.Maybe PostSubscriptionSchedulesScheduleReleaseRequestBody ->
                                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postSubscriptionSchedulesScheduleReleaseRaw config
 -- Monadic version of 'postSubscriptionSchedulesScheduleRelease' (use with 'StripeAPI.Common.runWithConfiguration')
 postSubscriptionSchedulesScheduleReleaseM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
-                                             GHC.Base.String ->
+                                             Data.Text.Internal.Text ->
                                              GHC.Maybe.Maybe PostSubscriptionSchedulesScheduleReleaseRequestBody ->
                                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                 m
@@ -89,7 +89,7 @@ postSubscriptionSchedulesScheduleReleaseM schedule
 -- Monadic version of 'postSubscriptionSchedulesScheduleReleaseRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postSubscriptionSchedulesScheduleReleaseRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                               StripeAPI.Common.SecurityScheme s) =>
-                                                GHC.Base.String ->
+                                                Data.Text.Internal.Text ->
                                                 GHC.Maybe.Maybe PostSubscriptionSchedulesScheduleReleaseRequestBody ->
                                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                    m
@@ -102,7 +102,7 @@ postSubscriptionSchedulesScheduleReleaseRawM schedule
 -- 
 data PostSubscriptionSchedulesScheduleReleaseRequestBody = PostSubscriptionSchedulesScheduleReleaseRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postSubscriptionSchedulesScheduleReleaseRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postSubscriptionSchedulesScheduleReleaseRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | preserve_cancel_date: Keep any cancellation on the subscription that the schedule has set
   , postSubscriptionSchedulesScheduleReleaseRequestBodyPreserveCancelDate :: (GHC.Maybe.Maybe GHC.Types.Bool)
   } deriving (GHC.Show.Show

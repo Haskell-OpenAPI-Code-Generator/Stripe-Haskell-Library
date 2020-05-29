@@ -46,7 +46,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Note that a SKU’s \<code>attributes\<\/code> are not editable. Instead, you would need to deactivate the existing SKU and create a new one with the new attribute values.\<\/p>
 postSkusId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                        -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostSkusIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSkusIdResponse)) -- ^ Monad containing the result of the operation
 postSkusId config
@@ -62,7 +62,7 @@ postSkusId config
 postSkusIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
                  StripeAPI.Common.Configuration s ->
-                 GHC.Base.String ->
+                 Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe PostSkusIdRequestBody ->
                  m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -74,7 +74,7 @@ postSkusIdRaw config
 -- Monadic version of 'postSkusId' (use with 'StripeAPI.Common.runWithConfiguration')
 postSkusIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                              StripeAPI.Common.SecurityScheme s) =>
-               GHC.Base.String ->
+               Data.Text.Internal.Text ->
                GHC.Maybe.Maybe PostSkusIdRequestBody ->
                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                   m
@@ -91,7 +91,7 @@ postSkusIdM id
 -- Monadic version of 'postSkusIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postSkusIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                 StripeAPI.Common.SecurityScheme s) =>
-                  GHC.Base.String ->
+                  Data.Text.Internal.Text ->
                   GHC.Maybe.Maybe PostSkusIdRequestBody ->
                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                      m
@@ -108,15 +108,15 @@ data PostSkusIdRequestBody = PostSkusIdRequestBody {
   -- | attributes: A dictionary of attributes and values for the attributes defined by the product. When specified, \`attributes\` will partially update the existing attributes dictionary on the product, with the postcondition that a value must be present for each attribute key on the product.
   , postSkusIdRequestBodyAttributes :: (GHC.Maybe.Maybe PostSkusIdRequestBodyAttributes')
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , postSkusIdRequestBodyCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSkusIdRequestBodyCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postSkusIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postSkusIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | image: The URL of an image for this SKU, meant to be displayable to the customer.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSkusIdRequestBodyImage :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSkusIdRequestBodyImage :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | inventory: Description of the SKU\'s inventory.
   , postSkusIdRequestBodyInventory :: (GHC.Maybe.Maybe PostSkusIdRequestBodyInventory')
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -130,7 +130,7 @@ data PostSkusIdRequestBody = PostSkusIdRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSkusIdRequestBodyProduct :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSkusIdRequestBodyProduct :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSkusIdRequestBody
@@ -180,7 +180,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyInventory'
 -- 
 data PostSkusIdRequestBodyInventory'Type'
     = PostSkusIdRequestBodyInventory'Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSkusIdRequestBodyInventory'Type'EnumTyped GHC.Base.String
+    | PostSkusIdRequestBodyInventory'Type'EnumTyped Data.Text.Internal.Text
     | PostSkusIdRequestBodyInventory'Type'EnumStringBucket
     | PostSkusIdRequestBodyInventory'Type'EnumStringFinite
     | PostSkusIdRequestBodyInventory'Type'EnumStringInfinite
@@ -204,7 +204,7 @@ instance Data.Aeson.FromJSON PostSkusIdRequestBodyInventory'Type'
 -- 
 data PostSkusIdRequestBodyInventory'Value'
     = PostSkusIdRequestBodyInventory'Value'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSkusIdRequestBodyInventory'Value'EnumTyped GHC.Base.String
+    | PostSkusIdRequestBodyInventory'Value'EnumTyped Data.Text.Internal.Text
     | PostSkusIdRequestBodyInventory'Value'EnumString_
     | PostSkusIdRequestBodyInventory'Value'EnumStringInStock
     | PostSkusIdRequestBodyInventory'Value'EnumStringLimited
@@ -244,7 +244,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyMetadata'
 -- 
 data PostSkusIdRequestBodyPackageDimensions'OneOf1
     = PostSkusIdRequestBodyPackageDimensions'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostSkusIdRequestBodyPackageDimensions'OneOf1EnumTyped GHC.Base.String
+    | PostSkusIdRequestBodyPackageDimensions'OneOf1EnumTyped Data.Text.Internal.Text
     | PostSkusIdRequestBodyPackageDimensions'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSkusIdRequestBodyPackageDimensions'OneOf1

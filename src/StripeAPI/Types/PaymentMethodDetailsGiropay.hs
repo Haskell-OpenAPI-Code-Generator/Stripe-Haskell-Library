@@ -36,26 +36,26 @@ data PaymentMethodDetailsGiropay = PaymentMethodDetailsGiropay {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  paymentMethodDetailsGiropayBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  paymentMethodDetailsGiropayBankCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bank_name: Name of the bank associated with the bank account.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsGiropayBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsGiropayBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bic: Bank Identifier Code of the bank associated with the bank account.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsGiropayBic :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsGiropayBic :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | verified_name: Owner\'s verified full name. Values are verified or provided by Giropay directly
   -- (if supported) at the time of authorization or settlement. They cannot be set or mutated.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsGiropayVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsGiropayVerifiedName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsGiropay

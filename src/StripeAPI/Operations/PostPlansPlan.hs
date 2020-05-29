@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the specified plan by setting the values of the parameters passed. Any parameters not provided are left unchanged. By design, you cannot change a plan’s ID, amount, currency, or billing cycle.\<\/p>
 postPlansPlan :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                           -- ^ plan | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                   -- ^ plan | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostPlansPlanRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPlansPlanResponse)) -- ^ Monad containing the result of the operation
 postPlansPlan config
@@ -60,7 +60,7 @@ postPlansPlan config
 postPlansPlanRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
                     StripeAPI.Common.Configuration s ->
-                    GHC.Base.String ->
+                    Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe PostPlansPlanRequestBody ->
                     m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                           (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postPlansPlanRaw config
 -- Monadic version of 'postPlansPlan' (use with 'StripeAPI.Common.runWithConfiguration')
 postPlansPlanM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                 StripeAPI.Common.SecurityScheme s) =>
-                  GHC.Base.String ->
+                  Data.Text.Internal.Text ->
                   GHC.Maybe.Maybe PostPlansPlanRequestBody ->
                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                      m
@@ -89,7 +89,7 @@ postPlansPlanM plan
 -- Monadic version of 'postPlansPlanRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postPlansPlanRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
-                     GHC.Base.String ->
+                     Data.Text.Internal.Text ->
                      GHC.Maybe.Maybe PostPlansPlanRequestBody ->
                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                         m
@@ -104,7 +104,7 @@ data PostPlansPlanRequestBody = PostPlansPlanRequestBody {
   -- | active: Whether the plan is currently available for new subscriptions.
   postPlansPlanRequestBodyActive :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postPlansPlanRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postPlansPlanRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postPlansPlanRequestBodyMetadata :: (GHC.Maybe.Maybe PostPlansPlanRequestBodyMetadata')
   -- | nickname: A brief description of the plan, hidden from customers.
@@ -112,13 +112,13 @@ data PostPlansPlanRequestBody = PostPlansPlanRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPlansPlanRequestBodyNickname :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPlansPlanRequestBodyNickname :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | product: The product the plan belongs to. Note that after updating, statement descriptors and line items of the plan in active subscriptions will be affected.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPlansPlanRequestBodyProduct :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPlansPlanRequestBodyProduct :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | trial_period_days: Default number of trial days when subscribing a customer to this plan using [\`trial_from_plan=true\`](https:\/\/stripe.com\/docs\/api\#create_subscription-trial_from_plan).
   , postPlansPlanRequestBodyTrialPeriodDays :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   } deriving (GHC.Show.Show

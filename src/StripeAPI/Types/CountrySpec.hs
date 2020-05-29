@@ -42,23 +42,23 @@ data CountrySpec = CountrySpec {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  countrySpecDefaultCurrency :: GHC.Base.String
+  countrySpecDefaultCurrency :: Data.Text.Internal.Text
   -- | id: Unique identifier for the object. Represented as the ISO country code for this country.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , countrySpecId :: GHC.Base.String
+  , countrySpecId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , countrySpecObject :: CountrySpecObject'
   -- | supported_bank_account_currencies: Currencies that can be accepted in the specific country (for transfers).
   , countrySpecSupportedBankAccountCurrencies :: CountrySpecSupportedBankAccountCurrencies'
   -- | supported_payment_currencies: Currencies that can be accepted in the specified country (for payments).
-  , countrySpecSupportedPaymentCurrencies :: ([] GHC.Base.String)
+  , countrySpecSupportedPaymentCurrencies :: ([] Data.Text.Internal.Text)
   -- | supported_payment_methods: Payment methods available in the specified country. You may need to enable some payment methods (e.g., [ACH](https:\/\/stripe.com\/docs\/ach)) on your account before they appear in this list. The \`stripe\` payment method refers to [charging through your platform](https:\/\/stripe.com\/docs\/connect\/destination-charges).
-  , countrySpecSupportedPaymentMethods :: ([] GHC.Base.String)
+  , countrySpecSupportedPaymentMethods :: ([] Data.Text.Internal.Text)
   -- | supported_transfer_countries: Countries that can accept transfers from the specified country.
-  , countrySpecSupportedTransferCountries :: ([] GHC.Base.String)
+  , countrySpecSupportedTransferCountries :: ([] Data.Text.Internal.Text)
   -- | verification_fields: 
   , countrySpecVerificationFields :: CountrySpecVerificationFields
   } deriving (GHC.Show.Show
@@ -73,7 +73,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON CountrySpec
 -- String representing the object\'s type. Objects of the same type share the same value.
 data CountrySpecObject'
     = CountrySpecObject'EnumOther Data.Aeson.Types.Internal.Value
-    | CountrySpecObject'EnumTyped GHC.Base.String
+    | CountrySpecObject'EnumTyped Data.Text.Internal.Text
     | CountrySpecObject'EnumStringCountrySpec
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON CountrySpecObject'

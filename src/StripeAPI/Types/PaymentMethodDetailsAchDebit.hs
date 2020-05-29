@@ -38,31 +38,31 @@ data PaymentMethodDetailsAchDebit = PaymentMethodDetailsAchDebit {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsAchDebitBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsAchDebitBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country: Two-letter ISO code representing the country the bank account is located in.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsAchDebitCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsAchDebitCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | fingerprint: Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsAchDebitFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsAchDebitFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last4: Last four digits of the bank account number.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsAchDebitLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsAchDebitLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | routing_number: Routing transit number of the bank account.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsAchDebitRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsAchDebitRoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsAchDebit
@@ -75,7 +75,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsAchDebit
 -- Type of entity that holds the account. This can be either \`individual\` or \`company\`.
 data PaymentMethodDetailsAchDebitAccountHolderType'
     = PaymentMethodDetailsAchDebitAccountHolderType'EnumOther Data.Aeson.Types.Internal.Value
-    | PaymentMethodDetailsAchDebitAccountHolderType'EnumTyped GHC.Base.String
+    | PaymentMethodDetailsAchDebitAccountHolderType'EnumTyped Data.Text.Internal.Text
     | PaymentMethodDetailsAchDebitAccountHolderType'EnumStringCompany
     | PaymentMethodDetailsAchDebitAccountHolderType'EnumStringIndividual
     deriving (GHC.Show.Show, GHC.Classes.Eq)

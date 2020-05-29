@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Deletes an existing person’s relationship to the account’s legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the \<code>account_opener\<\/code>. If your integration is using the \<code>executive\<\/code> parameter, you cannot delete the only verified \<code>executive\<\/code> on file.\<\/p>
 deleteAccountsAccountPersonsPerson :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                -- ^ account | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                                -- ^ person | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                        -- ^ account | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                        -- ^ person | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteAccountsAccountPersonsPersonRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteAccountsAccountPersonsPersonResponse)) -- ^ Monad containing the result of the operation
 deleteAccountsAccountPersonsPerson config
@@ -62,8 +62,8 @@ deleteAccountsAccountPersonsPerson config
 deleteAccountsAccountPersonsPersonRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                        StripeAPI.Common.SecurityScheme s) =>
                                          StripeAPI.Common.Configuration s ->
-                                         GHC.Base.String ->
-                                         GHC.Base.String ->
+                                         Data.Text.Internal.Text ->
+                                         Data.Text.Internal.Text ->
                                          GHC.Maybe.Maybe DeleteAccountsAccountPersonsPersonRequestBody ->
                                          m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,8 +76,8 @@ deleteAccountsAccountPersonsPersonRaw config
 -- Monadic version of 'deleteAccountsAccountPersonsPerson' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteAccountsAccountPersonsPersonM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
-                                       GHC.Base.String ->
-                                       GHC.Base.String ->
+                                       Data.Text.Internal.Text ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe DeleteAccountsAccountPersonsPersonRequestBody ->
                                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                           m
@@ -95,8 +95,8 @@ deleteAccountsAccountPersonsPersonM account
 -- Monadic version of 'deleteAccountsAccountPersonsPersonRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteAccountsAccountPersonsPersonRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
-                                          GHC.Base.String ->
-                                          GHC.Base.String ->
+                                          Data.Text.Internal.Text ->
+                                          Data.Text.Internal.Text ->
                                           GHC.Maybe.Maybe DeleteAccountsAccountPersonsPersonRequestBody ->
                                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                              m

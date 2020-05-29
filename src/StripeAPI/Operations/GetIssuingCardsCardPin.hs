@@ -44,9 +44,9 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the PIN for a card object, subject to cardholder verification, see \<a href=\"\/docs\/issuing\/pin_management\">Retrieve and update cardholder PIN\<\/a>\<\/p>
 getIssuingCardsCardPin :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                    -- ^ card | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                    -- ^ verification: The id of the \`Verification\` that was sent and the code entered by the cardholder
+  -> Data.Text.Internal.Text                                                                                                            -- ^ card | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                            -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                            -- ^ verification: The id of the \`Verification\` that was sent and the code entered by the cardholder
   -> GHC.Maybe.Maybe GetIssuingCardsCardPinRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingCardsCardPinResponse)) -- ^ Monad containing the result of the operation
 getIssuingCardsCardPin config
@@ -82,9 +82,9 @@ getIssuingCardsCardPin config
 getIssuingCardsCardPinRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              StripeAPI.Common.Configuration s ->
-                             GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GetIssuingCardsCardPinRequestBody ->
                              m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                    (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -116,9 +116,9 @@ getIssuingCardsCardPinRaw config
 -- Monadic version of 'getIssuingCardsCardPin' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingCardsCardPinM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Base.String ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Base.String ->
+                           Data.Text.Internal.Text ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                           Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe GetIssuingCardsCardPinRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m
@@ -155,9 +155,9 @@ getIssuingCardsCardPinM card
 -- Monadic version of 'getIssuingCardsCardPinRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuingCardsCardPinRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
-                              GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Base.String ->
+                              Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe GetIssuingCardsCardPinRequestBody ->
                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                  m

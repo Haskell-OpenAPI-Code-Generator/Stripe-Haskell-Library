@@ -98,9 +98,9 @@ data PostRadarValueListsRequestBody = PostRadarValueListsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 100
-  postRadarValueListsRequestBodyAlias :: GHC.Base.String
+  postRadarValueListsRequestBodyAlias :: Data.Text.Internal.Text
   -- | expand: Specifies which fields in the response should be expanded.
-  , postRadarValueListsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postRadarValueListsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | item_type: Type of the items in the value list. One of \`card_fingerprint\`, \`card_bin\`, \`email\`, \`ip_address\`, \`country\`, \`string\`, or \`case_sensitive_string\`. Use \`string\` if the item type is unknown or mixed.
   -- 
   -- Constraints:
@@ -114,7 +114,7 @@ data PostRadarValueListsRequestBody = PostRadarValueListsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 100
-  , postRadarValueListsRequestBodyName :: GHC.Base.String
+  , postRadarValueListsRequestBodyName :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostRadarValueListsRequestBody
@@ -127,7 +127,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostRadarValueListsRequestBody
 -- Type of the items in the value list. One of \`card_fingerprint\`, \`card_bin\`, \`email\`, \`ip_address\`, \`country\`, \`string\`, or \`case_sensitive_string\`. Use \`string\` if the item type is unknown or mixed.
 data PostRadarValueListsRequestBodyItemType'
     = PostRadarValueListsRequestBodyItemType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostRadarValueListsRequestBodyItemType'EnumTyped GHC.Base.String
+    | PostRadarValueListsRequestBodyItemType'EnumTyped Data.Text.Internal.Text
     | PostRadarValueListsRequestBodyItemType'EnumStringCardBin
     | PostRadarValueListsRequestBodyItemType'EnumStringCardFingerprint
     | PostRadarValueListsRequestBodyItemType'EnumStringCaseSensitiveString

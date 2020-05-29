@@ -45,7 +45,7 @@ data AccountLink = AccountLink {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , accountLinkUrl :: GHC.Base.String
+  , accountLinkUrl :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountLink
@@ -58,7 +58,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON AccountLink
 -- String representing the object\'s type. Objects of the same type share the same value.
 data AccountLinkObject'
     = AccountLinkObject'EnumOther Data.Aeson.Types.Internal.Value
-    | AccountLinkObject'EnumTyped GHC.Base.String
+    | AccountLinkObject'EnumTyped Data.Text.Internal.Text
     | AccountLinkObject'EnumStringAccountLink
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountLinkObject'

@@ -48,7 +48,7 @@ data SourceTransaction = SourceTransaction {
   -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
   , sourceTransactionCreated :: GHC.Integer.Type.Integer
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , sourceTransactionCurrency :: GHC.Base.String
+  , sourceTransactionCurrency :: Data.Text.Internal.Text
   -- | gbp_credit_transfer: 
   , sourceTransactionGbpCreditTransfer :: (GHC.Maybe.Maybe SourceTransactionGbpCreditTransferData)
   -- | id: Unique identifier for the object.
@@ -56,7 +56,7 @@ data SourceTransaction = SourceTransaction {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionId :: GHC.Base.String
+  , sourceTransactionId :: Data.Text.Internal.Text
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , sourceTransactionLivemode :: GHC.Types.Bool
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
@@ -70,13 +70,13 @@ data SourceTransaction = SourceTransaction {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionSource :: GHC.Base.String
+  , sourceTransactionSource :: Data.Text.Internal.Text
   -- | status: The status of the transaction, one of \`succeeded\`, \`pending\`, or \`failed\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionStatus :: GHC.Base.String
+  , sourceTransactionStatus :: Data.Text.Internal.Text
   -- | type: The type of source this transaction is attached to.
   , sourceTransactionType :: SourceTransactionType'
   } deriving (GHC.Show.Show
@@ -91,7 +91,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON SourceTransaction
 -- String representing the object\'s type. Objects of the same type share the same value.
 data SourceTransactionObject'
     = SourceTransactionObject'EnumOther Data.Aeson.Types.Internal.Value
-    | SourceTransactionObject'EnumTyped GHC.Base.String
+    | SourceTransactionObject'EnumTyped Data.Text.Internal.Text
     | SourceTransactionObject'EnumStringSourceTransaction
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTransactionObject'
@@ -107,7 +107,7 @@ instance Data.Aeson.FromJSON SourceTransactionObject'
 -- The type of source this transaction is attached to.
 data SourceTransactionType'
     = SourceTransactionType'EnumOther Data.Aeson.Types.Internal.Value
-    | SourceTransactionType'EnumTyped GHC.Base.String
+    | SourceTransactionType'EnumTyped Data.Text.Internal.Text
     | SourceTransactionType'EnumStringAchCreditTransfer
     | SourceTransactionType'EnumStringAchDebit
     | SourceTransactionType'EnumStringAlipay

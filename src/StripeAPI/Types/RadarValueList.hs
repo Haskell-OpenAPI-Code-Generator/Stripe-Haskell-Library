@@ -39,7 +39,7 @@ data Radar'valueList = Radar'valueList {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  radar'valueListAlias :: GHC.Base.String
+  radar'valueListAlias :: Data.Text.Internal.Text
   -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
   , radar'valueListCreated :: GHC.Integer.Type.Integer
   -- | created_by: The name or email address of the user who created this value list.
@@ -47,13 +47,13 @@ data Radar'valueList = Radar'valueList {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , radar'valueListCreatedBy :: GHC.Base.String
+  , radar'valueListCreatedBy :: Data.Text.Internal.Text
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , radar'valueListId :: GHC.Base.String
+  , radar'valueListId :: Data.Text.Internal.Text
   -- | item_type: The type of items in the value list. One of \`card_fingerprint\`, \`card_bin\`, \`email\`, \`ip_address\`, \`country\`, \`string\`, or \`case_sensitive_string\`.
   , radar'valueListItemType :: Radar'valueListItemType'
   -- | list_items: List of items contained within this value list.
@@ -67,7 +67,7 @@ data Radar'valueList = Radar'valueList {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , radar'valueListName :: GHC.Base.String
+  , radar'valueListName :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , radar'valueListObject :: Radar'valueListObject'
   } deriving (GHC.Show.Show
@@ -82,7 +82,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Radar'valueList
 -- The type of items in the value list. One of \`card_fingerprint\`, \`card_bin\`, \`email\`, \`ip_address\`, \`country\`, \`string\`, or \`case_sensitive_string\`.
 data Radar'valueListItemType'
     = Radar'valueListItemType'EnumOther Data.Aeson.Types.Internal.Value
-    | Radar'valueListItemType'EnumTyped GHC.Base.String
+    | Radar'valueListItemType'EnumTyped Data.Text.Internal.Text
     | Radar'valueListItemType'EnumStringCardBin
     | Radar'valueListItemType'EnumStringCardFingerprint
     | Radar'valueListItemType'EnumStringCaseSensitiveString
@@ -132,7 +132,7 @@ data Radar'valueListListItems' = Radar'valueListListItems' {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , radar'valueListListItems'Url :: GHC.Base.String
+  , radar'valueListListItems'Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Radar'valueListListItems'
@@ -145,7 +145,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Radar'valueListListItems'
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data Radar'valueListListItems'Object'
     = Radar'valueListListItems'Object'EnumOther Data.Aeson.Types.Internal.Value
-    | Radar'valueListListItems'Object'EnumTyped GHC.Base.String
+    | Radar'valueListListItems'Object'EnumTyped Data.Text.Internal.Text
     | Radar'valueListListItems'Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Radar'valueListListItems'Object'
@@ -173,7 +173,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Radar'valueListMetadata'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data Radar'valueListObject'
     = Radar'valueListObject'EnumOther Data.Aeson.Types.Internal.Value
-    | Radar'valueListObject'EnumTyped GHC.Base.String
+    | Radar'valueListObject'EnumTyped Data.Text.Internal.Text
     | Radar'valueListObject'EnumStringRadar'valueList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Radar'valueListObject'

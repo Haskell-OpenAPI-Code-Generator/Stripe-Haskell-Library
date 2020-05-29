@@ -40,14 +40,14 @@ data PaymentMethodDetailsIdeal = PaymentMethodDetailsIdeal {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsIdealIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsIdealIbanLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | verified_name: Owner\'s verified full name. Values are verified or provided by iDEAL directly
   -- (if supported) at the time of authorization or settlement. They cannot be set or mutated.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsIdealVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsIdealVerifiedName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsIdeal
@@ -60,7 +60,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsIdeal
 -- The customer\'s bank. Can be one of \`abn_amro\`, \`asn_bank\`, \`bunq\`, \`handelsbanken\`, \`ing\`, \`knab\`, \`moneyou\`, \`rabobank\`, \`regiobank\`, \`sns_bank\`, \`triodos_bank\`, or \`van_lanschot\`.
 data PaymentMethodDetailsIdealBank'
     = PaymentMethodDetailsIdealBank'EnumOther Data.Aeson.Types.Internal.Value
-    | PaymentMethodDetailsIdealBank'EnumTyped GHC.Base.String
+    | PaymentMethodDetailsIdealBank'EnumTyped Data.Text.Internal.Text
     | PaymentMethodDetailsIdealBank'EnumStringAbnAmro
     | PaymentMethodDetailsIdealBank'EnumStringAsnBank
     | PaymentMethodDetailsIdealBank'EnumStringBunq
@@ -120,7 +120,7 @@ instance Data.Aeson.FromJSON PaymentMethodDetailsIdealBank'
 -- The Bank Identifier Code of the customer\'s bank.
 data PaymentMethodDetailsIdealBic'
     = PaymentMethodDetailsIdealBic'EnumOther Data.Aeson.Types.Internal.Value
-    | PaymentMethodDetailsIdealBic'EnumTyped GHC.Base.String
+    | PaymentMethodDetailsIdealBic'EnumTyped Data.Text.Internal.Text
     | PaymentMethodDetailsIdealBic'EnumStringABNANL2A
     | PaymentMethodDetailsIdealBic'EnumStringASNBNL21
     | PaymentMethodDetailsIdealBic'EnumStringBUNQNL2A

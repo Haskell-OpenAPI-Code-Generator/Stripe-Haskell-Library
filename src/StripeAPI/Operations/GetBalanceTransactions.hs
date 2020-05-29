@@ -46,16 +46,16 @@ import StripeAPI.Types
 -- 
 -- \<p>Note that this endpoint was previously called “Balance history” and used the path \<code>\/v1\/balance\/history\<\/code>.\<\/p>
 getBalanceTransactions :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ available_on
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ created
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ currency: Only return transactions in a certain currency. Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                            -- ^ available_on
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                            -- ^ created
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                            -- ^ currency: Only return transactions in a certain currency. Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                            -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                            -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                           -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ payout: For automatic Stripe payouts only, only returns transactions that were paid out on the specified payout ID. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ source: Only returns the original transaction. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ type: Only returns transactions of the given type. One of: \`charge\`, \`refund\`, \`adjustment\`, \`application_fee\`, \`application_fee_refund\`, \`transfer\`, \`payment\`, \`payout\`, \`payout_failure\`, \`stripe_fee\`, or \`network_cost\`. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                            -- ^ payout: For automatic Stripe payouts only, only returns transactions that were paid out on the specified payout ID. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                            -- ^ source: Only returns the original transaction. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                            -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                            -- ^ type: Only returns transactions of the given type. One of: \`charge\`, \`refund\`, \`adjustment\`, \`application_fee\`, \`application_fee_refund\`, \`transfer\`, \`payment\`, \`payout\`, \`payout_failure\`, \`stripe_fee\`, or \`network_cost\`. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetBalanceTransactionsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetBalanceTransactionsResponse)) -- ^ Monad containing the result of the operation
 getBalanceTransactions config
@@ -161,16 +161,16 @@ getBalanceTransactions config
 getBalanceTransactionsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              StripeAPI.Common.Configuration s ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GetBalanceTransactionsRequestBody ->
                              m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                    (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -272,16 +272,16 @@ getBalanceTransactionsRaw config
 -- Monadic version of 'getBalanceTransactions' (use with 'StripeAPI.Common.runWithConfiguration')
 getBalanceTransactionsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe GetBalanceTransactionsRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m
@@ -388,16 +388,16 @@ getBalanceTransactionsM availableOn
 -- Monadic version of 'getBalanceTransactionsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getBalanceTransactionsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
-                              GHC.Maybe.Maybe GHC.Base.String ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe GetBalanceTransactionsRequestBody ->
                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                  m
@@ -531,7 +531,7 @@ data GetBalanceTransactionsResponseBody200 = GetBalanceTransactionsResponseBody2
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/balance_transactions\'
-  , getBalanceTransactionsResponseBody200Url :: GHC.Base.String
+  , getBalanceTransactionsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetBalanceTransactionsResponseBody200
@@ -544,7 +544,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceTransactionsResponseBody20
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetBalanceTransactionsResponseBody200Object'
     = GetBalanceTransactionsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetBalanceTransactionsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetBalanceTransactionsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetBalanceTransactionsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetBalanceTransactionsResponseBody200Object'

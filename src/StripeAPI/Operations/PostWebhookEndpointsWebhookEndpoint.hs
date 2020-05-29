@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the webhook endpoint. You may edit the \<code>url\<\/code>, the list of \<code>enabled_events\<\/code>, and the status of your endpoint.\<\/p>
 postWebhookEndpointsWebhookEndpoint :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                 -- ^ webhook_endpoint | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                         -- ^ webhook_endpoint | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostWebhookEndpointsWebhookEndpointRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostWebhookEndpointsWebhookEndpointResponse)) -- ^ Monad containing the result of the operation
 postWebhookEndpointsWebhookEndpoint config
@@ -60,7 +60,7 @@ postWebhookEndpointsWebhookEndpoint config
 postWebhookEndpointsWebhookEndpointRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
                                           StripeAPI.Common.Configuration s ->
-                                          GHC.Base.String ->
+                                          Data.Text.Internal.Text ->
                                           GHC.Maybe.Maybe PostWebhookEndpointsWebhookEndpointRequestBody ->
                                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                 (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postWebhookEndpointsWebhookEndpointRaw config
 -- Monadic version of 'postWebhookEndpointsWebhookEndpoint' (use with 'StripeAPI.Common.runWithConfiguration')
 postWebhookEndpointsWebhookEndpointM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                       StripeAPI.Common.SecurityScheme s) =>
-                                        GHC.Base.String ->
+                                        Data.Text.Internal.Text ->
                                         GHC.Maybe.Maybe PostWebhookEndpointsWebhookEndpointRequestBody ->
                                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                            m
@@ -89,7 +89,7 @@ postWebhookEndpointsWebhookEndpointM webhookEndpoint
 -- Monadic version of 'postWebhookEndpointsWebhookEndpointRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postWebhookEndpointsWebhookEndpointRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                          StripeAPI.Common.SecurityScheme s) =>
-                                           GHC.Base.String ->
+                                           Data.Text.Internal.Text ->
                                            GHC.Maybe.Maybe PostWebhookEndpointsWebhookEndpointRequestBody ->
                                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                               m
@@ -106,9 +106,9 @@ data PostWebhookEndpointsWebhookEndpointRequestBody = PostWebhookEndpointsWebhoo
   -- | enabled_events: The list of events to enable for this endpoint. You may specify \`[\'*\']\` to enable all events, except those that require explicit selection.
   , postWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents :: (GHC.Maybe.Maybe ([] PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'))
   -- | expand: Specifies which fields in the response should be expanded.
-  , postWebhookEndpointsWebhookEndpointRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postWebhookEndpointsWebhookEndpointRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | url: The URL of the webhook endpoint.
-  , postWebhookEndpointsWebhookEndpointRequestBodyUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postWebhookEndpointsWebhookEndpointRequestBodyUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostWebhookEndpointsWebhookEndpointRequestBody
@@ -121,7 +121,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostWebhookEndpointsWebhookEndpointR
 -- 
 data PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'
     = PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumOther Data.Aeson.Types.Internal.Value
-    | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTyped GHC.Base.String
+    | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumTyped Data.Text.Internal.Text
     | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumString__
     | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'authorized
     | PostWebhookEndpointsWebhookEndpointRequestBodyEnabledEvents'EnumStringAccount'application'deauthorized

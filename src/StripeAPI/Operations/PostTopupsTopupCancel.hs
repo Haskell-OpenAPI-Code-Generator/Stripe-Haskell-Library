@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Cancels a top-up. Only pending top-ups can be canceled.\<\/p>
 postTopupsTopupCancel :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                   -- ^ topup | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                           -- ^ topup | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostTopupsTopupCancelRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostTopupsTopupCancelResponse)) -- ^ Monad containing the result of the operation
 postTopupsTopupCancel config
@@ -60,7 +60,7 @@ postTopupsTopupCancel config
 postTopupsTopupCancelRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             StripeAPI.Common.Configuration s ->
-                            GHC.Base.String ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe PostTopupsTopupCancelRequestBody ->
                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postTopupsTopupCancelRaw config
 -- Monadic version of 'postTopupsTopupCancel' (use with 'StripeAPI.Common.runWithConfiguration')
 postTopupsTopupCancelM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Base.String ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe PostTopupsTopupCancelRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m
@@ -89,7 +89,7 @@ postTopupsTopupCancelM topup
 -- Monadic version of 'postTopupsTopupCancelRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postTopupsTopupCancelRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe PostTopupsTopupCancelRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m
@@ -102,7 +102,7 @@ postTopupsTopupCancelRawM topup
 -- 
 data PostTopupsTopupCancelRequestBody = PostTopupsTopupCancelRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postTopupsTopupCancelRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postTopupsTopupCancelRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostTopupsTopupCancelRequestBody

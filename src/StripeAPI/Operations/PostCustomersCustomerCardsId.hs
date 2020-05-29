@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Update a specified source for a given customer.\<\/p>
 postCustomersCustomerCardsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                          -- ^ customer | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                          -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                  -- ^ customer | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                  -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostCustomersCustomerCardsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCustomersCustomerCardsIdResponse)) -- ^ Monad containing the result of the operation
 postCustomersCustomerCardsId config
@@ -62,8 +62,8 @@ postCustomersCustomerCardsId config
 postCustomersCustomerCardsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
                                    StripeAPI.Common.Configuration s ->
-                                   GHC.Base.String ->
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe PostCustomersCustomerCardsIdRequestBody ->
                                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                          (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,8 +76,8 @@ postCustomersCustomerCardsIdRaw config
 -- Monadic version of 'postCustomersCustomerCardsId' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerCardsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
-                                 GHC.Base.String ->
-                                 GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
+                                 Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe PostCustomersCustomerCardsIdRequestBody ->
                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                     m
@@ -95,8 +95,8 @@ postCustomersCustomerCardsIdM customer
 -- Monadic version of 'postCustomersCustomerCardsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerCardsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    GHC.Base.String ->
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe PostCustomersCustomerCardsIdRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m
@@ -114,7 +114,7 @@ data PostCustomersCustomerCardsIdRequestBody = PostCustomersCustomerCardsIdReque
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postCustomersCustomerCardsIdRequestBodyAccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  postCustomersCustomerCardsIdRequestBodyAccountHolderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | account_holder_type: The type of entity that holds the account. This can be either \`individual\` or \`company\`.
   -- 
   -- Constraints:
@@ -126,51 +126,51 @@ data PostCustomersCustomerCardsIdRequestBody = PostCustomersCustomerCardsIdReque
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyAddressCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyAddressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_country: Billing address country, if provided when creating card.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyAddressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyAddressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line1: Address line 1 (Street address\/PO Box\/Company name).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyAddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyAddressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line2: Address line 2 (Apartment\/Suite\/Unit\/Building).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyAddressLine2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyAddressLine2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_state: State\/County\/Province\/Region.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyAddressState :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyAddressState :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_zip: ZIP or postal code.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyAddressZip :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyAddressZip :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | exp_month: Two digit number representing the card’s expiration month.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyExpMonth :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyExpMonth :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | exp_year: Four digit number representing the card’s expiration year.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyExpYear :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyExpYear :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postCustomersCustomerCardsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCustomersCustomerCardsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postCustomersCustomerCardsIdRequestBodyMetadata :: (GHC.Maybe.Maybe PostCustomersCustomerCardsIdRequestBodyMetadata')
   -- | name: Cardholder name.
@@ -178,7 +178,7 @@ data PostCustomersCustomerCardsIdRequestBody = PostCustomersCustomerCardsIdReque
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | owner
   , postCustomersCustomerCardsIdRequestBodyOwner :: (GHC.Maybe.Maybe PostCustomersCustomerCardsIdRequestBodyOwner')
   } deriving (GHC.Show.Show
@@ -193,7 +193,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerCardsIdRequestB
 -- The type of entity that holds the account. This can be either \`individual\` or \`company\`.
 data PostCustomersCustomerCardsIdRequestBodyAccountHolderType'
     = PostCustomersCustomerCardsIdRequestBodyAccountHolderType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerCardsIdRequestBodyAccountHolderType'EnumTyped GHC.Base.String
+    | PostCustomersCustomerCardsIdRequestBodyAccountHolderType'EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerCardsIdRequestBodyAccountHolderType'EnumStringCompany
     | PostCustomersCustomerCardsIdRequestBodyAccountHolderType'EnumStringIndividual
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -227,19 +227,19 @@ data PostCustomersCustomerCardsIdRequestBodyOwner' = PostCustomersCustomerCardsI
   -- | address
   postCustomersCustomerCardsIdRequestBodyOwner'Address :: (GHC.Maybe.Maybe PostCustomersCustomerCardsIdRequestBodyOwner'Address')
   -- | email
-  , postCustomersCustomerCardsIdRequestBodyOwner'Email :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyOwner'Email :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyOwner'Name :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyOwner'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | phone
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyOwner'Phone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyOwner'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsIdRequestBodyOwner'
@@ -256,37 +256,37 @@ data PostCustomersCustomerCardsIdRequestBodyOwner'Address' = PostCustomersCustom
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postCustomersCustomerCardsIdRequestBodyOwner'Address'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postCustomersCustomerCardsIdRequestBodyOwner'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyOwner'Address'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyOwner'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyOwner'Address'Line1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyOwner'Address'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyOwner'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyOwner'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyOwner'Address'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyOwner'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdRequestBodyOwner'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdRequestBodyOwner'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsIdRequestBodyOwner'Address'
@@ -313,13 +313,13 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200AccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200AccountHolderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | account_holder_type: The type of entity that holds the account. This can be either \`individual\` or \`company\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200AccountHolderType :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200AccountHolderType :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | ach_credit_transfer
   , postCustomersCustomerCardsIdResponseBody200AchCreditTransfer :: (GHC.Maybe.Maybe SourceTypeAchCreditTransfer)
   -- | ach_debit
@@ -329,49 +329,49 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200AddressCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200AddressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_country: Billing address country, if provided when creating card.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200AddressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200AddressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line1: Address line 1 (Street address\/PO Box\/Company name).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200AddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200AddressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line1_check: If \`address_line1\` was provided, results of the check: \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200AddressLine1Check :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200AddressLine1Check :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line2: Address line 2 (Apartment\/Suite\/Unit\/Building).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200AddressLine2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200AddressLine2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_state: State\/County\/Province\/Region.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200AddressState :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200AddressState :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_zip: ZIP or postal code.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200AddressZip :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200AddressZip :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_zip_check: If \`address_zip\` was provided, results of the check: \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200AddressZipCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200AddressZipCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | alipay
   , postCustomersCustomerCardsIdResponseBody200Alipay :: (GHC.Maybe.Maybe SourceTypeAlipay)
   -- | amount: A positive integer in the smallest currency unit (that is, 100 cents for \$1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount associated with the source. This is the amount for which the source will be chargeable once ready. Required for \`single_use\` sources.
@@ -385,13 +385,13 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200BankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200BankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | brand: Card brand. Can be \`American Express\`, \`Diners Club\`, \`Discover\`, \`JCB\`, \`MasterCard\`, \`UnionPay\`, \`Visa\`, or \`Unknown\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Brand :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Brand :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | card
   , postCustomersCustomerCardsIdResponseBody200Card :: (GHC.Maybe.Maybe SourceTypeCard)
   -- | card_present
@@ -401,7 +401,7 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200ClientSecret :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200ClientSecret :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | code_verification: 
   , postCustomersCustomerCardsIdResponseBody200CodeVerification :: (GHC.Maybe.Maybe SourceCodeVerificationFlow)
   -- | country: Two-letter ISO code representing the country the bank account is located in.
@@ -409,11 +409,11 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
   , postCustomersCustomerCardsIdResponseBody200Created :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/payouts) paid out to the bank account.
-  , postCustomersCustomerCardsIdResponseBody200Currency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer: The ID of the customer that the bank account is associated with.
   , postCustomersCustomerCardsIdResponseBody200Customer :: (GHC.Maybe.Maybe PostCustomersCustomerCardsIdResponseBody200Customer'Variants)
   -- | cvc_check: If a CVC was provided, results of the check: \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
@@ -421,7 +421,7 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200CvcCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200CvcCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_for_currency: Whether this bank account is the default external account for its currency.
   , postCustomersCustomerCardsIdResponseBody200DefaultForCurrency :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | dynamic_last4: (For tokenized numbers only.) The last four digits of the device account number.
@@ -429,7 +429,7 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200DynamicLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200DynamicLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | eps
   , postCustomersCustomerCardsIdResponseBody200Eps :: (GHC.Maybe.Maybe SourceTypeEps)
   -- | exp_month: Two-digit number representing the card\'s expiration month.
@@ -441,19 +441,19 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Fingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Fingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | flow: The authentication \`flow\` of the source. \`flow\` is one of \`redirect\`, \`receiver\`, \`code_verification\`, \`none\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Flow :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Flow :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | funding: Card funding type. Can be \`credit\`, \`debit\`, \`prepaid\`, or \`unknown\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Funding :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Funding :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | giropay
   , postCustomersCustomerCardsIdResponseBody200Giropay :: (GHC.Maybe.Maybe SourceTypeGiropay)
   -- | id: Unique identifier for the object.
@@ -461,7 +461,7 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Id :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | ideal
   , postCustomersCustomerCardsIdResponseBody200Ideal :: (GHC.Maybe.Maybe SourceTypeIdeal)
   -- | klarna
@@ -471,7 +471,7 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Last4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Last4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , postCustomersCustomerCardsIdResponseBody200Livemode :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -483,7 +483,7 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Name :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , postCustomersCustomerCardsIdResponseBody200Object :: (GHC.Maybe.Maybe PostCustomersCustomerCardsIdResponseBody200Object')
   -- | owner: Information about the owner of the payment instrument that may be used or required by particular source types.
@@ -501,7 +501,7 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200RoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200RoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | sepa_debit
   , postCustomersCustomerCardsIdResponseBody200SepaDebit :: (GHC.Maybe.Maybe SourceTypeSepaDebit)
   -- | sofort
@@ -513,7 +513,7 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200StatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200StatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | status: For bank accounts, possible values are \`new\`, \`validated\`, \`verified\`, \`verification_failed\`, or \`errored\`. A bank account that hasn\'t had any activity or validation performed is \`new\`. If Stripe can determine that the bank account exists, its status will be \`validated\`. Note that there often isn’t enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be \`verified\`. If the verification failed for any reason, such as microdeposit failure, the status will be \`verification_failed\`. If a transfer sent to this bank account fails, we\'ll set the status to \`errored\` and will not continue to send transfers until the bank details are updated.
   -- 
   -- For external accounts, possible values are \`new\` and \`errored\`. Validations aren\'t run against external accounts because they\'re only used for payouts. This means the other statuses don\'t apply. If a transfer fails, the status is set to \`errored\` and transfers are stopped until account details are updated.
@@ -521,7 +521,7 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Status :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Status :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | three_d_secure
   , postCustomersCustomerCardsIdResponseBody200ThreeDSecure :: (GHC.Maybe.Maybe SourceTypeThreeDSecure)
   -- | tokenization_method: If the card number is tokenized, this is the method that was used. Can be \`amex_express_checkout\`, \`android_pay\` (includes Google Pay), \`apple_pay\`, \`masterpass\`, \`visa_checkout\`, or null.
@@ -529,7 +529,7 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200TokenizationMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200TokenizationMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | type: The \`type\` of the source. The \`type\` is a payment method, one of \`ach_credit_transfer\`, \`ach_debit\`, \`alipay\`, \`bancontact\`, \`card\`, \`card_present\`, \`eps\`, \`giropay\`, \`ideal\`, \`multibanco\`, \`klarna\`, \`p24\`, \`sepa_debit\`, \`sofort\`, \`three_d_secure\`, or \`wechat\`. An additional hash is included on the source with a name matching this value. It contains additional information specific to the [payment method](https:\/\/stripe.com\/docs\/sources) used.
   , postCustomersCustomerCardsIdResponseBody200Type :: (GHC.Maybe.Maybe PostCustomersCustomerCardsIdResponseBody200Type')
   -- | usage: Either \`reusable\` or \`single_use\`. Whether this source should be reusable or not. Some source types may or may not be reusable by construction, while others may leave the option at creation. If an incompatible value is passed, an error will be returned.
@@ -537,7 +537,7 @@ data PostCustomersCustomerCardsIdResponseBody200 = PostCustomersCustomerCardsIdR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Usage :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Usage :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | wechat
   , postCustomersCustomerCardsIdResponseBody200Wechat :: (GHC.Maybe.Maybe SourceTypeWechat)
   } deriving (GHC.Show.Show
@@ -552,7 +552,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerCardsIdResponse
 -- The ID of the account that the bank account is associated with.
 data PostCustomersCustomerCardsIdResponseBody200Account'Variants
     = PostCustomersCustomerCardsIdResponseBody200Account'Account Account
-    | PostCustomersCustomerCardsIdResponseBody200Account'String GHC.Base.String
+    | PostCustomersCustomerCardsIdResponseBody200Account'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsIdResponseBody200Account'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -563,7 +563,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerCardsIdResponseBody200Account'
 -- 
 data PostCustomersCustomerCardsIdResponseBody200AvailablePayoutMethods'
     = PostCustomersCustomerCardsIdResponseBody200AvailablePayoutMethods'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerCardsIdResponseBody200AvailablePayoutMethods'EnumTyped GHC.Base.String
+    | PostCustomersCustomerCardsIdResponseBody200AvailablePayoutMethods'EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerCardsIdResponseBody200AvailablePayoutMethods'EnumStringInstant
     | PostCustomersCustomerCardsIdResponseBody200AvailablePayoutMethods'EnumStringStandard
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -584,7 +584,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerCardsIdResponseBody200Availabl
 data PostCustomersCustomerCardsIdResponseBody200Customer'Variants
     = PostCustomersCustomerCardsIdResponseBody200Customer'Customer Customer
     | PostCustomersCustomerCardsIdResponseBody200Customer'DeletedCustomer DeletedCustomer
-    | PostCustomersCustomerCardsIdResponseBody200Customer'String GHC.Base.String
+    | PostCustomersCustomerCardsIdResponseBody200Customer'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsIdResponseBody200Customer'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -607,7 +607,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerCardsIdResponse
 -- String representing the object\'s type. Objects of the same type share the same value.
 data PostCustomersCustomerCardsIdResponseBody200Object'
     = PostCustomersCustomerCardsIdResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerCardsIdResponseBody200Object'EnumTyped GHC.Base.String
+    | PostCustomersCustomerCardsIdResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerCardsIdResponseBody200Object'EnumStringBankAccount
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsIdResponseBody200Object'
@@ -629,19 +629,19 @@ data PostCustomersCustomerCardsIdResponseBody200Owner' = PostCustomersCustomerCa
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'Email :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'Email :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name: Owner\'s full name.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'Name :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | phone: Owner\'s phone number (including extension).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'Phone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | verified_address: Verified owner\'s address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
   , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress :: (GHC.Maybe.Maybe PostCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress')
   -- | verified_email: Verified owner\'s email address. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
@@ -649,19 +649,19 @@ data PostCustomersCustomerCardsIdResponseBody200Owner' = PostCustomersCustomerCa
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | verified_name: Verified owner\'s full name. Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | verified_phone: Verified owner\'s phone number (including extension). Verified values are verified or provided by the payment method directly (and if supported) at the time of authorization or settlement. They cannot be set or mutated.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedPhone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedPhone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsIdResponseBody200Owner'
@@ -678,37 +678,37 @@ data PostCustomersCustomerCardsIdResponseBody200Owner'Address' = PostCustomersCu
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postCustomersCustomerCardsIdResponseBody200Owner'Address'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postCustomersCustomerCardsIdResponseBody200Owner'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'Address'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1: Address line 1 (e.g., street, PO Box, or company name).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'Address'Line1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'Address'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code: ZIP or postal code.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'Address'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state: State, county, province, or region.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsIdResponseBody200Owner'Address'
@@ -725,37 +725,37 @@ data PostCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress' = PostCus
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1: Address line 1 (e.g., street, PO Box, or company name).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress'Line1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code: ZIP or postal code.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state: State, county, province, or region.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsIdResponseBody200Owner'VerifiedAddress'
@@ -768,7 +768,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerCardsIdResponse
 -- The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
 data PostCustomersCustomerCardsIdResponseBody200Recipient'Variants
     = PostCustomersCustomerCardsIdResponseBody200Recipient'Recipient Recipient
-    | PostCustomersCustomerCardsIdResponseBody200Recipient'String GHC.Base.String
+    | PostCustomersCustomerCardsIdResponseBody200Recipient'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsIdResponseBody200Recipient'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -779,7 +779,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerCardsIdResponseBody200Recipien
 -- The \`type\` of the source. The \`type\` is a payment method, one of \`ach_credit_transfer\`, \`ach_debit\`, \`alipay\`, \`bancontact\`, \`card\`, \`card_present\`, \`eps\`, \`giropay\`, \`ideal\`, \`multibanco\`, \`klarna\`, \`p24\`, \`sepa_debit\`, \`sofort\`, \`three_d_secure\`, or \`wechat\`. An additional hash is included on the source with a name matching this value. It contains additional information specific to the [payment method](https:\/\/stripe.com\/docs\/sources) used.
 data PostCustomersCustomerCardsIdResponseBody200Type'
     = PostCustomersCustomerCardsIdResponseBody200Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerCardsIdResponseBody200Type'EnumTyped GHC.Base.String
+    | PostCustomersCustomerCardsIdResponseBody200Type'EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerCardsIdResponseBody200Type'EnumStringAchCreditTransfer
     | PostCustomersCustomerCardsIdResponseBody200Type'EnumStringAchDebit
     | PostCustomersCustomerCardsIdResponseBody200Type'EnumStringAlipay

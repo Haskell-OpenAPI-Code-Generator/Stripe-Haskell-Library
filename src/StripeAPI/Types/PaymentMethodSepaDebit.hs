@@ -36,31 +36,31 @@ data PaymentMethodSepaDebit = PaymentMethodSepaDebit {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  paymentMethodSepaDebitBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  paymentMethodSepaDebitBankCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | branch_code: Branch code of bank associated with the bank account.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodSepaDebitBranchCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodSepaDebitBranchCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country: Two-letter ISO code representing the country the bank account is located in.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodSepaDebitCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodSepaDebitCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | fingerprint: Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodSepaDebitFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodSepaDebitFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last4: Last four characters of the IBAN.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodSepaDebitLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodSepaDebitLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodSepaDebit

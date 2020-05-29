@@ -36,13 +36,13 @@ data InvoiceSettingCustomField = InvoiceSettingCustomField {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  invoiceSettingCustomFieldName :: GHC.Base.String
+  invoiceSettingCustomFieldName :: Data.Text.Internal.Text
   -- | value: The value of the custom field.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , invoiceSettingCustomFieldValue :: GHC.Base.String
+  , invoiceSettingCustomFieldValue :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON InvoiceSettingCustomField

@@ -36,13 +36,13 @@ data SetupIntentNextActionRedirectToUrl = SetupIntentNextActionRedirectToUrl {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  setupIntentNextActionRedirectToUrlReturnUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  setupIntentNextActionRedirectToUrlReturnUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | url: The URL you must redirect your customer to in order to authenticate.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , setupIntentNextActionRedirectToUrlUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , setupIntentNextActionRedirectToUrlUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SetupIntentNextActionRedirectToUrl

@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of an scheduled query run.\<\/p>
 getSigmaScheduledQueryRunsScheduledQueryRun :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                         -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                                         -- ^ scheduled_query_run | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                                 -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                                 -- ^ scheduled_query_run | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSigmaScheduledQueryRunsScheduledQueryRunResponse)) -- ^ Monad containing the result of the operation
 getSigmaScheduledQueryRunsScheduledQueryRun config
@@ -68,8 +68,8 @@ getSigmaScheduledQueryRunsScheduledQueryRun config
 getSigmaScheduledQueryRunsScheduledQueryRunRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                 StripeAPI.Common.SecurityScheme s) =>
                                                   StripeAPI.Common.Configuration s ->
-                                                  GHC.Maybe.Maybe GHC.Base.String ->
-                                                  GHC.Base.String ->
+                                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                                  Data.Text.Internal.Text ->
                                                   GHC.Maybe.Maybe GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody ->
                                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                         (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getSigmaScheduledQueryRunsScheduledQueryRunRaw config
 -- Monadic version of 'getSigmaScheduledQueryRunsScheduledQueryRun' (use with 'StripeAPI.Common.runWithConfiguration')
 getSigmaScheduledQueryRunsScheduledQueryRunM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                               StripeAPI.Common.SecurityScheme s) =>
-                                                GHC.Maybe.Maybe GHC.Base.String ->
-                                                GHC.Base.String ->
+                                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                                Data.Text.Internal.Text ->
                                                 GHC.Maybe.Maybe GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody ->
                                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                    m
@@ -113,8 +113,8 @@ getSigmaScheduledQueryRunsScheduledQueryRunM expand
 -- Monadic version of 'getSigmaScheduledQueryRunsScheduledQueryRunRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSigmaScheduledQueryRunsScheduledQueryRunRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                  StripeAPI.Common.SecurityScheme s) =>
-                                                   GHC.Maybe.Maybe GHC.Base.String ->
-                                                   GHC.Base.String ->
+                                                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                                   Data.Text.Internal.Text ->
                                                    GHC.Maybe.Maybe GetSigmaScheduledQueryRunsScheduledQueryRunRequestBody ->
                                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                       m

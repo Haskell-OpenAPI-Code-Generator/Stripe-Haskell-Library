@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Mark a finalized invoice as void. This cannot be undone. Voiding an invoice is similar to \<a href=\"\#delete_invoice\">deletion\<\/a>, however it only applies to finalized invoices and maintains a papertrail where the invoice can still be found.\<\/p>
 postInvoicesInvoiceVoid :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                     -- ^ invoice | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                             -- ^ invoice | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostInvoicesInvoiceVoidRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostInvoicesInvoiceVoidResponse)) -- ^ Monad containing the result of the operation
 postInvoicesInvoiceVoid config
@@ -60,7 +60,7 @@ postInvoicesInvoiceVoid config
 postInvoicesInvoiceVoidRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
-                              GHC.Base.String ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe PostInvoicesInvoiceVoidRequestBody ->
                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postInvoicesInvoiceVoidRaw config
 -- Monadic version of 'postInvoicesInvoiceVoid' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoicesInvoiceVoidM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Base.String ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe PostInvoicesInvoiceVoidRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -89,7 +89,7 @@ postInvoicesInvoiceVoidM invoice
 -- Monadic version of 'postInvoicesInvoiceVoidRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoicesInvoiceVoidRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe PostInvoicesInvoiceVoidRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -102,7 +102,7 @@ postInvoicesInvoiceVoidRawM invoice
 -- 
 data PostInvoicesInvoiceVoidRequestBody = PostInvoicesInvoiceVoidRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postInvoicesInvoiceVoidRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postInvoicesInvoiceVoidRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoicesInvoiceVoidRequestBody

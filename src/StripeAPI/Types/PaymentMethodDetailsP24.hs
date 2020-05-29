@@ -36,14 +36,14 @@ data PaymentMethodDetailsP24 = PaymentMethodDetailsP24 {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  paymentMethodDetailsP24Reference :: (GHC.Maybe.Maybe GHC.Base.String)
+  paymentMethodDetailsP24Reference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | verified_name: Owner\'s verified full name. Values are verified or provided by Przelewy24 directly
   -- (if supported) at the time of authorization or settlement. They cannot be set or mutated.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsP24VerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsP24VerifiedName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsP24

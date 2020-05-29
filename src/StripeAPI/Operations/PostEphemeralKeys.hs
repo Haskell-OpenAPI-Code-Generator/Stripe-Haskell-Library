@@ -98,15 +98,15 @@ data PostEphemeralKeysRequestBody = PostEphemeralKeysRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postEphemeralKeysRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  postEphemeralKeysRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postEphemeralKeysRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postEphemeralKeysRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | issuing_card: The ID of the Issuing Card you\'d like to access using the resulting ephemeral key.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postEphemeralKeysRequestBodyIssuingCard :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postEphemeralKeysRequestBodyIssuingCard :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostEphemeralKeysRequestBody

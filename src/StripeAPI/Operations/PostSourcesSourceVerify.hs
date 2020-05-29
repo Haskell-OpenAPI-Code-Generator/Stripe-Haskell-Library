@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Verify a given source.\<\/p>
 postSourcesSourceVerify :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                     -- ^ source | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                             -- ^ source | Constraints: Maximum length of 5000
   -> PostSourcesSourceVerifyRequestBody                                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSourcesSourceVerifyResponse)) -- ^ Monad containing the result of the operation
 postSourcesSourceVerify config
@@ -60,7 +60,7 @@ postSourcesSourceVerify config
 postSourcesSourceVerifyRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
-                              GHC.Base.String ->
+                              Data.Text.Internal.Text ->
                               PostSourcesSourceVerifyRequestBody ->
                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postSourcesSourceVerifyRaw config
 -- Monadic version of 'postSourcesSourceVerify' (use with 'StripeAPI.Common.runWithConfiguration')
 postSourcesSourceVerifyM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Base.String ->
+                            Data.Text.Internal.Text ->
                             PostSourcesSourceVerifyRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -89,7 +89,7 @@ postSourcesSourceVerifyM source
 -- Monadic version of 'postSourcesSourceVerifyRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postSourcesSourceVerifyRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                PostSourcesSourceVerifyRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -102,9 +102,9 @@ postSourcesSourceVerifyRawM source
 -- 
 data PostSourcesSourceVerifyRequestBody = PostSourcesSourceVerifyRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postSourcesSourceVerifyRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postSourcesSourceVerifyRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | values: The values needed to verify the source.
-  , postSourcesSourceVerifyRequestBodyValues :: ([] GHC.Base.String)
+  , postSourcesSourceVerifyRequestBodyValues :: ([] Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSourcesSourceVerifyRequestBody

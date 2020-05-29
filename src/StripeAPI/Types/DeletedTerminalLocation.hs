@@ -38,7 +38,7 @@ data DeletedTerminal'location = DeletedTerminal'location {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedTerminal'locationId :: GHC.Base.String
+  , deletedTerminal'locationId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedTerminal'locationObject :: DeletedTerminal'locationObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedTerminal'locationDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedTerminal'locationObject'
     = DeletedTerminal'locationObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedTerminal'locationObject'EnumTyped GHC.Base.String
+    | DeletedTerminal'locationObject'EnumTyped Data.Text.Internal.Text
     | DeletedTerminal'locationObject'EnumStringTerminal'location
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedTerminal'locationObject'

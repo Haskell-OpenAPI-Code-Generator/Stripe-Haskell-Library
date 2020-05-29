@@ -44,9 +44,9 @@ import StripeAPI.Types
 -- 
 -- 
 getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                                            -- ^ customer | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                                            -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                                                            -- ^ subscription_exposed_id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                                                    -- ^ customer | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                                                    -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                                                    -- ^ subscription_exposed_id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountResponse)) -- ^ Monad containing the result of the operation
 getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount config
@@ -70,9 +70,9 @@ getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount config
 getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                                    StripeAPI.Common.SecurityScheme s) =>
                                                                      StripeAPI.Common.Configuration s ->
-                                                                     GHC.Base.String ->
-                                                                     GHC.Maybe.Maybe GHC.Base.String ->
-                                                                     GHC.Base.String ->
+                                                                     Data.Text.Internal.Text ->
+                                                                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                                                     Data.Text.Internal.Text ->
                                                                      GHC.Maybe.Maybe GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountRequestBody ->
                                                                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                            (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -92,9 +92,9 @@ getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountRaw config
 -- Monadic version of 'getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                                  StripeAPI.Common.SecurityScheme s) =>
-                                                                   GHC.Base.String ->
-                                                                   GHC.Maybe.Maybe GHC.Base.String ->
-                                                                   GHC.Base.String ->
+                                                                   Data.Text.Internal.Text ->
+                                                                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                                                   Data.Text.Internal.Text ->
                                                                    GHC.Maybe.Maybe GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountRequestBody ->
                                                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                                       m
@@ -119,9 +119,9 @@ getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountM customer
 -- Monadic version of 'getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                                     StripeAPI.Common.SecurityScheme s) =>
-                                                                      GHC.Base.String ->
-                                                                      GHC.Maybe.Maybe GHC.Base.String ->
-                                                                      GHC.Base.String ->
+                                                                      Data.Text.Internal.Text ->
+                                                                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                                                      Data.Text.Internal.Text ->
                                                                       GHC.Maybe.Maybe GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscountRequestBody ->
                                                                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                                          m

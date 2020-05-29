@@ -48,7 +48,7 @@ import StripeAPI.Types
 -- set \<a href=\"\/docs\/api\/customers\/update\#update_customer-invoice_settings-default_payment_method\">\<code>invoice_settings.default_payment_method\<\/code>\<\/a>,
 -- on the Customer to the PaymentMethod’s ID.\<\/p>
 postPaymentMethodsPaymentMethodAttach :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                   -- ^ payment_method | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                           -- ^ payment_method | Constraints: Maximum length of 5000
   -> PostPaymentMethodsPaymentMethodAttachRequestBody                                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPaymentMethodsPaymentMethodAttachResponse)) -- ^ Monad containing the result of the operation
 postPaymentMethodsPaymentMethodAttach config
@@ -64,7 +64,7 @@ postPaymentMethodsPaymentMethodAttach config
 postPaymentMethodsPaymentMethodAttachRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                           StripeAPI.Common.SecurityScheme s) =>
                                             StripeAPI.Common.Configuration s ->
-                                            GHC.Base.String ->
+                                            Data.Text.Internal.Text ->
                                             PostPaymentMethodsPaymentMethodAttachRequestBody ->
                                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,7 +76,7 @@ postPaymentMethodsPaymentMethodAttachRaw config
 -- Monadic version of 'postPaymentMethodsPaymentMethodAttach' (use with 'StripeAPI.Common.runWithConfiguration')
 postPaymentMethodsPaymentMethodAttachM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
-                                          GHC.Base.String ->
+                                          Data.Text.Internal.Text ->
                                           PostPaymentMethodsPaymentMethodAttachRequestBody ->
                                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                              m
@@ -93,7 +93,7 @@ postPaymentMethodsPaymentMethodAttachM paymentMethod
 -- Monadic version of 'postPaymentMethodsPaymentMethodAttachRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postPaymentMethodsPaymentMethodAttachRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
-                                             GHC.Base.String ->
+                                             Data.Text.Internal.Text ->
                                              PostPaymentMethodsPaymentMethodAttachRequestBody ->
                                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                 m
@@ -110,9 +110,9 @@ data PostPaymentMethodsPaymentMethodAttachRequestBody = PostPaymentMethodsPaymen
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postPaymentMethodsPaymentMethodAttachRequestBodyCustomer :: GHC.Base.String
+  postPaymentMethodsPaymentMethodAttachRequestBodyCustomer :: Data.Text.Internal.Text
   -- | expand: Specifies which fields in the response should be expanded.
-  , postPaymentMethodsPaymentMethodAttachRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postPaymentMethodsPaymentMethodAttachRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentMethodsPaymentMethodAttachRequestBody

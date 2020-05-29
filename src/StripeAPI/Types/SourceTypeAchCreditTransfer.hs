@@ -32,21 +32,21 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeAchCreditTransfer = SourceTypeAchCreditTransfer {
   -- | account_number
-  sourceTypeAchCreditTransferAccountNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeAchCreditTransferAccountNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bank_name
-  , sourceTypeAchCreditTransferBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAchCreditTransferBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | fingerprint
-  , sourceTypeAchCreditTransferFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAchCreditTransferFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_account_holder_name
-  , sourceTypeAchCreditTransferRefundAccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAchCreditTransferRefundAccountHolderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_account_holder_type
-  , sourceTypeAchCreditTransferRefundAccountHolderType :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAchCreditTransferRefundAccountHolderType :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_routing_number
-  , sourceTypeAchCreditTransferRefundRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAchCreditTransferRefundRoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | routing_number
-  , sourceTypeAchCreditTransferRoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAchCreditTransferRoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | swift_code
-  , sourceTypeAchCreditTransferSwiftCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAchCreditTransferSwiftCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeAchCreditTransfer

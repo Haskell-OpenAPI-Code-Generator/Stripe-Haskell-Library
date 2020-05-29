@@ -44,19 +44,19 @@ data Reporting'reportType = Reporting'reportType {
   -- | data_available_start: Earliest time for which this Report Type is available. Measured in seconds since the Unix epoch.
   , reporting'reportTypeDataAvailableStart :: GHC.Integer.Type.Integer
   -- | default_columns: List of column names that are included by default when this Report Type gets run. (If the Report Type doesn\'t support the \`columns\` parameter, this will be null.)
-  , reporting'reportTypeDefaultColumns :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , reporting'reportTypeDefaultColumns :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | id: The [ID of the Report Type](https:\/\/stripe.com\/docs\/reporting\/statements\/api\#available-report-types), such as \`balance.summary.1\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , reporting'reportTypeId :: GHC.Base.String
+  , reporting'reportTypeId :: Data.Text.Internal.Text
   -- | name: Human-readable name of the Report Type
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , reporting'reportTypeName :: GHC.Base.String
+  , reporting'reportTypeName :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , reporting'reportTypeObject :: Reporting'reportTypeObject'
   -- | updated: When this Report Type was latest updated. Measured in seconds since the Unix epoch.
@@ -75,7 +75,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Reporting'reportType
 -- String representing the object\'s type. Objects of the same type share the same value.
 data Reporting'reportTypeObject'
     = Reporting'reportTypeObject'EnumOther Data.Aeson.Types.Internal.Value
-    | Reporting'reportTypeObject'EnumTyped GHC.Base.String
+    | Reporting'reportTypeObject'EnumTyped Data.Text.Internal.Text
     | Reporting'reportTypeObject'EnumStringReporting'reportType
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Reporting'reportTypeObject'

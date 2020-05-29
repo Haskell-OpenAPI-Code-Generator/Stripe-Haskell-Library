@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- 
 postApplicationFeesIdRefund :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                         -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                 -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostApplicationFeesIdRefundRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostApplicationFeesIdRefundResponse)) -- ^ Monad containing the result of the operation
 postApplicationFeesIdRefund config
@@ -60,7 +60,7 @@ postApplicationFeesIdRefund config
 postApplicationFeesIdRefundRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   StripeAPI.Common.Configuration s ->
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe PostApplicationFeesIdRefundRequestBody ->
                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                         (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postApplicationFeesIdRefundRaw config
 -- Monadic version of 'postApplicationFeesIdRefund' (use with 'StripeAPI.Common.runWithConfiguration')
 postApplicationFeesIdRefundM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe PostApplicationFeesIdRefundRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -89,7 +89,7 @@ postApplicationFeesIdRefundM id
 -- Monadic version of 'postApplicationFeesIdRefundRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postApplicationFeesIdRefundRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe PostApplicationFeesIdRefundRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m
@@ -108,9 +108,9 @@ data PostApplicationFeesIdRefundRequestBody = PostApplicationFeesIdRefundRequest
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postApplicationFeesIdRefundRequestBodyDirective :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postApplicationFeesIdRefundRequestBodyDirective :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postApplicationFeesIdRefundRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postApplicationFeesIdRefundRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostApplicationFeesIdRefundRequestBody

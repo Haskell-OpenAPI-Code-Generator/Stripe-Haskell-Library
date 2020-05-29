@@ -41,13 +41,13 @@ data Terminal'location = Terminal'location {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , terminal'locationDisplayName :: GHC.Base.String
+  , terminal'locationDisplayName :: Data.Text.Internal.Text
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , terminal'locationId :: GHC.Base.String
+  , terminal'locationId :: Data.Text.Internal.Text
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , terminal'locationLivemode :: GHC.Types.Bool
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -78,7 +78,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Terminal'locationMetadata'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data Terminal'locationObject'
     = Terminal'locationObject'EnumOther Data.Aeson.Types.Internal.Value
-    | Terminal'locationObject'EnumTyped GHC.Base.String
+    | Terminal'locationObject'EnumTyped Data.Text.Internal.Text
     | Terminal'locationObject'EnumStringTerminal'location
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Terminal'locationObject'

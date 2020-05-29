@@ -102,27 +102,27 @@ data PostCustomersRequestBody = PostCustomersRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyCoupon :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyCoupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | description: An arbitrary string that you can attach to a customer object. It is displayed alongside the customer in the dashboard.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | email: Customer\'s email address. It\'s displayed alongside the customer in your dashboard and can be useful for searching and tracking. This may be up to *512 characters*.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 512
-  , postCustomersRequestBodyEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postCustomersRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCustomersRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | invoice_prefix: The prefix for the customer used to generate unique invoice numbers. Must be 3–12 uppercase letters or numbers.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyInvoicePrefix :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyInvoicePrefix :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | invoice_settings: Default invoice settings for this customer.
   , postCustomersRequestBodyInvoiceSettings :: (GHC.Maybe.Maybe PostCustomersRequestBodyInvoiceSettings')
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -132,7 +132,7 @@ data PostCustomersRequestBody = PostCustomersRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 256
-  , postCustomersRequestBodyName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | next_invoice_sequence: The sequence to be used on the customer\'s next invoice. Defaults to 1.
   , postCustomersRequestBodyNextInvoiceSequence :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | payment_method
@@ -140,15 +140,15 @@ data PostCustomersRequestBody = PostCustomersRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyPaymentMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | phone: The customer\'s phone number.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20
-  , postCustomersRequestBodyPhone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyPhone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | preferred_locales: Customer\'s preferred languages, ordered by preference.
-  , postCustomersRequestBodyPreferredLocales :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCustomersRequestBodyPreferredLocales :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | shipping: The customer\'s shipping information. Appears on invoices emailed to this customer.
   , postCustomersRequestBodyShipping :: (GHC.Maybe.Maybe PostCustomersRequestBodyShipping'Variants)
   -- | source
@@ -156,7 +156,7 @@ data PostCustomersRequestBody = PostCustomersRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodySource :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodySource :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tax_exempt: The customer\'s tax exemption. One of \`none\`, \`exempt\`, or \`reverse\`.
   , postCustomersRequestBodyTaxExempt :: (GHC.Maybe.Maybe PostCustomersRequestBodyTaxExempt')
   -- | tax_id_data: The customer\'s tax IDs.
@@ -173,7 +173,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBody
 -- 
 data PostCustomersRequestBodyAddress'OneOf1
     = PostCustomersRequestBodyAddress'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersRequestBodyAddress'OneOf1EnumTyped GHC.Base.String
+    | PostCustomersRequestBodyAddress'OneOf1EnumTyped Data.Text.Internal.Text
     | PostCustomersRequestBodyAddress'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersRequestBodyAddress'OneOf1
@@ -193,37 +193,37 @@ data PostCustomersRequestBodyAddress'OneOf2 = PostCustomersRequestBodyAddress'On
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postCustomersRequestBodyAddress'OneOf2City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postCustomersRequestBodyAddress'OneOf2City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyAddress'OneOf2Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyAddress'OneOf2Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyAddress'OneOf2Line1 :: GHC.Base.String
+  , postCustomersRequestBodyAddress'OneOf2Line1 :: Data.Text.Internal.Text
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyAddress'OneOf2Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyAddress'OneOf2Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyAddress'OneOf2PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyAddress'OneOf2PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyAddress'OneOf2State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyAddress'OneOf2State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersRequestBodyAddress'OneOf2
@@ -253,13 +253,13 @@ data PostCustomersRequestBodyInvoiceSettings' = PostCustomersRequestBodyInvoiceS
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyInvoiceSettings'DefaultPaymentMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyInvoiceSettings'DefaultPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | footer
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyInvoiceSettings'Footer :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyInvoiceSettings'Footer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersRequestBodyInvoiceSettings'
@@ -272,7 +272,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyInvoiceSetti
 -- 
 data PostCustomersRequestBodyInvoiceSettings'CustomFields'OneOf1
     = PostCustomersRequestBodyInvoiceSettings'CustomFields'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersRequestBodyInvoiceSettings'CustomFields'OneOf1EnumTyped GHC.Base.String
+    | PostCustomersRequestBodyInvoiceSettings'CustomFields'OneOf1EnumTyped Data.Text.Internal.Text
     | PostCustomersRequestBodyInvoiceSettings'CustomFields'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersRequestBodyInvoiceSettings'CustomFields'OneOf1
@@ -292,13 +292,13 @@ data PostCustomersRequestBodyInvoiceSettings'CustomFields'OneOf2 = PostCustomers
   -- Constraints:
   -- 
   -- * Maximum length of 30
-  postCustomersRequestBodyInvoiceSettings'CustomFields'OneOf2Name :: GHC.Base.String
+  postCustomersRequestBodyInvoiceSettings'CustomFields'OneOf2Name :: Data.Text.Internal.Text
   -- | value
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 30
-  , postCustomersRequestBodyInvoiceSettings'CustomFields'OneOf2Value :: GHC.Base.String
+  , postCustomersRequestBodyInvoiceSettings'CustomFields'OneOf2Value :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersRequestBodyInvoiceSettings'CustomFields'OneOf2
@@ -334,7 +334,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyMetadata'
 -- 
 data PostCustomersRequestBodyShipping'OneOf1
     = PostCustomersRequestBodyShipping'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersRequestBodyShipping'OneOf1EnumTyped GHC.Base.String
+    | PostCustomersRequestBodyShipping'OneOf1EnumTyped Data.Text.Internal.Text
     | PostCustomersRequestBodyShipping'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersRequestBodyShipping'OneOf1
@@ -356,13 +356,13 @@ data PostCustomersRequestBodyShipping'OneOf2 = PostCustomersRequestBodyShipping'
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyShipping'OneOf2Name :: GHC.Base.String
+  , postCustomersRequestBodyShipping'OneOf2Name :: Data.Text.Internal.Text
   -- | phone
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyShipping'OneOf2Phone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyShipping'OneOf2Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersRequestBodyShipping'OneOf2
@@ -379,37 +379,37 @@ data PostCustomersRequestBodyShipping'OneOf2Address' = PostCustomersRequestBodyS
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postCustomersRequestBodyShipping'OneOf2Address'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postCustomersRequestBodyShipping'OneOf2Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyShipping'OneOf2Address'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyShipping'OneOf2Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyShipping'OneOf2Address'Line1 :: GHC.Base.String
+  , postCustomersRequestBodyShipping'OneOf2Address'Line1 :: Data.Text.Internal.Text
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyShipping'OneOf2Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyShipping'OneOf2Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyShipping'OneOf2Address'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyShipping'OneOf2Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersRequestBodyShipping'OneOf2Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersRequestBodyShipping'OneOf2Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersRequestBodyShipping'OneOf2Address'
@@ -433,7 +433,7 @@ instance Data.Aeson.FromJSON PostCustomersRequestBodyShipping'Variants
 -- The customer\'s tax exemption. One of \`none\`, \`exempt\`, or \`reverse\`.
 data PostCustomersRequestBodyTaxExempt'
     = PostCustomersRequestBodyTaxExempt'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersRequestBodyTaxExempt'EnumTyped GHC.Base.String
+    | PostCustomersRequestBodyTaxExempt'EnumTyped Data.Text.Internal.Text
     | PostCustomersRequestBodyTaxExempt'EnumString_
     | PostCustomersRequestBodyTaxExempt'EnumStringExempt
     | PostCustomersRequestBodyTaxExempt'EnumStringNone
@@ -467,7 +467,7 @@ data PostCustomersRequestBodyTaxIdData' = PostCustomersRequestBodyTaxIdData' {
   -- * Maximum length of 5000
   postCustomersRequestBodyTaxIdData'Type :: PostCustomersRequestBodyTaxIdData'Type'
   -- | value
-  , postCustomersRequestBodyTaxIdData'Value :: GHC.Base.String
+  , postCustomersRequestBodyTaxIdData'Value :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersRequestBodyTaxIdData'
@@ -480,7 +480,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersRequestBodyTaxIdData'
 -- 
 data PostCustomersRequestBodyTaxIdData'Type'
     = PostCustomersRequestBodyTaxIdData'Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersRequestBodyTaxIdData'Type'EnumTyped GHC.Base.String
+    | PostCustomersRequestBodyTaxIdData'Type'EnumTyped Data.Text.Internal.Text
     | PostCustomersRequestBodyTaxIdData'Type'EnumStringAuAbn
     | PostCustomersRequestBodyTaxIdData'Type'EnumStringCaBn
     | PostCustomersRequestBodyTaxIdData'Type'EnumStringCaQst

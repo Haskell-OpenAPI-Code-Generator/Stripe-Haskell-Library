@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the specified payout by setting the values of the parameters passed. Any parameters not provided will be left unchanged. This request accepts only the metadata as arguments.\<\/p>
 postPayoutsPayout :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                               -- ^ payout | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                       -- ^ payout | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostPayoutsPayoutRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPayoutsPayoutResponse)) -- ^ Monad containing the result of the operation
 postPayoutsPayout config
@@ -60,7 +60,7 @@ postPayoutsPayout config
 postPayoutsPayoutRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         StripeAPI.Common.Configuration s ->
-                        GHC.Base.String ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe PostPayoutsPayoutRequestBody ->
                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postPayoutsPayoutRaw config
 -- Monadic version of 'postPayoutsPayout' (use with 'StripeAPI.Common.runWithConfiguration')
 postPayoutsPayoutM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
-                      GHC.Base.String ->
+                      Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe PostPayoutsPayoutRequestBody ->
                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                          m
@@ -89,7 +89,7 @@ postPayoutsPayoutM payout
 -- Monadic version of 'postPayoutsPayoutRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postPayoutsPayoutRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
-                         GHC.Base.String ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe PostPayoutsPayoutRequestBody ->
                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                             m
@@ -102,7 +102,7 @@ postPayoutsPayoutRawM payout
 -- 
 data PostPayoutsPayoutRequestBody = PostPayoutsPayoutRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postPayoutsPayoutRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postPayoutsPayoutRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postPayoutsPayoutRequestBodyMetadata :: (GHC.Maybe.Maybe PostPayoutsPayoutRequestBodyMetadata')
   } deriving (GHC.Show.Show

@@ -36,19 +36,19 @@ data SourceMandateNotificationSepaDebitData = SourceMandateNotificationSepaDebit
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  sourceMandateNotificationSepaDebitDataCreditorIdentifier :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceMandateNotificationSepaDebitDataCreditorIdentifier :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last4: Last 4 digits of the account number associated with the debit.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceMandateNotificationSepaDebitDataLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceMandateNotificationSepaDebitDataLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | mandate_reference: Mandate reference associated with the debit.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceMandateNotificationSepaDebitDataMandateReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceMandateNotificationSepaDebitDataMandateReference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceMandateNotificationSepaDebitData

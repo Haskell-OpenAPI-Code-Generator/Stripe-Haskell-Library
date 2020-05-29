@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Permanently deletes a recipient. It cannot be undone.\<\/p>
 deleteRecipientsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                        -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteRecipientsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteRecipientsIdResponse)) -- ^ Monad containing the result of the operation
 deleteRecipientsId config
@@ -60,7 +60,7 @@ deleteRecipientsId config
 deleteRecipientsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          StripeAPI.Common.Configuration s ->
-                         GHC.Base.String ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe DeleteRecipientsIdRequestBody ->
                          m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteRecipientsIdRaw config
 -- Monadic version of 'deleteRecipientsId' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteRecipientsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
-                       GHC.Base.String ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe DeleteRecipientsIdRequestBody ->
                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                           m
@@ -89,7 +89,7 @@ deleteRecipientsIdM id
 -- Monadic version of 'deleteRecipientsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteRecipientsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Base.String ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe DeleteRecipientsIdRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m

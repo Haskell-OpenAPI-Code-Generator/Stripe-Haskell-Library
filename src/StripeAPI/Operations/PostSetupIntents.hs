@@ -105,33 +105,33 @@ data PostSetupIntentsRequestBody = PostSetupIntentsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSetupIntentsRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSetupIntentsRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 1000
-  , postSetupIntentsRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSetupIntentsRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postSetupIntentsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postSetupIntentsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | mandate_data: This hash contains details about the Mandate to create. This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/setup_intents\/create\#create_setup_intent-confirm).
   , postSetupIntentsRequestBodyMandateData :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyMandateData')
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postSetupIntentsRequestBodyMetadata :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyMetadata')
   -- | on_behalf_of: The Stripe account ID for which this SetupIntent is created.
-  , postSetupIntentsRequestBodyOnBehalfOf :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSetupIntentsRequestBodyOnBehalfOf :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | payment_method: ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSetupIntentsRequestBodyPaymentMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSetupIntentsRequestBodyPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | payment_method_options: Payment-method-specific configuration for this SetupIntent.
   , postSetupIntentsRequestBodyPaymentMethodOptions :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyPaymentMethodOptions')
   -- | payment_method_types: The list of payment method types (e.g. card) that this SetupIntent is allowed to use. If this is not provided, defaults to [\"card\"].
-  , postSetupIntentsRequestBodyPaymentMethodTypes :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postSetupIntentsRequestBodyPaymentMethodTypes :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | return_url: The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method\'s app or site. If you\'d prefer to redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/setup_intents\/create\#create_setup_intent-confirm).
-  , postSetupIntentsRequestBodyReturnUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSetupIntentsRequestBodyReturnUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | single_use: If this hash is populated, this SetupIntent will generate a single_use Mandate on success.
   , postSetupIntentsRequestBodySingleUse :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodySingleUse')
   -- | usage: Indicates how the payment method is intended to be used in the future. If not provided, this value defaults to \`off_session\`.
@@ -200,13 +200,13 @@ data PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online' = PostSet
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'IpAddress :: GHC.Base.String
+  postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'IpAddress :: Data.Text.Internal.Text
   -- | user_agent
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'UserAgent :: GHC.Base.String
+  , postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'UserAgent :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'
@@ -219,7 +219,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMandateDa
 -- 
 data PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'
     = PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumTyped GHC.Base.String
+    | PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumTyped Data.Text.Internal.Text
     | PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumStringOffline
     | PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumStringOnline
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -281,7 +281,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyPaymentMe
 -- 
 data PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'
     = PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumTyped GHC.Base.String
+    | PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumTyped Data.Text.Internal.Text
     | PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAny
     | PostSetupIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAutomatic
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -303,7 +303,7 @@ data PostSetupIntentsRequestBodySingleUse' = PostSetupIntentsRequestBodySingleUs
   -- | amount
   postSetupIntentsRequestBodySingleUse'Amount :: GHC.Integer.Type.Integer
   -- | currency
-  , postSetupIntentsRequestBodySingleUse'Currency :: GHC.Base.String
+  , postSetupIntentsRequestBodySingleUse'Currency :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSetupIntentsRequestBodySingleUse'
@@ -316,7 +316,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodySingleUse
 -- Indicates how the payment method is intended to be used in the future. If not provided, this value defaults to \`off_session\`.
 data PostSetupIntentsRequestBodyUsage'
     = PostSetupIntentsRequestBodyUsage'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSetupIntentsRequestBodyUsage'EnumTyped GHC.Base.String
+    | PostSetupIntentsRequestBodyUsage'EnumTyped Data.Text.Internal.Text
     | PostSetupIntentsRequestBodyUsage'EnumStringOffSession
     | PostSetupIntentsRequestBodyUsage'EnumStringOnSession
     deriving (GHC.Show.Show, GHC.Classes.Eq)

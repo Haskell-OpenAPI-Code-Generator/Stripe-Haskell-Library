@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Pay an order by providing a \<code>source\<\/code> to create a payment.\<\/p>
 postOrdersIdPay :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                             -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                     -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostOrdersIdPayRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostOrdersIdPayResponse)) -- ^ Monad containing the result of the operation
 postOrdersIdPay config
@@ -60,7 +60,7 @@ postOrdersIdPay config
 postOrdersIdPayRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
                       StripeAPI.Common.Configuration s ->
-                      GHC.Base.String ->
+                      Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe PostOrdersIdPayRequestBody ->
                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postOrdersIdPayRaw config
 -- Monadic version of 'postOrdersIdPay' (use with 'StripeAPI.Common.runWithConfiguration')
 postOrdersIdPayM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
-                    GHC.Base.String ->
+                    Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe PostOrdersIdPayRequestBody ->
                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                        m
@@ -89,7 +89,7 @@ postOrdersIdPayM id
 -- Monadic version of 'postOrdersIdPayRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postOrdersIdPayRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
-                       GHC.Base.String ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe PostOrdersIdPayRequestBody ->
                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                           m
@@ -108,15 +108,15 @@ data PostOrdersIdPayRequestBody = PostOrdersIdPayRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersIdPayRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersIdPayRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | email: The email address of the customer placing the order. Required if not previously specified for the order.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersIdPayRequestBodyEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersIdPayRequestBodyEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postOrdersIdPayRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postOrdersIdPayRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postOrdersIdPayRequestBodyMetadata :: (GHC.Maybe.Maybe PostOrdersIdPayRequestBodyMetadata')
   -- | source: A [Token](https:\/\/stripe.com\/docs\/api\#tokens)\'s or a [Source](https:\/\/stripe.com\/docs\/api\#sources)\'s ID, as returned by [Elements](https:\/\/stripe.com\/docs\/elements). If no customer was attached to the order at creation, either \`source\` or \`customer\` is required. Otherwise, the specified source will be charged intead of the customer attached to the order.
@@ -124,7 +124,7 @@ data PostOrdersIdPayRequestBody = PostOrdersIdPayRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersIdPayRequestBodySource :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersIdPayRequestBodySource :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostOrdersIdPayRequestBody

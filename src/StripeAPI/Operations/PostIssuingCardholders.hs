@@ -100,9 +100,9 @@ data PostIssuingCardholdersRequestBody = PostIssuingCardholdersRequestBody {
   -- | company: Additional information about a \`business_entity\` cardholder.
   , postIssuingCardholdersRequestBodyCompany :: (GHC.Maybe.Maybe PostIssuingCardholdersRequestBodyCompany')
   -- | email: The cardholder\'s email address.
-  , postIssuingCardholdersRequestBodyEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingCardholdersRequestBodyEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postIssuingCardholdersRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postIssuingCardholdersRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | individual: Additional information about an \`individual\` cardholder.
   , postIssuingCardholdersRequestBodyIndividual :: (GHC.Maybe.Maybe PostIssuingCardholdersRequestBodyIndividual')
   -- | is_default: Specifies whether to set this as the default cardholder.
@@ -110,9 +110,9 @@ data PostIssuingCardholdersRequestBody = PostIssuingCardholdersRequestBody {
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postIssuingCardholdersRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingCardholdersRequestBodyMetadata')
   -- | name: The cardholder\'s name. This will be printed on cards issued to them.
-  , postIssuingCardholdersRequestBodyName :: GHC.Base.String
+  , postIssuingCardholdersRequestBodyName :: Data.Text.Internal.Text
   -- | phone_number: The cardholder\'s phone number. This will be transformed to [E.164](https:\/\/en.wikipedia.org\/wiki\/E.164) if it is not provided in that format already.
-  , postIssuingCardholdersRequestBodyPhoneNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingCardholdersRequestBodyPhoneNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | status: Specifies whether to permit authorizations on this cardholder\'s cards. Defaults to \`active\`.
   , postIssuingCardholdersRequestBodyStatus :: (GHC.Maybe.Maybe PostIssuingCardholdersRequestBodyStatus')
   -- | type: One of \`individual\` or \`business_entity\`.
@@ -135,7 +135,7 @@ data PostIssuingCardholdersRequestBodyAuthorizationControls' = PostIssuingCardho
   -- | spending_limits
   , postIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits :: (GHC.Maybe.Maybe ([] PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'))
   -- | spending_limits_currency
-  , postIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimitsCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimitsCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingCardholdersRequestBodyAuthorizationControls'
@@ -148,7 +148,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersRequestBodyAut
 -- 
 data PostIssuingCardholdersRequestBodyAuthorizationControls'AllowedCategories'
     = PostIssuingCardholdersRequestBodyAuthorizationControls'AllowedCategories'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardholdersRequestBodyAuthorizationControls'AllowedCategories'EnumTyped GHC.Base.String
+    | PostIssuingCardholdersRequestBodyAuthorizationControls'AllowedCategories'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardholdersRequestBodyAuthorizationControls'AllowedCategories'EnumStringAcRefrigerationRepair
     | PostIssuingCardholdersRequestBodyAuthorizationControls'AllowedCategories'EnumStringAccountingBookkeepingServices
     | PostIssuingCardholdersRequestBodyAuthorizationControls'AllowedCategories'EnumStringAdvertisingServices
@@ -1312,7 +1312,7 @@ instance Data.Aeson.FromJSON PostIssuingCardholdersRequestBodyAuthorizationContr
 -- 
 data PostIssuingCardholdersRequestBodyAuthorizationControls'BlockedCategories'
     = PostIssuingCardholdersRequestBodyAuthorizationControls'BlockedCategories'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardholdersRequestBodyAuthorizationControls'BlockedCategories'EnumTyped GHC.Base.String
+    | PostIssuingCardholdersRequestBodyAuthorizationControls'BlockedCategories'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardholdersRequestBodyAuthorizationControls'BlockedCategories'EnumStringAcRefrigerationRepair
     | PostIssuingCardholdersRequestBodyAuthorizationControls'BlockedCategories'EnumStringAccountingBookkeepingServices
     | PostIssuingCardholdersRequestBodyAuthorizationControls'BlockedCategories'EnumStringAdvertisingServices
@@ -2493,7 +2493,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersRequestBodyAut
 -- 
 data PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Categories'
     = PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTyped GHC.Base.String
+    | PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAcRefrigerationRepair
     | PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAccountingBookkeepingServices
     | PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAdvertisingServices
@@ -3657,7 +3657,7 @@ instance Data.Aeson.FromJSON PostIssuingCardholdersRequestBodyAuthorizationContr
 -- 
 data PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Interval'
     = PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumTyped GHC.Base.String
+    | PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringAllTime
     | PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringDaily
     | PostIssuingCardholdersRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringMonthly
@@ -3710,37 +3710,37 @@ data PostIssuingCardholdersRequestBodyBilling'Address' = PostIssuingCardholdersR
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postIssuingCardholdersRequestBodyBilling'Address'City :: GHC.Base.String
+  postIssuingCardholdersRequestBodyBilling'Address'City :: Data.Text.Internal.Text
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardholdersRequestBodyBilling'Address'Country :: GHC.Base.String
+  , postIssuingCardholdersRequestBodyBilling'Address'Country :: Data.Text.Internal.Text
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardholdersRequestBodyBilling'Address'Line1 :: GHC.Base.String
+  , postIssuingCardholdersRequestBodyBilling'Address'Line1 :: Data.Text.Internal.Text
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardholdersRequestBodyBilling'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingCardholdersRequestBodyBilling'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardholdersRequestBodyBilling'Address'PostalCode :: GHC.Base.String
+  , postIssuingCardholdersRequestBodyBilling'Address'PostalCode :: Data.Text.Internal.Text
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardholdersRequestBodyBilling'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingCardholdersRequestBodyBilling'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingCardholdersRequestBodyBilling'Address'
@@ -3757,7 +3757,7 @@ data PostIssuingCardholdersRequestBodyCompany' = PostIssuingCardholdersRequestBo
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postIssuingCardholdersRequestBodyCompany'TaxId :: (GHC.Maybe.Maybe GHC.Base.String)
+  postIssuingCardholdersRequestBodyCompany'TaxId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingCardholdersRequestBodyCompany'
@@ -3776,13 +3776,13 @@ data PostIssuingCardholdersRequestBodyIndividual' = PostIssuingCardholdersReques
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardholdersRequestBodyIndividual'FirstName :: GHC.Base.String
+  , postIssuingCardholdersRequestBodyIndividual'FirstName :: Data.Text.Internal.Text
   -- | last_name
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardholdersRequestBodyIndividual'LastName :: GHC.Base.String
+  , postIssuingCardholdersRequestBodyIndividual'LastName :: Data.Text.Internal.Text
   -- | verification
   , postIssuingCardholdersRequestBodyIndividual'Verification :: (GHC.Maybe.Maybe PostIssuingCardholdersRequestBodyIndividual'Verification')
   } deriving (GHC.Show.Show
@@ -3831,13 +3831,13 @@ data PostIssuingCardholdersRequestBodyIndividual'Verification'Document' = PostIs
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postIssuingCardholdersRequestBodyIndividual'Verification'Document'Back :: (GHC.Maybe.Maybe GHC.Base.String)
+  postIssuingCardholdersRequestBodyIndividual'Verification'Document'Back :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | front
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardholdersRequestBodyIndividual'Verification'Document'Front :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingCardholdersRequestBodyIndividual'Verification'Document'Front :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingCardholdersRequestBodyIndividual'Verification'Document'
@@ -3862,7 +3862,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardholdersRequestBodyMet
 -- Specifies whether to permit authorizations on this cardholder\'s cards. Defaults to \`active\`.
 data PostIssuingCardholdersRequestBodyStatus'
     = PostIssuingCardholdersRequestBodyStatus'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardholdersRequestBodyStatus'EnumTyped GHC.Base.String
+    | PostIssuingCardholdersRequestBodyStatus'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardholdersRequestBodyStatus'EnumStringActive
     | PostIssuingCardholdersRequestBodyStatus'EnumStringInactive
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -3882,7 +3882,7 @@ instance Data.Aeson.FromJSON PostIssuingCardholdersRequestBodyStatus'
 -- One of \`individual\` or \`business_entity\`.
 data PostIssuingCardholdersRequestBodyType'
     = PostIssuingCardholdersRequestBodyType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardholdersRequestBodyType'EnumTyped GHC.Base.String
+    | PostIssuingCardholdersRequestBodyType'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardholdersRequestBodyType'EnumStringBusinessEntity
     | PostIssuingCardholdersRequestBodyType'EnumStringIndividual
     deriving (GHC.Show.Show, GHC.Classes.Eq)

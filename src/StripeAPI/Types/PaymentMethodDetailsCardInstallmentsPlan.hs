@@ -51,7 +51,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardInstallments
 -- One of \`month\`.
 data PaymentMethodDetailsCardInstallmentsPlanInterval'
     = PaymentMethodDetailsCardInstallmentsPlanInterval'EnumOther Data.Aeson.Types.Internal.Value
-    | PaymentMethodDetailsCardInstallmentsPlanInterval'EnumTyped GHC.Base.String
+    | PaymentMethodDetailsCardInstallmentsPlanInterval'EnumTyped Data.Text.Internal.Text
     | PaymentMethodDetailsCardInstallmentsPlanInterval'EnumStringMonth
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsCardInstallmentsPlanInterval'
@@ -67,7 +67,7 @@ instance Data.Aeson.FromJSON PaymentMethodDetailsCardInstallmentsPlanInterval'
 -- Type of installment plan, one of \`fixed_count\`.
 data PaymentMethodDetailsCardInstallmentsPlanType'
     = PaymentMethodDetailsCardInstallmentsPlanType'EnumOther Data.Aeson.Types.Internal.Value
-    | PaymentMethodDetailsCardInstallmentsPlanType'EnumTyped GHC.Base.String
+    | PaymentMethodDetailsCardInstallmentsPlanType'EnumTyped Data.Text.Internal.Text
     | PaymentMethodDetailsCardInstallmentsPlanType'EnumStringFixedCount
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsCardInstallmentsPlanType'

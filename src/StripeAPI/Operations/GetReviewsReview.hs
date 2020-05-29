@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves a \<code>Review\<\/code> object.\<\/p>
 getReviewsReview :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                              -- ^ review | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                      -- ^ review | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetReviewsReviewRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetReviewsReviewResponse)) -- ^ Monad containing the result of the operation
 getReviewsReview config
@@ -68,8 +68,8 @@ getReviewsReview config
 getReviewsReviewRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        StripeAPI.Common.Configuration s ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetReviewsReviewRequestBody ->
                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getReviewsReviewRaw config
 -- Monadic version of 'getReviewsReview' (use with 'StripeAPI.Common.runWithConfiguration')
 getReviewsReviewM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
-                     GHC.Maybe.Maybe GHC.Base.String ->
-                     GHC.Base.String ->
+                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                     Data.Text.Internal.Text ->
                      GHC.Maybe.Maybe GetReviewsReviewRequestBody ->
                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                         m
@@ -113,8 +113,8 @@ getReviewsReviewM expand
 -- Monadic version of 'getReviewsReviewRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getReviewsReviewRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Maybe.Maybe GHC.Base.String ->
-                        GHC.Base.String ->
+                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe GetReviewsReviewRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m

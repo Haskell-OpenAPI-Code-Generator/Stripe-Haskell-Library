@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the metadata of a coupon. Other coupon details (currency, duration, amount_off) are, by design, not editable.\<\/p>
 postCouponsCoupon :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                               -- ^ coupon | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                       -- ^ coupon | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostCouponsCouponRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCouponsCouponResponse)) -- ^ Monad containing the result of the operation
 postCouponsCoupon config
@@ -60,7 +60,7 @@ postCouponsCoupon config
 postCouponsCouponRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         StripeAPI.Common.Configuration s ->
-                        GHC.Base.String ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe PostCouponsCouponRequestBody ->
                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postCouponsCouponRaw config
 -- Monadic version of 'postCouponsCoupon' (use with 'StripeAPI.Common.runWithConfiguration')
 postCouponsCouponM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
-                      GHC.Base.String ->
+                      Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe PostCouponsCouponRequestBody ->
                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                          m
@@ -89,7 +89,7 @@ postCouponsCouponM coupon
 -- Monadic version of 'postCouponsCouponRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postCouponsCouponRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
-                         GHC.Base.String ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe PostCouponsCouponRequestBody ->
                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                             m
@@ -102,7 +102,7 @@ postCouponsCouponRawM coupon
 -- 
 data PostCouponsCouponRequestBody = PostCouponsCouponRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postCouponsCouponRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postCouponsCouponRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postCouponsCouponRequestBodyMetadata :: (GHC.Maybe.Maybe PostCouponsCouponRequestBodyMetadata')
   -- | name: Name of the coupon displayed to customers on, for instance invoices, or receipts. By default the \`id\` is shown if \`name\` is not set.
@@ -110,7 +110,7 @@ data PostCouponsCouponRequestBody = PostCouponsCouponRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 40
-  , postCouponsCouponRequestBodyName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCouponsCouponRequestBodyName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCouponsCouponRequestBody

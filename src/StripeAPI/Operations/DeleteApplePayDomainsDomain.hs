@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Delete an apple pay domain.\<\/p>
 deleteApplePayDomainsDomain :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                         -- ^ domain | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                 -- ^ domain | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteApplePayDomainsDomainRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteApplePayDomainsDomainResponse)) -- ^ Monad containing the result of the operation
 deleteApplePayDomainsDomain config
@@ -60,7 +60,7 @@ deleteApplePayDomainsDomain config
 deleteApplePayDomainsDomainRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   StripeAPI.Common.Configuration s ->
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe DeleteApplePayDomainsDomainRequestBody ->
                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                         (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteApplePayDomainsDomainRaw config
 -- Monadic version of 'deleteApplePayDomainsDomain' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteApplePayDomainsDomainM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe DeleteApplePayDomainsDomainRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -89,7 +89,7 @@ deleteApplePayDomainsDomainM domain
 -- Monadic version of 'deleteApplePayDomainsDomainRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteApplePayDomainsDomainRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe DeleteApplePayDomainsDomainRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m

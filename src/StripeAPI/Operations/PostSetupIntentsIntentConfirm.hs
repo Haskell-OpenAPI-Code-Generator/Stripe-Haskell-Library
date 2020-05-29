@@ -56,7 +56,7 @@ import StripeAPI.Types
 -- the SetupIntent will transition to the
 -- \<code>requires_payment_method\<\/code> status.\<\/p>
 postSetupIntentsIntentConfirm :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                           -- ^ intent | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                   -- ^ intent | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostSetupIntentsIntentConfirmRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSetupIntentsIntentConfirmResponse)) -- ^ Monad containing the result of the operation
 postSetupIntentsIntentConfirm config
@@ -72,7 +72,7 @@ postSetupIntentsIntentConfirm config
 postSetupIntentsIntentConfirmRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     StripeAPI.Common.Configuration s ->
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe PostSetupIntentsIntentConfirmRequestBody ->
                                     m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                           (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -84,7 +84,7 @@ postSetupIntentsIntentConfirmRaw config
 -- Monadic version of 'postSetupIntentsIntentConfirm' (use with 'StripeAPI.Common.runWithConfiguration')
 postSetupIntentsIntentConfirmM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe PostSetupIntentsIntentConfirmRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m
@@ -101,7 +101,7 @@ postSetupIntentsIntentConfirmM intent
 -- Monadic version of 'postSetupIntentsIntentConfirmRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postSetupIntentsIntentConfirmRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
-                                     GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe PostSetupIntentsIntentConfirmRequestBody ->
                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                         m
@@ -114,9 +114,9 @@ postSetupIntentsIntentConfirmRawM intent
 -- 
 data PostSetupIntentsIntentConfirmRequestBody = PostSetupIntentsIntentConfirmRequestBody {
   -- | client_secret: The client secret of the SetupIntent.
-  postSetupIntentsIntentConfirmRequestBodyClientSecret :: (GHC.Maybe.Maybe GHC.Base.String)
+  postSetupIntentsIntentConfirmRequestBodyClientSecret :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postSetupIntentsIntentConfirmRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postSetupIntentsIntentConfirmRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | mandate_data: This hash contains details about the Mandate to create
   , postSetupIntentsIntentConfirmRequestBodyMandateData :: (GHC.Maybe.Maybe PostSetupIntentsIntentConfirmRequestBodyMandateData')
   -- | payment_method: ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
@@ -124,13 +124,13 @@ data PostSetupIntentsIntentConfirmRequestBody = PostSetupIntentsIntentConfirmReq
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSetupIntentsIntentConfirmRequestBodyPaymentMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSetupIntentsIntentConfirmRequestBodyPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | payment_method_options: Payment-method-specific configuration for this SetupIntent.
   , postSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions :: (GHC.Maybe.Maybe PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions')
   -- | return_url: The URL to redirect your customer back to after they authenticate on the payment method\'s app or site.
   -- If you\'d prefer to redirect to a mobile application, you can alternatively supply an application URI scheme.
   -- This parameter is only used for cards and other redirect-based payment methods.
-  , postSetupIntentsIntentConfirmRequestBodyReturnUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSetupIntentsIntentConfirmRequestBodyReturnUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSetupIntentsIntentConfirmRequestBody
@@ -179,13 +179,13 @@ data PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Onli
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Online'IpAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Online'IpAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | user_agent
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Online'UserAgent :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Online'UserAgent :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Online'
@@ -198,7 +198,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsIntentConfirmRequest
 -- 
 data PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'
     = PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'EnumTyped GHC.Base.String
+    | PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'EnumTyped Data.Text.Internal.Text
     | PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'EnumStringOnline
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'
@@ -244,7 +244,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsIntentConfirmRequest
 -- 
 data PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'
     = PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumTyped GHC.Base.String
+    | PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumTyped Data.Text.Internal.Text
     | PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAny
     | PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAutomatic
     deriving (GHC.Show.Show, GHC.Classes.Eq)

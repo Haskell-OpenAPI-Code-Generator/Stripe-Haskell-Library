@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>A previously created payout can be canceled if it has not yet been paid out. Funds will be refunded to your available balance. You may not cancel automatic Stripe payouts.\<\/p>
 postPayoutsPayoutCancel :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                     -- ^ payout | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                             -- ^ payout | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostPayoutsPayoutCancelRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPayoutsPayoutCancelResponse)) -- ^ Monad containing the result of the operation
 postPayoutsPayoutCancel config
@@ -60,7 +60,7 @@ postPayoutsPayoutCancel config
 postPayoutsPayoutCancelRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
-                              GHC.Base.String ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe PostPayoutsPayoutCancelRequestBody ->
                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postPayoutsPayoutCancelRaw config
 -- Monadic version of 'postPayoutsPayoutCancel' (use with 'StripeAPI.Common.runWithConfiguration')
 postPayoutsPayoutCancelM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Base.String ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe PostPayoutsPayoutCancelRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -89,7 +89,7 @@ postPayoutsPayoutCancelM payout
 -- Monadic version of 'postPayoutsPayoutCancelRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postPayoutsPayoutCancelRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe PostPayoutsPayoutCancelRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -102,7 +102,7 @@ postPayoutsPayoutCancelRawM payout
 -- 
 data PostPayoutsPayoutCancelRequestBody = PostPayoutsPayoutCancelRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postPayoutsPayoutCancelRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postPayoutsPayoutCancelRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPayoutsPayoutCancelRequestBody

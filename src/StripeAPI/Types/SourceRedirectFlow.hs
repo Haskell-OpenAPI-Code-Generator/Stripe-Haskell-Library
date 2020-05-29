@@ -36,25 +36,25 @@ data SourceRedirectFlow = SourceRedirectFlow {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  sourceRedirectFlowFailureReason :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceRedirectFlowFailureReason :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | return_url: The URL you provide to redirect the customer to after they authenticated their payment.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceRedirectFlowReturnUrl :: GHC.Base.String
+  , sourceRedirectFlowReturnUrl :: Data.Text.Internal.Text
   -- | status: The status of the redirect, either \`pending\` (ready to be used by your customer to authenticate the transaction), \`succeeded\` (succesful authentication, cannot be reused) or \`not_required\` (redirect should not be used) or \`failed\` (failed authentication, cannot be reused).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceRedirectFlowStatus :: GHC.Base.String
+  , sourceRedirectFlowStatus :: Data.Text.Internal.Text
   -- | url: The URL provided to you to redirect a customer to as part of a \`redirect\` authentication flow.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 2048
-  , sourceRedirectFlowUrl :: GHC.Base.String
+  , sourceRedirectFlowUrl :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceRedirectFlow

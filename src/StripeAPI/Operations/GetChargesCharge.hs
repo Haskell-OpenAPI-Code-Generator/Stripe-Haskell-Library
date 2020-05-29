@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of a charge that has previously been created. Supply the unique charge ID that was returned from your previous request, and Stripe will return the corresponding charge information. The same information is returned when creating or refunding the charge.\<\/p>
 getChargesCharge :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                              -- ^ charge | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                      -- ^ charge | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetChargesChargeRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetChargesChargeResponse)) -- ^ Monad containing the result of the operation
 getChargesCharge config
@@ -68,8 +68,8 @@ getChargesCharge config
 getChargesChargeRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        StripeAPI.Common.Configuration s ->
-                       GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
+                       Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetChargesChargeRequestBody ->
                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getChargesChargeRaw config
 -- Monadic version of 'getChargesCharge' (use with 'StripeAPI.Common.runWithConfiguration')
 getChargesChargeM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
-                     GHC.Base.String ->
-                     GHC.Maybe.Maybe GHC.Base.String ->
+                     Data.Text.Internal.Text ->
+                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
                      GHC.Maybe.Maybe GetChargesChargeRequestBody ->
                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                         m
@@ -113,8 +113,8 @@ getChargesChargeM charge
 -- Monadic version of 'getChargesChargeRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getChargesChargeRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Base.String ->
-                        GHC.Maybe.Maybe GHC.Base.String ->
+                        Data.Text.Internal.Text ->
+                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe GetChargesChargeRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m

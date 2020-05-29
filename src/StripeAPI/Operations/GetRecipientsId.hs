@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of an existing recipient. You need only supply the unique recipient identifier that was returned upon recipient creation.\<\/p>
 getRecipientsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                             -- ^ id | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                     -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetRecipientsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetRecipientsIdResponse)) -- ^ Monad containing the result of the operation
 getRecipientsId config
@@ -68,8 +68,8 @@ getRecipientsId config
 getRecipientsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
                       StripeAPI.Common.Configuration s ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Base.String ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe GetRecipientsIdRequestBody ->
                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getRecipientsIdRaw config
 -- Monadic version of 'getRecipientsId' (use with 'StripeAPI.Common.runWithConfiguration')
 getRecipientsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Base.String ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe GetRecipientsIdRequestBody ->
                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                        m
@@ -113,8 +113,8 @@ getRecipientsIdM expand
 -- Monadic version of 'getRecipientsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getRecipientsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetRecipientsIdRequestBody ->
                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                           m
@@ -168,19 +168,19 @@ data GetRecipientsIdResponseBody200 = GetRecipientsIdResponseBody200 {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200Description :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | email
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200Email :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200Email :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200Id :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , getRecipientsIdResponseBody200Livemode :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -192,7 +192,7 @@ data GetRecipientsIdResponseBody200 = GetRecipientsIdResponseBody200 {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200Name :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , getRecipientsIdResponseBody200Object :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200Object')
   -- | rolled_back_from
@@ -202,7 +202,7 @@ data GetRecipientsIdResponseBody200 = GetRecipientsIdResponseBody200 {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200Type :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200Type :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200
@@ -221,27 +221,27 @@ data GetRecipientsIdResponseBody200ActiveAccount' = GetRecipientsIdResponseBody2
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200ActiveAccount'AccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200ActiveAccount'AccountHolderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | account_holder_type: The type of entity that holds the account. This can be either \`individual\` or \`company\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200ActiveAccount'AccountHolderType :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200ActiveAccount'AccountHolderType :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bank_name: Name of the bank associated with the routing number (e.g., \`WELLS FARGO\`).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200ActiveAccount'BankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200ActiveAccount'BankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country: Two-letter ISO code representing the country the bank account is located in.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200ActiveAccount'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200ActiveAccount'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/payouts) paid out to the bank account.
-  , getRecipientsIdResponseBody200ActiveAccount'Currency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200ActiveAccount'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer: The ID of the customer that the bank account is associated with.
   , getRecipientsIdResponseBody200ActiveAccount'Customer :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200ActiveAccount'Customer'Variants)
   -- | default_for_currency: Whether this bank account is the default external account for its currency.
@@ -251,19 +251,19 @@ data GetRecipientsIdResponseBody200ActiveAccount' = GetRecipientsIdResponseBody2
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200ActiveAccount'Fingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200ActiveAccount'Fingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200ActiveAccount'Id :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200ActiveAccount'Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last4: The last four digits of the bank account number.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200ActiveAccount'Last4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200ActiveAccount'Last4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   , getRecipientsIdResponseBody200ActiveAccount'Metadata :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200ActiveAccount'Metadata')
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
@@ -273,7 +273,7 @@ data GetRecipientsIdResponseBody200ActiveAccount' = GetRecipientsIdResponseBody2
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200ActiveAccount'RoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200ActiveAccount'RoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | status: For bank accounts, possible values are \`new\`, \`validated\`, \`verified\`, \`verification_failed\`, or \`errored\`. A bank account that hasn\'t had any activity or validation performed is \`new\`. If Stripe can determine that the bank account exists, its status will be \`validated\`. Note that there often isn’t enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be \`verified\`. If the verification failed for any reason, such as microdeposit failure, the status will be \`verification_failed\`. If a transfer sent to this bank account fails, we\'ll set the status to \`errored\` and will not continue to send transfers until the bank details are updated.
   -- 
   -- For external accounts, possible values are \`new\` and \`errored\`. Validations aren\'t run against external accounts because they\'re only used for payouts. This means the other statuses don\'t apply. If a transfer fails, the status is set to \`errored\` and transfers are stopped until account details are updated.
@@ -281,7 +281,7 @@ data GetRecipientsIdResponseBody200ActiveAccount' = GetRecipientsIdResponseBody2
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200ActiveAccount'Status :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getRecipientsIdResponseBody200ActiveAccount'Status :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200ActiveAccount'
@@ -294,7 +294,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200Active
 -- The ID of the account that the bank account is associated with.
 data GetRecipientsIdResponseBody200ActiveAccount'Account'Variants
     = GetRecipientsIdResponseBody200ActiveAccount'Account'Account Account
-    | GetRecipientsIdResponseBody200ActiveAccount'Account'String GHC.Base.String
+    | GetRecipientsIdResponseBody200ActiveAccount'Account'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Account'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -306,7 +306,7 @@ instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200ActiveAccount'Account
 data GetRecipientsIdResponseBody200ActiveAccount'Customer'Variants
     = GetRecipientsIdResponseBody200ActiveAccount'Customer'Customer Customer
     | GetRecipientsIdResponseBody200ActiveAccount'Customer'DeletedCustomer DeletedCustomer
-    | GetRecipientsIdResponseBody200ActiveAccount'Customer'String GHC.Base.String
+    | GetRecipientsIdResponseBody200ActiveAccount'Customer'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Customer'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -329,7 +329,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200Active
 -- String representing the object\'s type. Objects of the same type share the same value.
 data GetRecipientsIdResponseBody200ActiveAccount'Object'
     = GetRecipientsIdResponseBody200ActiveAccount'Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetRecipientsIdResponseBody200ActiveAccount'Object'EnumTyped GHC.Base.String
+    | GetRecipientsIdResponseBody200ActiveAccount'Object'EnumTyped Data.Text.Internal.Text
     | GetRecipientsIdResponseBody200ActiveAccount'Object'EnumStringBankAccount
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Object'
@@ -355,7 +355,7 @@ data GetRecipientsIdResponseBody200Cards' = GetRecipientsIdResponseBody200Cards'
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getRecipientsIdResponseBody200Cards'Url :: GHC.Base.String
+  , getRecipientsIdResponseBody200Cards'Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200Cards'
@@ -368,7 +368,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200Cards'
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetRecipientsIdResponseBody200Cards'Object'
     = GetRecipientsIdResponseBody200Cards'Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetRecipientsIdResponseBody200Cards'Object'EnumTyped GHC.Base.String
+    | GetRecipientsIdResponseBody200Cards'Object'EnumTyped Data.Text.Internal.Text
     | GetRecipientsIdResponseBody200Cards'Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200Cards'Object'
@@ -384,7 +384,7 @@ instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200Cards'Object'
 -- The default card to use for creating transfers to this recipient.
 data GetRecipientsIdResponseBody200DefaultCard'Variants
     = GetRecipientsIdResponseBody200DefaultCard'Card Card
-    | GetRecipientsIdResponseBody200DefaultCard'String GHC.Base.String
+    | GetRecipientsIdResponseBody200DefaultCard'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200DefaultCard'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -423,7 +423,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200Metada
 -- The ID of the [Custom account](https:\/\/stripe.com\/docs\/connect\/custom-accounts) this recipient was migrated to. If set, the recipient can no longer be updated, nor can transfers be made to it: use the Custom account instead.
 data GetRecipientsIdResponseBody200MigratedTo'Variants
     = GetRecipientsIdResponseBody200MigratedTo'Account Account
-    | GetRecipientsIdResponseBody200MigratedTo'String GHC.Base.String
+    | GetRecipientsIdResponseBody200MigratedTo'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200MigratedTo'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -434,7 +434,7 @@ instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200MigratedTo'Variants
 -- String representing the object\'s type. Objects of the same type share the same value.
 data GetRecipientsIdResponseBody200Object'
     = GetRecipientsIdResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetRecipientsIdResponseBody200Object'EnumTyped GHC.Base.String
+    | GetRecipientsIdResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetRecipientsIdResponseBody200Object'EnumStringRecipient
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200Object'
@@ -450,7 +450,7 @@ instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200Object'
 -- 
 data GetRecipientsIdResponseBody200RolledBackFrom'Variants
     = GetRecipientsIdResponseBody200RolledBackFrom'Account Account
-    | GetRecipientsIdResponseBody200RolledBackFrom'String GHC.Base.String
+    | GetRecipientsIdResponseBody200RolledBackFrom'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200RolledBackFrom'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}

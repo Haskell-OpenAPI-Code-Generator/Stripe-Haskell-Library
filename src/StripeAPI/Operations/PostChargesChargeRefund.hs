@@ -54,7 +54,7 @@ import StripeAPI.Types
 -- This method will raise an error when called on an already-refunded charge,
 -- or when trying to refund more money than is left on a charge.\<\/p>
 postChargesChargeRefund :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                     -- ^ charge | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                             -- ^ charge | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostChargesChargeRefundRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostChargesChargeRefundResponse)) -- ^ Monad containing the result of the operation
 postChargesChargeRefund config
@@ -70,7 +70,7 @@ postChargesChargeRefund config
 postChargesChargeRefundRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
-                              GHC.Base.String ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe PostChargesChargeRefundRequestBody ->
                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -82,7 +82,7 @@ postChargesChargeRefundRaw config
 -- Monadic version of 'postChargesChargeRefund' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeRefundM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Base.String ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe PostChargesChargeRefundRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -99,7 +99,7 @@ postChargesChargeRefundM charge
 -- Monadic version of 'postChargesChargeRefundRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeRefundRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe PostChargesChargeRefundRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -114,7 +114,7 @@ data PostChargesChargeRefundRequestBody = PostChargesChargeRefundRequestBody {
   -- | amount
   postChargesChargeRefundRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postChargesChargeRefundRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postChargesChargeRefundRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postChargesChargeRefundRequestBodyMetadata :: (GHC.Maybe.Maybe PostChargesChargeRefundRequestBodyMetadata')
   -- | payment_intent
@@ -122,7 +122,7 @@ data PostChargesChargeRefundRequestBody = PostChargesChargeRefundRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeRefundRequestBodyPaymentIntent :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeRefundRequestBodyPaymentIntent :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | reason
   -- 
   -- Constraints:
@@ -157,7 +157,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRefundRequestBodyMe
 -- 
 data PostChargesChargeRefundRequestBodyReason'
     = PostChargesChargeRefundRequestBodyReason'EnumOther Data.Aeson.Types.Internal.Value
-    | PostChargesChargeRefundRequestBodyReason'EnumTyped GHC.Base.String
+    | PostChargesChargeRefundRequestBodyReason'EnumTyped Data.Text.Internal.Text
     | PostChargesChargeRefundRequestBodyReason'EnumStringDuplicate
     | PostChargesChargeRefundRequestBodyReason'EnumStringFraudulent
     | PostChargesChargeRefundRequestBodyReason'EnumStringRequestedByCustomer

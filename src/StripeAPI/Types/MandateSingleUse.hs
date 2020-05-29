@@ -34,7 +34,7 @@ data MandateSingleUse = MandateSingleUse {
   -- | amount: On a single use mandate, the amount of the payment.
   mandateSingleUseAmount :: GHC.Integer.Type.Integer
   -- | currency: On a single use mandate, the currency of the payment.
-  , mandateSingleUseCurrency :: GHC.Base.String
+  , mandateSingleUseCurrency :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON MandateSingleUse

@@ -104,23 +104,23 @@ data PostChargesRequestBody = PostChargesRequestBody {
   -- | card: A token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe.js).
   , postChargesRequestBodyCard :: (GHC.Maybe.Maybe PostChargesRequestBodyCard'Variants)
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , postChargesRequestBodyCurrency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer: The ID of an existing customer that will be charged in this request.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 500
-  , postChargesRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | description: An arbitrary string which you can attach to a \`Charge\` object. It is displayed when in the web interface alongside the charge. Note that if you use Stripe to send automatic email receipts to your customers, your receipt emails will include the \`description\` of the charge(s) that they are describing.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 40000
-  , postChargesRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | destination
   , postChargesRequestBodyDestination :: (GHC.Maybe.Maybe PostChargesRequestBodyDestination'Variants)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postChargesRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postChargesRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postChargesRequestBodyMetadata :: (GHC.Maybe.Maybe PostChargesRequestBodyMetadata')
   -- | on_behalf_of: The Stripe account ID for which these funds are intended. Automatically set if you use the \`destination\` parameter. For details, see [Creating Separate Charges and Transfers](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#on-behalf-of).
@@ -128,9 +128,9 @@ data PostChargesRequestBody = PostChargesRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyOnBehalfOf :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyOnBehalfOf :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | receipt_email: The email address to which this charge\'s [receipt](https:\/\/stripe.com\/docs\/dashboard\/receipts) will be sent. The receipt will not be sent until the charge is paid, and no receipts will be sent for test mode charges. If this charge is for a [Customer](https:\/\/stripe.com\/docs\/api\/customers\/object), the email address specified here will override the customer\'s email address. If \`receipt_email\` is specified for a charge in live mode, a receipt will be sent regardless of your [email settings](https:\/\/dashboard.stripe.com\/account\/emails).
-  , postChargesRequestBodyReceiptEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyReceiptEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping: Shipping information for the charge. Helps prevent fraud on charges for physical goods.
   , postChargesRequestBodyShipping :: (GHC.Maybe.Maybe PostChargesRequestBodyShipping')
   -- | source: A payment source to be charged. This can be the ID of a [card](https:\/\/stripe.com\/docs\/api\#cards) (i.e., credit or debit card), a [bank account](https:\/\/stripe.com\/docs\/api\#bank_accounts), a [source](https:\/\/stripe.com\/docs\/api\#sources), a [token](https:\/\/stripe.com\/docs\/api\#tokens), or a [connected account](https:\/\/stripe.com\/docs\/connect\/account-debits\#charging-a-connected-account). For certain sources---namely, [cards](https:\/\/stripe.com\/docs\/api\#cards), [bank accounts](https:\/\/stripe.com\/docs\/api\#bank_accounts), and attached [sources](https:\/\/stripe.com\/docs\/api\#sources)---you must also pass the ID of the associated customer.
@@ -138,23 +138,23 @@ data PostChargesRequestBody = PostChargesRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodySource :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodySource :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor: For card charges, use \`statement_descriptor_suffix\` instead. Otherwise, you can use this value as the complete description of a charge on your customers’ statements. Must contain at least one letter, maximum 22 characters.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postChargesRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor_suffix: Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that’s set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postChargesRequestBodyStatementDescriptorSuffix :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyStatementDescriptorSuffix :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | transfer_data: An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https:\/\/stripe.com\/docs\/connect\/destination-charges) for details.
   , postChargesRequestBodyTransferData :: (GHC.Maybe.Maybe PostChargesRequestBodyTransferData')
   -- | transfer_group: A string that identifies this transaction as part of a group. For details, see [Grouping transactions](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#transfer-options).
-  , postChargesRequestBodyTransferGroup :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyTransferGroup :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostChargesRequestBody
@@ -171,43 +171,43 @@ data PostChargesRequestBodyCard'OneOf2 = PostChargesRequestBodyCard'OneOf2 {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postChargesRequestBodyCard'OneOf2AddressCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  postChargesRequestBodyCard'OneOf2AddressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyCard'OneOf2AddressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyCard'OneOf2AddressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyCard'OneOf2AddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyCard'OneOf2AddressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyCard'OneOf2AddressLine2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyCard'OneOf2AddressLine2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyCard'OneOf2AddressState :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyCard'OneOf2AddressState :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_zip
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyCard'OneOf2AddressZip :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyCard'OneOf2AddressZip :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | cvc
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyCard'OneOf2Cvc :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyCard'OneOf2Cvc :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | exp_month
   , postChargesRequestBodyCard'OneOf2ExpMonth :: GHC.Integer.Type.Integer
   -- | exp_year
@@ -219,13 +219,13 @@ data PostChargesRequestBodyCard'OneOf2 = PostChargesRequestBodyCard'OneOf2 {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyCard'OneOf2Name :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyCard'OneOf2Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | number
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyCard'OneOf2Number :: GHC.Base.String
+  , postChargesRequestBodyCard'OneOf2Number :: Data.Text.Internal.Text
   -- | object
   -- 
   -- Constraints:
@@ -256,7 +256,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostChargesRequestBodyCard'OneOf2Met
 -- 
 data PostChargesRequestBodyCard'OneOf2Object'
     = PostChargesRequestBodyCard'OneOf2Object'EnumOther Data.Aeson.Types.Internal.Value
-    | PostChargesRequestBodyCard'OneOf2Object'EnumTyped GHC.Base.String
+    | PostChargesRequestBodyCard'OneOf2Object'EnumTyped Data.Text.Internal.Text
     | PostChargesRequestBodyCard'OneOf2Object'EnumStringCard
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostChargesRequestBodyCard'OneOf2Object'
@@ -271,7 +271,7 @@ instance Data.Aeson.FromJSON PostChargesRequestBodyCard'OneOf2Object'
 -- 
 -- A token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe.js).
 data PostChargesRequestBodyCard'Variants
-    = PostChargesRequestBodyCard'String GHC.Base.String
+    = PostChargesRequestBodyCard'Text Data.Text.Internal.Text
     | PostChargesRequestBodyCard'PostChargesRequestBodyCard'OneOf2 PostChargesRequestBodyCard'OneOf2
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostChargesRequestBodyCard'Variants
@@ -287,7 +287,7 @@ data PostChargesRequestBodyDestination'OneOf2 = PostChargesRequestBodyDestinatio
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postChargesRequestBodyDestination'OneOf2Account :: GHC.Base.String
+  postChargesRequestBodyDestination'OneOf2Account :: Data.Text.Internal.Text
   -- | amount
   , postChargesRequestBodyDestination'OneOf2Amount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   } deriving (GHC.Show.Show
@@ -301,7 +301,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostChargesRequestBodyDestination'On
 -- 
 -- 
 data PostChargesRequestBodyDestination'Variants
-    = PostChargesRequestBodyDestination'String GHC.Base.String
+    = PostChargesRequestBodyDestination'Text Data.Text.Internal.Text
     | PostChargesRequestBodyDestination'PostChargesRequestBodyDestination'OneOf2 PostChargesRequestBodyDestination'OneOf2
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostChargesRequestBodyDestination'Variants
@@ -331,25 +331,25 @@ data PostChargesRequestBodyShipping' = PostChargesRequestBodyShipping' {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyShipping'Carrier :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyShipping'Carrier :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyShipping'Name :: GHC.Base.String
+  , postChargesRequestBodyShipping'Name :: Data.Text.Internal.Text
   -- | phone
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyShipping'Phone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyShipping'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tracking_number
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyShipping'TrackingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyShipping'TrackingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostChargesRequestBodyShipping'
@@ -366,37 +366,37 @@ data PostChargesRequestBodyShipping'Address' = PostChargesRequestBodyShipping'Ad
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postChargesRequestBodyShipping'Address'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postChargesRequestBodyShipping'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyShipping'Address'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyShipping'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyShipping'Address'Line1 :: GHC.Base.String
+  , postChargesRequestBodyShipping'Address'Line1 :: Data.Text.Internal.Text
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyShipping'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyShipping'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyShipping'Address'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyShipping'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyShipping'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesRequestBodyShipping'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostChargesRequestBodyShipping'Address'
@@ -415,7 +415,7 @@ data PostChargesRequestBodyTransferData' = PostChargesRequestBodyTransferData' {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesRequestBodyTransferData'Destination :: GHC.Base.String
+  , postChargesRequestBodyTransferData'Destination :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostChargesRequestBodyTransferData'

@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Stripe automatically creates and then attempts to collect payment on invoices for customers on subscriptions according to your \<a href=\"https:\/\/dashboard.stripe.com\/account\/billing\/automatic\">subscriptions settings\<\/a>. However, if you’d like to attempt payment on an invoice out of the normal collection schedule or for some other reason, you can do so.\<\/p>
 postInvoicesInvoicePay :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                    -- ^ invoice | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                            -- ^ invoice | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostInvoicesInvoicePayRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostInvoicesInvoicePayResponse)) -- ^ Monad containing the result of the operation
 postInvoicesInvoicePay config
@@ -60,7 +60,7 @@ postInvoicesInvoicePay config
 postInvoicesInvoicePayRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              StripeAPI.Common.Configuration s ->
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe PostInvoicesInvoicePayRequestBody ->
                              m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                    (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postInvoicesInvoicePayRaw config
 -- Monadic version of 'postInvoicesInvoicePay' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoicesInvoicePayM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Base.String ->
+                           Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe PostInvoicesInvoicePayRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m
@@ -89,7 +89,7 @@ postInvoicesInvoicePayM invoice
 -- Monadic version of 'postInvoicesInvoicePayRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoicesInvoicePayRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
-                              GHC.Base.String ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe PostInvoicesInvoicePayRequestBody ->
                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                  m
@@ -102,7 +102,7 @@ postInvoicesInvoicePayRawM invoice
 -- 
 data PostInvoicesInvoicePayRequestBody = PostInvoicesInvoicePayRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postInvoicesInvoicePayRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postInvoicesInvoicePayRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | forgive: In cases where the source used to pay the invoice has insufficient funds, passing \`forgive=true\` controls whether a charge should be attempted for the full amount available on the source, up to the amount to fully pay the invoice. This effectively forgives the difference between the amount available on the source and the amount due. 
   -- 
   -- Passing \`forgive=false\` will fail the charge if the source hasn\'t been pre-funded with the right amount. An example for this case is with ACH Credit Transfers and wires: if the amount wired is less than the amount due by a small amount, you might want to forgive the difference.
@@ -116,13 +116,13 @@ data PostInvoicesInvoicePayRequestBody = PostInvoicesInvoicePayRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoicesInvoicePayRequestBodyPaymentMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoicesInvoicePayRequestBodyPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | source: A payment source to be charged. The source must be the ID of a source belonging to the customer associated with the invoice being paid.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postInvoicesInvoicePayRequestBodySource :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postInvoicesInvoicePayRequestBodySource :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoicesInvoicePayRequestBody

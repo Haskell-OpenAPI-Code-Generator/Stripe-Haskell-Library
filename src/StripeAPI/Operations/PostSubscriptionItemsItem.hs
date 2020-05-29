@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the plan or quantity of an item on a current subscription.\<\/p>
 postSubscriptionItemsItem :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                       -- ^ item | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                               -- ^ item | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostSubscriptionItemsItemRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSubscriptionItemsItemResponse)) -- ^ Monad containing the result of the operation
 postSubscriptionItemsItem config
@@ -60,7 +60,7 @@ postSubscriptionItemsItem config
 postSubscriptionItemsItemRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
                                 StripeAPI.Common.Configuration s ->
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe PostSubscriptionItemsItemRequestBody ->
                                 m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                       (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postSubscriptionItemsItemRaw config
 -- Monadic version of 'postSubscriptionItemsItem' (use with 'StripeAPI.Common.runWithConfiguration')
 postSubscriptionItemsItemM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
-                              GHC.Base.String ->
+                              Data.Text.Internal.Text ->
                               GHC.Maybe.Maybe PostSubscriptionItemsItemRequestBody ->
                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                  m
@@ -89,7 +89,7 @@ postSubscriptionItemsItemM item
 -- Monadic version of 'postSubscriptionItemsItemRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postSubscriptionItemsItemRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
-                                 GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe PostSubscriptionItemsItemRequestBody ->
                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                     m
@@ -104,7 +104,7 @@ data PostSubscriptionItemsItemRequestBody = PostSubscriptionItemsItemRequestBody
   -- | billing_thresholds: Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. When updating, pass an empty string to remove previously-defined thresholds.
   postSubscriptionItemsItemRequestBodyBillingThresholds :: (GHC.Maybe.Maybe PostSubscriptionItemsItemRequestBodyBillingThresholds'Variants)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postSubscriptionItemsItemRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postSubscriptionItemsItemRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postSubscriptionItemsItemRequestBodyMetadata :: (GHC.Maybe.Maybe PostSubscriptionItemsItemRequestBodyMetadata')
   -- | off_session: Indicates if a customer is on or off-session while an invoice payment is attempted.
@@ -120,7 +120,7 @@ data PostSubscriptionItemsItemRequestBody = PostSubscriptionItemsItemRequestBody
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSubscriptionItemsItemRequestBodyPlan :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSubscriptionItemsItemRequestBodyPlan :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | prorate: This field has been renamed to \`proration_behavior\`. \`prorate=true\` can be replaced with \`proration_behavior=create_prorations\` and \`prorate=false\` can be replaced with \`proration_behavior=none\`.
   , postSubscriptionItemsItemRequestBodyProrate :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | proration_behavior: Determines how to handle [prorations](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle\#prorations) when the billing cycle changes (e.g., when switching plans, resetting \`billing_cycle_anchor=now\`, or starting a trial), or if an item\'s \`quantity\` changes. Valid values are \`create_prorations\`, \`none\`, or \`always_invoice\`.
@@ -147,7 +147,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionItemsItemRequestBody
 -- 
 data PostSubscriptionItemsItemRequestBodyBillingThresholds'OneOf1
     = PostSubscriptionItemsItemRequestBodyBillingThresholds'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionItemsItemRequestBodyBillingThresholds'OneOf1EnumTyped GHC.Base.String
+    | PostSubscriptionItemsItemRequestBodyBillingThresholds'OneOf1EnumTyped Data.Text.Internal.Text
     | PostSubscriptionItemsItemRequestBodyBillingThresholds'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSubscriptionItemsItemRequestBodyBillingThresholds'OneOf1
@@ -203,7 +203,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSubscriptionItemsItemRequestBody
 -- Use \`error_if_incomplete\` if you want Stripe to return an HTTP 402 status code if a subscription\'s first invoice cannot be paid. For example, if a payment method requires 3DS authentication due to SCA regulation and further user action is needed, this parameter does not create a subscription and returns an error instead. This was the default behavior for API versions prior to 2019-03-14. See the [changelog](https:\/\/stripe.com\/docs\/upgrades\#2019-03-14) to learn more.
 data PostSubscriptionItemsItemRequestBodyPaymentBehavior'
     = PostSubscriptionItemsItemRequestBodyPaymentBehavior'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionItemsItemRequestBodyPaymentBehavior'EnumTyped GHC.Base.String
+    | PostSubscriptionItemsItemRequestBodyPaymentBehavior'EnumTyped Data.Text.Internal.Text
     | PostSubscriptionItemsItemRequestBodyPaymentBehavior'EnumStringAllowIncomplete
     | PostSubscriptionItemsItemRequestBodyPaymentBehavior'EnumStringErrorIfIncomplete
     | PostSubscriptionItemsItemRequestBodyPaymentBehavior'EnumStringPendingIfIncomplete
@@ -231,7 +231,7 @@ instance Data.Aeson.FromJSON PostSubscriptionItemsItemRequestBodyPaymentBehavior
 -- Prorations can be disabled by passing \`none\`.
 data PostSubscriptionItemsItemRequestBodyProrationBehavior'
     = PostSubscriptionItemsItemRequestBodyProrationBehavior'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionItemsItemRequestBodyProrationBehavior'EnumTyped GHC.Base.String
+    | PostSubscriptionItemsItemRequestBodyProrationBehavior'EnumTyped Data.Text.Internal.Text
     | PostSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringAlwaysInvoice
     | PostSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringCreateProrations
     | PostSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringNone
@@ -255,7 +255,7 @@ instance Data.Aeson.FromJSON PostSubscriptionItemsItemRequestBodyProrationBehavi
 -- 
 data PostSubscriptionItemsItemRequestBodyTaxRates'OneOf1
     = PostSubscriptionItemsItemRequestBodyTaxRates'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostSubscriptionItemsItemRequestBodyTaxRates'OneOf1EnumTyped GHC.Base.String
+    | PostSubscriptionItemsItemRequestBodyTaxRates'OneOf1EnumTyped Data.Text.Internal.Text
     | PostSubscriptionItemsItemRequestBodyTaxRates'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSubscriptionItemsItemRequestBodyTaxRates'OneOf1
@@ -271,7 +271,7 @@ instance Data.Aeson.FromJSON PostSubscriptionItemsItemRequestBodyTaxRates'OneOf1
 -- A list of [Tax Rate](https:\/\/stripe.com\/docs\/api\/tax_rates) ids. These Tax Rates will override the [\`default_tax_rates\`](https:\/\/stripe.com\/docs\/api\/subscriptions\/create\#create_subscription-default_tax_rates) on the Subscription. When updating, pass an empty string to remove previously-defined tax rates.
 data PostSubscriptionItemsItemRequestBodyTaxRates'Variants
     = PostSubscriptionItemsItemRequestBodyTaxRates'PostSubscriptionItemsItemRequestBodyTaxRates'OneOf1 PostSubscriptionItemsItemRequestBodyTaxRates'OneOf1
-    | PostSubscriptionItemsItemRequestBodyTaxRates'ListString ([] GHC.Base.String)
+    | PostSubscriptionItemsItemRequestBodyTaxRates'ListText ([] Data.Text.Internal.Text)
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostSubscriptionItemsItemRequestBodyTaxRates'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}

@@ -98,15 +98,15 @@ data PostAccountLinksRequestBody = PostAccountLinksRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postAccountLinksRequestBodyAccount :: GHC.Base.String
+  postAccountLinksRequestBodyAccount :: Data.Text.Internal.Text
   -- | collect: Which information the platform needs to collect from the user. One of \`currently_due\` or \`eventually_due\`. Default is \`currently_due\`.
   , postAccountLinksRequestBodyCollect :: (GHC.Maybe.Maybe PostAccountLinksRequestBodyCollect')
   -- | expand: Specifies which fields in the response should be expanded.
-  , postAccountLinksRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postAccountLinksRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | failure_url: The URL that the user will be redirected to if the account link is no longer valid.
-  , postAccountLinksRequestBodyFailureUrl :: GHC.Base.String
+  , postAccountLinksRequestBodyFailureUrl :: Data.Text.Internal.Text
   -- | success_url: The URL that the user will be redirected to upon leaving or completing the linked flow successfully.
-  , postAccountLinksRequestBodySuccessUrl :: GHC.Base.String
+  , postAccountLinksRequestBodySuccessUrl :: Data.Text.Internal.Text
   -- | type: The type of account link the user is requesting. Possible values are \`custom_account_verification\` or \`custom_account_update\`.
   , postAccountLinksRequestBodyType :: PostAccountLinksRequestBodyType'
   } deriving (GHC.Show.Show
@@ -121,7 +121,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountLinksRequestBody
 -- Which information the platform needs to collect from the user. One of \`currently_due\` or \`eventually_due\`. Default is \`currently_due\`.
 data PostAccountLinksRequestBodyCollect'
     = PostAccountLinksRequestBodyCollect'EnumOther Data.Aeson.Types.Internal.Value
-    | PostAccountLinksRequestBodyCollect'EnumTyped GHC.Base.String
+    | PostAccountLinksRequestBodyCollect'EnumTyped Data.Text.Internal.Text
     | PostAccountLinksRequestBodyCollect'EnumStringCurrentlyDue
     | PostAccountLinksRequestBodyCollect'EnumStringEventuallyDue
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -141,7 +141,7 @@ instance Data.Aeson.FromJSON PostAccountLinksRequestBodyCollect'
 -- The type of account link the user is requesting. Possible values are \`custom_account_verification\` or \`custom_account_update\`.
 data PostAccountLinksRequestBodyType'
     = PostAccountLinksRequestBodyType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostAccountLinksRequestBodyType'EnumTyped GHC.Base.String
+    | PostAccountLinksRequestBodyType'EnumTyped Data.Text.Internal.Text
     | PostAccountLinksRequestBodyType'EnumStringCustomAccountUpdate
     | PostAccountLinksRequestBodyType'EnumStringCustomAccountVerification
     deriving (GHC.Show.Show, GHC.Classes.Eq)

@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the specific product by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
 postProductsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                            -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                    -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostProductsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostProductsIdResponse)) -- ^ Monad containing the result of the operation
 postProductsId config
@@ -60,7 +60,7 @@ postProductsId config
 postProductsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
                      StripeAPI.Common.Configuration s ->
-                     GHC.Base.String ->
+                     Data.Text.Internal.Text ->
                      GHC.Maybe.Maybe PostProductsIdRequestBody ->
                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                            (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postProductsIdRaw config
 -- Monadic version of 'postProductsId' (use with 'StripeAPI.Common.runWithConfiguration')
 postProductsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                  StripeAPI.Common.SecurityScheme s) =>
-                   GHC.Base.String ->
+                   Data.Text.Internal.Text ->
                    GHC.Maybe.Maybe PostProductsIdRequestBody ->
                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                       m
@@ -89,7 +89,7 @@ postProductsIdM id
 -- Monadic version of 'postProductsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postProductsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
-                      GHC.Base.String ->
+                      Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe PostProductsIdRequestBody ->
                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                          m
@@ -110,17 +110,17 @@ data PostProductsIdRequestBody = PostProductsIdRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postProductsIdRequestBodyCaption :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postProductsIdRequestBodyCaption :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | deactivate_on: An array of Connect application names or identifiers that should not be able to order the SKUs for this product. May only be set if \`type=good\`.
-  , postProductsIdRequestBodyDeactivateOn :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postProductsIdRequestBodyDeactivateOn :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | description: The product\'s description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 40000
-  , postProductsIdRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postProductsIdRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postProductsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postProductsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | images: A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
   , postProductsIdRequestBodyImages :: (GHC.Maybe.Maybe PostProductsIdRequestBodyImages'Variants)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -130,7 +130,7 @@ data PostProductsIdRequestBody = PostProductsIdRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postProductsIdRequestBodyName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postProductsIdRequestBodyName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | package_dimensions: The dimensions of this product for shipping purposes. A SKU associated with this product can override this value by having its own \`package_dimensions\`. May only be set if \`type=good\`.
   , postProductsIdRequestBodyPackageDimensions :: (GHC.Maybe.Maybe PostProductsIdRequestBodyPackageDimensions'Variants)
   -- | shippable: Whether this product is shipped (i.e., physical goods). Defaults to \`true\`. May only be set if \`type=good\`.
@@ -143,15 +143,15 @@ data PostProductsIdRequestBody = PostProductsIdRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postProductsIdRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postProductsIdRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | unit_label: A label that represents units of this product in Stripe and on customers’ receipts and invoices. When set, this will be included in associated invoice line item descriptions. May only be set if \`type=service\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 12
-  , postProductsIdRequestBodyUnitLabel :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postProductsIdRequestBodyUnitLabel :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | url: A URL of a publicly-accessible webpage for this product. May only be set if \`type=good\`.
-  , postProductsIdRequestBodyUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postProductsIdRequestBodyUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostProductsIdRequestBody
@@ -164,7 +164,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBody
 -- 
 data PostProductsIdRequestBodyAttributes'OneOf1
     = PostProductsIdRequestBodyAttributes'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostProductsIdRequestBodyAttributes'OneOf1EnumTyped GHC.Base.String
+    | PostProductsIdRequestBodyAttributes'OneOf1EnumTyped Data.Text.Internal.Text
     | PostProductsIdRequestBodyAttributes'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostProductsIdRequestBodyAttributes'OneOf1
@@ -180,7 +180,7 @@ instance Data.Aeson.FromJSON PostProductsIdRequestBodyAttributes'OneOf1
 -- A list of up to 5 alphanumeric attributes that each SKU can provide values for (e.g., \`[\"color\", \"size\"]\`). If a value for \`attributes\` is specified, the list specified will replace the existing attributes list on this product. Any attributes not present after the update will be deleted from the SKUs for this product.
 data PostProductsIdRequestBodyAttributes'Variants
     = PostProductsIdRequestBodyAttributes'PostProductsIdRequestBodyAttributes'OneOf1 PostProductsIdRequestBodyAttributes'OneOf1
-    | PostProductsIdRequestBodyAttributes'ListString ([] GHC.Base.String)
+    | PostProductsIdRequestBodyAttributes'ListText ([] Data.Text.Internal.Text)
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostProductsIdRequestBodyAttributes'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -191,7 +191,7 @@ instance Data.Aeson.FromJSON PostProductsIdRequestBodyAttributes'Variants
 -- 
 data PostProductsIdRequestBodyImages'OneOf1
     = PostProductsIdRequestBodyImages'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostProductsIdRequestBodyImages'OneOf1EnumTyped GHC.Base.String
+    | PostProductsIdRequestBodyImages'OneOf1EnumTyped Data.Text.Internal.Text
     | PostProductsIdRequestBodyImages'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostProductsIdRequestBodyImages'OneOf1
@@ -207,7 +207,7 @@ instance Data.Aeson.FromJSON PostProductsIdRequestBodyImages'OneOf1
 -- A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 data PostProductsIdRequestBodyImages'Variants
     = PostProductsIdRequestBodyImages'PostProductsIdRequestBodyImages'OneOf1 PostProductsIdRequestBodyImages'OneOf1
-    | PostProductsIdRequestBodyImages'ListString ([] GHC.Base.String)
+    | PostProductsIdRequestBodyImages'ListText ([] Data.Text.Internal.Text)
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostProductsIdRequestBodyImages'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -230,7 +230,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBodyMetadata'
 -- 
 data PostProductsIdRequestBodyPackageDimensions'OneOf1
     = PostProductsIdRequestBodyPackageDimensions'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostProductsIdRequestBodyPackageDimensions'OneOf1EnumTyped GHC.Base.String
+    | PostProductsIdRequestBodyPackageDimensions'OneOf1EnumTyped Data.Text.Internal.Text
     | PostProductsIdRequestBodyPackageDimensions'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostProductsIdRequestBodyPackageDimensions'OneOf1

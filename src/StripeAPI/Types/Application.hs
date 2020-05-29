@@ -36,13 +36,13 @@ data Application = Application {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  applicationId :: GHC.Base.String
+  applicationId :: Data.Text.Internal.Text
   -- | name: The name of the application.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , applicationName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , applicationName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , applicationObject :: ApplicationObject'
   } deriving (GHC.Show.Show
@@ -57,7 +57,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Application
 -- String representing the object\'s type. Objects of the same type share the same value.
 data ApplicationObject'
     = ApplicationObject'EnumOther Data.Aeson.Types.Internal.Value
-    | ApplicationObject'EnumTyped GHC.Base.String
+    | ApplicationObject'EnumTyped Data.Text.Internal.Text
     | ApplicationObject'EnumStringApplication
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON ApplicationObject'

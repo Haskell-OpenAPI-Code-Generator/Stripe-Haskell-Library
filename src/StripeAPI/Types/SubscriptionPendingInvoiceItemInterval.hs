@@ -47,7 +47,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON SubscriptionPendingInvoiceItemInterv
 -- Specifies invoicing frequency. Either \`day\`, \`week\`, \`month\` or \`year\`.
 data SubscriptionPendingInvoiceItemIntervalInterval'
     = SubscriptionPendingInvoiceItemIntervalInterval'EnumOther Data.Aeson.Types.Internal.Value
-    | SubscriptionPendingInvoiceItemIntervalInterval'EnumTyped GHC.Base.String
+    | SubscriptionPendingInvoiceItemIntervalInterval'EnumTyped Data.Text.Internal.Text
     | SubscriptionPendingInvoiceItemIntervalInterval'EnumStringDay
     | SubscriptionPendingInvoiceItemIntervalInterval'EnumStringMonth
     | SubscriptionPendingInvoiceItemIntervalInterval'EnumStringWeek

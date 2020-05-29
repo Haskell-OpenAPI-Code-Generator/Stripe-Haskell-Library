@@ -48,7 +48,7 @@ import StripeAPI.Types
 -- However, if the owner already has a default, then it will not change.
 -- To change the default, you should \<a href=\"\/docs\/api\#update_customer\">update the customer\<\/a> to have a new \<code>default_source\<\/code>.\<\/p>
 postCustomersCustomerCards :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                        -- ^ customer | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                -- ^ customer | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostCustomersCustomerCardsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCustomersCustomerCardsResponse)) -- ^ Monad containing the result of the operation
 postCustomersCustomerCards config
@@ -64,7 +64,7 @@ postCustomersCustomerCards config
 postCustomersCustomerCardsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
                                  StripeAPI.Common.Configuration s ->
-                                 GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe PostCustomersCustomerCardsRequestBody ->
                                  m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,7 +76,7 @@ postCustomersCustomerCardsRaw config
 -- Monadic version of 'postCustomersCustomerCards' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerCardsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe PostCustomersCustomerCardsRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -93,7 +93,7 @@ postCustomersCustomerCardsM customer
 -- Monadic version of 'postCustomersCustomerCardsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerCardsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe PostCustomersCustomerCardsRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m
@@ -110,13 +110,13 @@ data PostCustomersCustomerCardsRequestBody = PostCustomersCustomerCardsRequestBo
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postCustomersCustomerCardsRequestBodyAlipayAccount :: (GHC.Maybe.Maybe GHC.Base.String)
+  postCustomersCustomerCardsRequestBodyAlipayAccount :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bank_account: Either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe.js), or a dictionary containing a user\'s bank account details.
   , postCustomersCustomerCardsRequestBodyBankAccount :: (GHC.Maybe.Maybe PostCustomersCustomerCardsRequestBodyBankAccount'Variants)
   -- | card: A token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe.js).
   , postCustomersCustomerCardsRequestBodyCard :: (GHC.Maybe.Maybe PostCustomersCustomerCardsRequestBodyCard'Variants)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postCustomersCustomerCardsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCustomersCustomerCardsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postCustomersCustomerCardsRequestBodyMetadata :: (GHC.Maybe.Maybe PostCustomersCustomerCardsRequestBodyMetadata')
   -- | source: Please refer to full [documentation](https:\/\/stripe.com\/docs\/api) instead.
@@ -124,7 +124,7 @@ data PostCustomersCustomerCardsRequestBody = PostCustomersCustomerCardsRequestBo
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsRequestBodySource :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsRequestBodySource :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsRequestBody
@@ -141,7 +141,7 @@ data PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2 = PostCustomersCust
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postCustomersCustomerCardsRequestBodyBankAccount'OneOf2AccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  postCustomersCustomerCardsRequestBodyBankAccount'OneOf2AccountHolderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | account_holder_type
   -- 
   -- Constraints:
@@ -153,15 +153,15 @@ data PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2 = PostCustomersCust
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsRequestBodyBankAccount'OneOf2AccountNumber :: GHC.Base.String
+  , postCustomersCustomerCardsRequestBodyBankAccount'OneOf2AccountNumber :: Data.Text.Internal.Text
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsRequestBodyBankAccount'OneOf2Country :: GHC.Base.String
+  , postCustomersCustomerCardsRequestBodyBankAccount'OneOf2Country :: Data.Text.Internal.Text
   -- | currency
-  , postCustomersCustomerCardsRequestBodyBankAccount'OneOf2Currency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsRequestBodyBankAccount'OneOf2Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | object
   -- 
   -- Constraints:
@@ -173,7 +173,7 @@ data PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2 = PostCustomersCust
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsRequestBodyBankAccount'OneOf2RoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsRequestBodyBankAccount'OneOf2RoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2
@@ -186,7 +186,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerCardsRequestBod
 -- 
 data PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2AccountHolderType'
     = PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2AccountHolderType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2AccountHolderType'EnumTyped GHC.Base.String
+    | PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2AccountHolderType'EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2AccountHolderType'EnumStringCompany
     | PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2AccountHolderType'EnumStringIndividual
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -206,7 +206,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerCardsRequestBodyBankAccount'On
 -- 
 data PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2Object'
     = PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2Object'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2Object'EnumTyped GHC.Base.String
+    | PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2Object'EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2Object'EnumStringBankAccount
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2Object'
@@ -221,7 +221,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerCardsRequestBodyBankAccount'On
 -- 
 -- Either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe.js), or a dictionary containing a user\'s bank account details.
 data PostCustomersCustomerCardsRequestBodyBankAccount'Variants
-    = PostCustomersCustomerCardsRequestBodyBankAccount'String GHC.Base.String
+    = PostCustomersCustomerCardsRequestBodyBankAccount'Text Data.Text.Internal.Text
     | PostCustomersCustomerCardsRequestBodyBankAccount'PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2 PostCustomersCustomerCardsRequestBodyBankAccount'OneOf2
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsRequestBodyBankAccount'Variants
@@ -237,43 +237,43 @@ data PostCustomersCustomerCardsRequestBodyCard'OneOf2 = PostCustomersCustomerCar
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postCustomersCustomerCardsRequestBodyCard'OneOf2AddressCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  postCustomersCustomerCardsRequestBodyCard'OneOf2AddressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsRequestBodyCard'OneOf2AddressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsRequestBodyCard'OneOf2AddressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsRequestBodyCard'OneOf2AddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsRequestBodyCard'OneOf2AddressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsRequestBodyCard'OneOf2AddressLine2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsRequestBodyCard'OneOf2AddressLine2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsRequestBodyCard'OneOf2AddressState :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsRequestBodyCard'OneOf2AddressState :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_zip
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsRequestBodyCard'OneOf2AddressZip :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsRequestBodyCard'OneOf2AddressZip :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | cvc
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsRequestBodyCard'OneOf2Cvc :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsRequestBodyCard'OneOf2Cvc :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | exp_month
   , postCustomersCustomerCardsRequestBodyCard'OneOf2ExpMonth :: GHC.Integer.Type.Integer
   -- | exp_year
@@ -285,13 +285,13 @@ data PostCustomersCustomerCardsRequestBodyCard'OneOf2 = PostCustomersCustomerCar
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsRequestBodyCard'OneOf2Name :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerCardsRequestBodyCard'OneOf2Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | number
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postCustomersCustomerCardsRequestBodyCard'OneOf2Number :: GHC.Base.String
+  , postCustomersCustomerCardsRequestBodyCard'OneOf2Number :: Data.Text.Internal.Text
   -- | object
   -- 
   -- Constraints:
@@ -322,7 +322,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerCardsRequestBod
 -- 
 data PostCustomersCustomerCardsRequestBodyCard'OneOf2Object'
     = PostCustomersCustomerCardsRequestBodyCard'OneOf2Object'EnumOther Data.Aeson.Types.Internal.Value
-    | PostCustomersCustomerCardsRequestBodyCard'OneOf2Object'EnumTyped GHC.Base.String
+    | PostCustomersCustomerCardsRequestBodyCard'OneOf2Object'EnumTyped Data.Text.Internal.Text
     | PostCustomersCustomerCardsRequestBodyCard'OneOf2Object'EnumStringCard
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsRequestBodyCard'OneOf2Object'
@@ -337,7 +337,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerCardsRequestBodyCard'OneOf2Obj
 -- 
 -- A token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe.js).
 data PostCustomersCustomerCardsRequestBodyCard'Variants
-    = PostCustomersCustomerCardsRequestBodyCard'String GHC.Base.String
+    = PostCustomersCustomerCardsRequestBodyCard'Text Data.Text.Internal.Text
     | PostCustomersCustomerCardsRequestBodyCard'PostCustomersCustomerCardsRequestBodyCard'OneOf2 PostCustomersCustomerCardsRequestBodyCard'OneOf2
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON PostCustomersCustomerCardsRequestBodyCard'Variants

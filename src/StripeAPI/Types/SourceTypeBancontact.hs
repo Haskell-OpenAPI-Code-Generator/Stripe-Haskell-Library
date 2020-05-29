@@ -32,17 +32,17 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeBancontact = SourceTypeBancontact {
   -- | bank_code
-  sourceTypeBancontactBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeBancontactBankCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bank_name
-  , sourceTypeBancontactBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeBancontactBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bic
-  , sourceTypeBancontactBic :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeBancontactBic :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | iban_last4
-  , sourceTypeBancontactIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeBancontactIbanLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | preferred_language
-  , sourceTypeBancontactPreferredLanguage :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeBancontactPreferredLanguage :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor
-  , sourceTypeBancontactStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeBancontactStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeBancontact

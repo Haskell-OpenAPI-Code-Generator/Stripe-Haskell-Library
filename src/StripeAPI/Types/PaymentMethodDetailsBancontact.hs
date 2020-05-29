@@ -36,25 +36,25 @@ data PaymentMethodDetailsBancontact = PaymentMethodDetailsBancontact {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  paymentMethodDetailsBancontactBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  paymentMethodDetailsBancontactBankCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bank_name: Name of the bank associated with the bank account.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsBancontactBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsBancontactBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bic: Bank Identifier Code of the bank associated with the bank account.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsBancontactBic :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsBancontactBic :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | iban_last4: Last four characters of the IBAN.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsBancontactIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsBancontactIbanLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | preferred_language: Preferred language of the Bancontact authorization page that the customer is redirected to.
   -- Can be one of \`en\`, \`de\`, \`fr\`, or \`nl\`
   , paymentMethodDetailsBancontactPreferredLanguage :: (GHC.Maybe.Maybe PaymentMethodDetailsBancontactPreferredLanguage')
@@ -64,7 +64,7 @@ data PaymentMethodDetailsBancontact = PaymentMethodDetailsBancontact {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsBancontactVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsBancontactVerifiedName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsBancontact
@@ -78,7 +78,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsBancontact
 -- Can be one of \`en\`, \`de\`, \`fr\`, or \`nl\`
 data PaymentMethodDetailsBancontactPreferredLanguage'
     = PaymentMethodDetailsBancontactPreferredLanguage'EnumOther Data.Aeson.Types.Internal.Value
-    | PaymentMethodDetailsBancontactPreferredLanguage'EnumTyped GHC.Base.String
+    | PaymentMethodDetailsBancontactPreferredLanguage'EnumTyped Data.Text.Internal.Text
     | PaymentMethodDetailsBancontactPreferredLanguage'EnumStringDe
     | PaymentMethodDetailsBancontactPreferredLanguage'EnumStringEn
     | PaymentMethodDetailsBancontactPreferredLanguage'EnumStringFr

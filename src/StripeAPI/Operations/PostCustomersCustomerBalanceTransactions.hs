@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Creates an immutable transaction that updates the customer’s \<a href=\"\/docs\/api\/customers\/object\#customer_object-balance\">\<code>balance\<\/code>\<\/a>.\<\/p>
 postCustomersCustomerBalanceTransactions :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                      -- ^ customer | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                              -- ^ customer | Constraints: Maximum length of 5000
   -> PostCustomersCustomerBalanceTransactionsRequestBody                                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCustomersCustomerBalanceTransactionsResponse)) -- ^ Monad containing the result of the operation
 postCustomersCustomerBalanceTransactions config
@@ -60,7 +60,7 @@ postCustomersCustomerBalanceTransactions config
 postCustomersCustomerBalanceTransactionsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                              StripeAPI.Common.SecurityScheme s) =>
                                                StripeAPI.Common.Configuration s ->
-                                               GHC.Base.String ->
+                                               Data.Text.Internal.Text ->
                                                PostCustomersCustomerBalanceTransactionsRequestBody ->
                                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postCustomersCustomerBalanceTransactionsRaw config
 -- Monadic version of 'postCustomersCustomerBalanceTransactions' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerBalanceTransactionsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
-                                             GHC.Base.String ->
+                                             Data.Text.Internal.Text ->
                                              PostCustomersCustomerBalanceTransactionsRequestBody ->
                                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                 m
@@ -89,7 +89,7 @@ postCustomersCustomerBalanceTransactionsM customer
 -- Monadic version of 'postCustomersCustomerBalanceTransactionsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerBalanceTransactionsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                               StripeAPI.Common.SecurityScheme s) =>
-                                                GHC.Base.String ->
+                                                Data.Text.Internal.Text ->
                                                 PostCustomersCustomerBalanceTransactionsRequestBody ->
                                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                    m
@@ -104,15 +104,15 @@ data PostCustomersCustomerBalanceTransactionsRequestBody = PostCustomersCustomer
   -- | amount: The integer amount in **%s** to apply to the customer\'s balance. Pass a negative amount to credit the customer\'s balance, and pass in a positive amount to debit the customer\'s balance.
   postCustomersCustomerBalanceTransactionsRequestBodyAmount :: GHC.Integer.Type.Integer
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies). If the customer\'s [\`currency\`](https:\/\/stripe.com\/docs\/api\/customers\/object\#customer_object-currency) is set, this value must match it. If the customer\'s \`currency\` is not set, it will be updated to this value.
-  , postCustomersCustomerBalanceTransactionsRequestBodyCurrency :: GHC.Base.String
+  , postCustomersCustomerBalanceTransactionsRequestBodyCurrency :: Data.Text.Internal.Text
   -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 350
-  , postCustomersCustomerBalanceTransactionsRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postCustomersCustomerBalanceTransactionsRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postCustomersCustomerBalanceTransactionsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCustomersCustomerBalanceTransactionsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postCustomersCustomerBalanceTransactionsRequestBodyMetadata :: (GHC.Maybe.Maybe PostCustomersCustomerBalanceTransactionsRequestBodyMetadata')
   } deriving (GHC.Show.Show

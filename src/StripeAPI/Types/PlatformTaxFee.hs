@@ -36,13 +36,13 @@ data PlatformTaxFee = PlatformTaxFee {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  platformTaxFeeAccount :: GHC.Base.String
+  platformTaxFeeAccount :: Data.Text.Internal.Text
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , platformTaxFeeId :: GHC.Base.String
+  , platformTaxFeeId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , platformTaxFeeObject :: PlatformTaxFeeObject'
   -- | source_transaction: The payment object that caused this tax to be inflicted.
@@ -50,13 +50,13 @@ data PlatformTaxFee = PlatformTaxFee {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , platformTaxFeeSourceTransaction :: GHC.Base.String
+  , platformTaxFeeSourceTransaction :: Data.Text.Internal.Text
   -- | type: The type of tax (VAT).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , platformTaxFeeType :: GHC.Base.String
+  , platformTaxFeeType :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PlatformTaxFee
@@ -69,7 +69,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PlatformTaxFee
 -- String representing the object\'s type. Objects of the same type share the same value.
 data PlatformTaxFeeObject'
     = PlatformTaxFeeObject'EnumOther Data.Aeson.Types.Internal.Value
-    | PlatformTaxFeeObject'EnumTyped GHC.Base.String
+    | PlatformTaxFeeObject'EnumTyped Data.Text.Internal.Text
     | PlatformTaxFeeObject'EnumStringPlatformTaxFee
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PlatformTaxFeeObject'

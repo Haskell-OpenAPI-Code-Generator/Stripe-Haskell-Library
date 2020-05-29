@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves a Session object.\<\/p>
 getCheckoutSessionsSession :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                        -- ^ session | Constraints: Maximum length of 64
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                -- ^ session | Constraints: Maximum length of 64
   -> GHC.Maybe.Maybe GetCheckoutSessionsSessionRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCheckoutSessionsSessionResponse)) -- ^ Monad containing the result of the operation
 getCheckoutSessionsSession config
@@ -68,8 +68,8 @@ getCheckoutSessionsSession config
 getCheckoutSessionsSessionRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
                                  StripeAPI.Common.Configuration s ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
-                                 GHC.Base.String ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                 Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe GetCheckoutSessionsSessionRequestBody ->
                                  m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getCheckoutSessionsSessionRaw config
 -- Monadic version of 'getCheckoutSessionsSession' (use with 'StripeAPI.Common.runWithConfiguration')
 getCheckoutSessionsSessionM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GetCheckoutSessionsSessionRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -113,8 +113,8 @@ getCheckoutSessionsSessionM expand
 -- Monadic version of 'getCheckoutSessionsSessionRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCheckoutSessionsSessionRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
-                                  GHC.Maybe.Maybe GHC.Base.String ->
-                                  GHC.Base.String ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe GetCheckoutSessionsSessionRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m

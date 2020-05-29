@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Deletes an item from the subscription. Removing a subscription item from a subscription will not cancel the subscription.\<\/p>
 deleteSubscriptionItemsItem :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                         -- ^ item | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                 -- ^ item | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteSubscriptionItemsItemRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteSubscriptionItemsItemResponse)) -- ^ Monad containing the result of the operation
 deleteSubscriptionItemsItem config
@@ -60,7 +60,7 @@ deleteSubscriptionItemsItem config
 deleteSubscriptionItemsItemRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   StripeAPI.Common.Configuration s ->
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe DeleteSubscriptionItemsItemRequestBody ->
                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                         (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteSubscriptionItemsItemRaw config
 -- Monadic version of 'deleteSubscriptionItemsItem' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteSubscriptionItemsItemM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe DeleteSubscriptionItemsItemRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -89,7 +89,7 @@ deleteSubscriptionItemsItemM item
 -- Monadic version of 'deleteSubscriptionItemsItemRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteSubscriptionItemsItemRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe DeleteSubscriptionItemsItemRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m
@@ -129,7 +129,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON DeleteSubscriptionItemsItemRequestBo
 -- Prorations can be disabled by passing \`none\`.
 data DeleteSubscriptionItemsItemRequestBodyProrationBehavior'
     = DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumOther Data.Aeson.Types.Internal.Value
-    | DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumTyped GHC.Base.String
+    | DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumTyped Data.Text.Internal.Text
     | DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringAlwaysInvoice
     | DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringCreateProrations
     | DeleteSubscriptionItemsItemRequestBodyProrationBehavior'EnumStringNone

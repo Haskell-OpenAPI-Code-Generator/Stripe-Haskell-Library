@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates a \<code>ValueList\<\/code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Note that \<code>item_type\<\/code> is immutable.\<\/p>
 postRadarValueListsValueList :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                          -- ^ value_list | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                  -- ^ value_list | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostRadarValueListsValueListRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostRadarValueListsValueListResponse)) -- ^ Monad containing the result of the operation
 postRadarValueListsValueList config
@@ -60,7 +60,7 @@ postRadarValueListsValueList config
 postRadarValueListsValueListRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
                                    StripeAPI.Common.Configuration s ->
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe PostRadarValueListsValueListRequestBody ->
                                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                          (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postRadarValueListsValueListRaw config
 -- Monadic version of 'postRadarValueListsValueList' (use with 'StripeAPI.Common.runWithConfiguration')
 postRadarValueListsValueListM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
-                                 GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe PostRadarValueListsValueListRequestBody ->
                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                     m
@@ -89,7 +89,7 @@ postRadarValueListsValueListM valueList
 -- Monadic version of 'postRadarValueListsValueListRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postRadarValueListsValueListRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe PostRadarValueListsValueListRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m
@@ -106,9 +106,9 @@ data PostRadarValueListsValueListRequestBody = PostRadarValueListsValueListReque
   -- Constraints:
   -- 
   -- * Maximum length of 100
-  postRadarValueListsValueListRequestBodyAlias :: (GHC.Maybe.Maybe GHC.Base.String)
+  postRadarValueListsValueListRequestBodyAlias :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postRadarValueListsValueListRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postRadarValueListsValueListRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postRadarValueListsValueListRequestBodyMetadata :: (GHC.Maybe.Maybe PostRadarValueListsValueListRequestBodyMetadata')
   -- | name: The human-readable name of the value list.
@@ -116,7 +116,7 @@ data PostRadarValueListsValueListRequestBody = PostRadarValueListsValueListReque
   -- Constraints:
   -- 
   -- * Maximum length of 100
-  , postRadarValueListsValueListRequestBodyName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postRadarValueListsValueListRequestBodyName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostRadarValueListsValueListRequestBody

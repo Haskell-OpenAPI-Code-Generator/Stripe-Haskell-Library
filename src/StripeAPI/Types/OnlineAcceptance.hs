@@ -36,13 +36,13 @@ data OnlineAcceptance = OnlineAcceptance {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  onlineAcceptanceIpAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  onlineAcceptanceIpAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | user_agent: The user agent of the browser from which the Mandate was accepted by the customer.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , onlineAcceptanceUserAgent :: (GHC.Maybe.Maybe GHC.Base.String)
+  , onlineAcceptanceUserAgent :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON OnlineAcceptance

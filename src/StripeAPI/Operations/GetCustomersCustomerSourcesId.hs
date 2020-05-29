@@ -44,9 +44,9 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieve a specified source for a given customer.\<\/p>
 getCustomersCustomerSourcesId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                           -- ^ customer | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                           -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                           -- ^ id | Constraints: Maximum length of 500
+  -> Data.Text.Internal.Text                                                                                                                   -- ^ customer | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                   -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                   -- ^ id | Constraints: Maximum length of 500
   -> GHC.Maybe.Maybe GetCustomersCustomerSourcesIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCustomersCustomerSourcesIdResponse)) -- ^ Monad containing the result of the operation
 getCustomersCustomerSourcesId config
@@ -70,9 +70,9 @@ getCustomersCustomerSourcesId config
 getCustomersCustomerSourcesIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     StripeAPI.Common.Configuration s ->
-                                    GHC.Base.String ->
-                                    GHC.Maybe.Maybe GHC.Base.String ->
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
+                                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe GetCustomersCustomerSourcesIdRequestBody ->
                                     m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                           (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -92,9 +92,9 @@ getCustomersCustomerSourcesIdRaw config
 -- Monadic version of 'getCustomersCustomerSourcesId' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerSourcesIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
-                                  GHC.Base.String ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe GetCustomersCustomerSourcesIdRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m
@@ -119,9 +119,9 @@ getCustomersCustomerSourcesIdM customer
 -- Monadic version of 'getCustomersCustomerSourcesIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerSourcesIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
-                                     GHC.Base.String ->
-                                     GHC.Maybe.Maybe GHC.Base.String ->
-                                     GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
+                                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe GetCustomersCustomerSourcesIdRequestBody ->
                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                         m

@@ -104,9 +104,9 @@ data PostWebhookEndpointsRequestBody = PostWebhookEndpointsRequestBody {
   -- | enabled_events: The list of events to enable for this endpoint. You may specify \`[\'*\']\` to enable all events, except those that require explicit selection.
   , postWebhookEndpointsRequestBodyEnabledEvents :: ([] PostWebhookEndpointsRequestBodyEnabledEvents')
   -- | expand: Specifies which fields in the response should be expanded.
-  , postWebhookEndpointsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postWebhookEndpointsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | url: The URL of the webhook endpoint.
-  , postWebhookEndpointsRequestBodyUrl :: GHC.Base.String
+  , postWebhookEndpointsRequestBodyUrl :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostWebhookEndpointsRequestBody
@@ -119,7 +119,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostWebhookEndpointsRequestBody
 -- Events sent to this endpoint will be generated with this Stripe Version instead of your account\'s default Stripe Version.
 data PostWebhookEndpointsRequestBodyApiVersion'
     = PostWebhookEndpointsRequestBodyApiVersion'EnumOther Data.Aeson.Types.Internal.Value
-    | PostWebhookEndpointsRequestBodyApiVersion'EnumTyped GHC.Base.String
+    | PostWebhookEndpointsRequestBodyApiVersion'EnumTyped Data.Text.Internal.Text
     | PostWebhookEndpointsRequestBodyApiVersion'EnumString_2011_01_01
     | PostWebhookEndpointsRequestBodyApiVersion'EnumString_2011_06_21
     | PostWebhookEndpointsRequestBodyApiVersion'EnumString_2011_06_28
@@ -511,7 +511,7 @@ instance Data.Aeson.FromJSON PostWebhookEndpointsRequestBodyApiVersion'
 -- 
 data PostWebhookEndpointsRequestBodyEnabledEvents'
     = PostWebhookEndpointsRequestBodyEnabledEvents'EnumOther Data.Aeson.Types.Internal.Value
-    | PostWebhookEndpointsRequestBodyEnabledEvents'EnumTyped GHC.Base.String
+    | PostWebhookEndpointsRequestBodyEnabledEvents'EnumTyped Data.Text.Internal.Text
     | PostWebhookEndpointsRequestBodyEnabledEvents'EnumString__
     | PostWebhookEndpointsRequestBodyEnabledEvents'EnumStringAccount'application'authorized
     | PostWebhookEndpointsRequestBodyEnabledEvents'EnumStringAccount'application'deauthorized

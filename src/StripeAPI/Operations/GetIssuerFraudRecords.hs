@@ -44,11 +44,11 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a list of issuer fraud records.\<\/p>
 getIssuerFraudRecords :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                   -- ^ charge: Only return issuer fraud records for the charge specified by this charge ID.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                   -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                   -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                           -- ^ charge: Only return issuer fraud records for the charge specified by this charge ID.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                           -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                           -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                          -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                   -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                           -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetIssuerFraudRecordsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuerFraudRecordsResponse)) -- ^ Monad containing the result of the operation
 getIssuerFraudRecords config
@@ -112,11 +112,11 @@ getIssuerFraudRecords config
 getIssuerFraudRecordsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             StripeAPI.Common.Configuration s ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe GetIssuerFraudRecordsRequestBody ->
                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -176,11 +176,11 @@ getIssuerFraudRecordsRaw config
 -- Monadic version of 'getIssuerFraudRecords' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuerFraudRecordsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe GetIssuerFraudRecordsRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m
@@ -245,11 +245,11 @@ getIssuerFraudRecordsM charge
 -- Monadic version of 'getIssuerFraudRecordsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuerFraudRecordsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GetIssuerFraudRecordsRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m
@@ -341,7 +341,7 @@ data GetIssuerFraudRecordsResponseBody200 = GetIssuerFraudRecordsResponseBody200
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/issuer_fraud_records\'
-  , getIssuerFraudRecordsResponseBody200Url :: GHC.Base.String
+  , getIssuerFraudRecordsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetIssuerFraudRecordsResponseBody200
@@ -354,7 +354,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetIssuerFraudRecordsResponseBody200
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetIssuerFraudRecordsResponseBody200Object'
     = GetIssuerFraudRecordsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetIssuerFraudRecordsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetIssuerFraudRecordsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetIssuerFraudRecordsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetIssuerFraudRecordsResponseBody200Object'

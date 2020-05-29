@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the PIN for a card, subject to cardholder verification. See \<a href=\"\/docs\/issuing\/pin_management\">Retrieve and update cardholder PIN\<\/a>\<\/p>
 postIssuingCardsCardPin :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                     -- ^ card | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                             -- ^ card | Constraints: Maximum length of 5000
   -> PostIssuingCardsCardPinRequestBody                                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostIssuingCardsCardPinResponse)) -- ^ Monad containing the result of the operation
 postIssuingCardsCardPin config
@@ -60,7 +60,7 @@ postIssuingCardsCardPin config
 postIssuingCardsCardPinRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
-                              GHC.Base.String ->
+                              Data.Text.Internal.Text ->
                               PostIssuingCardsCardPinRequestBody ->
                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postIssuingCardsCardPinRaw config
 -- Monadic version of 'postIssuingCardsCardPin' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingCardsCardPinM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Base.String ->
+                            Data.Text.Internal.Text ->
                             PostIssuingCardsCardPinRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -89,7 +89,7 @@ postIssuingCardsCardPinM card
 -- Monadic version of 'postIssuingCardsCardPinRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingCardsCardPinRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                PostIssuingCardsCardPinRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -102,13 +102,13 @@ postIssuingCardsCardPinRawM card
 -- 
 data PostIssuingCardsCardPinRequestBody = PostIssuingCardsCardPinRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postIssuingCardsCardPinRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postIssuingCardsCardPinRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | pin: The new desired PIN
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardsCardPinRequestBodyPin :: GHC.Base.String
+  , postIssuingCardsCardPinRequestBodyPin :: Data.Text.Internal.Text
   -- | verification: The id of the \`Verification\` that was sent and the code entered by the cardholder
   , postIssuingCardsCardPinRequestBodyVerification :: PostIssuingCardsCardPinRequestBodyVerification'
   } deriving (GHC.Show.Show
@@ -127,13 +127,13 @@ data PostIssuingCardsCardPinRequestBodyVerification' = PostIssuingCardsCardPinRe
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postIssuingCardsCardPinRequestBodyVerification'Id :: GHC.Base.String
+  postIssuingCardsCardPinRequestBodyVerification'Id :: Data.Text.Internal.Text
   -- | one_time_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardsCardPinRequestBodyVerification'OneTimeCode :: GHC.Base.String
+  , postIssuingCardsCardPinRequestBodyVerification'OneTimeCode :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingCardsCardPinRequestBodyVerification'

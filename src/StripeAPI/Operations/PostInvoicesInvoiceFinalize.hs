@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Stripe automatically finalizes drafts before sending and attempting payment on invoices. However, if you’d like to finalize a draft invoice manually, you can do so using this method.\<\/p>
 postInvoicesInvoiceFinalize :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                         -- ^ invoice | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                 -- ^ invoice | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostInvoicesInvoiceFinalizeRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostInvoicesInvoiceFinalizeResponse)) -- ^ Monad containing the result of the operation
 postInvoicesInvoiceFinalize config
@@ -60,7 +60,7 @@ postInvoicesInvoiceFinalize config
 postInvoicesInvoiceFinalizeRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   StripeAPI.Common.Configuration s ->
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe PostInvoicesInvoiceFinalizeRequestBody ->
                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                         (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postInvoicesInvoiceFinalizeRaw config
 -- Monadic version of 'postInvoicesInvoiceFinalize' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoicesInvoiceFinalizeM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe PostInvoicesInvoiceFinalizeRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -89,7 +89,7 @@ postInvoicesInvoiceFinalizeM invoice
 -- Monadic version of 'postInvoicesInvoiceFinalizeRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postInvoicesInvoiceFinalizeRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe PostInvoicesInvoiceFinalizeRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m
@@ -104,7 +104,7 @@ data PostInvoicesInvoiceFinalizeRequestBody = PostInvoicesInvoiceFinalizeRequest
   -- | auto_advance: Controls whether Stripe will perform [automatic collection](https:\/\/stripe.com\/docs\/billing\/invoices\/workflow\/\#auto_advance) of the invoice. When \`false\`, the invoice\'s state will not automatically advance without an explicit action.
   postInvoicesInvoiceFinalizeRequestBodyAutoAdvance :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postInvoicesInvoiceFinalizeRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postInvoicesInvoiceFinalizeRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostInvoicesInvoiceFinalizeRequestBody

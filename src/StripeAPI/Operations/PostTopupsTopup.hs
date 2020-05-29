@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the metadata of a top-up. Other top-up details are not editable by design.\<\/p>
 postTopupsTopup :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                             -- ^ topup | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                     -- ^ topup | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostTopupsTopupRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostTopupsTopupResponse)) -- ^ Monad containing the result of the operation
 postTopupsTopup config
@@ -60,7 +60,7 @@ postTopupsTopup config
 postTopupsTopupRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
                       StripeAPI.Common.Configuration s ->
-                      GHC.Base.String ->
+                      Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe PostTopupsTopupRequestBody ->
                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postTopupsTopupRaw config
 -- Monadic version of 'postTopupsTopup' (use with 'StripeAPI.Common.runWithConfiguration')
 postTopupsTopupM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
-                    GHC.Base.String ->
+                    Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe PostTopupsTopupRequestBody ->
                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                        m
@@ -89,7 +89,7 @@ postTopupsTopupM topup
 -- Monadic version of 'postTopupsTopupRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postTopupsTopupRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
-                       GHC.Base.String ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe PostTopupsTopupRequestBody ->
                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                           m
@@ -106,9 +106,9 @@ data PostTopupsTopupRequestBody = PostTopupsTopupRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postTopupsTopupRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  postTopupsTopupRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postTopupsTopupRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postTopupsTopupRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postTopupsTopupRequestBodyMetadata :: (GHC.Maybe.Maybe PostTopupsTopupRequestBodyMetadata')
   } deriving (GHC.Show.Show

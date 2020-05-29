@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Most customer balance transaction fields are immutable, but you may update its \<code>description\<\/code> and \<code>metadata\<\/code>.\<\/p>
 postCustomersCustomerBalanceTransactionsTransaction :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                                 -- ^ customer | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                                                 -- ^ transaction | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                                         -- ^ customer | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                                         -- ^ transaction | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostCustomersCustomerBalanceTransactionsTransactionRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCustomersCustomerBalanceTransactionsTransactionResponse)) -- ^ Monad containing the result of the operation
 postCustomersCustomerBalanceTransactionsTransaction config
@@ -62,8 +62,8 @@ postCustomersCustomerBalanceTransactionsTransaction config
 postCustomersCustomerBalanceTransactionsTransactionRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                         StripeAPI.Common.SecurityScheme s) =>
                                                           StripeAPI.Common.Configuration s ->
-                                                          GHC.Base.String ->
-                                                          GHC.Base.String ->
+                                                          Data.Text.Internal.Text ->
+                                                          Data.Text.Internal.Text ->
                                                           GHC.Maybe.Maybe PostCustomersCustomerBalanceTransactionsTransactionRequestBody ->
                                                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                 (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,8 +76,8 @@ postCustomersCustomerBalanceTransactionsTransactionRaw config
 -- Monadic version of 'postCustomersCustomerBalanceTransactionsTransaction' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerBalanceTransactionsTransactionM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                       StripeAPI.Common.SecurityScheme s) =>
-                                                        GHC.Base.String ->
-                                                        GHC.Base.String ->
+                                                        Data.Text.Internal.Text ->
+                                                        Data.Text.Internal.Text ->
                                                         GHC.Maybe.Maybe PostCustomersCustomerBalanceTransactionsTransactionRequestBody ->
                                                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                            m
@@ -95,8 +95,8 @@ postCustomersCustomerBalanceTransactionsTransactionM customer
 -- Monadic version of 'postCustomersCustomerBalanceTransactionsTransactionRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postCustomersCustomerBalanceTransactionsTransactionRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                          StripeAPI.Common.SecurityScheme s) =>
-                                                           GHC.Base.String ->
-                                                           GHC.Base.String ->
+                                                           Data.Text.Internal.Text ->
+                                                           Data.Text.Internal.Text ->
                                                            GHC.Maybe.Maybe PostCustomersCustomerBalanceTransactionsTransactionRequestBody ->
                                                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                               m
@@ -114,9 +114,9 @@ data PostCustomersCustomerBalanceTransactionsTransactionRequestBody = PostCustom
   -- Constraints:
   -- 
   -- * Maximum length of 350
-  postCustomersCustomerBalanceTransactionsTransactionRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  postCustomersCustomerBalanceTransactionsTransactionRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postCustomersCustomerBalanceTransactionsTransactionRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postCustomersCustomerBalanceTransactionsTransactionRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postCustomersCustomerBalanceTransactionsTransactionRequestBodyMetadata :: (GHC.Maybe.Maybe PostCustomersCustomerBalanceTransactionsTransactionRequestBodyMetadata')
   } deriving (GHC.Show.Show

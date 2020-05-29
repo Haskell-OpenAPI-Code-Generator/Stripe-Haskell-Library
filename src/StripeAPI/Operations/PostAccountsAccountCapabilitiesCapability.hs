@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates an existing Account Capability.\<\/p>
 postAccountsAccountCapabilitiesCapability :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                       -- ^ account | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                                       -- ^ capability
+  -> Data.Text.Internal.Text                                                                                                                               -- ^ account | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                               -- ^ capability
   -> GHC.Maybe.Maybe PostAccountsAccountCapabilitiesCapabilityRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostAccountsAccountCapabilitiesCapabilityResponse)) -- ^ Monad containing the result of the operation
 postAccountsAccountCapabilitiesCapability config
@@ -62,8 +62,8 @@ postAccountsAccountCapabilitiesCapability config
 postAccountsAccountCapabilitiesCapabilityRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                               StripeAPI.Common.SecurityScheme s) =>
                                                 StripeAPI.Common.Configuration s ->
-                                                GHC.Base.String ->
-                                                GHC.Base.String ->
+                                                Data.Text.Internal.Text ->
+                                                Data.Text.Internal.Text ->
                                                 GHC.Maybe.Maybe PostAccountsAccountCapabilitiesCapabilityRequestBody ->
                                                 m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                       (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,8 +76,8 @@ postAccountsAccountCapabilitiesCapabilityRaw config
 -- Monadic version of 'postAccountsAccountCapabilitiesCapability' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountCapabilitiesCapabilityM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                             StripeAPI.Common.SecurityScheme s) =>
-                                              GHC.Base.String ->
-                                              GHC.Base.String ->
+                                              Data.Text.Internal.Text ->
+                                              Data.Text.Internal.Text ->
                                               GHC.Maybe.Maybe PostAccountsAccountCapabilitiesCapabilityRequestBody ->
                                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                  m
@@ -95,8 +95,8 @@ postAccountsAccountCapabilitiesCapabilityM account
 -- Monadic version of 'postAccountsAccountCapabilitiesCapabilityRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountCapabilitiesCapabilityRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                StripeAPI.Common.SecurityScheme s) =>
-                                                 GHC.Base.String ->
-                                                 GHC.Base.String ->
+                                                 Data.Text.Internal.Text ->
+                                                 Data.Text.Internal.Text ->
                                                  GHC.Maybe.Maybe PostAccountsAccountCapabilitiesCapabilityRequestBody ->
                                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                     m
@@ -110,7 +110,7 @@ postAccountsAccountCapabilitiesCapabilityRawM account
 -- 
 data PostAccountsAccountCapabilitiesCapabilityRequestBody = PostAccountsAccountCapabilitiesCapabilityRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postAccountsAccountCapabilitiesCapabilityRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postAccountsAccountCapabilitiesCapabilityRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | requested: Passing true requests the capability for the account, if it is not already requested. A requested capability may not immediately become active. Any requirements to activate the capability are returned in the \`requirements\` arrays.
   , postAccountsAccountCapabilitiesCapabilityRequestBodyRequested :: (GHC.Maybe.Maybe GHC.Types.Bool)
   } deriving (GHC.Show.Show

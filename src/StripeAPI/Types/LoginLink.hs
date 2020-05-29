@@ -40,7 +40,7 @@ data LoginLink = LoginLink {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , loginLinkUrl :: GHC.Base.String
+  , loginLinkUrl :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON LoginLink
@@ -53,7 +53,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON LoginLink
 -- String representing the object\'s type. Objects of the same type share the same value.
 data LoginLinkObject'
     = LoginLinkObject'EnumOther Data.Aeson.Types.Internal.Value
-    | LoginLinkObject'EnumTyped GHC.Base.String
+    | LoginLinkObject'EnumTyped Data.Text.Internal.Text
     | LoginLinkObject'EnumStringLoginLink
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON LoginLinkObject'

@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Declines a pending Issuing \<code>Authorization\<\/code> object.\<\/p>
 postIssuingAuthorizationsAuthorizationDecline :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                           -- ^ authorization | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                                   -- ^ authorization | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationDeclineRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostIssuingAuthorizationsAuthorizationDeclineResponse)) -- ^ Monad containing the result of the operation
 postIssuingAuthorizationsAuthorizationDecline config
@@ -60,7 +60,7 @@ postIssuingAuthorizationsAuthorizationDecline config
 postIssuingAuthorizationsAuthorizationDeclineRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                   StripeAPI.Common.SecurityScheme s) =>
                                                     StripeAPI.Common.Configuration s ->
-                                                    GHC.Base.String ->
+                                                    Data.Text.Internal.Text ->
                                                     GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationDeclineRequestBody ->
                                                     m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                           (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postIssuingAuthorizationsAuthorizationDeclineRaw config
 -- Monadic version of 'postIssuingAuthorizationsAuthorizationDecline' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingAuthorizationsAuthorizationDeclineM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                 StripeAPI.Common.SecurityScheme s) =>
-                                                  GHC.Base.String ->
+                                                  Data.Text.Internal.Text ->
                                                   GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationDeclineRequestBody ->
                                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                      m
@@ -89,7 +89,7 @@ postIssuingAuthorizationsAuthorizationDeclineM authorization
 -- Monadic version of 'postIssuingAuthorizationsAuthorizationDeclineRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postIssuingAuthorizationsAuthorizationDeclineRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                    StripeAPI.Common.SecurityScheme s) =>
-                                                     GHC.Base.String ->
+                                                     Data.Text.Internal.Text ->
                                                      GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationDeclineRequestBody ->
                                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                         m
@@ -102,7 +102,7 @@ postIssuingAuthorizationsAuthorizationDeclineRawM authorization
 -- 
 data PostIssuingAuthorizationsAuthorizationDeclineRequestBody = PostIssuingAuthorizationsAuthorizationDeclineRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postIssuingAuthorizationsAuthorizationDeclineRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postIssuingAuthorizationsAuthorizationDeclineRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postIssuingAuthorizationsAuthorizationDeclineRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingAuthorizationsAuthorizationDeclineRequestBodyMetadata'Variants)
   } deriving (GHC.Show.Show
@@ -117,7 +117,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingAuthorizationsAuthorizati
 -- 
 data PostIssuingAuthorizationsAuthorizationDeclineRequestBodyMetadata'OneOf1
     = PostIssuingAuthorizationsAuthorizationDeclineRequestBodyMetadata'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingAuthorizationsAuthorizationDeclineRequestBodyMetadata'OneOf1EnumTyped GHC.Base.String
+    | PostIssuingAuthorizationsAuthorizationDeclineRequestBodyMetadata'OneOf1EnumTyped Data.Text.Internal.Text
     | PostIssuingAuthorizationsAuthorizationDeclineRequestBodyMetadata'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingAuthorizationsAuthorizationDeclineRequestBodyMetadata'OneOf1

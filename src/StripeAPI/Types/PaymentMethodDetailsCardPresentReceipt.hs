@@ -36,49 +36,49 @@ data PaymentMethodDetailsCardPresentReceipt = PaymentMethodDetailsCardPresentRec
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  paymentMethodDetailsCardPresentReceiptApplicationCryptogram :: (GHC.Maybe.Maybe GHC.Base.String)
+  paymentMethodDetailsCardPresentReceiptApplicationCryptogram :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | application_preferred_name: Mnenomic of the Application Identifier.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsCardPresentReceiptApplicationPreferredName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsCardPresentReceiptApplicationPreferredName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | authorization_code: Identifier for this transaction.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsCardPresentReceiptAuthorizationCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsCardPresentReceiptAuthorizationCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | authorization_response_code: EMV tag 8A. A code returned by the card issuer.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsCardPresentReceiptAuthorizationResponseCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsCardPresentReceiptAuthorizationResponseCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | cardholder_verification_method: How the cardholder verified ownership of the card.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsCardPresentReceiptCardholderVerificationMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsCardPresentReceiptCardholderVerificationMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | dedicated_file_name: EMV tag 84. Similar to the application identifier stored on the integrated circuit chip.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsCardPresentReceiptDedicatedFileName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsCardPresentReceiptDedicatedFileName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | terminal_verification_results: The outcome of a series of EMV functions performed by the card reader.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsCardPresentReceiptTerminalVerificationResults :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsCardPresentReceiptTerminalVerificationResults :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | transaction_status_information: An indication of various EMV functions performed during the transaction.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsCardPresentReceiptTransactionStatusInformation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsCardPresentReceiptTransactionStatusInformation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsCardPresentReceipt

@@ -46,8 +46,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Please refer to the \<a href=\"\#issuer_fraud_record_object\">issuer fraud record\<\/a> object reference for more details.\<\/p>
 getIssuerFraudRecordsIssuerFraudRecord :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                    -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                                    -- ^ issuer_fraud_record | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                            -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                            -- ^ issuer_fraud_record | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetIssuerFraudRecordsIssuerFraudRecordRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuerFraudRecordsIssuerFraudRecordResponse)) -- ^ Monad containing the result of the operation
 getIssuerFraudRecordsIssuerFraudRecord config
@@ -70,8 +70,8 @@ getIssuerFraudRecordsIssuerFraudRecord config
 getIssuerFraudRecordsIssuerFraudRecordRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
                                              StripeAPI.Common.Configuration s ->
-                                             GHC.Maybe.Maybe GHC.Base.String ->
-                                             GHC.Base.String ->
+                                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                             Data.Text.Internal.Text ->
                                              GHC.Maybe.Maybe GetIssuerFraudRecordsIssuerFraudRecordRequestBody ->
                                              m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                    (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -90,8 +90,8 @@ getIssuerFraudRecordsIssuerFraudRecordRaw config
 -- Monadic version of 'getIssuerFraudRecordsIssuerFraudRecord' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuerFraudRecordsIssuerFraudRecordM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                          StripeAPI.Common.SecurityScheme s) =>
-                                           GHC.Maybe.Maybe GHC.Base.String ->
-                                           GHC.Base.String ->
+                                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                           Data.Text.Internal.Text ->
                                            GHC.Maybe.Maybe GetIssuerFraudRecordsIssuerFraudRecordRequestBody ->
                                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                               m
@@ -115,8 +115,8 @@ getIssuerFraudRecordsIssuerFraudRecordM expand
 -- Monadic version of 'getIssuerFraudRecordsIssuerFraudRecordRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getIssuerFraudRecordsIssuerFraudRecordRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                             StripeAPI.Common.SecurityScheme s) =>
-                                              GHC.Maybe.Maybe GHC.Base.String ->
-                                              GHC.Base.String ->
+                                              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                              Data.Text.Internal.Text ->
                                               GHC.Maybe.Maybe GetIssuerFraudRecordsIssuerFraudRecordRequestBody ->
                                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                  m

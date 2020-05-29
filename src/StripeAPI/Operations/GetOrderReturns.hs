@@ -44,12 +44,12 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a list of your order returns. The returns are returned sorted by creation date, with the most recently created return appearing first.\<\/p>
 getOrderReturns :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ created: Date this return was created.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ created: Date this return was created.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                    -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ order: The order to retrieve returns for. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                             -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ order: The order to retrieve returns for. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                     -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetOrderReturnsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetOrderReturnsResponse)) -- ^ Monad containing the result of the operation
 getOrderReturns config
@@ -120,12 +120,12 @@ getOrderReturns config
 getOrderReturnsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
                       StripeAPI.Common.Configuration s ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
-                      GHC.Maybe.Maybe GHC.Base.String ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe GetOrderReturnsRequestBody ->
                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -192,12 +192,12 @@ getOrderReturnsRaw config
 -- Monadic version of 'getOrderReturns' (use with 'StripeAPI.Common.runWithConfiguration')
 getOrderReturnsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe GetOrderReturnsRequestBody ->
                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                        m
@@ -269,12 +269,12 @@ getOrderReturnsM created
 -- Monadic version of 'getOrderReturnsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getOrderReturnsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetOrderReturnsRequestBody ->
                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                           m
@@ -373,7 +373,7 @@ data GetOrderReturnsResponseBody200 = GetOrderReturnsResponseBody200 {
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/order_returns\'
-  , getOrderReturnsResponseBody200Url :: GHC.Base.String
+  , getOrderReturnsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetOrderReturnsResponseBody200
@@ -386,7 +386,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetOrderReturnsResponseBody200
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetOrderReturnsResponseBody200Object'
     = GetOrderReturnsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetOrderReturnsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetOrderReturnsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetOrderReturnsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetOrderReturnsResponseBody200Object'

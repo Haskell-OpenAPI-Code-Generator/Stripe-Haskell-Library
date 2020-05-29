@@ -63,7 +63,7 @@ instance Data.Aeson.FromJSON DeletedDiscountDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedDiscountObject'
     = DeletedDiscountObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedDiscountObject'EnumTyped GHC.Base.String
+    | DeletedDiscountObject'EnumTyped Data.Text.Internal.Text
     | DeletedDiscountObject'EnumStringDiscount
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedDiscountObject'

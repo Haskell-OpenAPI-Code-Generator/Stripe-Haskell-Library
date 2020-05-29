@@ -44,11 +44,11 @@ import StripeAPI.Types
 -- 
 -- \<p>List external accounts for an account.\<\/p>
 getAccountsAccountExternalAccounts :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                -- ^ account | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                        -- ^ account | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                        -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                                       -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                        -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
   -> GHC.Maybe.Maybe GetAccountsAccountExternalAccountsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetAccountsAccountExternalAccountsResponse)) -- ^ Monad containing the result of the operation
 getAccountsAccountExternalAccounts config
@@ -106,11 +106,11 @@ getAccountsAccountExternalAccounts config
 getAccountsAccountExternalAccountsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                        StripeAPI.Common.SecurityScheme s) =>
                                          StripeAPI.Common.Configuration s ->
-                                         GHC.Base.String ->
-                                         GHC.Maybe.Maybe GHC.Base.String ->
-                                         GHC.Maybe.Maybe GHC.Base.String ->
+                                         Data.Text.Internal.Text ->
+                                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                          GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                         GHC.Maybe.Maybe GHC.Base.String ->
+                                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                          GHC.Maybe.Maybe GetAccountsAccountExternalAccountsRequestBody ->
                                          m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -164,11 +164,11 @@ getAccountsAccountExternalAccountsRaw config
 -- Monadic version of 'getAccountsAccountExternalAccounts' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountsAccountExternalAccountsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
-                                       GHC.Base.String ->
-                                       GHC.Maybe.Maybe GHC.Base.String ->
-                                       GHC.Maybe.Maybe GHC.Base.String ->
+                                       Data.Text.Internal.Text ->
+                                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                       GHC.Maybe.Maybe GHC.Base.String ->
+                                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe GetAccountsAccountExternalAccountsRequestBody ->
                                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                           m
@@ -227,11 +227,11 @@ getAccountsAccountExternalAccountsM account
 -- Monadic version of 'getAccountsAccountExternalAccountsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountsAccountExternalAccountsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
-                                          GHC.Base.String ->
-                                          GHC.Maybe.Maybe GHC.Base.String ->
-                                          GHC.Maybe.Maybe GHC.Base.String ->
+                                          Data.Text.Internal.Text ->
+                                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                           GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                          GHC.Maybe.Maybe GHC.Base.String ->
+                                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                           GHC.Maybe.Maybe GetAccountsAccountExternalAccountsRequestBody ->
                                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                              m
@@ -316,7 +316,7 @@ data GetAccountsAccountExternalAccountsResponseBody200 = GetAccountsAccountExter
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Url :: GHC.Base.String
+  , getAccountsAccountExternalAccountsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetAccountsAccountExternalAccountsResponseBody200
@@ -335,61 +335,61 @@ data GetAccountsAccountExternalAccountsResponseBody200Data' = GetAccountsAccount
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'AccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'AccountHolderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | account_holder_type: The type of entity that holds the account. This can be either \`individual\` or \`company\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'AccountHolderType :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'AccountHolderType :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_city: City\/District\/Suburb\/Town\/Village.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'AddressCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'AddressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_country: Billing address country, if provided when creating card.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'AddressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'AddressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line1: Address line 1 (Street address\/PO Box\/Company name).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'AddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'AddressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line1_check: If \`address_line1\` was provided, results of the check: \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'AddressLine1Check :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'AddressLine1Check :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line2: Address line 2 (Apartment\/Suite\/Unit\/Building).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'AddressLine2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'AddressLine2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_state: State\/County\/Province\/Region.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'AddressState :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'AddressState :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_zip: ZIP or postal code.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'AddressZip :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'AddressZip :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_zip_check: If \`address_zip\` was provided, results of the check: \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'AddressZipCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'AddressZipCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | available_payout_methods: A set of available payout methods for this card. Will be either \`[\"standard\"]\` or \`[\"standard\", \"instant\"]\`. Only values from this set should be passed as the \`method\` when creating a transfer.
   , getAccountsAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods :: (GHC.Maybe.Maybe ([] GetAccountsAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'))
   -- | bank_name: Name of the bank associated with the routing number (e.g., \`WELLS FARGO\`).
@@ -397,21 +397,21 @@ data GetAccountsAccountExternalAccountsResponseBody200Data' = GetAccountsAccount
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'BankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'BankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | brand: Card brand. Can be \`American Express\`, \`Diners Club\`, \`Discover\`, \`JCB\`, \`MasterCard\`, \`UnionPay\`, \`Visa\`, or \`Unknown\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'Brand :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'Brand :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country: Two-letter ISO code representing the country the bank account is located in.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/payouts) paid out to the bank account.
-  , getAccountsAccountExternalAccountsResponseBody200Data'Currency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer: The ID of the customer that the bank account is associated with.
   , getAccountsAccountExternalAccountsResponseBody200Data'Customer :: (GHC.Maybe.Maybe GetAccountsAccountExternalAccountsResponseBody200Data'Customer'Variants)
   -- | cvc_check: If a CVC was provided, results of the check: \`pass\`, \`fail\`, \`unavailable\`, or \`unchecked\`.
@@ -419,7 +419,7 @@ data GetAccountsAccountExternalAccountsResponseBody200Data' = GetAccountsAccount
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'CvcCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'CvcCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_for_currency: Whether this bank account is the default external account for its currency.
   , getAccountsAccountExternalAccountsResponseBody200Data'DefaultForCurrency :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | dynamic_last4: (For tokenized numbers only.) The last four digits of the device account number.
@@ -427,7 +427,7 @@ data GetAccountsAccountExternalAccountsResponseBody200Data' = GetAccountsAccount
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'DynamicLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'DynamicLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | exp_month: Two-digit number representing the card\'s expiration month.
   , getAccountsAccountExternalAccountsResponseBody200Data'ExpMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | exp_year: Four-digit number representing the card\'s expiration year.
@@ -437,25 +437,25 @@ data GetAccountsAccountExternalAccountsResponseBody200Data' = GetAccountsAccount
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'Fingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'Fingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | funding: Card funding type. Can be \`credit\`, \`debit\`, \`prepaid\`, or \`unknown\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'Funding :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'Funding :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'Id :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last4: The last four digits of the bank account number.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'Last4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'Last4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   , getAccountsAccountExternalAccountsResponseBody200Data'Metadata :: (GHC.Maybe.Maybe GetAccountsAccountExternalAccountsResponseBody200Data'Metadata')
   -- | name: Cardholder name.
@@ -463,7 +463,7 @@ data GetAccountsAccountExternalAccountsResponseBody200Data' = GetAccountsAccount
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'Name :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , getAccountsAccountExternalAccountsResponseBody200Data'Object :: (GHC.Maybe.Maybe GetAccountsAccountExternalAccountsResponseBody200Data'Object')
   -- | recipient: The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
@@ -473,7 +473,7 @@ data GetAccountsAccountExternalAccountsResponseBody200Data' = GetAccountsAccount
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'RoutingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'RoutingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | status: For bank accounts, possible values are \`new\`, \`validated\`, \`verified\`, \`verification_failed\`, or \`errored\`. A bank account that hasn\'t had any activity or validation performed is \`new\`. If Stripe can determine that the bank account exists, its status will be \`validated\`. Note that there often isn’t enough information to know (e.g., for smaller credit unions), and the validation is not always run. If customer bank account verification has succeeded, the bank account status will be \`verified\`. If the verification failed for any reason, such as microdeposit failure, the status will be \`verification_failed\`. If a transfer sent to this bank account fails, we\'ll set the status to \`errored\` and will not continue to send transfers until the bank details are updated.
   -- 
   -- For external accounts, possible values are \`new\` and \`errored\`. Validations aren\'t run against external accounts because they\'re only used for payouts. This means the other statuses don\'t apply. If a transfer fails, the status is set to \`errored\` and transfers are stopped until account details are updated.
@@ -481,13 +481,13 @@ data GetAccountsAccountExternalAccountsResponseBody200Data' = GetAccountsAccount
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'Status :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'Status :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tokenization_method: If the card number is tokenized, this is the method that was used. Can be \`amex_express_checkout\`, \`android_pay\` (includes Google Pay), \`apple_pay\`, \`masterpass\`, \`visa_checkout\`, or null.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getAccountsAccountExternalAccountsResponseBody200Data'TokenizationMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getAccountsAccountExternalAccountsResponseBody200Data'TokenizationMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetAccountsAccountExternalAccountsResponseBody200Data'
@@ -500,7 +500,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetAccountsAccountExternalAccountsRe
 -- The ID of the account that the bank account is associated with.
 data GetAccountsAccountExternalAccountsResponseBody200Data'Account'Variants
     = GetAccountsAccountExternalAccountsResponseBody200Data'Account'Account Account
-    | GetAccountsAccountExternalAccountsResponseBody200Data'Account'String GHC.Base.String
+    | GetAccountsAccountExternalAccountsResponseBody200Data'Account'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON GetAccountsAccountExternalAccountsResponseBody200Data'Account'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -511,7 +511,7 @@ instance Data.Aeson.FromJSON GetAccountsAccountExternalAccountsResponseBody200Da
 -- 
 data GetAccountsAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'
     = GetAccountsAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumOther Data.Aeson.Types.Internal.Value
-    | GetAccountsAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumTyped GHC.Base.String
+    | GetAccountsAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumTyped Data.Text.Internal.Text
     | GetAccountsAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumStringInstant
     | GetAccountsAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumStringStandard
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -532,7 +532,7 @@ instance Data.Aeson.FromJSON GetAccountsAccountExternalAccountsResponseBody200Da
 data GetAccountsAccountExternalAccountsResponseBody200Data'Customer'Variants
     = GetAccountsAccountExternalAccountsResponseBody200Data'Customer'Customer Customer
     | GetAccountsAccountExternalAccountsResponseBody200Data'Customer'DeletedCustomer DeletedCustomer
-    | GetAccountsAccountExternalAccountsResponseBody200Data'Customer'String GHC.Base.String
+    | GetAccountsAccountExternalAccountsResponseBody200Data'Customer'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON GetAccountsAccountExternalAccountsResponseBody200Data'Customer'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -555,7 +555,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetAccountsAccountExternalAccountsRe
 -- String representing the object\'s type. Objects of the same type share the same value.
 data GetAccountsAccountExternalAccountsResponseBody200Data'Object'
     = GetAccountsAccountExternalAccountsResponseBody200Data'Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetAccountsAccountExternalAccountsResponseBody200Data'Object'EnumTyped GHC.Base.String
+    | GetAccountsAccountExternalAccountsResponseBody200Data'Object'EnumTyped Data.Text.Internal.Text
     | GetAccountsAccountExternalAccountsResponseBody200Data'Object'EnumStringBankAccount
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetAccountsAccountExternalAccountsResponseBody200Data'Object'
@@ -571,7 +571,7 @@ instance Data.Aeson.FromJSON GetAccountsAccountExternalAccountsResponseBody200Da
 -- The recipient that this card belongs to. This attribute will not be in the card object if the card belongs to a customer or account instead.
 data GetAccountsAccountExternalAccountsResponseBody200Data'Recipient'Variants
     = GetAccountsAccountExternalAccountsResponseBody200Data'Recipient'Recipient Recipient
-    | GetAccountsAccountExternalAccountsResponseBody200Data'Recipient'String GHC.Base.String
+    | GetAccountsAccountExternalAccountsResponseBody200Data'Recipient'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON GetAccountsAccountExternalAccountsResponseBody200Data'Recipient'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
@@ -582,7 +582,7 @@ instance Data.Aeson.FromJSON GetAccountsAccountExternalAccountsResponseBody200Da
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetAccountsAccountExternalAccountsResponseBody200Object'
     = GetAccountsAccountExternalAccountsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetAccountsAccountExternalAccountsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetAccountsAccountExternalAccountsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetAccountsAccountExternalAccountsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetAccountsAccountExternalAccountsResponseBody200Object'

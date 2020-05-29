@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of an existing refund.\<\/p>
 getRefundsRefund :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                              -- ^ refund
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                      -- ^ refund
   -> GHC.Maybe.Maybe GetRefundsRefundRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetRefundsRefundResponse)) -- ^ Monad containing the result of the operation
 getRefundsRefund config
@@ -68,8 +68,8 @@ getRefundsRefund config
 getRefundsRefundRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        StripeAPI.Common.Configuration s ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetRefundsRefundRequestBody ->
                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getRefundsRefundRaw config
 -- Monadic version of 'getRefundsRefund' (use with 'StripeAPI.Common.runWithConfiguration')
 getRefundsRefundM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
-                     GHC.Maybe.Maybe GHC.Base.String ->
-                     GHC.Base.String ->
+                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                     Data.Text.Internal.Text ->
                      GHC.Maybe.Maybe GetRefundsRefundRequestBody ->
                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                         m
@@ -113,8 +113,8 @@ getRefundsRefundM expand
 -- Monadic version of 'getRefundsRefundRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getRefundsRefundRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Maybe.Maybe GHC.Base.String ->
-                        GHC.Base.String ->
+                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe GetRefundsRefundRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m

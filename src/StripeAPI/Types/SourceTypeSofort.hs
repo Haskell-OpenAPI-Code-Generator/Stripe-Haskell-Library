@@ -32,19 +32,19 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeSofort = SourceTypeSofort {
   -- | bank_code
-  sourceTypeSofortBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeSofortBankCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bank_name
-  , sourceTypeSofortBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeSofortBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bic
-  , sourceTypeSofortBic :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeSofortBic :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
-  , sourceTypeSofortCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeSofortCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | iban_last4
-  , sourceTypeSofortIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeSofortIbanLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | preferred_language
-  , sourceTypeSofortPreferredLanguage :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeSofortPreferredLanguage :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor
-  , sourceTypeSofortStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeSofortStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeSofort

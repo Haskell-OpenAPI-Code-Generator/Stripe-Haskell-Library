@@ -51,7 +51,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON AccountCapabilities
 -- The status of the card issuing capability of the account, or whether you can use Issuing to distribute funds on cards
 data AccountCapabilitiesCardIssuing'
     = AccountCapabilitiesCardIssuing'EnumOther Data.Aeson.Types.Internal.Value
-    | AccountCapabilitiesCardIssuing'EnumTyped GHC.Base.String
+    | AccountCapabilitiesCardIssuing'EnumTyped Data.Text.Internal.Text
     | AccountCapabilitiesCardIssuing'EnumStringActive
     | AccountCapabilitiesCardIssuing'EnumStringInactive
     | AccountCapabilitiesCardIssuing'EnumStringPending
@@ -75,7 +75,7 @@ instance Data.Aeson.FromJSON AccountCapabilitiesCardIssuing'
 -- The status of the card payments capability of the account, or whether the account can directly process credit and debit card charges.
 data AccountCapabilitiesCardPayments'
     = AccountCapabilitiesCardPayments'EnumOther Data.Aeson.Types.Internal.Value
-    | AccountCapabilitiesCardPayments'EnumTyped GHC.Base.String
+    | AccountCapabilitiesCardPayments'EnumTyped Data.Text.Internal.Text
     | AccountCapabilitiesCardPayments'EnumStringActive
     | AccountCapabilitiesCardPayments'EnumStringInactive
     | AccountCapabilitiesCardPayments'EnumStringPending
@@ -99,7 +99,7 @@ instance Data.Aeson.FromJSON AccountCapabilitiesCardPayments'
 -- The status of the legacy payments capability of the account.
 data AccountCapabilitiesLegacyPayments'
     = AccountCapabilitiesLegacyPayments'EnumOther Data.Aeson.Types.Internal.Value
-    | AccountCapabilitiesLegacyPayments'EnumTyped GHC.Base.String
+    | AccountCapabilitiesLegacyPayments'EnumTyped Data.Text.Internal.Text
     | AccountCapabilitiesLegacyPayments'EnumStringActive
     | AccountCapabilitiesLegacyPayments'EnumStringInactive
     | AccountCapabilitiesLegacyPayments'EnumStringPending
@@ -123,7 +123,7 @@ instance Data.Aeson.FromJSON AccountCapabilitiesLegacyPayments'
 -- The status of the transfers capability of the account, or whether your platform can transfer funds to the account.
 data AccountCapabilitiesTransfers'
     = AccountCapabilitiesTransfers'EnumOther Data.Aeson.Types.Internal.Value
-    | AccountCapabilitiesTransfers'EnumTyped GHC.Base.String
+    | AccountCapabilitiesTransfers'EnumTyped Data.Text.Internal.Text
     | AccountCapabilitiesTransfers'EnumStringActive
     | AccountCapabilitiesTransfers'EnumStringInactive
     | AccountCapabilitiesTransfers'EnumStringPending

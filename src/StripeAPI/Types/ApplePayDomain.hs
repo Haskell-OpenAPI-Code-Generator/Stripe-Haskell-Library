@@ -38,13 +38,13 @@ data ApplePayDomain = ApplePayDomain {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , applePayDomainDomainName :: GHC.Base.String
+  , applePayDomainDomainName :: Data.Text.Internal.Text
   -- | id: Unique identifier for the object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , applePayDomainId :: GHC.Base.String
+  , applePayDomainId :: Data.Text.Internal.Text
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , applePayDomainLivemode :: GHC.Types.Bool
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
@@ -61,7 +61,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON ApplePayDomain
 -- String representing the object\'s type. Objects of the same type share the same value.
 data ApplePayDomainObject'
     = ApplePayDomainObject'EnumOther Data.Aeson.Types.Internal.Value
-    | ApplePayDomainObject'EnumTyped GHC.Base.String
+    | ApplePayDomainObject'EnumTyped Data.Text.Internal.Text
     | ApplePayDomainObject'EnumStringApplePayDomain
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON ApplePayDomainObject'

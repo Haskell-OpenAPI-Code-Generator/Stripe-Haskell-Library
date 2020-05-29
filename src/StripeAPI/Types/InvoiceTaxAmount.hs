@@ -50,7 +50,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON InvoiceTaxAmount
 -- The tax rate that was applied to get this tax amount.
 data InvoiceTaxAmountTaxRate'Variants
     = InvoiceTaxAmountTaxRate'TaxRate TaxRate
-    | InvoiceTaxAmountTaxRate'String GHC.Base.String
+    | InvoiceTaxAmountTaxRate'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON InvoiceTaxAmountTaxRate'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}

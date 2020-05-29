@@ -38,13 +38,13 @@ data AccountRequirementsError = AccountRequirementsError {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , accountRequirementsErrorReason :: GHC.Base.String
+  , accountRequirementsErrorReason :: Data.Text.Internal.Text
   -- | requirement: The specific user onboarding requirement field (in the requirements hash) that needs to be resolved.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , accountRequirementsErrorRequirement :: GHC.Base.String
+  , accountRequirementsErrorRequirement :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON AccountRequirementsError
@@ -57,7 +57,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON AccountRequirementsError
 -- The code for the type of error.
 data AccountRequirementsErrorCode'
     = AccountRequirementsErrorCode'EnumOther Data.Aeson.Types.Internal.Value
-    | AccountRequirementsErrorCode'EnumTyped GHC.Base.String
+    | AccountRequirementsErrorCode'EnumTyped Data.Text.Internal.Text
     | AccountRequirementsErrorCode'EnumStringInvalidAddressCityStatePostalCode
     | AccountRequirementsErrorCode'EnumStringInvalidStreetAddress
     | AccountRequirementsErrorCode'EnumStringInvalidValueOther

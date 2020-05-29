@@ -38,7 +38,7 @@ data PaymentMethodDetailsFpx = PaymentMethodDetailsFpx {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsFpxTransactionId :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsFpxTransactionId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsFpx
@@ -51,7 +51,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsFpx
 -- The customer\'s bank. Can be one of \`affin_bank\`, \`alliance_bank\`, \`ambank\`, \`bank_islam\`, \`bank_muamalat\`, \`bank_rakyat\`, \`bsn\`, \`cimb\`, \`hong_leong_bank\`, \`hsbc\`, \`kfh\`, \`maybank2u\`, \`ocbc\`, \`public_bank\`, \`rhb\`, \`standard_chartered\`, \`uob\`, \`deutsche_bank\`, \`maybank2e\`, or \`pb_enterprise\`.
 data PaymentMethodDetailsFpxBank'
     = PaymentMethodDetailsFpxBank'EnumOther Data.Aeson.Types.Internal.Value
-    | PaymentMethodDetailsFpxBank'EnumTyped GHC.Base.String
+    | PaymentMethodDetailsFpxBank'EnumTyped Data.Text.Internal.Text
     | PaymentMethodDetailsFpxBank'EnumStringAffinBank
     | PaymentMethodDetailsFpxBank'EnumStringAllianceBank
     | PaymentMethodDetailsFpxBank'EnumStringAmbank

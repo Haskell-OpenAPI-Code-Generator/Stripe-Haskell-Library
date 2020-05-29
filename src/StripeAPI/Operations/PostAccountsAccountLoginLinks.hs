@@ -46,7 +46,7 @@ import StripeAPI.Types
 -- 
 -- \<p>\<strong>You may only create login links for \<a href=\"\/docs\/connect\/express-accounts\">Express accounts\<\/a> connected to your platform\<\/strong>.\<\/p>
 postAccountsAccountLoginLinks :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                           -- ^ account | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                   -- ^ account | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostAccountsAccountLoginLinksRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostAccountsAccountLoginLinksResponse)) -- ^ Monad containing the result of the operation
 postAccountsAccountLoginLinks config
@@ -62,7 +62,7 @@ postAccountsAccountLoginLinks config
 postAccountsAccountLoginLinksRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     StripeAPI.Common.Configuration s ->
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe PostAccountsAccountLoginLinksRequestBody ->
                                     m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                           (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -74,7 +74,7 @@ postAccountsAccountLoginLinksRaw config
 -- Monadic version of 'postAccountsAccountLoginLinks' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountLoginLinksM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe PostAccountsAccountLoginLinksRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m
@@ -91,7 +91,7 @@ postAccountsAccountLoginLinksM account
 -- Monadic version of 'postAccountsAccountLoginLinksRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountLoginLinksRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
-                                     GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe PostAccountsAccountLoginLinksRequestBody ->
                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                         m
@@ -104,9 +104,9 @@ postAccountsAccountLoginLinksRawM account
 -- 
 data PostAccountsAccountLoginLinksRequestBody = PostAccountsAccountLoginLinksRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postAccountsAccountLoginLinksRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postAccountsAccountLoginLinksRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | redirect_url: Where to redirect the user after they log out of their dashboard.
-  , postAccountsAccountLoginLinksRequestBodyRedirectUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountLoginLinksRequestBodyRedirectUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountsAccountLoginLinksRequestBody

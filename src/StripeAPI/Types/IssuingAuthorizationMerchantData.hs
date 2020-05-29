@@ -36,49 +36,49 @@ data IssuingAuthorizationMerchantData = IssuingAuthorizationMerchantData {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  issuingAuthorizationMerchantDataCategory :: GHC.Base.String
+  issuingAuthorizationMerchantDataCategory :: Data.Text.Internal.Text
   -- | city: City where the seller is located
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuingAuthorizationMerchantDataCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  , issuingAuthorizationMerchantDataCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country: Country where the seller is located
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuingAuthorizationMerchantDataCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , issuingAuthorizationMerchantDataCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name: Name of the seller
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuingAuthorizationMerchantDataName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , issuingAuthorizationMerchantDataName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | network_id: Identifier assigned to the seller by the card brand
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuingAuthorizationMerchantDataNetworkId :: GHC.Base.String
+  , issuingAuthorizationMerchantDataNetworkId :: Data.Text.Internal.Text
   -- | postal_code: Postal code where the seller is located
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuingAuthorizationMerchantDataPostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , issuingAuthorizationMerchantDataPostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state: State where the seller is located
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuingAuthorizationMerchantDataState :: (GHC.Maybe.Maybe GHC.Base.String)
+  , issuingAuthorizationMerchantDataState :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | url: The url an online purchase was made from
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , issuingAuthorizationMerchantDataUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , issuingAuthorizationMerchantDataUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON IssuingAuthorizationMerchantData

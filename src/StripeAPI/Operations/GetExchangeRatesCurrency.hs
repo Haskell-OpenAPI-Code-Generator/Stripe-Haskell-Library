@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the exchange rates from the given currency to every supported currency.\<\/p>
 getExchangeRatesCurrency :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                      -- ^ currency | Constraints: Maximum length of 3
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                              -- ^ currency | Constraints: Maximum length of 3
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetExchangeRatesCurrencyRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetExchangeRatesCurrencyResponse)) -- ^ Monad containing the result of the operation
 getExchangeRatesCurrency config
@@ -68,8 +68,8 @@ getExchangeRatesCurrency config
 getExchangeRatesCurrencyRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                StripeAPI.Common.Configuration s ->
-                               GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GetExchangeRatesCurrencyRequestBody ->
                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getExchangeRatesCurrencyRaw config
 -- Monadic version of 'getExchangeRatesCurrency' (use with 'StripeAPI.Common.runWithConfiguration')
 getExchangeRatesCurrencyM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Base.String ->
-                             GHC.Maybe.Maybe GHC.Base.String ->
+                             Data.Text.Internal.Text ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GetExchangeRatesCurrencyRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m
@@ -113,8 +113,8 @@ getExchangeRatesCurrencyM currency
 -- Monadic version of 'getExchangeRatesCurrencyRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getExchangeRatesCurrencyRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
-                                GHC.Maybe.Maybe GHC.Base.String ->
+                                Data.Text.Internal.Text ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GetExchangeRatesCurrencyRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m

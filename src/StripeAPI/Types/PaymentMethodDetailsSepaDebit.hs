@@ -36,37 +36,37 @@ data PaymentMethodDetailsSepaDebit = PaymentMethodDetailsSepaDebit {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  paymentMethodDetailsSepaDebitBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  paymentMethodDetailsSepaDebitBankCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | branch_code: Branch code of bank associated with the bank account.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsSepaDebitBranchCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsSepaDebitBranchCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country: Two-letter ISO code representing the country the bank account is located in.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsSepaDebitCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsSepaDebitCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | fingerprint: Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsSepaDebitFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsSepaDebitFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last4: Last four characters of the IBAN.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsSepaDebitLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsSepaDebitLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | mandate: ID of the mandate used to make this payment.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsSepaDebitMandate :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsSepaDebitMandate :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsSepaDebit

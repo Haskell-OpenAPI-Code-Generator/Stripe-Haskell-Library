@@ -46,7 +46,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Uncaptured payments expire exactly seven days after they are created. If they are not captured by that point in time, they will be marked as refunded and will no longer be capturable.\<\/p>
 postChargesChargeCapture :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                      -- ^ charge | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                              -- ^ charge | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostChargesChargeCaptureRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostChargesChargeCaptureResponse)) -- ^ Monad containing the result of the operation
 postChargesChargeCapture config
@@ -62,7 +62,7 @@ postChargesChargeCapture config
 postChargesChargeCaptureRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                StripeAPI.Common.Configuration s ->
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe PostChargesChargeCaptureRequestBody ->
                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -74,7 +74,7 @@ postChargesChargeCaptureRaw config
 -- Monadic version of 'postChargesChargeCapture' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeCaptureM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe PostChargesChargeCaptureRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m
@@ -91,7 +91,7 @@ postChargesChargeCaptureM charge
 -- Monadic version of 'postChargesChargeCaptureRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeCaptureRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe PostChargesChargeCaptureRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -110,25 +110,25 @@ data PostChargesChargeCaptureRequestBody = PostChargesChargeCaptureRequestBody {
   -- | application_fee_amount: An application fee amount to add on to this charge, which must be less than or equal to the original amount.
   , postChargesChargeCaptureRequestBodyApplicationFeeAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postChargesChargeCaptureRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postChargesChargeCaptureRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | receipt_email: The email address to send this charge\'s receipt to. This will override the previously-specified email address for this charge, if one was set. Receipts will not be sent in test mode.
-  , postChargesChargeCaptureRequestBodyReceiptEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeCaptureRequestBodyReceiptEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor: For card charges, use \`statement_descriptor_suffix\` instead. Otherwise, you can use this value as the complete description of a charge on your customers’ statements. Must contain at least one letter, maximum 22 characters.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postChargesChargeCaptureRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeCaptureRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor_suffix: Provides information about the charge that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that’s set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postChargesChargeCaptureRequestBodyStatementDescriptorSuffix :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeCaptureRequestBodyStatementDescriptorSuffix :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | transfer_data: An optional dictionary including the account to automatically transfer to as part of a destination charge. [See the Connect documentation](https:\/\/stripe.com\/docs\/connect\/destination-charges) for details.
   , postChargesChargeCaptureRequestBodyTransferData :: (GHC.Maybe.Maybe PostChargesChargeCaptureRequestBodyTransferData')
   -- | transfer_group: A string that identifies this transaction as part of a group. \`transfer_group\` may only be provided if it has not been set. See the [Connect documentation](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#transfer-options) for details.
-  , postChargesChargeCaptureRequestBodyTransferGroup :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeCaptureRequestBodyTransferGroup :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostChargesChargeCaptureRequestBody

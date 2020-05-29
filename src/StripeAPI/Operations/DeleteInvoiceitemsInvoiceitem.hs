@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they’re not attached to invoices, or if it’s attached to a draft invoice.\<\/p>
 deleteInvoiceitemsInvoiceitem :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                           -- ^ invoiceitem | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                   -- ^ invoiceitem | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteInvoiceitemsInvoiceitemRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteInvoiceitemsInvoiceitemResponse)) -- ^ Monad containing the result of the operation
 deleteInvoiceitemsInvoiceitem config
@@ -60,7 +60,7 @@ deleteInvoiceitemsInvoiceitem config
 deleteInvoiceitemsInvoiceitemRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
                                     StripeAPI.Common.Configuration s ->
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe DeleteInvoiceitemsInvoiceitemRequestBody ->
                                     m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                           (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteInvoiceitemsInvoiceitemRaw config
 -- Monadic version of 'deleteInvoiceitemsInvoiceitem' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteInvoiceitemsInvoiceitemM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe DeleteInvoiceitemsInvoiceitemRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m
@@ -89,7 +89,7 @@ deleteInvoiceitemsInvoiceitemM invoiceitem
 -- Monadic version of 'deleteInvoiceitemsInvoiceitemRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteInvoiceitemsInvoiceitemRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
-                                     GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe DeleteInvoiceitemsInvoiceitemRequestBody ->
                                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                         m

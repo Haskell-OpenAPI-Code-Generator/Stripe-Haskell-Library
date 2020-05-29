@@ -48,7 +48,7 @@ import StripeAPI.Types
 -- 
 -- \<p>If you want to delete your own account, use the \<a href=\"https:\/\/dashboard.stripe.com\/account\">account information tab in your account settings\<\/a> instead.\<\/p>
 deleteAccountsAccount :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                   -- ^ account | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                           -- ^ account | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteAccountsAccountRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteAccountsAccountResponse)) -- ^ Monad containing the result of the operation
 deleteAccountsAccount config
@@ -64,7 +64,7 @@ deleteAccountsAccount config
 deleteAccountsAccountRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             StripeAPI.Common.Configuration s ->
-                            GHC.Base.String ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe DeleteAccountsAccountRequestBody ->
                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,7 +76,7 @@ deleteAccountsAccountRaw config
 -- Monadic version of 'deleteAccountsAccount' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteAccountsAccountM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Base.String ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe DeleteAccountsAccountRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m
@@ -93,7 +93,7 @@ deleteAccountsAccountM account
 -- Monadic version of 'deleteAccountsAccountRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteAccountsAccountRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe DeleteAccountsAccountRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m

@@ -102,9 +102,9 @@ data PostPaymentMethodsRequestBody = PostPaymentMethodsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postPaymentMethodsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postPaymentMethodsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | fpx: If this is an \`fpx\` PaymentMethod, this hash contains details about the FPX payment method.
   , postPaymentMethodsRequestBodyFpx :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodyFpx')
   -- | ideal: If this is an \`ideal\` PaymentMethod, this hash contains details about the iDEAL payment method.
@@ -116,7 +116,7 @@ data PostPaymentMethodsRequestBody = PostPaymentMethodsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsRequestBodyPaymentMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsRequestBodyPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | sepa_debit: If this is a \`sepa_debit\` PaymentMethod, this hash contains details about the SEPA debit bank account.
   , postPaymentMethodsRequestBodySepaDebit :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodySepaDebit')
   -- | type: The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Required unless \`payment_method\` is specified (see the [Cloning PaymentMethods](https:\/\/stripe.com\/docs\/payments\/payment-methods\/connect\#cloning-payment-methods) guide)
@@ -135,19 +135,19 @@ data PostPaymentMethodsRequestBodyBillingDetails' = PostPaymentMethodsRequestBod
   -- | address
   postPaymentMethodsRequestBodyBillingDetails'Address :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodyBillingDetails'Address')
   -- | email
-  , postPaymentMethodsRequestBodyBillingDetails'Email :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsRequestBodyBillingDetails'Email :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsRequestBodyBillingDetails'Name :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsRequestBodyBillingDetails'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | phone
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsRequestBodyBillingDetails'Phone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsRequestBodyBillingDetails'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodyBillingDetails'
@@ -164,37 +164,37 @@ data PostPaymentMethodsRequestBodyBillingDetails'Address' = PostPaymentMethodsRe
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postPaymentMethodsRequestBodyBillingDetails'Address'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postPaymentMethodsRequestBodyBillingDetails'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsRequestBodyBillingDetails'Address'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsRequestBodyBillingDetails'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsRequestBodyBillingDetails'Address'Line1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsRequestBodyBillingDetails'Address'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsRequestBodyBillingDetails'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsRequestBodyBillingDetails'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsRequestBodyBillingDetails'Address'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsRequestBodyBillingDetails'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsRequestBodyBillingDetails'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsRequestBodyBillingDetails'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodyBillingDetails'Address'
@@ -211,7 +211,7 @@ data PostPaymentMethodsRequestBodyCard' = PostPaymentMethodsRequestBodyCard' {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postPaymentMethodsRequestBodyCard'Cvc :: (GHC.Maybe.Maybe GHC.Base.String)
+  postPaymentMethodsRequestBodyCard'Cvc :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | exp_month
   , postPaymentMethodsRequestBodyCard'ExpMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | exp_year
@@ -221,13 +221,13 @@ data PostPaymentMethodsRequestBodyCard' = PostPaymentMethodsRequestBodyCard' {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsRequestBodyCard'Number :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsRequestBodyCard'Number :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | token
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsRequestBodyCard'Token :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsRequestBodyCard'Token :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodyCard'
@@ -257,7 +257,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyFpx'
 -- 
 data PostPaymentMethodsRequestBodyFpx'Bank'
     = PostPaymentMethodsRequestBodyFpx'Bank'EnumOther Data.Aeson.Types.Internal.Value
-    | PostPaymentMethodsRequestBodyFpx'Bank'EnumTyped GHC.Base.String
+    | PostPaymentMethodsRequestBodyFpx'Bank'EnumTyped Data.Text.Internal.Text
     | PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAffinBank
     | PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAllianceBank
     | PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAmbank
@@ -366,7 +366,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyIdeal'
 -- 
 data PostPaymentMethodsRequestBodyIdeal'Bank'
     = PostPaymentMethodsRequestBodyIdeal'Bank'EnumOther Data.Aeson.Types.Internal.Value
-    | PostPaymentMethodsRequestBodyIdeal'Bank'EnumTyped GHC.Base.String
+    | PostPaymentMethodsRequestBodyIdeal'Bank'EnumTyped Data.Text.Internal.Text
     | PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringAbnAmro
     | PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringAsnBank
     | PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringBunq
@@ -442,7 +442,7 @@ data PostPaymentMethodsRequestBodySepaDebit' = PostPaymentMethodsRequestBodySepa
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postPaymentMethodsRequestBodySepaDebit'Iban :: GHC.Base.String
+  postPaymentMethodsRequestBodySepaDebit'Iban :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodySepaDebit'
@@ -455,7 +455,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodySepaDeb
 -- The type of the PaymentMethod. An additional hash is included on the PaymentMethod with a name matching this value. It contains additional information specific to the PaymentMethod type. Required unless \`payment_method\` is specified (see the [Cloning PaymentMethods](https:\/\/stripe.com\/docs\/payments\/payment-methods\/connect\#cloning-payment-methods) guide)
 data PostPaymentMethodsRequestBodyType'
     = PostPaymentMethodsRequestBodyType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostPaymentMethodsRequestBodyType'EnumTyped GHC.Base.String
+    | PostPaymentMethodsRequestBodyType'EnumTyped Data.Text.Internal.Text
     | PostPaymentMethodsRequestBodyType'EnumStringCard
     | PostPaymentMethodsRequestBodyType'EnumStringFpx
     | PostPaymentMethodsRequestBodyType'EnumStringIdeal

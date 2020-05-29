@@ -39,7 +39,7 @@ data SetupIntentNextAction = SetupIntentNextAction {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , setupIntentNextActionType :: GHC.Base.String
+  , setupIntentNextActionType :: Data.Text.Internal.Text
   -- | use_stripe_sdk: When confirming a SetupIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
   , setupIntentNextActionUseStripeSdk :: (GHC.Maybe.Maybe SetupIntentNextActionUseStripeSdk')
   } deriving (GHC.Show.Show

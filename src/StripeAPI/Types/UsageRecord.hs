@@ -39,7 +39,7 @@ data UsageRecord = UsageRecord {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  usageRecordId :: GHC.Base.String
+  usageRecordId :: Data.Text.Internal.Text
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , usageRecordLivemode :: GHC.Types.Bool
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
@@ -51,7 +51,7 @@ data UsageRecord = UsageRecord {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , usageRecordSubscriptionItem :: GHC.Base.String
+  , usageRecordSubscriptionItem :: Data.Text.Internal.Text
   -- | timestamp: The timestamp when this usage occurred.
   , usageRecordTimestamp :: GHC.Integer.Type.Integer
   } deriving (GHC.Show.Show
@@ -66,7 +66,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON UsageRecord
 -- String representing the object\'s type. Objects of the same type share the same value.
 data UsageRecordObject'
     = UsageRecordObject'EnumOther Data.Aeson.Types.Internal.Value
-    | UsageRecordObject'EnumTyped GHC.Base.String
+    | UsageRecordObject'EnumTyped Data.Text.Internal.Text
     | UsageRecordObject'EnumStringUsageRecord
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON UsageRecordObject'

@@ -45,7 +45,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardPin
 -- Wether the PIN will be accepted or not.
 data IssuingCardPinStatus'
     = IssuingCardPinStatus'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingCardPinStatus'EnumTyped GHC.Base.String
+    | IssuingCardPinStatus'EnumTyped Data.Text.Internal.Text
     | IssuingCardPinStatus'EnumStringActive
     | IssuingCardPinStatus'EnumStringBlocked
     deriving (GHC.Show.Show, GHC.Classes.Eq)

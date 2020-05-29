@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the coupon with the given ID.\<\/p>
 getCouponsCoupon :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                              -- ^ coupon | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                      -- ^ coupon | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetCouponsCouponRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCouponsCouponResponse)) -- ^ Monad containing the result of the operation
 getCouponsCoupon config
@@ -68,8 +68,8 @@ getCouponsCoupon config
 getCouponsCouponRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        StripeAPI.Common.Configuration s ->
-                       GHC.Base.String ->
-                       GHC.Maybe.Maybe GHC.Base.String ->
+                       Data.Text.Internal.Text ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetCouponsCouponRequestBody ->
                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getCouponsCouponRaw config
 -- Monadic version of 'getCouponsCoupon' (use with 'StripeAPI.Common.runWithConfiguration')
 getCouponsCouponM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
-                     GHC.Base.String ->
-                     GHC.Maybe.Maybe GHC.Base.String ->
+                     Data.Text.Internal.Text ->
+                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
                      GHC.Maybe.Maybe GetCouponsCouponRequestBody ->
                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                         m
@@ -113,8 +113,8 @@ getCouponsCouponM coupon
 -- Monadic version of 'getCouponsCouponRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCouponsCouponRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Base.String ->
-                        GHC.Maybe.Maybe GHC.Base.String ->
+                        Data.Text.Internal.Text ->
+                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe GetCouponsCouponRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m

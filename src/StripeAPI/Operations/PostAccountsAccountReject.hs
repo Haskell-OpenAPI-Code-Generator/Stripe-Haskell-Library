@@ -46,7 +46,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Test-mode Custom and Express accounts can be rejected at any time. Accounts created using live-mode keys may only be rejected once all balances are zero.\<\/p>
 postAccountsAccountReject :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                       -- ^ account | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                               -- ^ account | Constraints: Maximum length of 5000
   -> PostAccountsAccountRejectRequestBody                                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostAccountsAccountRejectResponse)) -- ^ Monad containing the result of the operation
 postAccountsAccountReject config
@@ -62,7 +62,7 @@ postAccountsAccountReject config
 postAccountsAccountRejectRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
                                 StripeAPI.Common.Configuration s ->
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 PostAccountsAccountRejectRequestBody ->
                                 m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                       (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -74,7 +74,7 @@ postAccountsAccountRejectRaw config
 -- Monadic version of 'postAccountsAccountReject' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountRejectM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
-                              GHC.Base.String ->
+                              Data.Text.Internal.Text ->
                               PostAccountsAccountRejectRequestBody ->
                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                  m
@@ -91,7 +91,7 @@ postAccountsAccountRejectM account
 -- Monadic version of 'postAccountsAccountRejectRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountRejectRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
-                                 GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
                                  PostAccountsAccountRejectRequestBody ->
                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                     m
@@ -104,13 +104,13 @@ postAccountsAccountRejectRawM account
 -- 
 data PostAccountsAccountRejectRequestBody = PostAccountsAccountRejectRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postAccountsAccountRejectRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postAccountsAccountRejectRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | reason: The reason for rejecting the account. Can be \`fraud\`, \`terms_of_service\`, or \`other\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountRejectRequestBodyReason :: GHC.Base.String
+  , postAccountsAccountRejectRequestBodyReason :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountsAccountRejectRequestBody

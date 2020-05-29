@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves a tax rate with the given ID\<\/p>
 getTaxRatesTaxRate :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                -- ^ tax_rate | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                        -- ^ tax_rate | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetTaxRatesTaxRateRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetTaxRatesTaxRateResponse)) -- ^ Monad containing the result of the operation
 getTaxRatesTaxRate config
@@ -68,8 +68,8 @@ getTaxRatesTaxRate config
 getTaxRatesTaxRateRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          StripeAPI.Common.Configuration s ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Base.String ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe GetTaxRatesTaxRateRequestBody ->
                          m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getTaxRatesTaxRateRaw config
 -- Monadic version of 'getTaxRatesTaxRate' (use with 'StripeAPI.Common.runWithConfiguration')
 getTaxRatesTaxRateM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetTaxRatesTaxRateRequestBody ->
                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                           m
@@ -113,8 +113,8 @@ getTaxRatesTaxRateM expand
 -- Monadic version of 'getTaxRatesTaxRateRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getTaxRatesTaxRateRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Base.String ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe GetTaxRatesTaxRateRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m

@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Deletes an existing person’s relationship to the account’s legal entity. Any person with a relationship for an account can be deleted through the API, except if the person is the \<code>account_opener\<\/code>. If your integration is using the \<code>executive\<\/code> parameter, you cannot delete the only verified \<code>executive\<\/code> on file.\<\/p>
 deleteAccountPersonsPerson :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                        -- ^ person | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                -- ^ person | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteAccountPersonsPersonRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteAccountPersonsPersonResponse)) -- ^ Monad containing the result of the operation
 deleteAccountPersonsPerson config
@@ -60,7 +60,7 @@ deleteAccountPersonsPerson config
 deleteAccountPersonsPersonRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
                                  StripeAPI.Common.Configuration s ->
-                                 GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe DeleteAccountPersonsPersonRequestBody ->
                                  m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteAccountPersonsPersonRaw config
 -- Monadic version of 'deleteAccountPersonsPerson' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteAccountPersonsPersonM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe DeleteAccountPersonsPersonRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -89,7 +89,7 @@ deleteAccountPersonsPersonM person
 -- Monadic version of 'deleteAccountPersonsPersonRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteAccountPersonsPersonRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe DeleteAccountPersonsPersonRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m

@@ -100,11 +100,11 @@ data PostIssuingCardsRequestBody = PostIssuingCardsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardsRequestBodyCardholder :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingCardsRequestBodyCardholder :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | currency: The currency for the card. This currently must be \`usd\`.
-  , postIssuingCardsRequestBodyCurrency :: GHC.Base.String
+  , postIssuingCardsRequestBodyCurrency :: Data.Text.Internal.Text
   -- | expand: Specifies which fields in the response should be expanded.
-  , postIssuingCardsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postIssuingCardsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postIssuingCardsRequestBodyMetadata :: (GHC.Maybe.Maybe PostIssuingCardsRequestBodyMetadata')
   -- | replacement_for: The card this is meant to be a replacement for (if any).
@@ -112,7 +112,7 @@ data PostIssuingCardsRequestBody = PostIssuingCardsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardsRequestBodyReplacementFor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingCardsRequestBodyReplacementFor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | replacement_reason: If \`replacement_for\` is specified, this should indicate why that card is being replaced.
   , postIssuingCardsRequestBodyReplacementReason :: (GHC.Maybe.Maybe PostIssuingCardsRequestBodyReplacementReason')
   -- | shipping: The address where the card will be shipped.
@@ -152,7 +152,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodyAuthoriza
 -- 
 data PostIssuingCardsRequestBodyAuthorizationControls'AllowedCategories'
     = PostIssuingCardsRequestBodyAuthorizationControls'AllowedCategories'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsRequestBodyAuthorizationControls'AllowedCategories'EnumTyped GHC.Base.String
+    | PostIssuingCardsRequestBodyAuthorizationControls'AllowedCategories'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsRequestBodyAuthorizationControls'AllowedCategories'EnumStringAcRefrigerationRepair
     | PostIssuingCardsRequestBodyAuthorizationControls'AllowedCategories'EnumStringAccountingBookkeepingServices
     | PostIssuingCardsRequestBodyAuthorizationControls'AllowedCategories'EnumStringAdvertisingServices
@@ -1316,7 +1316,7 @@ instance Data.Aeson.FromJSON PostIssuingCardsRequestBodyAuthorizationControls'Al
 -- 
 data PostIssuingCardsRequestBodyAuthorizationControls'BlockedCategories'
     = PostIssuingCardsRequestBodyAuthorizationControls'BlockedCategories'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsRequestBodyAuthorizationControls'BlockedCategories'EnumTyped GHC.Base.String
+    | PostIssuingCardsRequestBodyAuthorizationControls'BlockedCategories'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsRequestBodyAuthorizationControls'BlockedCategories'EnumStringAcRefrigerationRepair
     | PostIssuingCardsRequestBodyAuthorizationControls'BlockedCategories'EnumStringAccountingBookkeepingServices
     | PostIssuingCardsRequestBodyAuthorizationControls'BlockedCategories'EnumStringAdvertisingServices
@@ -2497,7 +2497,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodyAuthoriza
 -- 
 data PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Categories'
     = PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTyped GHC.Base.String
+    | PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAcRefrigerationRepair
     | PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAccountingBookkeepingServices
     | PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Categories'EnumStringAdvertisingServices
@@ -3661,7 +3661,7 @@ instance Data.Aeson.FromJSON PostIssuingCardsRequestBodyAuthorizationControls'Sp
 -- 
 data PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Interval'
     = PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumTyped GHC.Base.String
+    | PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringAllTime
     | PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringDaily
     | PostIssuingCardsRequestBodyAuthorizationControls'SpendingLimits'Interval'EnumStringMonthly
@@ -3709,7 +3709,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodyMetadata'
 -- If \`replacement_for\` is specified, this should indicate why that card is being replaced.
 data PostIssuingCardsRequestBodyReplacementReason'
     = PostIssuingCardsRequestBodyReplacementReason'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsRequestBodyReplacementReason'EnumTyped GHC.Base.String
+    | PostIssuingCardsRequestBodyReplacementReason'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsRequestBodyReplacementReason'EnumStringDamage
     | PostIssuingCardsRequestBodyReplacementReason'EnumStringExpiration
     | PostIssuingCardsRequestBodyReplacementReason'EnumStringLoss
@@ -3743,7 +3743,7 @@ data PostIssuingCardsRequestBodyShipping' = PostIssuingCardsRequestBodyShipping'
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardsRequestBodyShipping'Name :: GHC.Base.String
+  , postIssuingCardsRequestBodyShipping'Name :: Data.Text.Internal.Text
   -- | speed
   , postIssuingCardsRequestBodyShipping'Speed :: (GHC.Maybe.Maybe PostIssuingCardsRequestBodyShipping'Speed')
   -- | type
@@ -3764,37 +3764,37 @@ data PostIssuingCardsRequestBodyShipping'Address' = PostIssuingCardsRequestBodyS
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postIssuingCardsRequestBodyShipping'Address'City :: GHC.Base.String
+  postIssuingCardsRequestBodyShipping'Address'City :: Data.Text.Internal.Text
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardsRequestBodyShipping'Address'Country :: GHC.Base.String
+  , postIssuingCardsRequestBodyShipping'Address'Country :: Data.Text.Internal.Text
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardsRequestBodyShipping'Address'Line1 :: GHC.Base.String
+  , postIssuingCardsRequestBodyShipping'Address'Line1 :: Data.Text.Internal.Text
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardsRequestBodyShipping'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingCardsRequestBodyShipping'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardsRequestBodyShipping'Address'PostalCode :: GHC.Base.String
+  , postIssuingCardsRequestBodyShipping'Address'PostalCode :: Data.Text.Internal.Text
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postIssuingCardsRequestBodyShipping'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postIssuingCardsRequestBodyShipping'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostIssuingCardsRequestBodyShipping'Address'
@@ -3807,7 +3807,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsRequestBodyShipping'
 -- 
 data PostIssuingCardsRequestBodyShipping'Speed'
     = PostIssuingCardsRequestBodyShipping'Speed'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsRequestBodyShipping'Speed'EnumTyped GHC.Base.String
+    | PostIssuingCardsRequestBodyShipping'Speed'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsRequestBodyShipping'Speed'EnumStringExpress
     | PostIssuingCardsRequestBodyShipping'Speed'EnumStringOvernight
     | PostIssuingCardsRequestBodyShipping'Speed'EnumStringStandard
@@ -3831,7 +3831,7 @@ instance Data.Aeson.FromJSON PostIssuingCardsRequestBodyShipping'Speed'
 -- 
 data PostIssuingCardsRequestBodyShipping'Type'
     = PostIssuingCardsRequestBodyShipping'Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsRequestBodyShipping'Type'EnumTyped GHC.Base.String
+    | PostIssuingCardsRequestBodyShipping'Type'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsRequestBodyShipping'Type'EnumStringBulk
     | PostIssuingCardsRequestBodyShipping'Type'EnumStringIndividual
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -3851,7 +3851,7 @@ instance Data.Aeson.FromJSON PostIssuingCardsRequestBodyShipping'Type'
 -- Whether authorizations can be approved on this card. Defaults to \`inactive\`.
 data PostIssuingCardsRequestBodyStatus'
     = PostIssuingCardsRequestBodyStatus'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsRequestBodyStatus'EnumTyped GHC.Base.String
+    | PostIssuingCardsRequestBodyStatus'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsRequestBodyStatus'EnumStringActive
     | PostIssuingCardsRequestBodyStatus'EnumStringInactive
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -3871,7 +3871,7 @@ instance Data.Aeson.FromJSON PostIssuingCardsRequestBodyStatus'
 -- The type of card to issue. Possible values are \`physical\` or \`virtual\`.
 data PostIssuingCardsRequestBodyType'
     = PostIssuingCardsRequestBodyType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostIssuingCardsRequestBodyType'EnumTyped GHC.Base.String
+    | PostIssuingCardsRequestBodyType'EnumTyped Data.Text.Internal.Text
     | PostIssuingCardsRequestBodyType'EnumStringPhysical
     | PostIssuingCardsRequestBodyType'EnumStringVirtual
     deriving (GHC.Show.Show, GHC.Classes.Eq)

@@ -46,8 +46,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Please refer to the \<a href=\"\#early_fraud_warning_object\">early fraud warning\<\/a> object reference for more details.\<\/p>
 getRadarEarlyFraudWarningsEarlyFraudWarning :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                         -- ^ early_fraud_warning | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                         -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                                 -- ^ early_fraud_warning | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                                 -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetRadarEarlyFraudWarningsEarlyFraudWarningRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetRadarEarlyFraudWarningsEarlyFraudWarningResponse)) -- ^ Monad containing the result of the operation
 getRadarEarlyFraudWarningsEarlyFraudWarning config
@@ -70,8 +70,8 @@ getRadarEarlyFraudWarningsEarlyFraudWarning config
 getRadarEarlyFraudWarningsEarlyFraudWarningRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                 StripeAPI.Common.SecurityScheme s) =>
                                                   StripeAPI.Common.Configuration s ->
-                                                  GHC.Base.String ->
-                                                  GHC.Maybe.Maybe GHC.Base.String ->
+                                                  Data.Text.Internal.Text ->
+                                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                                   GHC.Maybe.Maybe GetRadarEarlyFraudWarningsEarlyFraudWarningRequestBody ->
                                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                         (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -90,8 +90,8 @@ getRadarEarlyFraudWarningsEarlyFraudWarningRaw config
 -- Monadic version of 'getRadarEarlyFraudWarningsEarlyFraudWarning' (use with 'StripeAPI.Common.runWithConfiguration')
 getRadarEarlyFraudWarningsEarlyFraudWarningM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                               StripeAPI.Common.SecurityScheme s) =>
-                                                GHC.Base.String ->
-                                                GHC.Maybe.Maybe GHC.Base.String ->
+                                                Data.Text.Internal.Text ->
+                                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                                 GHC.Maybe.Maybe GetRadarEarlyFraudWarningsEarlyFraudWarningRequestBody ->
                                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                    m
@@ -115,8 +115,8 @@ getRadarEarlyFraudWarningsEarlyFraudWarningM earlyFraudWarning
 -- Monadic version of 'getRadarEarlyFraudWarningsEarlyFraudWarningRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getRadarEarlyFraudWarningsEarlyFraudWarningRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                  StripeAPI.Common.SecurityScheme s) =>
-                                                   GHC.Base.String ->
-                                                   GHC.Maybe.Maybe GHC.Base.String ->
+                                                   Data.Text.Internal.Text ->
+                                                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                                    GHC.Maybe.Maybe GetRadarEarlyFraudWarningsEarlyFraudWarningRequestBody ->
                                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                       m

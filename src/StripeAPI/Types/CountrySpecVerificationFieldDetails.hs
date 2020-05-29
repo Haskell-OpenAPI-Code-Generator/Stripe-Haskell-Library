@@ -32,9 +32,9 @@ import qualified StripeAPI.Common
 -- 
 data CountrySpecVerificationFieldDetails = CountrySpecVerificationFieldDetails {
   -- | additional: Additional fields which are only required for some users.
-  countrySpecVerificationFieldDetailsAdditional :: ([] GHC.Base.String)
+  countrySpecVerificationFieldDetailsAdditional :: ([] Data.Text.Internal.Text)
   -- | minimum: Fields which every account must eventually provide.
-  , countrySpecVerificationFieldDetailsMinimum :: ([] GHC.Base.String)
+  , countrySpecVerificationFieldDetailsMinimum :: ([] Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON CountrySpecVerificationFieldDetails

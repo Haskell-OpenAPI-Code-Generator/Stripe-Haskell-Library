@@ -46,18 +46,18 @@ import StripeAPI.Types
 getCreditNotesPreviewLines :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                               -- ^ amount: The integer amount in **%s** representing the total amount of the credit note.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                               -- ^ credit_amount: The integer amount in **%s** representing the amount to credit the customer\'s balance, which will be automatically applied to their next invoice.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                        -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                        -- ^ invoice: ID of the invoice. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                -- ^ invoice: ID of the invoice. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                               -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                        -- ^ lines: Line items that make up the credit note.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                        -- ^ memo: The credit note\'s memo appears on the credit note PDF. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                        -- ^ metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                -- ^ lines: Line items that make up the credit note.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                -- ^ memo: The credit note\'s memo appears on the credit note PDF. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                -- ^ metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                               -- ^ out_of_band_amount: The integer amount in **%s** representing the amount that is credited outside of Stripe.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                        -- ^ reason: Reason for issuing this credit note, one of \`duplicate\`, \`fraudulent\`, \`order_change\`, or \`product_unsatisfactory\`
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                        -- ^ refund: ID of an existing refund to link this credit note to.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                -- ^ reason: Reason for issuing this credit note, one of \`duplicate\`, \`fraudulent\`, \`order_change\`, or \`product_unsatisfactory\`
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                -- ^ refund: ID of an existing refund to link this credit note to.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                               -- ^ refund_amount: The integer amount in **%s** representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                        -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetCreditNotesPreviewLinesRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCreditNotesPreviewLinesResponse)) -- ^ Monad containing the result of the operation
 getCreditNotesPreviewLines config
@@ -212,18 +212,18 @@ getCreditNotesPreviewLinesRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                  StripeAPI.Common.Configuration s ->
                                  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                                  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
-                                 GHC.Base.String ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                 Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe GetCreditNotesPreviewLinesRequestBody ->
                                  m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -374,18 +374,18 @@ getCreditNotesPreviewLinesM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GetCreditNotesPreviewLinesRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
@@ -541,18 +541,18 @@ getCreditNotesPreviewLinesRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
                                   GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
-                                  GHC.Base.String ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                                  GHC.Maybe.Maybe GHC.Base.String ->
+                                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe GetCreditNotesPreviewLinesRequestBody ->
                                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                      m
@@ -732,7 +732,7 @@ data GetCreditNotesPreviewLinesResponseBody200 = GetCreditNotesPreviewLinesRespo
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getCreditNotesPreviewLinesResponseBody200Url :: GHC.Base.String
+  , getCreditNotesPreviewLinesResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetCreditNotesPreviewLinesResponseBody200
@@ -745,7 +745,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetCreditNotesPreviewLinesResponseBo
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetCreditNotesPreviewLinesResponseBody200Object'
     = GetCreditNotesPreviewLinesResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetCreditNotesPreviewLinesResponseBody200Object'EnumTyped GHC.Base.String
+    | GetCreditNotesPreviewLinesResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetCreditNotesPreviewLinesResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetCreditNotesPreviewLinesResponseBody200Object'

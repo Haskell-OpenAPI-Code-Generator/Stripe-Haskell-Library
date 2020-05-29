@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- 
 postChargesChargeDispute :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                      -- ^ charge | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                              -- ^ charge | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostChargesChargeDisputeRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostChargesChargeDisputeResponse)) -- ^ Monad containing the result of the operation
 postChargesChargeDispute config
@@ -60,7 +60,7 @@ postChargesChargeDispute config
 postChargesChargeDisputeRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                StripeAPI.Common.Configuration s ->
-                               GHC.Base.String ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe PostChargesChargeDisputeRequestBody ->
                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postChargesChargeDisputeRaw config
 -- Monadic version of 'postChargesChargeDispute' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeDisputeM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Base.String ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe PostChargesChargeDisputeRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m
@@ -89,7 +89,7 @@ postChargesChargeDisputeM charge
 -- Monadic version of 'postChargesChargeDisputeRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeDisputeRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe PostChargesChargeDisputeRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -104,7 +104,7 @@ data PostChargesChargeDisputeRequestBody = PostChargesChargeDisputeRequestBody {
   -- | evidence: Evidence to upload, to respond to a dispute. Updating any field in the hash will submit all fields in the hash for review. The combined character count of all fields is limited to 150,000.
   postChargesChargeDisputeRequestBodyEvidence :: (GHC.Maybe.Maybe PostChargesChargeDisputeRequestBodyEvidence')
   -- | expand: Specifies which fields in the response should be expanded.
-  , postChargesChargeDisputeRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postChargesChargeDisputeRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postChargesChargeDisputeRequestBodyMetadata :: (GHC.Maybe.Maybe PostChargesChargeDisputeRequestBodyMetadata')
   -- | submit: Whether to immediately submit evidence to the bank. If \`false\`, evidence is staged on the dispute. Staged evidence is visible in the API and Dashboard, and can be submitted to the bank by making another request with this attribute set to \`true\` (the default).
@@ -125,127 +125,127 @@ data PostChargesChargeDisputeRequestBodyEvidence' = PostChargesChargeDisputeRequ
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  postChargesChargeDisputeRequestBodyEvidence'AccessActivityLog :: (GHC.Maybe.Maybe GHC.Base.String)
+  postChargesChargeDisputeRequestBodyEvidence'AccessActivityLog :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | billing_address
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeDisputeRequestBodyEvidence'BillingAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'BillingAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | cancellation_policy
-  , postChargesChargeDisputeRequestBodyEvidence'CancellationPolicy :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'CancellationPolicy :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | cancellation_policy_disclosure
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postChargesChargeDisputeRequestBodyEvidence'CancellationPolicyDisclosure :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'CancellationPolicyDisclosure :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | cancellation_rebuttal
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postChargesChargeDisputeRequestBodyEvidence'CancellationRebuttal :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'CancellationRebuttal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer_communication
-  , postChargesChargeDisputeRequestBodyEvidence'CustomerCommunication :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'CustomerCommunication :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer_email_address
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeDisputeRequestBodyEvidence'CustomerEmailAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'CustomerEmailAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer_name
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeDisputeRequestBodyEvidence'CustomerName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'CustomerName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer_purchase_ip
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeDisputeRequestBodyEvidence'CustomerPurchaseIp :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'CustomerPurchaseIp :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer_signature
-  , postChargesChargeDisputeRequestBodyEvidence'CustomerSignature :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'CustomerSignature :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | duplicate_charge_documentation
-  , postChargesChargeDisputeRequestBodyEvidence'DuplicateChargeDocumentation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'DuplicateChargeDocumentation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | duplicate_charge_explanation
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postChargesChargeDisputeRequestBodyEvidence'DuplicateChargeExplanation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'DuplicateChargeExplanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | duplicate_charge_id
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeDisputeRequestBodyEvidence'DuplicateChargeId :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'DuplicateChargeId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | product_description
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postChargesChargeDisputeRequestBodyEvidence'ProductDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'ProductDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | receipt
-  , postChargesChargeDisputeRequestBodyEvidence'Receipt :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'Receipt :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_policy
-  , postChargesChargeDisputeRequestBodyEvidence'RefundPolicy :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'RefundPolicy :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_policy_disclosure
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postChargesChargeDisputeRequestBodyEvidence'RefundPolicyDisclosure :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'RefundPolicyDisclosure :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | refund_refusal_explanation
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postChargesChargeDisputeRequestBodyEvidence'RefundRefusalExplanation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'RefundRefusalExplanation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | service_date
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeDisputeRequestBodyEvidence'ServiceDate :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'ServiceDate :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | service_documentation
-  , postChargesChargeDisputeRequestBodyEvidence'ServiceDocumentation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'ServiceDocumentation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping_address
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeDisputeRequestBodyEvidence'ShippingAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'ShippingAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping_carrier
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeDisputeRequestBodyEvidence'ShippingCarrier :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'ShippingCarrier :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping_date
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeDisputeRequestBodyEvidence'ShippingDate :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'ShippingDate :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping_documentation
-  , postChargesChargeDisputeRequestBodyEvidence'ShippingDocumentation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'ShippingDocumentation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping_tracking_number
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeDisputeRequestBodyEvidence'ShippingTrackingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'ShippingTrackingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | uncategorized_file
-  , postChargesChargeDisputeRequestBodyEvidence'UncategorizedFile :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'UncategorizedFile :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | uncategorized_text
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 20000
-  , postChargesChargeDisputeRequestBodyEvidence'UncategorizedText :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeDisputeRequestBodyEvidence'UncategorizedText :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostChargesChargeDisputeRequestBodyEvidence'

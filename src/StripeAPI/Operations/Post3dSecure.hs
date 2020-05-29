@@ -100,19 +100,19 @@ data Post3dSecureRequestBody = Post3dSecureRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , post3dSecureRequestBodyCard :: (GHC.Maybe.Maybe GHC.Base.String)
+  , post3dSecureRequestBodyCard :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , post3dSecureRequestBodyCurrency :: GHC.Base.String
+  , post3dSecureRequestBodyCurrency :: Data.Text.Internal.Text
   -- | customer: The customer associated with this 3D secure authentication.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , post3dSecureRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  , post3dSecureRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , post3dSecureRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , post3dSecureRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | return_url: The URL that the cardholder\'s browser will be returned to when authentication completes.
-  , post3dSecureRequestBodyReturnUrl :: GHC.Base.String
+  , post3dSecureRequestBodyReturnUrl :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Post3dSecureRequestBody

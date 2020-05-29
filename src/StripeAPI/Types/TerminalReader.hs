@@ -38,7 +38,7 @@ data Terminal'reader = Terminal'reader {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  terminal'readerDeviceSwVersion :: (GHC.Maybe.Maybe GHC.Base.String)
+  terminal'readerDeviceSwVersion :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | device_type: Type of reader, one of \`bbpos_chipper2x\` or \`verifone_P400\`.
   , terminal'readerDeviceType :: Terminal'readerDeviceType'
   -- | id: Unique identifier for the object.
@@ -46,19 +46,19 @@ data Terminal'reader = Terminal'reader {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , terminal'readerId :: GHC.Base.String
+  , terminal'readerId :: Data.Text.Internal.Text
   -- | ip_address: The local IP address of the reader.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , terminal'readerIpAddress :: (GHC.Maybe.Maybe GHC.Base.String)
+  , terminal'readerIpAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | label: Custom label given to the reader for easier identification.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , terminal'readerLabel :: GHC.Base.String
+  , terminal'readerLabel :: Data.Text.Internal.Text
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , terminal'readerLivemode :: GHC.Types.Bool
   -- | location: The location identifier of the reader.
@@ -66,7 +66,7 @@ data Terminal'reader = Terminal'reader {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , terminal'readerLocation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , terminal'readerLocation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
   , terminal'readerMetadata :: Terminal'readerMetadata'
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
@@ -76,13 +76,13 @@ data Terminal'reader = Terminal'reader {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , terminal'readerSerialNumber :: GHC.Base.String
+  , terminal'readerSerialNumber :: Data.Text.Internal.Text
   -- | status: The networking status of the reader.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , terminal'readerStatus :: (GHC.Maybe.Maybe GHC.Base.String)
+  , terminal'readerStatus :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Terminal'reader
@@ -95,7 +95,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Terminal'reader
 -- Type of reader, one of \`bbpos_chipper2x\` or \`verifone_P400\`.
 data Terminal'readerDeviceType'
     = Terminal'readerDeviceType'EnumOther Data.Aeson.Types.Internal.Value
-    | Terminal'readerDeviceType'EnumTyped GHC.Base.String
+    | Terminal'readerDeviceType'EnumTyped Data.Text.Internal.Text
     | Terminal'readerDeviceType'EnumStringBbposChipper2x
     | Terminal'readerDeviceType'EnumStringVerifoneP400
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -127,7 +127,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerMetadata'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data Terminal'readerObject'
     = Terminal'readerObject'EnumOther Data.Aeson.Types.Internal.Value
-    | Terminal'readerObject'EnumTyped GHC.Base.String
+    | Terminal'readerObject'EnumTyped Data.Text.Internal.Text
     | Terminal'readerObject'EnumStringTerminal'reader
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Terminal'readerObject'

@@ -47,7 +47,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON IssuingCardholderRequirements
 -- If \`disabled_reason\` is present, all cards will decline authorizations with \`cardholder_verification_required\` reason.
 data IssuingCardholderRequirementsDisabledReason'
     = IssuingCardholderRequirementsDisabledReason'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingCardholderRequirementsDisabledReason'EnumTyped GHC.Base.String
+    | IssuingCardholderRequirementsDisabledReason'EnumTyped Data.Text.Internal.Text
     | IssuingCardholderRequirementsDisabledReason'EnumStringListed
     | IssuingCardholderRequirementsDisabledReason'EnumStringRejected'listed
     | IssuingCardholderRequirementsDisabledReason'EnumStringUnderReview
@@ -71,7 +71,7 @@ instance Data.Aeson.FromJSON IssuingCardholderRequirementsDisabledReason'
 -- 
 data IssuingCardholderRequirementsPastDue'
     = IssuingCardholderRequirementsPastDue'EnumOther Data.Aeson.Types.Internal.Value
-    | IssuingCardholderRequirementsPastDue'EnumTyped GHC.Base.String
+    | IssuingCardholderRequirementsPastDue'EnumTyped Data.Text.Internal.Text
     | IssuingCardholderRequirementsPastDue'EnumStringIndividual'dob'day
     | IssuingCardholderRequirementsPastDue'EnumStringIndividual'dob'month
     | IssuingCardholderRequirementsPastDue'EnumStringIndividual'dob'year

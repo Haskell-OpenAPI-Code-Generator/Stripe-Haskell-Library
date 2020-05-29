@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Deletes a \<code>Reader\<\/code> object.\<\/p>
 deleteTerminalReadersReader :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                         -- ^ reader | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                 -- ^ reader | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteTerminalReadersReaderRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteTerminalReadersReaderResponse)) -- ^ Monad containing the result of the operation
 deleteTerminalReadersReader config
@@ -60,7 +60,7 @@ deleteTerminalReadersReader config
 deleteTerminalReadersReaderRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   StripeAPI.Common.Configuration s ->
-                                  GHC.Base.String ->
+                                  Data.Text.Internal.Text ->
                                   GHC.Maybe.Maybe DeleteTerminalReadersReaderRequestBody ->
                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                         (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteTerminalReadersReaderRaw config
 -- Monadic version of 'deleteTerminalReadersReader' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteTerminalReadersReaderM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Base.String ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe DeleteTerminalReadersReaderRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
@@ -89,7 +89,7 @@ deleteTerminalReadersReaderM reader
 -- Monadic version of 'deleteTerminalReadersReaderRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteTerminalReadersReaderRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe DeleteTerminalReadersReaderRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m

@@ -36,13 +36,13 @@ data MandateSepaDebit = MandateSepaDebit {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  mandateSepaDebitReference :: GHC.Base.String
+  mandateSepaDebitReference :: Data.Text.Internal.Text
   -- | url: The URL of the mandate. This URL generally contains sensitive information about the customer and should be shared with them exclusively.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , mandateSepaDebitUrl :: GHC.Base.String
+  , mandateSepaDebitUrl :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON MandateSepaDebit

@@ -40,7 +40,7 @@ data EphemeralKey = EphemeralKey {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , ephemeralKeyId :: GHC.Base.String
+  , ephemeralKeyId :: Data.Text.Internal.Text
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
   , ephemeralKeyLivemode :: GHC.Types.Bool
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
@@ -50,7 +50,7 @@ data EphemeralKey = EphemeralKey {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , ephemeralKeySecret :: (GHC.Maybe.Maybe GHC.Base.String)
+  , ephemeralKeySecret :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON EphemeralKey
@@ -63,7 +63,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON EphemeralKey
 -- String representing the object\'s type. Objects of the same type share the same value.
 data EphemeralKeyObject'
     = EphemeralKeyObject'EnumOther Data.Aeson.Types.Internal.Value
-    | EphemeralKeyObject'EnumTyped GHC.Base.String
+    | EphemeralKeyObject'EnumTyped Data.Text.Internal.Text
     | EphemeralKeyObject'EnumStringEphemeralKey
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON EphemeralKeyObject'

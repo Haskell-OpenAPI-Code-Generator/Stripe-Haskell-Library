@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates a PaymentMethod object. A PaymentMethod must be attached a customer to be updated.\<\/p>
 postPaymentMethodsPaymentMethod :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                             -- ^ payment_method | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                     -- ^ payment_method | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPaymentMethodsPaymentMethodResponse)) -- ^ Monad containing the result of the operation
 postPaymentMethodsPaymentMethod config
@@ -60,7 +60,7 @@ postPaymentMethodsPaymentMethod config
 postPaymentMethodsPaymentMethodRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
                                       StripeAPI.Common.Configuration s ->
-                                      GHC.Base.String ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodRequestBody ->
                                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postPaymentMethodsPaymentMethodRaw config
 -- Monadic version of 'postPaymentMethodsPaymentMethod' (use with 'StripeAPI.Common.runWithConfiguration')
 postPaymentMethodsPaymentMethodM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m
@@ -89,7 +89,7 @@ postPaymentMethodsPaymentMethodM paymentMethod
 -- Monadic version of 'postPaymentMethodsPaymentMethodRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postPaymentMethodsPaymentMethodRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
-                                       GHC.Base.String ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodRequestBody ->
                                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                           m
@@ -106,7 +106,7 @@ data PostPaymentMethodsPaymentMethodRequestBody = PostPaymentMethodsPaymentMetho
   -- | card: If this is a \`card\` PaymentMethod, this hash contains the user\'s card details.
   , postPaymentMethodsPaymentMethodRequestBodyCard :: (GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodRequestBodyCard')
   -- | expand: Specifies which fields in the response should be expanded.
-  , postPaymentMethodsPaymentMethodRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postPaymentMethodsPaymentMethodRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postPaymentMethodsPaymentMethodRequestBodyMetadata :: (GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodRequestBodyMetadata')
   -- | sepa_debit: If this is a \`sepa_debit\` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -125,19 +125,19 @@ data PostPaymentMethodsPaymentMethodRequestBodyBillingDetails' = PostPaymentMeth
   -- | address
   postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address :: (GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address')
   -- | email
-  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Email :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Email :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Name :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | phone
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Phone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentMethodsPaymentMethodRequestBodyBillingDetails'
@@ -154,37 +154,37 @@ data PostPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address' = PostPay
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address'Line1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentMethodsPaymentMethodRequestBodyBillingDetails'Address'

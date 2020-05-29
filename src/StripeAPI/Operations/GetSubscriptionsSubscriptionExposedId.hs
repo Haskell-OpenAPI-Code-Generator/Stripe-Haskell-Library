@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the subscription with the given ID.\<\/p>
 getSubscriptionsSubscriptionExposedId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                   -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                                   -- ^ subscription_exposed_id | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                           -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                           -- ^ subscription_exposed_id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetSubscriptionsSubscriptionExposedIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSubscriptionsSubscriptionExposedIdResponse)) -- ^ Monad containing the result of the operation
 getSubscriptionsSubscriptionExposedId config
@@ -68,8 +68,8 @@ getSubscriptionsSubscriptionExposedId config
 getSubscriptionsSubscriptionExposedIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                           StripeAPI.Common.SecurityScheme s) =>
                                             StripeAPI.Common.Configuration s ->
-                                            GHC.Maybe.Maybe GHC.Base.String ->
-                                            GHC.Base.String ->
+                                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                            Data.Text.Internal.Text ->
                                             GHC.Maybe.Maybe GetSubscriptionsSubscriptionExposedIdRequestBody ->
                                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getSubscriptionsSubscriptionExposedIdRaw config
 -- Monadic version of 'getSubscriptionsSubscriptionExposedId' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionsSubscriptionExposedIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
-                                          GHC.Maybe.Maybe GHC.Base.String ->
-                                          GHC.Base.String ->
+                                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                          Data.Text.Internal.Text ->
                                           GHC.Maybe.Maybe GetSubscriptionsSubscriptionExposedIdRequestBody ->
                                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                              m
@@ -113,8 +113,8 @@ getSubscriptionsSubscriptionExposedIdM expand
 -- Monadic version of 'getSubscriptionsSubscriptionExposedIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionsSubscriptionExposedIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
-                                             GHC.Maybe.Maybe GHC.Base.String ->
-                                             GHC.Base.String ->
+                                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                             Data.Text.Internal.Text ->
                                              GHC.Maybe.Maybe GetSubscriptionsSubscriptionExposedIdRequestBody ->
                                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                 m

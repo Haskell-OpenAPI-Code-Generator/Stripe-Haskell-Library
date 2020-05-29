@@ -32,13 +32,13 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeGiropay = SourceTypeGiropay {
   -- | bank_code
-  sourceTypeGiropayBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeGiropayBankCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bank_name
-  , sourceTypeGiropayBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeGiropayBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bic
-  , sourceTypeGiropayBic :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeGiropayBic :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor
-  , sourceTypeGiropayStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeGiropayStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeGiropay

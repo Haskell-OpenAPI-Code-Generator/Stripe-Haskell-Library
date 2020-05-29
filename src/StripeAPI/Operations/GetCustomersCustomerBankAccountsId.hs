@@ -44,9 +44,9 @@ import StripeAPI.Types
 -- 
 -- \<p>By default, you can see the 10 most recent sources stored on a Customer directly on the object, but you can also retrieve details about a specific bank account stored on the Stripe account.\<\/p>
 getCustomersCustomerBankAccountsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                -- ^ customer | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                                -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                        -- ^ customer | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                        -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetCustomersCustomerBankAccountsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCustomersCustomerBankAccountsIdResponse)) -- ^ Monad containing the result of the operation
 getCustomersCustomerBankAccountsId config
@@ -70,9 +70,9 @@ getCustomersCustomerBankAccountsId config
 getCustomersCustomerBankAccountsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                        StripeAPI.Common.SecurityScheme s) =>
                                          StripeAPI.Common.Configuration s ->
-                                         GHC.Base.String ->
-                                         GHC.Maybe.Maybe GHC.Base.String ->
-                                         GHC.Base.String ->
+                                         Data.Text.Internal.Text ->
+                                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                         Data.Text.Internal.Text ->
                                          GHC.Maybe.Maybe GetCustomersCustomerBankAccountsIdRequestBody ->
                                          m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -92,9 +92,9 @@ getCustomersCustomerBankAccountsIdRaw config
 -- Monadic version of 'getCustomersCustomerBankAccountsId' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerBankAccountsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
-                                       GHC.Base.String ->
-                                       GHC.Maybe.Maybe GHC.Base.String ->
-                                       GHC.Base.String ->
+                                       Data.Text.Internal.Text ->
+                                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe GetCustomersCustomerBankAccountsIdRequestBody ->
                                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                           m
@@ -119,9 +119,9 @@ getCustomersCustomerBankAccountsIdM customer
 -- Monadic version of 'getCustomersCustomerBankAccountsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerBankAccountsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
-                                          GHC.Base.String ->
-                                          GHC.Maybe.Maybe GHC.Base.String ->
-                                          GHC.Base.String ->
+                                          Data.Text.Internal.Text ->
+                                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                          Data.Text.Internal.Text ->
                                           GHC.Maybe.Maybe GetCustomersCustomerBankAccountsIdRequestBody ->
                                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                              m

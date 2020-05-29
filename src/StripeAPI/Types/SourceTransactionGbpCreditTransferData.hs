@@ -36,43 +36,43 @@ data SourceTransactionGbpCreditTransferData = SourceTransactionGbpCreditTransfer
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  sourceTransactionGbpCreditTransferDataFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTransactionGbpCreditTransferDataFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | funding_method: The credit transfer rails the sender used to push this transfer. The possible rails are: Faster Payments, BACS, CHAPS, and wire transfers. Currently only Faster Payments is supported.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionGbpCreditTransferDataFundingMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionGbpCreditTransferDataFundingMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last4: Last 4 digits of sender account number associated with the transfer.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionGbpCreditTransferDataLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionGbpCreditTransferDataLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | reference: Sender entered arbitrary information about the transfer.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionGbpCreditTransferDataReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionGbpCreditTransferDataReference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | sender_account_number: Sender account number associated with the transfer.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionGbpCreditTransferDataSenderAccountNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionGbpCreditTransferDataSenderAccountNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | sender_name: Sender name associated with the transfer.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionGbpCreditTransferDataSenderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionGbpCreditTransferDataSenderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | sender_sort_code: Sender sort code associated with the transfer.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionGbpCreditTransferDataSenderSortCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionGbpCreditTransferDataSenderSortCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTransactionGbpCreditTransferData

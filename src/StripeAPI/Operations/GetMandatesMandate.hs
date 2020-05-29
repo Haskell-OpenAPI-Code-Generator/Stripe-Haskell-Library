@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves a Mandate object.\<\/p>
 getMandatesMandate :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                -- ^ mandate
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                        -- ^ mandate
   -> GHC.Maybe.Maybe GetMandatesMandateRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetMandatesMandateResponse)) -- ^ Monad containing the result of the operation
 getMandatesMandate config
@@ -68,8 +68,8 @@ getMandatesMandate config
 getMandatesMandateRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          StripeAPI.Common.Configuration s ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Base.String ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe GetMandatesMandateRequestBody ->
                          m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getMandatesMandateRaw config
 -- Monadic version of 'getMandatesMandate' (use with 'StripeAPI.Common.runWithConfiguration')
 getMandatesMandateM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetMandatesMandateRequestBody ->
                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                           m
@@ -113,8 +113,8 @@ getMandatesMandateM expand
 -- Monadic version of 'getMandatesMandateRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getMandatesMandateRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Base.String ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe GetMandatesMandateRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m

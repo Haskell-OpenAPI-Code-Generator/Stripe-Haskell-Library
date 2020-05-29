@@ -36,37 +36,37 @@ data Address = Address {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  addressCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  addressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country: Two-letter country code ([ISO 3166-1 alpha-2](https:\/\/en.wikipedia.org\/wiki\/ISO_3166-1_alpha-2)).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , addressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , addressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1: Address line 1 (e.g., street, PO Box, or company name).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , addressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , addressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line2: Address line 2 (e.g., apartment, suite, unit, or building).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , addressLine2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , addressLine2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code: ZIP or postal code.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , addressPostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , addressPostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state: State, county, province, or region.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , addressState :: (GHC.Maybe.Maybe GHC.Base.String)
+  , addressState :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Address

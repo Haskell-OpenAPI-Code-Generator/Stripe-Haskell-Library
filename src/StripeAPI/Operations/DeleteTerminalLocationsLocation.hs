@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Deletes a \<code>Location\<\/code> object.\<\/p>
 deleteTerminalLocationsLocation :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                             -- ^ location | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                     -- ^ location | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteTerminalLocationsLocationRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteTerminalLocationsLocationResponse)) -- ^ Monad containing the result of the operation
 deleteTerminalLocationsLocation config
@@ -60,7 +60,7 @@ deleteTerminalLocationsLocation config
 deleteTerminalLocationsLocationRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
                                       StripeAPI.Common.Configuration s ->
-                                      GHC.Base.String ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe DeleteTerminalLocationsLocationRequestBody ->
                                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteTerminalLocationsLocationRaw config
 -- Monadic version of 'deleteTerminalLocationsLocation' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteTerminalLocationsLocationM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe DeleteTerminalLocationsLocationRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m
@@ -89,7 +89,7 @@ deleteTerminalLocationsLocationM location
 -- Monadic version of 'deleteTerminalLocationsLocationRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteTerminalLocationsLocationRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
-                                       GHC.Base.String ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe DeleteTerminalLocationsLocationRequestBody ->
                                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                           m

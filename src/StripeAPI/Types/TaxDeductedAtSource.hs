@@ -36,7 +36,7 @@ data TaxDeductedAtSource = TaxDeductedAtSource {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  taxDeductedAtSourceId :: GHC.Base.String
+  taxDeductedAtSourceId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , taxDeductedAtSourceObject :: TaxDeductedAtSourceObject'
   -- | period_end: The end of the invoicing period. This TDS applies to Stripe fees collected during this invoicing period.
@@ -48,7 +48,7 @@ data TaxDeductedAtSource = TaxDeductedAtSource {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , taxDeductedAtSourceTaxDeductionAccountNumber :: GHC.Base.String
+  , taxDeductedAtSourceTaxDeductionAccountNumber :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON TaxDeductedAtSource
@@ -61,7 +61,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON TaxDeductedAtSource
 -- String representing the object\'s type. Objects of the same type share the same value.
 data TaxDeductedAtSourceObject'
     = TaxDeductedAtSourceObject'EnumOther Data.Aeson.Types.Internal.Value
-    | TaxDeductedAtSourceObject'EnumTyped GHC.Base.String
+    | TaxDeductedAtSourceObject'EnumTyped Data.Text.Internal.Text
     | TaxDeductedAtSourceObject'EnumStringTaxDeductedAtSource
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON TaxDeductedAtSourceObject'

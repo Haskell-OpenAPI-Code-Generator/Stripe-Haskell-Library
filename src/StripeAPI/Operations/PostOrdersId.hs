@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the specific order by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
 postOrdersId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                          -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                  -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostOrdersIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostOrdersIdResponse)) -- ^ Monad containing the result of the operation
 postOrdersId config
@@ -60,7 +60,7 @@ postOrdersId config
 postOrdersIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                  StripeAPI.Common.SecurityScheme s) =>
                    StripeAPI.Common.Configuration s ->
-                   GHC.Base.String ->
+                   Data.Text.Internal.Text ->
                    GHC.Maybe.Maybe PostOrdersIdRequestBody ->
                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                          (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postOrdersIdRaw config
 -- Monadic version of 'postOrdersId' (use with 'StripeAPI.Common.runWithConfiguration')
 postOrdersIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
-                 GHC.Base.String ->
+                 Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe PostOrdersIdRequestBody ->
                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                     m
@@ -89,7 +89,7 @@ postOrdersIdM id
 -- Monadic version of 'postOrdersIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postOrdersIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
-                    GHC.Base.String ->
+                    Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe PostOrdersIdRequestBody ->
                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                        m
@@ -106,9 +106,9 @@ data PostOrdersIdRequestBody = PostOrdersIdRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postOrdersIdRequestBodyCoupon :: (GHC.Maybe.Maybe GHC.Base.String)
+  postOrdersIdRequestBodyCoupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postOrdersIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postOrdersIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postOrdersIdRequestBodyMetadata :: (GHC.Maybe.Maybe PostOrdersIdRequestBodyMetadata')
   -- | selected_shipping_method: The shipping method to select for fulfilling this order. If specified, must be one of the \`id\`s of a shipping method in the \`shipping_methods\` array. If specified, will overwrite the existing selected shipping method, updating \`items\` as necessary.
@@ -116,7 +116,7 @@ data PostOrdersIdRequestBody = PostOrdersIdRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersIdRequestBodySelectedShippingMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersIdRequestBodySelectedShippingMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping: Tracking information once the order has been fulfilled.
   , postOrdersIdRequestBodyShipping :: (GHC.Maybe.Maybe PostOrdersIdRequestBodyShipping')
   -- | status: Current order status. One of \`created\`, \`paid\`, \`canceled\`, \`fulfilled\`, or \`returned\`. More detail in the [Orders Guide](https:\/\/stripe.com\/docs\/orders\/guide\#understanding-order-statuses).
@@ -153,13 +153,13 @@ data PostOrdersIdRequestBodyShipping' = PostOrdersIdRequestBodyShipping' {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postOrdersIdRequestBodyShipping'Carrier :: GHC.Base.String
+  postOrdersIdRequestBodyShipping'Carrier :: Data.Text.Internal.Text
   -- | tracking_number
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersIdRequestBodyShipping'TrackingNumber :: GHC.Base.String
+  , postOrdersIdRequestBodyShipping'TrackingNumber :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostOrdersIdRequestBodyShipping'
@@ -172,7 +172,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersIdRequestBodyShipping'
 -- Current order status. One of \`created\`, \`paid\`, \`canceled\`, \`fulfilled\`, or \`returned\`. More detail in the [Orders Guide](https:\/\/stripe.com\/docs\/orders\/guide\#understanding-order-statuses).
 data PostOrdersIdRequestBodyStatus'
     = PostOrdersIdRequestBodyStatus'EnumOther Data.Aeson.Types.Internal.Value
-    | PostOrdersIdRequestBodyStatus'EnumTyped GHC.Base.String
+    | PostOrdersIdRequestBodyStatus'EnumTyped Data.Text.Internal.Text
     | PostOrdersIdRequestBodyStatus'EnumStringCanceled
     | PostOrdersIdRequestBodyStatus'EnumStringCreated
     | PostOrdersIdRequestBodyStatus'EnumStringFulfilled

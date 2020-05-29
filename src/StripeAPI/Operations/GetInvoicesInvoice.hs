@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the invoice with the given ID.\<\/p>
 getInvoicesInvoice :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                -- ^ invoice | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                        -- ^ invoice | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetInvoicesInvoiceRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetInvoicesInvoiceResponse)) -- ^ Monad containing the result of the operation
 getInvoicesInvoice config
@@ -68,8 +68,8 @@ getInvoicesInvoice config
 getInvoicesInvoiceRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          StripeAPI.Common.Configuration s ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Base.String ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe GetInvoicesInvoiceRequestBody ->
                          m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getInvoicesInvoiceRaw config
 -- Monadic version of 'getInvoicesInvoice' (use with 'StripeAPI.Common.runWithConfiguration')
 getInvoicesInvoiceM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
-                       GHC.Maybe.Maybe GHC.Base.String ->
-                       GHC.Base.String ->
+                       GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe GetInvoicesInvoiceRequestBody ->
                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                           m
@@ -113,8 +113,8 @@ getInvoicesInvoiceM expand
 -- Monadic version of 'getInvoicesInvoiceRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getInvoicesInvoiceRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Base.String ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe GetInvoicesInvoiceRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m

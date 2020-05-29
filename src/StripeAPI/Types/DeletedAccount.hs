@@ -38,7 +38,7 @@ data DeletedAccount = DeletedAccount {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedAccountId :: GHC.Base.String
+  , deletedAccountId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedAccountObject :: DeletedAccountObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedAccountDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedAccountObject'
     = DeletedAccountObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedAccountObject'EnumTyped GHC.Base.String
+    | DeletedAccountObject'EnumTyped Data.Text.Internal.Text
     | DeletedAccountObject'EnumStringAccount
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedAccountObject'

@@ -44,13 +44,13 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a list of top-ups.\<\/p>
 getTopups :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ amount: A positive integer representing how much to transfer.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ created: A filter on the list, based on the object \`created\` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                               -- ^ amount: A positive integer representing how much to transfer.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                               -- ^ created: A filter on the list, based on the object \`created\` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                               -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                               -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                              -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ status: Only return top-ups that have the given status. One of \`canceled\`, \`failed\`, \`pending\` or \`succeeded\`. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                               -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                               -- ^ status: Only return top-ups that have the given status. One of \`canceled\`, \`failed\`, \`pending\` or \`succeeded\`. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetTopupsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetTopupsResponse)) -- ^ Monad containing the result of the operation
 getTopups config
@@ -129,13 +129,13 @@ getTopups config
 getTopupsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                               StripeAPI.Common.SecurityScheme s) =>
                 StripeAPI.Common.Configuration s ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GHC.Maybe.Maybe GHC.Base.String ->
+                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                 GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GHC.Maybe.Maybe GHC.Base.String ->
+                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                GHC.Maybe.Maybe Data.Text.Internal.Text ->
                 GHC.Maybe.Maybe GetTopupsRequestBody ->
                 m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                       (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -210,13 +210,13 @@ getTopupsRaw config
 -- Monadic version of 'getTopups' (use with 'StripeAPI.Common.runWithConfiguration')
 getTopupsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                             StripeAPI.Common.SecurityScheme s) =>
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
               GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Maybe.Maybe GHC.Base.String ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
               GHC.Maybe.Maybe GetTopupsRequestBody ->
               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                  m
@@ -296,13 +296,13 @@ getTopupsM amount
 -- Monadic version of 'getTopupsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getTopupsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GetTopupsRequestBody ->
                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                     m
@@ -409,7 +409,7 @@ data GetTopupsResponseBody200 = GetTopupsResponseBody200 {
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/topups\'
-  , getTopupsResponseBody200Url :: GHC.Base.String
+  , getTopupsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetTopupsResponseBody200
@@ -422,7 +422,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsResponseBody200
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetTopupsResponseBody200Object'
     = GetTopupsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetTopupsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetTopupsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetTopupsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetTopupsResponseBody200Object'

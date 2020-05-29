@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Deletes an existing \<code>TaxID\<\/code> object.\<\/p>
 deleteCustomersCustomerTaxIdsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                             -- ^ customer | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                             -- ^ id
+  -> Data.Text.Internal.Text                                                                                                                     -- ^ customer | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                     -- ^ id
   -> GHC.Maybe.Maybe DeleteCustomersCustomerTaxIdsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteCustomersCustomerTaxIdsIdResponse)) -- ^ Monad containing the result of the operation
 deleteCustomersCustomerTaxIdsId config
@@ -62,8 +62,8 @@ deleteCustomersCustomerTaxIdsId config
 deleteCustomersCustomerTaxIdsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
                                       StripeAPI.Common.Configuration s ->
-                                      GHC.Base.String ->
-                                      GHC.Base.String ->
+                                      Data.Text.Internal.Text ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe DeleteCustomersCustomerTaxIdsIdRequestBody ->
                                       m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                             (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,8 +76,8 @@ deleteCustomersCustomerTaxIdsIdRaw config
 -- Monadic version of 'deleteCustomersCustomerTaxIdsId' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteCustomersCustomerTaxIdsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    GHC.Base.String ->
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe DeleteCustomersCustomerTaxIdsIdRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m
@@ -95,8 +95,8 @@ deleteCustomersCustomerTaxIdsIdM customer
 -- Monadic version of 'deleteCustomersCustomerTaxIdsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteCustomersCustomerTaxIdsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                      StripeAPI.Common.SecurityScheme s) =>
-                                       GHC.Base.String ->
-                                       GHC.Base.String ->
+                                       Data.Text.Internal.Text ->
+                                       Data.Text.Internal.Text ->
                                        GHC.Maybe.Maybe DeleteCustomersCustomerTaxIdsIdRequestBody ->
                                        Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                           m

@@ -36,38 +36,38 @@ data PaymentMethodDetailsSofort = PaymentMethodDetailsSofort {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  paymentMethodDetailsSofortBankCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  paymentMethodDetailsSofortBankCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bank_name: Name of the bank associated with the bank account.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsSofortBankName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsSofortBankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | bic: Bank Identifier Code of the bank associated with the bank account.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsSofortBic :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsSofortBic :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country: Two-letter ISO code representing the country the bank account is located in.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsSofortCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsSofortCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | iban_last4: Last four characters of the IBAN.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsSofortIbanLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsSofortIbanLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | verified_name: Owner\'s verified full name. Values are verified or provided by SOFORT directly
   -- (if supported) at the time of authorization or settlement. They cannot be set or mutated.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , paymentMethodDetailsSofortVerifiedName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , paymentMethodDetailsSofortVerifiedName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PaymentMethodDetailsSofort

@@ -94,13 +94,13 @@ postTerminalConnectionTokensRawM body = GHC.Base.id (StripeAPI.Common.doBodyCall
 -- 
 data PostTerminalConnectionTokensRequestBody = PostTerminalConnectionTokensRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postTerminalConnectionTokensRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postTerminalConnectionTokensRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | location: The id of the location that this connection token is scoped to. If specified the connection token will only be usable with readers assigned to that location, otherwise the connection token will be usable with all readers.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postTerminalConnectionTokensRequestBodyLocation :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postTerminalConnectionTokensRequestBodyLocation :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostTerminalConnectionTokensRequestBody

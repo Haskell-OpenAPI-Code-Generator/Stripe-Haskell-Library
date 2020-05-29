@@ -36,25 +36,25 @@ data DeliveryEstimate = DeliveryEstimate {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  deliveryEstimateDate :: (GHC.Maybe.Maybe GHC.Base.String)
+  deliveryEstimateDate :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | earliest: If \`type\` is \`\"range\"\`, \`earliest\` will be be the earliest delivery date in the format YYYY-MM-DD.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deliveryEstimateEarliest :: (GHC.Maybe.Maybe GHC.Base.String)
+  , deliveryEstimateEarliest :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | latest: If \`type\` is \`\"range\"\`, \`latest\` will be the latest delivery date in the format YYYY-MM-DD.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deliveryEstimateLatest :: (GHC.Maybe.Maybe GHC.Base.String)
+  , deliveryEstimateLatest :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | type: The type of estimate. Must be either \`\"range\"\` or \`\"exact\"\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deliveryEstimateType :: GHC.Base.String
+  , deliveryEstimateType :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeliveryEstimate

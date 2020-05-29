@@ -115,7 +115,7 @@ data PostPaymentIntentsRequestBody = PostPaymentIntentsRequestBody {
   -- | confirmation_method
   , postPaymentIntentsRequestBodyConfirmationMethod :: (GHC.Maybe.Maybe PostPaymentIntentsRequestBodyConfirmationMethod')
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , postPaymentIntentsRequestBodyCurrency :: GHC.Base.String
+  , postPaymentIntentsRequestBodyCurrency :: Data.Text.Internal.Text
   -- | customer: ID of the Customer this PaymentIntent belongs to, if one exists.
   -- 
   -- If present, payment methods used with this PaymentIntent can only be attached to this Customer, and payment methods attached to other Customers cannot be used with this PaymentIntent.
@@ -123,23 +123,23 @@ data PostPaymentIntentsRequestBody = PostPaymentIntentsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentIntentsRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 1000
-  , postPaymentIntentsRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | error_on_requires_action: Set to \`true\` to fail the payment attempt if the PaymentIntent transitions into \`requires_action\`. This parameter is intended for simpler integrations that do not handle customer actions, like [saving cards without authentication](https:\/\/stripe.com\/docs\/payments\/save-card-without-authentication). This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/payment_intents\/create\#create_payment_intent-confirm).
   , postPaymentIntentsRequestBodyErrorOnRequiresAction :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postPaymentIntentsRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postPaymentIntentsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | mandate: ID of the mandate to be used for this payment. This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/payment_intents\/create\#create_payment_intent-confirm).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentIntentsRequestBodyMandate :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyMandate :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | mandate_data: This hash contains details about the Mandate to create. This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/payment_intents\/create\#create_payment_intent-confirm).
   , postPaymentIntentsRequestBodyMandateData :: (GHC.Maybe.Maybe PostPaymentIntentsRequestBodyMandateData')
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -147,7 +147,7 @@ data PostPaymentIntentsRequestBody = PostPaymentIntentsRequestBody {
   -- | off_session: Set to \`true\` to indicate that the customer is not in your checkout flow during this payment attempt, and therefore is unable to authenticate. This parameter is intended for scenarios where you collect card details and [charge them later](https:\/\/stripe.com\/docs\/payments\/cards\/charging-saved-cards). This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/payment_intents\/create\#create_payment_intent-confirm).
   , postPaymentIntentsRequestBodyOffSession :: (GHC.Maybe.Maybe PostPaymentIntentsRequestBodyOffSession'Variants)
   -- | on_behalf_of: The Stripe account ID for which these funds are intended. For details, see the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts).
-  , postPaymentIntentsRequestBodyOnBehalfOf :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyOnBehalfOf :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | payment_method: ID of the payment method (a PaymentMethod, Card, or [compatible Source](https:\/\/stripe.com\/docs\/payments\/payment-methods\#compatibility) object) to attach to this PaymentIntent.
   -- 
   -- If this parameter is omitted with \`confirm=true\`, \`customer.default_source\` will be attached as this PaymentIntent\'s payment instrument to improve the migration experience for users of the Charges API. We recommend that you explicitly provide the \`payment_method\` going forward.
@@ -155,15 +155,15 @@ data PostPaymentIntentsRequestBody = PostPaymentIntentsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentIntentsRequestBodyPaymentMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyPaymentMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | payment_method_options: Payment-method-specific configuration for this PaymentIntent.
   , postPaymentIntentsRequestBodyPaymentMethodOptions :: (GHC.Maybe.Maybe PostPaymentIntentsRequestBodyPaymentMethodOptions')
   -- | payment_method_types: The list of payment method types (e.g. card) that this PaymentIntent is allowed to use. If this is not provided, defaults to [\"card\"].
-  , postPaymentIntentsRequestBodyPaymentMethodTypes :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postPaymentIntentsRequestBodyPaymentMethodTypes :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | receipt_email: Email address that the receipt for the resulting payment will be sent to.
-  , postPaymentIntentsRequestBodyReceiptEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyReceiptEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | return_url: The URL to redirect your customer back to after they authenticate or cancel their payment on the payment method\'s app or site. If you\'d prefer to redirect to a mobile application, you can alternatively supply an application URI scheme. This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/payment_intents\/create\#create_payment_intent-confirm).
-  , postPaymentIntentsRequestBodyReturnUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyReturnUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | save_payment_method: If the PaymentIntent has a \`payment_method\` and a \`customer\` or if you\'re attaching a payment method to the PaymentIntent in this request, you can pass \`save_payment_method=true\` to save the payment method to the customer. Defaults to \`false\`.
   -- 
   -- If the payment method is already saved to a customer, this does nothing. If this type of payment method cannot be saved to a customer, the request will error.
@@ -185,18 +185,18 @@ data PostPaymentIntentsRequestBody = PostPaymentIntentsRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postPaymentIntentsRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor_suffix: Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that’s set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 22
-  , postPaymentIntentsRequestBodyStatementDescriptorSuffix :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyStatementDescriptorSuffix :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | transfer_data: The parameters used to automatically create a Transfer when the payment succeeds.
   -- For more information, see the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts).
   , postPaymentIntentsRequestBodyTransferData :: (GHC.Maybe.Maybe PostPaymentIntentsRequestBodyTransferData')
   -- | transfer_group: A string that identifies the resulting payment as part of a group. See the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts) for details.
-  , postPaymentIntentsRequestBodyTransferGroup :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyTransferGroup :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | use_stripe_sdk: Set to \`true\` only when using manual confirmation and the iOS or Android SDKs to handle additional authentication steps.
   , postPaymentIntentsRequestBodyUseStripeSdk :: (GHC.Maybe.Maybe GHC.Types.Bool)
   } deriving (GHC.Show.Show
@@ -211,7 +211,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsRequestBody
 -- Controls when the funds will be captured from the customer\'s account.
 data PostPaymentIntentsRequestBodyCaptureMethod'
     = PostPaymentIntentsRequestBodyCaptureMethod'EnumOther Data.Aeson.Types.Internal.Value
-    | PostPaymentIntentsRequestBodyCaptureMethod'EnumTyped GHC.Base.String
+    | PostPaymentIntentsRequestBodyCaptureMethod'EnumTyped Data.Text.Internal.Text
     | PostPaymentIntentsRequestBodyCaptureMethod'EnumStringAutomatic
     | PostPaymentIntentsRequestBodyCaptureMethod'EnumStringManual
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -231,7 +231,7 @@ instance Data.Aeson.FromJSON PostPaymentIntentsRequestBodyCaptureMethod'
 -- 
 data PostPaymentIntentsRequestBodyConfirmationMethod'
     = PostPaymentIntentsRequestBodyConfirmationMethod'EnumOther Data.Aeson.Types.Internal.Value
-    | PostPaymentIntentsRequestBodyConfirmationMethod'EnumTyped GHC.Base.String
+    | PostPaymentIntentsRequestBodyConfirmationMethod'EnumTyped Data.Text.Internal.Text
     | PostPaymentIntentsRequestBodyConfirmationMethod'EnumStringAutomatic
     | PostPaymentIntentsRequestBodyConfirmationMethod'EnumStringManual
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -303,13 +303,13 @@ data PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Online' = PostP
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Online'IpAddress :: GHC.Base.String
+  postPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Online'IpAddress :: Data.Text.Internal.Text
   -- | user_agent
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Online'UserAgent :: GHC.Base.String
+  , postPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Online'UserAgent :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Online'
@@ -322,7 +322,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsRequestBodyMandate
 -- 
 data PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Type'
     = PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumTyped GHC.Base.String
+    | PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumTyped Data.Text.Internal.Text
     | PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumStringOffline
     | PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumStringOnline
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -354,7 +354,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsRequestBodyMetadat
 -- 
 data PostPaymentIntentsRequestBodyOffSession'OneOf1
     = PostPaymentIntentsRequestBodyOffSession'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostPaymentIntentsRequestBodyOffSession'OneOf1EnumTyped GHC.Base.String
+    | PostPaymentIntentsRequestBodyOffSession'OneOf1EnumTyped Data.Text.Internal.Text
     | PostPaymentIntentsRequestBodyOffSession'OneOf1EnumStringOneOff
     | PostPaymentIntentsRequestBodyOffSession'OneOf1EnumStringRecurring
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -432,7 +432,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsRequestBodyPayment
 -- 
 data PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf1
     = PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf1EnumTyped GHC.Base.String
+    | PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf1EnumTyped Data.Text.Internal.Text
     | PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf1
@@ -465,7 +465,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsRequestBodyPayment
 -- 
 data PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Interval'
     = PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Interval'EnumOther Data.Aeson.Types.Internal.Value
-    | PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Interval'EnumTyped GHC.Base.String
+    | PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Interval'EnumTyped Data.Text.Internal.Text
     | PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Interval'EnumStringMonth
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Interval'
@@ -481,7 +481,7 @@ instance Data.Aeson.FromJSON PostPaymentIntentsRequestBodyPaymentMethodOptions'C
 -- 
 data PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Type'
     = PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Type'EnumTyped GHC.Base.String
+    | PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Type'EnumTyped Data.Text.Internal.Text
     | PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Type'EnumStringFixedCount
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Type'
@@ -508,7 +508,7 @@ instance Data.Aeson.FromJSON PostPaymentIntentsRequestBodyPaymentMethodOptions'C
 -- 
 data PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'
     = PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumOther Data.Aeson.Types.Internal.Value
-    | PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumTyped GHC.Base.String
+    | PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumTyped Data.Text.Internal.Text
     | PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAny
     | PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAutomatic
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -534,7 +534,7 @@ instance Data.Aeson.FromJSON PostPaymentIntentsRequestBodyPaymentMethodOptions'C
 -- Stripe uses \`setup_future_usage\` to dynamically optimize your payment flow and comply with regional legislation and network rules. For example, if your customer is impacted by [SCA](https:\/\/stripe.com\/docs\/strong-customer-authentication), using \`off_session\` will ensure that they are authenticated while processing this PaymentIntent. You will then be able to collect [off-session payments](https:\/\/stripe.com\/docs\/payments\/cards\/charging-saved-cards\#off-session-payments-with-saved-cards) for this customer.
 data PostPaymentIntentsRequestBodySetupFutureUsage'
     = PostPaymentIntentsRequestBodySetupFutureUsage'EnumOther Data.Aeson.Types.Internal.Value
-    | PostPaymentIntentsRequestBodySetupFutureUsage'EnumTyped GHC.Base.String
+    | PostPaymentIntentsRequestBodySetupFutureUsage'EnumTyped Data.Text.Internal.Text
     | PostPaymentIntentsRequestBodySetupFutureUsage'EnumStringOffSession
     | PostPaymentIntentsRequestBodySetupFutureUsage'EnumStringOnSession
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -560,25 +560,25 @@ data PostPaymentIntentsRequestBodyShipping' = PostPaymentIntentsRequestBodyShipp
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentIntentsRequestBodyShipping'Carrier :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyShipping'Carrier :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentIntentsRequestBodyShipping'Name :: GHC.Base.String
+  , postPaymentIntentsRequestBodyShipping'Name :: Data.Text.Internal.Text
   -- | phone
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentIntentsRequestBodyShipping'Phone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyShipping'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tracking_number
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentIntentsRequestBodyShipping'TrackingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyShipping'TrackingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentIntentsRequestBodyShipping'
@@ -595,37 +595,37 @@ data PostPaymentIntentsRequestBodyShipping'Address' = PostPaymentIntentsRequestB
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postPaymentIntentsRequestBodyShipping'Address'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postPaymentIntentsRequestBodyShipping'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentIntentsRequestBodyShipping'Address'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyShipping'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentIntentsRequestBodyShipping'Address'Line1 :: GHC.Base.String
+  , postPaymentIntentsRequestBodyShipping'Address'Line1 :: Data.Text.Internal.Text
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentIntentsRequestBodyShipping'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyShipping'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentIntentsRequestBodyShipping'Address'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyShipping'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postPaymentIntentsRequestBodyShipping'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postPaymentIntentsRequestBodyShipping'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentIntentsRequestBodyShipping'Address'
@@ -641,7 +641,7 @@ data PostPaymentIntentsRequestBodyTransferData' = PostPaymentIntentsRequestBodyT
   -- | amount
   postPaymentIntentsRequestBodyTransferData'Amount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | destination
-  , postPaymentIntentsRequestBodyTransferData'Destination :: GHC.Base.String
+  , postPaymentIntentsRequestBodyTransferData'Destination :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentIntentsRequestBodyTransferData'

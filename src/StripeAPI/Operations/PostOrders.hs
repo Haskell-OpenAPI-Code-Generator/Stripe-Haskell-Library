@@ -98,23 +98,23 @@ data PostOrdersRequestBody = PostOrdersRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postOrdersRequestBodyCoupon :: (GHC.Maybe.Maybe GHC.Base.String)
+  postOrdersRequestBodyCoupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , postOrdersRequestBodyCurrency :: GHC.Base.String
+  , postOrdersRequestBodyCurrency :: Data.Text.Internal.Text
   -- | customer: The ID of an existing customer to use for this order. If provided, the customer email and shipping address will be used to create the order. Subsequently, the customer will also be charged to pay the order. If \`email\` or \`shipping\` are also provided, they will override the values retrieved from the customer object.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | email: The email address of the customer placing the order.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersRequestBodyEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersRequestBodyEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postOrdersRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postOrdersRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | items: List of items constituting the order. An order can have up to 25 items.
   , postOrdersRequestBodyItems :: (GHC.Maybe.Maybe ([] PostOrdersRequestBodyItems'))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -135,19 +135,19 @@ data PostOrdersRequestBodyItems' = PostOrdersRequestBodyItems' {
   -- | amount
   postOrdersRequestBodyItems'Amount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | currency
-  , postOrdersRequestBodyItems'Currency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersRequestBodyItems'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | description
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 1000
-  , postOrdersRequestBodyItems'Description :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersRequestBodyItems'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | parent
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersRequestBodyItems'Parent :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersRequestBodyItems'Parent :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | quantity
   , postOrdersRequestBodyItems'Quantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | type
@@ -168,7 +168,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyItems'
 -- 
 data PostOrdersRequestBodyItems'Type'
     = PostOrdersRequestBodyItems'Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostOrdersRequestBodyItems'Type'EnumTyped GHC.Base.String
+    | PostOrdersRequestBodyItems'Type'EnumTyped Data.Text.Internal.Text
     | PostOrdersRequestBodyItems'Type'EnumStringDiscount
     | PostOrdersRequestBodyItems'Type'EnumStringShipping
     | PostOrdersRequestBodyItems'Type'EnumStringSku
@@ -214,13 +214,13 @@ data PostOrdersRequestBodyShipping' = PostOrdersRequestBodyShipping' {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersRequestBodyShipping'Name :: GHC.Base.String
+  , postOrdersRequestBodyShipping'Name :: Data.Text.Internal.Text
   -- | phone
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersRequestBodyShipping'Phone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersRequestBodyShipping'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostOrdersRequestBodyShipping'
@@ -237,37 +237,37 @@ data PostOrdersRequestBodyShipping'Address' = PostOrdersRequestBodyShipping'Addr
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postOrdersRequestBodyShipping'Address'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postOrdersRequestBodyShipping'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersRequestBodyShipping'Address'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersRequestBodyShipping'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersRequestBodyShipping'Address'Line1 :: GHC.Base.String
+  , postOrdersRequestBodyShipping'Address'Line1 :: Data.Text.Internal.Text
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersRequestBodyShipping'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersRequestBodyShipping'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersRequestBodyShipping'Address'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersRequestBodyShipping'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postOrdersRequestBodyShipping'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postOrdersRequestBodyShipping'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostOrdersRequestBodyShipping'Address'

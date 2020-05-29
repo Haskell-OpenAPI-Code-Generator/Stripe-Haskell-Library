@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the Bitcoin receiver with the given ID.\<\/p>
 getBitcoinReceiversId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                   -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                   -- ^ id | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                           -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                           -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetBitcoinReceiversIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetBitcoinReceiversIdResponse)) -- ^ Monad containing the result of the operation
 getBitcoinReceiversId config
@@ -68,8 +68,8 @@ getBitcoinReceiversId config
 getBitcoinReceiversIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             StripeAPI.Common.Configuration s ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Base.String ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe GetBitcoinReceiversIdRequestBody ->
                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getBitcoinReceiversIdRaw config
 -- Monadic version of 'getBitcoinReceiversId' (use with 'StripeAPI.Common.runWithConfiguration')
 getBitcoinReceiversIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Base.String ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe GetBitcoinReceiversIdRequestBody ->
                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                              m
@@ -113,8 +113,8 @@ getBitcoinReceiversIdM expand
 -- Monadic version of 'getBitcoinReceiversIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getBitcoinReceiversIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GetBitcoinReceiversIdRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m

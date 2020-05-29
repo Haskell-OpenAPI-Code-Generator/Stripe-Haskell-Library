@@ -46,7 +46,7 @@ import StripeAPI.Types
 -- 
 -- \<p>This request accepts the \<code>metadata\<\/code> and \<code>owner\<\/code> as arguments. It is also possible to update type specific information for selected payment methods. Please refer to our \<a href=\"\/docs\/sources\">payment method guides\<\/a> for more detail.\<\/p>
 postSourcesSource :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                               -- ^ source | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                       -- ^ source | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostSourcesSourceRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSourcesSourceResponse)) -- ^ Monad containing the result of the operation
 postSourcesSource config
@@ -62,7 +62,7 @@ postSourcesSource config
 postSourcesSourceRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         StripeAPI.Common.Configuration s ->
-                        GHC.Base.String ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe PostSourcesSourceRequestBody ->
                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -74,7 +74,7 @@ postSourcesSourceRaw config
 -- Monadic version of 'postSourcesSource' (use with 'StripeAPI.Common.runWithConfiguration')
 postSourcesSourceM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
-                      GHC.Base.String ->
+                      Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe PostSourcesSourceRequestBody ->
                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                          m
@@ -91,7 +91,7 @@ postSourcesSourceM source
 -- Monadic version of 'postSourcesSourceRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postSourcesSourceRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
-                         GHC.Base.String ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe PostSourcesSourceRequestBody ->
                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                             m
@@ -106,7 +106,7 @@ data PostSourcesSourceRequestBody = PostSourcesSourceRequestBody {
   -- | amount: Amount associated with the source.
   postSourcesSourceRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postSourcesSourceRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postSourcesSourceRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | mandate: Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
   , postSourcesSourceRequestBodyMandate :: (GHC.Maybe.Maybe PostSourcesSourceRequestBodyMandate')
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -131,7 +131,7 @@ data PostSourcesSourceRequestBodyMandate' = PostSourcesSourceRequestBodyMandate'
   -- | amount
   , postSourcesSourceRequestBodyMandate'Amount :: (GHC.Maybe.Maybe PostSourcesSourceRequestBodyMandate'Amount'Variants)
   -- | currency
-  , postSourcesSourceRequestBodyMandate'Currency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodyMandate'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | interval
   -- 
   -- Constraints:
@@ -158,7 +158,7 @@ data PostSourcesSourceRequestBodyMandate'Acceptance' = PostSourcesSourceRequestB
   -- | date
   postSourcesSourceRequestBodyMandate'Acceptance'Date :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | ip
-  , postSourcesSourceRequestBodyMandate'Acceptance'Ip :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodyMandate'Acceptance'Ip :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | offline
   , postSourcesSourceRequestBodyMandate'Acceptance'Offline :: (GHC.Maybe.Maybe PostSourcesSourceRequestBodyMandate'Acceptance'Offline')
   -- | online
@@ -180,7 +180,7 @@ data PostSourcesSourceRequestBodyMandate'Acceptance' = PostSourcesSourceRequestB
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodyMandate'Acceptance'UserAgent :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodyMandate'Acceptance'UserAgent :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSourcesSourceRequestBodyMandate'Acceptance'
@@ -193,7 +193,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesSourceRequestBodyMandate'
 -- 
 data PostSourcesSourceRequestBodyMandate'Acceptance'Offline' = PostSourcesSourceRequestBodyMandate'Acceptance'Offline' {
   -- | contact_email
-  postSourcesSourceRequestBodyMandate'Acceptance'Offline'ContactEmail :: GHC.Base.String
+  postSourcesSourceRequestBodyMandate'Acceptance'Offline'ContactEmail :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSourcesSourceRequestBodyMandate'Acceptance'Offline'
@@ -208,13 +208,13 @@ data PostSourcesSourceRequestBodyMandate'Acceptance'Online' = PostSourcesSourceR
   -- | date
   postSourcesSourceRequestBodyMandate'Acceptance'Online'Date :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | ip
-  , postSourcesSourceRequestBodyMandate'Acceptance'Online'Ip :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodyMandate'Acceptance'Online'Ip :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | user_agent
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodyMandate'Acceptance'Online'UserAgent :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodyMandate'Acceptance'Online'UserAgent :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSourcesSourceRequestBodyMandate'Acceptance'Online'
@@ -227,7 +227,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesSourceRequestBodyMandate'
 -- 
 data PostSourcesSourceRequestBodyMandate'Acceptance'Status'
     = PostSourcesSourceRequestBodyMandate'Acceptance'Status'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSourcesSourceRequestBodyMandate'Acceptance'Status'EnumTyped GHC.Base.String
+    | PostSourcesSourceRequestBodyMandate'Acceptance'Status'EnumTyped Data.Text.Internal.Text
     | PostSourcesSourceRequestBodyMandate'Acceptance'Status'EnumStringAccepted
     | PostSourcesSourceRequestBodyMandate'Acceptance'Status'EnumStringPending
     | PostSourcesSourceRequestBodyMandate'Acceptance'Status'EnumStringRefused
@@ -255,7 +255,7 @@ instance Data.Aeson.FromJSON PostSourcesSourceRequestBodyMandate'Acceptance'Stat
 -- 
 data PostSourcesSourceRequestBodyMandate'Acceptance'Type'
     = PostSourcesSourceRequestBodyMandate'Acceptance'Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSourcesSourceRequestBodyMandate'Acceptance'Type'EnumTyped GHC.Base.String
+    | PostSourcesSourceRequestBodyMandate'Acceptance'Type'EnumTyped Data.Text.Internal.Text
     | PostSourcesSourceRequestBodyMandate'Acceptance'Type'EnumStringOffline
     | PostSourcesSourceRequestBodyMandate'Acceptance'Type'EnumStringOnline
     deriving (GHC.Show.Show, GHC.Classes.Eq)
@@ -275,7 +275,7 @@ instance Data.Aeson.FromJSON PostSourcesSourceRequestBodyMandate'Acceptance'Type
 -- 
 data PostSourcesSourceRequestBodyMandate'Amount'OneOf1
     = PostSourcesSourceRequestBodyMandate'Amount'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostSourcesSourceRequestBodyMandate'Amount'OneOf1EnumTyped GHC.Base.String
+    | PostSourcesSourceRequestBodyMandate'Amount'OneOf1EnumTyped Data.Text.Internal.Text
     | PostSourcesSourceRequestBodyMandate'Amount'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSourcesSourceRequestBodyMandate'Amount'OneOf1
@@ -302,7 +302,7 @@ instance Data.Aeson.FromJSON PostSourcesSourceRequestBodyMandate'Amount'Variants
 -- 
 data PostSourcesSourceRequestBodyMandate'Interval'
     = PostSourcesSourceRequestBodyMandate'Interval'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSourcesSourceRequestBodyMandate'Interval'EnumTyped GHC.Base.String
+    | PostSourcesSourceRequestBodyMandate'Interval'EnumTyped Data.Text.Internal.Text
     | PostSourcesSourceRequestBodyMandate'Interval'EnumStringOneTime
     | PostSourcesSourceRequestBodyMandate'Interval'EnumStringScheduled
     | PostSourcesSourceRequestBodyMandate'Interval'EnumStringVariable
@@ -326,7 +326,7 @@ instance Data.Aeson.FromJSON PostSourcesSourceRequestBodyMandate'Interval'
 -- 
 data PostSourcesSourceRequestBodyMandate'NotificationMethod'
     = PostSourcesSourceRequestBodyMandate'NotificationMethod'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSourcesSourceRequestBodyMandate'NotificationMethod'EnumTyped GHC.Base.String
+    | PostSourcesSourceRequestBodyMandate'NotificationMethod'EnumTyped Data.Text.Internal.Text
     | PostSourcesSourceRequestBodyMandate'NotificationMethod'EnumStringDeprecatedNone
     | PostSourcesSourceRequestBodyMandate'NotificationMethod'EnumStringEmail
     | PostSourcesSourceRequestBodyMandate'NotificationMethod'EnumStringManual
@@ -372,19 +372,19 @@ data PostSourcesSourceRequestBodyOwner' = PostSourcesSourceRequestBodyOwner' {
   -- | address
   postSourcesSourceRequestBodyOwner'Address :: (GHC.Maybe.Maybe PostSourcesSourceRequestBodyOwner'Address')
   -- | email
-  , postSourcesSourceRequestBodyOwner'Email :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodyOwner'Email :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodyOwner'Name :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodyOwner'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | phone
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodyOwner'Phone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodyOwner'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSourcesSourceRequestBodyOwner'
@@ -401,37 +401,37 @@ data PostSourcesSourceRequestBodyOwner'Address' = PostSourcesSourceRequestBodyOw
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postSourcesSourceRequestBodyOwner'Address'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postSourcesSourceRequestBodyOwner'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodyOwner'Address'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodyOwner'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodyOwner'Address'Line1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodyOwner'Address'Line1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodyOwner'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodyOwner'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodyOwner'Address'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodyOwner'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodyOwner'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodyOwner'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSourcesSourceRequestBodyOwner'Address'
@@ -461,19 +461,19 @@ data PostSourcesSourceRequestBodySourceOrder'Items' = PostSourcesSourceRequestBo
   -- | amount
   postSourcesSourceRequestBodySourceOrder'Items'Amount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | currency
-  , postSourcesSourceRequestBodySourceOrder'Items'Currency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodySourceOrder'Items'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | description
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 1000
-  , postSourcesSourceRequestBodySourceOrder'Items'Description :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodySourceOrder'Items'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | parent
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodySourceOrder'Items'Parent :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodySourceOrder'Items'Parent :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | quantity
   , postSourcesSourceRequestBodySourceOrder'Items'Quantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | type
@@ -494,7 +494,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesSourceRequestBodySourceOr
 -- 
 data PostSourcesSourceRequestBodySourceOrder'Items'Type'
     = PostSourcesSourceRequestBodySourceOrder'Items'Type'EnumOther Data.Aeson.Types.Internal.Value
-    | PostSourcesSourceRequestBodySourceOrder'Items'Type'EnumTyped GHC.Base.String
+    | PostSourcesSourceRequestBodySourceOrder'Items'Type'EnumTyped Data.Text.Internal.Text
     | PostSourcesSourceRequestBodySourceOrder'Items'Type'EnumStringDiscount
     | PostSourcesSourceRequestBodySourceOrder'Items'Type'EnumStringShipping
     | PostSourcesSourceRequestBodySourceOrder'Items'Type'EnumStringSku
@@ -528,25 +528,25 @@ data PostSourcesSourceRequestBodySourceOrder'Shipping' = PostSourcesSourceReques
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodySourceOrder'Shipping'Carrier :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodySourceOrder'Shipping'Carrier :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodySourceOrder'Shipping'Name :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodySourceOrder'Shipping'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | phone
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodySourceOrder'Shipping'Phone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodySourceOrder'Shipping'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tracking_number
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodySourceOrder'Shipping'TrackingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodySourceOrder'Shipping'TrackingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSourcesSourceRequestBodySourceOrder'Shipping'
@@ -563,37 +563,37 @@ data PostSourcesSourceRequestBodySourceOrder'Shipping'Address' = PostSourcesSour
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postSourcesSourceRequestBodySourceOrder'Shipping'Address'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postSourcesSourceRequestBodySourceOrder'Shipping'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodySourceOrder'Shipping'Address'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodySourceOrder'Shipping'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodySourceOrder'Shipping'Address'Line1 :: GHC.Base.String
+  , postSourcesSourceRequestBodySourceOrder'Shipping'Address'Line1 :: Data.Text.Internal.Text
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodySourceOrder'Shipping'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodySourceOrder'Shipping'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodySourceOrder'Shipping'Address'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodySourceOrder'Shipping'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postSourcesSourceRequestBodySourceOrder'Shipping'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postSourcesSourceRequestBodySourceOrder'Shipping'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostSourcesSourceRequestBodySourceOrder'Shipping'Address'

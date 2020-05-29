@@ -36,13 +36,13 @@ data RadarReviewResourceLocation = RadarReviewResourceLocation {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  radarReviewResourceLocationCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  radarReviewResourceLocationCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country: Two-letter ISO code representing the country where the payment originated.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , radarReviewResourceLocationCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , radarReviewResourceLocationCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | latitude: The geographic latitude where the payment originated.
   , radarReviewResourceLocationLatitude :: (GHC.Maybe.Maybe GHC.Types.Double)
   -- | longitude: The geographic longitude where the payment originated.
@@ -52,7 +52,7 @@ data RadarReviewResourceLocation = RadarReviewResourceLocation {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , radarReviewResourceLocationRegion :: (GHC.Maybe.Maybe GHC.Base.String)
+  , radarReviewResourceLocationRegion :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON RadarReviewResourceLocation

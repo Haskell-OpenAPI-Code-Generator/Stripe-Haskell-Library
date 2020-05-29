@@ -48,7 +48,7 @@ import StripeAPI.Types
 -- 
 -- \<p>By default, upon subscription cancellation, Stripe will stop automatic collection of all finalized invoices for the customer. This is intended to prevent unexpected payment attempts after the customer has canceled a subscription. However, you can resume automatic collection of the invoices manually after subscription cancellation to have us proceed. Or, you could check for unpaid invoices before allowing the customer to cancel the subscription at all.\<\/p>
 deleteSubscriptionsSubscriptionExposedId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                      -- ^ subscription_exposed_id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                              -- ^ subscription_exposed_id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteSubscriptionsSubscriptionExposedIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteSubscriptionsSubscriptionExposedIdResponse)) -- ^ Monad containing the result of the operation
 deleteSubscriptionsSubscriptionExposedId config
@@ -64,7 +64,7 @@ deleteSubscriptionsSubscriptionExposedId config
 deleteSubscriptionsSubscriptionExposedIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                              StripeAPI.Common.SecurityScheme s) =>
                                                StripeAPI.Common.Configuration s ->
-                                               GHC.Base.String ->
+                                               Data.Text.Internal.Text ->
                                                GHC.Maybe.Maybe DeleteSubscriptionsSubscriptionExposedIdRequestBody ->
                                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,7 +76,7 @@ deleteSubscriptionsSubscriptionExposedIdRaw config
 -- Monadic version of 'deleteSubscriptionsSubscriptionExposedId' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteSubscriptionsSubscriptionExposedIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
-                                             GHC.Base.String ->
+                                             Data.Text.Internal.Text ->
                                              GHC.Maybe.Maybe DeleteSubscriptionsSubscriptionExposedIdRequestBody ->
                                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                 m
@@ -93,7 +93,7 @@ deleteSubscriptionsSubscriptionExposedIdM subscriptionExposedId
 -- Monadic version of 'deleteSubscriptionsSubscriptionExposedIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteSubscriptionsSubscriptionExposedIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                               StripeAPI.Common.SecurityScheme s) =>
-                                                GHC.Base.String ->
+                                                Data.Text.Internal.Text ->
                                                 GHC.Maybe.Maybe DeleteSubscriptionsSubscriptionExposedIdRequestBody ->
                                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                    m
@@ -106,7 +106,7 @@ deleteSubscriptionsSubscriptionExposedIdRawM subscriptionExposedId
 -- 
 data DeleteSubscriptionsSubscriptionExposedIdRequestBody = DeleteSubscriptionsSubscriptionExposedIdRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  deleteSubscriptionsSubscriptionExposedIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  deleteSubscriptionsSubscriptionExposedIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | invoice_now: Will generate a final invoice that invoices for any un-invoiced metered usage and new\/pending proration invoice items.
   , deleteSubscriptionsSubscriptionExposedIdRequestBodyInvoiceNow :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | prorate: Will generate a proration invoice item that credits remaining unused time until the subscription period end.

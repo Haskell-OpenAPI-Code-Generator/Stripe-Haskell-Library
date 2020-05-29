@@ -36,19 +36,19 @@ data SourceTransactionSepaCreditTransferData = SourceTransactionSepaCreditTransf
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  sourceTransactionSepaCreditTransferDataReference :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTransactionSepaCreditTransferDataReference :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | sender_iban: Sender\'s bank account IBAN.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionSepaCreditTransferDataSenderIban :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionSepaCreditTransferDataSenderIban :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | sender_name: Sender\'s name.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , sourceTransactionSepaCreditTransferDataSenderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTransactionSepaCreditTransferDataSenderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTransactionSepaCreditTransferData

@@ -44,9 +44,9 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the \<code>TaxID\<\/code> object with the given identifier.\<\/p>
 getCustomersCustomerTaxIdsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                          -- ^ customer | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                          -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                          -- ^ id
+  -> Data.Text.Internal.Text                                                                                                                  -- ^ customer | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                  -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                  -- ^ id
   -> GHC.Maybe.Maybe GetCustomersCustomerTaxIdsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCustomersCustomerTaxIdsIdResponse)) -- ^ Monad containing the result of the operation
 getCustomersCustomerTaxIdsId config
@@ -70,9 +70,9 @@ getCustomersCustomerTaxIdsId config
 getCustomersCustomerTaxIdsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
                                    StripeAPI.Common.Configuration s ->
-                                   GHC.Base.String ->
-                                   GHC.Maybe.Maybe GHC.Base.String ->
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
+                                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe GetCustomersCustomerTaxIdsIdRequestBody ->
                                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                          (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -92,9 +92,9 @@ getCustomersCustomerTaxIdsIdRaw config
 -- Monadic version of 'getCustomersCustomerTaxIdsId' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerTaxIdsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
-                                 GHC.Base.String ->
-                                 GHC.Maybe.Maybe GHC.Base.String ->
-                                 GHC.Base.String ->
+                                 Data.Text.Internal.Text ->
+                                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                 Data.Text.Internal.Text ->
                                  GHC.Maybe.Maybe GetCustomersCustomerTaxIdsIdRequestBody ->
                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                     m
@@ -119,9 +119,9 @@ getCustomersCustomerTaxIdsIdM customer
 -- Monadic version of 'getCustomersCustomerTaxIdsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getCustomersCustomerTaxIdsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    GHC.Base.String ->
-                                    GHC.Maybe.Maybe GHC.Base.String ->
-                                    GHC.Base.String ->
+                                    Data.Text.Internal.Text ->
+                                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                    Data.Text.Internal.Text ->
                                     GHC.Maybe.Maybe GetCustomersCustomerTaxIdsIdRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m

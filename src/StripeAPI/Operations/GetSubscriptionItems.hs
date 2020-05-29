@@ -44,11 +44,11 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a list of your subscription items for a given subscription.\<\/p>
 getSubscriptionItems :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                  -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                  -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                          -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                          -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                         -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                  -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
-  -> GHC.Base.String                                                                                                                  -- ^ subscription: The ID of the subscription whose items will be retrieved. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                          -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+  -> Data.Text.Internal.Text                                                                                                          -- ^ subscription: The ID of the subscription whose items will be retrieved. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetSubscriptionItemsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSubscriptionItemsResponse)) -- ^ Monad containing the result of the operation
 getSubscriptionItems config
@@ -118,11 +118,11 @@ getSubscriptionItems config
 getSubscriptionItemsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
                            StripeAPI.Common.Configuration s ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Base.String ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                           Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe GetSubscriptionItemsRequestBody ->
                            m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                  (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -188,11 +188,11 @@ getSubscriptionItemsRaw config
 -- Monadic version of 'getSubscriptionItems' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionItemsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                         GHC.Maybe.Maybe GHC.Base.String ->
-                         GHC.Base.String ->
+                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe GetSubscriptionItemsRequestBody ->
                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                             m
@@ -263,11 +263,11 @@ getSubscriptionItemsM endingBefore
 -- Monadic version of 'getSubscriptionItemsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSubscriptionItemsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                            GHC.Maybe.Maybe GHC.Base.String ->
-                            GHC.Base.String ->
+                            GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                            Data.Text.Internal.Text ->
                             GHC.Maybe.Maybe GetSubscriptionItemsRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
@@ -365,7 +365,7 @@ data GetSubscriptionItemsResponseBody200 = GetSubscriptionItemsResponseBody200 {
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/subscription_items\'
-  , getSubscriptionItemsResponseBody200Url :: GHC.Base.String
+  , getSubscriptionItemsResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSubscriptionItemsResponseBody200
@@ -378,7 +378,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionItemsResponseBody200
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetSubscriptionItemsResponseBody200Object'
     = GetSubscriptionItemsResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetSubscriptionItemsResponseBody200Object'EnumTyped GHC.Base.String
+    | GetSubscriptionItemsResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetSubscriptionItemsResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSubscriptionItemsResponseBody200Object'

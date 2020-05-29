@@ -45,8 +45,8 @@ import StripeAPI.Types
 -- \<p>Updates the metadata, account holder name, and account holder type of a bank account belonging to a \<a href=\"\/docs\/connect\/custom-accounts\">Custom account\<\/a>, and optionally sets it as the default for its currency. Other bank account details are not editable by design.\<\/p>
 -- \<p>You can re-enable a disabled bank account by performing an update call without providing any arguments or changes.\<\/p>
 postAccountsAccountExternalAccountsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                                   -- ^ account | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                                   -- ^ id
+  -> Data.Text.Internal.Text                                                                                                                           -- ^ account | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                           -- ^ id
   -> GHC.Maybe.Maybe PostAccountsAccountExternalAccountsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostAccountsAccountExternalAccountsIdResponse)) -- ^ Monad containing the result of the operation
 postAccountsAccountExternalAccountsId config
@@ -63,8 +63,8 @@ postAccountsAccountExternalAccountsId config
 postAccountsAccountExternalAccountsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                           StripeAPI.Common.SecurityScheme s) =>
                                             StripeAPI.Common.Configuration s ->
-                                            GHC.Base.String ->
-                                            GHC.Base.String ->
+                                            Data.Text.Internal.Text ->
+                                            Data.Text.Internal.Text ->
                                             GHC.Maybe.Maybe PostAccountsAccountExternalAccountsIdRequestBody ->
                                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -77,8 +77,8 @@ postAccountsAccountExternalAccountsIdRaw config
 -- Monadic version of 'postAccountsAccountExternalAccountsId' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountExternalAccountsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
-                                          GHC.Base.String ->
-                                          GHC.Base.String ->
+                                          Data.Text.Internal.Text ->
+                                          Data.Text.Internal.Text ->
                                           GHC.Maybe.Maybe PostAccountsAccountExternalAccountsIdRequestBody ->
                                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                              m
@@ -96,8 +96,8 @@ postAccountsAccountExternalAccountsIdM account
 -- Monadic version of 'postAccountsAccountExternalAccountsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountsAccountExternalAccountsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
-                                             GHC.Base.String ->
-                                             GHC.Base.String ->
+                                             Data.Text.Internal.Text ->
+                                             Data.Text.Internal.Text ->
                                              GHC.Maybe.Maybe PostAccountsAccountExternalAccountsIdRequestBody ->
                                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                 m
@@ -115,7 +115,7 @@ data PostAccountsAccountExternalAccountsIdRequestBody = PostAccountsAccountExter
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postAccountsAccountExternalAccountsIdRequestBodyAccountHolderName :: (GHC.Maybe.Maybe GHC.Base.String)
+  postAccountsAccountExternalAccountsIdRequestBodyAccountHolderName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | account_holder_type: The type of entity that holds the account. This can be either \`individual\` or \`company\`.
   -- 
   -- Constraints:
@@ -127,37 +127,37 @@ data PostAccountsAccountExternalAccountsIdRequestBody = PostAccountsAccountExter
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountExternalAccountsIdRequestBodyAddressCity :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountExternalAccountsIdRequestBodyAddressCity :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_country: Billing address country, if provided when creating card.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountExternalAccountsIdRequestBodyAddressCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountExternalAccountsIdRequestBodyAddressCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line1: Address line 1 (Street address\/PO Box\/Company name).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountExternalAccountsIdRequestBodyAddressLine1 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountExternalAccountsIdRequestBodyAddressLine1 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_line2: Address line 2 (Apartment\/Suite\/Unit\/Building).
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountExternalAccountsIdRequestBodyAddressLine2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountExternalAccountsIdRequestBodyAddressLine2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_state: State\/County\/Province\/Region.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountExternalAccountsIdRequestBodyAddressState :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountExternalAccountsIdRequestBodyAddressState :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_zip: ZIP or postal code.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountExternalAccountsIdRequestBodyAddressZip :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountExternalAccountsIdRequestBodyAddressZip :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_for_currency: When set to true, this becomes the default external account for its currency.
   , postAccountsAccountExternalAccountsIdRequestBodyDefaultForCurrency :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | exp_month: Two digit number representing the card’s expiration month.
@@ -165,15 +165,15 @@ data PostAccountsAccountExternalAccountsIdRequestBody = PostAccountsAccountExter
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountExternalAccountsIdRequestBodyExpMonth :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountExternalAccountsIdRequestBodyExpMonth :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | exp_year: Four digit number representing the card’s expiration year.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountExternalAccountsIdRequestBodyExpYear :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountExternalAccountsIdRequestBodyExpYear :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postAccountsAccountExternalAccountsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postAccountsAccountExternalAccountsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postAccountsAccountExternalAccountsIdRequestBodyMetadata :: (GHC.Maybe.Maybe PostAccountsAccountExternalAccountsIdRequestBodyMetadata')
   -- | name: Cardholder name.
@@ -181,7 +181,7 @@ data PostAccountsAccountExternalAccountsIdRequestBody = PostAccountsAccountExter
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postAccountsAccountExternalAccountsIdRequestBodyName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postAccountsAccountExternalAccountsIdRequestBodyName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostAccountsAccountExternalAccountsIdRequestBody
@@ -194,7 +194,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountsAccountExternalAccountsI
 -- The type of entity that holds the account. This can be either \`individual\` or \`company\`.
 data PostAccountsAccountExternalAccountsIdRequestBodyAccountHolderType'
     = PostAccountsAccountExternalAccountsIdRequestBodyAccountHolderType'EnumOther Data.Aeson.Types.Internal.Value
-    | PostAccountsAccountExternalAccountsIdRequestBodyAccountHolderType'EnumTyped GHC.Base.String
+    | PostAccountsAccountExternalAccountsIdRequestBodyAccountHolderType'EnumTyped Data.Text.Internal.Text
     | PostAccountsAccountExternalAccountsIdRequestBodyAccountHolderType'EnumString_
     | PostAccountsAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringCompany
     | PostAccountsAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringIndividual

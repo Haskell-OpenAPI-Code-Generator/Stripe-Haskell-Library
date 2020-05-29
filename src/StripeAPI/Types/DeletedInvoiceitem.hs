@@ -38,7 +38,7 @@ data DeletedInvoiceitem = DeletedInvoiceitem {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedInvoiceitemId :: GHC.Base.String
+  , deletedInvoiceitemId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedInvoiceitemObject :: DeletedInvoiceitemObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedInvoiceitemDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedInvoiceitemObject'
     = DeletedInvoiceitemObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedInvoiceitemObject'EnumTyped GHC.Base.String
+    | DeletedInvoiceitemObject'EnumTyped Data.Text.Internal.Text
     | DeletedInvoiceitemObject'EnumStringInvoiceitem
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedInvoiceitemObject'

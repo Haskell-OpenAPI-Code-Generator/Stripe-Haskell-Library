@@ -64,7 +64,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON Balance
 -- String representing the object\'s type. Objects of the same type share the same value.
 data BalanceObject'
     = BalanceObject'EnumOther Data.Aeson.Types.Internal.Value
-    | BalanceObject'EnumTyped GHC.Base.String
+    | BalanceObject'EnumTyped Data.Text.Internal.Text
     | BalanceObject'EnumStringBalance
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON BalanceObject'

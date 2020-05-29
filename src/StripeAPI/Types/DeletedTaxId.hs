@@ -38,7 +38,7 @@ data DeletedTaxId = DeletedTaxId {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedTaxIdId :: GHC.Base.String
+  , deletedTaxIdId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedTaxIdObject :: DeletedTaxIdObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedTaxIdDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedTaxIdObject'
     = DeletedTaxIdObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedTaxIdObject'EnumTyped GHC.Base.String
+    | DeletedTaxIdObject'EnumTyped Data.Text.Internal.Text
     | DeletedTaxIdObject'EnumStringTaxId
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedTaxIdObject'

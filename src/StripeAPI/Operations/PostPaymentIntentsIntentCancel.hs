@@ -46,7 +46,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Once canceled, no additional charges will be made by the PaymentIntent and any operations on the PaymentIntent will fail with an error. For PaymentIntents with \<code>status=\'requires_capture\'\<\/code>, the remaining \<code>amount_capturable\<\/code> will automatically be refunded.\<\/p>
 postPaymentIntentsIntentCancel :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                                            -- ^ intent | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                    -- ^ intent | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostPaymentIntentsIntentCancelRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPaymentIntentsIntentCancelResponse)) -- ^ Monad containing the result of the operation
 postPaymentIntentsIntentCancel config
@@ -62,7 +62,7 @@ postPaymentIntentsIntentCancel config
 postPaymentIntentsIntentCancelRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
                                      StripeAPI.Common.Configuration s ->
-                                     GHC.Base.String ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe PostPaymentIntentsIntentCancelRequestBody ->
                                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                            (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -74,7 +74,7 @@ postPaymentIntentsIntentCancelRaw config
 -- Monadic version of 'postPaymentIntentsIntentCancel' (use with 'StripeAPI.Common.runWithConfiguration')
 postPaymentIntentsIntentCancelM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Base.String ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe PostPaymentIntentsIntentCancelRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m
@@ -91,7 +91,7 @@ postPaymentIntentsIntentCancelM intent
 -- Monadic version of 'postPaymentIntentsIntentCancelRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postPaymentIntentsIntentCancelRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
-                                      GHC.Base.String ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe PostPaymentIntentsIntentCancelRequestBody ->
                                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                          m
@@ -110,7 +110,7 @@ data PostPaymentIntentsIntentCancelRequestBody = PostPaymentIntentsIntentCancelR
   -- * Maximum length of 5000
   postPaymentIntentsIntentCancelRequestBodyCancellationReason :: (GHC.Maybe.Maybe PostPaymentIntentsIntentCancelRequestBodyCancellationReason')
   -- | expand: Specifies which fields in the response should be expanded.
-  , postPaymentIntentsIntentCancelRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postPaymentIntentsIntentCancelRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostPaymentIntentsIntentCancelRequestBody
@@ -123,7 +123,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsIntentCancelReques
 -- Reason for canceling this PaymentIntent. Possible values are \`duplicate\`, \`fraudulent\`, \`requested_by_customer\`, or \`abandoned\`
 data PostPaymentIntentsIntentCancelRequestBodyCancellationReason'
     = PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumOther Data.Aeson.Types.Internal.Value
-    | PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumTyped GHC.Base.String
+    | PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumTyped Data.Text.Internal.Text
     | PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringAbandoned
     | PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringDuplicate
     | PostPaymentIntentsIntentCancelRequestBodyCancellationReason'EnumStringFraudulent

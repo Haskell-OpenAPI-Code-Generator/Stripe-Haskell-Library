@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of an account.\<\/p>
 getAccount :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                        -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GetAccountRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetAccountResponse)) -- ^ Monad containing the result of the operation
 getAccount config
@@ -66,7 +66,7 @@ getAccount config
 getAccountRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
                  StripeAPI.Common.Configuration s ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GetAccountRequestBody ->
                  m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -84,7 +84,7 @@ getAccountRaw config
 -- Monadic version of 'getAccount' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                              StripeAPI.Common.SecurityScheme s) =>
-               GHC.Maybe.Maybe GHC.Base.String ->
+               GHC.Maybe.Maybe Data.Text.Internal.Text ->
                GHC.Maybe.Maybe GetAccountRequestBody ->
                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                   m
@@ -107,7 +107,7 @@ getAccountM expand
 -- Monadic version of 'getAccountRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                 StripeAPI.Common.SecurityScheme s) =>
-                  GHC.Maybe.Maybe GHC.Base.String ->
+                  GHC.Maybe.Maybe Data.Text.Internal.Text ->
                   GHC.Maybe.Maybe GetAccountRequestBody ->
                   Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                      m

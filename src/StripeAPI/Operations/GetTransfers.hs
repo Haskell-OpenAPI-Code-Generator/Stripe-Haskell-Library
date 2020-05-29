@@ -44,13 +44,13 @@ import StripeAPI.Types
 -- 
 -- \<p>Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.\<\/p>
 getTransfers :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ created
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ destination: Only return transfers for the destination specified by this account ID. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ expand: Specifies which fields in the response should be expanded.
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                  -- ^ created
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                  -- ^ destination: Only return transfers for the destination specified by this account ID. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                  -- ^ ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                  -- ^ expand: Specifies which fields in the response should be expanded.
   -> GHC.Maybe.Maybe GHC.Integer.Type.Integer                                                                                 -- ^ limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ transfer_group: Only return transfers with the specified transfer group. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                  -- ^ starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                  -- ^ transfer_group: Only return transfers with the specified transfer group. | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetTransfersRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetTransfersResponse)) -- ^ Monad containing the result of the operation
 getTransfers config
@@ -142,13 +142,13 @@ getTransfers config
 getTransfersRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                  StripeAPI.Common.SecurityScheme s) =>
                    StripeAPI.Common.Configuration s ->
-                   GHC.Maybe.Maybe GHC.Base.String ->
-                   GHC.Maybe.Maybe GHC.Base.String ->
-                   GHC.Maybe.Maybe GHC.Base.String ->
-                   GHC.Maybe.Maybe GHC.Base.String ->
+                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
                    GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                   GHC.Maybe.Maybe GHC.Base.String ->
-                   GHC.Maybe.Maybe GHC.Base.String ->
+                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
                    GHC.Maybe.Maybe GetTransfersRequestBody ->
                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                          (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -236,13 +236,13 @@ getTransfersRaw config
 -- Monadic version of 'getTransfers' (use with 'StripeAPI.Common.runWithConfiguration')
 getTransfersM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Maybe.Maybe GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GetTransfersRequestBody ->
                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                     m
@@ -335,13 +335,13 @@ getTransfersM created
 -- Monadic version of 'getTransfersRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getTransfersRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Maybe.Maybe GHC.Base.String ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe GetTransfersRequestBody ->
                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                        m
@@ -461,7 +461,7 @@ data GetTransfersResponseBody200 = GetTransfersResponseBody200 {
   -- 
   -- * Maximum length of 5000
   -- * Must match pattern \'^\/v1\/transfers\'
-  , getTransfersResponseBody200Url :: GHC.Base.String
+  , getTransfersResponseBody200Url :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetTransfersResponseBody200
@@ -474,7 +474,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetTransfersResponseBody200
 -- String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
 data GetTransfersResponseBody200Object'
     = GetTransfersResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetTransfersResponseBody200Object'EnumTyped GHC.Base.String
+    | GetTransfersResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetTransfersResponseBody200Object'EnumStringList
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetTransfersResponseBody200Object'

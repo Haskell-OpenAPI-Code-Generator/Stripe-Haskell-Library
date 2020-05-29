@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates an existing file link object. Expired links can no longer be updated.\<\/p>
 postFileLinksLink :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                               -- ^ link
+  -> Data.Text.Internal.Text                                                                                                       -- ^ link
   -> GHC.Maybe.Maybe PostFileLinksLinkRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostFileLinksLinkResponse)) -- ^ Monad containing the result of the operation
 postFileLinksLink config
@@ -60,7 +60,7 @@ postFileLinksLink config
 postFileLinksLinkRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         StripeAPI.Common.Configuration s ->
-                        GHC.Base.String ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe PostFileLinksLinkRequestBody ->
                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postFileLinksLinkRaw config
 -- Monadic version of 'postFileLinksLink' (use with 'StripeAPI.Common.runWithConfiguration')
 postFileLinksLinkM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
-                      GHC.Base.String ->
+                      Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe PostFileLinksLinkRequestBody ->
                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                          m
@@ -89,7 +89,7 @@ postFileLinksLinkM link
 -- Monadic version of 'postFileLinksLinkRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postFileLinksLinkRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
-                         GHC.Base.String ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe PostFileLinksLinkRequestBody ->
                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                             m
@@ -102,7 +102,7 @@ postFileLinksLinkRawM link
 -- 
 data PostFileLinksLinkRequestBody = PostFileLinksLinkRequestBody {
   -- | expand: Specifies which fields in the response should be expanded.
-  postFileLinksLinkRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  postFileLinksLinkRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | expires_at: A future timestamp after which the link will no longer be usable, or \`now\` to expire the link immediately.
   , postFileLinksLinkRequestBodyExpiresAt :: (GHC.Maybe.Maybe PostFileLinksLinkRequestBodyExpiresAt'Variants)
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -119,7 +119,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostFileLinksLinkRequestBody
 -- 
 data PostFileLinksLinkRequestBodyExpiresAt'OneOf1
     = PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumOther Data.Aeson.Types.Internal.Value
-    | PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumTyped GHC.Base.String
+    | PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumTyped Data.Text.Internal.Text
     | PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumString_
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf1
@@ -135,7 +135,7 @@ instance Data.Aeson.FromJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf1
 -- 
 data PostFileLinksLinkRequestBodyExpiresAt'OneOf2
     = PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumOther Data.Aeson.Types.Internal.Value
-    | PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumTyped GHC.Base.String
+    | PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumTyped Data.Text.Internal.Text
     | PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumStringNow
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf2

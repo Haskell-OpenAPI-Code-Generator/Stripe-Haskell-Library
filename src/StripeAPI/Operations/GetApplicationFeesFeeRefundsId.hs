@@ -44,9 +44,9 @@ import StripeAPI.Types
 -- 
 -- \<p>By default, you can see the 10 most recent refunds stored directly on the application fee object, but you can also retrieve details about a specific refund stored on the application fee.\<\/p>
 getApplicationFeesFeeRefundsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                            -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                            -- ^ fee | Constraints: Maximum length of 5000
-  -> GHC.Base.String                                                                                                                            -- ^ id | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                    -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                    -- ^ fee | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                                    -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetApplicationFeesFeeRefundsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetApplicationFeesFeeRefundsIdResponse)) -- ^ Monad containing the result of the operation
 getApplicationFeesFeeRefundsId config
@@ -70,9 +70,9 @@ getApplicationFeesFeeRefundsId config
 getApplicationFeesFeeRefundsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                    StripeAPI.Common.SecurityScheme s) =>
                                      StripeAPI.Common.Configuration s ->
-                                     GHC.Maybe.Maybe GHC.Base.String ->
-                                     GHC.Base.String ->
-                                     GHC.Base.String ->
+                                     GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                     Data.Text.Internal.Text ->
+                                     Data.Text.Internal.Text ->
                                      GHC.Maybe.Maybe GetApplicationFeesFeeRefundsIdRequestBody ->
                                      m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                            (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -92,9 +92,9 @@ getApplicationFeesFeeRefundsIdRaw config
 -- Monadic version of 'getApplicationFeesFeeRefundsId' (use with 'StripeAPI.Common.runWithConfiguration')
 getApplicationFeesFeeRefundsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   GHC.Maybe.Maybe GHC.Base.String ->
-                                   GHC.Base.String ->
-                                   GHC.Base.String ->
+                                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                   Data.Text.Internal.Text ->
+                                   Data.Text.Internal.Text ->
                                    GHC.Maybe.Maybe GetApplicationFeesFeeRefundsIdRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m
@@ -119,9 +119,9 @@ getApplicationFeesFeeRefundsIdM expand
 -- Monadic version of 'getApplicationFeesFeeRefundsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getApplicationFeesFeeRefundsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
-                                      GHC.Maybe.Maybe GHC.Base.String ->
-                                      GHC.Base.String ->
-                                      GHC.Base.String ->
+                                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                      Data.Text.Internal.Text ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe GetApplicationFeesFeeRefundsIdRequestBody ->
                                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                          m

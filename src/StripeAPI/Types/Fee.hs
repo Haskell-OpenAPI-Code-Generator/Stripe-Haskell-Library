@@ -38,21 +38,21 @@ data Fee = Fee {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , feeApplication :: (GHC.Maybe.Maybe GHC.Base.String)
+  , feeApplication :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , feeCurrency :: GHC.Base.String
+  , feeCurrency :: Data.Text.Internal.Text
   -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , feeDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , feeDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | type: Type of the fee, one of: \`application_fee\`, \`stripe_fee\` or \`tax\`.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , feeType :: GHC.Base.String
+  , feeType :: Data.Text.Internal.Text
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON Fee

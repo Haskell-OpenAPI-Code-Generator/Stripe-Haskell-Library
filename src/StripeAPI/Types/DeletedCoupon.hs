@@ -38,7 +38,7 @@ data DeletedCoupon = DeletedCoupon {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , deletedCouponId :: GHC.Base.String
+  , deletedCouponId :: Data.Text.Internal.Text
   -- | object: String representing the object\'s type. Objects of the same type share the same value.
   , deletedCouponObject :: DeletedCouponObject'
   } deriving (GHC.Show.Show
@@ -69,7 +69,7 @@ instance Data.Aeson.FromJSON DeletedCouponDeleted'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data DeletedCouponObject'
     = DeletedCouponObject'EnumOther Data.Aeson.Types.Internal.Value
-    | DeletedCouponObject'EnumTyped GHC.Base.String
+    | DeletedCouponObject'EnumTyped Data.Text.Internal.Text
     | DeletedCouponObject'EnumStringCoupon
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON DeletedCouponObject'

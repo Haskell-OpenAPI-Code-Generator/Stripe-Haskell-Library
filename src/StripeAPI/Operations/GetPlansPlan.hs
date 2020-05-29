@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the plan with the given ID.\<\/p>
 getPlansPlan :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                          -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                          -- ^ plan | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                  -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                  -- ^ plan | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetPlansPlanRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetPlansPlanResponse)) -- ^ Monad containing the result of the operation
 getPlansPlan config
@@ -68,8 +68,8 @@ getPlansPlan config
 getPlansPlanRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                  StripeAPI.Common.SecurityScheme s) =>
                    StripeAPI.Common.Configuration s ->
-                   GHC.Maybe.Maybe GHC.Base.String ->
-                   GHC.Base.String ->
+                   GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                   Data.Text.Internal.Text ->
                    GHC.Maybe.Maybe GetPlansPlanRequestBody ->
                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                          (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getPlansPlanRaw config
 -- Monadic version of 'getPlansPlan' (use with 'StripeAPI.Common.runWithConfiguration')
 getPlansPlanM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GetPlansPlanRequestBody ->
                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                     m
@@ -113,8 +113,8 @@ getPlansPlanM expand
 -- Monadic version of 'getPlansPlanRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getPlansPlanRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                   StripeAPI.Common.SecurityScheme s) =>
-                    GHC.Maybe.Maybe GHC.Base.String ->
-                    GHC.Base.String ->
+                    GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                    Data.Text.Internal.Text ->
                     GHC.Maybe.Maybe GetPlansPlanRequestBody ->
                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                        m

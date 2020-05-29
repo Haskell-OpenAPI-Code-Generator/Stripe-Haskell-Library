@@ -32,11 +32,11 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeAlipay = SourceTypeAlipay {
   -- | data_string
-  sourceTypeAlipayDataString :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeAlipayDataString :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | native_url
-  , sourceTypeAlipayNativeUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAlipayNativeUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor
-  , sourceTypeAlipayStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeAlipayStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeAlipay

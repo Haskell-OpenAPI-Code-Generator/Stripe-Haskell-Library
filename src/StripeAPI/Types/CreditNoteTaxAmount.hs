@@ -50,7 +50,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON CreditNoteTaxAmount
 -- The tax rate that was applied to get this tax amount.
 data CreditNoteTaxAmountTaxRate'Variants
     = CreditNoteTaxAmountTaxRate'TaxRate TaxRate
-    | CreditNoteTaxAmountTaxRate'String GHC.Base.String
+    | CreditNoteTaxAmountTaxRate'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON CreditNoteTaxAmountTaxRate'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}

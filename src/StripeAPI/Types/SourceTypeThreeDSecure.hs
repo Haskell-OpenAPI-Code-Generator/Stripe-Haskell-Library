@@ -32,39 +32,39 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeThreeDSecure = SourceTypeThreeDSecure {
   -- | address_line1_check
-  sourceTypeThreeDSecureAddressLine1Check :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeThreeDSecureAddressLine1Check :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | address_zip_check
-  , sourceTypeThreeDSecureAddressZipCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeThreeDSecureAddressZipCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | authenticated
   , sourceTypeThreeDSecureAuthenticated :: (GHC.Maybe.Maybe GHC.Types.Bool)
   -- | brand
-  , sourceTypeThreeDSecureBrand :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeThreeDSecureBrand :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | card
-  , sourceTypeThreeDSecureCard :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeThreeDSecureCard :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
-  , sourceTypeThreeDSecureCountry :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeThreeDSecureCountry :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | customer
-  , sourceTypeThreeDSecureCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeThreeDSecureCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | cvc_check
-  , sourceTypeThreeDSecureCvcCheck :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeThreeDSecureCvcCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | dynamic_last4
-  , sourceTypeThreeDSecureDynamicLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeThreeDSecureDynamicLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | exp_month
   , sourceTypeThreeDSecureExpMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | exp_year
   , sourceTypeThreeDSecureExpYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | fingerprint
-  , sourceTypeThreeDSecureFingerprint :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeThreeDSecureFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | funding
-  , sourceTypeThreeDSecureFunding :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeThreeDSecureFunding :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | last4
-  , sourceTypeThreeDSecureLast4 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeThreeDSecureLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name
-  , sourceTypeThreeDSecureName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeThreeDSecureName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | three_d_secure
-  , sourceTypeThreeDSecureThreeDSecure :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeThreeDSecureThreeDSecure :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tokenization_method
-  , sourceTypeThreeDSecureTokenizationMethod :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeThreeDSecureTokenizationMethod :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeThreeDSecure

@@ -32,11 +32,11 @@ import qualified StripeAPI.Common
 -- 
 data SourceTypeWechat = SourceTypeWechat {
   -- | prepay_id
-  sourceTypeWechatPrepayId :: (GHC.Maybe.Maybe GHC.Base.String)
+  sourceTypeWechatPrepayId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | qr_code_url
-  , sourceTypeWechatQrCodeUrl :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeWechatQrCodeUrl :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | statement_descriptor
-  , sourceTypeWechatStatementDescriptor :: (GHC.Maybe.Maybe GHC.Base.String)
+  , sourceTypeWechatStatementDescriptor :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON SourceTypeWechat

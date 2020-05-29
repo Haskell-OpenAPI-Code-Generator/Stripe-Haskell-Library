@@ -46,8 +46,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Note that this endpoint previously used the path \<code>\/v1\/balance\/history\/:id\<\/code>.\<\/p>
 getBalanceHistoryId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                 -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                 -- ^ id | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                         -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                         -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetBalanceHistoryIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetBalanceHistoryIdResponse)) -- ^ Monad containing the result of the operation
 getBalanceHistoryId config
@@ -70,8 +70,8 @@ getBalanceHistoryId config
 getBalanceHistoryIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                         StripeAPI.Common.SecurityScheme s) =>
                           StripeAPI.Common.Configuration s ->
-                          GHC.Maybe.Maybe GHC.Base.String ->
-                          GHC.Base.String ->
+                          GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                          Data.Text.Internal.Text ->
                           GHC.Maybe.Maybe GetBalanceHistoryIdRequestBody ->
                           m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                 (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -90,8 +90,8 @@ getBalanceHistoryIdRaw config
 -- Monadic version of 'getBalanceHistoryId' (use with 'StripeAPI.Common.runWithConfiguration')
 getBalanceHistoryIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Maybe.Maybe GHC.Base.String ->
-                        GHC.Base.String ->
+                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe GetBalanceHistoryIdRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m
@@ -115,8 +115,8 @@ getBalanceHistoryIdM expand
 -- Monadic version of 'getBalanceHistoryIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getBalanceHistoryIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
-                           GHC.Maybe.Maybe GHC.Base.String ->
-                           GHC.Base.String ->
+                           GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                           Data.Text.Internal.Text ->
                            GHC.Maybe.Maybe GetBalanceHistoryIdRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m

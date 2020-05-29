@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of an existing SKU. Supply the unique SKU identifier from either a SKU creation request or from the product, and Stripe will return the corresponding SKU information.\<\/p>
 getSkusId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                       -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                       -- ^ id | Constraints: Maximum length of 5000
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                               -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                               -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe GetSkusIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSkusIdResponse)) -- ^ Monad containing the result of the operation
 getSkusId config
@@ -68,8 +68,8 @@ getSkusId config
 getSkusIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                               StripeAPI.Common.SecurityScheme s) =>
                 StripeAPI.Common.Configuration s ->
-                GHC.Maybe.Maybe GHC.Base.String ->
-                GHC.Base.String ->
+                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                Data.Text.Internal.Text ->
                 GHC.Maybe.Maybe GetSkusIdRequestBody ->
                 m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                       (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getSkusIdRaw config
 -- Monadic version of 'getSkusId' (use with 'StripeAPI.Common.runWithConfiguration')
 getSkusIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                             StripeAPI.Common.SecurityScheme s) =>
-              GHC.Maybe.Maybe GHC.Base.String ->
-              GHC.Base.String ->
+              GHC.Maybe.Maybe Data.Text.Internal.Text ->
+              Data.Text.Internal.Text ->
               GHC.Maybe.Maybe GetSkusIdRequestBody ->
               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                  m
@@ -113,8 +113,8 @@ getSkusIdM expand
 -- Monadic version of 'getSkusIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getSkusIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                StripeAPI.Common.SecurityScheme s) =>
-                 GHC.Maybe.Maybe GHC.Base.String ->
-                 GHC.Base.String ->
+                 GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                 Data.Text.Internal.Text ->
                  GHC.Maybe.Maybe GetSkusIdRequestBody ->
                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                     m
@@ -160,7 +160,7 @@ data GetSkusIdResponseBody200 = GetSkusIdResponseBody200 {
   -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
   , getSkusIdResponseBody200Created :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
   -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  , getSkusIdResponseBody200Currency :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getSkusIdResponseBody200Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | deleted: Always true for a deleted object
   , getSkusIdResponseBody200Deleted :: (GHC.Maybe.Maybe GetSkusIdResponseBody200Deleted')
   -- | id: Unique identifier for the object.
@@ -168,13 +168,13 @@ data GetSkusIdResponseBody200 = GetSkusIdResponseBody200 {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , getSkusIdResponseBody200Id :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getSkusIdResponseBody200Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | image: The URL of an image for this SKU, meant to be displayable to the customer.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 2048
-  , getSkusIdResponseBody200Image :: (GHC.Maybe.Maybe GHC.Base.String)
+  , getSkusIdResponseBody200Image :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | inventory: 
   , getSkusIdResponseBody200Inventory :: (GHC.Maybe.Maybe Inventory)
   -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
@@ -243,7 +243,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200Metadata'
 -- String representing the object\'s type. Objects of the same type share the same value.
 data GetSkusIdResponseBody200Object'
     = GetSkusIdResponseBody200Object'EnumOther Data.Aeson.Types.Internal.Value
-    | GetSkusIdResponseBody200Object'EnumTyped GHC.Base.String
+    | GetSkusIdResponseBody200Object'EnumTyped Data.Text.Internal.Text
     | GetSkusIdResponseBody200Object'EnumStringSku
     deriving (GHC.Show.Show, GHC.Classes.Eq)
 instance Data.Aeson.ToJSON GetSkusIdResponseBody200Object'
@@ -278,7 +278,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200PackageDimen
 -- The ID of the product this SKU is associated with. The product must be currently active.
 data GetSkusIdResponseBody200Product'Variants
     = GetSkusIdResponseBody200Product'Product Product
-    | GetSkusIdResponseBody200Product'String GHC.Base.String
+    | GetSkusIdResponseBody200Product'Text Data.Text.Internal.Text
     deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 instance Data.Aeson.ToJSON GetSkusIdResponseBody200Product'Variants
     where toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions{Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}

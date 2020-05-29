@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieves the details of a Report Type. (Requires a \<a href=\"https:\/\/stripe.com\/docs\/keys\#test-live-modes\">live-mode API key\<\/a>.)\<\/p>
 getReportingReportTypesReportType :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                               -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                               -- ^ report_type
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                                       -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                                       -- ^ report_type
   -> GHC.Maybe.Maybe GetReportingReportTypesReportTypeRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetReportingReportTypesReportTypeResponse)) -- ^ Monad containing the result of the operation
 getReportingReportTypesReportType config
@@ -68,8 +68,8 @@ getReportingReportTypesReportType config
 getReportingReportTypesReportTypeRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                       StripeAPI.Common.SecurityScheme s) =>
                                         StripeAPI.Common.Configuration s ->
-                                        GHC.Maybe.Maybe GHC.Base.String ->
-                                        GHC.Base.String ->
+                                        GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                        Data.Text.Internal.Text ->
                                         GHC.Maybe.Maybe GetReportingReportTypesReportTypeRequestBody ->
                                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getReportingReportTypesReportTypeRaw config
 -- Monadic version of 'getReportingReportTypesReportType' (use with 'StripeAPI.Common.runWithConfiguration')
 getReportingReportTypesReportTypeM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                     StripeAPI.Common.SecurityScheme s) =>
-                                      GHC.Maybe.Maybe GHC.Base.String ->
-                                      GHC.Base.String ->
+                                      GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                      Data.Text.Internal.Text ->
                                       GHC.Maybe.Maybe GetReportingReportTypesReportTypeRequestBody ->
                                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                          m
@@ -113,8 +113,8 @@ getReportingReportTypesReportTypeM expand
 -- Monadic version of 'getReportingReportTypesReportTypeRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getReportingReportTypesReportTypeRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                        StripeAPI.Common.SecurityScheme s) =>
-                                         GHC.Maybe.Maybe GHC.Base.String ->
-                                         GHC.Base.String ->
+                                         GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                         Data.Text.Internal.Text ->
                                          GHC.Maybe.Maybe GetReportingReportTypesReportTypeRequestBody ->
                                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                             m

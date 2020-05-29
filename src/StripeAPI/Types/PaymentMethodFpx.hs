@@ -45,7 +45,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodFpx
 -- The customer\'s bank, if provided. Can be one of \`affin_bank\`, \`alliance_bank\`, \`ambank\`, \`bank_islam\`, \`bank_muamalat\`, \`bank_rakyat\`, \`bsn\`, \`cimb\`, \`hong_leong_bank\`, \`hsbc\`, \`kfh\`, \`maybank2u\`, \`ocbc\`, \`public_bank\`, \`rhb\`, \`standard_chartered\`, \`uob\`, \`deutsche_bank\`, \`maybank2e\`, or \`pb_enterprise\`.
 data PaymentMethodFpxBank'
     = PaymentMethodFpxBank'EnumOther Data.Aeson.Types.Internal.Value
-    | PaymentMethodFpxBank'EnumTyped GHC.Base.String
+    | PaymentMethodFpxBank'EnumTyped Data.Text.Internal.Text
     | PaymentMethodFpxBank'EnumStringAffinBank
     | PaymentMethodFpxBank'EnumStringAllianceBank
     | PaymentMethodFpxBank'EnumStringAmbank

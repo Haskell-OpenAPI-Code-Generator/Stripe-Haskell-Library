@@ -44,8 +44,8 @@ import StripeAPI.Types
 -- 
 -- \<p>Retrieve a specified external account for a given account.\<\/p>
 getAccountBankAccountsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Maybe.Maybe GHC.Base.String                                                                                                      -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GHC.Base.String                                                                                                                      -- ^ id
+  -> GHC.Maybe.Maybe Data.Text.Internal.Text                                                                                              -- ^ expand: Specifies which fields in the response should be expanded.
+  -> Data.Text.Internal.Text                                                                                                              -- ^ id
   -> GHC.Maybe.Maybe GetAccountBankAccountsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetAccountBankAccountsIdResponse)) -- ^ Monad containing the result of the operation
 getAccountBankAccountsId config
@@ -68,8 +68,8 @@ getAccountBankAccountsId config
 getAccountBankAccountsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                StripeAPI.Common.Configuration s ->
-                               GHC.Maybe.Maybe GHC.Base.String ->
-                               GHC.Base.String ->
+                               GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                               Data.Text.Internal.Text ->
                                GHC.Maybe.Maybe GetAccountBankAccountsIdRequestBody ->
                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -88,8 +88,8 @@ getAccountBankAccountsIdRaw config
 -- Monadic version of 'getAccountBankAccountsId' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountBankAccountsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
-                             GHC.Maybe.Maybe GHC.Base.String ->
-                             GHC.Base.String ->
+                             GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                             Data.Text.Internal.Text ->
                              GHC.Maybe.Maybe GetAccountBankAccountsIdRequestBody ->
                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                 m
@@ -113,8 +113,8 @@ getAccountBankAccountsIdM expand
 -- Monadic version of 'getAccountBankAccountsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountBankAccountsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                GHC.Maybe.Maybe GHC.Base.String ->
-                                GHC.Base.String ->
+                                GHC.Maybe.Maybe Data.Text.Internal.Text ->
+                                Data.Text.Internal.Text ->
                                 GHC.Maybe.Maybe GetAccountBankAccountsIdRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m

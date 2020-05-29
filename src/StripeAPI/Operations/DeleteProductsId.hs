@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Delete a product. Deleting a product with type=\<code>good\<\/code> is only possible if it has no SKUs associated with it. Deleting a product with type=\<code>service\<\/code> is only possible if it has no plans associated with it.\<\/p>
 deleteProductsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                              -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                      -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe DeleteProductsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteProductsIdResponse)) -- ^ Monad containing the result of the operation
 deleteProductsId config
@@ -60,7 +60,7 @@ deleteProductsId config
 deleteProductsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        StripeAPI.Common.Configuration s ->
-                       GHC.Base.String ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe DeleteProductsIdRequestBody ->
                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ deleteProductsIdRaw config
 -- Monadic version of 'deleteProductsId' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteProductsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
-                     GHC.Base.String ->
+                     Data.Text.Internal.Text ->
                      GHC.Maybe.Maybe DeleteProductsIdRequestBody ->
                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                         m
@@ -89,7 +89,7 @@ deleteProductsIdM id
 -- Monadic version of 'deleteProductsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 deleteProductsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Base.String ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe DeleteProductsIdRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m

@@ -44,7 +44,7 @@ import StripeAPI.Types
 -- 
 -- \<p>Updates the specified charge by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
 postChargesCharge :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                               -- ^ charge | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                       -- ^ charge | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostChargesChargeRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostChargesChargeResponse)) -- ^ Monad containing the result of the operation
 postChargesCharge config
@@ -60,7 +60,7 @@ postChargesCharge config
 postChargesChargeRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         StripeAPI.Common.Configuration s ->
-                        GHC.Base.String ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe PostChargesChargeRequestBody ->
                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -72,7 +72,7 @@ postChargesChargeRaw config
 -- Monadic version of 'postChargesCharge' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
-                      GHC.Base.String ->
+                      Data.Text.Internal.Text ->
                       GHC.Maybe.Maybe PostChargesChargeRequestBody ->
                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                          m
@@ -89,7 +89,7 @@ postChargesChargeM charge
 -- Monadic version of 'postChargesChargeRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
-                         GHC.Base.String ->
+                         Data.Text.Internal.Text ->
                          GHC.Maybe.Maybe PostChargesChargeRequestBody ->
                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                             m
@@ -106,15 +106,15 @@ data PostChargesChargeRequestBody = PostChargesChargeRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postChargesChargeRequestBodyCustomer :: (GHC.Maybe.Maybe GHC.Base.String)
+  postChargesChargeRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | description: An arbitrary string which you can attach to a charge object. It is displayed when in the web interface alongside the charge. Note that if you use Stripe to send automatic email receipts to your customers, your receipt emails will include the \`description\` of the charge(s) that they are describing.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 40000
-  , postChargesChargeRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postChargesChargeRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postChargesChargeRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | fraud_details: A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a \`user_report\` key with a value of \`fraudulent\`. If you believe a charge is safe, include a \`user_report\` key with a value of \`safe\`. Stripe will use the information you send to improve our fraud detection algorithms.
   , postChargesChargeRequestBodyFraudDetails :: (GHC.Maybe.Maybe PostChargesChargeRequestBodyFraudDetails')
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -124,11 +124,11 @@ data PostChargesChargeRequestBody = PostChargesChargeRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeRequestBodyReceiptEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeRequestBodyReceiptEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | shipping: Shipping information for the charge. Helps prevent fraud on charges for physical goods.
   , postChargesChargeRequestBodyShipping :: (GHC.Maybe.Maybe PostChargesChargeRequestBodyShipping')
   -- | transfer_group: A string that identifies this transaction as part of a group. \`transfer_group\` may only be provided if it has not been set. See the [Connect documentation](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#transfer-options) for details.
-  , postChargesChargeRequestBodyTransferGroup :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeRequestBodyTransferGroup :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostChargesChargeRequestBody
@@ -158,7 +158,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRequestBodyFraudDet
 -- 
 data PostChargesChargeRequestBodyFraudDetails'UserReport'
     = PostChargesChargeRequestBodyFraudDetails'UserReport'EnumOther Data.Aeson.Types.Internal.Value
-    | PostChargesChargeRequestBodyFraudDetails'UserReport'EnumTyped GHC.Base.String
+    | PostChargesChargeRequestBodyFraudDetails'UserReport'EnumTyped Data.Text.Internal.Text
     | PostChargesChargeRequestBodyFraudDetails'UserReport'EnumString_
     | PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringFraudulent
     | PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringSafe
@@ -200,25 +200,25 @@ data PostChargesChargeRequestBodyShipping' = PostChargesChargeRequestBodyShippin
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeRequestBodyShipping'Carrier :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeRequestBodyShipping'Carrier :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | name
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeRequestBodyShipping'Name :: GHC.Base.String
+  , postChargesChargeRequestBodyShipping'Name :: Data.Text.Internal.Text
   -- | phone
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeRequestBodyShipping'Phone :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeRequestBodyShipping'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tracking_number
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeRequestBodyShipping'TrackingNumber :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeRequestBodyShipping'TrackingNumber :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostChargesChargeRequestBodyShipping'
@@ -235,37 +235,37 @@ data PostChargesChargeRequestBodyShipping'Address' = PostChargesChargeRequestBod
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postChargesChargeRequestBodyShipping'Address'City :: (GHC.Maybe.Maybe GHC.Base.String)
+  postChargesChargeRequestBodyShipping'Address'City :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | country
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeRequestBodyShipping'Address'Country :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeRequestBodyShipping'Address'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | line1
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeRequestBodyShipping'Address'Line1 :: GHC.Base.String
+  , postChargesChargeRequestBodyShipping'Address'Line1 :: Data.Text.Internal.Text
   -- | line2
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeRequestBodyShipping'Address'Line2 :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeRequestBodyShipping'Address'Line2 :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | postal_code
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeRequestBodyShipping'Address'PostalCode :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeRequestBodyShipping'Address'PostalCode :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | state
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postChargesChargeRequestBodyShipping'Address'State :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postChargesChargeRequestBodyShipping'Address'State :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostChargesChargeRequestBodyShipping'Address'

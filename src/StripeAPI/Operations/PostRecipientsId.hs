@@ -48,7 +48,7 @@ import StripeAPI.Types
 -- \<p>If you update the name or tax ID, the identity verification will automatically be rerun.
 -- If you update the bank account, the bank account validation will automatically be rerun.\<\/p>
 postRecipientsId :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> GHC.Base.String                                                                                                              -- ^ id | Constraints: Maximum length of 5000
+  -> Data.Text.Internal.Text                                                                                                      -- ^ id | Constraints: Maximum length of 5000
   -> GHC.Maybe.Maybe PostRecipientsIdRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostRecipientsIdResponse)) -- ^ Monad containing the result of the operation
 postRecipientsId config
@@ -64,7 +64,7 @@ postRecipientsId config
 postRecipientsIdRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        StripeAPI.Common.Configuration s ->
-                       GHC.Base.String ->
+                       Data.Text.Internal.Text ->
                        GHC.Maybe.Maybe PostRecipientsIdRequestBody ->
                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
@@ -76,7 +76,7 @@ postRecipientsIdRaw config
 -- Monadic version of 'postRecipientsId' (use with 'StripeAPI.Common.runWithConfiguration')
 postRecipientsIdM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
-                     GHC.Base.String ->
+                     Data.Text.Internal.Text ->
                      GHC.Maybe.Maybe PostRecipientsIdRequestBody ->
                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                         m
@@ -93,7 +93,7 @@ postRecipientsIdM id
 -- Monadic version of 'postRecipientsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postRecipientsIdRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        GHC.Base.String ->
+                        Data.Text.Internal.Text ->
                         GHC.Maybe.Maybe PostRecipientsIdRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m
@@ -110,33 +110,33 @@ data PostRecipientsIdRequestBody = PostRecipientsIdRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  postRecipientsIdRequestBodyBankAccount :: (GHC.Maybe.Maybe GHC.Base.String)
+  postRecipientsIdRequestBodyBankAccount :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | card: A U.S. Visa or MasterCard debit card (not prepaid) to attach to the recipient. You can provide either a token, like the ones returned by [Stripe.js](https:\/\/stripe.com\/docs\/stripe-js), or a dictionary containing a user\'s debit card details, with the options described below. Passing \`card\` will create a new card, make it the new recipient default card, and delete the old recipient default (if one exists). If you want to add additional debit cards instead of replacing the existing default, use the [card creation API](https:\/\/stripe.com\/docs\/api\#create_card). Whenever you attach a card to a recipient, Stripe will automatically validate the debit card.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRecipientsIdRequestBodyCard :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postRecipientsIdRequestBodyCard :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | default_card: ID of the card to set as the recipient\'s new default for payouts.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRecipientsIdRequestBodyDefaultCard :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postRecipientsIdRequestBodyDefaultCard :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | description: An arbitrary string which you can attach to a \`Recipient\` object. It is displayed alongside the recipient in the web interface.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRecipientsIdRequestBodyDescription :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postRecipientsIdRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | email: The recipient\'s email address. It is displayed alongside the recipient in the web interface, and can be useful for searching and tracking.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRecipientsIdRequestBodyEmail :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postRecipientsIdRequestBodyEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | expand: Specifies which fields in the response should be expanded.
-  , postRecipientsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] GHC.Base.String))
+  , postRecipientsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
   -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
   , postRecipientsIdRequestBodyMetadata :: (GHC.Maybe.Maybe PostRecipientsIdRequestBodyMetadata')
   -- | name: The recipient\'s full, legal name. For type \`individual\`, should be in the format \`First Last\`, \`First Middle Last\`, or \`First M Last\` (no prefixes or suffixes). For \`corporation\`, the full, incorporated name.
@@ -144,13 +144,13 @@ data PostRecipientsIdRequestBody = PostRecipientsIdRequestBody {
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRecipientsIdRequestBodyName :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postRecipientsIdRequestBodyName :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   -- | tax_id: The recipient\'s tax ID, as a string. For type \`individual\`, the full SSN; for type \`corporation\`, the full EIN.
   -- 
   -- Constraints:
   -- 
   -- * Maximum length of 5000
-  , postRecipientsIdRequestBodyTaxId :: (GHC.Maybe.Maybe GHC.Base.String)
+  , postRecipientsIdRequestBodyTaxId :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
   } deriving (GHC.Show.Show
   , GHC.Classes.Eq)
 instance Data.Aeson.ToJSON PostRecipientsIdRequestBody
