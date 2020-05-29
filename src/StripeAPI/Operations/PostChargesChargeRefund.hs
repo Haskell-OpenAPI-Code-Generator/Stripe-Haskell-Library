@@ -23,6 +23,7 @@ import qualified Data.Text
 import qualified Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
+import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
 import qualified GHC.Generics
@@ -54,7 +55,7 @@ import StripeAPI.Types
 -- or when trying to refund more money than is left on a charge.\<\/p>
 postChargesChargeRefund :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
   -> GHC.Base.String                                                                                                                     -- ^ charge | Constraints: Maximum length of 5000
-  -> PostChargesChargeRefundRequestBody                                                                                                  -- ^ The request body to send
+  -> GHC.Maybe.Maybe PostChargesChargeRefundRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostChargesChargeRefundResponse)) -- ^ Monad containing the result of the operation
 postChargesChargeRefund config
                         charge
@@ -62,7 +63,7 @@ postChargesChargeRefund config
                                                                                                                                                                                                                                                                                                                                                                                                                                                        Charge)
                                                                                                                                                                                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostChargesChargeRefundResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                          Error)
-                                                                                                                                                                                                | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/refund"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/refund"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/charges/{charge}/refund
 -- 
 -- The same as 'postChargesChargeRefund' but returns the raw 'Data.ByteString.Char8.ByteString'
@@ -70,19 +71,19 @@ postChargesChargeRefundRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               StripeAPI.Common.Configuration s ->
                               GHC.Base.String ->
-                              PostChargesChargeRefundRequestBody ->
+                              GHC.Maybe.Maybe PostChargesChargeRefundRequestBody ->
                               m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postChargesChargeRefundRaw config
                            charge
-                           body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/refund"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                           body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/refund"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/charges/{charge}/refund
 -- 
 -- Monadic version of 'postChargesChargeRefund' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeRefundM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                           StripeAPI.Common.SecurityScheme s) =>
                             GHC.Base.String ->
-                            PostChargesChargeRefundRequestBody ->
+                            GHC.Maybe.Maybe PostChargesChargeRefundRequestBody ->
                             Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                m
                                                                (Data.Either.Either Network.HTTP.Client.Types.HttpException
@@ -92,20 +93,20 @@ postChargesChargeRefundM charge
                                                                                                                                                                                                                                                                                                                                                                                                                                                         Charge)
                                                                                                                                                                                                  | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostChargesChargeRefundResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                           Error)
-                                                                                                                                                                                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/refund"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/refund"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/charges/{charge}/refund
 -- 
 -- Monadic version of 'postChargesChargeRefundRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postChargesChargeRefundRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                              StripeAPI.Common.SecurityScheme s) =>
                                GHC.Base.String ->
-                               PostChargesChargeRefundRequestBody ->
+                               GHC.Maybe.Maybe PostChargesChargeRefundRequestBody ->
                                Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                   m
                                                                   (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                       (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postChargesChargeRefundRawM charge
-                            body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/refund"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                            body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ "/refund"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | Defines the data type for the schema postChargesChargeRefundRequestBody
 -- 
 -- 

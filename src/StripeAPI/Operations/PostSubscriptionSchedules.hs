@@ -23,6 +23,7 @@ import qualified Data.Text
 import qualified Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
+import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
 import qualified GHC.Generics
@@ -43,31 +44,31 @@ import StripeAPI.Types
 -- 
 -- \<p>Creates a new subscription schedule object. Each customer can have up to 25 active or scheduled subscriptions.\<\/p>
 postSubscriptionSchedules :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> PostSubscriptionSchedulesRequestBody                                                                                                  -- ^ The request body to send
+  -> GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSubscriptionSchedulesResponse)) -- ^ Monad containing the result of the operation
 postSubscriptionSchedules config
                           body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either PostSubscriptionSchedulesResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> PostSubscriptionSchedulesResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                              SubscriptionSchedule)
                                                                                                                                                                                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostSubscriptionSchedulesResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                Error)
-                                                                                                                                                                                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/subscription_schedules") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/subscription_schedules") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/subscription_schedules
 -- 
 -- The same as 'postSubscriptionSchedules' but returns the raw 'Data.ByteString.Char8.ByteString'
 postSubscriptionSchedulesRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
                                 StripeAPI.Common.Configuration s ->
-                                PostSubscriptionSchedulesRequestBody ->
+                                GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBody ->
                                 m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                       (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postSubscriptionSchedulesRaw config
-                             body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/subscription_schedules") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                             body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/subscription_schedules") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/subscription_schedules
 -- 
 -- Monadic version of 'postSubscriptionSchedules' (use with 'StripeAPI.Common.runWithConfiguration')
 postSubscriptionSchedulesM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
-                              PostSubscriptionSchedulesRequestBody ->
+                              GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBody ->
                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                  m
                                                                  (Data.Either.Either Network.HTTP.Client.Types.HttpException
@@ -76,18 +77,18 @@ postSubscriptionSchedulesM body = GHC.Base.fmap (GHC.Base.fmap (\response_2 -> G
                                                                                                                                                                                                                                                                                                                                                                                                                                                               SubscriptionSchedule)
                                                                                                                                                                                                      | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostSubscriptionSchedulesResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                 Error)
-                                                                                                                                                                                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/subscription_schedules") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/subscription_schedules") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/subscription_schedules
 -- 
 -- Monadic version of 'postSubscriptionSchedulesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postSubscriptionSchedulesRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
-                                 PostSubscriptionSchedulesRequestBody ->
+                                 GHC.Maybe.Maybe PostSubscriptionSchedulesRequestBody ->
                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                     m
                                                                     (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                         (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
-postSubscriptionSchedulesRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/subscription_schedules") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+postSubscriptionSchedulesRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/subscription_schedules") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | Defines the data type for the schema postSubscriptionSchedulesRequestBody
 -- 
 -- 

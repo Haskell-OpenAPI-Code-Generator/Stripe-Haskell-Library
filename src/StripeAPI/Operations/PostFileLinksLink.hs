@@ -23,6 +23,7 @@ import qualified Data.Text
 import qualified Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
+import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
 import qualified GHC.Generics
@@ -44,7 +45,7 @@ import StripeAPI.Types
 -- \<p>Updates an existing file link object. Expired links can no longer be updated.\<\/p>
 postFileLinksLink :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
   -> GHC.Base.String                                                                                                               -- ^ link
-  -> PostFileLinksLinkRequestBody                                                                                                  -- ^ The request body to send
+  -> GHC.Maybe.Maybe PostFileLinksLinkRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostFileLinksLinkResponse)) -- ^ Monad containing the result of the operation
 postFileLinksLink config
                   link
@@ -52,7 +53,7 @@ postFileLinksLink config
                                                                                                                                                                                                                                                                                                                                                                                                                                      FileLink)
                                                                                                                                                                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostFileLinksLinkResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                        Error)
-                                                                                                                                                                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/file_links/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel link)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                    | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/file_links/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel link)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/file_links/{link}
 -- 
 -- The same as 'postFileLinksLink' but returns the raw 'Data.ByteString.Char8.ByteString'
@@ -60,19 +61,19 @@ postFileLinksLinkRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
                         StripeAPI.Common.Configuration s ->
                         GHC.Base.String ->
-                        PostFileLinksLinkRequestBody ->
+                        GHC.Maybe.Maybe PostFileLinksLinkRequestBody ->
                         m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                               (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postFileLinksLinkRaw config
                      link
-                     body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/file_links/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel link)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                     body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/file_links/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel link)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/file_links/{link}
 -- 
 -- Monadic version of 'postFileLinksLink' (use with 'StripeAPI.Common.runWithConfiguration')
 postFileLinksLinkM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                     StripeAPI.Common.SecurityScheme s) =>
                       GHC.Base.String ->
-                      PostFileLinksLinkRequestBody ->
+                      GHC.Maybe.Maybe PostFileLinksLinkRequestBody ->
                       Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                          m
                                                          (Data.Either.Either Network.HTTP.Client.Types.HttpException
@@ -82,20 +83,20 @@ postFileLinksLinkM link
                                                                                                                                                                                                                                                                                                                                                                                                                                       FileLink)
                                                                                                                                                                                      | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostFileLinksLinkResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                         Error)
-                                                                                                                                                                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/file_links/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel link)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/file_links/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel link)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/file_links/{link}
 -- 
 -- Monadic version of 'postFileLinksLinkRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postFileLinksLinkRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                        StripeAPI.Common.SecurityScheme s) =>
                          GHC.Base.String ->
-                         PostFileLinksLinkRequestBody ->
+                         GHC.Maybe.Maybe PostFileLinksLinkRequestBody ->
                          Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                             m
                                                             (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                 (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postFileLinksLinkRawM link
-                      body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/file_links/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel link)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                      body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/file_links/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel link)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | Defines the data type for the schema postFileLinksLinkRequestBody
 -- 
 -- 

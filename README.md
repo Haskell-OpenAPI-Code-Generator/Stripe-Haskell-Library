@@ -7,7 +7,13 @@ The files were auto generated with
 `openapi3-code-generator-exe ../specifications/stripe-api.yml --force --property-type-suffix="'" --module-name "StripeAPI" --convert-to-camel-case --package-name "stripeapi"`
 
 # How to use
-See Example.hs for an example usage.
+See `example/src/StripeHandling.hs` for an example usage.
+The example can be run as follows (add your Stripe API key to `example/src/StripeHandling.hs`):
+
+```bash
+cd example
+stack run --fast
+```
 
 ## On the package level
 ### From hackage

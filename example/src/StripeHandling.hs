@@ -4,6 +4,7 @@ import qualified Data.ByteString.Char8 as B8
 import qualified Data.Either as Either
 import qualified Data.Maybe as Maybe
 import qualified Data.Text as T
+import qualified Network.HTTP.Simple as HS
 import qualified StripeAPI.Common as Common
 import qualified StripeAPI.Configuration as Config
 import qualified StripeAPI.Operations.PostCheckoutSessions as OpCheckout
@@ -11,7 +12,9 @@ import qualified StripeAPI.Operations.PostCustomers as OpCustomer
 import qualified StripeAPI.Operations.PostPaymentIntents as OpPaymentIntent
 import qualified StripeAPI.SecuritySchemes as Security
 import qualified StripeAPI.Types as Types
-import qualified Network.HTTP.Simple as HS
+
+stripeAPIKey :: T.Text
+stripeAPIKey = T.pack "sk_test_XXXXXXXXXX" -- Insert your API key here
 
 paymentIntentRequestBody :: OpPaymentIntent.PostPaymentIntentsRequestBody
 paymentIntentRequestBody =
@@ -118,13 +121,11 @@ defaultConf = Config.defaultConfiguration
 
 security =
   Security.BasicAuthenticationSecurityScheme
-    { -- we should not publish the demo server
-      -- just a test key
-      Security.basicAuthenticationSecuritySchemeUsername = T.pack "sk_test_XXXXXXXXXX",
+    { Security.basicAuthenticationSecuritySchemeUsername = stripeAPIKey,
       Security.basicAuthenticationSecuritySchemePassword = T.pack ""
     }
 
-conf = defaultConf {Common._securityScheme = security}
+conf = defaultConf {Common.configSecurityScheme = security}
 
 getCheckoutSessionIdRaw :: IO String
 getCheckoutSessionIdRaw = do
@@ -174,7 +175,7 @@ getPaymentIntentSepaCallSecret =
         _ -> "invalid response from payment intent creation"
    in do
         putStrLn "getPaymentIntentCallSecret"
-        respCustomer <- OpCustomer.postCustomers conf testCustomer
+        respCustomer <- OpCustomer.postCustomers conf (Just testCustomer)
         print respCustomer
         case respCustomer of
           Right successfullResponse ->

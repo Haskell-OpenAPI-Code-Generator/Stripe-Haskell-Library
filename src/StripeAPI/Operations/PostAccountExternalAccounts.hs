@@ -23,6 +23,7 @@ import qualified Data.Text
 import qualified Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
+import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
 import qualified GHC.Generics
@@ -43,31 +44,31 @@ import StripeAPI.Types
 -- 
 -- \<p>Create an external account for a given account.\<\/p>
 postAccountExternalAccounts :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> PostAccountExternalAccountsRequestBody                                                                                                  -- ^ The request body to send
+  -> GHC.Maybe.Maybe PostAccountExternalAccountsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostAccountExternalAccountsResponse)) -- ^ Monad containing the result of the operation
 postAccountExternalAccounts config
                             body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either PostAccountExternalAccountsResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> PostAccountExternalAccountsResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ExternalAccount)
                                                                                                                                                                                                         | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostAccountExternalAccountsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                      Error)
-                                                                                                                                                                                                        | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/account/external_accounts") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                        | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/external_accounts") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/account/external_accounts
 -- 
 -- The same as 'postAccountExternalAccounts' but returns the raw 'Data.ByteString.Char8.ByteString'
 postAccountExternalAccountsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                 StripeAPI.Common.SecurityScheme s) =>
                                   StripeAPI.Common.Configuration s ->
-                                  PostAccountExternalAccountsRequestBody ->
+                                  GHC.Maybe.Maybe PostAccountExternalAccountsRequestBody ->
                                   m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                         (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postAccountExternalAccountsRaw config
-                               body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/account/external_accounts") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                               body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/external_accounts") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/account/external_accounts
 -- 
 -- Monadic version of 'postAccountExternalAccounts' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountExternalAccountsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                               StripeAPI.Common.SecurityScheme s) =>
-                                PostAccountExternalAccountsRequestBody ->
+                                GHC.Maybe.Maybe PostAccountExternalAccountsRequestBody ->
                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                    m
                                                                    (Data.Either.Either Network.HTTP.Client.Types.HttpException
@@ -76,18 +77,18 @@ postAccountExternalAccountsM body = GHC.Base.fmap (GHC.Base.fmap (\response_2 ->
                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ExternalAccount)
                                                                                                                                                                                                          | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostAccountExternalAccountsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                       Error)
-                                                                                                                                                                                                         | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/account/external_accounts") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                         | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/external_accounts") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/account/external_accounts
 -- 
 -- Monadic version of 'postAccountExternalAccountsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postAccountExternalAccountsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
-                                   PostAccountExternalAccountsRequestBody ->
+                                   GHC.Maybe.Maybe PostAccountExternalAccountsRequestBody ->
                                    Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                       m
                                                                       (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                           (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
-postAccountExternalAccountsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/account/external_accounts") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+postAccountExternalAccountsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/external_accounts") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | Defines the data type for the schema postAccountExternalAccountsRequestBody
 -- 
 -- 

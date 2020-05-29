@@ -23,6 +23,7 @@ import qualified Data.Text
 import qualified Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
+import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
 import qualified GHC.Generics
@@ -52,7 +53,7 @@ putAccountLogout config
                                                                                                                                                                                                                                                                                                                                                                                                                                   LightAccountLogout)
                                                                                                                                                                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PutAccountLogoutResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                     Error)
-                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "PUT")) (Data.Text.pack "/v1/account/logout") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "PUT") (Data.Text.pack "/v1/account/logout") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > PUT /v1/account/logout
 -- 
 -- The same as 'putAccountLogout' but returns the raw 'Data.ByteString.Char8.ByteString'
@@ -63,7 +64,7 @@ putAccountLogoutRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 putAccountLogoutRaw config
-                    body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "PUT")) (Data.Text.pack "/v1/account/logout") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                    body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "PUT") (Data.Text.pack "/v1/account/logout") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > PUT /v1/account/logout
 -- 
 -- Monadic version of 'putAccountLogout' (use with 'StripeAPI.Common.runWithConfiguration')
@@ -78,7 +79,7 @@ putAccountLogoutM body = GHC.Base.fmap (GHC.Base.fmap (\response_2 -> GHC.Base.f
                                                                                                                                                                                                                                                                                                                                                                                                                                    LightAccountLogout)
                                                                                                                                                                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PutAccountLogoutResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                      Error)
-                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "PUT")) (Data.Text.pack "/v1/account/logout") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "PUT") (Data.Text.pack "/v1/account/logout") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > PUT /v1/account/logout
 -- 
 -- Monadic version of 'putAccountLogoutRaw' (use with 'StripeAPI.Common.runWithConfiguration')
@@ -89,7 +90,7 @@ putAccountLogoutRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            m
                                                            (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
-putAccountLogoutRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "PUT")) (Data.Text.pack "/v1/account/logout") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+putAccountLogoutRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "PUT") (Data.Text.pack "/v1/account/logout") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 -- | Defines the data type for the schema putAccountLogoutRequestBody
 -- 
 -- 

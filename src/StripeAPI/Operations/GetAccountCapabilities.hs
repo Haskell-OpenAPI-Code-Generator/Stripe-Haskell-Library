@@ -23,6 +23,7 @@ import qualified Data.Text
 import qualified Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
+import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
 import qualified GHC.Generics
@@ -44,7 +45,7 @@ import StripeAPI.Types
 -- \<p>Returns a list of capabilities associated with the account. The capabilities are returned sorted by creation date, with the most recent capability appearing first.\<\/p>
 getAccountCapabilities :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
   -> GHC.Maybe.Maybe GHC.Base.String                                                                                                    -- ^ expand: Specifies which fields in the response should be expanded.
-  -> GetAccountCapabilitiesRequestBody                                                                                                  -- ^ The request body to send
+  -> GHC.Maybe.Maybe GetAccountCapabilitiesRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetAccountCapabilitiesResponse)) -- ^ Monad containing the result of the operation
 getAccountCapabilities config
                        expand
@@ -52,8 +53,13 @@ getAccountCapabilities config
                                                                                                                                                                                                                                                                                                                                                                                                                                                     GetAccountCapabilitiesResponseBody200)
                                                                                                                                                                                               | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> GetAccountCapabilitiesResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                       Error)
-                                                                                                                                                                                              | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack "/v1/account/capabilities") ((Data.Text.pack "expand",
-                                                                                                                                                                                                                                                                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                              | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack "/v1/account/capabilities") ((Data.Text.pack ['e',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                      'x',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                      'p',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                      'a',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                      'n',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                      'd'],
+                                                                                                                                                                                                                                                                                                                                                                                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > GET /v1/account/capabilities
 -- 
 -- The same as 'getAccountCapabilities' but returns the raw 'Data.ByteString.Char8.ByteString'
@@ -61,20 +67,25 @@ getAccountCapabilitiesRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                            StripeAPI.Common.SecurityScheme s) =>
                              StripeAPI.Common.Configuration s ->
                              GHC.Maybe.Maybe GHC.Base.String ->
-                             GetAccountCapabilitiesRequestBody ->
+                             GHC.Maybe.Maybe GetAccountCapabilitiesRequestBody ->
                              m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                    (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 getAccountCapabilitiesRaw config
                           expand
-                          body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack "/v1/account/capabilities") ((Data.Text.pack "expand",
-                                                                                                                                                                                         StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+                          body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack "/v1/account/capabilities") ((Data.Text.pack ['e',
+                                                                                                                                                                                                                  'x',
+                                                                                                                                                                                                                  'p',
+                                                                                                                                                                                                                  'a',
+                                                                                                                                                                                                                  'n',
+                                                                                                                                                                                                                  'd'],
+                                                                                                                                                                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > GET /v1/account/capabilities
 -- 
 -- Monadic version of 'getAccountCapabilities' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountCapabilitiesM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                          StripeAPI.Common.SecurityScheme s) =>
                            GHC.Maybe.Maybe GHC.Base.String ->
-                           GetAccountCapabilitiesRequestBody ->
+                           GHC.Maybe.Maybe GetAccountCapabilitiesRequestBody ->
                            Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                               m
                                                               (Data.Either.Either Network.HTTP.Client.Types.HttpException
@@ -84,22 +95,32 @@ getAccountCapabilitiesM expand
                                                                                                                                                                                                                                                                                                                                                                                                                                                      GetAccountCapabilitiesResponseBody200)
                                                                                                                                                                                                | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> GetAccountCapabilitiesResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                        Error)
-                                                                                                                                                                                               | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack "/v1/account/capabilities") ((Data.Text.pack "expand",
-                                                                                                                                                                                                                                                                                                                                                                                                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                               | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack "/v1/account/capabilities") ((Data.Text.pack ['e',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                 'x',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                 'p',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                 'a',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                 'n',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                 'd'],
+                                                                                                                                                                                                                                                                                                                                                                                                                                                 StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > GET /v1/account/capabilities
 -- 
 -- Monadic version of 'getAccountCapabilitiesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 getAccountCapabilitiesRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                             StripeAPI.Common.SecurityScheme s) =>
                               GHC.Maybe.Maybe GHC.Base.String ->
-                              GetAccountCapabilitiesRequestBody ->
+                              GHC.Maybe.Maybe GetAccountCapabilitiesRequestBody ->
                               Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                  m
                                                                  (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 getAccountCapabilitiesRawM expand
-                           body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "GET")) (Data.Text.pack "/v1/account/capabilities") ((Data.Text.pack "expand",
-                                                                                                                                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
+                           body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack "/v1/account/capabilities") ((Data.Text.pack ['e',
+                                                                                                                                                                                                             'x',
+                                                                                                                                                                                                             'p',
+                                                                                                                                                                                                             'a',
+                                                                                                                                                                                                             'n',
+                                                                                                                                                                                                             'd'],
+                                                                                                                                                                                             StripeAPI.Common.stringifyModel Data.Functor.<$> expand) : []) body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | Defines the data type for the schema getAccountCapabilitiesRequestBody
 -- 
 -- 

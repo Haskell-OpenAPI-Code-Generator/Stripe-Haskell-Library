@@ -23,6 +23,7 @@ import qualified Data.Text
 import qualified Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
+import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
 import qualified GHC.Generics
@@ -44,7 +45,7 @@ import StripeAPI.Types
 -- \<p>Detaches a PaymentMethod object from a Customer.\<\/p>
 postPaymentMethodsPaymentMethodDetach :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
   -> GHC.Base.String                                                                                                                                   -- ^ payment_method | Constraints: Maximum length of 5000
-  -> PostPaymentMethodsPaymentMethodDetachRequestBody                                                                                                  -- ^ The request body to send
+  -> GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodDetachRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPaymentMethodsPaymentMethodDetachResponse)) -- ^ Monad containing the result of the operation
 postPaymentMethodsPaymentMethodDetach config
                                       paymentMethod
@@ -52,7 +53,7 @@ postPaymentMethodsPaymentMethodDetach config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  PaymentMethod)
                                                                                                                                                                                                                             | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostPaymentMethodsPaymentMethodDetachResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                    Error)
-                                                                                                                                                                                                                            | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/payment_methods/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel paymentMethod)) GHC.Base.++ "/detach"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                                            | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/payment_methods/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel paymentMethod)) GHC.Base.++ "/detach"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/payment_methods/{payment_method}/detach
 -- 
 -- The same as 'postPaymentMethodsPaymentMethodDetach' but returns the raw 'Data.ByteString.Char8.ByteString'
@@ -60,19 +61,19 @@ postPaymentMethodsPaymentMethodDetachRaw :: forall m s . (StripeAPI.Common.Monad
                                                           StripeAPI.Common.SecurityScheme s) =>
                                             StripeAPI.Common.Configuration s ->
                                             GHC.Base.String ->
-                                            PostPaymentMethodsPaymentMethodDetachRequestBody ->
+                                            GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodDetachRequestBody ->
                                             m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                   (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postPaymentMethodsPaymentMethodDetachRaw config
                                          paymentMethod
-                                         body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/payment_methods/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel paymentMethod)) GHC.Base.++ "/detach"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                         body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/payment_methods/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel paymentMethod)) GHC.Base.++ "/detach"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/payment_methods/{payment_method}/detach
 -- 
 -- Monadic version of 'postPaymentMethodsPaymentMethodDetach' (use with 'StripeAPI.Common.runWithConfiguration')
 postPaymentMethodsPaymentMethodDetachM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                         StripeAPI.Common.SecurityScheme s) =>
                                           GHC.Base.String ->
-                                          PostPaymentMethodsPaymentMethodDetachRequestBody ->
+                                          GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodDetachRequestBody ->
                                           Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                              m
                                                                              (Data.Either.Either Network.HTTP.Client.Types.HttpException
@@ -82,20 +83,20 @@ postPaymentMethodsPaymentMethodDetachM paymentMethod
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   PaymentMethod)
                                                                                                                                                                                                                              | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostPaymentMethodsPaymentMethodDetachResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                     Error)
-                                                                                                                                                                                                                             | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/payment_methods/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel paymentMethod)) GHC.Base.++ "/detach"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                                             | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/payment_methods/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel paymentMethod)) GHC.Base.++ "/detach"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/payment_methods/{payment_method}/detach
 -- 
 -- Monadic version of 'postPaymentMethodsPaymentMethodDetachRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postPaymentMethodsPaymentMethodDetachRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
                                              GHC.Base.String ->
-                                             PostPaymentMethodsPaymentMethodDetachRequestBody ->
+                                             GHC.Maybe.Maybe PostPaymentMethodsPaymentMethodDetachRequestBody ->
                                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                 m
                                                                                 (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                                     (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postPaymentMethodsPaymentMethodDetachRawM paymentMethod
-                                          body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/payment_methods/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel paymentMethod)) GHC.Base.++ "/detach"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                          body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/payment_methods/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel paymentMethod)) GHC.Base.++ "/detach"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | Defines the data type for the schema postPaymentMethodsPaymentMethodDetachRequestBody
 -- 
 -- 

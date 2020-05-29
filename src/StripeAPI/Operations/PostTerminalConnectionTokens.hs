@@ -23,6 +23,7 @@ import qualified Data.Text
 import qualified Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
+import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
 import qualified GHC.Generics
@@ -43,31 +44,31 @@ import StripeAPI.Types
 -- 
 -- \<p>To connect to a reader the Stripe Terminal SDK needs to retrieve a short-lived connection token from Stripe, proxied through your server. On your backend, add an endpoint that creates and returns a connection token.\<\/p>
 postTerminalConnectionTokens :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> PostTerminalConnectionTokensRequestBody                                                                                                  -- ^ The request body to send
+  -> GHC.Maybe.Maybe PostTerminalConnectionTokensRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostTerminalConnectionTokensResponse)) -- ^ Monad containing the result of the operation
 postTerminalConnectionTokens config
                              body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either PostTerminalConnectionTokensResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> PostTerminalConnectionTokensResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Terminal'connectionToken)
                                                                                                                                                                                                           | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostTerminalConnectionTokensResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                         Error)
-                                                                                                                                                                                                          | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/terminal/connection_tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                          | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/terminal/connection_tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/terminal/connection_tokens
 -- 
 -- The same as 'postTerminalConnectionTokens' but returns the raw 'Data.ByteString.Char8.ByteString'
 postTerminalConnectionTokensRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                  StripeAPI.Common.SecurityScheme s) =>
                                    StripeAPI.Common.Configuration s ->
-                                   PostTerminalConnectionTokensRequestBody ->
+                                   GHC.Maybe.Maybe PostTerminalConnectionTokensRequestBody ->
                                    m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                          (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postTerminalConnectionTokensRaw config
-                                body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/terminal/connection_tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/terminal/connection_tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/terminal/connection_tokens
 -- 
 -- Monadic version of 'postTerminalConnectionTokens' (use with 'StripeAPI.Common.runWithConfiguration')
 postTerminalConnectionTokensM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                StripeAPI.Common.SecurityScheme s) =>
-                                 PostTerminalConnectionTokensRequestBody ->
+                                 GHC.Maybe.Maybe PostTerminalConnectionTokensRequestBody ->
                                  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                     m
                                                                     (Data.Either.Either Network.HTTP.Client.Types.HttpException
@@ -76,18 +77,18 @@ postTerminalConnectionTokensM body = GHC.Base.fmap (GHC.Base.fmap (\response_2 -
                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Terminal'connectionToken)
                                                                                                                                                                                                            | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostTerminalConnectionTokensResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                          Error)
-                                                                                                                                                                                                           | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/terminal/connection_tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                           | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/terminal/connection_tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/terminal/connection_tokens
 -- 
 -- Monadic version of 'postTerminalConnectionTokensRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postTerminalConnectionTokensRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                   StripeAPI.Common.SecurityScheme s) =>
-                                    PostTerminalConnectionTokensRequestBody ->
+                                    GHC.Maybe.Maybe PostTerminalConnectionTokensRequestBody ->
                                     Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                        m
                                                                        (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                            (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
-postTerminalConnectionTokensRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/terminal/connection_tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+postTerminalConnectionTokensRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/terminal/connection_tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | Defines the data type for the schema postTerminalConnectionTokensRequestBody
 -- 
 -- 

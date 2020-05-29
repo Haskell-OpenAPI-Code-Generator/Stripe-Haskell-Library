@@ -23,6 +23,7 @@ import qualified Data.Text
 import qualified Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
+import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
 import qualified GHC.Generics
@@ -50,7 +51,7 @@ postWebhookEndpoints config
                                                                                                                                                                                                                                                                                                                                                                                                                                               WebhookEndpoint)
                                                                                                                                                                                           | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostWebhookEndpointsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                 Error)
-                                                                                                                                                                                          | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/webhook_endpoints") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                          | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/webhook_endpoints") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/webhook_endpoints
 -- 
 -- The same as 'postWebhookEndpoints' but returns the raw 'Data.ByteString.Char8.ByteString'
@@ -61,7 +62,7 @@ postWebhookEndpointsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                            m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                  (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postWebhookEndpointsRaw config
-                        body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/webhook_endpoints") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                        body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/webhook_endpoints") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/webhook_endpoints
 -- 
 -- Monadic version of 'postWebhookEndpoints' (use with 'StripeAPI.Common.runWithConfiguration')
@@ -76,7 +77,7 @@ postWebhookEndpointsM body = GHC.Base.fmap (GHC.Base.fmap (\response_2 -> GHC.Ba
                                                                                                                                                                                                                                                                                                                                                                                                                                                WebhookEndpoint)
                                                                                                                                                                                            | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostWebhookEndpointsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                  Error)
-                                                                                                                                                                                           | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/webhook_endpoints") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                           | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/webhook_endpoints") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/webhook_endpoints
 -- 
 -- Monadic version of 'postWebhookEndpointsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
@@ -87,7 +88,7 @@ postWebhookEndpointsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                                m
                                                                (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                    (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
-postWebhookEndpointsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/webhook_endpoints") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+postWebhookEndpointsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/webhook_endpoints") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 -- | Defines the data type for the schema postWebhookEndpointsRequestBody
 -- 
 -- 

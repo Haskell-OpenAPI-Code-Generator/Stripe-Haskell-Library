@@ -23,6 +23,7 @@ import qualified Data.Text
 import qualified Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
+import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
 import qualified GHC.Generics
@@ -46,31 +47,31 @@ import StripeAPI.Types
 -- \<p>After the SetupIntent is created, attach a payment method and \<a href=\"\/docs\/api\/setup_intents\/confirm\">confirm\<\/a>
 -- to collect any required permissions to charge the payment method later.\<\/p>
 postSetupIntents :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
-  -> PostSetupIntentsRequestBody                                                                                                  -- ^ The request body to send
+  -> GHC.Maybe.Maybe PostSetupIntentsRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSetupIntentsResponse)) -- ^ Monad containing the result of the operation
 postSetupIntents config
                  body = GHC.Base.fmap (GHC.Base.fmap (\response_0 -> GHC.Base.fmap (Data.Either.either PostSetupIntentsResponseError GHC.Base.id GHC.Base.. (\response body -> if | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) -> PostSetupIntentsResponse200 Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                   SetupIntent)
                                                                                                                                                                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostSetupIntentsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                     Error)
-                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/setup_intents
 -- 
 -- The same as 'postSetupIntents' but returns the raw 'Data.ByteString.Char8.ByteString'
 postSetupIntentsRaw :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                      StripeAPI.Common.SecurityScheme s) =>
                        StripeAPI.Common.Configuration s ->
-                       PostSetupIntentsRequestBody ->
+                       GHC.Maybe.Maybe PostSetupIntentsRequestBody ->
                        m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                              (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postSetupIntentsRaw config
-                    body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                    body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/setup_intents
 -- 
 -- Monadic version of 'postSetupIntents' (use with 'StripeAPI.Common.runWithConfiguration')
 postSetupIntentsM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                    StripeAPI.Common.SecurityScheme s) =>
-                     PostSetupIntentsRequestBody ->
+                     GHC.Maybe.Maybe PostSetupIntentsRequestBody ->
                      Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                         m
                                                         (Data.Either.Either Network.HTTP.Client.Types.HttpException
@@ -79,18 +80,18 @@ postSetupIntentsM body = GHC.Base.fmap (GHC.Base.fmap (\response_2 -> GHC.Base.f
                                                                                                                                                                                                                                                                                                                                                                                                                                    SetupIntent)
                                                                                                                                                                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostSetupIntentsResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                      Error)
-                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/setup_intents
 -- 
 -- Monadic version of 'postSetupIntentsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postSetupIntentsRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                       StripeAPI.Common.SecurityScheme s) =>
-                        PostSetupIntentsRequestBody ->
+                        GHC.Maybe.Maybe PostSetupIntentsRequestBody ->
                         Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                            m
                                                            (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
-postSetupIntentsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+postSetupIntentsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | Defines the data type for the schema postSetupIntentsRequestBody
 -- 
 -- 

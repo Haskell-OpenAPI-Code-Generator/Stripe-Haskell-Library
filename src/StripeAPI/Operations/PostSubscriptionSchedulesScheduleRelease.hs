@@ -23,6 +23,7 @@ import qualified Data.Text
 import qualified Data.Text.Internal
 import qualified Data.Time.Calendar as Data.Time.Calendar.Days
 import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
+import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
 import qualified GHC.Generics
@@ -44,7 +45,7 @@ import StripeAPI.Types
 -- \<p>Releases the subscription schedule immediately, which will stop scheduling of its phases, but leave any existing subscription in place. A schedule can only be released if its status is \<code>not_started\<\/code> or \<code>active\<\/code>. If the subscription schedule is currently associated with a subscription, releasing it will remove its \<code>subscription\<\/code> property and set the subscription’s ID to the \<code>released_subscription\<\/code> property.\<\/p>
 postSubscriptionSchedulesScheduleRelease :: forall m s . (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) => StripeAPI.Common.Configuration s  -- ^ The configuration to use in the request
   -> GHC.Base.String                                                                                                                                      -- ^ schedule | Constraints: Maximum length of 5000
-  -> PostSubscriptionSchedulesScheduleReleaseRequestBody                                                                                                  -- ^ The request body to send
+  -> GHC.Maybe.Maybe PostSubscriptionSchedulesScheduleReleaseRequestBody                                                                                  -- ^ The request body to send
   -> m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSubscriptionSchedulesScheduleReleaseResponse)) -- ^ Monad containing the result of the operation
 postSubscriptionSchedulesScheduleRelease config
                                          schedule
@@ -52,7 +53,7 @@ postSubscriptionSchedulesScheduleRelease config
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           SubscriptionSchedule)
                                                                                                                                                                                                                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostSubscriptionSchedulesScheduleReleaseResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                             Error)
-                                                                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ "/release"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                                                  | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_0) response_0)) (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ "/release"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/subscription_schedules/{schedule}/release
 -- 
 -- The same as 'postSubscriptionSchedulesScheduleRelease' but returns the raw 'Data.ByteString.Char8.ByteString'
@@ -60,19 +61,19 @@ postSubscriptionSchedulesScheduleReleaseRaw :: forall m s . (StripeAPI.Common.Mo
                                                              StripeAPI.Common.SecurityScheme s) =>
                                                StripeAPI.Common.Configuration s ->
                                                GHC.Base.String ->
-                                               PostSubscriptionSchedulesScheduleReleaseRequestBody ->
+                                               GHC.Maybe.Maybe PostSubscriptionSchedulesScheduleReleaseRequestBody ->
                                                m (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                      (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postSubscriptionSchedulesScheduleReleaseRaw config
                                             schedule
-                                            body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ "/release"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                            body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ "/release"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/subscription_schedules/{schedule}/release
 -- 
 -- Monadic version of 'postSubscriptionSchedulesScheduleRelease' (use with 'StripeAPI.Common.runWithConfiguration')
 postSubscriptionSchedulesScheduleReleaseM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                            StripeAPI.Common.SecurityScheme s) =>
                                              GHC.Base.String ->
-                                             PostSubscriptionSchedulesScheduleReleaseRequestBody ->
+                                             GHC.Maybe.Maybe PostSubscriptionSchedulesScheduleReleaseRequestBody ->
                                              Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                 m
                                                                                 (Data.Either.Either Network.HTTP.Client.Types.HttpException
@@ -82,20 +83,20 @@ postSubscriptionSchedulesScheduleReleaseM schedule
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            SubscriptionSchedule)
                                                                                                                                                                                                                                    | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) -> PostSubscriptionSchedulesScheduleReleaseResponseDefault Data.Functor.<$> (Data.Aeson.eitherDecodeStrict body :: Data.Either.Either GHC.Base.String
                                                                                                                                                                                                                                                                                                                                                                                                                                                              Error)
-                                                                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ "/release"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                                                                                                                                                                                                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type") response_2) response_2)) (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ "/release"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | > POST /v1/subscription_schedules/{schedule}/release
 -- 
 -- Monadic version of 'postSubscriptionSchedulesScheduleReleaseRaw' (use with 'StripeAPI.Common.runWithConfiguration')
 postSubscriptionSchedulesScheduleReleaseRawM :: forall m s . (StripeAPI.Common.MonadHTTP m,
                                                               StripeAPI.Common.SecurityScheme s) =>
                                                 GHC.Base.String ->
-                                                PostSubscriptionSchedulesScheduleReleaseRequestBody ->
+                                                GHC.Maybe.Maybe PostSubscriptionSchedulesScheduleReleaseRequestBody ->
                                                 Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
                                                                                    m
                                                                                    (Data.Either.Either Network.HTTP.Client.Types.HttpException
                                                                                                        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString))
 postSubscriptionSchedulesScheduleReleaseRawM schedule
-                                             body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper (Data.Text.pack "POST")) (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ "/release"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+                                             body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_schedules/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel schedule)) GHC.Base.++ "/release"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 -- | Defines the data type for the schema postSubscriptionSchedulesScheduleReleaseRequestBody
 -- 
 -- 
