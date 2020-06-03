@@ -1,631 +1,629 @@
--- | The main module which exports all functionality.
-module StripeAPI (
-  module StripeAPI.Operations.Post3dSecure,
-  module StripeAPI.Operations.Get3dSecureThreeDSecure,
-  module StripeAPI.Operations.GetAccount,
-  module StripeAPI.Operations.PostAccount,
-  module StripeAPI.Operations.DeleteAccount,
-  module StripeAPI.Operations.PostAccountBankAccounts,
-  module StripeAPI.Operations.GetAccountBankAccountsId,
-  module StripeAPI.Operations.PostAccountBankAccountsId,
-  module StripeAPI.Operations.DeleteAccountBankAccountsId,
-  module StripeAPI.Operations.GetAccountCapabilities,
-  module StripeAPI.Operations.GetAccountCapabilitiesCapability,
-  module StripeAPI.Operations.PostAccountCapabilitiesCapability,
-  module StripeAPI.Operations.GetAccountExternalAccounts,
-  module StripeAPI.Operations.PostAccountExternalAccounts,
-  module StripeAPI.Operations.GetAccountExternalAccountsId,
-  module StripeAPI.Operations.PostAccountExternalAccountsId,
-  module StripeAPI.Operations.DeleteAccountExternalAccountsId,
-  module StripeAPI.Operations.PostAccountLoginLinks,
-  module StripeAPI.Operations.PutAccountLogout,
-  module StripeAPI.Operations.GetAccountPeople,
-  module StripeAPI.Operations.PostAccountPeople,
-  module StripeAPI.Operations.GetAccountPeoplePerson,
-  module StripeAPI.Operations.PostAccountPeoplePerson,
-  module StripeAPI.Operations.DeleteAccountPeoplePerson,
-  module StripeAPI.Operations.GetAccountPersons,
-  module StripeAPI.Operations.PostAccountPersons,
-  module StripeAPI.Operations.GetAccountPersonsPerson,
-  module StripeAPI.Operations.PostAccountPersonsPerson,
-  module StripeAPI.Operations.DeleteAccountPersonsPerson,
-  module StripeAPI.Operations.PostAccountLinks,
-  module StripeAPI.Operations.GetAccounts,
-  module StripeAPI.Operations.PostAccounts,
-  module StripeAPI.Operations.GetAccountsAccount,
-  module StripeAPI.Operations.PostAccountsAccount,
-  module StripeAPI.Operations.DeleteAccountsAccount,
-  module StripeAPI.Operations.PostAccountsAccountBankAccounts,
-  module StripeAPI.Operations.GetAccountsAccountBankAccountsId,
-  module StripeAPI.Operations.PostAccountsAccountBankAccountsId,
-  module StripeAPI.Operations.DeleteAccountsAccountBankAccountsId,
-  module StripeAPI.Operations.GetAccountsAccountCapabilities,
-  module StripeAPI.Operations.GetAccountsAccountCapabilitiesCapability,
-  module StripeAPI.Operations.PostAccountsAccountCapabilitiesCapability,
-  module StripeAPI.Operations.GetAccountsAccountExternalAccounts,
-  module StripeAPI.Operations.PostAccountsAccountExternalAccounts,
-  module StripeAPI.Operations.GetAccountsAccountExternalAccountsId,
-  module StripeAPI.Operations.PostAccountsAccountExternalAccountsId,
-  module StripeAPI.Operations.DeleteAccountsAccountExternalAccountsId,
-  module StripeAPI.Operations.PostAccountsAccountLoginLinks,
-  module StripeAPI.Operations.PutAccountsAccountLogout,
-  module StripeAPI.Operations.GetAccountsAccountPeople,
-  module StripeAPI.Operations.PostAccountsAccountPeople,
-  module StripeAPI.Operations.GetAccountsAccountPeoplePerson,
-  module StripeAPI.Operations.PostAccountsAccountPeoplePerson,
-  module StripeAPI.Operations.DeleteAccountsAccountPeoplePerson,
-  module StripeAPI.Operations.GetAccountsAccountPersons,
-  module StripeAPI.Operations.PostAccountsAccountPersons,
-  module StripeAPI.Operations.GetAccountsAccountPersonsPerson,
-  module StripeAPI.Operations.PostAccountsAccountPersonsPerson,
-  module StripeAPI.Operations.DeleteAccountsAccountPersonsPerson,
-  module StripeAPI.Operations.PostAccountsAccountReject,
-  module StripeAPI.Operations.GetApplePayDomains,
-  module StripeAPI.Operations.PostApplePayDomains,
-  module StripeAPI.Operations.GetApplePayDomainsDomain,
-  module StripeAPI.Operations.DeleteApplePayDomainsDomain,
-  module StripeAPI.Operations.GetApplicationFees,
-  module StripeAPI.Operations.GetApplicationFeesFeeRefundsId,
-  module StripeAPI.Operations.PostApplicationFeesFeeRefundsId,
-  module StripeAPI.Operations.GetApplicationFeesId,
-  module StripeAPI.Operations.PostApplicationFeesIdRefund,
-  module StripeAPI.Operations.GetApplicationFeesIdRefunds,
-  module StripeAPI.Operations.PostApplicationFeesIdRefunds,
-  module StripeAPI.Operations.GetBalance,
-  module StripeAPI.Operations.GetBalanceHistory,
-  module StripeAPI.Operations.GetBalanceHistoryId,
-  module StripeAPI.Operations.GetBalanceTransactions,
-  module StripeAPI.Operations.GetBalanceTransactionsId,
-  module StripeAPI.Operations.GetBitcoinReceivers,
-  module StripeAPI.Operations.GetBitcoinReceiversId,
-  module StripeAPI.Operations.GetBitcoinReceiversReceiverTransactions,
-  module StripeAPI.Operations.GetBitcoinTransactions,
-  module StripeAPI.Operations.GetCharges,
-  module StripeAPI.Operations.PostCharges,
-  module StripeAPI.Operations.GetChargesCharge,
-  module StripeAPI.Operations.PostChargesCharge,
-  module StripeAPI.Operations.PostChargesChargeCapture,
-  module StripeAPI.Operations.GetChargesChargeDispute,
-  module StripeAPI.Operations.PostChargesChargeDispute,
-  module StripeAPI.Operations.PostChargesChargeDisputeClose,
-  module StripeAPI.Operations.PostChargesChargeRefund,
-  module StripeAPI.Operations.GetChargesChargeRefunds,
-  module StripeAPI.Operations.PostChargesChargeRefunds,
-  module StripeAPI.Operations.GetChargesChargeRefundsRefund,
-  module StripeAPI.Operations.PostChargesChargeRefundsRefund,
-  module StripeAPI.Operations.GetCheckoutSessions,
-  module StripeAPI.Operations.PostCheckoutSessions,
-  module StripeAPI.Operations.GetCheckoutSessionsSession,
-  module StripeAPI.Operations.GetCountrySpecs,
-  module StripeAPI.Operations.GetCountrySpecsCountry,
-  module StripeAPI.Operations.GetCoupons,
-  module StripeAPI.Operations.PostCoupons,
-  module StripeAPI.Operations.GetCouponsCoupon,
-  module StripeAPI.Operations.PostCouponsCoupon,
-  module StripeAPI.Operations.DeleteCouponsCoupon,
-  module StripeAPI.Operations.GetCreditNotes,
-  module StripeAPI.Operations.PostCreditNotes,
-  module StripeAPI.Operations.GetCreditNotesPreview,
-  module StripeAPI.Operations.GetCreditNotesPreviewLines,
-  module StripeAPI.Operations.GetCreditNotesCreditNoteLines,
-  module StripeAPI.Operations.GetCreditNotesId,
-  module StripeAPI.Operations.PostCreditNotesId,
-  module StripeAPI.Operations.PostCreditNotesIdVoid,
-  module StripeAPI.Operations.GetCustomers,
-  module StripeAPI.Operations.PostCustomers,
-  module StripeAPI.Operations.GetCustomersCustomer,
-  module StripeAPI.Operations.PostCustomersCustomer,
-  module StripeAPI.Operations.DeleteCustomersCustomer,
-  module StripeAPI.Operations.GetCustomersCustomerBalanceTransactions,
-  module StripeAPI.Operations.PostCustomersCustomerBalanceTransactions,
-  module StripeAPI.Operations.GetCustomersCustomerBalanceTransactionsTransaction,
-  module StripeAPI.Operations.PostCustomersCustomerBalanceTransactionsTransaction,
-  module StripeAPI.Operations.GetCustomersCustomerBankAccounts,
-  module StripeAPI.Operations.PostCustomersCustomerBankAccounts,
-  module StripeAPI.Operations.GetCustomersCustomerBankAccountsId,
-  module StripeAPI.Operations.PostCustomersCustomerBankAccountsId,
-  module StripeAPI.Operations.DeleteCustomersCustomerBankAccountsId,
-  module StripeAPI.Operations.PostCustomersCustomerBankAccountsIdVerify,
-  module StripeAPI.Operations.GetCustomersCustomerCards,
-  module StripeAPI.Operations.PostCustomersCustomerCards,
-  module StripeAPI.Operations.GetCustomersCustomerCardsId,
-  module StripeAPI.Operations.PostCustomersCustomerCardsId,
-  module StripeAPI.Operations.DeleteCustomersCustomerCardsId,
-  module StripeAPI.Operations.GetCustomersCustomerDiscount,
-  module StripeAPI.Operations.DeleteCustomersCustomerDiscount,
-  module StripeAPI.Operations.GetCustomersCustomerSources,
-  module StripeAPI.Operations.PostCustomersCustomerSources,
-  module StripeAPI.Operations.GetCustomersCustomerSourcesId,
-  module StripeAPI.Operations.PostCustomersCustomerSourcesId,
-  module StripeAPI.Operations.DeleteCustomersCustomerSourcesId,
-  module StripeAPI.Operations.PostCustomersCustomerSourcesIdVerify,
-  module StripeAPI.Operations.GetCustomersCustomerSubscriptions,
-  module StripeAPI.Operations.PostCustomersCustomerSubscriptions,
-  module StripeAPI.Operations.GetCustomersCustomerSubscriptionsSubscriptionExposedId,
-  module StripeAPI.Operations.PostCustomersCustomerSubscriptionsSubscriptionExposedId,
-  module StripeAPI.Operations.DeleteCustomersCustomerSubscriptionsSubscriptionExposedId,
-  module StripeAPI.Operations.GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount,
-  module StripeAPI.Operations.DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount,
-  module StripeAPI.Operations.GetCustomersCustomerTaxIds,
-  module StripeAPI.Operations.PostCustomersCustomerTaxIds,
-  module StripeAPI.Operations.GetCustomersCustomerTaxIdsId,
-  module StripeAPI.Operations.DeleteCustomersCustomerTaxIdsId,
-  module StripeAPI.Operations.GetDisputes,
-  module StripeAPI.Operations.GetDisputesDispute,
-  module StripeAPI.Operations.PostDisputesDispute,
-  module StripeAPI.Operations.PostDisputesDisputeClose,
-  module StripeAPI.Operations.PostEphemeralKeys,
-  module StripeAPI.Operations.DeleteEphemeralKeysKey,
-  module StripeAPI.Operations.GetEvents,
-  module StripeAPI.Operations.GetEventsId,
-  module StripeAPI.Operations.GetExchangeRates,
-  module StripeAPI.Operations.GetExchangeRatesCurrency,
-  module StripeAPI.Operations.GetFileLinks,
-  module StripeAPI.Operations.PostFileLinks,
-  module StripeAPI.Operations.GetFileLinksLink,
-  module StripeAPI.Operations.PostFileLinksLink,
-  module StripeAPI.Operations.GetFiles,
-  module StripeAPI.Operations.PostFiles,
-  module StripeAPI.Operations.GetFilesFile,
-  module StripeAPI.Operations.GetInvoiceitems,
-  module StripeAPI.Operations.PostInvoiceitems,
-  module StripeAPI.Operations.GetInvoiceitemsInvoiceitem,
-  module StripeAPI.Operations.PostInvoiceitemsInvoiceitem,
-  module StripeAPI.Operations.DeleteInvoiceitemsInvoiceitem,
-  module StripeAPI.Operations.GetInvoices,
-  module StripeAPI.Operations.PostInvoices,
-  module StripeAPI.Operations.GetInvoicesUpcoming,
-  module StripeAPI.Operations.GetInvoicesUpcomingLines,
-  module StripeAPI.Operations.GetInvoicesInvoice,
-  module StripeAPI.Operations.PostInvoicesInvoice,
-  module StripeAPI.Operations.DeleteInvoicesInvoice,
-  module StripeAPI.Operations.PostInvoicesInvoiceFinalize,
-  module StripeAPI.Operations.GetInvoicesInvoiceLines,
-  module StripeAPI.Operations.PostInvoicesInvoiceMarkUncollectible,
-  module StripeAPI.Operations.PostInvoicesInvoicePay,
-  module StripeAPI.Operations.PostInvoicesInvoiceSend,
-  module StripeAPI.Operations.PostInvoicesInvoiceVoid,
-  module StripeAPI.Operations.GetIssuerFraudRecords,
-  module StripeAPI.Operations.GetIssuerFraudRecordsIssuerFraudRecord,
-  module StripeAPI.Operations.GetIssuingAuthorizations,
-  module StripeAPI.Operations.GetIssuingAuthorizationsAuthorization,
-  module StripeAPI.Operations.PostIssuingAuthorizationsAuthorization,
-  module StripeAPI.Operations.PostIssuingAuthorizationsAuthorizationApprove,
-  module StripeAPI.Operations.PostIssuingAuthorizationsAuthorizationDecline,
-  module StripeAPI.Operations.GetIssuingCardholders,
-  module StripeAPI.Operations.PostIssuingCardholders,
-  module StripeAPI.Operations.GetIssuingCardholdersCardholder,
-  module StripeAPI.Operations.PostIssuingCardholdersCardholder,
-  module StripeAPI.Operations.GetIssuingCards,
-  module StripeAPI.Operations.PostIssuingCards,
-  module StripeAPI.Operations.GetIssuingCardsCard,
-  module StripeAPI.Operations.PostIssuingCardsCard,
-  module StripeAPI.Operations.GetIssuingCardsCardDetails,
-  module StripeAPI.Operations.GetIssuingCardsCardPin,
-  module StripeAPI.Operations.PostIssuingCardsCardPin,
-  module StripeAPI.Operations.GetIssuingDisputes,
-  module StripeAPI.Operations.PostIssuingDisputes,
-  module StripeAPI.Operations.GetIssuingDisputesDispute,
-  module StripeAPI.Operations.PostIssuingDisputesDispute,
-  module StripeAPI.Operations.GetIssuingSettlements,
-  module StripeAPI.Operations.GetIssuingSettlementsSettlement,
-  module StripeAPI.Operations.PostIssuingSettlementsSettlement,
-  module StripeAPI.Operations.GetIssuingTransactions,
-  module StripeAPI.Operations.GetIssuingTransactionsTransaction,
-  module StripeAPI.Operations.PostIssuingTransactionsTransaction,
-  module StripeAPI.Operations.PostIssuingVerifications,
-  module StripeAPI.Operations.GetMandatesMandate,
-  module StripeAPI.Operations.GetOrderReturns,
-  module StripeAPI.Operations.GetOrderReturnsId,
-  module StripeAPI.Operations.GetOrders,
-  module StripeAPI.Operations.PostOrders,
-  module StripeAPI.Operations.GetOrdersId,
-  module StripeAPI.Operations.PostOrdersId,
-  module StripeAPI.Operations.PostOrdersIdPay,
-  module StripeAPI.Operations.PostOrdersIdReturns,
-  module StripeAPI.Operations.GetPaymentIntents,
-  module StripeAPI.Operations.PostPaymentIntents,
-  module StripeAPI.Operations.GetPaymentIntentsIntent,
-  module StripeAPI.Operations.PostPaymentIntentsIntent,
-  module StripeAPI.Operations.PostPaymentIntentsIntentCancel,
-  module StripeAPI.Operations.PostPaymentIntentsIntentCapture,
-  module StripeAPI.Operations.PostPaymentIntentsIntentConfirm,
-  module StripeAPI.Operations.GetPaymentMethods,
-  module StripeAPI.Operations.PostPaymentMethods,
-  module StripeAPI.Operations.GetPaymentMethodsPaymentMethod,
-  module StripeAPI.Operations.PostPaymentMethodsPaymentMethod,
-  module StripeAPI.Operations.PostPaymentMethodsPaymentMethodAttach,
-  module StripeAPI.Operations.PostPaymentMethodsPaymentMethodDetach,
-  module StripeAPI.Operations.GetPayouts,
-  module StripeAPI.Operations.PostPayouts,
-  module StripeAPI.Operations.GetPayoutsPayout,
-  module StripeAPI.Operations.PostPayoutsPayout,
-  module StripeAPI.Operations.PostPayoutsPayoutCancel,
-  module StripeAPI.Operations.GetPlans,
-  module StripeAPI.Operations.PostPlans,
-  module StripeAPI.Operations.GetPlansPlan,
-  module StripeAPI.Operations.PostPlansPlan,
-  module StripeAPI.Operations.DeletePlansPlan,
-  module StripeAPI.Operations.GetProducts,
-  module StripeAPI.Operations.PostProducts,
-  module StripeAPI.Operations.GetProductsId,
-  module StripeAPI.Operations.PostProductsId,
-  module StripeAPI.Operations.DeleteProductsId,
-  module StripeAPI.Operations.GetRadarEarlyFraudWarnings,
-  module StripeAPI.Operations.GetRadarEarlyFraudWarningsEarlyFraudWarning,
-  module StripeAPI.Operations.GetRadarValueListItems,
-  module StripeAPI.Operations.PostRadarValueListItems,
-  module StripeAPI.Operations.GetRadarValueListItemsItem,
-  module StripeAPI.Operations.DeleteRadarValueListItemsItem,
-  module StripeAPI.Operations.GetRadarValueLists,
-  module StripeAPI.Operations.PostRadarValueLists,
-  module StripeAPI.Operations.GetRadarValueListsValueList,
-  module StripeAPI.Operations.PostRadarValueListsValueList,
-  module StripeAPI.Operations.DeleteRadarValueListsValueList,
-  module StripeAPI.Operations.GetRecipients,
-  module StripeAPI.Operations.PostRecipients,
-  module StripeAPI.Operations.GetRecipientsId,
-  module StripeAPI.Operations.PostRecipientsId,
-  module StripeAPI.Operations.DeleteRecipientsId,
-  module StripeAPI.Operations.GetRefunds,
-  module StripeAPI.Operations.PostRefunds,
-  module StripeAPI.Operations.GetRefundsRefund,
-  module StripeAPI.Operations.PostRefundsRefund,
-  module StripeAPI.Operations.GetReportingReportRuns,
-  module StripeAPI.Operations.PostReportingReportRuns,
-  module StripeAPI.Operations.GetReportingReportRunsReportRun,
-  module StripeAPI.Operations.GetReportingReportTypes,
-  module StripeAPI.Operations.GetReportingReportTypesReportType,
-  module StripeAPI.Operations.GetReviews,
-  module StripeAPI.Operations.GetReviewsReview,
-  module StripeAPI.Operations.PostReviewsReviewApprove,
-  module StripeAPI.Operations.GetSetupIntents,
-  module StripeAPI.Operations.PostSetupIntents,
-  module StripeAPI.Operations.GetSetupIntentsIntent,
-  module StripeAPI.Operations.PostSetupIntentsIntent,
-  module StripeAPI.Operations.PostSetupIntentsIntentCancel,
-  module StripeAPI.Operations.PostSetupIntentsIntentConfirm,
-  module StripeAPI.Operations.GetSigmaScheduledQueryRuns,
-  module StripeAPI.Operations.GetSigmaScheduledQueryRunsScheduledQueryRun,
-  module StripeAPI.Operations.GetSkus,
-  module StripeAPI.Operations.PostSkus,
-  module StripeAPI.Operations.GetSkusId,
-  module StripeAPI.Operations.PostSkusId,
-  module StripeAPI.Operations.DeleteSkusId,
-  module StripeAPI.Operations.PostSources,
-  module StripeAPI.Operations.GetSourcesSource,
-  module StripeAPI.Operations.PostSourcesSource,
-  module StripeAPI.Operations.GetSourcesSourceMandateNotificationsMandateNotification,
-  module StripeAPI.Operations.GetSourcesSourceSourceTransactions,
-  module StripeAPI.Operations.GetSourcesSourceSourceTransactionsSourceTransaction,
-  module StripeAPI.Operations.PostSourcesSourceVerify,
-  module StripeAPI.Operations.GetSubscriptionItems,
-  module StripeAPI.Operations.PostSubscriptionItems,
-  module StripeAPI.Operations.GetSubscriptionItemsItem,
-  module StripeAPI.Operations.PostSubscriptionItemsItem,
-  module StripeAPI.Operations.DeleteSubscriptionItemsItem,
-  module StripeAPI.Operations.GetSubscriptionItemsSubscriptionItemUsageRecordSummaries,
-  module StripeAPI.Operations.PostSubscriptionItemsSubscriptionItemUsageRecords,
-  module StripeAPI.Operations.GetSubscriptionSchedules,
-  module StripeAPI.Operations.PostSubscriptionSchedules,
-  module StripeAPI.Operations.GetSubscriptionSchedulesSchedule,
-  module StripeAPI.Operations.PostSubscriptionSchedulesSchedule,
-  module StripeAPI.Operations.PostSubscriptionSchedulesScheduleCancel,
-  module StripeAPI.Operations.PostSubscriptionSchedulesScheduleRelease,
-  module StripeAPI.Operations.GetSubscriptions,
-  module StripeAPI.Operations.PostSubscriptions,
-  module StripeAPI.Operations.GetSubscriptionsSubscriptionExposedId,
-  module StripeAPI.Operations.PostSubscriptionsSubscriptionExposedId,
-  module StripeAPI.Operations.DeleteSubscriptionsSubscriptionExposedId,
-  module StripeAPI.Operations.DeleteSubscriptionsSubscriptionExposedIdDiscount,
-  module StripeAPI.Operations.GetTaxRates,
-  module StripeAPI.Operations.PostTaxRates,
-  module StripeAPI.Operations.GetTaxRatesTaxRate,
-  module StripeAPI.Operations.PostTaxRatesTaxRate,
-  module StripeAPI.Operations.PostTerminalConnectionTokens,
-  module StripeAPI.Operations.GetTerminalLocations,
-  module StripeAPI.Operations.PostTerminalLocations,
-  module StripeAPI.Operations.GetTerminalLocationsLocation,
-  module StripeAPI.Operations.PostTerminalLocationsLocation,
-  module StripeAPI.Operations.DeleteTerminalLocationsLocation,
-  module StripeAPI.Operations.GetTerminalReaders,
-  module StripeAPI.Operations.PostTerminalReaders,
-  module StripeAPI.Operations.GetTerminalReadersReader,
-  module StripeAPI.Operations.PostTerminalReadersReader,
-  module StripeAPI.Operations.DeleteTerminalReadersReader,
-  module StripeAPI.Operations.PostTokens,
-  module StripeAPI.Operations.GetTokensToken,
-  module StripeAPI.Operations.GetTopups,
-  module StripeAPI.Operations.PostTopups,
-  module StripeAPI.Operations.GetTopupsTopup,
-  module StripeAPI.Operations.PostTopupsTopup,
-  module StripeAPI.Operations.PostTopupsTopupCancel,
-  module StripeAPI.Operations.GetTransfers,
-  module StripeAPI.Operations.PostTransfers,
-  module StripeAPI.Operations.GetTransfersIdReversals,
-  module StripeAPI.Operations.PostTransfersIdReversals,
-  module StripeAPI.Operations.GetTransfersTransfer,
-  module StripeAPI.Operations.PostTransfersTransfer,
-  module StripeAPI.Operations.GetTransfersTransferReversalsId,
-  module StripeAPI.Operations.PostTransfersTransferReversalsId,
-  module StripeAPI.Operations.GetWebhookEndpoints,
-  module StripeAPI.Operations.PostWebhookEndpoints,
-  module StripeAPI.Operations.GetWebhookEndpointsWebhookEndpoint,
-  module StripeAPI.Operations.PostWebhookEndpointsWebhookEndpoint,
-  module StripeAPI.Operations.DeleteWebhookEndpointsWebhookEndpoint,
-  module StripeAPI.Types,
-  module StripeAPI.CyclicTypes,
-  module StripeAPI.Types.AccountCapabilities,
-  module StripeAPI.Types.AccountDashboardSettings,
-  module StripeAPI.Types.AccountDeclineChargeOn,
-  module StripeAPI.Types.AccountLink,
-  module StripeAPI.Types.AccountPaymentsSettings,
-  module StripeAPI.Types.AccountRequirementsError,
-  module StripeAPI.Types.AccountTosAcceptance,
-  module StripeAPI.Types.Address,
-  module StripeAPI.Types.ApplePayDomain,
-  module StripeAPI.Types.Application,
-  module StripeAPI.Types.BalanceAmountBySourceType,
-  module StripeAPI.Types.BitcoinTransaction,
-  module StripeAPI.Types.CardMandatePaymentMethodDetails,
-  module StripeAPI.Types.ChargeFraudDetails,
-  module StripeAPI.Types.CheckoutSessionCustomDisplayItemDescription,
-  module StripeAPI.Types.CountrySpecVerificationFieldDetails,
-  module StripeAPI.Types.Coupon,
-  module StripeAPI.Types.DeletedAccount,
-  module StripeAPI.Types.DeletedAlipayAccount,
-  module StripeAPI.Types.DeletedApplePayDomain,
-  module StripeAPI.Types.DeletedBankAccount,
-  module StripeAPI.Types.DeletedBitcoinReceiver,
-  module StripeAPI.Types.DeletedCard,
-  module StripeAPI.Types.DeletedCoupon,
-  module StripeAPI.Types.DeletedCustomer,
-  module StripeAPI.Types.DeletedDiscount,
-  module StripeAPI.Types.DeletedInvoice,
-  module StripeAPI.Types.DeletedInvoiceitem,
-  module StripeAPI.Types.DeletedPerson,
-  module StripeAPI.Types.DeletedPlan,
-  module StripeAPI.Types.DeletedProduct,
-  module StripeAPI.Types.DeletedRadarValueList,
-  module StripeAPI.Types.DeletedRadarValueListItem,
-  module StripeAPI.Types.DeletedRecipient,
-  module StripeAPI.Types.DeletedSku,
-  module StripeAPI.Types.DeletedSubscriptionItem,
-  module StripeAPI.Types.DeletedTaxId,
-  module StripeAPI.Types.DeletedTerminalLocation,
-  module StripeAPI.Types.DeletedTerminalReader,
-  module StripeAPI.Types.DeletedWebhookEndpoint,
-  module StripeAPI.Types.DeliveryEstimate,
-  module StripeAPI.Types.DisputeEvidenceDetails,
-  module StripeAPI.Types.EphemeralKey,
-  module StripeAPI.Types.ExchangeRate,
-  module StripeAPI.Types.Fee,
-  module StripeAPI.Types.FinancialReportingFinanceReportRunRunParameters,
-  module StripeAPI.Types.Inventory,
-  module StripeAPI.Types.InvoiceItemThresholdReason,
-  module StripeAPI.Types.InvoiceLineItemPeriod,
-  module StripeAPI.Types.InvoiceSettingCustomField,
-  module StripeAPI.Types.InvoiceSettingSubscriptionScheduleSetting,
-  module StripeAPI.Types.InvoicesResourceInvoiceTaxId,
-  module StripeAPI.Types.InvoicesStatusTransitions,
-  module StripeAPI.Types.IssuingSettlement,
-  module StripeAPI.Types.IssuingVerification,
-  module StripeAPI.Types.IssuingAuthorizationMerchantData,
-  module StripeAPI.Types.IssuingAuthorizationVerificationData,
-  module StripeAPI.Types.IssuingAuthorizationViolatedAuthControl,
-  module StripeAPI.Types.IssuingCardPin,
-  module StripeAPI.Types.IssuingCardSpendingLimit,
-  module StripeAPI.Types.IssuingCardholderCompany,
-  module StripeAPI.Types.IssuingCardholderIndividualDob,
-  module StripeAPI.Types.IssuingCardholderRequirements,
-  module StripeAPI.Types.IssuingCardholderSpendingLimit,
-  module StripeAPI.Types.LegalEntityDob,
-  module StripeAPI.Types.LegalEntityJapanAddress,
-  module StripeAPI.Types.LightAccountLogout,
-  module StripeAPI.Types.LoginLink,
-  module StripeAPI.Types.MandateMultiUse,
-  module StripeAPI.Types.MandateSepaDebit,
-  module StripeAPI.Types.MandateSingleUse,
-  module StripeAPI.Types.NotificationEventData,
-  module StripeAPI.Types.NotificationEventRequest,
-  module StripeAPI.Types.OfflineAcceptance,
-  module StripeAPI.Types.OnlineAcceptance,
-  module StripeAPI.Types.PackageDimensions,
-  module StripeAPI.Types.PaymentIntentNextActionRedirectToUrl,
-  module StripeAPI.Types.PaymentMethodCardChecks,
-  module StripeAPI.Types.PaymentMethodCardPresent,
-  module StripeAPI.Types.PaymentMethodCardWalletAmexExpressCheckout,
-  module StripeAPI.Types.PaymentMethodCardWalletApplePay,
-  module StripeAPI.Types.PaymentMethodCardWalletGooglePay,
-  module StripeAPI.Types.PaymentMethodCardWalletSamsungPay,
-  module StripeAPI.Types.PaymentMethodDetailsAchCreditTransfer,
-  module StripeAPI.Types.PaymentMethodDetailsAchDebit,
-  module StripeAPI.Types.PaymentMethodDetailsAlipay,
-  module StripeAPI.Types.PaymentMethodDetailsBancontact,
-  module StripeAPI.Types.PaymentMethodDetailsCardChecks,
-  module StripeAPI.Types.PaymentMethodDetailsCardInstallmentsPlan,
-  module StripeAPI.Types.PaymentMethodDetailsCardPresentReceipt,
-  module StripeAPI.Types.PaymentMethodDetailsCardWalletAmexExpressCheckout,
-  module StripeAPI.Types.PaymentMethodDetailsCardWalletApplePay,
-  module StripeAPI.Types.PaymentMethodDetailsCardWalletGooglePay,
-  module StripeAPI.Types.PaymentMethodDetailsCardWalletSamsungPay,
-  module StripeAPI.Types.PaymentMethodDetailsEps,
-  module StripeAPI.Types.PaymentMethodDetailsFpx,
-  module StripeAPI.Types.PaymentMethodDetailsGiropay,
-  module StripeAPI.Types.PaymentMethodDetailsIdeal,
-  module StripeAPI.Types.PaymentMethodDetailsKlarna,
-  module StripeAPI.Types.PaymentMethodDetailsMultibanco,
-  module StripeAPI.Types.PaymentMethodDetailsP24,
-  module StripeAPI.Types.PaymentMethodDetailsSepaDebit,
-  module StripeAPI.Types.PaymentMethodDetailsSofort,
-  module StripeAPI.Types.PaymentMethodDetailsStripeAccount,
-  module StripeAPI.Types.PaymentMethodDetailsWechat,
-  module StripeAPI.Types.PaymentMethodFpx,
-  module StripeAPI.Types.PaymentMethodIdeal,
-  module StripeAPI.Types.PaymentMethodSepaDebit,
-  module StripeAPI.Types.Period,
-  module StripeAPI.Types.PersonRelationship,
-  module StripeAPI.Types.PlanTier,
-  module StripeAPI.Types.PlatformTaxFee,
-  module StripeAPI.Types.RadarValueListItem,
-  module StripeAPI.Types.RadarReviewResourceLocation,
-  module StripeAPI.Types.RadarReviewResourceSession,
-  module StripeAPI.Types.ReportingReportType,
-  module StripeAPI.Types.ReserveTransaction,
-  module StripeAPI.Types.Rule,
-  module StripeAPI.Types.SetupIntentNextActionRedirectToUrl,
-  module StripeAPI.Types.SetupIntentPaymentMethodOptionsCard,
-  module StripeAPI.Types.SigmaScheduledQueryRunError,
-  module StripeAPI.Types.SourceCodeVerificationFlow,
-  module StripeAPI.Types.SourceMandateNotificationBacsDebitData,
-  module StripeAPI.Types.SourceMandateNotificationSepaDebitData,
-  module StripeAPI.Types.SourceOrderItem,
-  module StripeAPI.Types.SourceReceiverFlow,
-  module StripeAPI.Types.SourceRedirectFlow,
-  module StripeAPI.Types.SourceTransactionAchCreditTransferData,
-  module StripeAPI.Types.SourceTransactionChfCreditTransferData,
-  module StripeAPI.Types.SourceTransactionGbpCreditTransferData,
-  module StripeAPI.Types.SourceTransactionPaperCheckData,
-  module StripeAPI.Types.SourceTransactionSepaCreditTransferData,
-  module StripeAPI.Types.SourceTypeAchCreditTransfer,
-  module StripeAPI.Types.SourceTypeAchDebit,
-  module StripeAPI.Types.SourceTypeAlipay,
-  module StripeAPI.Types.SourceTypeBancontact,
-  module StripeAPI.Types.SourceTypeCard,
-  module StripeAPI.Types.SourceTypeCardPresent,
-  module StripeAPI.Types.SourceTypeEps,
-  module StripeAPI.Types.SourceTypeGiropay,
-  module StripeAPI.Types.SourceTypeIdeal,
-  module StripeAPI.Types.SourceTypeKlarna,
-  module StripeAPI.Types.SourceTypeMultibanco,
-  module StripeAPI.Types.SourceTypeP24,
-  module StripeAPI.Types.SourceTypeSepaDebit,
-  module StripeAPI.Types.SourceTypeSofort,
-  module StripeAPI.Types.SourceTypeThreeDSecure,
-  module StripeAPI.Types.SourceTypeWechat,
-  module StripeAPI.Types.StatusTransitions,
-  module StripeAPI.Types.SubscriptionBillingThresholds,
-  module StripeAPI.Types.SubscriptionItemBillingThresholds,
-  module StripeAPI.Types.SubscriptionPendingInvoiceItemInterval,
-  module StripeAPI.Types.SubscriptionScheduleCurrentPhase,
-  module StripeAPI.Types.TaxDeductedAtSource,
-  module StripeAPI.Types.TaxIdVerification,
-  module StripeAPI.Types.TaxRate,
-  module StripeAPI.Types.TerminalConnectionToken,
-  module StripeAPI.Types.TerminalReader,
-  module StripeAPI.Types.ThreeDSecureDetails,
-  module StripeAPI.Types.ThreeDSecureUsage,
-  module StripeAPI.Types.TransferSchedule,
-  module StripeAPI.Types.TransformUsage,
-  module StripeAPI.Types.UsageRecord,
-  module StripeAPI.Types.WebhookEndpoint,
-  module StripeAPI.Types.AccountCapabilityRequirements,
-  module StripeAPI.Types.AccountCardPaymentsSettings,
-  module StripeAPI.Types.AccountPayoutSettings,
-  module StripeAPI.Types.AccountRequirements,
-  module StripeAPI.Types.BalanceAmount,
-  module StripeAPI.Types.BitcoinReceiver,
-  module StripeAPI.Types.ChargeOutcome,
-  module StripeAPI.Types.CountrySpecVerificationFields,
-  module StripeAPI.Types.CreditNoteTaxAmount,
-  module StripeAPI.Types.CustomerAcceptance,
-  module StripeAPI.Types.InvoiceTaxAmount,
-  module StripeAPI.Types.InvoiceThresholdReason,
-  module StripeAPI.Types.IssuingAuthorizationRequest,
-  module StripeAPI.Types.IssuingCardAuthorizationControls,
-  module StripeAPI.Types.IssuingCardShipping,
-  module StripeAPI.Types.IssuingCardholderAddress,
-  module StripeAPI.Types.IssuingCardholderAuthorizationControls,
-  module StripeAPI.Types.MandatePaymentMethodDetails,
-  module StripeAPI.Types.PaymentIntentNextAction,
-  module StripeAPI.Types.PersonRequirements,
-  module StripeAPI.Types.RadarValueList,
-  module StripeAPI.Types.SetupIntentNextAction,
-  module StripeAPI.Types.SetupIntentPaymentMethodOptions,
-  module StripeAPI.Types.Shipping,
-  module StripeAPI.Types.SourceTransaction,
-  module StripeAPI.Types.TerminalLocation,
-  module StripeAPI.Types.UsageRecordSummary,
-  module StripeAPI.Types.Balance,
-  module StripeAPI.Types.CountrySpec,
-  module StripeAPI.Types.CreditNoteLineItem,
-  module StripeAPI.Types.SourceOrder,
-  module StripeAPI.Configuration,
-  module StripeAPI.SecuritySchemes,
-  module StripeAPI.Common,
-  ) where
+-- CHANGE WITH CAUTION: This is a generated code file generated by https://github.com/Haskell-OpenAPI-Code-Generator/Haskell-OpenAPI-Client-Code-Generator.
 
-import StripeAPI.Operations.Post3dSecure
+-- | The main module which exports all functionality.
+module StripeAPI
+  ( module StripeAPI.Operations.Post3dSecure,
+    module StripeAPI.Operations.Get3dSecureThreeDSecure,
+    module StripeAPI.Operations.GetAccount,
+    module StripeAPI.Operations.PostAccount,
+    module StripeAPI.Operations.DeleteAccount,
+    module StripeAPI.Operations.PostAccountBankAccounts,
+    module StripeAPI.Operations.GetAccountBankAccountsId,
+    module StripeAPI.Operations.PostAccountBankAccountsId,
+    module StripeAPI.Operations.DeleteAccountBankAccountsId,
+    module StripeAPI.Operations.GetAccountCapabilities,
+    module StripeAPI.Operations.GetAccountCapabilitiesCapability,
+    module StripeAPI.Operations.PostAccountCapabilitiesCapability,
+    module StripeAPI.Operations.GetAccountExternalAccounts,
+    module StripeAPI.Operations.PostAccountExternalAccounts,
+    module StripeAPI.Operations.GetAccountExternalAccountsId,
+    module StripeAPI.Operations.PostAccountExternalAccountsId,
+    module StripeAPI.Operations.DeleteAccountExternalAccountsId,
+    module StripeAPI.Operations.PostAccountLoginLinks,
+    module StripeAPI.Operations.PutAccountLogout,
+    module StripeAPI.Operations.GetAccountPeople,
+    module StripeAPI.Operations.PostAccountPeople,
+    module StripeAPI.Operations.GetAccountPeoplePerson,
+    module StripeAPI.Operations.PostAccountPeoplePerson,
+    module StripeAPI.Operations.DeleteAccountPeoplePerson,
+    module StripeAPI.Operations.GetAccountPersons,
+    module StripeAPI.Operations.PostAccountPersons,
+    module StripeAPI.Operations.GetAccountPersonsPerson,
+    module StripeAPI.Operations.PostAccountPersonsPerson,
+    module StripeAPI.Operations.DeleteAccountPersonsPerson,
+    module StripeAPI.Operations.PostAccountLinks,
+    module StripeAPI.Operations.GetAccounts,
+    module StripeAPI.Operations.PostAccounts,
+    module StripeAPI.Operations.GetAccountsAccount,
+    module StripeAPI.Operations.PostAccountsAccount,
+    module StripeAPI.Operations.DeleteAccountsAccount,
+    module StripeAPI.Operations.PostAccountsAccountBankAccounts,
+    module StripeAPI.Operations.GetAccountsAccountBankAccountsId,
+    module StripeAPI.Operations.PostAccountsAccountBankAccountsId,
+    module StripeAPI.Operations.DeleteAccountsAccountBankAccountsId,
+    module StripeAPI.Operations.GetAccountsAccountCapabilities,
+    module StripeAPI.Operations.GetAccountsAccountCapabilitiesCapability,
+    module StripeAPI.Operations.PostAccountsAccountCapabilitiesCapability,
+    module StripeAPI.Operations.GetAccountsAccountExternalAccounts,
+    module StripeAPI.Operations.PostAccountsAccountExternalAccounts,
+    module StripeAPI.Operations.GetAccountsAccountExternalAccountsId,
+    module StripeAPI.Operations.PostAccountsAccountExternalAccountsId,
+    module StripeAPI.Operations.DeleteAccountsAccountExternalAccountsId,
+    module StripeAPI.Operations.PostAccountsAccountLoginLinks,
+    module StripeAPI.Operations.PutAccountsAccountLogout,
+    module StripeAPI.Operations.GetAccountsAccountPeople,
+    module StripeAPI.Operations.PostAccountsAccountPeople,
+    module StripeAPI.Operations.GetAccountsAccountPeoplePerson,
+    module StripeAPI.Operations.PostAccountsAccountPeoplePerson,
+    module StripeAPI.Operations.DeleteAccountsAccountPeoplePerson,
+    module StripeAPI.Operations.GetAccountsAccountPersons,
+    module StripeAPI.Operations.PostAccountsAccountPersons,
+    module StripeAPI.Operations.GetAccountsAccountPersonsPerson,
+    module StripeAPI.Operations.PostAccountsAccountPersonsPerson,
+    module StripeAPI.Operations.DeleteAccountsAccountPersonsPerson,
+    module StripeAPI.Operations.PostAccountsAccountReject,
+    module StripeAPI.Operations.GetApplePayDomains,
+    module StripeAPI.Operations.PostApplePayDomains,
+    module StripeAPI.Operations.GetApplePayDomainsDomain,
+    module StripeAPI.Operations.DeleteApplePayDomainsDomain,
+    module StripeAPI.Operations.GetApplicationFees,
+    module StripeAPI.Operations.GetApplicationFeesFeeRefundsId,
+    module StripeAPI.Operations.PostApplicationFeesFeeRefundsId,
+    module StripeAPI.Operations.GetApplicationFeesId,
+    module StripeAPI.Operations.PostApplicationFeesIdRefund,
+    module StripeAPI.Operations.GetApplicationFeesIdRefunds,
+    module StripeAPI.Operations.PostApplicationFeesIdRefunds,
+    module StripeAPI.Operations.GetBalance,
+    module StripeAPI.Operations.GetBalanceHistory,
+    module StripeAPI.Operations.GetBalanceHistoryId,
+    module StripeAPI.Operations.GetBalanceTransactions,
+    module StripeAPI.Operations.GetBalanceTransactionsId,
+    module StripeAPI.Operations.GetBitcoinReceivers,
+    module StripeAPI.Operations.GetBitcoinReceiversId,
+    module StripeAPI.Operations.GetBitcoinReceiversReceiverTransactions,
+    module StripeAPI.Operations.GetBitcoinTransactions,
+    module StripeAPI.Operations.GetCharges,
+    module StripeAPI.Operations.PostCharges,
+    module StripeAPI.Operations.GetChargesCharge,
+    module StripeAPI.Operations.PostChargesCharge,
+    module StripeAPI.Operations.PostChargesChargeCapture,
+    module StripeAPI.Operations.GetChargesChargeDispute,
+    module StripeAPI.Operations.PostChargesChargeDispute,
+    module StripeAPI.Operations.PostChargesChargeDisputeClose,
+    module StripeAPI.Operations.PostChargesChargeRefund,
+    module StripeAPI.Operations.GetChargesChargeRefunds,
+    module StripeAPI.Operations.PostChargesChargeRefunds,
+    module StripeAPI.Operations.GetChargesChargeRefundsRefund,
+    module StripeAPI.Operations.PostChargesChargeRefundsRefund,
+    module StripeAPI.Operations.GetCheckoutSessions,
+    module StripeAPI.Operations.PostCheckoutSessions,
+    module StripeAPI.Operations.GetCheckoutSessionsSession,
+    module StripeAPI.Operations.GetCountrySpecs,
+    module StripeAPI.Operations.GetCountrySpecsCountry,
+    module StripeAPI.Operations.GetCoupons,
+    module StripeAPI.Operations.PostCoupons,
+    module StripeAPI.Operations.GetCouponsCoupon,
+    module StripeAPI.Operations.PostCouponsCoupon,
+    module StripeAPI.Operations.DeleteCouponsCoupon,
+    module StripeAPI.Operations.GetCreditNotes,
+    module StripeAPI.Operations.PostCreditNotes,
+    module StripeAPI.Operations.GetCreditNotesPreview,
+    module StripeAPI.Operations.GetCreditNotesPreviewLines,
+    module StripeAPI.Operations.GetCreditNotesCreditNoteLines,
+    module StripeAPI.Operations.GetCreditNotesId,
+    module StripeAPI.Operations.PostCreditNotesId,
+    module StripeAPI.Operations.PostCreditNotesIdVoid,
+    module StripeAPI.Operations.GetCustomers,
+    module StripeAPI.Operations.PostCustomers,
+    module StripeAPI.Operations.GetCustomersCustomer,
+    module StripeAPI.Operations.PostCustomersCustomer,
+    module StripeAPI.Operations.DeleteCustomersCustomer,
+    module StripeAPI.Operations.GetCustomersCustomerBalanceTransactions,
+    module StripeAPI.Operations.PostCustomersCustomerBalanceTransactions,
+    module StripeAPI.Operations.GetCustomersCustomerBalanceTransactionsTransaction,
+    module StripeAPI.Operations.PostCustomersCustomerBalanceTransactionsTransaction,
+    module StripeAPI.Operations.GetCustomersCustomerBankAccounts,
+    module StripeAPI.Operations.PostCustomersCustomerBankAccounts,
+    module StripeAPI.Operations.GetCustomersCustomerBankAccountsId,
+    module StripeAPI.Operations.PostCustomersCustomerBankAccountsId,
+    module StripeAPI.Operations.DeleteCustomersCustomerBankAccountsId,
+    module StripeAPI.Operations.PostCustomersCustomerBankAccountsIdVerify,
+    module StripeAPI.Operations.GetCustomersCustomerCards,
+    module StripeAPI.Operations.PostCustomersCustomerCards,
+    module StripeAPI.Operations.GetCustomersCustomerCardsId,
+    module StripeAPI.Operations.PostCustomersCustomerCardsId,
+    module StripeAPI.Operations.DeleteCustomersCustomerCardsId,
+    module StripeAPI.Operations.GetCustomersCustomerDiscount,
+    module StripeAPI.Operations.DeleteCustomersCustomerDiscount,
+    module StripeAPI.Operations.GetCustomersCustomerSources,
+    module StripeAPI.Operations.PostCustomersCustomerSources,
+    module StripeAPI.Operations.GetCustomersCustomerSourcesId,
+    module StripeAPI.Operations.PostCustomersCustomerSourcesId,
+    module StripeAPI.Operations.DeleteCustomersCustomerSourcesId,
+    module StripeAPI.Operations.PostCustomersCustomerSourcesIdVerify,
+    module StripeAPI.Operations.GetCustomersCustomerSubscriptions,
+    module StripeAPI.Operations.PostCustomersCustomerSubscriptions,
+    module StripeAPI.Operations.GetCustomersCustomerSubscriptionsSubscriptionExposedId,
+    module StripeAPI.Operations.PostCustomersCustomerSubscriptionsSubscriptionExposedId,
+    module StripeAPI.Operations.DeleteCustomersCustomerSubscriptionsSubscriptionExposedId,
+    module StripeAPI.Operations.GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount,
+    module StripeAPI.Operations.DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount,
+    module StripeAPI.Operations.GetCustomersCustomerTaxIds,
+    module StripeAPI.Operations.PostCustomersCustomerTaxIds,
+    module StripeAPI.Operations.GetCustomersCustomerTaxIdsId,
+    module StripeAPI.Operations.DeleteCustomersCustomerTaxIdsId,
+    module StripeAPI.Operations.GetDisputes,
+    module StripeAPI.Operations.GetDisputesDispute,
+    module StripeAPI.Operations.PostDisputesDispute,
+    module StripeAPI.Operations.PostDisputesDisputeClose,
+    module StripeAPI.Operations.PostEphemeralKeys,
+    module StripeAPI.Operations.DeleteEphemeralKeysKey,
+    module StripeAPI.Operations.GetEvents,
+    module StripeAPI.Operations.GetEventsId,
+    module StripeAPI.Operations.GetExchangeRates,
+    module StripeAPI.Operations.GetExchangeRatesCurrency,
+    module StripeAPI.Operations.GetFileLinks,
+    module StripeAPI.Operations.PostFileLinks,
+    module StripeAPI.Operations.GetFileLinksLink,
+    module StripeAPI.Operations.PostFileLinksLink,
+    module StripeAPI.Operations.GetFiles,
+    module StripeAPI.Operations.PostFiles,
+    module StripeAPI.Operations.GetFilesFile,
+    module StripeAPI.Operations.GetInvoiceitems,
+    module StripeAPI.Operations.PostInvoiceitems,
+    module StripeAPI.Operations.GetInvoiceitemsInvoiceitem,
+    module StripeAPI.Operations.PostInvoiceitemsInvoiceitem,
+    module StripeAPI.Operations.DeleteInvoiceitemsInvoiceitem,
+    module StripeAPI.Operations.GetInvoices,
+    module StripeAPI.Operations.PostInvoices,
+    module StripeAPI.Operations.GetInvoicesUpcoming,
+    module StripeAPI.Operations.GetInvoicesUpcomingLines,
+    module StripeAPI.Operations.GetInvoicesInvoice,
+    module StripeAPI.Operations.PostInvoicesInvoice,
+    module StripeAPI.Operations.DeleteInvoicesInvoice,
+    module StripeAPI.Operations.PostInvoicesInvoiceFinalize,
+    module StripeAPI.Operations.GetInvoicesInvoiceLines,
+    module StripeAPI.Operations.PostInvoicesInvoiceMarkUncollectible,
+    module StripeAPI.Operations.PostInvoicesInvoicePay,
+    module StripeAPI.Operations.PostInvoicesInvoiceSend,
+    module StripeAPI.Operations.PostInvoicesInvoiceVoid,
+    module StripeAPI.Operations.GetIssuerFraudRecords,
+    module StripeAPI.Operations.GetIssuerFraudRecordsIssuerFraudRecord,
+    module StripeAPI.Operations.GetIssuingAuthorizations,
+    module StripeAPI.Operations.GetIssuingAuthorizationsAuthorization,
+    module StripeAPI.Operations.PostIssuingAuthorizationsAuthorization,
+    module StripeAPI.Operations.PostIssuingAuthorizationsAuthorizationApprove,
+    module StripeAPI.Operations.PostIssuingAuthorizationsAuthorizationDecline,
+    module StripeAPI.Operations.GetIssuingCardholders,
+    module StripeAPI.Operations.PostIssuingCardholders,
+    module StripeAPI.Operations.GetIssuingCardholdersCardholder,
+    module StripeAPI.Operations.PostIssuingCardholdersCardholder,
+    module StripeAPI.Operations.GetIssuingCards,
+    module StripeAPI.Operations.PostIssuingCards,
+    module StripeAPI.Operations.GetIssuingCardsCard,
+    module StripeAPI.Operations.PostIssuingCardsCard,
+    module StripeAPI.Operations.GetIssuingCardsCardDetails,
+    module StripeAPI.Operations.GetIssuingCardsCardPin,
+    module StripeAPI.Operations.PostIssuingCardsCardPin,
+    module StripeAPI.Operations.GetIssuingDisputes,
+    module StripeAPI.Operations.PostIssuingDisputes,
+    module StripeAPI.Operations.GetIssuingDisputesDispute,
+    module StripeAPI.Operations.PostIssuingDisputesDispute,
+    module StripeAPI.Operations.GetIssuingSettlements,
+    module StripeAPI.Operations.GetIssuingSettlementsSettlement,
+    module StripeAPI.Operations.PostIssuingSettlementsSettlement,
+    module StripeAPI.Operations.GetIssuingTransactions,
+    module StripeAPI.Operations.GetIssuingTransactionsTransaction,
+    module StripeAPI.Operations.PostIssuingTransactionsTransaction,
+    module StripeAPI.Operations.PostIssuingVerifications,
+    module StripeAPI.Operations.GetMandatesMandate,
+    module StripeAPI.Operations.GetOrderReturns,
+    module StripeAPI.Operations.GetOrderReturnsId,
+    module StripeAPI.Operations.GetOrders,
+    module StripeAPI.Operations.PostOrders,
+    module StripeAPI.Operations.GetOrdersId,
+    module StripeAPI.Operations.PostOrdersId,
+    module StripeAPI.Operations.PostOrdersIdPay,
+    module StripeAPI.Operations.PostOrdersIdReturns,
+    module StripeAPI.Operations.GetPaymentIntents,
+    module StripeAPI.Operations.PostPaymentIntents,
+    module StripeAPI.Operations.GetPaymentIntentsIntent,
+    module StripeAPI.Operations.PostPaymentIntentsIntent,
+    module StripeAPI.Operations.PostPaymentIntentsIntentCancel,
+    module StripeAPI.Operations.PostPaymentIntentsIntentCapture,
+    module StripeAPI.Operations.PostPaymentIntentsIntentConfirm,
+    module StripeAPI.Operations.GetPaymentMethods,
+    module StripeAPI.Operations.PostPaymentMethods,
+    module StripeAPI.Operations.GetPaymentMethodsPaymentMethod,
+    module StripeAPI.Operations.PostPaymentMethodsPaymentMethod,
+    module StripeAPI.Operations.PostPaymentMethodsPaymentMethodAttach,
+    module StripeAPI.Operations.PostPaymentMethodsPaymentMethodDetach,
+    module StripeAPI.Operations.GetPayouts,
+    module StripeAPI.Operations.PostPayouts,
+    module StripeAPI.Operations.GetPayoutsPayout,
+    module StripeAPI.Operations.PostPayoutsPayout,
+    module StripeAPI.Operations.PostPayoutsPayoutCancel,
+    module StripeAPI.Operations.GetPlans,
+    module StripeAPI.Operations.PostPlans,
+    module StripeAPI.Operations.GetPlansPlan,
+    module StripeAPI.Operations.PostPlansPlan,
+    module StripeAPI.Operations.DeletePlansPlan,
+    module StripeAPI.Operations.GetProducts,
+    module StripeAPI.Operations.PostProducts,
+    module StripeAPI.Operations.GetProductsId,
+    module StripeAPI.Operations.PostProductsId,
+    module StripeAPI.Operations.DeleteProductsId,
+    module StripeAPI.Operations.GetRadarEarlyFraudWarnings,
+    module StripeAPI.Operations.GetRadarEarlyFraudWarningsEarlyFraudWarning,
+    module StripeAPI.Operations.GetRadarValueListItems,
+    module StripeAPI.Operations.PostRadarValueListItems,
+    module StripeAPI.Operations.GetRadarValueListItemsItem,
+    module StripeAPI.Operations.DeleteRadarValueListItemsItem,
+    module StripeAPI.Operations.GetRadarValueLists,
+    module StripeAPI.Operations.PostRadarValueLists,
+    module StripeAPI.Operations.GetRadarValueListsValueList,
+    module StripeAPI.Operations.PostRadarValueListsValueList,
+    module StripeAPI.Operations.DeleteRadarValueListsValueList,
+    module StripeAPI.Operations.GetRecipients,
+    module StripeAPI.Operations.PostRecipients,
+    module StripeAPI.Operations.GetRecipientsId,
+    module StripeAPI.Operations.PostRecipientsId,
+    module StripeAPI.Operations.DeleteRecipientsId,
+    module StripeAPI.Operations.GetRefunds,
+    module StripeAPI.Operations.PostRefunds,
+    module StripeAPI.Operations.GetRefundsRefund,
+    module StripeAPI.Operations.PostRefundsRefund,
+    module StripeAPI.Operations.GetReportingReportRuns,
+    module StripeAPI.Operations.PostReportingReportRuns,
+    module StripeAPI.Operations.GetReportingReportRunsReportRun,
+    module StripeAPI.Operations.GetReportingReportTypes,
+    module StripeAPI.Operations.GetReportingReportTypesReportType,
+    module StripeAPI.Operations.GetReviews,
+    module StripeAPI.Operations.GetReviewsReview,
+    module StripeAPI.Operations.PostReviewsReviewApprove,
+    module StripeAPI.Operations.GetSetupIntents,
+    module StripeAPI.Operations.PostSetupIntents,
+    module StripeAPI.Operations.GetSetupIntentsIntent,
+    module StripeAPI.Operations.PostSetupIntentsIntent,
+    module StripeAPI.Operations.PostSetupIntentsIntentCancel,
+    module StripeAPI.Operations.PostSetupIntentsIntentConfirm,
+    module StripeAPI.Operations.GetSigmaScheduledQueryRuns,
+    module StripeAPI.Operations.GetSigmaScheduledQueryRunsScheduledQueryRun,
+    module StripeAPI.Operations.GetSkus,
+    module StripeAPI.Operations.PostSkus,
+    module StripeAPI.Operations.GetSkusId,
+    module StripeAPI.Operations.PostSkusId,
+    module StripeAPI.Operations.DeleteSkusId,
+    module StripeAPI.Operations.PostSources,
+    module StripeAPI.Operations.GetSourcesSource,
+    module StripeAPI.Operations.PostSourcesSource,
+    module StripeAPI.Operations.GetSourcesSourceMandateNotificationsMandateNotification,
+    module StripeAPI.Operations.GetSourcesSourceSourceTransactions,
+    module StripeAPI.Operations.GetSourcesSourceSourceTransactionsSourceTransaction,
+    module StripeAPI.Operations.PostSourcesSourceVerify,
+    module StripeAPI.Operations.GetSubscriptionItems,
+    module StripeAPI.Operations.PostSubscriptionItems,
+    module StripeAPI.Operations.GetSubscriptionItemsItem,
+    module StripeAPI.Operations.PostSubscriptionItemsItem,
+    module StripeAPI.Operations.DeleteSubscriptionItemsItem,
+    module StripeAPI.Operations.GetSubscriptionItemsSubscriptionItemUsageRecordSummaries,
+    module StripeAPI.Operations.PostSubscriptionItemsSubscriptionItemUsageRecords,
+    module StripeAPI.Operations.GetSubscriptionSchedules,
+    module StripeAPI.Operations.PostSubscriptionSchedules,
+    module StripeAPI.Operations.GetSubscriptionSchedulesSchedule,
+    module StripeAPI.Operations.PostSubscriptionSchedulesSchedule,
+    module StripeAPI.Operations.PostSubscriptionSchedulesScheduleCancel,
+    module StripeAPI.Operations.PostSubscriptionSchedulesScheduleRelease,
+    module StripeAPI.Operations.GetSubscriptions,
+    module StripeAPI.Operations.PostSubscriptions,
+    module StripeAPI.Operations.GetSubscriptionsSubscriptionExposedId,
+    module StripeAPI.Operations.PostSubscriptionsSubscriptionExposedId,
+    module StripeAPI.Operations.DeleteSubscriptionsSubscriptionExposedId,
+    module StripeAPI.Operations.DeleteSubscriptionsSubscriptionExposedIdDiscount,
+    module StripeAPI.Operations.GetTaxRates,
+    module StripeAPI.Operations.PostTaxRates,
+    module StripeAPI.Operations.GetTaxRatesTaxRate,
+    module StripeAPI.Operations.PostTaxRatesTaxRate,
+    module StripeAPI.Operations.PostTerminalConnectionTokens,
+    module StripeAPI.Operations.GetTerminalLocations,
+    module StripeAPI.Operations.PostTerminalLocations,
+    module StripeAPI.Operations.GetTerminalLocationsLocation,
+    module StripeAPI.Operations.PostTerminalLocationsLocation,
+    module StripeAPI.Operations.DeleteTerminalLocationsLocation,
+    module StripeAPI.Operations.GetTerminalReaders,
+    module StripeAPI.Operations.PostTerminalReaders,
+    module StripeAPI.Operations.GetTerminalReadersReader,
+    module StripeAPI.Operations.PostTerminalReadersReader,
+    module StripeAPI.Operations.DeleteTerminalReadersReader,
+    module StripeAPI.Operations.PostTokens,
+    module StripeAPI.Operations.GetTokensToken,
+    module StripeAPI.Operations.GetTopups,
+    module StripeAPI.Operations.PostTopups,
+    module StripeAPI.Operations.GetTopupsTopup,
+    module StripeAPI.Operations.PostTopupsTopup,
+    module StripeAPI.Operations.PostTopupsTopupCancel,
+    module StripeAPI.Operations.GetTransfers,
+    module StripeAPI.Operations.PostTransfers,
+    module StripeAPI.Operations.GetTransfersIdReversals,
+    module StripeAPI.Operations.PostTransfersIdReversals,
+    module StripeAPI.Operations.GetTransfersTransfer,
+    module StripeAPI.Operations.PostTransfersTransfer,
+    module StripeAPI.Operations.GetTransfersTransferReversalsId,
+    module StripeAPI.Operations.PostTransfersTransferReversalsId,
+    module StripeAPI.Operations.GetWebhookEndpoints,
+    module StripeAPI.Operations.PostWebhookEndpoints,
+    module StripeAPI.Operations.GetWebhookEndpointsWebhookEndpoint,
+    module StripeAPI.Operations.PostWebhookEndpointsWebhookEndpoint,
+    module StripeAPI.Operations.DeleteWebhookEndpointsWebhookEndpoint,
+    module StripeAPI.Types,
+    module StripeAPI.CyclicTypes,
+    module StripeAPI.Types.AccountCapabilities,
+    module StripeAPI.Types.AccountDashboardSettings,
+    module StripeAPI.Types.AccountDeclineChargeOn,
+    module StripeAPI.Types.AccountLink,
+    module StripeAPI.Types.AccountPaymentsSettings,
+    module StripeAPI.Types.AccountRequirementsError,
+    module StripeAPI.Types.AccountTosAcceptance,
+    module StripeAPI.Types.Address,
+    module StripeAPI.Types.ApplePayDomain,
+    module StripeAPI.Types.Application,
+    module StripeAPI.Types.BalanceAmountBySourceType,
+    module StripeAPI.Types.BitcoinTransaction,
+    module StripeAPI.Types.CardMandatePaymentMethodDetails,
+    module StripeAPI.Types.ChargeFraudDetails,
+    module StripeAPI.Types.CheckoutSessionCustomDisplayItemDescription,
+    module StripeAPI.Types.CountrySpecVerificationFieldDetails,
+    module StripeAPI.Types.Coupon,
+    module StripeAPI.Types.DeletedAccount,
+    module StripeAPI.Types.DeletedAlipayAccount,
+    module StripeAPI.Types.DeletedApplePayDomain,
+    module StripeAPI.Types.DeletedBankAccount,
+    module StripeAPI.Types.DeletedBitcoinReceiver,
+    module StripeAPI.Types.DeletedCard,
+    module StripeAPI.Types.DeletedCoupon,
+    module StripeAPI.Types.DeletedCustomer,
+    module StripeAPI.Types.DeletedDiscount,
+    module StripeAPI.Types.DeletedInvoice,
+    module StripeAPI.Types.DeletedInvoiceitem,
+    module StripeAPI.Types.DeletedPerson,
+    module StripeAPI.Types.DeletedPlan,
+    module StripeAPI.Types.DeletedProduct,
+    module StripeAPI.Types.DeletedRadarValueList,
+    module StripeAPI.Types.DeletedRadarValueListItem,
+    module StripeAPI.Types.DeletedRecipient,
+    module StripeAPI.Types.DeletedSku,
+    module StripeAPI.Types.DeletedSubscriptionItem,
+    module StripeAPI.Types.DeletedTaxId,
+    module StripeAPI.Types.DeletedTerminalLocation,
+    module StripeAPI.Types.DeletedTerminalReader,
+    module StripeAPI.Types.DeletedWebhookEndpoint,
+    module StripeAPI.Types.DeliveryEstimate,
+    module StripeAPI.Types.DisputeEvidenceDetails,
+    module StripeAPI.Types.EphemeralKey,
+    module StripeAPI.Types.ExchangeRate,
+    module StripeAPI.Types.Fee,
+    module StripeAPI.Types.FinancialReportingFinanceReportRunRunParameters,
+    module StripeAPI.Types.Inventory,
+    module StripeAPI.Types.InvoiceItemThresholdReason,
+    module StripeAPI.Types.InvoiceLineItemPeriod,
+    module StripeAPI.Types.InvoiceSettingCustomField,
+    module StripeAPI.Types.InvoiceSettingSubscriptionScheduleSetting,
+    module StripeAPI.Types.InvoicesResourceInvoiceTaxId,
+    module StripeAPI.Types.InvoicesStatusTransitions,
+    module StripeAPI.Types.IssuingSettlement,
+    module StripeAPI.Types.IssuingVerification,
+    module StripeAPI.Types.IssuingAuthorizationMerchantData,
+    module StripeAPI.Types.IssuingAuthorizationVerificationData,
+    module StripeAPI.Types.IssuingAuthorizationViolatedAuthControl,
+    module StripeAPI.Types.IssuingCardPin,
+    module StripeAPI.Types.IssuingCardSpendingLimit,
+    module StripeAPI.Types.IssuingCardholderCompany,
+    module StripeAPI.Types.IssuingCardholderIndividualDob,
+    module StripeAPI.Types.IssuingCardholderRequirements,
+    module StripeAPI.Types.IssuingCardholderSpendingLimit,
+    module StripeAPI.Types.LegalEntityDob,
+    module StripeAPI.Types.LegalEntityJapanAddress,
+    module StripeAPI.Types.LightAccountLogout,
+    module StripeAPI.Types.LoginLink,
+    module StripeAPI.Types.MandateMultiUse,
+    module StripeAPI.Types.MandateSepaDebit,
+    module StripeAPI.Types.MandateSingleUse,
+    module StripeAPI.Types.NotificationEventData,
+    module StripeAPI.Types.NotificationEventRequest,
+    module StripeAPI.Types.OfflineAcceptance,
+    module StripeAPI.Types.OnlineAcceptance,
+    module StripeAPI.Types.PackageDimensions,
+    module StripeAPI.Types.PaymentIntentNextActionRedirectToUrl,
+    module StripeAPI.Types.PaymentMethodCardChecks,
+    module StripeAPI.Types.PaymentMethodCardPresent,
+    module StripeAPI.Types.PaymentMethodCardWalletAmexExpressCheckout,
+    module StripeAPI.Types.PaymentMethodCardWalletApplePay,
+    module StripeAPI.Types.PaymentMethodCardWalletGooglePay,
+    module StripeAPI.Types.PaymentMethodCardWalletSamsungPay,
+    module StripeAPI.Types.PaymentMethodDetailsAchCreditTransfer,
+    module StripeAPI.Types.PaymentMethodDetailsAchDebit,
+    module StripeAPI.Types.PaymentMethodDetailsAlipay,
+    module StripeAPI.Types.PaymentMethodDetailsBancontact,
+    module StripeAPI.Types.PaymentMethodDetailsCardChecks,
+    module StripeAPI.Types.PaymentMethodDetailsCardInstallmentsPlan,
+    module StripeAPI.Types.PaymentMethodDetailsCardPresentReceipt,
+    module StripeAPI.Types.PaymentMethodDetailsCardWalletAmexExpressCheckout,
+    module StripeAPI.Types.PaymentMethodDetailsCardWalletApplePay,
+    module StripeAPI.Types.PaymentMethodDetailsCardWalletGooglePay,
+    module StripeAPI.Types.PaymentMethodDetailsCardWalletSamsungPay,
+    module StripeAPI.Types.PaymentMethodDetailsEps,
+    module StripeAPI.Types.PaymentMethodDetailsFpx,
+    module StripeAPI.Types.PaymentMethodDetailsGiropay,
+    module StripeAPI.Types.PaymentMethodDetailsIdeal,
+    module StripeAPI.Types.PaymentMethodDetailsKlarna,
+    module StripeAPI.Types.PaymentMethodDetailsMultibanco,
+    module StripeAPI.Types.PaymentMethodDetailsP24,
+    module StripeAPI.Types.PaymentMethodDetailsSepaDebit,
+    module StripeAPI.Types.PaymentMethodDetailsSofort,
+    module StripeAPI.Types.PaymentMethodDetailsStripeAccount,
+    module StripeAPI.Types.PaymentMethodDetailsWechat,
+    module StripeAPI.Types.PaymentMethodFpx,
+    module StripeAPI.Types.PaymentMethodIdeal,
+    module StripeAPI.Types.PaymentMethodSepaDebit,
+    module StripeAPI.Types.Period,
+    module StripeAPI.Types.PersonRelationship,
+    module StripeAPI.Types.PlanTier,
+    module StripeAPI.Types.PlatformTaxFee,
+    module StripeAPI.Types.RadarValueListItem,
+    module StripeAPI.Types.RadarReviewResourceLocation,
+    module StripeAPI.Types.RadarReviewResourceSession,
+    module StripeAPI.Types.ReportingReportType,
+    module StripeAPI.Types.ReserveTransaction,
+    module StripeAPI.Types.Rule,
+    module StripeAPI.Types.SetupIntentNextActionRedirectToUrl,
+    module StripeAPI.Types.SetupIntentPaymentMethodOptionsCard,
+    module StripeAPI.Types.SigmaScheduledQueryRunError,
+    module StripeAPI.Types.SourceCodeVerificationFlow,
+    module StripeAPI.Types.SourceMandateNotificationBacsDebitData,
+    module StripeAPI.Types.SourceMandateNotificationSepaDebitData,
+    module StripeAPI.Types.SourceOrderItem,
+    module StripeAPI.Types.SourceReceiverFlow,
+    module StripeAPI.Types.SourceRedirectFlow,
+    module StripeAPI.Types.SourceTransactionAchCreditTransferData,
+    module StripeAPI.Types.SourceTransactionChfCreditTransferData,
+    module StripeAPI.Types.SourceTransactionGbpCreditTransferData,
+    module StripeAPI.Types.SourceTransactionPaperCheckData,
+    module StripeAPI.Types.SourceTransactionSepaCreditTransferData,
+    module StripeAPI.Types.SourceTypeAchCreditTransfer,
+    module StripeAPI.Types.SourceTypeAchDebit,
+    module StripeAPI.Types.SourceTypeAlipay,
+    module StripeAPI.Types.SourceTypeBancontact,
+    module StripeAPI.Types.SourceTypeCard,
+    module StripeAPI.Types.SourceTypeCardPresent,
+    module StripeAPI.Types.SourceTypeEps,
+    module StripeAPI.Types.SourceTypeGiropay,
+    module StripeAPI.Types.SourceTypeIdeal,
+    module StripeAPI.Types.SourceTypeKlarna,
+    module StripeAPI.Types.SourceTypeMultibanco,
+    module StripeAPI.Types.SourceTypeP24,
+    module StripeAPI.Types.SourceTypeSepaDebit,
+    module StripeAPI.Types.SourceTypeSofort,
+    module StripeAPI.Types.SourceTypeThreeDSecure,
+    module StripeAPI.Types.SourceTypeWechat,
+    module StripeAPI.Types.StatusTransitions,
+    module StripeAPI.Types.SubscriptionBillingThresholds,
+    module StripeAPI.Types.SubscriptionItemBillingThresholds,
+    module StripeAPI.Types.SubscriptionPendingInvoiceItemInterval,
+    module StripeAPI.Types.SubscriptionScheduleCurrentPhase,
+    module StripeAPI.Types.TaxDeductedAtSource,
+    module StripeAPI.Types.TaxIdVerification,
+    module StripeAPI.Types.TaxRate,
+    module StripeAPI.Types.TerminalConnectionToken,
+    module StripeAPI.Types.TerminalReader,
+    module StripeAPI.Types.ThreeDSecureDetails,
+    module StripeAPI.Types.ThreeDSecureUsage,
+    module StripeAPI.Types.TransferSchedule,
+    module StripeAPI.Types.TransformUsage,
+    module StripeAPI.Types.UsageRecord,
+    module StripeAPI.Types.WebhookEndpoint,
+    module StripeAPI.Types.AccountCapabilityRequirements,
+    module StripeAPI.Types.AccountCardPaymentsSettings,
+    module StripeAPI.Types.AccountPayoutSettings,
+    module StripeAPI.Types.AccountRequirements,
+    module StripeAPI.Types.BalanceAmount,
+    module StripeAPI.Types.BitcoinReceiver,
+    module StripeAPI.Types.ChargeOutcome,
+    module StripeAPI.Types.CountrySpecVerificationFields,
+    module StripeAPI.Types.CreditNoteTaxAmount,
+    module StripeAPI.Types.CustomerAcceptance,
+    module StripeAPI.Types.InvoiceTaxAmount,
+    module StripeAPI.Types.InvoiceThresholdReason,
+    module StripeAPI.Types.IssuingAuthorizationRequest,
+    module StripeAPI.Types.IssuingCardAuthorizationControls,
+    module StripeAPI.Types.IssuingCardShipping,
+    module StripeAPI.Types.IssuingCardholderAddress,
+    module StripeAPI.Types.IssuingCardholderAuthorizationControls,
+    module StripeAPI.Types.MandatePaymentMethodDetails,
+    module StripeAPI.Types.PaymentIntentNextAction,
+    module StripeAPI.Types.PersonRequirements,
+    module StripeAPI.Types.RadarValueList,
+    module StripeAPI.Types.SetupIntentNextAction,
+    module StripeAPI.Types.SetupIntentPaymentMethodOptions,
+    module StripeAPI.Types.Shipping,
+    module StripeAPI.Types.SourceTransaction,
+    module StripeAPI.Types.TerminalLocation,
+    module StripeAPI.Types.UsageRecordSummary,
+    module StripeAPI.Types.Balance,
+    module StripeAPI.Types.CountrySpec,
+    module StripeAPI.Types.CreditNoteLineItem,
+    module StripeAPI.Types.SourceOrder,
+    module StripeAPI.Configuration,
+    module StripeAPI.SecuritySchemes,
+    module StripeAPI.Common,
+  )
+where
+
+import StripeAPI.Common
+import StripeAPI.Configuration
+import StripeAPI.CyclicTypes
+import StripeAPI.Operations.DeleteAccount
+import StripeAPI.Operations.DeleteAccountBankAccountsId
+import StripeAPI.Operations.DeleteAccountExternalAccountsId
+import StripeAPI.Operations.DeleteAccountPeoplePerson
+import StripeAPI.Operations.DeleteAccountPersonsPerson
+import StripeAPI.Operations.DeleteAccountsAccount
+import StripeAPI.Operations.DeleteAccountsAccountBankAccountsId
+import StripeAPI.Operations.DeleteAccountsAccountExternalAccountsId
+import StripeAPI.Operations.DeleteAccountsAccountPeoplePerson
+import StripeAPI.Operations.DeleteAccountsAccountPersonsPerson
+import StripeAPI.Operations.DeleteApplePayDomainsDomain
+import StripeAPI.Operations.DeleteCouponsCoupon
+import StripeAPI.Operations.DeleteCustomersCustomer
+import StripeAPI.Operations.DeleteCustomersCustomerBankAccountsId
+import StripeAPI.Operations.DeleteCustomersCustomerCardsId
+import StripeAPI.Operations.DeleteCustomersCustomerDiscount
+import StripeAPI.Operations.DeleteCustomersCustomerSourcesId
+import StripeAPI.Operations.DeleteCustomersCustomerSubscriptionsSubscriptionExposedId
+import StripeAPI.Operations.DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount
+import StripeAPI.Operations.DeleteCustomersCustomerTaxIdsId
+import StripeAPI.Operations.DeleteEphemeralKeysKey
+import StripeAPI.Operations.DeleteInvoiceitemsInvoiceitem
+import StripeAPI.Operations.DeleteInvoicesInvoice
+import StripeAPI.Operations.DeletePlansPlan
+import StripeAPI.Operations.DeleteProductsId
+import StripeAPI.Operations.DeleteRadarValueListItemsItem
+import StripeAPI.Operations.DeleteRadarValueListsValueList
+import StripeAPI.Operations.DeleteRecipientsId
+import StripeAPI.Operations.DeleteSkusId
+import StripeAPI.Operations.DeleteSubscriptionItemsItem
+import StripeAPI.Operations.DeleteSubscriptionsSubscriptionExposedId
+import StripeAPI.Operations.DeleteSubscriptionsSubscriptionExposedIdDiscount
+import StripeAPI.Operations.DeleteTerminalLocationsLocation
+import StripeAPI.Operations.DeleteTerminalReadersReader
+import StripeAPI.Operations.DeleteWebhookEndpointsWebhookEndpoint
 import StripeAPI.Operations.Get3dSecureThreeDSecure
 import StripeAPI.Operations.GetAccount
-import StripeAPI.Operations.PostAccount
-import StripeAPI.Operations.DeleteAccount
-import StripeAPI.Operations.PostAccountBankAccounts
 import StripeAPI.Operations.GetAccountBankAccountsId
-import StripeAPI.Operations.PostAccountBankAccountsId
-import StripeAPI.Operations.DeleteAccountBankAccountsId
 import StripeAPI.Operations.GetAccountCapabilities
 import StripeAPI.Operations.GetAccountCapabilitiesCapability
-import StripeAPI.Operations.PostAccountCapabilitiesCapability
 import StripeAPI.Operations.GetAccountExternalAccounts
-import StripeAPI.Operations.PostAccountExternalAccounts
 import StripeAPI.Operations.GetAccountExternalAccountsId
-import StripeAPI.Operations.PostAccountExternalAccountsId
-import StripeAPI.Operations.DeleteAccountExternalAccountsId
-import StripeAPI.Operations.PostAccountLoginLinks
-import StripeAPI.Operations.PutAccountLogout
 import StripeAPI.Operations.GetAccountPeople
-import StripeAPI.Operations.PostAccountPeople
 import StripeAPI.Operations.GetAccountPeoplePerson
-import StripeAPI.Operations.PostAccountPeoplePerson
-import StripeAPI.Operations.DeleteAccountPeoplePerson
 import StripeAPI.Operations.GetAccountPersons
-import StripeAPI.Operations.PostAccountPersons
 import StripeAPI.Operations.GetAccountPersonsPerson
-import StripeAPI.Operations.PostAccountPersonsPerson
-import StripeAPI.Operations.DeleteAccountPersonsPerson
-import StripeAPI.Operations.PostAccountLinks
 import StripeAPI.Operations.GetAccounts
-import StripeAPI.Operations.PostAccounts
 import StripeAPI.Operations.GetAccountsAccount
-import StripeAPI.Operations.PostAccountsAccount
-import StripeAPI.Operations.DeleteAccountsAccount
-import StripeAPI.Operations.PostAccountsAccountBankAccounts
 import StripeAPI.Operations.GetAccountsAccountBankAccountsId
-import StripeAPI.Operations.PostAccountsAccountBankAccountsId
-import StripeAPI.Operations.DeleteAccountsAccountBankAccountsId
 import StripeAPI.Operations.GetAccountsAccountCapabilities
 import StripeAPI.Operations.GetAccountsAccountCapabilitiesCapability
-import StripeAPI.Operations.PostAccountsAccountCapabilitiesCapability
 import StripeAPI.Operations.GetAccountsAccountExternalAccounts
-import StripeAPI.Operations.PostAccountsAccountExternalAccounts
 import StripeAPI.Operations.GetAccountsAccountExternalAccountsId
-import StripeAPI.Operations.PostAccountsAccountExternalAccountsId
-import StripeAPI.Operations.DeleteAccountsAccountExternalAccountsId
-import StripeAPI.Operations.PostAccountsAccountLoginLinks
-import StripeAPI.Operations.PutAccountsAccountLogout
 import StripeAPI.Operations.GetAccountsAccountPeople
-import StripeAPI.Operations.PostAccountsAccountPeople
 import StripeAPI.Operations.GetAccountsAccountPeoplePerson
-import StripeAPI.Operations.PostAccountsAccountPeoplePerson
-import StripeAPI.Operations.DeleteAccountsAccountPeoplePerson
 import StripeAPI.Operations.GetAccountsAccountPersons
-import StripeAPI.Operations.PostAccountsAccountPersons
 import StripeAPI.Operations.GetAccountsAccountPersonsPerson
-import StripeAPI.Operations.PostAccountsAccountPersonsPerson
-import StripeAPI.Operations.DeleteAccountsAccountPersonsPerson
-import StripeAPI.Operations.PostAccountsAccountReject
 import StripeAPI.Operations.GetApplePayDomains
-import StripeAPI.Operations.PostApplePayDomains
 import StripeAPI.Operations.GetApplePayDomainsDomain
-import StripeAPI.Operations.DeleteApplePayDomainsDomain
 import StripeAPI.Operations.GetApplicationFees
 import StripeAPI.Operations.GetApplicationFeesFeeRefundsId
-import StripeAPI.Operations.PostApplicationFeesFeeRefundsId
 import StripeAPI.Operations.GetApplicationFeesId
-import StripeAPI.Operations.PostApplicationFeesIdRefund
 import StripeAPI.Operations.GetApplicationFeesIdRefunds
-import StripeAPI.Operations.PostApplicationFeesIdRefunds
 import StripeAPI.Operations.GetBalance
 import StripeAPI.Operations.GetBalanceHistory
 import StripeAPI.Operations.GetBalanceHistoryId
@@ -636,297 +634,318 @@ import StripeAPI.Operations.GetBitcoinReceiversId
 import StripeAPI.Operations.GetBitcoinReceiversReceiverTransactions
 import StripeAPI.Operations.GetBitcoinTransactions
 import StripeAPI.Operations.GetCharges
-import StripeAPI.Operations.PostCharges
 import StripeAPI.Operations.GetChargesCharge
-import StripeAPI.Operations.PostChargesCharge
-import StripeAPI.Operations.PostChargesChargeCapture
 import StripeAPI.Operations.GetChargesChargeDispute
-import StripeAPI.Operations.PostChargesChargeDispute
-import StripeAPI.Operations.PostChargesChargeDisputeClose
-import StripeAPI.Operations.PostChargesChargeRefund
 import StripeAPI.Operations.GetChargesChargeRefunds
-import StripeAPI.Operations.PostChargesChargeRefunds
 import StripeAPI.Operations.GetChargesChargeRefundsRefund
-import StripeAPI.Operations.PostChargesChargeRefundsRefund
 import StripeAPI.Operations.GetCheckoutSessions
-import StripeAPI.Operations.PostCheckoutSessions
 import StripeAPI.Operations.GetCheckoutSessionsSession
 import StripeAPI.Operations.GetCountrySpecs
 import StripeAPI.Operations.GetCountrySpecsCountry
 import StripeAPI.Operations.GetCoupons
-import StripeAPI.Operations.PostCoupons
 import StripeAPI.Operations.GetCouponsCoupon
-import StripeAPI.Operations.PostCouponsCoupon
-import StripeAPI.Operations.DeleteCouponsCoupon
 import StripeAPI.Operations.GetCreditNotes
-import StripeAPI.Operations.PostCreditNotes
-import StripeAPI.Operations.GetCreditNotesPreview
-import StripeAPI.Operations.GetCreditNotesPreviewLines
 import StripeAPI.Operations.GetCreditNotesCreditNoteLines
 import StripeAPI.Operations.GetCreditNotesId
-import StripeAPI.Operations.PostCreditNotesId
-import StripeAPI.Operations.PostCreditNotesIdVoid
+import StripeAPI.Operations.GetCreditNotesPreview
+import StripeAPI.Operations.GetCreditNotesPreviewLines
 import StripeAPI.Operations.GetCustomers
-import StripeAPI.Operations.PostCustomers
 import StripeAPI.Operations.GetCustomersCustomer
-import StripeAPI.Operations.PostCustomersCustomer
-import StripeAPI.Operations.DeleteCustomersCustomer
 import StripeAPI.Operations.GetCustomersCustomerBalanceTransactions
-import StripeAPI.Operations.PostCustomersCustomerBalanceTransactions
 import StripeAPI.Operations.GetCustomersCustomerBalanceTransactionsTransaction
-import StripeAPI.Operations.PostCustomersCustomerBalanceTransactionsTransaction
 import StripeAPI.Operations.GetCustomersCustomerBankAccounts
-import StripeAPI.Operations.PostCustomersCustomerBankAccounts
 import StripeAPI.Operations.GetCustomersCustomerBankAccountsId
-import StripeAPI.Operations.PostCustomersCustomerBankAccountsId
-import StripeAPI.Operations.DeleteCustomersCustomerBankAccountsId
-import StripeAPI.Operations.PostCustomersCustomerBankAccountsIdVerify
 import StripeAPI.Operations.GetCustomersCustomerCards
-import StripeAPI.Operations.PostCustomersCustomerCards
 import StripeAPI.Operations.GetCustomersCustomerCardsId
-import StripeAPI.Operations.PostCustomersCustomerCardsId
-import StripeAPI.Operations.DeleteCustomersCustomerCardsId
 import StripeAPI.Operations.GetCustomersCustomerDiscount
-import StripeAPI.Operations.DeleteCustomersCustomerDiscount
 import StripeAPI.Operations.GetCustomersCustomerSources
-import StripeAPI.Operations.PostCustomersCustomerSources
 import StripeAPI.Operations.GetCustomersCustomerSourcesId
-import StripeAPI.Operations.PostCustomersCustomerSourcesId
-import StripeAPI.Operations.DeleteCustomersCustomerSourcesId
-import StripeAPI.Operations.PostCustomersCustomerSourcesIdVerify
 import StripeAPI.Operations.GetCustomersCustomerSubscriptions
-import StripeAPI.Operations.PostCustomersCustomerSubscriptions
 import StripeAPI.Operations.GetCustomersCustomerSubscriptionsSubscriptionExposedId
-import StripeAPI.Operations.PostCustomersCustomerSubscriptionsSubscriptionExposedId
-import StripeAPI.Operations.DeleteCustomersCustomerSubscriptionsSubscriptionExposedId
 import StripeAPI.Operations.GetCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount
-import StripeAPI.Operations.DeleteCustomersCustomerSubscriptionsSubscriptionExposedIdDiscount
 import StripeAPI.Operations.GetCustomersCustomerTaxIds
-import StripeAPI.Operations.PostCustomersCustomerTaxIds
 import StripeAPI.Operations.GetCustomersCustomerTaxIdsId
-import StripeAPI.Operations.DeleteCustomersCustomerTaxIdsId
 import StripeAPI.Operations.GetDisputes
 import StripeAPI.Operations.GetDisputesDispute
-import StripeAPI.Operations.PostDisputesDispute
-import StripeAPI.Operations.PostDisputesDisputeClose
-import StripeAPI.Operations.PostEphemeralKeys
-import StripeAPI.Operations.DeleteEphemeralKeysKey
 import StripeAPI.Operations.GetEvents
 import StripeAPI.Operations.GetEventsId
 import StripeAPI.Operations.GetExchangeRates
 import StripeAPI.Operations.GetExchangeRatesCurrency
 import StripeAPI.Operations.GetFileLinks
-import StripeAPI.Operations.PostFileLinks
 import StripeAPI.Operations.GetFileLinksLink
-import StripeAPI.Operations.PostFileLinksLink
 import StripeAPI.Operations.GetFiles
-import StripeAPI.Operations.PostFiles
 import StripeAPI.Operations.GetFilesFile
 import StripeAPI.Operations.GetInvoiceitems
-import StripeAPI.Operations.PostInvoiceitems
 import StripeAPI.Operations.GetInvoiceitemsInvoiceitem
-import StripeAPI.Operations.PostInvoiceitemsInvoiceitem
-import StripeAPI.Operations.DeleteInvoiceitemsInvoiceitem
 import StripeAPI.Operations.GetInvoices
-import StripeAPI.Operations.PostInvoices
+import StripeAPI.Operations.GetInvoicesInvoice
+import StripeAPI.Operations.GetInvoicesInvoiceLines
 import StripeAPI.Operations.GetInvoicesUpcoming
 import StripeAPI.Operations.GetInvoicesUpcomingLines
-import StripeAPI.Operations.GetInvoicesInvoice
-import StripeAPI.Operations.PostInvoicesInvoice
-import StripeAPI.Operations.DeleteInvoicesInvoice
-import StripeAPI.Operations.PostInvoicesInvoiceFinalize
-import StripeAPI.Operations.GetInvoicesInvoiceLines
-import StripeAPI.Operations.PostInvoicesInvoiceMarkUncollectible
-import StripeAPI.Operations.PostInvoicesInvoicePay
-import StripeAPI.Operations.PostInvoicesInvoiceSend
-import StripeAPI.Operations.PostInvoicesInvoiceVoid
 import StripeAPI.Operations.GetIssuerFraudRecords
 import StripeAPI.Operations.GetIssuerFraudRecordsIssuerFraudRecord
 import StripeAPI.Operations.GetIssuingAuthorizations
 import StripeAPI.Operations.GetIssuingAuthorizationsAuthorization
-import StripeAPI.Operations.PostIssuingAuthorizationsAuthorization
-import StripeAPI.Operations.PostIssuingAuthorizationsAuthorizationApprove
-import StripeAPI.Operations.PostIssuingAuthorizationsAuthorizationDecline
 import StripeAPI.Operations.GetIssuingCardholders
-import StripeAPI.Operations.PostIssuingCardholders
 import StripeAPI.Operations.GetIssuingCardholdersCardholder
-import StripeAPI.Operations.PostIssuingCardholdersCardholder
 import StripeAPI.Operations.GetIssuingCards
-import StripeAPI.Operations.PostIssuingCards
 import StripeAPI.Operations.GetIssuingCardsCard
-import StripeAPI.Operations.PostIssuingCardsCard
 import StripeAPI.Operations.GetIssuingCardsCardDetails
 import StripeAPI.Operations.GetIssuingCardsCardPin
-import StripeAPI.Operations.PostIssuingCardsCardPin
 import StripeAPI.Operations.GetIssuingDisputes
-import StripeAPI.Operations.PostIssuingDisputes
 import StripeAPI.Operations.GetIssuingDisputesDispute
-import StripeAPI.Operations.PostIssuingDisputesDispute
 import StripeAPI.Operations.GetIssuingSettlements
 import StripeAPI.Operations.GetIssuingSettlementsSettlement
-import StripeAPI.Operations.PostIssuingSettlementsSettlement
 import StripeAPI.Operations.GetIssuingTransactions
 import StripeAPI.Operations.GetIssuingTransactionsTransaction
-import StripeAPI.Operations.PostIssuingTransactionsTransaction
-import StripeAPI.Operations.PostIssuingVerifications
 import StripeAPI.Operations.GetMandatesMandate
 import StripeAPI.Operations.GetOrderReturns
 import StripeAPI.Operations.GetOrderReturnsId
 import StripeAPI.Operations.GetOrders
-import StripeAPI.Operations.PostOrders
 import StripeAPI.Operations.GetOrdersId
-import StripeAPI.Operations.PostOrdersId
-import StripeAPI.Operations.PostOrdersIdPay
-import StripeAPI.Operations.PostOrdersIdReturns
 import StripeAPI.Operations.GetPaymentIntents
-import StripeAPI.Operations.PostPaymentIntents
 import StripeAPI.Operations.GetPaymentIntentsIntent
-import StripeAPI.Operations.PostPaymentIntentsIntent
-import StripeAPI.Operations.PostPaymentIntentsIntentCancel
-import StripeAPI.Operations.PostPaymentIntentsIntentCapture
-import StripeAPI.Operations.PostPaymentIntentsIntentConfirm
 import StripeAPI.Operations.GetPaymentMethods
-import StripeAPI.Operations.PostPaymentMethods
 import StripeAPI.Operations.GetPaymentMethodsPaymentMethod
-import StripeAPI.Operations.PostPaymentMethodsPaymentMethod
-import StripeAPI.Operations.PostPaymentMethodsPaymentMethodAttach
-import StripeAPI.Operations.PostPaymentMethodsPaymentMethodDetach
 import StripeAPI.Operations.GetPayouts
-import StripeAPI.Operations.PostPayouts
 import StripeAPI.Operations.GetPayoutsPayout
-import StripeAPI.Operations.PostPayoutsPayout
-import StripeAPI.Operations.PostPayoutsPayoutCancel
 import StripeAPI.Operations.GetPlans
-import StripeAPI.Operations.PostPlans
 import StripeAPI.Operations.GetPlansPlan
-import StripeAPI.Operations.PostPlansPlan
-import StripeAPI.Operations.DeletePlansPlan
 import StripeAPI.Operations.GetProducts
-import StripeAPI.Operations.PostProducts
 import StripeAPI.Operations.GetProductsId
-import StripeAPI.Operations.PostProductsId
-import StripeAPI.Operations.DeleteProductsId
 import StripeAPI.Operations.GetRadarEarlyFraudWarnings
 import StripeAPI.Operations.GetRadarEarlyFraudWarningsEarlyFraudWarning
 import StripeAPI.Operations.GetRadarValueListItems
-import StripeAPI.Operations.PostRadarValueListItems
 import StripeAPI.Operations.GetRadarValueListItemsItem
-import StripeAPI.Operations.DeleteRadarValueListItemsItem
 import StripeAPI.Operations.GetRadarValueLists
-import StripeAPI.Operations.PostRadarValueLists
 import StripeAPI.Operations.GetRadarValueListsValueList
-import StripeAPI.Operations.PostRadarValueListsValueList
-import StripeAPI.Operations.DeleteRadarValueListsValueList
 import StripeAPI.Operations.GetRecipients
-import StripeAPI.Operations.PostRecipients
 import StripeAPI.Operations.GetRecipientsId
-import StripeAPI.Operations.PostRecipientsId
-import StripeAPI.Operations.DeleteRecipientsId
 import StripeAPI.Operations.GetRefunds
-import StripeAPI.Operations.PostRefunds
 import StripeAPI.Operations.GetRefundsRefund
-import StripeAPI.Operations.PostRefundsRefund
 import StripeAPI.Operations.GetReportingReportRuns
-import StripeAPI.Operations.PostReportingReportRuns
 import StripeAPI.Operations.GetReportingReportRunsReportRun
 import StripeAPI.Operations.GetReportingReportTypes
 import StripeAPI.Operations.GetReportingReportTypesReportType
 import StripeAPI.Operations.GetReviews
 import StripeAPI.Operations.GetReviewsReview
-import StripeAPI.Operations.PostReviewsReviewApprove
 import StripeAPI.Operations.GetSetupIntents
-import StripeAPI.Operations.PostSetupIntents
 import StripeAPI.Operations.GetSetupIntentsIntent
-import StripeAPI.Operations.PostSetupIntentsIntent
-import StripeAPI.Operations.PostSetupIntentsIntentCancel
-import StripeAPI.Operations.PostSetupIntentsIntentConfirm
 import StripeAPI.Operations.GetSigmaScheduledQueryRuns
 import StripeAPI.Operations.GetSigmaScheduledQueryRunsScheduledQueryRun
 import StripeAPI.Operations.GetSkus
-import StripeAPI.Operations.PostSkus
 import StripeAPI.Operations.GetSkusId
-import StripeAPI.Operations.PostSkusId
-import StripeAPI.Operations.DeleteSkusId
-import StripeAPI.Operations.PostSources
 import StripeAPI.Operations.GetSourcesSource
-import StripeAPI.Operations.PostSourcesSource
 import StripeAPI.Operations.GetSourcesSourceMandateNotificationsMandateNotification
 import StripeAPI.Operations.GetSourcesSourceSourceTransactions
 import StripeAPI.Operations.GetSourcesSourceSourceTransactionsSourceTransaction
-import StripeAPI.Operations.PostSourcesSourceVerify
 import StripeAPI.Operations.GetSubscriptionItems
-import StripeAPI.Operations.PostSubscriptionItems
 import StripeAPI.Operations.GetSubscriptionItemsItem
-import StripeAPI.Operations.PostSubscriptionItemsItem
-import StripeAPI.Operations.DeleteSubscriptionItemsItem
 import StripeAPI.Operations.GetSubscriptionItemsSubscriptionItemUsageRecordSummaries
-import StripeAPI.Operations.PostSubscriptionItemsSubscriptionItemUsageRecords
 import StripeAPI.Operations.GetSubscriptionSchedules
-import StripeAPI.Operations.PostSubscriptionSchedules
 import StripeAPI.Operations.GetSubscriptionSchedulesSchedule
+import StripeAPI.Operations.GetSubscriptions
+import StripeAPI.Operations.GetSubscriptionsSubscriptionExposedId
+import StripeAPI.Operations.GetTaxRates
+import StripeAPI.Operations.GetTaxRatesTaxRate
+import StripeAPI.Operations.GetTerminalLocations
+import StripeAPI.Operations.GetTerminalLocationsLocation
+import StripeAPI.Operations.GetTerminalReaders
+import StripeAPI.Operations.GetTerminalReadersReader
+import StripeAPI.Operations.GetTokensToken
+import StripeAPI.Operations.GetTopups
+import StripeAPI.Operations.GetTopupsTopup
+import StripeAPI.Operations.GetTransfers
+import StripeAPI.Operations.GetTransfersIdReversals
+import StripeAPI.Operations.GetTransfersTransfer
+import StripeAPI.Operations.GetTransfersTransferReversalsId
+import StripeAPI.Operations.GetWebhookEndpoints
+import StripeAPI.Operations.GetWebhookEndpointsWebhookEndpoint
+import StripeAPI.Operations.Post3dSecure
+import StripeAPI.Operations.PostAccount
+import StripeAPI.Operations.PostAccountBankAccounts
+import StripeAPI.Operations.PostAccountBankAccountsId
+import StripeAPI.Operations.PostAccountCapabilitiesCapability
+import StripeAPI.Operations.PostAccountExternalAccounts
+import StripeAPI.Operations.PostAccountExternalAccountsId
+import StripeAPI.Operations.PostAccountLinks
+import StripeAPI.Operations.PostAccountLoginLinks
+import StripeAPI.Operations.PostAccountPeople
+import StripeAPI.Operations.PostAccountPeoplePerson
+import StripeAPI.Operations.PostAccountPersons
+import StripeAPI.Operations.PostAccountPersonsPerson
+import StripeAPI.Operations.PostAccounts
+import StripeAPI.Operations.PostAccountsAccount
+import StripeAPI.Operations.PostAccountsAccountBankAccounts
+import StripeAPI.Operations.PostAccountsAccountBankAccountsId
+import StripeAPI.Operations.PostAccountsAccountCapabilitiesCapability
+import StripeAPI.Operations.PostAccountsAccountExternalAccounts
+import StripeAPI.Operations.PostAccountsAccountExternalAccountsId
+import StripeAPI.Operations.PostAccountsAccountLoginLinks
+import StripeAPI.Operations.PostAccountsAccountPeople
+import StripeAPI.Operations.PostAccountsAccountPeoplePerson
+import StripeAPI.Operations.PostAccountsAccountPersons
+import StripeAPI.Operations.PostAccountsAccountPersonsPerson
+import StripeAPI.Operations.PostAccountsAccountReject
+import StripeAPI.Operations.PostApplePayDomains
+import StripeAPI.Operations.PostApplicationFeesFeeRefundsId
+import StripeAPI.Operations.PostApplicationFeesIdRefund
+import StripeAPI.Operations.PostApplicationFeesIdRefunds
+import StripeAPI.Operations.PostCharges
+import StripeAPI.Operations.PostChargesCharge
+import StripeAPI.Operations.PostChargesChargeCapture
+import StripeAPI.Operations.PostChargesChargeDispute
+import StripeAPI.Operations.PostChargesChargeDisputeClose
+import StripeAPI.Operations.PostChargesChargeRefund
+import StripeAPI.Operations.PostChargesChargeRefunds
+import StripeAPI.Operations.PostChargesChargeRefundsRefund
+import StripeAPI.Operations.PostCheckoutSessions
+import StripeAPI.Operations.PostCoupons
+import StripeAPI.Operations.PostCouponsCoupon
+import StripeAPI.Operations.PostCreditNotes
+import StripeAPI.Operations.PostCreditNotesId
+import StripeAPI.Operations.PostCreditNotesIdVoid
+import StripeAPI.Operations.PostCustomers
+import StripeAPI.Operations.PostCustomersCustomer
+import StripeAPI.Operations.PostCustomersCustomerBalanceTransactions
+import StripeAPI.Operations.PostCustomersCustomerBalanceTransactionsTransaction
+import StripeAPI.Operations.PostCustomersCustomerBankAccounts
+import StripeAPI.Operations.PostCustomersCustomerBankAccountsId
+import StripeAPI.Operations.PostCustomersCustomerBankAccountsIdVerify
+import StripeAPI.Operations.PostCustomersCustomerCards
+import StripeAPI.Operations.PostCustomersCustomerCardsId
+import StripeAPI.Operations.PostCustomersCustomerSources
+import StripeAPI.Operations.PostCustomersCustomerSourcesId
+import StripeAPI.Operations.PostCustomersCustomerSourcesIdVerify
+import StripeAPI.Operations.PostCustomersCustomerSubscriptions
+import StripeAPI.Operations.PostCustomersCustomerSubscriptionsSubscriptionExposedId
+import StripeAPI.Operations.PostCustomersCustomerTaxIds
+import StripeAPI.Operations.PostDisputesDispute
+import StripeAPI.Operations.PostDisputesDisputeClose
+import StripeAPI.Operations.PostEphemeralKeys
+import StripeAPI.Operations.PostFileLinks
+import StripeAPI.Operations.PostFileLinksLink
+import StripeAPI.Operations.PostFiles
+import StripeAPI.Operations.PostInvoiceitems
+import StripeAPI.Operations.PostInvoiceitemsInvoiceitem
+import StripeAPI.Operations.PostInvoices
+import StripeAPI.Operations.PostInvoicesInvoice
+import StripeAPI.Operations.PostInvoicesInvoiceFinalize
+import StripeAPI.Operations.PostInvoicesInvoiceMarkUncollectible
+import StripeAPI.Operations.PostInvoicesInvoicePay
+import StripeAPI.Operations.PostInvoicesInvoiceSend
+import StripeAPI.Operations.PostInvoicesInvoiceVoid
+import StripeAPI.Operations.PostIssuingAuthorizationsAuthorization
+import StripeAPI.Operations.PostIssuingAuthorizationsAuthorizationApprove
+import StripeAPI.Operations.PostIssuingAuthorizationsAuthorizationDecline
+import StripeAPI.Operations.PostIssuingCardholders
+import StripeAPI.Operations.PostIssuingCardholdersCardholder
+import StripeAPI.Operations.PostIssuingCards
+import StripeAPI.Operations.PostIssuingCardsCard
+import StripeAPI.Operations.PostIssuingCardsCardPin
+import StripeAPI.Operations.PostIssuingDisputes
+import StripeAPI.Operations.PostIssuingDisputesDispute
+import StripeAPI.Operations.PostIssuingSettlementsSettlement
+import StripeAPI.Operations.PostIssuingTransactionsTransaction
+import StripeAPI.Operations.PostIssuingVerifications
+import StripeAPI.Operations.PostOrders
+import StripeAPI.Operations.PostOrdersId
+import StripeAPI.Operations.PostOrdersIdPay
+import StripeAPI.Operations.PostOrdersIdReturns
+import StripeAPI.Operations.PostPaymentIntents
+import StripeAPI.Operations.PostPaymentIntentsIntent
+import StripeAPI.Operations.PostPaymentIntentsIntentCancel
+import StripeAPI.Operations.PostPaymentIntentsIntentCapture
+import StripeAPI.Operations.PostPaymentIntentsIntentConfirm
+import StripeAPI.Operations.PostPaymentMethods
+import StripeAPI.Operations.PostPaymentMethodsPaymentMethod
+import StripeAPI.Operations.PostPaymentMethodsPaymentMethodAttach
+import StripeAPI.Operations.PostPaymentMethodsPaymentMethodDetach
+import StripeAPI.Operations.PostPayouts
+import StripeAPI.Operations.PostPayoutsPayout
+import StripeAPI.Operations.PostPayoutsPayoutCancel
+import StripeAPI.Operations.PostPlans
+import StripeAPI.Operations.PostPlansPlan
+import StripeAPI.Operations.PostProducts
+import StripeAPI.Operations.PostProductsId
+import StripeAPI.Operations.PostRadarValueListItems
+import StripeAPI.Operations.PostRadarValueLists
+import StripeAPI.Operations.PostRadarValueListsValueList
+import StripeAPI.Operations.PostRecipients
+import StripeAPI.Operations.PostRecipientsId
+import StripeAPI.Operations.PostRefunds
+import StripeAPI.Operations.PostRefundsRefund
+import StripeAPI.Operations.PostReportingReportRuns
+import StripeAPI.Operations.PostReviewsReviewApprove
+import StripeAPI.Operations.PostSetupIntents
+import StripeAPI.Operations.PostSetupIntentsIntent
+import StripeAPI.Operations.PostSetupIntentsIntentCancel
+import StripeAPI.Operations.PostSetupIntentsIntentConfirm
+import StripeAPI.Operations.PostSkus
+import StripeAPI.Operations.PostSkusId
+import StripeAPI.Operations.PostSources
+import StripeAPI.Operations.PostSourcesSource
+import StripeAPI.Operations.PostSourcesSourceVerify
+import StripeAPI.Operations.PostSubscriptionItems
+import StripeAPI.Operations.PostSubscriptionItemsItem
+import StripeAPI.Operations.PostSubscriptionItemsSubscriptionItemUsageRecords
+import StripeAPI.Operations.PostSubscriptionSchedules
 import StripeAPI.Operations.PostSubscriptionSchedulesSchedule
 import StripeAPI.Operations.PostSubscriptionSchedulesScheduleCancel
 import StripeAPI.Operations.PostSubscriptionSchedulesScheduleRelease
-import StripeAPI.Operations.GetSubscriptions
 import StripeAPI.Operations.PostSubscriptions
-import StripeAPI.Operations.GetSubscriptionsSubscriptionExposedId
 import StripeAPI.Operations.PostSubscriptionsSubscriptionExposedId
-import StripeAPI.Operations.DeleteSubscriptionsSubscriptionExposedId
-import StripeAPI.Operations.DeleteSubscriptionsSubscriptionExposedIdDiscount
-import StripeAPI.Operations.GetTaxRates
 import StripeAPI.Operations.PostTaxRates
-import StripeAPI.Operations.GetTaxRatesTaxRate
 import StripeAPI.Operations.PostTaxRatesTaxRate
 import StripeAPI.Operations.PostTerminalConnectionTokens
-import StripeAPI.Operations.GetTerminalLocations
 import StripeAPI.Operations.PostTerminalLocations
-import StripeAPI.Operations.GetTerminalLocationsLocation
 import StripeAPI.Operations.PostTerminalLocationsLocation
-import StripeAPI.Operations.DeleteTerminalLocationsLocation
-import StripeAPI.Operations.GetTerminalReaders
 import StripeAPI.Operations.PostTerminalReaders
-import StripeAPI.Operations.GetTerminalReadersReader
 import StripeAPI.Operations.PostTerminalReadersReader
-import StripeAPI.Operations.DeleteTerminalReadersReader
 import StripeAPI.Operations.PostTokens
-import StripeAPI.Operations.GetTokensToken
-import StripeAPI.Operations.GetTopups
 import StripeAPI.Operations.PostTopups
-import StripeAPI.Operations.GetTopupsTopup
 import StripeAPI.Operations.PostTopupsTopup
 import StripeAPI.Operations.PostTopupsTopupCancel
-import StripeAPI.Operations.GetTransfers
 import StripeAPI.Operations.PostTransfers
-import StripeAPI.Operations.GetTransfersIdReversals
 import StripeAPI.Operations.PostTransfersIdReversals
-import StripeAPI.Operations.GetTransfersTransfer
 import StripeAPI.Operations.PostTransfersTransfer
-import StripeAPI.Operations.GetTransfersTransferReversalsId
 import StripeAPI.Operations.PostTransfersTransferReversalsId
-import StripeAPI.Operations.GetWebhookEndpoints
 import StripeAPI.Operations.PostWebhookEndpoints
-import StripeAPI.Operations.GetWebhookEndpointsWebhookEndpoint
 import StripeAPI.Operations.PostWebhookEndpointsWebhookEndpoint
-import StripeAPI.Operations.DeleteWebhookEndpointsWebhookEndpoint
+import StripeAPI.Operations.PutAccountLogout
+import StripeAPI.Operations.PutAccountsAccountLogout
+import StripeAPI.SecuritySchemes
 import StripeAPI.Types
-import StripeAPI.CyclicTypes
 import StripeAPI.Types.AccountCapabilities
+import StripeAPI.Types.AccountCapabilityRequirements
+import StripeAPI.Types.AccountCardPaymentsSettings
 import StripeAPI.Types.AccountDashboardSettings
 import StripeAPI.Types.AccountDeclineChargeOn
 import StripeAPI.Types.AccountLink
 import StripeAPI.Types.AccountPaymentsSettings
+import StripeAPI.Types.AccountPayoutSettings
+import StripeAPI.Types.AccountRequirements
 import StripeAPI.Types.AccountRequirementsError
 import StripeAPI.Types.AccountTosAcceptance
 import StripeAPI.Types.Address
 import StripeAPI.Types.ApplePayDomain
 import StripeAPI.Types.Application
+import StripeAPI.Types.Balance
+import StripeAPI.Types.BalanceAmount
 import StripeAPI.Types.BalanceAmountBySourceType
+import StripeAPI.Types.BitcoinReceiver
 import StripeAPI.Types.BitcoinTransaction
 import StripeAPI.Types.CardMandatePaymentMethodDetails
 import StripeAPI.Types.ChargeFraudDetails
+import StripeAPI.Types.ChargeOutcome
 import StripeAPI.Types.CheckoutSessionCustomDisplayItemDescription
+import StripeAPI.Types.CountrySpec
 import StripeAPI.Types.CountrySpecVerificationFieldDetails
+import StripeAPI.Types.CountrySpecVerificationFields
 import StripeAPI.Types.Coupon
+import StripeAPI.Types.CreditNoteLineItem
+import StripeAPI.Types.CreditNoteTaxAmount
+import StripeAPI.Types.CustomerAcceptance
 import StripeAPI.Types.DeletedAccount
 import StripeAPI.Types.DeletedAlipayAccount
 import StripeAPI.Types.DeletedApplePayDomain
@@ -961,24 +980,32 @@ import StripeAPI.Types.InvoiceItemThresholdReason
 import StripeAPI.Types.InvoiceLineItemPeriod
 import StripeAPI.Types.InvoiceSettingCustomField
 import StripeAPI.Types.InvoiceSettingSubscriptionScheduleSetting
+import StripeAPI.Types.InvoiceTaxAmount
+import StripeAPI.Types.InvoiceThresholdReason
 import StripeAPI.Types.InvoicesResourceInvoiceTaxId
 import StripeAPI.Types.InvoicesStatusTransitions
-import StripeAPI.Types.IssuingSettlement
-import StripeAPI.Types.IssuingVerification
 import StripeAPI.Types.IssuingAuthorizationMerchantData
+import StripeAPI.Types.IssuingAuthorizationRequest
 import StripeAPI.Types.IssuingAuthorizationVerificationData
 import StripeAPI.Types.IssuingAuthorizationViolatedAuthControl
+import StripeAPI.Types.IssuingCardAuthorizationControls
 import StripeAPI.Types.IssuingCardPin
+import StripeAPI.Types.IssuingCardShipping
 import StripeAPI.Types.IssuingCardSpendingLimit
+import StripeAPI.Types.IssuingCardholderAddress
+import StripeAPI.Types.IssuingCardholderAuthorizationControls
 import StripeAPI.Types.IssuingCardholderCompany
 import StripeAPI.Types.IssuingCardholderIndividualDob
 import StripeAPI.Types.IssuingCardholderRequirements
 import StripeAPI.Types.IssuingCardholderSpendingLimit
+import StripeAPI.Types.IssuingSettlement
+import StripeAPI.Types.IssuingVerification
 import StripeAPI.Types.LegalEntityDob
 import StripeAPI.Types.LegalEntityJapanAddress
 import StripeAPI.Types.LightAccountLogout
 import StripeAPI.Types.LoginLink
 import StripeAPI.Types.MandateMultiUse
+import StripeAPI.Types.MandatePaymentMethodDetails
 import StripeAPI.Types.MandateSepaDebit
 import StripeAPI.Types.MandateSingleUse
 import StripeAPI.Types.NotificationEventData
@@ -986,6 +1013,7 @@ import StripeAPI.Types.NotificationEventRequest
 import StripeAPI.Types.OfflineAcceptance
 import StripeAPI.Types.OnlineAcceptance
 import StripeAPI.Types.PackageDimensions
+import StripeAPI.Types.PaymentIntentNextAction
 import StripeAPI.Types.PaymentIntentNextActionRedirectToUrl
 import StripeAPI.Types.PaymentMethodCardChecks
 import StripeAPI.Types.PaymentMethodCardPresent
@@ -1020,23 +1048,30 @@ import StripeAPI.Types.PaymentMethodIdeal
 import StripeAPI.Types.PaymentMethodSepaDebit
 import StripeAPI.Types.Period
 import StripeAPI.Types.PersonRelationship
+import StripeAPI.Types.PersonRequirements
 import StripeAPI.Types.PlanTier
 import StripeAPI.Types.PlatformTaxFee
-import StripeAPI.Types.RadarValueListItem
 import StripeAPI.Types.RadarReviewResourceLocation
 import StripeAPI.Types.RadarReviewResourceSession
+import StripeAPI.Types.RadarValueList
+import StripeAPI.Types.RadarValueListItem
 import StripeAPI.Types.ReportingReportType
 import StripeAPI.Types.ReserveTransaction
 import StripeAPI.Types.Rule
+import StripeAPI.Types.SetupIntentNextAction
 import StripeAPI.Types.SetupIntentNextActionRedirectToUrl
+import StripeAPI.Types.SetupIntentPaymentMethodOptions
 import StripeAPI.Types.SetupIntentPaymentMethodOptionsCard
+import StripeAPI.Types.Shipping
 import StripeAPI.Types.SigmaScheduledQueryRunError
 import StripeAPI.Types.SourceCodeVerificationFlow
 import StripeAPI.Types.SourceMandateNotificationBacsDebitData
 import StripeAPI.Types.SourceMandateNotificationSepaDebitData
+import StripeAPI.Types.SourceOrder
 import StripeAPI.Types.SourceOrderItem
 import StripeAPI.Types.SourceReceiverFlow
 import StripeAPI.Types.SourceRedirectFlow
+import StripeAPI.Types.SourceTransaction
 import StripeAPI.Types.SourceTransactionAchCreditTransferData
 import StripeAPI.Types.SourceTransactionChfCreditTransferData
 import StripeAPI.Types.SourceTransactionGbpCreditTransferData
@@ -1067,44 +1102,12 @@ import StripeAPI.Types.TaxDeductedAtSource
 import StripeAPI.Types.TaxIdVerification
 import StripeAPI.Types.TaxRate
 import StripeAPI.Types.TerminalConnectionToken
+import StripeAPI.Types.TerminalLocation
 import StripeAPI.Types.TerminalReader
 import StripeAPI.Types.ThreeDSecureDetails
 import StripeAPI.Types.ThreeDSecureUsage
 import StripeAPI.Types.TransferSchedule
 import StripeAPI.Types.TransformUsage
 import StripeAPI.Types.UsageRecord
-import StripeAPI.Types.WebhookEndpoint
-import StripeAPI.Types.AccountCapabilityRequirements
-import StripeAPI.Types.AccountCardPaymentsSettings
-import StripeAPI.Types.AccountPayoutSettings
-import StripeAPI.Types.AccountRequirements
-import StripeAPI.Types.BalanceAmount
-import StripeAPI.Types.BitcoinReceiver
-import StripeAPI.Types.ChargeOutcome
-import StripeAPI.Types.CountrySpecVerificationFields
-import StripeAPI.Types.CreditNoteTaxAmount
-import StripeAPI.Types.CustomerAcceptance
-import StripeAPI.Types.InvoiceTaxAmount
-import StripeAPI.Types.InvoiceThresholdReason
-import StripeAPI.Types.IssuingAuthorizationRequest
-import StripeAPI.Types.IssuingCardAuthorizationControls
-import StripeAPI.Types.IssuingCardShipping
-import StripeAPI.Types.IssuingCardholderAddress
-import StripeAPI.Types.IssuingCardholderAuthorizationControls
-import StripeAPI.Types.MandatePaymentMethodDetails
-import StripeAPI.Types.PaymentIntentNextAction
-import StripeAPI.Types.PersonRequirements
-import StripeAPI.Types.RadarValueList
-import StripeAPI.Types.SetupIntentNextAction
-import StripeAPI.Types.SetupIntentPaymentMethodOptions
-import StripeAPI.Types.Shipping
-import StripeAPI.Types.SourceTransaction
-import StripeAPI.Types.TerminalLocation
 import StripeAPI.Types.UsageRecordSummary
-import StripeAPI.Types.Balance
-import StripeAPI.Types.CountrySpec
-import StripeAPI.Types.CreditNoteLineItem
-import StripeAPI.Types.SourceOrder
-import StripeAPI.Configuration
-import StripeAPI.SecuritySchemes
-import StripeAPI.Common
+import StripeAPI.Types.WebhookEndpoint
