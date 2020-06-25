@@ -7,6 +7,7 @@ import qualified Data.ByteString.Char8 as B8
 import qualified Data.Either as Either
 import qualified Data.Maybe as Maybe
 import qualified Data.Text as T
+import qualified Network.HTTP.Simple as HS
 import qualified StripeAPI.Common as Common
 import qualified StripeAPI.Configuration as Config
 import qualified StripeAPI.Operations.GetCheckoutSessionsSession as OpGetCheckout
@@ -16,7 +17,6 @@ import qualified StripeAPI.Operations.PostCustomers as OpCustomer
 import qualified StripeAPI.Operations.PostPaymentIntents as OpPaymentIntent
 import qualified StripeAPI.SecuritySchemes as Security
 import qualified StripeAPI.Types as Types
-import qualified Network.HTTP.Simple as HS
 
 stripeAPIKey :: T.Text
 stripeAPIKey = "sk_test_XXXXXXXXXX" -- Insert your API key here
@@ -123,9 +123,7 @@ defaultConf = Config.defaultConfiguration
 security =
   Security.basicAuthenticationSecurityScheme
     Security.BasicAuthenticationData
-      { -- we should not publish the demo server
-        -- just a test key
-        Security.basicAuthenticationDataUsername = stripeAPIKey,
+      { Security.basicAuthenticationDataUsername = stripeAPIKey,
         Security.basicAuthenticationDataPassword = ""
       }
 
