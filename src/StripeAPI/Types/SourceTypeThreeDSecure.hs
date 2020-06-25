@@ -51,9 +51,9 @@ data SourceTypeThreeDSecure
         -- | dynamic_last4
         sourceTypeThreeDSecureDynamicLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | exp_month
-        sourceTypeThreeDSecureExpMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        sourceTypeThreeDSecureExpMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | exp_year
-        sourceTypeThreeDSecureExpYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        sourceTypeThreeDSecureExpYear :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | fingerprint
         sourceTypeThreeDSecureFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | funding

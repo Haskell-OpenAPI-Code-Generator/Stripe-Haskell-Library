@@ -43,9 +43,9 @@ data FinancialReportingFinanceReportRunRunParameters
         -- | currency: Currency of objects to be included in the report run.
         financialReportingFinanceReportRunRunParametersCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | interval_end: Ending timestamp of data to be included in the report run (exclusive).
-        financialReportingFinanceReportRunRunParametersIntervalEnd :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        financialReportingFinanceReportRunRunParametersIntervalEnd :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | interval_start: Starting timestamp of data to be included in the report run.
-        financialReportingFinanceReportRunRunParametersIntervalStart :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        financialReportingFinanceReportRunRunParametersIntervalStart :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | payout: Payout ID by which to filter the report run.
         --
         -- Constraints:

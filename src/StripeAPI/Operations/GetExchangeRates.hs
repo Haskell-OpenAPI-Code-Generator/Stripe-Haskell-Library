@@ -46,268 +46,85 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Returns a list of objects that contain the rates at which foreign currencies are converted to one another. Only shows the currencies for which Stripe supports.\<\/p>
 getExchangeRates ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is the currency that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with the exchange rate for currency X your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and total number of supported payout currencies, and the default is the max.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is the currency that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with the exchange rate for currency X, your subsequent call can include \`starting_after=X\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetExchangeRatesRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetExchangeRatesResponse))
-getExchangeRates
-  config
-  endingBefore
-  expand
-  limit
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetExchangeRatesResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetExchangeRatesResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetExchangeRatesResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetExchangeRatesResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetExchangeRatesParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetExchangeRatesResponse)
+getExchangeRates parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetExchangeRatesResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetExchangeRatesResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetExchangeRatesResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetExchangeRatesResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/exchange_rates")
-          ( ( Data.Text.pack "ending_before",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-            )
-              : ( ( Data.Text.pack "expand",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                  )
-                    : ( ( Data.Text.pack "limit",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                        )
-                          : ( ( Data.Text.pack "starting_after",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                              )
-                                : []
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/exchange_rates
---
--- The same as 'getExchangeRates' but returns the raw 'Data.ByteString.Char8.ByteString'
-getExchangeRatesRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetExchangeRatesRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getExchangeRatesRaw
-  config
-  endingBefore
-  expand
-  limit
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/exchange_rates")
-          ( ( Data.Text.pack "ending_before",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-            )
-              : ( ( Data.Text.pack "expand",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                  )
-                    : ( ( Data.Text.pack "limit",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                        )
-                          : ( ( Data.Text.pack "starting_after",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                              )
-                                : []
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/exchange_rates
---
--- Monadic version of 'getExchangeRates' (use with 'StripeAPI.Common.runWithConfiguration')
-getExchangeRatesM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetExchangeRatesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetExchangeRatesResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/exchange_rates")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getExchangeRatesM
-  endingBefore
-  expand
-  limit
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetExchangeRatesResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetExchangeRatesResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetExchangeRatesResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetExchangeRatesResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/exchange_rates")
-          ( ( Data.Text.pack "ending_before",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-            )
-              : ( ( Data.Text.pack "expand",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                  )
-                    : ( ( Data.Text.pack "limit",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                        )
-                          : ( ( Data.Text.pack "starting_after",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                              )
-                                : []
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/exchange_rates
---
--- Monadic version of 'getExchangeRatesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getExchangeRatesRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetExchangeRatesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getExchangeRatesRawM
-  endingBefore
-  expand
-  limit
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/exchange_rates")
-          ( ( Data.Text.pack "ending_before",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-            )
-              : ( ( Data.Text.pack "expand",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                  )
-                    : ( ( Data.Text.pack "limit",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                        )
-                          : ( ( Data.Text.pack "starting_after",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                              )
-                                : []
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getExchangeRatesRequestBody
-data GetExchangeRatesRequestBody
-  = GetExchangeRatesRequestBody
-      {
+-- | Defines the data type for the schema getExchangeRatesParameters
+data GetExchangeRatesParameters
+  = GetExchangeRatesParameters
+      { -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is the currency that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with the exchange rate for currency X your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getExchangeRatesParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getExchangeRatesParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and total number of supported payout currencies, and the default is the max.
+        getExchangeRatesParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is the currency that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with the exchange rate for currency X, your subsequent call can include \`starting_after=X\` in order to fetch the next page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getExchangeRatesParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetExchangeRatesRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetExchangeRatesParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryEnding_before" (getExchangeRatesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getExchangeRatesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getExchangeRatesParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getExchangeRatesParametersQueryStartingAfter obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryEnding_before" (getExchangeRatesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getExchangeRatesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getExchangeRatesParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getExchangeRatesParametersQueryStartingAfter obj))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetExchangeRatesRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetExchangeRatesRequestBody" (\obj -> GHC.Base.pure GetExchangeRatesRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetExchangeRatesParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetExchangeRatesParameters" (\obj -> (((GHC.Base.pure GetExchangeRatesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
 -- | Represents a response of the operation 'getExchangeRates'.
 --
@@ -370,4 +187,102 @@ instance Data.Aeson.FromJSON GetExchangeRatesResponseBody200Object' where
       ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
           then GetExchangeRatesResponseBody200Object'EnumStringList
           else GetExchangeRatesResponseBody200Object'EnumOther val
+      )
+
+-- | > GET /v1/exchange_rates
+--
+-- The same as 'getExchangeRates' but accepts an explicit configuration.
+getExchangeRatesWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetExchangeRatesParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetExchangeRatesResponse)
+getExchangeRatesWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetExchangeRatesResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetExchangeRatesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              GetExchangeRatesResponseBody200
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetExchangeRatesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/exchange_rates")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
+      )
+
+-- | > GET /v1/exchange_rates
+--
+-- The same as 'getExchangeRates' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getExchangeRatesRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetExchangeRatesParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getExchangeRatesRaw parameters =
+  GHC.Base.id
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/exchange_rates")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
+    )
+
+-- | > GET /v1/exchange_rates
+--
+-- The same as 'getExchangeRates' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getExchangeRatesWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetExchangeRatesParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getExchangeRatesWithConfigurationRaw
+  config
+  parameters =
+    GHC.Base.id
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/exchange_rates")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getExchangeRatesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
       )

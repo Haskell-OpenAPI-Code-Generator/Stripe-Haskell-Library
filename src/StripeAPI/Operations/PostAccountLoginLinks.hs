@@ -48,119 +48,37 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>\<strong>You may only create login links for \<a href=\"\/docs\/connect\/express-accounts\">Express accounts\<\/a> connected to your platform\<\/strong>.\<\/p>
 postAccountLoginLinks ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   PostAccountLoginLinksRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostAccountLoginLinksResponse))
-postAccountLoginLinks
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostAccountLoginLinksResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostAccountLoginLinksResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  LoginLink
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostAccountLoginLinksResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostAccountLoginLinksResponse)
+postAccountLoginLinks body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostAccountLoginLinksResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostAccountLoginLinksResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            LoginLink
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostAccountLoginLinksResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/login_links") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/account/login_links
---
--- The same as 'postAccountLoginLinks' but returns the raw 'Data.ByteString.Char8.ByteString'
-postAccountLoginLinksRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  PostAccountLoginLinksRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postAccountLoginLinksRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/login_links") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/account/login_links
---
--- Monadic version of 'postAccountLoginLinks' (use with 'StripeAPI.Common.runWithConfiguration')
-postAccountLoginLinksM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostAccountLoginLinksRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostAccountLoginLinksResponse)
-    )
-postAccountLoginLinksM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostAccountLoginLinksResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostAccountLoginLinksResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                LoginLink
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostAccountLoginLinksResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/login_links") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/account/login_links
---
--- Monadic version of 'postAccountLoginLinksRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postAccountLoginLinksRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostAccountLoginLinksRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postAccountLoginLinksRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/login_links") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postAccountLoginLinksRequestBody
 data PostAccountLoginLinksRequestBody
@@ -199,3 +117,71 @@ data PostAccountLoginLinksResponse
   | -- | Error response.
     PostAccountLoginLinksResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/account/login_links
+--
+-- The same as 'postAccountLoginLinks' but accepts an explicit configuration.
+postAccountLoginLinksWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostAccountLoginLinksRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostAccountLoginLinksResponse)
+postAccountLoginLinksWithConfiguration
+  config
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostAccountLoginLinksResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostAccountLoginLinksResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              LoginLink
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostAccountLoginLinksResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/login_links") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/account/login_links
+--
+-- The same as 'postAccountLoginLinks' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postAccountLoginLinksRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The request body to send
+  PostAccountLoginLinksRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postAccountLoginLinksRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/login_links") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/account/login_links
+--
+-- The same as 'postAccountLoginLinks' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postAccountLoginLinksWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostAccountLoginLinksRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postAccountLoginLinksWithConfigurationRaw
+  config
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/login_links") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

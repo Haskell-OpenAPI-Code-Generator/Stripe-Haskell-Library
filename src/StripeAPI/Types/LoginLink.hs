@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data LoginLink
   = LoginLink
       { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        loginLinkCreated :: GHC.Integer.Type.Integer,
+        loginLinkCreated :: GHC.Types.Int,
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         loginLinkObject :: LoginLinkObject',
         -- | url: The URL for the login link.

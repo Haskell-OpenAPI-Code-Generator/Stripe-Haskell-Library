@@ -48,119 +48,37 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>To update your own account, use the \<a href=\"https:\/\/dashboard.stripe.com\/account\">Dashboard\<\/a>. Refer to our \<a href=\"\/docs\/connect\/updating-accounts\">Connect\<\/a> documentation to learn more about updating accounts.\<\/p>
 postAccount ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   GHC.Maybe.Maybe PostAccountRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostAccountResponse))
-postAccount
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostAccountResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostAccountResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Account
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostAccountResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostAccountResponse)
+postAccount body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostAccountResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostAccountResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Account
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostAccountResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/account
---
--- The same as 'postAccount' but returns the raw 'Data.ByteString.Char8.ByteString'
-postAccountRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe PostAccountRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postAccountRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/account
---
--- Monadic version of 'postAccount' (use with 'StripeAPI.Common.runWithConfiguration')
-postAccountM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe PostAccountRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostAccountResponse)
-    )
-postAccountM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostAccountResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostAccountResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Account
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostAccountResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/account
---
--- Monadic version of 'postAccountRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postAccountRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe PostAccountRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postAccountRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postAccountRequestBody
 data PostAccountRequestBody
@@ -194,7 +112,7 @@ data PostAccountRequestBody
         -- | individual: Information about the person represented by the account. This field is null unless \`business_type\` is set to \`individual\`.
         postAccountRequestBodyIndividual :: (GHC.Maybe.Maybe PostAccountRequestBodyIndividual'),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postAccountRequestBodyMetadata :: (GHC.Maybe.Maybe PostAccountRequestBodyMetadata'),
+        postAccountRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | requested_capabilities: The set of capabilities you want to unlock for this account. Each capability will be inactive until you have provided its specific requirements and Stripe has verified them. An account may have some of its requested capabilities be active and some be inactive.
         postAccountRequestBodyRequestedCapabilities :: (GHC.Maybe.Maybe ([] PostAccountRequestBodyRequestedCapabilities')),
         -- | settings: Options for customizing how the account functions within Stripe.
@@ -851,7 +769,7 @@ data PostAccountRequestBodyIndividual'
         -- * Maximum length of 5000
         postAccountRequestBodyIndividual'MaidenName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata
-        postAccountRequestBodyIndividual'Metadata :: (GHC.Maybe.Maybe PostAccountRequestBodyIndividual'Metadata'),
+        postAccountRequestBodyIndividual'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | phone
         postAccountRequestBodyIndividual'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | ssn_last_4
@@ -1067,11 +985,11 @@ instance Data.Aeson.FromJSON PostAccountRequestBodyIndividual'Dob'OneOf1 where
 data PostAccountRequestBodyIndividual'Dob'OneOf2
   = PostAccountRequestBodyIndividual'Dob'OneOf2
       { -- | day
-        postAccountRequestBodyIndividual'Dob'OneOf2Day :: GHC.Integer.Type.Integer,
+        postAccountRequestBodyIndividual'Dob'OneOf2Day :: GHC.Types.Int,
         -- | month
-        postAccountRequestBodyIndividual'Dob'OneOf2Month :: GHC.Integer.Type.Integer,
+        postAccountRequestBodyIndividual'Dob'OneOf2Month :: GHC.Types.Int,
         -- | year
-        postAccountRequestBodyIndividual'Dob'OneOf2Year :: GHC.Integer.Type.Integer
+        postAccountRequestBodyIndividual'Dob'OneOf2Year :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,
@@ -1096,23 +1014,6 @@ instance Data.Aeson.ToJSON PostAccountRequestBodyIndividual'Dob'Variants where
 
 instance Data.Aeson.FromJSON PostAccountRequestBodyIndividual'Dob'Variants where
   parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-
--- | Defines the data type for the schema postAccountRequestBodyIndividual\'Metadata\'
-data PostAccountRequestBodyIndividual'Metadata'
-  = PostAccountRequestBodyIndividual'Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostAccountRequestBodyIndividual'Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostAccountRequestBodyIndividual'Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountRequestBodyIndividual'Metadata'" (\obj -> GHC.Base.pure PostAccountRequestBodyIndividual'Metadata')
 
 -- | Defines the data type for the schema postAccountRequestBodyIndividual\'Verification\'
 data PostAccountRequestBodyIndividual'Verification'
@@ -1189,25 +1090,6 @@ instance Data.Aeson.ToJSON PostAccountRequestBodyIndividual'Verification'Documen
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostAccountRequestBodyIndividual'Verification'Document' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountRequestBodyIndividual'Verification'Document'" (\obj -> (GHC.Base.pure PostAccountRequestBodyIndividual'Verification'Document' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "back")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "front"))
-
--- | Defines the data type for the schema postAccountRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostAccountRequestBodyMetadata'
-  = PostAccountRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostAccountRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostAccountRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostAccountRequestBodyMetadata'" (\obj -> GHC.Base.pure PostAccountRequestBodyMetadata')
 
 -- | Defines the enum schema postAccountRequestBodyRequested_capabilities\'
 data PostAccountRequestBodyRequestedCapabilities'
@@ -1420,7 +1302,7 @@ data PostAccountRequestBodySettings'Payouts'Schedule'
         -- * Maximum length of 5000
         postAccountRequestBodySettings'Payouts'Schedule'Interval :: (GHC.Maybe.Maybe PostAccountRequestBodySettings'Payouts'Schedule'Interval'),
         -- | monthly_anchor
-        postAccountRequestBodySettings'Payouts'Schedule'MonthlyAnchor :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postAccountRequestBodySettings'Payouts'Schedule'MonthlyAnchor :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | weekly_anchor
         --
         -- Constraints:
@@ -1463,7 +1345,7 @@ instance Data.Aeson.FromJSON PostAccountRequestBodySettings'Payouts'Schedule'Del
 -- | Define the one-of schema postAccountRequestBodySettings\'Payouts\'Schedule\'Delay_days\'
 data PostAccountRequestBodySettings'Payouts'Schedule'DelayDays'Variants
   = PostAccountRequestBodySettings'Payouts'Schedule'DelayDays'PostAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1 PostAccountRequestBodySettings'Payouts'Schedule'DelayDays'OneOf1
-  | PostAccountRequestBodySettings'Payouts'Schedule'DelayDays'Integer GHC.Integer.Type.Integer
+  | PostAccountRequestBodySettings'Payouts'Schedule'DelayDays'Int GHC.Types.Int
   deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 
 instance Data.Aeson.ToJSON PostAccountRequestBodySettings'Payouts'Schedule'DelayDays'Variants where
@@ -1563,7 +1445,7 @@ instance Data.Aeson.FromJSON PostAccountRequestBodySettings'Payouts'Schedule'Wee
 data PostAccountRequestBodyTosAcceptance'
   = PostAccountRequestBodyTosAcceptance'
       { -- | date
-        postAccountRequestBodyTosAcceptance'Date :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postAccountRequestBodyTosAcceptance'Date :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | ip
         postAccountRequestBodyTosAcceptance'Ip :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | user_agent
@@ -1596,3 +1478,71 @@ data PostAccountResponse
   | -- | Error response.
     PostAccountResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/account
+--
+-- The same as 'postAccount' but accepts an explicit configuration.
+postAccountWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostAccountRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostAccountResponse)
+postAccountWithConfiguration
+  config
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostAccountResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostAccountResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Account
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostAccountResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/account
+--
+-- The same as 'postAccount' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postAccountRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The request body to send
+  GHC.Maybe.Maybe PostAccountRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postAccountRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/account
+--
+-- The same as 'postAccount' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postAccountWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostAccountRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postAccountWithConfigurationRaw
+  config
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account") [] body StripeAPI.Common.RequestBodyEncodingFormData)

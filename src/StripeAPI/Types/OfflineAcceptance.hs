@@ -29,19 +29,5 @@ import qualified StripeAPI.Common
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema offline_acceptance
-data OfflineAcceptance
-  = OfflineAcceptance
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON OfflineAcceptance where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON OfflineAcceptance where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "OfflineAcceptance" (\obj -> GHC.Base.pure OfflineAcceptance)
+-- | Defines an alias for the schema offline_acceptance
+type OfflineAcceptance = Data.Aeson.Types.Internal.Object

@@ -33,9 +33,9 @@ import qualified Prelude as GHC.Maybe
 data Period
   = Period
       { -- | end: The end date of this usage period. All usage up to and including this point in time is included.
-        periodEnd :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        periodEnd :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | start: The start date of this usage period. All usage after this point in time is included.
-        periodStart :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+        periodStart :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,

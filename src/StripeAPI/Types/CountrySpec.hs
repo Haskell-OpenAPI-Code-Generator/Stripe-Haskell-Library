@@ -55,7 +55,7 @@ data CountrySpec
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         countrySpecObject :: CountrySpecObject',
         -- | supported_bank_account_currencies: Currencies that can be accepted in the specific country (for transfers).
-        countrySpecSupportedBankAccountCurrencies :: CountrySpecSupportedBankAccountCurrencies',
+        countrySpecSupportedBankAccountCurrencies :: Data.Aeson.Types.Internal.Object,
         -- | supported_payment_currencies: Currencies that can be accepted in the specified country (for payments).
         countrySpecSupportedPaymentCurrencies :: ([] Data.Text.Internal.Text),
         -- | supported_payment_methods: Payment methods available in the specified country. You may need to enable some payment methods (e.g., [ACH](https:\/\/stripe.com\/docs\/ach)) on your account before they appear in this list. The \`stripe\` payment method refers to [charging through your platform](https:\/\/stripe.com\/docs\/connect\/destination-charges).
@@ -98,22 +98,3 @@ instance Data.Aeson.FromJSON CountrySpecObject' where
           then CountrySpecObject'EnumStringCountrySpec
           else CountrySpecObject'EnumOther val
       )
-
--- | Defines the data type for the schema country_specSupported_bank_account_currencies\'
---
--- Currencies that can be accepted in the specific country (for transfers).
-data CountrySpecSupportedBankAccountCurrencies'
-  = CountrySpecSupportedBankAccountCurrencies'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON CountrySpecSupportedBankAccountCurrencies' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON CountrySpecSupportedBankAccountCurrencies' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CountrySpecSupportedBankAccountCurrencies'" (\obj -> GHC.Base.pure CountrySpecSupportedBankAccountCurrencies')

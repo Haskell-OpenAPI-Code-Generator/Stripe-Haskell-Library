@@ -46,125 +46,43 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Creates an item to be added to a draft invoice. If no invoice is specified, the item will be on the next invoice created for the customer specified.\<\/p>
 postInvoiceitems ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   PostInvoiceitemsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostInvoiceitemsResponse))
-postInvoiceitems
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostInvoiceitemsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostInvoiceitemsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Invoiceitem
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostInvoiceitemsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostInvoiceitemsResponse)
+postInvoiceitems body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostInvoiceitemsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostInvoiceitemsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Invoiceitem
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostInvoiceitemsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/invoiceitems") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/invoiceitems
---
--- The same as 'postInvoiceitems' but returns the raw 'Data.ByteString.Char8.ByteString'
-postInvoiceitemsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  PostInvoiceitemsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postInvoiceitemsRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/invoiceitems") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/invoiceitems
---
--- Monadic version of 'postInvoiceitems' (use with 'StripeAPI.Common.runWithConfiguration')
-postInvoiceitemsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostInvoiceitemsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostInvoiceitemsResponse)
-    )
-postInvoiceitemsM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostInvoiceitemsResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostInvoiceitemsResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Invoiceitem
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostInvoiceitemsResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/invoiceitems") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/invoiceitems
---
--- Monadic version of 'postInvoiceitemsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postInvoiceitemsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostInvoiceitemsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postInvoiceitemsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/invoiceitems") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postInvoiceitemsRequestBody
 data PostInvoiceitemsRequestBody
   = PostInvoiceitemsRequestBody
       { -- | amount: The integer amount in **%s** of the charge to be applied to the upcoming invoice. Passing in a negative \`amount\` will reduce the \`amount_due\` on the invoice.
-        postInvoiceitemsRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postInvoiceitemsRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
         postInvoiceitemsRequestBodyCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | customer: The ID of the customer who will be billed when this invoice item is billed.
@@ -190,11 +108,11 @@ data PostInvoiceitemsRequestBody
         -- * Maximum length of 5000
         postInvoiceitemsRequestBodyInvoice :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postInvoiceitemsRequestBodyMetadata :: (GHC.Maybe.Maybe PostInvoiceitemsRequestBodyMetadata'),
+        postInvoiceitemsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | period: The period associated with this invoice item.
         postInvoiceitemsRequestBodyPeriod :: (GHC.Maybe.Maybe PostInvoiceitemsRequestBodyPeriod'),
         -- | quantity: Non-negative integer. The quantity of units for the invoice item.
-        postInvoiceitemsRequestBodyQuantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postInvoiceitemsRequestBodyQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | subscription: The ID of a subscription to add this invoice item to. When left blank, the invoice item will be be added to the next upcoming scheduled invoice. When set, scheduled invoices for subscriptions other than the specified subscription will ignore the invoice item. Use this when you want to express that an invoice item has been accrued within the context of a particular subscription.
         --
         -- Constraints:
@@ -204,7 +122,7 @@ data PostInvoiceitemsRequestBody
         -- | tax_rates: The tax rates which apply to the invoice item. When set, the \`default_tax_rates\` on the invoice do not apply to this invoice item.
         postInvoiceitemsRequestBodyTaxRates :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
         -- | unit_amount: The integer unit amount in **%s** of the charge to be applied to the upcoming invoice. This \`unit_amount\` will be multiplied by the quantity to get the full amount. Passing in a negative \`unit_amount\` will reduce the \`amount_due\` on the invoice.
-        postInvoiceitemsRequestBodyUnitAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postInvoiceitemsRequestBodyUnitAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | unit_amount_decimal: Same as \`unit_amount\`, but accepts a decimal value with at most 12 decimal places. Only one of \`unit_amount\` and \`unit_amount_decimal\` can be set.
         postInvoiceitemsRequestBodyUnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
@@ -220,34 +138,15 @@ instance Data.Aeson.ToJSON PostInvoiceitemsRequestBody where
 instance Data.Aeson.Types.FromJSON.FromJSON PostInvoiceitemsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoiceitemsRequestBody" (\obj -> (((((((((((((GHC.Base.pure PostInvoiceitemsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "discountable")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "invoice")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "period")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "subscription")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_amount_decimal"))
 
--- | Defines the data type for the schema postInvoiceitemsRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostInvoiceitemsRequestBodyMetadata'
-  = PostInvoiceitemsRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostInvoiceitemsRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostInvoiceitemsRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostInvoiceitemsRequestBodyMetadata'" (\obj -> GHC.Base.pure PostInvoiceitemsRequestBodyMetadata')
-
 -- | Defines the data type for the schema postInvoiceitemsRequestBodyPeriod\'
 --
 -- The period associated with this invoice item.
 data PostInvoiceitemsRequestBodyPeriod'
   = PostInvoiceitemsRequestBodyPeriod'
       { -- | end
-        postInvoiceitemsRequestBodyPeriod'End :: GHC.Integer.Type.Integer,
+        postInvoiceitemsRequestBodyPeriod'End :: GHC.Types.Int,
         -- | start
-        postInvoiceitemsRequestBodyPeriod'Start :: GHC.Integer.Type.Integer
+        postInvoiceitemsRequestBodyPeriod'Start :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,
@@ -272,3 +171,71 @@ data PostInvoiceitemsResponse
   | -- | Error response.
     PostInvoiceitemsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/invoiceitems
+--
+-- The same as 'postInvoiceitems' but accepts an explicit configuration.
+postInvoiceitemsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostInvoiceitemsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostInvoiceitemsResponse)
+postInvoiceitemsWithConfiguration
+  config
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostInvoiceitemsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostInvoiceitemsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Invoiceitem
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostInvoiceitemsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/invoiceitems") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/invoiceitems
+--
+-- The same as 'postInvoiceitems' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postInvoiceitemsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The request body to send
+  PostInvoiceitemsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postInvoiceitemsRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/invoiceitems") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/invoiceitems
+--
+-- The same as 'postInvoiceitems' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postInvoiceitemsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostInvoiceitemsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postInvoiceitemsWithConfigurationRaw
+  config
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/invoiceitems") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

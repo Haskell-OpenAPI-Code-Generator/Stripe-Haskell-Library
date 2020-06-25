@@ -29,19 +29,5 @@ import qualified StripeAPI.Common
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_alipay
-data PaymentMethodDetailsAlipay
-  = PaymentMethodDetailsAlipay
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PaymentMethodDetailsAlipay where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsAlipay where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsAlipay" (\obj -> GHC.Base.pure PaymentMethodDetailsAlipay)
+-- | Defines an alias for the schema payment_method_details_alipay
+type PaymentMethodDetailsAlipay = Data.Aeson.Types.Internal.Object

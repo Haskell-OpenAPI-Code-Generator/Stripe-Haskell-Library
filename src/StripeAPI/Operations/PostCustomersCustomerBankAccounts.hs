@@ -50,130 +50,41 @@ import qualified Prelude as GHC.Maybe
 -- However, if the owner already has a default, then it will not change.
 -- To change the default, you should \<a href=\"\/docs\/api\#update_customer\">update the customer\<\/a> to have a new \<code>default_source\<\/code>.\<\/p>
 postCustomersCustomerBankAccounts ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | customer | Constraints: Maximum length of 5000
   Data.Text.Internal.Text ->
   -- | The request body to send
   GHC.Maybe.Maybe PostCustomersCustomerBankAccountsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCustomersCustomerBankAccountsResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostCustomersCustomerBankAccountsResponse)
 postCustomersCustomerBankAccounts
-  config
   customer
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostCustomersCustomerBankAccountsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerBankAccountsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  PaymentSource
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerBankAccountsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/bank_accounts"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/customers/{customer}/bank_accounts
---
--- The same as 'postCustomersCustomerBankAccounts' but returns the raw 'Data.ByteString.Char8.ByteString'
-postCustomersCustomerBankAccountsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostCustomersCustomerBankAccountsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postCustomersCustomerBankAccountsRaw
-  config
-  customer
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/bank_accounts"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/customers/{customer}/bank_accounts
---
--- Monadic version of 'postCustomersCustomerBankAccounts' (use with 'StripeAPI.Common.runWithConfiguration')
-postCustomersCustomerBankAccountsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostCustomersCustomerBankAccountsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostCustomersCustomerBankAccountsResponse)
-    )
-postCustomersCustomerBankAccountsM
-  customer
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostCustomersCustomerBankAccountsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerBankAccountsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  PaymentSource
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerBankAccountsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostCustomersCustomerBankAccountsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerBankAccountsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              PaymentSource
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerBankAccountsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/bank_accounts"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/customers/{customer}/bank_accounts
---
--- Monadic version of 'postCustomersCustomerBankAccountsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postCustomersCustomerBankAccountsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostCustomersCustomerBankAccountsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postCustomersCustomerBankAccountsRawM
-  customer
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/bank_accounts"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postCustomersCustomerBankAccountsRequestBody
 data PostCustomersCustomerBankAccountsRequestBody
@@ -191,7 +102,7 @@ data PostCustomersCustomerBankAccountsRequestBody
         -- | expand: Specifies which fields in the response should be expanded.
         postCustomersCustomerBankAccountsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postCustomersCustomerBankAccountsRequestBodyMetadata :: (GHC.Maybe.Maybe PostCustomersCustomerBankAccountsRequestBodyMetadata'),
+        postCustomersCustomerBankAccountsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | source: Please refer to full [documentation](https:\/\/stripe.com\/docs\/api) instead.
         --
         -- Constraints:
@@ -370,11 +281,11 @@ data PostCustomersCustomerBankAccountsRequestBodyCard'OneOf2
         -- * Maximum length of 5000
         postCustomersCustomerBankAccountsRequestBodyCard'OneOf2Cvc :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | exp_month
-        postCustomersCustomerBankAccountsRequestBodyCard'OneOf2ExpMonth :: GHC.Integer.Type.Integer,
+        postCustomersCustomerBankAccountsRequestBodyCard'OneOf2ExpMonth :: GHC.Types.Int,
         -- | exp_year
-        postCustomersCustomerBankAccountsRequestBodyCard'OneOf2ExpYear :: GHC.Integer.Type.Integer,
+        postCustomersCustomerBankAccountsRequestBodyCard'OneOf2ExpYear :: GHC.Types.Int,
         -- | metadata
-        postCustomersCustomerBankAccountsRequestBodyCard'OneOf2Metadata :: (GHC.Maybe.Maybe PostCustomersCustomerBankAccountsRequestBodyCard'OneOf2Metadata'),
+        postCustomersCustomerBankAccountsRequestBodyCard'OneOf2Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | name
         --
         -- Constraints:
@@ -405,23 +316,6 @@ instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsRequestBodyCard'OneO
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsRequestBodyCard'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsRequestBodyCard'OneOf2" (\obj -> ((((((((((((GHC.Base.pure PostCustomersCustomerBankAccountsRequestBodyCard'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_city")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_country")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line1")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_line2")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_state")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "address_zip")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "cvc")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "exp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "number")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object"))
-
--- | Defines the data type for the schema postCustomersCustomerBankAccountsRequestBodyCard\'OneOf2Metadata\'
-data PostCustomersCustomerBankAccountsRequestBodyCard'OneOf2Metadata'
-  = PostCustomersCustomerBankAccountsRequestBodyCard'OneOf2Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsRequestBodyCard'OneOf2Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsRequestBodyCard'OneOf2Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsRequestBodyCard'OneOf2Metadata'" (\obj -> GHC.Base.pure PostCustomersCustomerBankAccountsRequestBodyCard'OneOf2Metadata')
 
 -- | Defines the enum schema postCustomersCustomerBankAccountsRequestBodyCard\'OneOf2Object\'
 data PostCustomersCustomerBankAccountsRequestBodyCard'OneOf2Object'
@@ -457,25 +351,6 @@ instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsRequestBodyCard'Vari
 instance Data.Aeson.FromJSON PostCustomersCustomerBankAccountsRequestBodyCard'Variants where
   parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
 
--- | Defines the data type for the schema postCustomersCustomerBankAccountsRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostCustomersCustomerBankAccountsRequestBodyMetadata'
-  = PostCustomersCustomerBankAccountsRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBankAccountsRequestBodyMetadata'" (\obj -> GHC.Base.pure PostCustomersCustomerBankAccountsRequestBodyMetadata')
-
 -- | Represents a response of the operation 'postCustomersCustomerBankAccounts'.
 --
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'PostCustomersCustomerBankAccountsResponseError' is used.
@@ -487,3 +362,81 @@ data PostCustomersCustomerBankAccountsResponse
   | -- | Error response.
     PostCustomersCustomerBankAccountsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/customers/{customer}/bank_accounts
+--
+-- The same as 'postCustomersCustomerBankAccounts' but accepts an explicit configuration.
+postCustomersCustomerBankAccountsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | customer | Constraints: Maximum length of 5000
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostCustomersCustomerBankAccountsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostCustomersCustomerBankAccountsResponse)
+postCustomersCustomerBankAccountsWithConfiguration
+  config
+  customer
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostCustomersCustomerBankAccountsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerBankAccountsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              PaymentSource
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerBankAccountsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/bank_accounts"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/customers/{customer}/bank_accounts
+--
+-- The same as 'postCustomersCustomerBankAccounts' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postCustomersCustomerBankAccountsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | customer | Constraints: Maximum length of 5000
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostCustomersCustomerBankAccountsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postCustomersCustomerBankAccountsRaw
+  customer
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/bank_accounts"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/customers/{customer}/bank_accounts
+--
+-- The same as 'postCustomersCustomerBankAccounts' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postCustomersCustomerBankAccountsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | customer | Constraints: Maximum length of 5000
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostCustomersCustomerBankAccountsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postCustomersCustomerBankAccountsWithConfigurationRaw
+  config
+  customer
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/bank_accounts"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

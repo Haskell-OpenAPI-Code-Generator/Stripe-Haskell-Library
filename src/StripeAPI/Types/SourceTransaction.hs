@@ -45,11 +45,11 @@ data SourceTransaction
       { -- | ach_credit_transfer:
         sourceTransactionAchCreditTransfer :: (GHC.Maybe.Maybe SourceTransactionAchCreditTransferData),
         -- | amount: A positive integer in the smallest currency unit (that is, 100 cents for \$1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the amount your customer has pushed to the receiver.
-        sourceTransactionAmount :: GHC.Integer.Type.Integer,
+        sourceTransactionAmount :: GHC.Types.Int,
         -- | chf_credit_transfer:
         sourceTransactionChfCreditTransfer :: (GHC.Maybe.Maybe SourceTransactionChfCreditTransferData),
         -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        sourceTransactionCreated :: GHC.Integer.Type.Integer,
+        sourceTransactionCreated :: GHC.Types.Int,
         -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
         sourceTransactionCurrency :: Data.Text.Internal.Text,
         -- | gbp_credit_transfer:

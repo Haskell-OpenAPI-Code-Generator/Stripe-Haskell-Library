@@ -54,7 +54,7 @@ data Terminal'location
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         terminal'locationLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        terminal'locationMetadata :: Terminal'locationMetadata',
+        terminal'locationMetadata :: Data.Aeson.Types.Internal.Object,
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         terminal'locationObject :: Terminal'locationObject'
       }
@@ -69,25 +69,6 @@ instance Data.Aeson.ToJSON Terminal'location where
 
 instance Data.Aeson.Types.FromJSON.FromJSON Terminal'location where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'location" (\obj -> (((((GHC.Base.pure Terminal'location GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object"))
-
--- | Defines the data type for the schema terminal.locationMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-data Terminal'locationMetadata'
-  = Terminal'locationMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON Terminal'locationMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON Terminal'locationMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'locationMetadata'" (\obj -> GHC.Base.pure Terminal'locationMetadata')
 
 -- | Defines the enum schema terminal.locationObject\'
 --

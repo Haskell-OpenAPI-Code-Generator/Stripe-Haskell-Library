@@ -46,202 +46,63 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Retrieves the plan with the given ID.\<\/p>
 getPlansPlan ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | plan | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetPlansPlanRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetPlansPlanResponse))
-getPlansPlan
-  config
-  expand
-  plan
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetPlansPlanResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetPlansPlanResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Plan
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetPlansPlanResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetPlansPlanParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetPlansPlanResponse)
+getPlansPlan parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetPlansPlanResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetPlansPlanResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Plan
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetPlansPlanResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/plans/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel plan)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/plans/{plan}
---
--- The same as 'getPlansPlan' but returns the raw 'Data.ByteString.Char8.ByteString'
-getPlansPlanRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetPlansPlanRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getPlansPlanRaw
-  config
-  expand
-  plan
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/plans/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel plan)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
+    (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/plans/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getPlansPlanParametersPathPlan parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPlansPlanParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | > GET /v1/plans/{plan}
---
--- Monadic version of 'getPlansPlan' (use with 'StripeAPI.Common.runWithConfiguration')
-getPlansPlanM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetPlansPlanRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetPlansPlanResponse)
-    )
-getPlansPlanM
-  expand
-  plan
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetPlansPlanResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetPlansPlanResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Plan
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetPlansPlanResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/plans/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel plan)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/plans/{plan}
---
--- Monadic version of 'getPlansPlanRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getPlansPlanRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetPlansPlanRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getPlansPlanRawM
-  expand
-  plan
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/plans/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel plan)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getPlansPlanRequestBody
-data GetPlansPlanRequestBody
-  = GetPlansPlanRequestBody
-      {
+-- | Defines the data type for the schema getPlansPlanParameters
+data GetPlansPlanParameters
+  = GetPlansPlanParameters
+      { -- | pathPlan: Represents the parameter named \'plan\'
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getPlansPlanParametersPathPlan :: Data.Text.Internal.Text,
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getPlansPlanParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetPlansPlanRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetPlansPlanParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathPlan" (getPlansPlanParametersPathPlan obj) : (Data.Aeson..=) "queryExpand" (getPlansPlanParametersQueryExpand obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathPlan" (getPlansPlanParametersPathPlan obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getPlansPlanParametersQueryExpand obj))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetPlansPlanRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPlansPlanRequestBody" (\obj -> GHC.Base.pure GetPlansPlanRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetPlansPlanParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetPlansPlanParameters" (\obj -> (GHC.Base.pure GetPlansPlanParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathPlan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
 
 -- | Represents a response of the operation 'getPlansPlan'.
 --
@@ -254,3 +115,71 @@ data GetPlansPlanResponse
   | -- | Error response.
     GetPlansPlanResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > GET /v1/plans/{plan}
+--
+-- The same as 'getPlansPlan' but accepts an explicit configuration.
+getPlansPlanWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetPlansPlanParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetPlansPlanResponse)
+getPlansPlanWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetPlansPlanResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetPlansPlanResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Plan
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetPlansPlanResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/plans/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getPlansPlanParametersPathPlan parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPlansPlanParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
+
+-- | > GET /v1/plans/{plan}
+--
+-- The same as 'getPlansPlan' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getPlansPlanRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetPlansPlanParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getPlansPlanRaw parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/plans/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getPlansPlanParametersPathPlan parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPlansPlanParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
+
+-- | > GET /v1/plans/{plan}
+--
+-- The same as 'getPlansPlan' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getPlansPlanWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetPlansPlanParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getPlansPlanWithConfigurationRaw
+  config
+  parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/plans/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getPlansPlanParametersPathPlan parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPlansPlanParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])

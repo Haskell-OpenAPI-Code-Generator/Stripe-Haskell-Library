@@ -46,202 +46,63 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Retrieves the details of an existing recipient. You need only supply the unique recipient identifier that was returned upon recipient creation.\<\/p>
 getRecipientsId ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetRecipientsIdRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetRecipientsIdResponse))
-getRecipientsId
-  config
-  expand
-  id
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetRecipientsIdResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetRecipientsIdResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetRecipientsIdResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetRecipientsIdResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetRecipientsIdParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetRecipientsIdResponse)
+getRecipientsId parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetRecipientsIdResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetRecipientsIdResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetRecipientsIdResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetRecipientsIdResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/recipients/{id}
---
--- The same as 'getRecipientsId' but returns the raw 'Data.ByteString.Char8.ByteString'
-getRecipientsIdRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetRecipientsIdRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getRecipientsIdRaw
-  config
-  expand
-  id
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
+    (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getRecipientsIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | > GET /v1/recipients/{id}
---
--- Monadic version of 'getRecipientsId' (use with 'StripeAPI.Common.runWithConfiguration')
-getRecipientsIdM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetRecipientsIdRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetRecipientsIdResponse)
-    )
-getRecipientsIdM
-  expand
-  id
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetRecipientsIdResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetRecipientsIdResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetRecipientsIdResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetRecipientsIdResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/recipients/{id}
---
--- Monadic version of 'getRecipientsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getRecipientsIdRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetRecipientsIdRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getRecipientsIdRawM
-  expand
-  id
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getRecipientsIdRequestBody
-data GetRecipientsIdRequestBody
-  = GetRecipientsIdRequestBody
-      {
+-- | Defines the data type for the schema getRecipientsIdParameters
+data GetRecipientsIdParameters
+  = GetRecipientsIdParameters
+      { -- | pathId: Represents the parameter named \'id\'
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getRecipientsIdParametersPathId :: Data.Text.Internal.Text,
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getRecipientsIdParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetRecipientsIdRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetRecipientsIdParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getRecipientsIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getRecipientsIdParametersQueryExpand obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getRecipientsIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getRecipientsIdParametersQueryExpand obj))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsIdRequestBody" (\obj -> GHC.Base.pure GetRecipientsIdRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsIdParameters" (\obj -> (GHC.Base.pure GetRecipientsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
 
 -- | Represents a response of the operation 'getRecipientsId'.
 --
@@ -263,7 +124,7 @@ data GetRecipientsIdResponseBody200
         -- | cards:
         getRecipientsIdResponseBody200Cards :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200Cards'),
         -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        getRecipientsIdResponseBody200Created :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        getRecipientsIdResponseBody200Created :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | default_card: The default card to use for creating transfers to this recipient.
         getRecipientsIdResponseBody200DefaultCard :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200DefaultCard'Variants),
         -- | deleted: Always true for a deleted object
@@ -289,7 +150,7 @@ data GetRecipientsIdResponseBody200
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         getRecipientsIdResponseBody200Livemode :: (GHC.Maybe.Maybe GHC.Types.Bool),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        getRecipientsIdResponseBody200Metadata :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200Metadata'),
+        getRecipientsIdResponseBody200Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | migrated_to: The ID of the [Custom account](https:\/\/stripe.com\/docs\/connect\/custom-accounts) this recipient was migrated to. If set, the recipient can no longer be updated, nor can transfers be made to it: use the Custom account instead.
         getRecipientsIdResponseBody200MigratedTo :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200MigratedTo'Variants),
         -- | name: Full, legal name of the recipient.
@@ -377,7 +238,7 @@ data GetRecipientsIdResponseBody200ActiveAccount'
         -- * Maximum length of 5000
         getRecipientsIdResponseBody200ActiveAccount'Last4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        getRecipientsIdResponseBody200ActiveAccount'Metadata :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200ActiveAccount'Metadata'),
+        getRecipientsIdResponseBody200ActiveAccount'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         getRecipientsIdResponseBody200ActiveAccount'Object :: (GHC.Maybe.Maybe GetRecipientsIdResponseBody200ActiveAccount'Object'),
         -- | routing_number: The routing transit number for the bank account.
@@ -435,25 +296,6 @@ instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Customer'
 
 instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200ActiveAccount'Customer'Variants where
   parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-
--- | Defines the data type for the schema GetRecipientsIdResponseBody200Active_account\'Metadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-data GetRecipientsIdResponseBody200ActiveAccount'Metadata'
-  = GetRecipientsIdResponseBody200ActiveAccount'Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount'Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsIdResponseBody200ActiveAccount'Metadata'" (\obj -> GHC.Base.pure GetRecipientsIdResponseBody200ActiveAccount'Metadata')
 
 -- | Defines the enum schema GetRecipientsIdResponseBody200Active_account\'Object\'
 --
@@ -563,25 +405,6 @@ instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200Deleted' where
           else GetRecipientsIdResponseBody200Deleted'EnumOther val
       )
 
--- | Defines the data type for the schema GetRecipientsIdResponseBody200Metadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-data GetRecipientsIdResponseBody200Metadata'
-  = GetRecipientsIdResponseBody200Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetRecipientsIdResponseBody200Metadata'" (\obj -> GHC.Base.pure GetRecipientsIdResponseBody200Metadata')
-
 -- | Define the one-of schema GetRecipientsIdResponseBody200Migrated_to\'
 --
 -- The ID of the [Custom account](https:\/\/stripe.com\/docs\/connect\/custom-accounts) this recipient was migrated to. If set, the recipient can no longer be updated, nor can transfers be made to it: use the Custom account instead.
@@ -629,3 +452,71 @@ instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200RolledBackFrom'Variants
 
 instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200RolledBackFrom'Variants where
   parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+-- | > GET /v1/recipients/{id}
+--
+-- The same as 'getRecipientsId' but accepts an explicit configuration.
+getRecipientsIdWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetRecipientsIdParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetRecipientsIdResponse)
+getRecipientsIdWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetRecipientsIdResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetRecipientsIdResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              GetRecipientsIdResponseBody200
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetRecipientsIdResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getRecipientsIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
+
+-- | > GET /v1/recipients/{id}
+--
+-- The same as 'getRecipientsId' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getRecipientsIdRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetRecipientsIdParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getRecipientsIdRaw parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getRecipientsIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
+
+-- | > GET /v1/recipients/{id}
+--
+-- The same as 'getRecipientsId' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getRecipientsIdWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetRecipientsIdParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getRecipientsIdWithConfigurationRaw
+  config
+  parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getRecipientsIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])

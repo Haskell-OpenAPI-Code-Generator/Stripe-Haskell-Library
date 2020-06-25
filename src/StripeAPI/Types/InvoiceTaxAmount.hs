@@ -34,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 data InvoiceTaxAmount
   = InvoiceTaxAmount
       { -- | amount: The amount, in %s, of the tax.
-        invoiceTaxAmountAmount :: GHC.Integer.Type.Integer,
+        invoiceTaxAmountAmount :: GHC.Types.Int,
         -- | inclusive: Whether this tax amount is inclusive or exclusive.
         invoiceTaxAmountInclusive :: GHC.Types.Bool,
         -- | tax_rate: The tax rate that was applied to get this tax amount.

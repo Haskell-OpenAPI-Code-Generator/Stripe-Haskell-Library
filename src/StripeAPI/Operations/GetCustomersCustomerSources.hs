@@ -46,302 +46,92 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>List sources for a specified customer.\<\/p>
 getCustomersCustomerSources ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | customer | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | object: Filter sources according to a particular object type. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetCustomersCustomerSourcesRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetCustomersCustomerSourcesResponse))
-getCustomersCustomerSources
-  config
-  customer
-  endingBefore
-  expand
-  limit
-  object
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetCustomersCustomerSourcesResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetCustomersCustomerSourcesResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetCustomersCustomerSourcesResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetCustomersCustomerSourcesResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetCustomersCustomerSourcesParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetCustomersCustomerSourcesResponse)
+getCustomersCustomerSources parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetCustomersCustomerSourcesResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetCustomersCustomerSourcesResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetCustomersCustomerSourcesResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetCustomersCustomerSourcesResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/sources")))
-          ( ( Data.Text.pack "ending_before",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-            )
-              : ( ( Data.Text.pack "expand",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                  )
-                    : ( ( Data.Text.pack "limit",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                        )
-                          : ( ( Data.Text.pack "object",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> object
-                              )
-                                : ( ( Data.Text.pack "starting_after",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                    )
-                                      : []
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/customers/{customer}/sources
---
--- The same as 'getCustomersCustomerSources' but returns the raw 'Data.ByteString.Char8.ByteString'
-getCustomersCustomerSourcesRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetCustomersCustomerSourcesRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getCustomersCustomerSourcesRaw
-  config
-  customer
-  endingBefore
-  expand
-  limit
-  object
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/sources")))
-          ( ( Data.Text.pack "ending_before",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-            )
-              : ( ( Data.Text.pack "expand",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                  )
-                    : ( ( Data.Text.pack "limit",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                        )
-                          : ( ( Data.Text.pack "object",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> object
-                              )
-                                : ( ( Data.Text.pack "starting_after",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                    )
-                                      : []
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/customers/{customer}/sources
---
--- Monadic version of 'getCustomersCustomerSources' (use with 'StripeAPI.Common.runWithConfiguration')
-getCustomersCustomerSourcesM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetCustomersCustomerSourcesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetCustomersCustomerSourcesResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSourcesParametersPathCustomer parameters))) GHC.Base.++ "/sources")))
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "object") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryObject parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getCustomersCustomerSourcesM
-  customer
-  endingBefore
-  expand
-  limit
-  object
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetCustomersCustomerSourcesResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetCustomersCustomerSourcesResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetCustomersCustomerSourcesResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetCustomersCustomerSourcesResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/sources")))
-          ( ( Data.Text.pack "ending_before",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-            )
-              : ( ( Data.Text.pack "expand",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                  )
-                    : ( ( Data.Text.pack "limit",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                        )
-                          : ( ( Data.Text.pack "object",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> object
-                              )
-                                : ( ( Data.Text.pack "starting_after",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                    )
-                                      : []
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/customers/{customer}/sources
---
--- Monadic version of 'getCustomersCustomerSourcesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getCustomersCustomerSourcesRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetCustomersCustomerSourcesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getCustomersCustomerSourcesRawM
-  customer
-  endingBefore
-  expand
-  limit
-  object
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/sources")))
-          ( ( Data.Text.pack "ending_before",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-            )
-              : ( ( Data.Text.pack "expand",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                  )
-                    : ( ( Data.Text.pack "limit",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                        )
-                          : ( ( Data.Text.pack "object",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> object
-                              )
-                                : ( ( Data.Text.pack "starting_after",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                    )
-                                      : []
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getCustomersCustomerSourcesRequestBody
-data GetCustomersCustomerSourcesRequestBody
-  = GetCustomersCustomerSourcesRequestBody
-      {
+-- | Defines the data type for the schema getCustomersCustomerSourcesParameters
+data GetCustomersCustomerSourcesParameters
+  = GetCustomersCustomerSourcesParameters
+      { -- | pathCustomer: Represents the parameter named \'customer\'
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getCustomersCustomerSourcesParametersPathCustomer :: Data.Text.Internal.Text,
+        -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        getCustomersCustomerSourcesParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getCustomersCustomerSourcesParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getCustomersCustomerSourcesParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryObject: Represents the parameter named \'object\'
+        --
+        -- Filter sources according to a particular object type.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getCustomersCustomerSourcesParametersQueryObject :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        getCustomersCustomerSourcesParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetCustomersCustomerSourcesRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetCustomersCustomerSourcesParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerSourcesParametersPathCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getCustomersCustomerSourcesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getCustomersCustomerSourcesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getCustomersCustomerSourcesParametersQueryLimit obj) : (Data.Aeson..=) "queryObject" (getCustomersCustomerSourcesParametersQueryObject obj) : (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerSourcesParametersQueryStartingAfter obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerSourcesParametersPathCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getCustomersCustomerSourcesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getCustomersCustomerSourcesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getCustomersCustomerSourcesParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryObject" (getCustomersCustomerSourcesParametersQueryObject obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerSourcesParametersQueryStartingAfter obj))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerSourcesRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerSourcesRequestBody" (\obj -> GHC.Base.pure GetCustomersCustomerSourcesRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerSourcesParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerSourcesParameters" (\obj -> (((((GHC.Base.pure GetCustomersCustomerSourcesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryObject")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
 -- | Represents a response of the operation 'getCustomersCustomerSources'.
 --
@@ -457,9 +247,9 @@ data GetCustomersCustomerSourcesResponseBody200Data'
         -- | alipay
         getCustomersCustomerSourcesResponseBody200Data'Alipay :: (GHC.Maybe.Maybe SourceTypeAlipay),
         -- | amount: The amount of \`currency\` that you are collecting as payment.
-        getCustomersCustomerSourcesResponseBody200Data'Amount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        getCustomersCustomerSourcesResponseBody200Data'Amount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | amount_received: The amount of \`currency\` to which \`bitcoin_amount_received\` has been converted.
-        getCustomersCustomerSourcesResponseBody200Data'AmountReceived :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        getCustomersCustomerSourcesResponseBody200Data'AmountReceived :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | available_payout_methods: A set of available payout methods for this card. Will be either \`[\"standard\"]\` or \`[\"standard\", \"instant\"]\`. Only values from this set should be passed as the \`method\` when creating a transfer.
         getCustomersCustomerSourcesResponseBody200Data'AvailablePayoutMethods :: (GHC.Maybe.Maybe ([] GetCustomersCustomerSourcesResponseBody200Data'AvailablePayoutMethods')),
         -- | bancontact
@@ -471,9 +261,9 @@ data GetCustomersCustomerSourcesResponseBody200Data'
         -- * Maximum length of 5000
         getCustomersCustomerSourcesResponseBody200Data'BankName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | bitcoin_amount: The amount of bitcoin that the customer should send to fill the receiver. The \`bitcoin_amount\` is denominated in Satoshi: there are 10^8 Satoshi in one bitcoin.
-        getCustomersCustomerSourcesResponseBody200Data'BitcoinAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        getCustomersCustomerSourcesResponseBody200Data'BitcoinAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | bitcoin_amount_received: The amount of bitcoin that has been sent by the customer to this receiver.
-        getCustomersCustomerSourcesResponseBody200Data'BitcoinAmountReceived :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        getCustomersCustomerSourcesResponseBody200Data'BitcoinAmountReceived :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | bitcoin_uri: This URI can be displayed to the customer as a clickable link (to activate their bitcoin client) or as a QR code (for mobile wallets).
         --
         -- Constraints:
@@ -505,7 +295,7 @@ data GetCustomersCustomerSourcesResponseBody200Data'
         -- * Maximum length of 5000
         getCustomersCustomerSourcesResponseBody200Data'Country :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        getCustomersCustomerSourcesResponseBody200Data'Created :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        getCustomersCustomerSourcesResponseBody200Data'Created :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/payouts) paid out to the bank account.
         getCustomersCustomerSourcesResponseBody200Data'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | customer: The ID of the customer associated with this Alipay Account.
@@ -539,9 +329,9 @@ data GetCustomersCustomerSourcesResponseBody200Data'
         -- | eps
         getCustomersCustomerSourcesResponseBody200Data'Eps :: (GHC.Maybe.Maybe SourceTypeEps),
         -- | exp_month: Two-digit number representing the card\'s expiration month.
-        getCustomersCustomerSourcesResponseBody200Data'ExpMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        getCustomersCustomerSourcesResponseBody200Data'ExpMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | exp_year: Four-digit number representing the card\'s expiration year.
-        getCustomersCustomerSourcesResponseBody200Data'ExpYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        getCustomersCustomerSourcesResponseBody200Data'ExpYear :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | filled: This flag is initially false and updates to true when the customer sends the \`bitcoin_amount\` to this receiver.
         getCustomersCustomerSourcesResponseBody200Data'Filled :: (GHC.Maybe.Maybe GHC.Types.Bool),
         -- | fingerprint: Uniquely identifies the account and will be the same across all Alipay account objects that are linked to the same Alipay account.
@@ -589,7 +379,7 @@ data GetCustomersCustomerSourcesResponseBody200Data'
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         getCustomersCustomerSourcesResponseBody200Data'Livemode :: (GHC.Maybe.Maybe GHC.Types.Bool),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        getCustomersCustomerSourcesResponseBody200Data'Metadata :: (GHC.Maybe.Maybe GetCustomersCustomerSourcesResponseBody200Data'Metadata'),
+        getCustomersCustomerSourcesResponseBody200Data'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | multibanco
         getCustomersCustomerSourcesResponseBody200Data'Multibanco :: (GHC.Maybe.Maybe SourceTypeMultibanco),
         -- | name: Cardholder name.
@@ -611,7 +401,7 @@ data GetCustomersCustomerSourcesResponseBody200Data'
         -- * Maximum length of 5000
         getCustomersCustomerSourcesResponseBody200Data'Payment :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | payment_amount: If the Alipay account object is not reusable, the exact amount that you can create a charge for.
-        getCustomersCustomerSourcesResponseBody200Data'PaymentAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        getCustomersCustomerSourcesResponseBody200Data'PaymentAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | payment_currency: If the Alipay account object is not reusable, the exact currency that you can create a charge for.
         getCustomersCustomerSourcesResponseBody200Data'PaymentCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | receiver:
@@ -752,25 +542,6 @@ instance Data.Aeson.ToJSON GetCustomersCustomerSourcesResponseBody200Data'Custom
 
 instance Data.Aeson.FromJSON GetCustomersCustomerSourcesResponseBody200Data'Customer'Variants where
   parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-
--- | Defines the data type for the schema GetCustomersCustomerSourcesResponseBody200Data\'Metadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-data GetCustomersCustomerSourcesResponseBody200Data'Metadata'
-  = GetCustomersCustomerSourcesResponseBody200Data'Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON GetCustomersCustomerSourcesResponseBody200Data'Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerSourcesResponseBody200Data'Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetCustomersCustomerSourcesResponseBody200Data'Metadata'" (\obj -> GHC.Base.pure GetCustomersCustomerSourcesResponseBody200Data'Metadata')
 
 -- | Defines the enum schema GetCustomersCustomerSourcesResponseBody200Data\'Object\'
 --
@@ -1143,4 +914,105 @@ instance Data.Aeson.FromJSON GetCustomersCustomerSourcesResponseBody200Object' w
       ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
           then GetCustomersCustomerSourcesResponseBody200Object'EnumStringList
           else GetCustomersCustomerSourcesResponseBody200Object'EnumOther val
+      )
+
+-- | > GET /v1/customers/{customer}/sources
+--
+-- The same as 'getCustomersCustomerSources' but accepts an explicit configuration.
+getCustomersCustomerSourcesWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetCustomersCustomerSourcesParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetCustomersCustomerSourcesResponse)
+getCustomersCustomerSourcesWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetCustomersCustomerSourcesResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetCustomersCustomerSourcesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              GetCustomersCustomerSourcesResponseBody200
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetCustomersCustomerSourcesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSourcesParametersPathCustomer parameters))) GHC.Base.++ "/sources")))
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "object") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryObject parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
+      )
+
+-- | > GET /v1/customers/{customer}/sources
+--
+-- The same as 'getCustomersCustomerSources' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getCustomersCustomerSourcesRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetCustomersCustomerSourcesParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getCustomersCustomerSourcesRaw parameters =
+  GHC.Base.id
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSourcesParametersPathCustomer parameters))) GHC.Base.++ "/sources")))
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "object") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryObject parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
+    )
+
+-- | > GET /v1/customers/{customer}/sources
+--
+-- The same as 'getCustomersCustomerSources' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getCustomersCustomerSourcesWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetCustomersCustomerSourcesParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getCustomersCustomerSourcesWithConfigurationRaw
+  config
+  parameters =
+    GHC.Base.id
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSourcesParametersPathCustomer parameters))) GHC.Base.++ "/sources")))
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "object") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryObject parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSourcesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
       )

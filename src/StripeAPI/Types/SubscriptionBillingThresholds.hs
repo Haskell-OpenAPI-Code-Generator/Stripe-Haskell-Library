@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data SubscriptionBillingThresholds
   = SubscriptionBillingThresholds
       { -- | amount_gte: Monetary threshold that triggers the subscription to create an invoice
-        subscriptionBillingThresholdsAmountGte :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        subscriptionBillingThresholdsAmountGte :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | reset_billing_cycle_anchor: Indicates if the \`billing_cycle_anchor\` should be reset when a threshold is reached. If true, \`billing_cycle_anchor\` will be updated to the date\/time the threshold was last reached; otherwise, the value will remain unchanged. This value may not be \`true\` if the subscription contains items with plans that have \`aggregate_usage=last_ever\`.
         subscriptionBillingThresholdsResetBillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Types.Bool)
       }

@@ -33,13 +33,13 @@ import qualified Prelude as GHC.Maybe
 data StatusTransitions
   = StatusTransitions
       { -- | canceled: The time that the order was canceled.
-        statusTransitionsCanceled :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        statusTransitionsCanceled :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | fulfiled: The time that the order was fulfilled.
-        statusTransitionsFulfiled :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        statusTransitionsFulfiled :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | paid: The time that the order was paid.
-        statusTransitionsPaid :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        statusTransitionsPaid :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | returned: The time that the order was returned.
-        statusTransitionsReturned :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+        statusTransitionsReturned :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,

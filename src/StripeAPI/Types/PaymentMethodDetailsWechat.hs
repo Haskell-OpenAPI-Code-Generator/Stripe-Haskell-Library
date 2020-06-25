@@ -29,19 +29,5 @@ import qualified StripeAPI.Common
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_wechat
-data PaymentMethodDetailsWechat
-  = PaymentMethodDetailsWechat
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PaymentMethodDetailsWechat where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsWechat where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsWechat" (\obj -> GHC.Base.pure PaymentMethodDetailsWechat)
+-- | Defines an alias for the schema payment_method_details_wechat
+type PaymentMethodDetailsWechat = Data.Aeson.Types.Internal.Object

@@ -33,13 +33,13 @@ import qualified Prelude as GHC.Maybe
 data DisputeEvidenceDetails
   = DisputeEvidenceDetails
       { -- | due_by: Date by which evidence must be submitted in order to successfully challenge dispute. Will be null if the customer\'s bank or credit card company doesn\'t allow a response for this particular dispute.
-        disputeEvidenceDetailsDueBy :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        disputeEvidenceDetailsDueBy :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | has_evidence: Whether evidence has been staged for this dispute.
         disputeEvidenceDetailsHasEvidence :: GHC.Types.Bool,
         -- | past_due: Whether the last evidence submission was submitted past the due date. Defaults to \`false\` if no evidence submissions have occurred. If \`true\`, then delivery of the latest evidence is *not* guaranteed.
         disputeEvidenceDetailsPastDue :: GHC.Types.Bool,
         -- | submission_count: The number of times evidence has been submitted. Typically, you may only submit evidence once.
-        disputeEvidenceDetailsSubmissionCount :: GHC.Integer.Type.Integer
+        disputeEvidenceDetailsSubmissionCount :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,

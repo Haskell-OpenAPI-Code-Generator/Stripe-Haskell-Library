@@ -46,119 +46,37 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Creates a new object and begin running the report. (Requires a \<a href=\"https:\/\/stripe.com\/docs\/keys\#test-live-modes\">live-mode API key\<\/a>.)\<\/p>
 postReportingReportRuns ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   PostReportingReportRunsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostReportingReportRunsResponse))
-postReportingReportRuns
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostReportingReportRunsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostReportingReportRunsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Reporting'reportRun
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostReportingReportRunsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostReportingReportRunsResponse)
+postReportingReportRuns body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostReportingReportRunsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostReportingReportRunsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Reporting'reportRun
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostReportingReportRunsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/reporting/report_runs") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/reporting/report_runs
---
--- The same as 'postReportingReportRuns' but returns the raw 'Data.ByteString.Char8.ByteString'
-postReportingReportRunsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  PostReportingReportRunsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postReportingReportRunsRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/reporting/report_runs") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/reporting/report_runs
---
--- Monadic version of 'postReportingReportRuns' (use with 'StripeAPI.Common.runWithConfiguration')
-postReportingReportRunsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostReportingReportRunsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostReportingReportRunsResponse)
-    )
-postReportingReportRunsM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostReportingReportRunsResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostReportingReportRunsResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Reporting'reportRun
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostReportingReportRunsResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/reporting/report_runs") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/reporting/report_runs
---
--- Monadic version of 'postReportingReportRunsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postReportingReportRunsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostReportingReportRunsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postReportingReportRunsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/reporting/report_runs") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postReportingReportRunsRequestBody
 data PostReportingReportRunsRequestBody
@@ -194,9 +112,9 @@ data PostReportingReportRunsRequestBodyParameters'
         -- | currency
         postReportingReportRunsRequestBodyParameters'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | interval_end
-        postReportingReportRunsRequestBodyParameters'IntervalEnd :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postReportingReportRunsRequestBodyParameters'IntervalEnd :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | interval_start
-        postReportingReportRunsRequestBodyParameters'IntervalStart :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postReportingReportRunsRequestBodyParameters'IntervalStart :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | payout
         postReportingReportRunsRequestBodyParameters'Payout :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | reporting_category
@@ -3390,3 +3308,71 @@ data PostReportingReportRunsResponse
   | -- | Error response.
     PostReportingReportRunsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/reporting/report_runs
+--
+-- The same as 'postReportingReportRuns' but accepts an explicit configuration.
+postReportingReportRunsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostReportingReportRunsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostReportingReportRunsResponse)
+postReportingReportRunsWithConfiguration
+  config
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostReportingReportRunsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostReportingReportRunsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Reporting'reportRun
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostReportingReportRunsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/reporting/report_runs") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/reporting/report_runs
+--
+-- The same as 'postReportingReportRuns' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postReportingReportRunsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The request body to send
+  PostReportingReportRunsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postReportingReportRunsRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/reporting/report_runs") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/reporting/report_runs
+--
+-- The same as 'postReportingReportRuns' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postReportingReportRunsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostReportingReportRunsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postReportingReportRunsWithConfigurationRaw
+  config
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/reporting/report_runs") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

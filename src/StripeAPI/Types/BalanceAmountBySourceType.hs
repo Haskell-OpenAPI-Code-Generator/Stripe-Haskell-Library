@@ -33,11 +33,11 @@ import qualified Prelude as GHC.Maybe
 data BalanceAmountBySourceType
   = BalanceAmountBySourceType
       { -- | bank_account: Amount for bank account.
-        balanceAmountBySourceTypeBankAccount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        balanceAmountBySourceTypeBankAccount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | card: Amount for card.
-        balanceAmountBySourceTypeCard :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        balanceAmountBySourceTypeCard :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | fpx: Amount for FPX.
-        balanceAmountBySourceTypeFpx :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+        balanceAmountBySourceTypeFpx :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,

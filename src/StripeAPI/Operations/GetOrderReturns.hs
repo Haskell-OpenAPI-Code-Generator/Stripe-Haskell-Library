@@ -46,318 +46,139 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Returns a list of your order returns. The returns are returned sorted by creation date, with the most recently created return appearing first.\<\/p>
 getOrderReturns ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | created: Date this return was created.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | order: The order to retrieve returns for. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetOrderReturnsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetOrderReturnsResponse))
-getOrderReturns
-  config
-  created
-  endingBefore
-  expand
-  limit
-  order
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetOrderReturnsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetOrderReturnsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetOrderReturnsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetOrderReturnsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetOrderReturnsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetOrderReturnsResponse)
+getOrderReturns parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetOrderReturnsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetOrderReturnsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetOrderReturnsResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetOrderReturnsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/order_returns")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "order",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> order
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : []
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/order_returns
---
--- The same as 'getOrderReturns' but returns the raw 'Data.ByteString.Char8.ByteString'
-getOrderReturnsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetOrderReturnsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getOrderReturnsRaw
-  config
-  created
-  endingBefore
-  expand
-  limit
-  order
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/order_returns")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "order",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> order
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : []
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/order_returns
---
--- Monadic version of 'getOrderReturns' (use with 'StripeAPI.Common.runWithConfiguration')
-getOrderReturnsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetOrderReturnsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetOrderReturnsResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/order_returns")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "order") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryOrder parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getOrderReturnsM
-  created
-  endingBefore
-  expand
-  limit
-  order
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetOrderReturnsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetOrderReturnsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetOrderReturnsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetOrderReturnsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/order_returns")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "order",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> order
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : []
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/order_returns
---
--- Monadic version of 'getOrderReturnsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getOrderReturnsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetOrderReturnsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getOrderReturnsRawM
-  created
-  endingBefore
-  expand
-  limit
-  order
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/order_returns")
-          ( ( Data.Text.pack "created",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> created
-            )
-              : ( ( Data.Text.pack "ending_before",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                  )
-                    : ( ( Data.Text.pack "expand",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                        )
-                          : ( ( Data.Text.pack "limit",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                              )
-                                : ( ( Data.Text.pack "order",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> order
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : []
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getOrderReturnsRequestBody
-data GetOrderReturnsRequestBody
-  = GetOrderReturnsRequestBody
-      {
+-- | Defines the data type for the schema getOrderReturnsParameters
+data GetOrderReturnsParameters
+  = GetOrderReturnsParameters
+      { -- | queryCreated: Represents the parameter named \'created\'
+        --
+        -- Date this return was created.
+        getOrderReturnsParametersQueryCreated :: (GHC.Maybe.Maybe GetOrderReturnsParametersQueryCreated'Variants),
+        -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getOrderReturnsParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getOrderReturnsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getOrderReturnsParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryOrder: Represents the parameter named \'order\'
+        --
+        -- The order to retrieve returns for.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getOrderReturnsParametersQueryOrder :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getOrderReturnsParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetOrderReturnsRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetOrderReturnsParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getOrderReturnsParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getOrderReturnsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getOrderReturnsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getOrderReturnsParametersQueryLimit obj) : (Data.Aeson..=) "queryOrder" (getOrderReturnsParametersQueryOrder obj) : (Data.Aeson..=) "queryStarting_after" (getOrderReturnsParametersQueryStartingAfter obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getOrderReturnsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getOrderReturnsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getOrderReturnsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getOrderReturnsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryOrder" (getOrderReturnsParametersQueryOrder obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getOrderReturnsParametersQueryStartingAfter obj))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetOrderReturnsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrderReturnsRequestBody" (\obj -> GHC.Base.pure GetOrderReturnsRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrderReturnsParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrderReturnsParameters" (\obj -> (((((GHC.Base.pure GetOrderReturnsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryOrder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
+
+-- | Defines the data type for the schema getOrderReturnsParametersQueryCreated\'OneOf2
+data GetOrderReturnsParametersQueryCreated'OneOf2
+  = GetOrderReturnsParametersQueryCreated'OneOf2
+      { -- | gt
+        getOrderReturnsParametersQueryCreated'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getOrderReturnsParametersQueryCreated'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getOrderReturnsParametersQueryCreated'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getOrderReturnsParametersQueryCreated'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.ToJSON GetOrderReturnsParametersQueryCreated'OneOf2 where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getOrderReturnsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getOrderReturnsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getOrderReturnsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getOrderReturnsParametersQueryCreated'OneOf2Lte obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getOrderReturnsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getOrderReturnsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getOrderReturnsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getOrderReturnsParametersQueryCreated'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetOrderReturnsParametersQueryCreated'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetOrderReturnsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetOrderReturnsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Define the one-of schema getOrderReturnsParametersQueryCreated\'
+--
+-- Represents the parameter named \'created\'
+--
+-- Date this return was created.
+data GetOrderReturnsParametersQueryCreated'Variants
+  = GetOrderReturnsParametersQueryCreated'Int GHC.Types.Int
+  | GetOrderReturnsParametersQueryCreated'GetOrderReturnsParametersQueryCreated'OneOf2 GetOrderReturnsParametersQueryCreated'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+
+instance Data.Aeson.ToJSON GetOrderReturnsParametersQueryCreated'Variants where
+  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+instance Data.Aeson.FromJSON GetOrderReturnsParametersQueryCreated'Variants where
+  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
 
 -- | Represents a response of the operation 'getOrderReturns'.
 --
@@ -420,4 +241,108 @@ instance Data.Aeson.FromJSON GetOrderReturnsResponseBody200Object' where
       ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
           then GetOrderReturnsResponseBody200Object'EnumStringList
           else GetOrderReturnsResponseBody200Object'EnumOther val
+      )
+
+-- | > GET /v1/order_returns
+--
+-- The same as 'getOrderReturns' but accepts an explicit configuration.
+getOrderReturnsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetOrderReturnsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetOrderReturnsResponse)
+getOrderReturnsWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetOrderReturnsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetOrderReturnsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              GetOrderReturnsResponseBody200
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetOrderReturnsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/order_returns")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "order") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryOrder parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
+      )
+
+-- | > GET /v1/order_returns
+--
+-- The same as 'getOrderReturns' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getOrderReturnsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetOrderReturnsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getOrderReturnsRaw parameters =
+  GHC.Base.id
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/order_returns")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "order") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryOrder parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
+    )
+
+-- | > GET /v1/order_returns
+--
+-- The same as 'getOrderReturns' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getOrderReturnsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetOrderReturnsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getOrderReturnsWithConfigurationRaw
+  config
+  parameters =
+    GHC.Base.id
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/order_returns")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "order") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryOrder parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getOrderReturnsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
       )

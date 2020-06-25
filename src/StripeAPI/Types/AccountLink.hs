@@ -38,9 +38,9 @@ import qualified Prelude as GHC.Maybe
 data AccountLink
   = AccountLink
       { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        accountLinkCreated :: GHC.Integer.Type.Integer,
+        accountLinkCreated :: GHC.Types.Int,
         -- | expires_at: The timestamp at which this account link will expire.
-        accountLinkExpiresAt :: GHC.Integer.Type.Integer,
+        accountLinkExpiresAt :: GHC.Types.Int,
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         accountLinkObject :: AccountLinkObject',
         -- | url: The URL for the account link.

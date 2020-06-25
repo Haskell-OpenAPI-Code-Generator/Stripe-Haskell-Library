@@ -46,125 +46,43 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Creates a new source object.\<\/p>
 postSources ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   GHC.Maybe.Maybe PostSourcesRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSourcesResponse))
-postSources
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostSourcesResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostSourcesResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Source
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostSourcesResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostSourcesResponse)
+postSources body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostSourcesResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostSourcesResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Source
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostSourcesResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/sources") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/sources
---
--- The same as 'postSources' but returns the raw 'Data.ByteString.Char8.ByteString'
-postSourcesRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe PostSourcesRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postSourcesRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/sources") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/sources
---
--- Monadic version of 'postSources' (use with 'StripeAPI.Common.runWithConfiguration')
-postSourcesM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe PostSourcesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostSourcesResponse)
-    )
-postSourcesM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostSourcesResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostSourcesResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Source
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostSourcesResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/sources") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/sources
---
--- Monadic version of 'postSourcesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postSourcesRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe PostSourcesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postSourcesRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/sources") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postSourcesRequestBody
 data PostSourcesRequestBody
   = PostSourcesRequestBody
       { -- | amount: Amount associated with the source. This is the amount for which the source will be chargeable once ready. Required for \`single_use\` sources. Not supported for \`receiver\` type sources, where charge amount may not be specified until funds land.
-        postSourcesRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postSourcesRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/currencies) associated with the source. This is the currency for which the source will be chargeable once ready.
         postSourcesRequestBodyCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | customer: The \`Customer\` to whom the original source is attached to. Must be set when the original source is not a \`Source\` (e.g., \`Card\`).
@@ -184,7 +102,7 @@ data PostSourcesRequestBody
         -- | mandate: Information about a mandate possibility attached to a source object (generally for bank debits) as well as its acceptance status.
         postSourcesRequestBodyMandate :: (GHC.Maybe.Maybe PostSourcesRequestBodyMandate'),
         -- | metadata
-        postSourcesRequestBodyMetadata :: (GHC.Maybe.Maybe PostSourcesRequestBodyMetadata'),
+        postSourcesRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | original_source: The source to share.
         --
         -- Constraints:
@@ -313,7 +231,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate' where
 data PostSourcesRequestBodyMandate'Acceptance'
   = PostSourcesRequestBodyMandate'Acceptance'
       { -- | date
-        postSourcesRequestBodyMandate'Acceptance'Date :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postSourcesRequestBodyMandate'Acceptance'Date :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | ip
         postSourcesRequestBodyMandate'Acceptance'Ip :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | offline
@@ -373,7 +291,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Accept
 data PostSourcesRequestBodyMandate'Acceptance'Online'
   = PostSourcesRequestBodyMandate'Acceptance'Online'
       { -- | date
-        postSourcesRequestBodyMandate'Acceptance'Online'Date :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postSourcesRequestBodyMandate'Acceptance'Online'Date :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | ip
         postSourcesRequestBodyMandate'Acceptance'Online'Ip :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | user_agent
@@ -478,7 +396,7 @@ instance Data.Aeson.FromJSON PostSourcesRequestBodyMandate'Amount'OneOf1 where
 -- | Define the one-of schema postSourcesRequestBodyMandate\'Amount\'
 data PostSourcesRequestBodyMandate'Amount'Variants
   = PostSourcesRequestBodyMandate'Amount'PostSourcesRequestBodyMandate'Amount'OneOf1 PostSourcesRequestBodyMandate'Amount'OneOf1
-  | PostSourcesRequestBodyMandate'Amount'Integer GHC.Integer.Type.Integer
+  | PostSourcesRequestBodyMandate'Amount'Int GHC.Types.Int
   deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 
 instance Data.Aeson.ToJSON PostSourcesRequestBodyMandate'Amount'Variants where
@@ -556,23 +474,6 @@ instance Data.Aeson.FromJSON PostSourcesRequestBodyMandate'NotificationMethod' w
                           then PostSourcesRequestBodyMandate'NotificationMethod'EnumStringStripeEmail
                           else PostSourcesRequestBodyMandate'NotificationMethod'EnumOther val
       )
-
--- | Defines the data type for the schema postSourcesRequestBodyMetadata\'
-data PostSourcesRequestBodyMetadata'
-  = PostSourcesRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostSourcesRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSourcesRequestBodyMetadata'" (\obj -> GHC.Base.pure PostSourcesRequestBodyMetadata')
 
 -- | Defines the data type for the schema postSourcesRequestBodyOwner\'
 --
@@ -760,7 +661,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodySourceOrder' w
 data PostSourcesRequestBodySourceOrder'Items'
   = PostSourcesRequestBodySourceOrder'Items'
       { -- | amount
-        postSourcesRequestBodySourceOrder'Items'Amount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postSourcesRequestBodySourceOrder'Items'Amount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | currency
         postSourcesRequestBodySourceOrder'Items'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | description
@@ -776,7 +677,7 @@ data PostSourcesRequestBodySourceOrder'Items'
         -- * Maximum length of 5000
         postSourcesRequestBodySourceOrder'Items'Parent :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | quantity
-        postSourcesRequestBodySourceOrder'Items'Quantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postSourcesRequestBodySourceOrder'Items'Quantity :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | type
         --
         -- Constraints:
@@ -961,3 +862,71 @@ data PostSourcesResponse
   | -- | Error response.
     PostSourcesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/sources
+--
+-- The same as 'postSources' but accepts an explicit configuration.
+postSourcesWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostSourcesRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostSourcesResponse)
+postSourcesWithConfiguration
+  config
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostSourcesResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostSourcesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Source
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostSourcesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/sources") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/sources
+--
+-- The same as 'postSources' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postSourcesRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The request body to send
+  GHC.Maybe.Maybe PostSourcesRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postSourcesRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/sources") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/sources
+--
+-- The same as 'postSources' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postSourcesWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostSourcesRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postSourcesWithConfigurationRaw
+  config
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/sources") [] body StripeAPI.Common.RequestBodyEncodingFormData)

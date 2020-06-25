@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data MandateSingleUse
   = MandateSingleUse
       { -- | amount: On a single use mandate, the amount of the payment.
-        mandateSingleUseAmount :: GHC.Integer.Type.Integer,
+        mandateSingleUseAmount :: GHC.Types.Int,
         -- | currency: On a single use mandate, the currency of the payment.
         mandateSingleUseCurrency :: Data.Text.Internal.Text
       }

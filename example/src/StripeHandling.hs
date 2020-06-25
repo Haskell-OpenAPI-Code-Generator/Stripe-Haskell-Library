@@ -2,21 +2,23 @@
 
 module StripeHandling where
 
+import qualified Control.Monad.IO.Class as MIO
 import qualified Data.ByteString.Char8 as B8
 import qualified Data.Either as Either
 import qualified Data.Maybe as Maybe
 import qualified Data.Text as T
-import Data.Text (Text)
-import qualified Network.HTTP.Simple as HS
 import qualified StripeAPI.Common as Common
 import qualified StripeAPI.Configuration as Config
+import qualified StripeAPI.Operations.GetCheckoutSessionsSession as OpGetCheckout
+import qualified StripeAPI.Operations.GetPaymentIntentsIntent as OpGetPaymentIntent
 import qualified StripeAPI.Operations.PostCheckoutSessions as OpCheckout
 import qualified StripeAPI.Operations.PostCustomers as OpCustomer
 import qualified StripeAPI.Operations.PostPaymentIntents as OpPaymentIntent
 import qualified StripeAPI.SecuritySchemes as Security
 import qualified StripeAPI.Types as Types
+import qualified Network.HTTP.Simple as HS
 
-stripeAPIKey :: Text
+stripeAPIKey :: T.Text
 stripeAPIKey = "sk_test_XXXXXXXXXX" -- Insert your API key here
 
 paymentIntentRequestBody :: OpPaymentIntent.PostPaymentIntentsRequestBody
@@ -51,10 +53,6 @@ paymentIntentRequestBody =
       OpPaymentIntent.postPaymentIntentsRequestBodyTransferGroup = Nothing,
       OpPaymentIntent.postPaymentIntentsRequestBodyUseStripeSdk = Nothing
     }
-
-lineItemMetaData = Types.lineItemMetadata
-
-lineItemPeriod = Types.InvoiceLineItemPeriod 10 80
 
 checkoutLineItem =
   OpCheckout.PostCheckoutSessionsRequestBodyLineItems'
@@ -123,39 +121,68 @@ testCustomer =
 defaultConf = Config.defaultConfiguration
 
 security =
-  Security.BasicAuthenticationSecurityScheme
-    { Security.basicAuthenticationSecuritySchemeUsername = stripeAPIKey,
-      Security.basicAuthenticationSecuritySchemePassword = ""
-    }
+  Security.basicAuthenticationSecurityScheme
+    Security.BasicAuthenticationData
+      { -- we should not publish the demo server
+        -- just a test key
+        Security.basicAuthenticationDataUsername = stripeAPIKey,
+        Security.basicAuthenticationDataPassword = ""
+      }
 
 conf = defaultConf {Common.configSecurityScheme = security}
 
 getCheckoutSessionIdRaw :: IO String
 getCheckoutSessionIdRaw = do
   putStrLn "getCheckoutSessionIdRaw"
-  resp <- OpCheckout.postCheckoutSessionsRaw conf checkoutSession
+  resp <- OpCheckout.postCheckoutSessionsWithConfigurationRaw conf checkoutSession
   print resp
-  pure $ Either.either show (B8.unpack . HS.getResponseBody) resp
+  pure $ B8.unpack $ HS.getResponseBody resp
 
 getCheckoutSessionId :: IO String
 getCheckoutSessionId = do
   putStrLn "getCheckoutSessionId"
-  resp <- OpCheckout.postCheckoutSessions conf checkoutSession
+  resp <- OpCheckout.postCheckoutSessionsWithConfiguration conf checkoutSession
   print resp
-  pure $ case resp of
-    Right serverResponse ->
-      T.unpack $ case HS.getResponseBody serverResponse of
-        OpCheckout.PostCheckoutSessionsResponse200 session ->
-          Types.checkout'sessionId session
-        _ -> "wrong type of response"
-    Left a -> show a
+  pure $ T.unpack $ case HS.getResponseBody resp of
+    OpCheckout.PostCheckoutSessionsResponse200 session ->
+      Types.checkout'sessionId session
+    _ -> "wrong type of response"
+
+readSession :: String -> IO (Either String Types.Checkout'session)
+readSession sessionId = Common.runWithConfiguration conf $ do
+  MIO.liftIO $ putStrLn $ "readSession " <> sessionId
+  resp <-
+    OpGetCheckout.getCheckoutSessionsSession
+      OpGetCheckout.GetCheckoutSessionsSessionParameters
+        { OpGetCheckout.getCheckoutSessionsSessionParametersPathSession = T.pack sessionId,
+          OpGetCheckout.getCheckoutSessionsSessionParametersQueryExpand = Nothing
+        }
+  MIO.liftIO $ print resp
+  case HS.getResponseBody resp of
+    OpGetCheckout.GetCheckoutSessionsSessionResponse200 session ->
+      let variants = Types.checkout'sessionPaymentIntent session
+       in case variants of
+            Just (Types.Checkout'sessionPaymentIntent'Text paymentIntentId) -> do
+              paymentIntent <-
+                OpGetPaymentIntent.getPaymentIntentsIntent
+                  OpGetPaymentIntent.GetPaymentIntentsIntentParameters
+                    { OpGetPaymentIntent.getPaymentIntentsIntentParametersPathIntent = paymentIntentId,
+                      OpGetPaymentIntent.getPaymentIntentsIntentParametersQueryClientSecret = Nothing,
+                      OpGetPaymentIntent.getPaymentIntentsIntentParametersQueryExpand = Nothing
+                    }
+              case HS.getResponseBody paymentIntent of
+                OpGetPaymentIntent.GetPaymentIntentsIntentResponse200 paymentIntent ->
+                  pure $ Right (session {Types.checkout'sessionPaymentIntent = Just $ Types.Checkout'sessionPaymentIntent'PaymentIntent paymentIntent})
+                _ -> pure $ Right session
+            _ -> pure $ Right session
+    _ -> pure $ Left "wrong type of response"
 
 makePaymentIntentCall :: IO String
 makePaymentIntentCall = do
   putStrLn "makePaymentIntentCall"
-  resp <- OpPaymentIntent.postPaymentIntents conf paymentIntentRequestBody
+  resp <- OpPaymentIntent.postPaymentIntentsWithConfiguration conf paymentIntentRequestBody
   print resp
-  pure $ Either.either show (show . HS.getResponseBody) resp
+  pure $ show $ HS.getResponseBody resp
 
 getPaymentIntentCallSecret :: IO String
 getPaymentIntentCallSecret =
@@ -165,9 +192,9 @@ getPaymentIntentCallSecret =
         _ -> "invalid response"
    in do
         putStrLn "getPaymentIntentCallSecret"
-        resp <- OpPaymentIntent.postPaymentIntents conf paymentIntentRequestBody
+        resp <- OpPaymentIntent.postPaymentIntentsWithConfiguration conf paymentIntentRequestBody
         print resp
-        pure $ Either.either show trans resp
+        pure $ trans resp
 
 -- for SEPA. A customer has to be created
 getPaymentIntentSepaCallSecret :: IO String
@@ -175,25 +202,22 @@ getPaymentIntentSepaCallSecret =
   let trans response = T.unpack $ case HS.getResponseBody response of
         OpPaymentIntent.PostPaymentIntentsResponse200 paymentIntent ->
           Maybe.fromMaybe "no secret given" (Types.paymentIntentClientSecret paymentIntent)
-        _ -> "invalid response from payment intent creation"
-   in do
-        putStrLn "getPaymentIntentCallSecret"
-        respCustomer <- OpCustomer.postCustomers conf (Just testCustomer)
-        print respCustomer
-        case respCustomer of
-          Right successfullResponse ->
-            case HS.getResponseBody successfullResponse of
-              OpCustomer.PostCustomersResponse200 customer -> do
-                resp <-
-                  OpPaymentIntent.postPaymentIntents
-                    conf
-                    paymentIntentRequestBody
-                      { OpPaymentIntent.postPaymentIntentsRequestBodyCustomer = Just $ Types.customerId customer,
-                        OpPaymentIntent.postPaymentIntentsRequestBodyPaymentMethodTypes = Just ["card", "sepa_debit"],
-                        OpPaymentIntent.postPaymentIntentsRequestBodyCurrency = "EUR",
-                        OpPaymentIntent.postPaymentIntentsRequestBodySetupFutureUsage = Just OpPaymentIntent.PostPaymentIntentsRequestBodySetupFutureUsage'EnumStringOffSession
-                      }
-                print resp
-                pure $ Either.either show trans resp
-              _ -> pure "response was not a success"
-          _ -> pure "could not create customer"
+        OpPaymentIntent.PostPaymentIntentsResponseDefault error -> Maybe.fromMaybe "payment intent failed, no error message available" $ Types.apiErrorsMessage $ Types.errorError error
+        OpPaymentIntent.PostPaymentIntentsResponseError error -> T.pack error
+   in Common.runWithConfiguration conf $ do
+        MIO.liftIO $ putStrLn "getPaymentIntentCallSecret"
+        respCustomer <- OpCustomer.postCustomers (Just testCustomer)
+        MIO.liftIO $ print respCustomer
+        case HS.getResponseBody respCustomer of
+          OpCustomer.PostCustomersResponse200 customer -> do
+            resp <-
+              OpPaymentIntent.postPaymentIntents
+                paymentIntentRequestBody
+                  { OpPaymentIntent.postPaymentIntentsRequestBodyCustomer = Just $ Types.customerId customer,
+                    OpPaymentIntent.postPaymentIntentsRequestBodyPaymentMethodTypes = Just ["card", "sepa_debit"],
+                    OpPaymentIntent.postPaymentIntentsRequestBodyCurrency = "EUR",
+                    OpPaymentIntent.postPaymentIntentsRequestBodySetupFutureUsage = Just OpPaymentIntent.PostPaymentIntentsRequestBodySetupFutureUsage'EnumStringOffSession
+                  }
+            MIO.liftIO $ print resp
+            pure $ trans resp
+          _ -> pure "response was not a success"

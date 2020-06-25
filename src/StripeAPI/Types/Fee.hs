@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data Fee
   = Fee
       { -- | amount: Amount of the fee, in cents.
-        feeAmount :: GHC.Integer.Type.Integer,
+        feeAmount :: GHC.Types.Int,
         -- | application: ID of the Connect application that earned the fee.
         --
         -- Constraints:

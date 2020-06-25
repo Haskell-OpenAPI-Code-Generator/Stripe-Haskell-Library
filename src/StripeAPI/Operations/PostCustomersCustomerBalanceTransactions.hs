@@ -46,136 +46,47 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Creates an immutable transaction that updates the customer’s \<a href=\"\/docs\/api\/customers\/object\#customer_object-balance\">\<code>balance\<\/code>\<\/a>.\<\/p>
 postCustomersCustomerBalanceTransactions ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | customer | Constraints: Maximum length of 5000
   Data.Text.Internal.Text ->
   -- | The request body to send
   PostCustomersCustomerBalanceTransactionsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCustomersCustomerBalanceTransactionsResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostCustomersCustomerBalanceTransactionsResponse)
 postCustomersCustomerBalanceTransactions
-  config
   customer
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostCustomersCustomerBalanceTransactionsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerBalanceTransactionsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  CustomerBalanceTransaction
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerBalanceTransactionsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/balance_transactions"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/customers/{customer}/balance_transactions
---
--- The same as 'postCustomersCustomerBalanceTransactions' but returns the raw 'Data.ByteString.Char8.ByteString'
-postCustomersCustomerBalanceTransactionsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  PostCustomersCustomerBalanceTransactionsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postCustomersCustomerBalanceTransactionsRaw
-  config
-  customer
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/balance_transactions"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/customers/{customer}/balance_transactions
---
--- Monadic version of 'postCustomersCustomerBalanceTransactions' (use with 'StripeAPI.Common.runWithConfiguration')
-postCustomersCustomerBalanceTransactionsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  PostCustomersCustomerBalanceTransactionsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostCustomersCustomerBalanceTransactionsResponse)
-    )
-postCustomersCustomerBalanceTransactionsM
-  customer
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostCustomersCustomerBalanceTransactionsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerBalanceTransactionsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  CustomerBalanceTransaction
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerBalanceTransactionsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostCustomersCustomerBalanceTransactionsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerBalanceTransactionsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              CustomerBalanceTransaction
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerBalanceTransactionsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/balance_transactions"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/customers/{customer}/balance_transactions
---
--- Monadic version of 'postCustomersCustomerBalanceTransactionsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postCustomersCustomerBalanceTransactionsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  PostCustomersCustomerBalanceTransactionsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postCustomersCustomerBalanceTransactionsRawM
-  customer
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/balance_transactions"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postCustomersCustomerBalanceTransactionsRequestBody
 data PostCustomersCustomerBalanceTransactionsRequestBody
   = PostCustomersCustomerBalanceTransactionsRequestBody
       { -- | amount: The integer amount in **%s** to apply to the customer\'s balance. Pass a negative amount to credit the customer\'s balance, and pass in a positive amount to debit the customer\'s balance.
-        postCustomersCustomerBalanceTransactionsRequestBodyAmount :: GHC.Integer.Type.Integer,
+        postCustomersCustomerBalanceTransactionsRequestBodyAmount :: GHC.Types.Int,
         -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies). If the customer\'s [\`currency\`](https:\/\/stripe.com\/docs\/api\/customers\/object\#customer_object-currency) is set, this value must match it. If the customer\'s \`currency\` is not set, it will be updated to this value.
         postCustomersCustomerBalanceTransactionsRequestBodyCurrency :: Data.Text.Internal.Text,
         -- | description: An arbitrary string attached to the object. Often useful for displaying to users.
@@ -187,7 +98,7 @@ data PostCustomersCustomerBalanceTransactionsRequestBody
         -- | expand: Specifies which fields in the response should be expanded.
         postCustomersCustomerBalanceTransactionsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postCustomersCustomerBalanceTransactionsRequestBodyMetadata :: (GHC.Maybe.Maybe PostCustomersCustomerBalanceTransactionsRequestBodyMetadata')
+        postCustomersCustomerBalanceTransactionsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
       }
   deriving
     ( GHC.Show.Show,
@@ -201,25 +112,6 @@ instance Data.Aeson.ToJSON PostCustomersCustomerBalanceTransactionsRequestBody w
 instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBalanceTransactionsRequestBody where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBalanceTransactionsRequestBody" (\obj -> ((((GHC.Base.pure PostCustomersCustomerBalanceTransactionsRequestBody GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "expand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata"))
 
--- | Defines the data type for the schema postCustomersCustomerBalanceTransactionsRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostCustomersCustomerBalanceTransactionsRequestBodyMetadata'
-  = PostCustomersCustomerBalanceTransactionsRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostCustomersCustomerBalanceTransactionsRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBalanceTransactionsRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerBalanceTransactionsRequestBodyMetadata'" (\obj -> GHC.Base.pure PostCustomersCustomerBalanceTransactionsRequestBodyMetadata')
-
 -- | Represents a response of the operation 'postCustomersCustomerBalanceTransactions'.
 --
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'PostCustomersCustomerBalanceTransactionsResponseError' is used.
@@ -231,3 +123,81 @@ data PostCustomersCustomerBalanceTransactionsResponse
   | -- | Error response.
     PostCustomersCustomerBalanceTransactionsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/customers/{customer}/balance_transactions
+--
+-- The same as 'postCustomersCustomerBalanceTransactions' but accepts an explicit configuration.
+postCustomersCustomerBalanceTransactionsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | customer | Constraints: Maximum length of 5000
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  PostCustomersCustomerBalanceTransactionsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostCustomersCustomerBalanceTransactionsResponse)
+postCustomersCustomerBalanceTransactionsWithConfiguration
+  config
+  customer
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostCustomersCustomerBalanceTransactionsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerBalanceTransactionsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              CustomerBalanceTransaction
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerBalanceTransactionsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/balance_transactions"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/customers/{customer}/balance_transactions
+--
+-- The same as 'postCustomersCustomerBalanceTransactions' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postCustomersCustomerBalanceTransactionsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | customer | Constraints: Maximum length of 5000
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  PostCustomersCustomerBalanceTransactionsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postCustomersCustomerBalanceTransactionsRaw
+  customer
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/balance_transactions"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/customers/{customer}/balance_transactions
+--
+-- The same as 'postCustomersCustomerBalanceTransactions' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postCustomersCustomerBalanceTransactionsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | customer | Constraints: Maximum length of 5000
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  PostCustomersCustomerBalanceTransactionsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postCustomersCustomerBalanceTransactionsWithConfigurationRaw
+  config
+  customer
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/balance_transactions"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

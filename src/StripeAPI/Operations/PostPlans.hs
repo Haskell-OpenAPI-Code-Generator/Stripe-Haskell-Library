@@ -46,119 +46,37 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>You can create plans using the API, or in the Stripe \<a href=\"https:\/\/dashboard.stripe.com\/subscriptions\/products\">Dashboard\<\/a>.\<\/p>
 postPlans ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   PostPlansRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPlansResponse))
-postPlans
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostPlansResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostPlansResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Plan
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostPlansResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostPlansResponse)
+postPlans body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostPlansResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostPlansResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Plan
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostPlansResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/plans") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/plans
---
--- The same as 'postPlans' but returns the raw 'Data.ByteString.Char8.ByteString'
-postPlansRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  PostPlansRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postPlansRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/plans") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/plans
---
--- Monadic version of 'postPlans' (use with 'StripeAPI.Common.runWithConfiguration')
-postPlansM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostPlansRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostPlansResponse)
-    )
-postPlansM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostPlansResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostPlansResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Plan
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostPlansResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/plans") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/plans
---
--- Monadic version of 'postPlansRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postPlansRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostPlansRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postPlansRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/plans") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postPlansRequestBody
 data PostPlansRequestBody
@@ -168,7 +86,7 @@ data PostPlansRequestBody
         -- | aggregate_usage: Specifies a usage aggregation strategy for plans of \`usage_type=metered\`. Allowed values are \`sum\` for summing up all usage during a period, \`last_during_period\` for using the last usage record reported within a period, \`last_ever\` for using the last usage record ever (across period bounds) or \`max\` which uses the usage record with the maximum reported usage during a period. Defaults to \`sum\`.
         postPlansRequestBodyAggregateUsage :: (GHC.Maybe.Maybe PostPlansRequestBodyAggregateUsage'),
         -- | amount: A positive integer in %s (or 0 for a free plan) representing how much to charge on a recurring basis.
-        postPlansRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPlansRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | amount_decimal: Same as \`amount\`, but accepts a decimal value with at most 12 decimal places. Only one of \`amount\` and \`amount_decimal\` can be set.
         postPlansRequestBodyAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | billing_scheme: Describes how to compute the price per period. Either \`per_unit\` or \`tiered\`. \`per_unit\` indicates that the fixed amount (specified in \`amount\`) will be charged per unit in \`quantity\` (for plans with \`usage_type=licensed\`), or per unit of total usage (for plans with \`usage_type=metered\`). \`tiered\` indicates that the unit pricing will be computed using a tiering strategy as defined using the \`tiers\` and \`tiers_mode\` attributes.
@@ -186,9 +104,9 @@ data PostPlansRequestBody
         -- | interval: Specifies billing frequency. Either \`day\`, \`week\`, \`month\` or \`year\`.
         postPlansRequestBodyInterval :: PostPlansRequestBodyInterval',
         -- | interval_count: The number of intervals between subscription billings. For example, \`interval=month\` and \`interval_count=3\` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
-        postPlansRequestBodyIntervalCount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPlansRequestBodyIntervalCount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postPlansRequestBodyMetadata :: (GHC.Maybe.Maybe PostPlansRequestBodyMetadata'),
+        postPlansRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | nickname: A brief description of the plan, hidden from customers.
         --
         -- Constraints:
@@ -208,7 +126,7 @@ data PostPlansRequestBody
         -- | transform_usage: Apply a transformation to the reported usage or set quantity before computing the billed price. Cannot be combined with \`tiers\`.
         postPlansRequestBodyTransformUsage :: (GHC.Maybe.Maybe PostPlansRequestBodyTransformUsage'),
         -- | trial_period_days: Default number of trial days when subscribing a customer to this plan using [\`trial_from_plan=true\`](https:\/\/stripe.com\/docs\/api\#create_subscription-trial_from_plan).
-        postPlansRequestBodyTrialPeriodDays :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPlansRequestBodyTrialPeriodDays :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | usage_type: Configures how the quantity per period should be determined. Can be either \`metered\` or \`licensed\`. \`licensed\` automatically bills the \`quantity\` set when adding it to a subscription. \`metered\` aggregates the total usage based on usage records. Defaults to \`licensed\`.
         postPlansRequestBodyUsageType :: (GHC.Maybe.Maybe PostPlansRequestBodyUsageType')
       }
@@ -325,25 +243,6 @@ instance Data.Aeson.FromJSON PostPlansRequestBodyInterval' where
                       else PostPlansRequestBodyInterval'EnumOther val
       )
 
--- | Defines the data type for the schema postPlansRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostPlansRequestBodyMetadata'
-  = PostPlansRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostPlansRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPlansRequestBodyMetadata'" (\obj -> GHC.Base.pure PostPlansRequestBodyMetadata')
-
 -- | Defines the data type for the schema postPlansRequestBodyProduct\'OneOf2
 --
 -- The product whose pricing the created plan will represent. This can either be the ID of an existing product, or a dictionary containing fields used to create a [service product](https:\/\/stripe.com\/docs\/api\#product_object-type).
@@ -358,7 +257,7 @@ data PostPlansRequestBodyProduct'OneOf2
         -- * Maximum length of 5000
         postPlansRequestBodyProduct'OneOf2Id :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata
-        postPlansRequestBodyProduct'OneOf2Metadata :: (GHC.Maybe.Maybe PostPlansRequestBodyProduct'OneOf2Metadata'),
+        postPlansRequestBodyProduct'OneOf2Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | name
         --
         -- Constraints:
@@ -390,23 +289,6 @@ instance Data.Aeson.ToJSON PostPlansRequestBodyProduct'OneOf2 where
 instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyProduct'OneOf2 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPlansRequestBodyProduct'OneOf2" (\obj -> (((((GHC.Base.pure PostPlansRequestBodyProduct'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "statement_descriptor")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "unit_label"))
 
--- | Defines the data type for the schema postPlansRequestBodyProduct\'OneOf2Metadata\'
-data PostPlansRequestBodyProduct'OneOf2Metadata'
-  = PostPlansRequestBodyProduct'OneOf2Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostPlansRequestBodyProduct'OneOf2Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostPlansRequestBodyProduct'OneOf2Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPlansRequestBodyProduct'OneOf2Metadata'" (\obj -> GHC.Base.pure PostPlansRequestBodyProduct'OneOf2Metadata')
-
 -- | Define the one-of schema postPlansRequestBodyProduct\'
 data PostPlansRequestBodyProduct'Variants
   = PostPlansRequestBodyProduct'Text Data.Text.Internal.Text
@@ -423,11 +305,11 @@ instance Data.Aeson.FromJSON PostPlansRequestBodyProduct'Variants where
 data PostPlansRequestBodyTiers'
   = PostPlansRequestBodyTiers'
       { -- | flat_amount
-        postPlansRequestBodyTiers'FlatAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPlansRequestBodyTiers'FlatAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | flat_amount_decimal
         postPlansRequestBodyTiers'FlatAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | unit_amount
-        postPlansRequestBodyTiers'UnitAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPlansRequestBodyTiers'UnitAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | unit_amount_decimal
         postPlansRequestBodyTiers'UnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | up_to
@@ -468,7 +350,7 @@ instance Data.Aeson.FromJSON PostPlansRequestBodyTiers'UpTo'OneOf1 where
 -- | Define the one-of schema postPlansRequestBodyTiers\'Up_to\'
 data PostPlansRequestBodyTiers'UpTo'Variants
   = PostPlansRequestBodyTiers'UpTo'PostPlansRequestBodyTiers'UpTo'OneOf1 PostPlansRequestBodyTiers'UpTo'OneOf1
-  | PostPlansRequestBodyTiers'UpTo'Integer GHC.Integer.Type.Integer
+  | PostPlansRequestBodyTiers'UpTo'Int GHC.Types.Int
   deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 
 instance Data.Aeson.ToJSON PostPlansRequestBodyTiers'UpTo'Variants where
@@ -510,7 +392,7 @@ instance Data.Aeson.FromJSON PostPlansRequestBodyTiersMode' where
 data PostPlansRequestBodyTransformUsage'
   = PostPlansRequestBodyTransformUsage'
       { -- | divide_by
-        postPlansRequestBodyTransformUsage'DivideBy :: GHC.Integer.Type.Integer,
+        postPlansRequestBodyTransformUsage'DivideBy :: GHC.Types.Int,
         -- | round
         --
         -- Constraints:
@@ -593,3 +475,71 @@ data PostPlansResponse
   | -- | Error response.
     PostPlansResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/plans
+--
+-- The same as 'postPlans' but accepts an explicit configuration.
+postPlansWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostPlansRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostPlansResponse)
+postPlansWithConfiguration
+  config
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostPlansResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostPlansResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Plan
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostPlansResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/plans") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/plans
+--
+-- The same as 'postPlans' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postPlansRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The request body to send
+  PostPlansRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postPlansRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/plans") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/plans
+--
+-- The same as 'postPlans' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postPlansWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostPlansRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postPlansWithConfigurationRaw
+  config
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/plans") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

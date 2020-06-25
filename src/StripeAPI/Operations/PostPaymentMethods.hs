@@ -46,119 +46,37 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Creates a PaymentMethod object. Read the \<a href=\"\/docs\/stripe-js\/reference\#stripe-create-payment-method\">Stripe.js reference\<\/a> to learn how to create PaymentMethods via Stripe.js.\<\/p>
 postPaymentMethods ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   GHC.Maybe.Maybe PostPaymentMethodsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPaymentMethodsResponse))
-postPaymentMethods
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostPaymentMethodsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostPaymentMethodsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  PaymentMethod
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostPaymentMethodsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostPaymentMethodsResponse)
+postPaymentMethods body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostPaymentMethodsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostPaymentMethodsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            PaymentMethod
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostPaymentMethodsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_methods") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/payment_methods
---
--- The same as 'postPaymentMethods' but returns the raw 'Data.ByteString.Char8.ByteString'
-postPaymentMethodsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe PostPaymentMethodsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postPaymentMethodsRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_methods") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/payment_methods
---
--- Monadic version of 'postPaymentMethods' (use with 'StripeAPI.Common.runWithConfiguration')
-postPaymentMethodsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe PostPaymentMethodsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostPaymentMethodsResponse)
-    )
-postPaymentMethodsM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostPaymentMethodsResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostPaymentMethodsResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                PaymentMethod
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostPaymentMethodsResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_methods") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/payment_methods
---
--- Monadic version of 'postPaymentMethodsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postPaymentMethodsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe PostPaymentMethodsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postPaymentMethodsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_methods") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postPaymentMethodsRequestBody
 data PostPaymentMethodsRequestBody
@@ -180,7 +98,7 @@ data PostPaymentMethodsRequestBody
         -- | ideal: If this is an \`ideal\` PaymentMethod, this hash contains details about the iDEAL payment method.
         postPaymentMethodsRequestBodyIdeal :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodyIdeal'),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postPaymentMethodsRequestBodyMetadata :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodyMetadata'),
+        postPaymentMethodsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | payment_method: The PaymentMethod to share.
         --
         -- Constraints:
@@ -302,9 +220,9 @@ data PostPaymentMethodsRequestBodyCard'
         -- * Maximum length of 5000
         postPaymentMethodsRequestBodyCard'Cvc :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | exp_month
-        postPaymentMethodsRequestBodyCard'ExpMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPaymentMethodsRequestBodyCard'ExpMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | exp_year
-        postPaymentMethodsRequestBodyCard'ExpYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPaymentMethodsRequestBodyCard'ExpYear :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | number
         --
         -- Constraints:
@@ -568,25 +486,6 @@ instance Data.Aeson.FromJSON PostPaymentMethodsRequestBodyIdeal'Bank' where
                                                       else PostPaymentMethodsRequestBodyIdeal'Bank'EnumOther val
       )
 
--- | Defines the data type for the schema postPaymentMethodsRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostPaymentMethodsRequestBodyMetadata'
-  = PostPaymentMethodsRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentMethodsRequestBodyMetadata'" (\obj -> GHC.Base.pure PostPaymentMethodsRequestBodyMetadata')
-
 -- | Defines the data type for the schema postPaymentMethodsRequestBodySepa_debit\'
 --
 -- If this is a \`sepa_debit\` PaymentMethod, this hash contains details about the SEPA debit bank account.
@@ -659,3 +558,71 @@ data PostPaymentMethodsResponse
   | -- | Error response.
     PostPaymentMethodsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/payment_methods
+--
+-- The same as 'postPaymentMethods' but accepts an explicit configuration.
+postPaymentMethodsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostPaymentMethodsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostPaymentMethodsResponse)
+postPaymentMethodsWithConfiguration
+  config
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostPaymentMethodsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostPaymentMethodsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              PaymentMethod
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostPaymentMethodsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_methods") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/payment_methods
+--
+-- The same as 'postPaymentMethods' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postPaymentMethodsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The request body to send
+  GHC.Maybe.Maybe PostPaymentMethodsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postPaymentMethodsRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_methods") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/payment_methods
+--
+-- The same as 'postPaymentMethods' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postPaymentMethodsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostPaymentMethodsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postPaymentMethodsWithConfigurationRaw
+  config
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_methods") [] body StripeAPI.Common.RequestBodyEncodingFormData)

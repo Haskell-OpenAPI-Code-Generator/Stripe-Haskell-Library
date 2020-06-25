@@ -33,9 +33,9 @@ import qualified Prelude as GHC.Maybe
 data InvoiceLineItemPeriod
   = InvoiceLineItemPeriod
       { -- | end: End of the line item\'s billing period
-        invoiceLineItemPeriodEnd :: GHC.Integer.Type.Integer,
+        invoiceLineItemPeriodEnd :: GHC.Types.Int,
         -- | start: Start of the line item\'s billing period
-        invoiceLineItemPeriodStart :: GHC.Integer.Type.Integer
+        invoiceLineItemPeriodStart :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,

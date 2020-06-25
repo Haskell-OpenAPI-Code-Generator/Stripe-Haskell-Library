@@ -13,6 +13,14 @@ import qualified Network.HTTP.Client as Network.HTTP.Client.Request
 import qualified Network.HTTP.Simple
 import qualified StripeAPI.Common
 
+-- | Used to pass the authentication information for BasicAuthentication to 'basicAuthenticationSecurityScheme'.
+data BasicAuthenticationData
+  = BasicAuthenticationData
+      { basicAuthenticationDataUsername :: Data.Text.Internal.Text,
+        basicAuthenticationDataPassword :: Data.Text.Internal.Text
+      }
+  deriving (GHC.Show.Show, GHC.Classes.Ord, GHC.Classes.Eq)
+
 -- | Use this security scheme to use basic authentication for a request. Should be used in a 'StripeAPI.Common.Configuration'.
 --
 -- Basic HTTP authentication. Allowed headers-- Authorization: Basic \<api_key> | Authorization: Basic \<base64 hash of \`api_key:\`>
@@ -20,21 +28,16 @@ import qualified StripeAPI.Common
 -- @
 -- 'StripeAPI.Configuration.defaultConfiguration'
 --   { configSecurityScheme =
---       'BasicAuthenticationSecurityScheme'
---         { 'basicAuthenticationSecuritySchemeUsername' = "user",
---           'basicAuthenticationSecuritySchemePassword' = "pw"
+--       'basicAuthenticationSecurityScheme' 'BasicAuthenticationData'
+--         { 'basicAuthenticationDataUsername' = "user",
+--           'basicAuthenticationDataPassword' = "pw"
 --         }
 --   }
 -- @
-data BasicAuthenticationSecurityScheme
-  = BasicAuthenticationSecurityScheme
-      { basicAuthenticationSecuritySchemeUsername :: Data.Text.Internal.Text,
-        basicAuthenticationSecuritySchemePassword :: Data.Text.Internal.Text
-      }
-  deriving (GHC.Show.Show, GHC.Classes.Ord, GHC.Classes.Eq)
-
-instance StripeAPI.Common.SecurityScheme BasicAuthenticationSecurityScheme where
-  authenticateRequest basicAuth = Network.HTTP.Client.Request.applyBasicAuth (StripeAPI.Common.textToByte GHC.Base.$ basicAuthenticationSecuritySchemeUsername basicAuth) (StripeAPI.Common.textToByte GHC.Base.$ basicAuthenticationSecuritySchemePassword basicAuth)
+basicAuthenticationSecurityScheme ::
+  BasicAuthenticationData ->
+  StripeAPI.Common.SecurityScheme
+basicAuthenticationSecurityScheme = \basicAuth_0 -> Network.HTTP.Client.Request.applyBasicAuth (StripeAPI.Common.textToByte GHC.Base.$ basicAuthenticationDataUsername basicAuth_0) (StripeAPI.Common.textToByte GHC.Base.$ basicAuthenticationDataPassword basicAuth_0)
 
 -- | Use this security scheme to use bearer authentication for a request. Should be used in a 'StripeAPI.Common.Configuration'.
 --
@@ -42,12 +45,10 @@ instance StripeAPI.Common.SecurityScheme BasicAuthenticationSecurityScheme where
 --
 -- @
 -- 'StripeAPI.Configuration.defaultConfiguration'
---   { configSecurityScheme = 'BearerAuthenticationSecurityScheme' "token"
+--   { configSecurityScheme = 'bearerAuthenticationSecurityScheme' "token"
 --   }
 -- @
-data BearerAuthenticationSecurityScheme
-  = BearerAuthenticationSecurityScheme Data.Text.Internal.Text
-  deriving (GHC.Show.Show, GHC.Classes.Ord, GHC.Classes.Eq)
-
-instance StripeAPI.Common.SecurityScheme BearerAuthenticationSecurityScheme where
-  authenticateRequest (BearerAuthenticationSecurityScheme token) = Network.HTTP.Simple.addRequestHeader "Authorization" GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ ("Bearer " GHC.Base.<> token))
+bearerAuthenticationSecurityScheme ::
+  Data.Text.Internal.Text ->
+  StripeAPI.Common.SecurityScheme
+bearerAuthenticationSecurityScheme = \token_1 -> Network.HTTP.Simple.addRequestHeader "Authorization" GHC.Base.$ (StripeAPI.Common.textToByte GHC.Base.$ ("Bearer " GHC.Base.<> token_1))

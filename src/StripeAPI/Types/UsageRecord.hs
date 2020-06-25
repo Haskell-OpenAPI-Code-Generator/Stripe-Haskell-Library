@@ -48,7 +48,7 @@ data UsageRecord
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         usageRecordObject :: UsageRecordObject',
         -- | quantity: The usage quantity for the specified date.
-        usageRecordQuantity :: GHC.Integer.Type.Integer,
+        usageRecordQuantity :: GHC.Types.Int,
         -- | subscription_item: The ID of the subscription item this usage record contains data for.
         --
         -- Constraints:
@@ -56,7 +56,7 @@ data UsageRecord
         -- * Maximum length of 5000
         usageRecordSubscriptionItem :: Data.Text.Internal.Text,
         -- | timestamp: The timestamp when this usage occurred.
-        usageRecordTimestamp :: GHC.Integer.Type.Integer
+        usageRecordTimestamp :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,

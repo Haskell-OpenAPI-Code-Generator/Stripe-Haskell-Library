@@ -41,9 +41,9 @@ data Issuing'verification
         -- * Maximum length of 5000
         issuing'verificationCard :: Data.Text.Internal.Text,
         -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        issuing'verificationCreated :: GHC.Integer.Type.Integer,
+        issuing'verificationCreated :: GHC.Types.Int,
         -- | expires_at: Timestamp of the expiry for that verification
-        issuing'verificationExpiresAt :: GHC.Integer.Type.Integer,
+        issuing'verificationExpiresAt :: GHC.Types.Int,
         -- | id: Unique identifier for the object.
         --
         -- Constraints:

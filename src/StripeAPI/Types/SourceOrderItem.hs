@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data SourceOrderItem
   = SourceOrderItem
       { -- | amount: The amount (price) for this order item.
-        sourceOrderItemAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        sourceOrderItemAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | currency: This currency of this order item. Required when \`amount\` is present.
         --
         -- Constraints:
@@ -47,7 +47,7 @@ data SourceOrderItem
         -- * Maximum length of 5000
         sourceOrderItemDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | quantity: The quantity of this order item. When type is \`sku\`, this is the number of instances of the SKU to be ordered.
-        sourceOrderItemQuantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        sourceOrderItemQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | type: The type of this order item. Must be \`sku\`, \`tax\`, or \`shipping\`.
         --
         -- Constraints:

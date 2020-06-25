@@ -36,7 +36,7 @@ data IssuingAuthorizationRequest
       { -- | approved: Whether this request was approved.
         issuingAuthorizationRequestApproved :: GHC.Types.Bool,
         -- | authorized_amount: The amount that was authorized at the time of this request
-        issuingAuthorizationRequestAuthorizedAmount :: GHC.Integer.Type.Integer,
+        issuingAuthorizationRequestAuthorizedAmount :: GHC.Types.Int,
         -- | authorized_currency: The currency that was presented to the cardholder for the authorization. Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
         --
         -- Constraints:
@@ -44,9 +44,9 @@ data IssuingAuthorizationRequest
         -- * Maximum length of 5000
         issuingAuthorizationRequestAuthorizedCurrency :: Data.Text.Internal.Text,
         -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        issuingAuthorizationRequestCreated :: GHC.Integer.Type.Integer,
+        issuingAuthorizationRequestCreated :: GHC.Types.Int,
         -- | held_amount: The amount Stripe held from your account to fund the authorization, if the request was approved
-        issuingAuthorizationRequestHeldAmount :: GHC.Integer.Type.Integer,
+        issuingAuthorizationRequestHeldAmount :: GHC.Types.Int,
         -- | held_currency: The currency of the [held amount](https:\/\/stripe.com\/docs\/api\#issuing_authorization_object-held_amount)
         --
         -- Constraints:

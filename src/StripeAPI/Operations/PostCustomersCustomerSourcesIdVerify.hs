@@ -46,145 +46,75 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Verify a specified bank account for a given customer.\<\/p>
 postCustomersCustomerSourcesIdVerify ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | customer | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  PostCustomersCustomerSourcesIdVerifyParameters ->
   -- | The request body to send
   GHC.Maybe.Maybe PostCustomersCustomerSourcesIdVerifyRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCustomersCustomerSourcesIdVerifyResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostCustomersCustomerSourcesIdVerifyResponse)
 postCustomersCustomerSourcesIdVerify
-  config
-  customer
-  id
+  parameters
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostCustomersCustomerSourcesIdVerifyResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerSourcesIdVerifyResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  BankAccount
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerSourcesIdVerifyResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostCustomersCustomerSourcesIdVerifyResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerSourcesIdVerifyResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              BankAccount
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerSourcesIdVerifyResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/verify"))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerSourcesIdVerifyParametersPathCustomer parameters))) GHC.Base.++ ("/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerSourcesIdVerifyParametersPathId parameters))) GHC.Base.++ "/verify"))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/customers/{customer}/sources/{id}/verify
---
--- The same as 'postCustomersCustomerSourcesIdVerify' but returns the raw 'Data.ByteString.Char8.ByteString'
-postCustomersCustomerSourcesIdVerifyRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostCustomersCustomerSourcesIdVerifyRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+-- | Defines the data type for the schema postCustomersCustomerSourcesIdVerifyParameters
+data PostCustomersCustomerSourcesIdVerifyParameters
+  = PostCustomersCustomerSourcesIdVerifyParameters
+      { -- | pathCustomer: Represents the parameter named \'customer\'
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        postCustomersCustomerSourcesIdVerifyParametersPathCustomer :: Data.Text.Internal.Text,
+        -- | pathId: Represents the parameter named \'id\'
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        postCustomersCustomerSourcesIdVerifyParametersPathId :: Data.Text.Internal.Text
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
     )
-postCustomersCustomerSourcesIdVerifyRaw
-  config
-  customer
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/verify"))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
--- | > POST /v1/customers/{customer}/sources/{id}/verify
---
--- Monadic version of 'postCustomersCustomerSourcesIdVerify' (use with 'StripeAPI.Common.runWithConfiguration')
-postCustomersCustomerSourcesIdVerifyM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostCustomersCustomerSourcesIdVerifyRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostCustomersCustomerSourcesIdVerifyResponse)
-    )
-postCustomersCustomerSourcesIdVerifyM
-  customer
-  id
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostCustomersCustomerSourcesIdVerifyResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerSourcesIdVerifyResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  BankAccount
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerSourcesIdVerifyResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/verify"))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+instance Data.Aeson.ToJSON PostCustomersCustomerSourcesIdVerifyParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (postCustomersCustomerSourcesIdVerifyParametersPathCustomer obj) : (Data.Aeson..=) "pathId" (postCustomersCustomerSourcesIdVerifyParametersPathId obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (postCustomersCustomerSourcesIdVerifyParametersPathCustomer obj) GHC.Base.<> (Data.Aeson..=) "pathId" (postCustomersCustomerSourcesIdVerifyParametersPathId obj))
 
--- | > POST /v1/customers/{customer}/sources/{id}/verify
---
--- Monadic version of 'postCustomersCustomerSourcesIdVerifyRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postCustomersCustomerSourcesIdVerifyRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostCustomersCustomerSourcesIdVerifyRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postCustomersCustomerSourcesIdVerifyRawM
-  customer
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/verify"))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSourcesIdVerifyParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSourcesIdVerifyParameters" (\obj -> (GHC.Base.pure PostCustomersCustomerSourcesIdVerifyParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId"))
 
 -- | Defines the data type for the schema postCustomersCustomerSourcesIdVerifyRequestBody
 data PostCustomersCustomerSourcesIdVerifyRequestBody
   = PostCustomersCustomerSourcesIdVerifyRequestBody
       { -- | amounts: Two positive integers, in *cents*, equal to the values of the microdeposits sent to the bank account.
-        postCustomersCustomerSourcesIdVerifyRequestBodyAmounts :: (GHC.Maybe.Maybe ([] GHC.Integer.Type.Integer)),
+        postCustomersCustomerSourcesIdVerifyRequestBodyAmounts :: (GHC.Maybe.Maybe ([] GHC.Types.Int)),
         -- | expand: Specifies which fields in the response should be expanded.
         postCustomersCustomerSourcesIdVerifyRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
       }
@@ -211,3 +141,81 @@ data PostCustomersCustomerSourcesIdVerifyResponse
   | -- | Error response.
     PostCustomersCustomerSourcesIdVerifyResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/customers/{customer}/sources/{id}/verify
+--
+-- The same as 'postCustomersCustomerSourcesIdVerify' but accepts an explicit configuration.
+postCustomersCustomerSourcesIdVerifyWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  PostCustomersCustomerSourcesIdVerifyParameters ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostCustomersCustomerSourcesIdVerifyRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostCustomersCustomerSourcesIdVerifyResponse)
+postCustomersCustomerSourcesIdVerifyWithConfiguration
+  config
+  parameters
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostCustomersCustomerSourcesIdVerifyResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerSourcesIdVerifyResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              BankAccount
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerSourcesIdVerifyResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerSourcesIdVerifyParametersPathCustomer parameters))) GHC.Base.++ ("/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerSourcesIdVerifyParametersPathId parameters))) GHC.Base.++ "/verify"))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/customers/{customer}/sources/{id}/verify
+--
+-- The same as 'postCustomersCustomerSourcesIdVerify' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postCustomersCustomerSourcesIdVerifyRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  PostCustomersCustomerSourcesIdVerifyParameters ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostCustomersCustomerSourcesIdVerifyRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postCustomersCustomerSourcesIdVerifyRaw
+  parameters
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerSourcesIdVerifyParametersPathCustomer parameters))) GHC.Base.++ ("/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerSourcesIdVerifyParametersPathId parameters))) GHC.Base.++ "/verify"))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/customers/{customer}/sources/{id}/verify
+--
+-- The same as 'postCustomersCustomerSourcesIdVerify' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postCustomersCustomerSourcesIdVerifyWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  PostCustomersCustomerSourcesIdVerifyParameters ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostCustomersCustomerSourcesIdVerifyRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postCustomersCustomerSourcesIdVerifyWithConfigurationRaw
+  config
+  parameters
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerSourcesIdVerifyParametersPathCustomer parameters))) GHC.Base.++ ("/sources/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerSourcesIdVerifyParametersPathId parameters))) GHC.Base.++ "/verify"))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

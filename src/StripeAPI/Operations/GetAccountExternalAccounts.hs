@@ -46,268 +46,77 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>List external accounts for an account.\<\/p>
 getAccountExternalAccounts ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetAccountExternalAccountsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetAccountExternalAccountsResponse))
-getAccountExternalAccounts
-  config
-  endingBefore
-  expand
-  limit
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetAccountExternalAccountsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetAccountExternalAccountsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetAccountExternalAccountsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetAccountExternalAccountsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetAccountExternalAccountsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetAccountExternalAccountsResponse)
+getAccountExternalAccounts parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetAccountExternalAccountsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetAccountExternalAccountsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetAccountExternalAccountsResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetAccountExternalAccountsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/account/external_accounts")
-          ( ( Data.Text.pack "ending_before",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-            )
-              : ( ( Data.Text.pack "expand",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                  )
-                    : ( ( Data.Text.pack "limit",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                        )
-                          : ( ( Data.Text.pack "starting_after",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                              )
-                                : []
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/account/external_accounts
---
--- The same as 'getAccountExternalAccounts' but returns the raw 'Data.ByteString.Char8.ByteString'
-getAccountExternalAccountsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetAccountExternalAccountsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getAccountExternalAccountsRaw
-  config
-  endingBefore
-  expand
-  limit
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/account/external_accounts")
-          ( ( Data.Text.pack "ending_before",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-            )
-              : ( ( Data.Text.pack "expand",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                  )
-                    : ( ( Data.Text.pack "limit",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                        )
-                          : ( ( Data.Text.pack "starting_after",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                              )
-                                : []
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/account/external_accounts
---
--- Monadic version of 'getAccountExternalAccounts' (use with 'StripeAPI.Common.runWithConfiguration')
-getAccountExternalAccountsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetAccountExternalAccountsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetAccountExternalAccountsResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/account/external_accounts")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getAccountExternalAccountsM
-  endingBefore
-  expand
-  limit
-  startingAfter
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetAccountExternalAccountsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetAccountExternalAccountsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetAccountExternalAccountsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetAccountExternalAccountsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/account/external_accounts")
-          ( ( Data.Text.pack "ending_before",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-            )
-              : ( ( Data.Text.pack "expand",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                  )
-                    : ( ( Data.Text.pack "limit",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                        )
-                          : ( ( Data.Text.pack "starting_after",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                              )
-                                : []
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/account/external_accounts
---
--- Monadic version of 'getAccountExternalAccountsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getAccountExternalAccountsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetAccountExternalAccountsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getAccountExternalAccountsRawM
-  endingBefore
-  expand
-  limit
-  startingAfter
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/account/external_accounts")
-          ( ( Data.Text.pack "ending_before",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-            )
-              : ( ( Data.Text.pack "expand",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                  )
-                    : ( ( Data.Text.pack "limit",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                        )
-                          : ( ( Data.Text.pack "starting_after",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                              )
-                                : []
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getAccountExternalAccountsRequestBody
-data GetAccountExternalAccountsRequestBody
-  = GetAccountExternalAccountsRequestBody
-      {
+-- | Defines the data type for the schema getAccountExternalAccountsParameters
+data GetAccountExternalAccountsParameters
+  = GetAccountExternalAccountsParameters
+      { -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        getAccountExternalAccountsParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getAccountExternalAccountsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getAccountExternalAccountsParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        getAccountExternalAccountsParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetAccountExternalAccountsRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetAccountExternalAccountsParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryEnding_before" (getAccountExternalAccountsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getAccountExternalAccountsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getAccountExternalAccountsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getAccountExternalAccountsParametersQueryStartingAfter obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryEnding_before" (getAccountExternalAccountsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getAccountExternalAccountsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getAccountExternalAccountsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getAccountExternalAccountsParametersQueryStartingAfter obj))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetAccountExternalAccountsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountExternalAccountsRequestBody" (\obj -> GHC.Base.pure GetAccountExternalAccountsRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetAccountExternalAccountsParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountExternalAccountsParameters" (\obj -> (((GHC.Base.pure GetAccountExternalAccountsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after"))
 
 -- | Represents a response of the operation 'getAccountExternalAccounts'.
 --
@@ -453,9 +262,9 @@ data GetAccountExternalAccountsResponseBody200Data'
         -- * Maximum length of 5000
         getAccountExternalAccountsResponseBody200Data'DynamicLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | exp_month: Two-digit number representing the card\'s expiration month.
-        getAccountExternalAccountsResponseBody200Data'ExpMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        getAccountExternalAccountsResponseBody200Data'ExpMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | exp_year: Four-digit number representing the card\'s expiration year.
-        getAccountExternalAccountsResponseBody200Data'ExpYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        getAccountExternalAccountsResponseBody200Data'ExpYear :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | fingerprint: Uniquely identifies this particular bank account. You can use this attribute to check whether two bank accounts are the same.
         --
         -- Constraints:
@@ -481,7 +290,7 @@ data GetAccountExternalAccountsResponseBody200Data'
         -- * Maximum length of 5000
         getAccountExternalAccountsResponseBody200Data'Last4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        getAccountExternalAccountsResponseBody200Data'Metadata :: (GHC.Maybe.Maybe GetAccountExternalAccountsResponseBody200Data'Metadata'),
+        getAccountExternalAccountsResponseBody200Data'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | name: Cardholder name.
         --
         -- Constraints:
@@ -579,25 +388,6 @@ instance Data.Aeson.ToJSON GetAccountExternalAccountsResponseBody200Data'Custome
 instance Data.Aeson.FromJSON GetAccountExternalAccountsResponseBody200Data'Customer'Variants where
   parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
 
--- | Defines the data type for the schema GetAccountExternalAccountsResponseBody200Data\'Metadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-data GetAccountExternalAccountsResponseBody200Data'Metadata'
-  = GetAccountExternalAccountsResponseBody200Data'Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON GetAccountExternalAccountsResponseBody200Data'Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetAccountExternalAccountsResponseBody200Data'Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetAccountExternalAccountsResponseBody200Data'Metadata'" (\obj -> GHC.Base.pure GetAccountExternalAccountsResponseBody200Data'Metadata')
-
 -- | Defines the enum schema GetAccountExternalAccountsResponseBody200Data\'Object\'
 --
 -- String representing the object\'s type. Objects of the same type share the same value.
@@ -654,4 +444,102 @@ instance Data.Aeson.FromJSON GetAccountExternalAccountsResponseBody200Object' wh
       ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
           then GetAccountExternalAccountsResponseBody200Object'EnumStringList
           else GetAccountExternalAccountsResponseBody200Object'EnumOther val
+      )
+
+-- | > GET /v1/account/external_accounts
+--
+-- The same as 'getAccountExternalAccounts' but accepts an explicit configuration.
+getAccountExternalAccountsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetAccountExternalAccountsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetAccountExternalAccountsResponse)
+getAccountExternalAccountsWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetAccountExternalAccountsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetAccountExternalAccountsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              GetAccountExternalAccountsResponseBody200
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetAccountExternalAccountsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/account/external_accounts")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
+      )
+
+-- | > GET /v1/account/external_accounts
+--
+-- The same as 'getAccountExternalAccounts' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getAccountExternalAccountsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetAccountExternalAccountsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getAccountExternalAccountsRaw parameters =
+  GHC.Base.id
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/account/external_accounts")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
+    )
+
+-- | > GET /v1/account/external_accounts
+--
+-- The same as 'getAccountExternalAccounts' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getAccountExternalAccountsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetAccountExternalAccountsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getAccountExternalAccountsWithConfigurationRaw
+  config
+  parameters =
+    GHC.Base.id
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/account/external_accounts")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
       )

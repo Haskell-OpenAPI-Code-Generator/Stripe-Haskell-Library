@@ -46,368 +46,187 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Returns a list of Issuing \<code>Authorization\<\/code> objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.\<\/p>
 getIssuingAuthorizations ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | card: Only return issuing transactions that belong to the given card. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | cardholder: Only return authorizations belonging to the given cardholder. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | created: Only return authorizations that were created during the given date interval.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | status: Only return authorizations with the given status. One of \`pending\`, \`closed\`, or \`reversed\`.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetIssuingAuthorizationsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingAuthorizationsResponse))
-getIssuingAuthorizations
-  config
-  card
-  cardholder
-  created
-  endingBefore
-  expand
-  limit
-  startingAfter
-  status
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetIssuingAuthorizationsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingAuthorizationsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetIssuingAuthorizationsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingAuthorizationsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetIssuingAuthorizationsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetIssuingAuthorizationsResponse)
+getIssuingAuthorizations parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetIssuingAuthorizationsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetIssuingAuthorizationsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetIssuingAuthorizationsResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetIssuingAuthorizationsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/authorizations")
-          ( ( Data.Text.pack "card",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> card
-            )
-              : ( ( Data.Text.pack "cardholder",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> cardholder
-                  )
-                    : ( ( Data.Text.pack "created",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                        )
-                          : ( ( Data.Text.pack "ending_before",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                              )
-                                : ( ( Data.Text.pack "expand",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                    )
-                                      : ( ( Data.Text.pack "limit",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                          )
-                                            : ( ( Data.Text.pack "starting_after",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                )
-                                                  : ( ( Data.Text.pack "status",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                      )
-                                                        : []
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/issuing/authorizations
---
--- The same as 'getIssuingAuthorizations' but returns the raw 'Data.ByteString.Char8.ByteString'
-getIssuingAuthorizationsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetIssuingAuthorizationsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getIssuingAuthorizationsRaw
-  config
-  card
-  cardholder
-  created
-  endingBefore
-  expand
-  limit
-  startingAfter
-  status
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/authorizations")
-          ( ( Data.Text.pack "card",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> card
-            )
-              : ( ( Data.Text.pack "cardholder",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> cardholder
-                  )
-                    : ( ( Data.Text.pack "created",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                        )
-                          : ( ( Data.Text.pack "ending_before",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                              )
-                                : ( ( Data.Text.pack "expand",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                    )
-                                      : ( ( Data.Text.pack "limit",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                          )
-                                            : ( ( Data.Text.pack "starting_after",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                )
-                                                  : ( ( Data.Text.pack "status",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                      )
-                                                        : []
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/issuing/authorizations
---
--- Monadic version of 'getIssuingAuthorizations' (use with 'StripeAPI.Common.runWithConfiguration')
-getIssuingAuthorizationsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetIssuingAuthorizationsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetIssuingAuthorizationsResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/issuing/authorizations")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "card") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryCard parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "cardholder") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryCardholder parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getIssuingAuthorizationsM
-  card
-  cardholder
-  created
-  endingBefore
-  expand
-  limit
-  startingAfter
-  status
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetIssuingAuthorizationsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingAuthorizationsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetIssuingAuthorizationsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingAuthorizationsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/authorizations")
-          ( ( Data.Text.pack "card",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> card
-            )
-              : ( ( Data.Text.pack "cardholder",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> cardholder
-                  )
-                    : ( ( Data.Text.pack "created",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                        )
-                          : ( ( Data.Text.pack "ending_before",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                              )
-                                : ( ( Data.Text.pack "expand",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                    )
-                                      : ( ( Data.Text.pack "limit",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                          )
-                                            : ( ( Data.Text.pack "starting_after",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                )
-                                                  : ( ( Data.Text.pack "status",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                      )
-                                                        : []
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/issuing/authorizations
---
--- Monadic version of 'getIssuingAuthorizationsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getIssuingAuthorizationsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetIssuingAuthorizationsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getIssuingAuthorizationsRawM
-  card
-  cardholder
-  created
-  endingBefore
-  expand
-  limit
-  startingAfter
-  status
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/authorizations")
-          ( ( Data.Text.pack "card",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> card
-            )
-              : ( ( Data.Text.pack "cardholder",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> cardholder
-                  )
-                    : ( ( Data.Text.pack "created",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                        )
-                          : ( ( Data.Text.pack "ending_before",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                              )
-                                : ( ( Data.Text.pack "expand",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                    )
-                                      : ( ( Data.Text.pack "limit",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                          )
-                                            : ( ( Data.Text.pack "starting_after",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                )
-                                                  : ( ( Data.Text.pack "status",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                      )
-                                                        : []
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getIssuingAuthorizationsRequestBody
-data GetIssuingAuthorizationsRequestBody
-  = GetIssuingAuthorizationsRequestBody
-      {
+-- | Defines the data type for the schema getIssuingAuthorizationsParameters
+data GetIssuingAuthorizationsParameters
+  = GetIssuingAuthorizationsParameters
+      { -- | queryCard: Represents the parameter named \'card\'
+        --
+        -- Only return issuing transactions that belong to the given card.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingAuthorizationsParametersQueryCard :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryCardholder: Represents the parameter named \'cardholder\'
+        --
+        -- Only return authorizations belonging to the given cardholder.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingAuthorizationsParametersQueryCardholder :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryCreated: Represents the parameter named \'created\'
+        --
+        -- Only return authorizations that were created during the given date interval.
+        getIssuingAuthorizationsParametersQueryCreated :: (GHC.Maybe.Maybe GetIssuingAuthorizationsParametersQueryCreated'Variants),
+        -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingAuthorizationsParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getIssuingAuthorizationsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getIssuingAuthorizationsParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingAuthorizationsParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryStatus: Represents the parameter named \'status\'
+        --
+        -- Only return authorizations with the given status. One of \`pending\`, \`closed\`, or \`reversed\`.
+        getIssuingAuthorizationsParametersQueryStatus :: (GHC.Maybe.Maybe GetIssuingAuthorizationsParametersQueryStatus')
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetIssuingAuthorizationsRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetIssuingAuthorizationsParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCard" (getIssuingAuthorizationsParametersQueryCard obj) : (Data.Aeson..=) "queryCardholder" (getIssuingAuthorizationsParametersQueryCardholder obj) : (Data.Aeson..=) "queryCreated" (getIssuingAuthorizationsParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getIssuingAuthorizationsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getIssuingAuthorizationsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getIssuingAuthorizationsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getIssuingAuthorizationsParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryStatus" (getIssuingAuthorizationsParametersQueryStatus obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCard" (getIssuingAuthorizationsParametersQueryCard obj) GHC.Base.<> ((Data.Aeson..=) "queryCardholder" (getIssuingAuthorizationsParametersQueryCardholder obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getIssuingAuthorizationsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getIssuingAuthorizationsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getIssuingAuthorizationsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getIssuingAuthorizationsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getIssuingAuthorizationsParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryStatus" (getIssuingAuthorizationsParametersQueryStatus obj))))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingAuthorizationsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingAuthorizationsRequestBody" (\obj -> GHC.Base.pure GetIssuingAuthorizationsRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingAuthorizationsParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingAuthorizationsParameters" (\obj -> (((((((GHC.Base.pure GetIssuingAuthorizationsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCard")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStatus"))
+
+-- | Defines the data type for the schema getIssuingAuthorizationsParametersQueryCreated\'OneOf2
+data GetIssuingAuthorizationsParametersQueryCreated'OneOf2
+  = GetIssuingAuthorizationsParametersQueryCreated'OneOf2
+      { -- | gt
+        getIssuingAuthorizationsParametersQueryCreated'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getIssuingAuthorizationsParametersQueryCreated'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getIssuingAuthorizationsParametersQueryCreated'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getIssuingAuthorizationsParametersQueryCreated'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.ToJSON GetIssuingAuthorizationsParametersQueryCreated'OneOf2 where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getIssuingAuthorizationsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getIssuingAuthorizationsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getIssuingAuthorizationsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getIssuingAuthorizationsParametersQueryCreated'OneOf2Lte obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getIssuingAuthorizationsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getIssuingAuthorizationsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getIssuingAuthorizationsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getIssuingAuthorizationsParametersQueryCreated'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingAuthorizationsParametersQueryCreated'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingAuthorizationsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetIssuingAuthorizationsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Define the one-of schema getIssuingAuthorizationsParametersQueryCreated\'
+--
+-- Represents the parameter named \'created\'
+--
+-- Only return authorizations that were created during the given date interval.
+data GetIssuingAuthorizationsParametersQueryCreated'Variants
+  = GetIssuingAuthorizationsParametersQueryCreated'Int GHC.Types.Int
+  | GetIssuingAuthorizationsParametersQueryCreated'GetIssuingAuthorizationsParametersQueryCreated'OneOf2 GetIssuingAuthorizationsParametersQueryCreated'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+
+instance Data.Aeson.ToJSON GetIssuingAuthorizationsParametersQueryCreated'Variants where
+  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+instance Data.Aeson.FromJSON GetIssuingAuthorizationsParametersQueryCreated'Variants where
+  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+-- | Defines the enum schema getIssuingAuthorizationsParametersQueryStatus\'
+--
+-- Represents the parameter named \'status\'
+--
+-- Only return authorizations with the given status. One of \`pending\`, \`closed\`, or \`reversed\`.
+data GetIssuingAuthorizationsParametersQueryStatus'
+  = GetIssuingAuthorizationsParametersQueryStatus'EnumOther Data.Aeson.Types.Internal.Value
+  | GetIssuingAuthorizationsParametersQueryStatus'EnumTyped Data.Text.Internal.Text
+  | GetIssuingAuthorizationsParametersQueryStatus'EnumStringClosed
+  | GetIssuingAuthorizationsParametersQueryStatus'EnumStringPending
+  | GetIssuingAuthorizationsParametersQueryStatus'EnumStringReversed
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.ToJSON GetIssuingAuthorizationsParametersQueryStatus' where
+  toJSON (GetIssuingAuthorizationsParametersQueryStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
+  toJSON (GetIssuingAuthorizationsParametersQueryStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
+  toJSON (GetIssuingAuthorizationsParametersQueryStatus'EnumStringClosed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "closed"
+  toJSON (GetIssuingAuthorizationsParametersQueryStatus'EnumStringPending) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pending"
+  toJSON (GetIssuingAuthorizationsParametersQueryStatus'EnumStringReversed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "reversed"
+
+instance Data.Aeson.FromJSON GetIssuingAuthorizationsParametersQueryStatus' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "closed")
+          then GetIssuingAuthorizationsParametersQueryStatus'EnumStringClosed
+          else
+            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pending")
+              then GetIssuingAuthorizationsParametersQueryStatus'EnumStringPending
+              else
+                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "reversed")
+                  then GetIssuingAuthorizationsParametersQueryStatus'EnumStringReversed
+                  else GetIssuingAuthorizationsParametersQueryStatus'EnumOther val
+      )
 
 -- | Represents a response of the operation 'getIssuingAuthorizations'.
 --
@@ -470,4 +289,114 @@ instance Data.Aeson.FromJSON GetIssuingAuthorizationsResponseBody200Object' wher
       ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
           then GetIssuingAuthorizationsResponseBody200Object'EnumStringList
           else GetIssuingAuthorizationsResponseBody200Object'EnumOther val
+      )
+
+-- | > GET /v1/issuing/authorizations
+--
+-- The same as 'getIssuingAuthorizations' but accepts an explicit configuration.
+getIssuingAuthorizationsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetIssuingAuthorizationsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetIssuingAuthorizationsResponse)
+getIssuingAuthorizationsWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetIssuingAuthorizationsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetIssuingAuthorizationsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              GetIssuingAuthorizationsResponseBody200
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetIssuingAuthorizationsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/issuing/authorizations")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "card") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryCard parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "cardholder") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryCardholder parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
+      )
+
+-- | > GET /v1/issuing/authorizations
+--
+-- The same as 'getIssuingAuthorizations' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getIssuingAuthorizationsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetIssuingAuthorizationsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getIssuingAuthorizationsRaw parameters =
+  GHC.Base.id
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/issuing/authorizations")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "card") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryCard parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "cardholder") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryCardholder parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
+    )
+
+-- | > GET /v1/issuing/authorizations
+--
+-- The same as 'getIssuingAuthorizations' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getIssuingAuthorizationsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetIssuingAuthorizationsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getIssuingAuthorizationsWithConfigurationRaw
+  config
+  parameters =
+    GHC.Base.id
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/issuing/authorizations")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "card") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryCard parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "cardholder") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryCardholder parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingAuthorizationsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
       )

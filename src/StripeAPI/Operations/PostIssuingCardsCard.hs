@@ -46,130 +46,41 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Updates the specified Issuing \<code>Card\<\/code> object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\<\/p>
 postIssuingCardsCard ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | card | Constraints: Maximum length of 5000
   Data.Text.Internal.Text ->
   -- | The request body to send
   GHC.Maybe.Maybe PostIssuingCardsCardRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostIssuingCardsCardResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostIssuingCardsCardResponse)
 postIssuingCardsCard
-  config
   card
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostIssuingCardsCardResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingCardsCardResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Issuing'card
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingCardsCardResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/issuing/cards/{card}
---
--- The same as 'postIssuingCardsCard' but returns the raw 'Data.ByteString.Char8.ByteString'
-postIssuingCardsCardRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostIssuingCardsCardRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postIssuingCardsCardRaw
-  config
-  card
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/issuing/cards/{card}
---
--- Monadic version of 'postIssuingCardsCard' (use with 'StripeAPI.Common.runWithConfiguration')
-postIssuingCardsCardM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostIssuingCardsCardRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostIssuingCardsCardResponse)
-    )
-postIssuingCardsCardM
-  card
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostIssuingCardsCardResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingCardsCardResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Issuing'card
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostIssuingCardsCardResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostIssuingCardsCardResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostIssuingCardsCardResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Issuing'card
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostIssuingCardsCardResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/issuing/cards/{card}
---
--- Monadic version of 'postIssuingCardsCardRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postIssuingCardsCardRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostIssuingCardsCardRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postIssuingCardsCardRawM
-  card
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postIssuingCardsCardRequestBody
 data PostIssuingCardsCardRequestBody
@@ -205,7 +116,7 @@ data PostIssuingCardsCardRequestBodyAuthorizationControls'
         -- | blocked_categories
         postIssuingCardsCardRequestBodyAuthorizationControls'BlockedCategories :: (GHC.Maybe.Maybe ([] PostIssuingCardsCardRequestBodyAuthorizationControls'BlockedCategories')),
         -- | max_approvals
-        postIssuingCardsCardRequestBodyAuthorizationControls'MaxApprovals :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postIssuingCardsCardRequestBodyAuthorizationControls'MaxApprovals :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | spending_limits
         postIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits :: (GHC.Maybe.Maybe ([] PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'))
       }
@@ -3135,7 +3046,7 @@ instance Data.Aeson.FromJSON PostIssuingCardsCardRequestBodyAuthorizationControl
 data PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'
   = PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'
       { -- | amount
-        postIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Amount :: GHC.Integer.Type.Integer,
+        postIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Amount :: GHC.Types.Int,
         -- | categories
         postIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Categories :: (GHC.Maybe.Maybe ([] PostIssuingCardsCardRequestBodyAuthorizationControls'SpendingLimits'Categories')),
         -- | interval
@@ -4673,29 +4584,12 @@ instance Data.Aeson.FromJSON PostIssuingCardsCardRequestBodyMetadata'OneOf1 wher
           else PostIssuingCardsCardRequestBodyMetadata'OneOf1EnumOther val
       )
 
--- | Defines the data type for the schema postIssuingCardsCardRequestBodyMetadata\'OneOf2
-data PostIssuingCardsCardRequestBodyMetadata'OneOf2
-  = PostIssuingCardsCardRequestBodyMetadata'OneOf2
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostIssuingCardsCardRequestBodyMetadata'OneOf2 where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostIssuingCardsCardRequestBodyMetadata'OneOf2 where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostIssuingCardsCardRequestBodyMetadata'OneOf2" (\obj -> GHC.Base.pure PostIssuingCardsCardRequestBodyMetadata'OneOf2)
-
 -- | Define the one-of schema postIssuingCardsCardRequestBodyMetadata\'
 --
 -- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
 data PostIssuingCardsCardRequestBodyMetadata'Variants
   = PostIssuingCardsCardRequestBodyMetadata'PostIssuingCardsCardRequestBodyMetadata'OneOf1 PostIssuingCardsCardRequestBodyMetadata'OneOf1
-  | PostIssuingCardsCardRequestBodyMetadata'PostIssuingCardsCardRequestBodyMetadata'OneOf2 PostIssuingCardsCardRequestBodyMetadata'OneOf2
+  | PostIssuingCardsCardRequestBodyMetadata'Object Data.Aeson.Types.Internal.Object
   deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 
 instance Data.Aeson.ToJSON PostIssuingCardsCardRequestBodyMetadata'Variants where
@@ -4757,3 +4651,81 @@ data PostIssuingCardsCardResponse
   | -- | Error response.
     PostIssuingCardsCardResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/issuing/cards/{card}
+--
+-- The same as 'postIssuingCardsCard' but accepts an explicit configuration.
+postIssuingCardsCardWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | card | Constraints: Maximum length of 5000
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostIssuingCardsCardRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostIssuingCardsCardResponse)
+postIssuingCardsCardWithConfiguration
+  config
+  card
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostIssuingCardsCardResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostIssuingCardsCardResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Issuing'card
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostIssuingCardsCardResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/issuing/cards/{card}
+--
+-- The same as 'postIssuingCardsCard' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postIssuingCardsCardRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | card | Constraints: Maximum length of 5000
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostIssuingCardsCardRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postIssuingCardsCardRaw
+  card
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/issuing/cards/{card}
+--
+-- The same as 'postIssuingCardsCard' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postIssuingCardsCardWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | card | Constraints: Maximum length of 5000
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostIssuingCardsCardRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postIssuingCardsCardWithConfigurationRaw
+  config
+  card
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

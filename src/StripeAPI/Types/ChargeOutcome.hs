@@ -52,7 +52,7 @@ data ChargeOutcome
         -- * Maximum length of 5000
         chargeOutcomeRiskLevel :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | risk_score: Stripe\'s evaluation of the riskiness of the payment. Possible values for evaluated payments are between 0 and 100. For non-card payments, card-based payments predating the public assignment of risk scores, or in the event of an error during evaluation, this field will not be present. This field is only available with Radar for Fraud Teams.
-        chargeOutcomeRiskScore :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        chargeOutcomeRiskScore :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | rule: The ID of the Radar rule that matched the payment, if applicable.
         chargeOutcomeRule :: (GHC.Maybe.Maybe ChargeOutcomeRule'Variants),
         -- | seller_message: A human-readable description of the outcome type and reason, designed for you (the recipient of the payment), not your customer.

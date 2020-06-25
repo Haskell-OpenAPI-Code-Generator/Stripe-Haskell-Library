@@ -40,7 +40,7 @@ data IssuingCardAuthorizationControls
         -- | currency: The currency of the card. See [max_amount](https:\/\/stripe.com\/docs\/api\#issuing_card_object-authorization_controls-max_amount)
         issuingCardAuthorizationControlsCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | max_approvals: Maximum count of approved authorizations on this card. Counts all authorizations retroactively.
-        issuingCardAuthorizationControlsMaxApprovals :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        issuingCardAuthorizationControlsMaxApprovals :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | spending_limits: Limit the spending with rules based on time intervals and categories.
         issuingCardAuthorizationControlsSpendingLimits :: (GHC.Maybe.Maybe ([] IssuingCardSpendingLimit)),
         -- | spending_limits_currency: Currency for the amounts within spending_limits. Locked to the currency of the card.

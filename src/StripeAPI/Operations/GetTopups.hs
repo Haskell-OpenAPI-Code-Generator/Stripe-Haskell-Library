@@ -46,343 +46,223 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Returns a list of top-ups.\<\/p>
 getTopups ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | amount: A positive integer representing how much to transfer.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | created: A filter on the list, based on the object \`created\` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | status: Only return top-ups that have the given status. One of \`canceled\`, \`failed\`, \`pending\` or \`succeeded\`. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetTopupsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetTopupsResponse))
-getTopups
-  config
-  amount
-  created
-  endingBefore
-  expand
-  limit
-  startingAfter
-  status
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetTopupsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetTopupsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetTopupsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetTopupsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetTopupsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetTopupsResponse)
+getTopups parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetTopupsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetTopupsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetTopupsResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetTopupsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/topups")
-          ( ( Data.Text.pack "amount",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> amount
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "expand",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                              )
-                                : ( ( Data.Text.pack "limit",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : ( ( Data.Text.pack "status",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                )
-                                                  : []
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/topups
---
--- The same as 'getTopups' but returns the raw 'Data.ByteString.Char8.ByteString'
-getTopupsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetTopupsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getTopupsRaw
-  config
-  amount
-  created
-  endingBefore
-  expand
-  limit
-  startingAfter
-  status
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/topups")
-          ( ( Data.Text.pack "amount",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> amount
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "expand",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                              )
-                                : ( ( Data.Text.pack "limit",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : ( ( Data.Text.pack "status",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                )
-                                                  : []
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/topups
---
--- Monadic version of 'getTopups' (use with 'StripeAPI.Common.runWithConfiguration')
-getTopupsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetTopupsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetTopupsResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/topups")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryAmount parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getTopupsM
-  amount
-  created
-  endingBefore
-  expand
-  limit
-  startingAfter
-  status
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetTopupsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetTopupsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetTopupsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetTopupsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/topups")
-          ( ( Data.Text.pack "amount",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> amount
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "expand",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                              )
-                                : ( ( Data.Text.pack "limit",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : ( ( Data.Text.pack "status",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                )
-                                                  : []
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/topups
---
--- Monadic version of 'getTopupsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getTopupsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetTopupsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getTopupsRawM
-  amount
-  created
-  endingBefore
-  expand
-  limit
-  startingAfter
-  status
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/topups")
-          ( ( Data.Text.pack "amount",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> amount
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "expand",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                              )
-                                : ( ( Data.Text.pack "limit",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                    )
-                                      : ( ( Data.Text.pack "starting_after",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                          )
-                                            : ( ( Data.Text.pack "status",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                )
-                                                  : []
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getTopupsRequestBody
-data GetTopupsRequestBody
-  = GetTopupsRequestBody
-      {
+-- | Defines the data type for the schema getTopupsParameters
+data GetTopupsParameters
+  = GetTopupsParameters
+      { -- | queryAmount: Represents the parameter named \'amount\'
+        --
+        -- A positive integer representing how much to transfer.
+        getTopupsParametersQueryAmount :: (GHC.Maybe.Maybe GetTopupsParametersQueryAmount'Variants),
+        -- | queryCreated: Represents the parameter named \'created\'
+        --
+        -- A filter on the list, based on the object \`created\` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+        getTopupsParametersQueryCreated :: (GHC.Maybe.Maybe GetTopupsParametersQueryCreated'Variants),
+        -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getTopupsParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getTopupsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getTopupsParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getTopupsParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryStatus: Represents the parameter named \'status\'
+        --
+        -- Only return top-ups that have the given status. One of \`canceled\`, \`failed\`, \`pending\` or \`succeeded\`.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getTopupsParametersQueryStatus :: (GHC.Maybe.Maybe GetTopupsParametersQueryStatus')
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetTopupsRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetTopupsParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryAmount" (getTopupsParametersQueryAmount obj) : (Data.Aeson..=) "queryCreated" (getTopupsParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getTopupsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getTopupsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getTopupsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getTopupsParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryStatus" (getTopupsParametersQueryStatus obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryAmount" (getTopupsParametersQueryAmount obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getTopupsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getTopupsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getTopupsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getTopupsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getTopupsParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryStatus" (getTopupsParametersQueryStatus obj)))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTopupsRequestBody" (\obj -> GHC.Base.pure GetTopupsRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTopupsParameters" (\obj -> ((((((GHC.Base.pure GetTopupsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryAmount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStatus"))
+
+-- | Defines the data type for the schema getTopupsParametersQueryAmount\'OneOf2
+data GetTopupsParametersQueryAmount'OneOf2
+  = GetTopupsParametersQueryAmount'OneOf2
+      { -- | gt
+        getTopupsParametersQueryAmount'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getTopupsParametersQueryAmount'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getTopupsParametersQueryAmount'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getTopupsParametersQueryAmount'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.ToJSON GetTopupsParametersQueryAmount'OneOf2 where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getTopupsParametersQueryAmount'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getTopupsParametersQueryAmount'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getTopupsParametersQueryAmount'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getTopupsParametersQueryAmount'OneOf2Lte obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getTopupsParametersQueryAmount'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getTopupsParametersQueryAmount'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getTopupsParametersQueryAmount'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getTopupsParametersQueryAmount'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsParametersQueryAmount'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTopupsParametersQueryAmount'OneOf2" (\obj -> (((GHC.Base.pure GetTopupsParametersQueryAmount'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Define the one-of schema getTopupsParametersQueryAmount\'
+--
+-- Represents the parameter named \'amount\'
+--
+-- A positive integer representing how much to transfer.
+data GetTopupsParametersQueryAmount'Variants
+  = GetTopupsParametersQueryAmount'Int GHC.Types.Int
+  | GetTopupsParametersQueryAmount'GetTopupsParametersQueryAmount'OneOf2 GetTopupsParametersQueryAmount'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+
+instance Data.Aeson.ToJSON GetTopupsParametersQueryAmount'Variants where
+  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+instance Data.Aeson.FromJSON GetTopupsParametersQueryAmount'Variants where
+  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+-- | Defines the data type for the schema getTopupsParametersQueryCreated\'OneOf2
+data GetTopupsParametersQueryCreated'OneOf2
+  = GetTopupsParametersQueryCreated'OneOf2
+      { -- | gt
+        getTopupsParametersQueryCreated'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getTopupsParametersQueryCreated'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getTopupsParametersQueryCreated'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getTopupsParametersQueryCreated'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.ToJSON GetTopupsParametersQueryCreated'OneOf2 where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getTopupsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getTopupsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getTopupsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getTopupsParametersQueryCreated'OneOf2Lte obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getTopupsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getTopupsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getTopupsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getTopupsParametersQueryCreated'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetTopupsParametersQueryCreated'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetTopupsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetTopupsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Define the one-of schema getTopupsParametersQueryCreated\'
+--
+-- Represents the parameter named \'created\'
+--
+-- A filter on the list, based on the object \`created\` field. The value can be a string with an integer Unix timestamp, or it can be a dictionary with a number of different query options.
+data GetTopupsParametersQueryCreated'Variants
+  = GetTopupsParametersQueryCreated'Int GHC.Types.Int
+  | GetTopupsParametersQueryCreated'GetTopupsParametersQueryCreated'OneOf2 GetTopupsParametersQueryCreated'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+
+instance Data.Aeson.ToJSON GetTopupsParametersQueryCreated'Variants where
+  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+instance Data.Aeson.FromJSON GetTopupsParametersQueryCreated'Variants where
+  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+-- | Defines the enum schema getTopupsParametersQueryStatus\'
+--
+-- Represents the parameter named \'status\'
+--
+-- Only return top-ups that have the given status. One of \`canceled\`, \`failed\`, \`pending\` or \`succeeded\`.
+data GetTopupsParametersQueryStatus'
+  = GetTopupsParametersQueryStatus'EnumOther Data.Aeson.Types.Internal.Value
+  | GetTopupsParametersQueryStatus'EnumTyped Data.Text.Internal.Text
+  | GetTopupsParametersQueryStatus'EnumStringCanceled
+  | GetTopupsParametersQueryStatus'EnumStringFailed
+  | GetTopupsParametersQueryStatus'EnumStringPending
+  | GetTopupsParametersQueryStatus'EnumStringSucceeded
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.ToJSON GetTopupsParametersQueryStatus' where
+  toJSON (GetTopupsParametersQueryStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
+  toJSON (GetTopupsParametersQueryStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
+  toJSON (GetTopupsParametersQueryStatus'EnumStringCanceled) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "canceled"
+  toJSON (GetTopupsParametersQueryStatus'EnumStringFailed) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "failed"
+  toJSON (GetTopupsParametersQueryStatus'EnumStringPending) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pending"
+  toJSON (GetTopupsParametersQueryStatus'EnumStringSucceeded) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "succeeded"
+
+instance Data.Aeson.FromJSON GetTopupsParametersQueryStatus' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "canceled")
+          then GetTopupsParametersQueryStatus'EnumStringCanceled
+          else
+            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "failed")
+              then GetTopupsParametersQueryStatus'EnumStringFailed
+              else
+                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pending")
+                  then GetTopupsParametersQueryStatus'EnumStringPending
+                  else
+                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "succeeded")
+                      then GetTopupsParametersQueryStatus'EnumStringSucceeded
+                      else GetTopupsParametersQueryStatus'EnumOther val
+      )
 
 -- | Represents a response of the operation 'getTopups'.
 --
@@ -445,4 +325,111 @@ instance Data.Aeson.FromJSON GetTopupsResponseBody200Object' where
       ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
           then GetTopupsResponseBody200Object'EnumStringList
           else GetTopupsResponseBody200Object'EnumOther val
+      )
+
+-- | > GET /v1/topups
+--
+-- The same as 'getTopups' but accepts an explicit configuration.
+getTopupsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetTopupsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetTopupsResponse)
+getTopupsWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetTopupsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetTopupsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              GetTopupsResponseBody200
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetTopupsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/topups")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryAmount parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
+      )
+
+-- | > GET /v1/topups
+--
+-- The same as 'getTopups' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getTopupsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetTopupsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getTopupsRaw parameters =
+  GHC.Base.id
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/topups")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryAmount parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
+    )
+
+-- | > GET /v1/topups
+--
+-- The same as 'getTopups' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getTopupsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetTopupsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getTopupsWithConfigurationRaw
+  config
+  parameters =
+    GHC.Base.id
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/topups")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryAmount parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTopupsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
       )

@@ -44,7 +44,7 @@ data Radar'valueList
         -- * Maximum length of 5000
         radar'valueListAlias :: Data.Text.Internal.Text,
         -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        radar'valueListCreated :: GHC.Integer.Type.Integer,
+        radar'valueListCreated :: GHC.Types.Int,
         -- | created_by: The name or email address of the user who created this value list.
         --
         -- Constraints:
@@ -64,7 +64,7 @@ data Radar'valueList
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         radar'valueListLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        radar'valueListMetadata :: Radar'valueListMetadata',
+        radar'valueListMetadata :: Data.Aeson.Types.Internal.Object,
         -- | name: The name of the value list.
         --
         -- Constraints:
@@ -189,25 +189,6 @@ instance Data.Aeson.FromJSON Radar'valueListListItems'Object' where
           then Radar'valueListListItems'Object'EnumStringList
           else Radar'valueListListItems'Object'EnumOther val
       )
-
--- | Defines the data type for the schema radar.value_listMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-data Radar'valueListMetadata'
-  = Radar'valueListMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON Radar'valueListMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON Radar'valueListMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Radar'valueListMetadata'" (\obj -> GHC.Base.pure Radar'valueListMetadata')
 
 -- | Defines the enum schema radar.value_listObject\'
 --

@@ -46,202 +46,63 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Retrieves the details of an existing SKU. Supply the unique SKU identifier from either a SKU creation request or from the product, and Stripe will return the corresponding SKU information.\<\/p>
 getSkusId ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetSkusIdRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetSkusIdResponse))
-getSkusId
-  config
-  expand
-  id
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetSkusIdResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetSkusIdResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetSkusIdResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetSkusIdResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetSkusIdParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetSkusIdResponse)
+getSkusId parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetSkusIdResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetSkusIdResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetSkusIdResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetSkusIdResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/skus/{id}
---
--- The same as 'getSkusId' but returns the raw 'Data.ByteString.Char8.ByteString'
-getSkusIdRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetSkusIdRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getSkusIdRaw
-  config
-  expand
-  id
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
+    (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSkusIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | > GET /v1/skus/{id}
---
--- Monadic version of 'getSkusId' (use with 'StripeAPI.Common.runWithConfiguration')
-getSkusIdM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetSkusIdRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetSkusIdResponse)
-    )
-getSkusIdM
-  expand
-  id
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetSkusIdResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetSkusIdResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetSkusIdResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetSkusIdResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/skus/{id}
---
--- Monadic version of 'getSkusIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getSkusIdRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetSkusIdRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getSkusIdRawM
-  expand
-  id
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getSkusIdRequestBody
-data GetSkusIdRequestBody
-  = GetSkusIdRequestBody
-      {
+-- | Defines the data type for the schema getSkusIdParameters
+data GetSkusIdParameters
+  = GetSkusIdParameters
+      { -- | pathId: Represents the parameter named \'id\'
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getSkusIdParametersPathId :: Data.Text.Internal.Text,
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getSkusIdParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSkusIdRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetSkusIdParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getSkusIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getSkusIdParametersQueryExpand obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getSkusIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getSkusIdParametersQueryExpand obj))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSkusIdRequestBody" (\obj -> GHC.Base.pure GetSkusIdRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSkusIdParameters" (\obj -> (GHC.Base.pure GetSkusIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
 
 -- | Represents a response of the operation 'getSkusId'.
 --
@@ -261,9 +122,9 @@ data GetSkusIdResponseBody200
       { -- | active: Whether the SKU is available for purchase.
         getSkusIdResponseBody200Active :: (GHC.Maybe.Maybe GHC.Types.Bool),
         -- | attributes: A dictionary of attributes and values for the attributes defined by the product. If, for example, a product\'s attributes are \`[\"size\", \"gender\"]\`, a valid SKU has the following dictionary of attributes: \`{\"size\": \"Medium\", \"gender\": \"Unisex\"}\`.
-        getSkusIdResponseBody200Attributes :: (GHC.Maybe.Maybe GetSkusIdResponseBody200Attributes'),
+        getSkusIdResponseBody200Attributes :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        getSkusIdResponseBody200Created :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        getSkusIdResponseBody200Created :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
         getSkusIdResponseBody200Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | deleted: Always true for a deleted object
@@ -285,17 +146,17 @@ data GetSkusIdResponseBody200
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         getSkusIdResponseBody200Livemode :: (GHC.Maybe.Maybe GHC.Types.Bool),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        getSkusIdResponseBody200Metadata :: (GHC.Maybe.Maybe GetSkusIdResponseBody200Metadata'),
+        getSkusIdResponseBody200Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         getSkusIdResponseBody200Object :: (GHC.Maybe.Maybe GetSkusIdResponseBody200Object'),
         -- | package_dimensions: The dimensions of this SKU for shipping purposes.
         getSkusIdResponseBody200PackageDimensions :: (GHC.Maybe.Maybe GetSkusIdResponseBody200PackageDimensions'),
         -- | price: The cost of the item as a positive integer in the smallest currency unit (that is, 100 cents to charge \$1.00, or 100 to charge ¥100, Japanese Yen being a zero-decimal currency).
-        getSkusIdResponseBody200Price :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        getSkusIdResponseBody200Price :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | product: The ID of the product this SKU is associated with. The product must be currently active.
         getSkusIdResponseBody200Product :: (GHC.Maybe.Maybe GetSkusIdResponseBody200Product'Variants),
         -- | updated: Time at which the object was last updated. Measured in seconds since the Unix epoch.
-        getSkusIdResponseBody200Updated :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+        getSkusIdResponseBody200Updated :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,
@@ -308,25 +169,6 @@ instance Data.Aeson.ToJSON GetSkusIdResponseBody200 where
 
 instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200 where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSkusIdResponseBody200" (\obj -> ((((((((((((((GHC.Base.pure GetSkusIdResponseBody200 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "attributes")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "deleted")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "image")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "inventory")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "package_dimensions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "price")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "product")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "updated"))
-
--- | Defines the data type for the schema GetSkusIdResponseBody200Attributes\'
---
--- A dictionary of attributes and values for the attributes defined by the product. If, for example, a product\'s attributes are \`[\"size\", \"gender\"]\`, a valid SKU has the following dictionary of attributes: \`{\"size\": \"Medium\", \"gender\": \"Unisex\"}\`.
-data GetSkusIdResponseBody200Attributes'
-  = GetSkusIdResponseBody200Attributes'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON GetSkusIdResponseBody200Attributes' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200Attributes' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSkusIdResponseBody200Attributes'" (\obj -> GHC.Base.pure GetSkusIdResponseBody200Attributes')
 
 -- | Defines the enum schema GetSkusIdResponseBody200Deleted\'
 --
@@ -349,25 +191,6 @@ instance Data.Aeson.FromJSON GetSkusIdResponseBody200Deleted' where
           then GetSkusIdResponseBody200Deleted'EnumBoolTrue
           else GetSkusIdResponseBody200Deleted'EnumOther val
       )
-
--- | Defines the data type for the schema GetSkusIdResponseBody200Metadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-data GetSkusIdResponseBody200Metadata'
-  = GetSkusIdResponseBody200Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON GetSkusIdResponseBody200Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetSkusIdResponseBody200Metadata'" (\obj -> GHC.Base.pure GetSkusIdResponseBody200Metadata')
 
 -- | Defines the enum schema GetSkusIdResponseBody200Object\'
 --
@@ -430,3 +253,71 @@ instance Data.Aeson.ToJSON GetSkusIdResponseBody200Product'Variants where
 
 instance Data.Aeson.FromJSON GetSkusIdResponseBody200Product'Variants where
   parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+-- | > GET /v1/skus/{id}
+--
+-- The same as 'getSkusId' but accepts an explicit configuration.
+getSkusIdWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetSkusIdParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetSkusIdResponse)
+getSkusIdWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetSkusIdResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetSkusIdResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              GetSkusIdResponseBody200
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetSkusIdResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSkusIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
+
+-- | > GET /v1/skus/{id}
+--
+-- The same as 'getSkusId' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getSkusIdRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetSkusIdParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getSkusIdRaw parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSkusIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
+
+-- | > GET /v1/skus/{id}
+--
+-- The same as 'getSkusId' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getSkusIdWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetSkusIdParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getSkusIdWithConfigurationRaw
+  config
+  parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSkusIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])

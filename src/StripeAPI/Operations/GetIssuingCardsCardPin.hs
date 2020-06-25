@@ -46,227 +46,105 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Retrieves the PIN for a card object, subject to cardholder verification, see \<a href=\"\/docs\/issuing\/pin_management\">Retrieve and update cardholder PIN\<\/a>\<\/p>
 getIssuingCardsCardPin ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | card | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | verification: The id of the \`Verification\` that was sent and the code entered by the cardholder
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetIssuingCardsCardPinRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingCardsCardPinResponse))
-getIssuingCardsCardPin
-  config
-  card
-  expand
-  verification
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetIssuingCardsCardPinResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingCardsCardPinResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Issuing'cardPin
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingCardsCardPinResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetIssuingCardsCardPinParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetIssuingCardsCardPinResponse)
+getIssuingCardsCardPin parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetIssuingCardsCardPinResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetIssuingCardsCardPinResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Issuing'cardPin
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetIssuingCardsCardPinResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ "/pin")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : ( ( Data.Text.pack "verification",
-                    GHC.Maybe.Just GHC.Base.$ StripeAPI.Common.stringifyModel verification
-                  )
-                    : []
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/issuing/cards/{card}/pin
---
--- The same as 'getIssuingCardsCardPin' but returns the raw 'Data.ByteString.Char8.ByteString'
-getIssuingCardsCardPinRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetIssuingCardsCardPinRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getIssuingCardsCardPinRaw
-  config
-  card
-  expand
-  verification
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ "/pin")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : ( ( Data.Text.pack "verification",
-                    GHC.Maybe.Just GHC.Base.$ StripeAPI.Common.stringifyModel verification
-                  )
-                    : []
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/issuing/cards/{card}/pin
---
--- Monadic version of 'getIssuingCardsCardPin' (use with 'StripeAPI.Common.runWithConfiguration')
-getIssuingCardsCardPinM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetIssuingCardsCardPinRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetIssuingCardsCardPinResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getIssuingCardsCardPinParametersPathCard parameters))) GHC.Base.++ "/pin")))
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsCardPinParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "verification") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getIssuingCardsCardPinParametersQueryVerification parameters)) (Data.Text.pack "deepObject") GHC.Types.True
+        ]
     )
-getIssuingCardsCardPinM
-  card
-  expand
-  verification
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetIssuingCardsCardPinResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingCardsCardPinResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Issuing'cardPin
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingCardsCardPinResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ "/pin")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : ( ( Data.Text.pack "verification",
-                    GHC.Maybe.Just GHC.Base.$ StripeAPI.Common.stringifyModel verification
-                  )
-                    : []
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/issuing/cards/{card}/pin
---
--- Monadic version of 'getIssuingCardsCardPinRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getIssuingCardsCardPinRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetIssuingCardsCardPinRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getIssuingCardsCardPinRawM
-  card
-  expand
-  verification
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel card)) GHC.Base.++ "/pin")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : ( ( Data.Text.pack "verification",
-                    GHC.Maybe.Just GHC.Base.$ StripeAPI.Common.stringifyModel verification
-                  )
-                    : []
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getIssuingCardsCardPinRequestBody
-data GetIssuingCardsCardPinRequestBody
-  = GetIssuingCardsCardPinRequestBody
-      {
+-- | Defines the data type for the schema getIssuingCardsCardPinParameters
+data GetIssuingCardsCardPinParameters
+  = GetIssuingCardsCardPinParameters
+      { -- | pathCard: Represents the parameter named \'card\'
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingCardsCardPinParametersPathCard :: Data.Text.Internal.Text,
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getIssuingCardsCardPinParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        -- | queryVerification: Represents the parameter named \'verification\'
+        --
+        -- The id of the \`Verification\` that was sent and the code entered by the cardholder
+        getIssuingCardsCardPinParametersQueryVerification :: GetIssuingCardsCardPinParametersQueryVerification'
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetIssuingCardsCardPinRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetIssuingCardsCardPinParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCard" (getIssuingCardsCardPinParametersPathCard obj) : (Data.Aeson..=) "queryExpand" (getIssuingCardsCardPinParametersQueryExpand obj) : (Data.Aeson..=) "queryVerification" (getIssuingCardsCardPinParametersQueryVerification obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCard" (getIssuingCardsCardPinParametersPathCard obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getIssuingCardsCardPinParametersQueryExpand obj) GHC.Base.<> (Data.Aeson..=) "queryVerification" (getIssuingCardsCardPinParametersQueryVerification obj)))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingCardsCardPinRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingCardsCardPinRequestBody" (\obj -> GHC.Base.pure GetIssuingCardsCardPinRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingCardsCardPinParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingCardsCardPinParameters" (\obj -> ((GHC.Base.pure GetIssuingCardsCardPinParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCard")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "queryVerification"))
+
+-- | Defines the data type for the schema getIssuingCardsCardPinParametersQueryVerification\'
+--
+-- Represents the parameter named \'verification\'
+--
+-- The id of the \`Verification\` that was sent and the code entered by the cardholder
+data GetIssuingCardsCardPinParametersQueryVerification'
+  = GetIssuingCardsCardPinParametersQueryVerification'
+      { -- | id
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingCardsCardPinParametersQueryVerification'Id :: Data.Text.Internal.Text,
+        -- | one_time_code
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingCardsCardPinParametersQueryVerification'OneTimeCode :: Data.Text.Internal.Text
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.ToJSON GetIssuingCardsCardPinParametersQueryVerification' where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "id" (getIssuingCardsCardPinParametersQueryVerification'Id obj) : (Data.Aeson..=) "one_time_code" (getIssuingCardsCardPinParametersQueryVerification'OneTimeCode obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "id" (getIssuingCardsCardPinParametersQueryVerification'Id obj) GHC.Base.<> (Data.Aeson..=) "one_time_code" (getIssuingCardsCardPinParametersQueryVerification'OneTimeCode obj))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingCardsCardPinParametersQueryVerification' where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingCardsCardPinParametersQueryVerification'" (\obj -> (GHC.Base.pure GetIssuingCardsCardPinParametersQueryVerification' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "one_time_code"))
 
 -- | Represents a response of the operation 'getIssuingCardsCardPin'.
 --
@@ -279,3 +157,95 @@ data GetIssuingCardsCardPinResponse
   | -- | Error response.
     GetIssuingCardsCardPinResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > GET /v1/issuing/cards/{card}/pin
+--
+-- The same as 'getIssuingCardsCardPin' but accepts an explicit configuration.
+getIssuingCardsCardPinWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetIssuingCardsCardPinParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetIssuingCardsCardPinResponse)
+getIssuingCardsCardPinWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetIssuingCardsCardPinResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetIssuingCardsCardPinResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Issuing'cardPin
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetIssuingCardsCardPinResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getIssuingCardsCardPinParametersPathCard parameters))) GHC.Base.++ "/pin")))
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsCardPinParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "verification") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getIssuingCardsCardPinParametersQueryVerification parameters)) (Data.Text.pack "deepObject") GHC.Types.True
+          ]
+      )
+
+-- | > GET /v1/issuing/cards/{card}/pin
+--
+-- The same as 'getIssuingCardsCardPin' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getIssuingCardsCardPinRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetIssuingCardsCardPinParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getIssuingCardsCardPinRaw parameters =
+  GHC.Base.id
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getIssuingCardsCardPinParametersPathCard parameters))) GHC.Base.++ "/pin")))
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsCardPinParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "verification") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getIssuingCardsCardPinParametersQueryVerification parameters)) (Data.Text.pack "deepObject") GHC.Types.True
+        ]
+    )
+
+-- | > GET /v1/issuing/cards/{card}/pin
+--
+-- The same as 'getIssuingCardsCardPin' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getIssuingCardsCardPinWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetIssuingCardsCardPinParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getIssuingCardsCardPinWithConfigurationRaw
+  config
+  parameters =
+    GHC.Base.id
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack ("/v1/issuing/cards/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getIssuingCardsCardPinParametersPathCard parameters))) GHC.Base.++ "/pin")))
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsCardPinParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "verification") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getIssuingCardsCardPinParametersQueryVerification parameters)) (Data.Text.pack "deepObject") GHC.Types.True
+          ]
+      )

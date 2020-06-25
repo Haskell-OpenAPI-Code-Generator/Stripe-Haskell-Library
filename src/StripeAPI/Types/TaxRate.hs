@@ -39,7 +39,7 @@ data TaxRate
       { -- | active: Defaults to \`true\`. When set to \`false\`, this tax rate cannot be applied to objects in the API, but will still be applied to subscriptions and invoices that already have it set.
         taxRateActive :: GHC.Types.Bool,
         -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        taxRateCreated :: GHC.Integer.Type.Integer,
+        taxRateCreated :: GHC.Types.Int,
         -- | description: An arbitrary string attached to the tax rate for your internal use only. It will not be visible to your customers.
         --
         -- Constraints:
@@ -69,7 +69,7 @@ data TaxRate
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         taxRateLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        taxRateMetadata :: TaxRateMetadata',
+        taxRateMetadata :: Data.Aeson.Types.Internal.Object,
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         taxRateObject :: TaxRateObject',
         -- | percentage: This represents the tax rate percent out of 100.
@@ -86,25 +86,6 @@ instance Data.Aeson.ToJSON TaxRate where
 
 instance Data.Aeson.Types.FromJSON.FromJSON TaxRate where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxRate" (\obj -> ((((((((((GHC.Base.pure TaxRate GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "display_name")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inclusive")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "jurisdiction")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "percentage"))
-
--- | Defines the data type for the schema tax_rateMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-data TaxRateMetadata'
-  = TaxRateMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON TaxRateMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON TaxRateMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "TaxRateMetadata'" (\obj -> GHC.Base.pure TaxRateMetadata')
 
 -- | Defines the enum schema tax_rateObject\'
 --

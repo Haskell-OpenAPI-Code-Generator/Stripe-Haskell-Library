@@ -37,15 +37,15 @@ import qualified Prelude as GHC.Maybe
 data Coupon
   = Coupon
       { -- | amount_off: Amount (in the \`currency\` specified) that will be taken off the subtotal of any invoices for this customer.
-        couponAmountOff :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        couponAmountOff :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        couponCreated :: GHC.Integer.Type.Integer,
+        couponCreated :: GHC.Types.Int,
         -- | currency: If \`amount_off\` has been set, the three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/currencies) of the amount to take off.
         couponCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | duration: One of \`forever\`, \`once\`, and \`repeating\`. Describes how long a customer who applies this coupon will get the discount.
         couponDuration :: CouponDuration',
         -- | duration_in_months: If \`duration\` is \`repeating\`, the number of months the coupon applies. Null if coupon \`duration\` is \`forever\` or \`once\`.
-        couponDurationInMonths :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        couponDurationInMonths :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | id: Unique identifier for the object.
         --
         -- Constraints:
@@ -55,9 +55,9 @@ data Coupon
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         couponLivemode :: GHC.Types.Bool,
         -- | max_redemptions: Maximum number of times this coupon can be redeemed, in total, across all customers, before it is no longer valid.
-        couponMaxRedemptions :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        couponMaxRedemptions :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        couponMetadata :: CouponMetadata',
+        couponMetadata :: Data.Aeson.Types.Internal.Object,
         -- | name: Name of the coupon displayed to customers on for instance invoices or receipts.
         --
         -- Constraints:
@@ -69,9 +69,9 @@ data Coupon
         -- | percent_off: Percent that will be taken off the subtotal of any invoices for this customer for the duration of the coupon. For example, a coupon with percent_off of 50 will make a %s100 invoice %s50 instead.
         couponPercentOff :: (GHC.Maybe.Maybe GHC.Types.Double),
         -- | redeem_by: Date after which the coupon can no longer be redeemed.
-        couponRedeemBy :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        couponRedeemBy :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | times_redeemed: Number of times this coupon has been applied to a customer.
-        couponTimesRedeemed :: GHC.Integer.Type.Integer,
+        couponTimesRedeemed :: GHC.Types.Int,
         -- | valid: Taking account of the above properties, whether this coupon can still be applied to a customer.
         couponValid :: GHC.Types.Bool
       }
@@ -118,25 +118,6 @@ instance Data.Aeson.FromJSON CouponDuration' where
                   then CouponDuration'EnumStringRepeating
                   else CouponDuration'EnumOther val
       )
-
--- | Defines the data type for the schema couponMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-data CouponMetadata'
-  = CouponMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON CouponMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON CouponMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CouponMetadata'" (\obj -> GHC.Base.pure CouponMetadata')
 
 -- | Defines the enum schema couponObject\'
 --

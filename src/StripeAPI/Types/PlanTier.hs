@@ -33,15 +33,15 @@ import qualified Prelude as GHC.Maybe
 data PlanTier
   = PlanTier
       { -- | flat_amount: Price for the entire tier.
-        planTierFlatAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        planTierFlatAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | flat_amount_decimal: Same as \`flat_amount\`, but contains a decimal value with at most 12 decimal places.
         planTierFlatAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | unit_amount: Per unit price for units relevant to the tier.
-        planTierUnitAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        planTierUnitAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | unit_amount_decimal: Same as \`unit_amount\`, but contains a decimal value with at most 12 decimal places.
         planTierUnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | up_to: Up to and including to this quantity will be contained in the tier.
-        planTierUpTo :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+        planTierUpTo :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,

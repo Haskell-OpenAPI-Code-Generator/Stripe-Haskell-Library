@@ -43,9 +43,9 @@ import qualified Prelude as GHC.Maybe
 data Reporting'reportType
   = Reporting'reportType
       { -- | data_available_end: Most recent time for which this Report Type is available. Measured in seconds since the Unix epoch.
-        reporting'reportTypeDataAvailableEnd :: GHC.Integer.Type.Integer,
+        reporting'reportTypeDataAvailableEnd :: GHC.Types.Int,
         -- | data_available_start: Earliest time for which this Report Type is available. Measured in seconds since the Unix epoch.
-        reporting'reportTypeDataAvailableStart :: GHC.Integer.Type.Integer,
+        reporting'reportTypeDataAvailableStart :: GHC.Types.Int,
         -- | default_columns: List of column names that are included by default when this Report Type gets run. (If the Report Type doesn\'t support the \`columns\` parameter, this will be null.)
         reporting'reportTypeDefaultColumns :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
         -- | id: The [ID of the Report Type](https:\/\/stripe.com\/docs\/reporting\/statements\/api\#available-report-types), such as \`balance.summary.1\`.
@@ -63,9 +63,9 @@ data Reporting'reportType
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         reporting'reportTypeObject :: Reporting'reportTypeObject',
         -- | updated: When this Report Type was latest updated. Measured in seconds since the Unix epoch.
-        reporting'reportTypeUpdated :: GHC.Integer.Type.Integer,
+        reporting'reportTypeUpdated :: GHC.Types.Int,
         -- | version: Version of the Report Type. Different versions report with the same ID will have the same purpose, but may take different run parameters or have different result schemas.
-        reporting'reportTypeVersion :: GHC.Integer.Type.Integer
+        reporting'reportTypeVersion :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,

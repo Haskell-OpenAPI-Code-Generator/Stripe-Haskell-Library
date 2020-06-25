@@ -33,9 +33,9 @@ import qualified Prelude as GHC.Maybe
 data NotificationEventData
   = NotificationEventData
       { -- | object: Object containing the API resource relevant to the event. For example, an \`invoice.created\` event will have a full [invoice object](https:\/\/stripe.com\/docs\/api\#invoice_object) as the value of the object key.
-        notificationEventDataObject :: NotificationEventDataObject',
+        notificationEventDataObject :: Data.Aeson.Types.Internal.Object,
         -- | previous_attributes: Object containing the names of the attributes that have changed, and their previous values (sent along only with *.updated events).
-        notificationEventDataPreviousAttributes :: (GHC.Maybe.Maybe NotificationEventDataPreviousAttributes')
+        notificationEventDataPreviousAttributes :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
       }
   deriving
     ( GHC.Show.Show,
@@ -48,41 +48,3 @@ instance Data.Aeson.ToJSON NotificationEventData where
 
 instance Data.Aeson.Types.FromJSON.FromJSON NotificationEventData where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "NotificationEventData" (\obj -> (GHC.Base.pure NotificationEventData GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "previous_attributes"))
-
--- | Defines the data type for the schema notification_event_dataObject\'
---
--- Object containing the API resource relevant to the event. For example, an \`invoice.created\` event will have a full [invoice object](https:\/\/stripe.com\/docs\/api\#invoice_object) as the value of the object key.
-data NotificationEventDataObject'
-  = NotificationEventDataObject'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON NotificationEventDataObject' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON NotificationEventDataObject' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "NotificationEventDataObject'" (\obj -> GHC.Base.pure NotificationEventDataObject')
-
--- | Defines the data type for the schema notification_event_dataPrevious_attributes\'
---
--- Object containing the names of the attributes that have changed, and their previous values (sent along only with *.updated events).
-data NotificationEventDataPreviousAttributes'
-  = NotificationEventDataPreviousAttributes'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON NotificationEventDataPreviousAttributes' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON NotificationEventDataPreviousAttributes' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "NotificationEventDataPreviousAttributes'" (\obj -> GHC.Base.pure NotificationEventDataPreviousAttributes')

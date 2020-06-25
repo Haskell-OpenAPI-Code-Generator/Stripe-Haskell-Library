@@ -39,11 +39,11 @@ data SourceReceiverFlow
         -- * Maximum length of 5000
         sourceReceiverFlowAddress :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | amount_charged: The total amount that was charged by you. The amount charged is expressed in the source\'s currency.
-        sourceReceiverFlowAmountCharged :: GHC.Integer.Type.Integer,
+        sourceReceiverFlowAmountCharged :: GHC.Types.Int,
         -- | amount_received: The total amount received by the receiver source. \`amount_received = amount_returned + amount_charged\` is true at all time. The amount received is expressed in the source\'s currency.
-        sourceReceiverFlowAmountReceived :: GHC.Integer.Type.Integer,
+        sourceReceiverFlowAmountReceived :: GHC.Types.Int,
         -- | amount_returned: The total amount that was returned to the customer. The amount returned is expressed in the source\'s currency.
-        sourceReceiverFlowAmountReturned :: GHC.Integer.Type.Integer,
+        sourceReceiverFlowAmountReturned :: GHC.Types.Int,
         -- | refund_attributes_method: Type of refund attribute method, one of \`email\`, \`manual\`, or \`none\`.
         --
         -- Constraints:

@@ -34,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 data AccountCapabilityRequirements
   = AccountCapabilityRequirements
       { -- | current_deadline: The date the fields in \`currently_due\` must be collected by to keep the capability enabled for the account.
-        accountCapabilityRequirementsCurrentDeadline :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        accountCapabilityRequirementsCurrentDeadline :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | currently_due: The fields that need to be collected to keep the capability enabled. If not collected by the \`current_deadline\`, these fields appear in \`past_due\` as well, and the capability is disabled.
         accountCapabilityRequirementsCurrentlyDue :: ([] Data.Text.Internal.Text),
         -- | disabled_reason: If the capability is disabled, this string describes why. Possible values are \`requirement.fields_needed\`, \`pending.onboarding\`, \`pending.review\`, \`rejected_fraud\`, or \`rejected.other\`.

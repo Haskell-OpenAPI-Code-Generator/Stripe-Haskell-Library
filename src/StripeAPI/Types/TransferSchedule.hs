@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data TransferSchedule
   = TransferSchedule
       { -- | delay_days: The number of days charges for the account will be held before being paid out.
-        transferScheduleDelayDays :: GHC.Integer.Type.Integer,
+        transferScheduleDelayDays :: GHC.Types.Int,
         -- | interval: How frequently funds will be paid out. One of \`manual\` (payouts only created via API call), \`daily\`, \`weekly\`, or \`monthly\`.
         --
         -- Constraints:
@@ -41,7 +41,7 @@ data TransferSchedule
         -- * Maximum length of 5000
         transferScheduleInterval :: Data.Text.Internal.Text,
         -- | monthly_anchor: The day of the month funds will be paid out. Only shown if \`interval\` is monthly. Payouts scheduled between the 29th and 31st of the month are sent on the last day of shorter months.
-        transferScheduleMonthlyAnchor :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        transferScheduleMonthlyAnchor :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | weekly_anchor: The day of the week funds will be paid out, of the style \'monday\', \'tuesday\', etc. Only shown if \`interval\` is weekly.
         --
         -- Constraints:

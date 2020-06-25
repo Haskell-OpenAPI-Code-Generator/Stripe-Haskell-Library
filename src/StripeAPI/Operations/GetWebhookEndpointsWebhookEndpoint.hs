@@ -46,202 +46,63 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Retrieves the webhook endpoint with the given ID.\<\/p>
 getWebhookEndpointsWebhookEndpoint ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | webhook_endpoint | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetWebhookEndpointsWebhookEndpointRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetWebhookEndpointsWebhookEndpointResponse))
-getWebhookEndpointsWebhookEndpoint
-  config
-  expand
-  webhookEndpoint
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetWebhookEndpointsWebhookEndpointResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetWebhookEndpointsWebhookEndpointResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  WebhookEndpoint
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetWebhookEndpointsWebhookEndpointResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetWebhookEndpointsWebhookEndpointParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetWebhookEndpointsWebhookEndpointResponse)
+getWebhookEndpointsWebhookEndpoint parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetWebhookEndpointsWebhookEndpointResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetWebhookEndpointsWebhookEndpointResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            WebhookEndpoint
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetWebhookEndpointsWebhookEndpointResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel webhookEndpoint)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/webhook_endpoints/{webhook_endpoint}
---
--- The same as 'getWebhookEndpointsWebhookEndpoint' but returns the raw 'Data.ByteString.Char8.ByteString'
-getWebhookEndpointsWebhookEndpointRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetWebhookEndpointsWebhookEndpointRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getWebhookEndpointsWebhookEndpointRaw
-  config
-  expand
-  webhookEndpoint
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel webhookEndpoint)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
+    (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getWebhookEndpointsWebhookEndpointParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
 
--- | > GET /v1/webhook_endpoints/{webhook_endpoint}
---
--- Monadic version of 'getWebhookEndpointsWebhookEndpoint' (use with 'StripeAPI.Common.runWithConfiguration')
-getWebhookEndpointsWebhookEndpointM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetWebhookEndpointsWebhookEndpointRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetWebhookEndpointsWebhookEndpointResponse)
-    )
-getWebhookEndpointsWebhookEndpointM
-  expand
-  webhookEndpoint
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetWebhookEndpointsWebhookEndpointResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetWebhookEndpointsWebhookEndpointResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  WebhookEndpoint
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetWebhookEndpointsWebhookEndpointResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel webhookEndpoint)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/webhook_endpoints/{webhook_endpoint}
---
--- Monadic version of 'getWebhookEndpointsWebhookEndpointRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getWebhookEndpointsWebhookEndpointRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetWebhookEndpointsWebhookEndpointRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getWebhookEndpointsWebhookEndpointRawM
-  expand
-  webhookEndpoint
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel webhookEndpoint)) GHC.Base.++ "")))
-          ( ( Data.Text.pack "expand",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-            )
-              : []
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getWebhookEndpointsWebhookEndpointRequestBody
-data GetWebhookEndpointsWebhookEndpointRequestBody
-  = GetWebhookEndpointsWebhookEndpointRequestBody
-      {
+-- | Defines the data type for the schema getWebhookEndpointsWebhookEndpointParameters
+data GetWebhookEndpointsWebhookEndpointParameters
+  = GetWebhookEndpointsWebhookEndpointParameters
+      { -- | pathWebhook_endpoint: Represents the parameter named \'webhook_endpoint\'
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint :: Data.Text.Internal.Text,
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getWebhookEndpointsWebhookEndpointParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetWebhookEndpointsWebhookEndpointRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetWebhookEndpointsWebhookEndpointParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathWebhook_endpoint" (getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint obj) : (Data.Aeson..=) "queryExpand" (getWebhookEndpointsWebhookEndpointParametersQueryExpand obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathWebhook_endpoint" (getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getWebhookEndpointsWebhookEndpointParametersQueryExpand obj))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetWebhookEndpointsWebhookEndpointRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetWebhookEndpointsWebhookEndpointRequestBody" (\obj -> GHC.Base.pure GetWebhookEndpointsWebhookEndpointRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetWebhookEndpointsWebhookEndpointParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetWebhookEndpointsWebhookEndpointParameters" (\obj -> (GHC.Base.pure GetWebhookEndpointsWebhookEndpointParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathWebhook_endpoint")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand"))
 
 -- | Represents a response of the operation 'getWebhookEndpointsWebhookEndpoint'.
 --
@@ -254,3 +115,71 @@ data GetWebhookEndpointsWebhookEndpointResponse
   | -- | Error response.
     GetWebhookEndpointsWebhookEndpointResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > GET /v1/webhook_endpoints/{webhook_endpoint}
+--
+-- The same as 'getWebhookEndpointsWebhookEndpoint' but accepts an explicit configuration.
+getWebhookEndpointsWebhookEndpointWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetWebhookEndpointsWebhookEndpointParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetWebhookEndpointsWebhookEndpointResponse)
+getWebhookEndpointsWebhookEndpointWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetWebhookEndpointsWebhookEndpointResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetWebhookEndpointsWebhookEndpointResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              WebhookEndpoint
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetWebhookEndpointsWebhookEndpointResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getWebhookEndpointsWebhookEndpointParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
+
+-- | > GET /v1/webhook_endpoints/{webhook_endpoint}
+--
+-- The same as 'getWebhookEndpointsWebhookEndpoint' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getWebhookEndpointsWebhookEndpointRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetWebhookEndpointsWebhookEndpointParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getWebhookEndpointsWebhookEndpointRaw parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getWebhookEndpointsWebhookEndpointParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
+
+-- | > GET /v1/webhook_endpoints/{webhook_endpoint}
+--
+-- The same as 'getWebhookEndpointsWebhookEndpoint' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getWebhookEndpointsWebhookEndpointWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetWebhookEndpointsWebhookEndpointParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getWebhookEndpointsWebhookEndpointWithConfigurationRaw
+  config
+  parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/webhook_endpoints/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getWebhookEndpointsWebhookEndpointParametersPathWebhookEndpoint parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getWebhookEndpointsWebhookEndpointParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])

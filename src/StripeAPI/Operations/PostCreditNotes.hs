@@ -59,127 +59,45 @@ import qualified Prelude as GHC.Maybe
 -- \<p>You may issue multiple credit notes for an invoice. Each credit note will increment the invoice’s \<code>pre_payment_credit_notes_amount\<\/code>
 -- or \<code>post_payment_credit_notes_amount\<\/code> depending on its \<code>status\<\/code> at the time of credit note creation.\<\/p>
 postCreditNotes ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   PostCreditNotesRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCreditNotesResponse))
-postCreditNotes
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostCreditNotesResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCreditNotesResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  CreditNote
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCreditNotesResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostCreditNotesResponse)
+postCreditNotes body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostCreditNotesResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostCreditNotesResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            CreditNote
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostCreditNotesResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/credit_notes") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/credit_notes
---
--- The same as 'postCreditNotes' but returns the raw 'Data.ByteString.Char8.ByteString'
-postCreditNotesRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  PostCreditNotesRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postCreditNotesRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/credit_notes") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/credit_notes
---
--- Monadic version of 'postCreditNotes' (use with 'StripeAPI.Common.runWithConfiguration')
-postCreditNotesM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostCreditNotesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostCreditNotesResponse)
-    )
-postCreditNotesM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostCreditNotesResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostCreditNotesResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                CreditNote
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostCreditNotesResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/credit_notes") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/credit_notes
---
--- Monadic version of 'postCreditNotesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postCreditNotesRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostCreditNotesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postCreditNotesRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/credit_notes") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postCreditNotesRequestBody
 data PostCreditNotesRequestBody
   = PostCreditNotesRequestBody
       { -- | amount: The integer amount in **%s** representing the total amount of the credit note.
-        postCreditNotesRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCreditNotesRequestBodyAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | credit_amount: The integer amount in **%s** representing the amount to credit the customer\'s balance, which will be automatically applied to their next invoice.
-        postCreditNotesRequestBodyCreditAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCreditNotesRequestBodyCreditAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | expand: Specifies which fields in the response should be expanded.
         postCreditNotesRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
         -- | invoice: ID of the invoice.
@@ -197,15 +115,15 @@ data PostCreditNotesRequestBody
         -- * Maximum length of 5000
         postCreditNotesRequestBodyMemo :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postCreditNotesRequestBodyMetadata :: (GHC.Maybe.Maybe PostCreditNotesRequestBodyMetadata'),
+        postCreditNotesRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | out_of_band_amount: The integer amount in **%s** representing the amount that is credited outside of Stripe.
-        postCreditNotesRequestBodyOutOfBandAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCreditNotesRequestBodyOutOfBandAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | reason: Reason for issuing this credit note, one of \`duplicate\`, \`fraudulent\`, \`order_change\`, or \`product_unsatisfactory\`
         postCreditNotesRequestBodyReason :: (GHC.Maybe.Maybe PostCreditNotesRequestBodyReason'),
         -- | refund: ID of an existing refund to link this credit note to.
         postCreditNotesRequestBodyRefund :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | refund_amount: The integer amount in **%s** representing the amount to refund. If set, a refund will be created for the charge associated with the invoice.
-        postCreditNotesRequestBodyRefundAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+        postCreditNotesRequestBodyRefundAmount :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,
@@ -223,7 +141,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCreditNotesRequestBody where
 data PostCreditNotesRequestBodyLines'
   = PostCreditNotesRequestBodyLines'
       { -- | amount
-        postCreditNotesRequestBodyLines'Amount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCreditNotesRequestBodyLines'Amount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | description
         --
         -- Constraints:
@@ -237,13 +155,13 @@ data PostCreditNotesRequestBodyLines'
         -- * Maximum length of 5000
         postCreditNotesRequestBodyLines'InvoiceLineItem :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | quantity
-        postCreditNotesRequestBodyLines'Quantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCreditNotesRequestBodyLines'Quantity :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | tax_rates
         postCreditNotesRequestBodyLines'TaxRates :: (GHC.Maybe.Maybe PostCreditNotesRequestBodyLines'TaxRates'Variants),
         -- | type
         postCreditNotesRequestBodyLines'Type :: PostCreditNotesRequestBodyLines'Type',
         -- | unit_amount
-        postCreditNotesRequestBodyLines'UnitAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCreditNotesRequestBodyLines'UnitAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | unit_amount_decimal
         postCreditNotesRequestBodyLines'UnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
@@ -316,25 +234,6 @@ instance Data.Aeson.FromJSON PostCreditNotesRequestBodyLines'Type' where
               else PostCreditNotesRequestBodyLines'Type'EnumOther val
       )
 
--- | Defines the data type for the schema postCreditNotesRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostCreditNotesRequestBodyMetadata'
-  = PostCreditNotesRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostCreditNotesRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostCreditNotesRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCreditNotesRequestBodyMetadata'" (\obj -> GHC.Base.pure PostCreditNotesRequestBodyMetadata')
-
 -- | Defines the enum schema postCreditNotesRequestBodyReason\'
 --
 -- Reason for issuing this credit note, one of \`duplicate\`, \`fraudulent\`, \`order_change\`, or \`product_unsatisfactory\`
@@ -383,3 +282,71 @@ data PostCreditNotesResponse
   | -- | Error response.
     PostCreditNotesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/credit_notes
+--
+-- The same as 'postCreditNotes' but accepts an explicit configuration.
+postCreditNotesWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostCreditNotesRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostCreditNotesResponse)
+postCreditNotesWithConfiguration
+  config
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostCreditNotesResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCreditNotesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              CreditNote
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCreditNotesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/credit_notes") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/credit_notes
+--
+-- The same as 'postCreditNotes' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postCreditNotesRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The request body to send
+  PostCreditNotesRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postCreditNotesRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/credit_notes") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/credit_notes
+--
+-- The same as 'postCreditNotes' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postCreditNotesWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostCreditNotesRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postCreditNotesWithConfigurationRaw
+  config
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/credit_notes") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

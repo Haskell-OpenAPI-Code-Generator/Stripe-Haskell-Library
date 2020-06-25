@@ -34,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 data AccountRequirements
   = AccountRequirements
       { -- | current_deadline: The date the fields in \`currently_due\` must be collected by to keep payouts enabled for the account. These fields might block payouts sooner if the next threshold is reached before these fields are collected.
-        accountRequirementsCurrentDeadline :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        accountRequirementsCurrentDeadline :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | currently_due: The fields that need to be collected to keep the account enabled. If not collected by the \`current_deadline\`, these fields appear in \`past_due\` as well, and the account is disabled.
         accountRequirementsCurrentlyDue :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
         -- | disabled_reason: If the account is disabled, this string describes why the account can’t create charges or receive payouts. Can be \`requirements.past_due\`, \`requirements.pending_verification\`, \`rejected.fraud\`, \`rejected.terms_of_service\`, \`rejected.listed\`, \`rejected.other\`, \`listed\`, \`under_review\`, or \`other\`.

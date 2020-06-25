@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data ReserveTransaction
   = ReserveTransaction
       { -- | amount
-        reserveTransactionAmount :: GHC.Integer.Type.Integer,
+        reserveTransactionAmount :: GHC.Types.Int,
         -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
         reserveTransactionCurrency :: Data.Text.Internal.Text,
         -- | description: An arbitrary string attached to the object. Often useful for displaying to users.

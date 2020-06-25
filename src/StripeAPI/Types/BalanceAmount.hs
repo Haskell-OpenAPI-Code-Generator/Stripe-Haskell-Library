@@ -34,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 data BalanceAmount
   = BalanceAmount
       { -- | amount: Balance amount.
-        balanceAmountAmount :: GHC.Integer.Type.Integer,
+        balanceAmountAmount :: GHC.Types.Int,
         -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
         balanceAmountCurrency :: Data.Text.Internal.Text,
         -- | source_types:

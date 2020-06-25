@@ -33,11 +33,11 @@ import qualified Prelude as GHC.Maybe
 data IssuingCardholderIndividualDob
   = IssuingCardholderIndividualDob
       { -- | day: The day of birth, between 1 and 31.
-        issuingCardholderIndividualDobDay :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        issuingCardholderIndividualDobDay :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | month: The month of birth, between 1 and 12.
-        issuingCardholderIndividualDobMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        issuingCardholderIndividualDobMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | year: The four-digit year of birth.
-        issuingCardholderIndividualDobYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+        issuingCardholderIndividualDobYear :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,

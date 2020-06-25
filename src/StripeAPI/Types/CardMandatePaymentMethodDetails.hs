@@ -29,19 +29,5 @@ import qualified StripeAPI.Common
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema card_mandate_payment_method_details
-data CardMandatePaymentMethodDetails
-  = CardMandatePaymentMethodDetails
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON CardMandatePaymentMethodDetails where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON CardMandatePaymentMethodDetails where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "CardMandatePaymentMethodDetails" (\obj -> GHC.Base.pure CardMandatePaymentMethodDetails)
+-- | Defines an alias for the schema card_mandate_payment_method_details
+type CardMandatePaymentMethodDetails = Data.Aeson.Types.Internal.Object

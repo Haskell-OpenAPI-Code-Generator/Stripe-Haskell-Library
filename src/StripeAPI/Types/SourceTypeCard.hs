@@ -45,9 +45,9 @@ data SourceTypeCard
         -- | dynamic_last4
         sourceTypeCardDynamicLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | exp_month
-        sourceTypeCardExpMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        sourceTypeCardExpMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | exp_year
-        sourceTypeCardExpYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        sourceTypeCardExpYear :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | fingerprint
         sourceTypeCardFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | funding

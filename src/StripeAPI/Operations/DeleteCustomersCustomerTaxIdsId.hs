@@ -46,156 +46,61 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Deletes an existing \<code>TaxID\<\/code> object.\<\/p>
 deleteCustomersCustomerTaxIdsId ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | customer | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | id
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe DeleteCustomersCustomerTaxIdsIdRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response DeleteCustomersCustomerTaxIdsIdResponse))
-deleteCustomersCustomerTaxIdsId
-  config
-  customer
-  id
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either DeleteCustomersCustomerTaxIdsIdResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         DeleteCustomersCustomerTaxIdsIdResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  DeletedTaxId
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         DeleteCustomersCustomerTaxIdsIdResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  DeleteCustomersCustomerTaxIdsIdParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response DeleteCustomersCustomerTaxIdsIdResponse)
+deleteCustomersCustomerTaxIdsId parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either DeleteCustomersCustomerTaxIdsIdResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   DeleteCustomersCustomerTaxIdsIdResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            DeletedTaxId
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   DeleteCustomersCustomerTaxIdsIdResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/tax_ids/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > DELETE /v1/customers/{customer}/tax_ids/{id}
---
--- The same as 'deleteCustomersCustomerTaxIdsId' but returns the raw 'Data.ByteString.Char8.ByteString'
-deleteCustomersCustomerTaxIdsIdRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe DeleteCustomersCustomerTaxIdsIdRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-deleteCustomersCustomerTaxIdsIdRaw
-  config
-  customer
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/tax_ids/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+    (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerTaxIdsIdParametersPathCustomer parameters))) GHC.Base.++ ("/tax_ids/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerTaxIdsIdParametersPathId parameters))) GHC.Base.++ ""))))) [])
 
--- | > DELETE /v1/customers/{customer}/tax_ids/{id}
---
--- Monadic version of 'deleteCustomersCustomerTaxIdsId' (use with 'StripeAPI.Common.runWithConfiguration')
-deleteCustomersCustomerTaxIdsIdM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe DeleteCustomersCustomerTaxIdsIdRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response DeleteCustomersCustomerTaxIdsIdResponse)
-    )
-deleteCustomersCustomerTaxIdsIdM
-  customer
-  id
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either DeleteCustomersCustomerTaxIdsIdResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         DeleteCustomersCustomerTaxIdsIdResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  DeletedTaxId
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         DeleteCustomersCustomerTaxIdsIdResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/tax_ids/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > DELETE /v1/customers/{customer}/tax_ids/{id}
---
--- Monadic version of 'deleteCustomersCustomerTaxIdsIdRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-deleteCustomersCustomerTaxIdsIdRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe DeleteCustomersCustomerTaxIdsIdRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-deleteCustomersCustomerTaxIdsIdRawM
-  customer
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ ("/tax_ids/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | Defines the data type for the schema deleteCustomersCustomerTaxIdsIdRequestBody
-data DeleteCustomersCustomerTaxIdsIdRequestBody
-  = DeleteCustomersCustomerTaxIdsIdRequestBody
-      {
+-- | Defines the data type for the schema deleteCustomersCustomerTaxIdsIdParameters
+data DeleteCustomersCustomerTaxIdsIdParameters
+  = DeleteCustomersCustomerTaxIdsIdParameters
+      { -- | pathCustomer: Represents the parameter named \'customer\'
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        deleteCustomersCustomerTaxIdsIdParametersPathCustomer :: Data.Text.Internal.Text,
+        -- | pathId: Represents the parameter named \'id\'
+        deleteCustomersCustomerTaxIdsIdParametersPathId :: Data.Text.Internal.Text
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON DeleteCustomersCustomerTaxIdsIdRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON DeleteCustomersCustomerTaxIdsIdParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (deleteCustomersCustomerTaxIdsIdParametersPathCustomer obj) : (Data.Aeson..=) "pathId" (deleteCustomersCustomerTaxIdsIdParametersPathId obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (deleteCustomersCustomerTaxIdsIdParametersPathCustomer obj) GHC.Base.<> (Data.Aeson..=) "pathId" (deleteCustomersCustomerTaxIdsIdParametersPathId obj))
 
-instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerTaxIdsIdRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteCustomersCustomerTaxIdsIdRequestBody" (\obj -> GHC.Base.pure DeleteCustomersCustomerTaxIdsIdRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerTaxIdsIdParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "DeleteCustomersCustomerTaxIdsIdParameters" (\obj -> (GHC.Base.pure DeleteCustomersCustomerTaxIdsIdParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "pathId"))
 
 -- | Represents a response of the operation 'deleteCustomersCustomerTaxIdsId'.
 --
@@ -208,3 +113,71 @@ data DeleteCustomersCustomerTaxIdsIdResponse
   | -- | Error response.
     DeleteCustomersCustomerTaxIdsIdResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > DELETE /v1/customers/{customer}/tax_ids/{id}
+--
+-- The same as 'deleteCustomersCustomerTaxIdsId' but accepts an explicit configuration.
+deleteCustomersCustomerTaxIdsIdWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  DeleteCustomersCustomerTaxIdsIdParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response DeleteCustomersCustomerTaxIdsIdResponse)
+deleteCustomersCustomerTaxIdsIdWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either DeleteCustomersCustomerTaxIdsIdResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     DeleteCustomersCustomerTaxIdsIdResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              DeletedTaxId
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     DeleteCustomersCustomerTaxIdsIdResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerTaxIdsIdParametersPathCustomer parameters))) GHC.Base.++ ("/tax_ids/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerTaxIdsIdParametersPathId parameters))) GHC.Base.++ ""))))) [])
+
+-- | > DELETE /v1/customers/{customer}/tax_ids/{id}
+--
+-- The same as 'deleteCustomersCustomerTaxIdsId' but returns the raw 'Data.ByteString.Char8.ByteString'.
+deleteCustomersCustomerTaxIdsIdRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  DeleteCustomersCustomerTaxIdsIdParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+deleteCustomersCustomerTaxIdsIdRaw parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerTaxIdsIdParametersPathCustomer parameters))) GHC.Base.++ ("/tax_ids/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerTaxIdsIdParametersPathId parameters))) GHC.Base.++ ""))))) [])
+
+-- | > DELETE /v1/customers/{customer}/tax_ids/{id}
+--
+-- The same as 'deleteCustomersCustomerTaxIdsId' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+deleteCustomersCustomerTaxIdsIdWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  DeleteCustomersCustomerTaxIdsIdParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+deleteCustomersCustomerTaxIdsIdWithConfigurationRaw
+  config
+  parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerTaxIdsIdParametersPathCustomer parameters))) GHC.Base.++ ("/tax_ids/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerTaxIdsIdParametersPathId parameters))) GHC.Base.++ ""))))) [])

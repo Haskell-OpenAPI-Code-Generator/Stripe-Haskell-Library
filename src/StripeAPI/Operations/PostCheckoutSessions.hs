@@ -46,119 +46,37 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Creates a Session object.\<\/p>
 postCheckoutSessions ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   PostCheckoutSessionsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCheckoutSessionsResponse))
-postCheckoutSessions
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostCheckoutSessionsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCheckoutSessionsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Checkout'session
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCheckoutSessionsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostCheckoutSessionsResponse)
+postCheckoutSessions body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostCheckoutSessionsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostCheckoutSessionsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Checkout'session
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostCheckoutSessionsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/checkout/sessions") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/checkout/sessions
---
--- The same as 'postCheckoutSessions' but returns the raw 'Data.ByteString.Char8.ByteString'
-postCheckoutSessionsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  PostCheckoutSessionsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postCheckoutSessionsRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/checkout/sessions") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/checkout/sessions
---
--- Monadic version of 'postCheckoutSessions' (use with 'StripeAPI.Common.runWithConfiguration')
-postCheckoutSessionsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostCheckoutSessionsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostCheckoutSessionsResponse)
-    )
-postCheckoutSessionsM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostCheckoutSessionsResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostCheckoutSessionsResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Checkout'session
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostCheckoutSessionsResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/checkout/sessions") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/checkout/sessions
---
--- Monadic version of 'postCheckoutSessionsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postCheckoutSessionsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostCheckoutSessionsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postCheckoutSessionsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/checkout/sessions") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postCheckoutSessionsRequestBody
 data PostCheckoutSessionsRequestBody
@@ -208,7 +126,7 @@ data PostCheckoutSessionsRequestBody
         -- | locale: The IETF language tag of the locale Checkout is displayed in. If blank or \`auto\`, the browser\'s locale is used.
         postCheckoutSessionsRequestBodyLocale :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyLocale'),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postCheckoutSessionsRequestBodyMetadata :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyMetadata'),
+        postCheckoutSessionsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | mode: The mode of the Checkout Session, one of \`payment\`, \`setup\`, or \`subscription\`.
         postCheckoutSessionsRequestBodyMode :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyMode'),
         -- | payment_intent_data: A subset of parameters to be passed to PaymentIntent creation for Checkout Sessions in \`payment\` mode.
@@ -279,7 +197,7 @@ instance Data.Aeson.FromJSON PostCheckoutSessionsRequestBodyBillingAddressCollec
 data PostCheckoutSessionsRequestBodyLineItems'
   = PostCheckoutSessionsRequestBodyLineItems'
       { -- | amount
-        postCheckoutSessionsRequestBodyLineItems'Amount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCheckoutSessionsRequestBodyLineItems'Amount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | currency
         postCheckoutSessionsRequestBodyLineItems'Currency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | description
@@ -297,7 +215,7 @@ data PostCheckoutSessionsRequestBodyLineItems'
         -- * Maximum length of 5000
         postCheckoutSessionsRequestBodyLineItems'Name :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | quantity
-        postCheckoutSessionsRequestBodyLineItems'Quantity :: GHC.Integer.Type.Integer,
+        postCheckoutSessionsRequestBodyLineItems'Quantity :: GHC.Types.Int,
         -- | tax_rates
         postCheckoutSessionsRequestBodyLineItems'TaxRates :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
       }
@@ -410,25 +328,6 @@ instance Data.Aeson.FromJSON PostCheckoutSessionsRequestBodyLocale' where
                                                                       else PostCheckoutSessionsRequestBodyLocale'EnumOther val
       )
 
--- | Defines the data type for the schema postCheckoutSessionsRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostCheckoutSessionsRequestBodyMetadata'
-  = PostCheckoutSessionsRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostCheckoutSessionsRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyMetadata'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyMetadata')
-
 -- | Defines the enum schema postCheckoutSessionsRequestBodyMode\'
 --
 -- The mode of the Checkout Session, one of \`payment\`, \`setup\`, or \`subscription\`.
@@ -467,7 +366,7 @@ instance Data.Aeson.FromJSON PostCheckoutSessionsRequestBodyMode' where
 data PostCheckoutSessionsRequestBodyPaymentIntentData'
   = PostCheckoutSessionsRequestBodyPaymentIntentData'
       { -- | application_fee_amount
-        postCheckoutSessionsRequestBodyPaymentIntentData'ApplicationFeeAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCheckoutSessionsRequestBodyPaymentIntentData'ApplicationFeeAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | capture_method
         postCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'),
         -- | description
@@ -477,7 +376,7 @@ data PostCheckoutSessionsRequestBodyPaymentIntentData'
         -- * Maximum length of 1000
         postCheckoutSessionsRequestBodyPaymentIntentData'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata
-        postCheckoutSessionsRequestBodyPaymentIntentData'Metadata :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodyPaymentIntentData'Metadata'),
+        postCheckoutSessionsRequestBodyPaymentIntentData'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | on_behalf_of
         postCheckoutSessionsRequestBodyPaymentIntentData'OnBehalfOf :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | receipt_email
@@ -541,23 +440,6 @@ instance Data.Aeson.FromJSON PostCheckoutSessionsRequestBodyPaymentIntentData'Ca
               then PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumStringManual
               else PostCheckoutSessionsRequestBodyPaymentIntentData'CaptureMethod'EnumOther val
       )
-
--- | Defines the data type for the schema postCheckoutSessionsRequestBodyPayment_intent_data\'Metadata\'
-data PostCheckoutSessionsRequestBodyPaymentIntentData'Metadata'
-  = PostCheckoutSessionsRequestBodyPaymentIntentData'Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostCheckoutSessionsRequestBodyPaymentIntentData'Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPaymentIntentData'Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodyPaymentIntentData'Metadata'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodyPaymentIntentData'Metadata')
 
 -- | Defines the enum schema postCheckoutSessionsRequestBodyPayment_intent_data\'Setup_future_usage\'
 data PostCheckoutSessionsRequestBodyPaymentIntentData'SetupFutureUsage'
@@ -682,7 +564,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodyPayme
 data PostCheckoutSessionsRequestBodyPaymentIntentData'TransferData'
   = PostCheckoutSessionsRequestBodyPaymentIntentData'TransferData'
       { -- | amount
-        postCheckoutSessionsRequestBodyPaymentIntentData'TransferData'Amount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCheckoutSessionsRequestBodyPaymentIntentData'TransferData'Amount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | destination
         postCheckoutSessionsRequestBodyPaymentIntentData'TransferData'Destination :: Data.Text.Internal.Text
       }
@@ -740,7 +622,7 @@ data PostCheckoutSessionsRequestBodySetupIntentData'
         -- * Maximum length of 1000
         postCheckoutSessionsRequestBodySetupIntentData'Description :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata
-        postCheckoutSessionsRequestBodySetupIntentData'Metadata :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodySetupIntentData'Metadata'),
+        postCheckoutSessionsRequestBodySetupIntentData'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | on_behalf_of
         postCheckoutSessionsRequestBodySetupIntentData'OnBehalfOf :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
@@ -755,23 +637,6 @@ instance Data.Aeson.ToJSON PostCheckoutSessionsRequestBodySetupIntentData' where
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodySetupIntentData' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodySetupIntentData'" (\obj -> ((GHC.Base.pure PostCheckoutSessionsRequestBodySetupIntentData' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "on_behalf_of"))
-
--- | Defines the data type for the schema postCheckoutSessionsRequestBodySetup_intent_data\'Metadata\'
-data PostCheckoutSessionsRequestBodySetupIntentData'Metadata'
-  = PostCheckoutSessionsRequestBodySetupIntentData'Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostCheckoutSessionsRequestBodySetupIntentData'Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodySetupIntentData'Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodySetupIntentData'Metadata'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodySetupIntentData'Metadata')
 
 -- | Defines the enum schema postCheckoutSessionsRequestBodySubmit_type\'
 --
@@ -825,13 +690,13 @@ data PostCheckoutSessionsRequestBodySubscriptionData'
         -- | items
         postCheckoutSessionsRequestBodySubscriptionData'Items :: (GHC.Maybe.Maybe ([] PostCheckoutSessionsRequestBodySubscriptionData'Items')),
         -- | metadata
-        postCheckoutSessionsRequestBodySubscriptionData'Metadata :: (GHC.Maybe.Maybe PostCheckoutSessionsRequestBodySubscriptionData'Metadata'),
+        postCheckoutSessionsRequestBodySubscriptionData'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | trial_end
-        postCheckoutSessionsRequestBodySubscriptionData'TrialEnd :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCheckoutSessionsRequestBodySubscriptionData'TrialEnd :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | trial_from_plan
         postCheckoutSessionsRequestBodySubscriptionData'TrialFromPlan :: (GHC.Maybe.Maybe GHC.Types.Bool),
         -- | trial_period_days
-        postCheckoutSessionsRequestBodySubscriptionData'TrialPeriodDays :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+        postCheckoutSessionsRequestBodySubscriptionData'TrialPeriodDays :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,
@@ -855,7 +720,7 @@ data PostCheckoutSessionsRequestBodySubscriptionData'Items'
         -- * Maximum length of 5000
         postCheckoutSessionsRequestBodySubscriptionData'Items'Plan :: Data.Text.Internal.Text,
         -- | quantity
-        postCheckoutSessionsRequestBodySubscriptionData'Items'Quantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCheckoutSessionsRequestBodySubscriptionData'Items'Quantity :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | tax_rates
         postCheckoutSessionsRequestBodySubscriptionData'Items'TaxRates :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
       }
@@ -871,23 +736,6 @@ instance Data.Aeson.ToJSON PostCheckoutSessionsRequestBodySubscriptionData'Items
 instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodySubscriptionData'Items' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodySubscriptionData'Items'" (\obj -> ((GHC.Base.pure PostCheckoutSessionsRequestBodySubscriptionData'Items' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "plan")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "quantity")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "tax_rates"))
 
--- | Defines the data type for the schema postCheckoutSessionsRequestBodySubscription_data\'Metadata\'
-data PostCheckoutSessionsRequestBodySubscriptionData'Metadata'
-  = PostCheckoutSessionsRequestBodySubscriptionData'Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostCheckoutSessionsRequestBodySubscriptionData'Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostCheckoutSessionsRequestBodySubscriptionData'Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCheckoutSessionsRequestBodySubscriptionData'Metadata'" (\obj -> GHC.Base.pure PostCheckoutSessionsRequestBodySubscriptionData'Metadata')
-
 -- | Represents a response of the operation 'postCheckoutSessions'.
 --
 -- The response constructor is chosen by the status code of the response. If no case matches (no specific case for the response code, no range case, no default case), 'PostCheckoutSessionsResponseError' is used.
@@ -899,3 +747,71 @@ data PostCheckoutSessionsResponse
   | -- | Error response.
     PostCheckoutSessionsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/checkout/sessions
+--
+-- The same as 'postCheckoutSessions' but accepts an explicit configuration.
+postCheckoutSessionsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostCheckoutSessionsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostCheckoutSessionsResponse)
+postCheckoutSessionsWithConfiguration
+  config
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostCheckoutSessionsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCheckoutSessionsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Checkout'session
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCheckoutSessionsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/checkout/sessions") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/checkout/sessions
+--
+-- The same as 'postCheckoutSessions' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postCheckoutSessionsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The request body to send
+  PostCheckoutSessionsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postCheckoutSessionsRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/checkout/sessions") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/checkout/sessions
+--
+-- The same as 'postCheckoutSessions' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postCheckoutSessionsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostCheckoutSessionsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postCheckoutSessionsWithConfigurationRaw
+  config
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/checkout/sessions") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

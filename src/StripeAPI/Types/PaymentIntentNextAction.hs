@@ -42,7 +42,7 @@ data PaymentIntentNextAction
         -- * Maximum length of 5000
         paymentIntentNextActionType :: Data.Text.Internal.Text,
         -- | use_stripe_sdk: When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
-        paymentIntentNextActionUseStripeSdk :: (GHC.Maybe.Maybe PaymentIntentNextActionUseStripeSdk')
+        paymentIntentNextActionUseStripeSdk :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object)
       }
   deriving
     ( GHC.Show.Show,
@@ -55,22 +55,3 @@ instance Data.Aeson.ToJSON PaymentIntentNextAction where
 
 instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentNextAction where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextAction" (\obj -> ((GHC.Base.pure PaymentIntentNextAction GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "redirect_to_url")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "use_stripe_sdk"))
-
--- | Defines the data type for the schema payment_intent_next_actionUse_stripe_sdk\'
---
--- When confirming a PaymentIntent with Stripe.js, Stripe.js depends on the contents of this dictionary to invoke authentication flows. The shape of the contents is subject to change and is only intended to be used by Stripe.js.
-data PaymentIntentNextActionUseStripeSdk'
-  = PaymentIntentNextActionUseStripeSdk'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PaymentIntentNextActionUseStripeSdk' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentIntentNextActionUseStripeSdk' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentIntentNextActionUseStripeSdk'" (\obj -> GHC.Base.pure PaymentIntentNextActionUseStripeSdk')

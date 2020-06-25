@@ -35,7 +35,7 @@ data SubscriptionPendingInvoiceItemInterval
       { -- | interval: Specifies invoicing frequency. Either \`day\`, \`week\`, \`month\` or \`year\`.
         subscriptionPendingInvoiceItemIntervalInterval :: SubscriptionPendingInvoiceItemIntervalInterval',
         -- | interval_count: The number of intervals between invoices. For example, \`interval=month\` and \`interval_count=3\` bills every 3 months. Maximum of one year interval allowed (1 year, 12 months, or 52 weeks).
-        subscriptionPendingInvoiceItemIntervalIntervalCount :: GHC.Integer.Type.Integer
+        subscriptionPendingInvoiceItemIntervalIntervalCount :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,

@@ -53,7 +53,7 @@ data ExchangeRate
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         exchangeRateObject :: ExchangeRateObject',
         -- | rates: Hash where the keys are supported currencies and the values are the exchange rate at which the base id currency converts to the key currency.
-        exchangeRateRates :: ExchangeRateRates'
+        exchangeRateRates :: Data.Aeson.Types.Internal.Object
       }
   deriving
     ( GHC.Show.Show,
@@ -88,22 +88,3 @@ instance Data.Aeson.FromJSON ExchangeRateObject' where
           then ExchangeRateObject'EnumStringExchangeRate
           else ExchangeRateObject'EnumOther val
       )
-
--- | Defines the data type for the schema exchange_rateRates\'
---
--- Hash where the keys are supported currencies and the values are the exchange rate at which the base id currency converts to the key currency.
-data ExchangeRateRates'
-  = ExchangeRateRates'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON ExchangeRateRates' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON ExchangeRateRates' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "ExchangeRateRates'" (\obj -> GHC.Base.pure ExchangeRateRates')

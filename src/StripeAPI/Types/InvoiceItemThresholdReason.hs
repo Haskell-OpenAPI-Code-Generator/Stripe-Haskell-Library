@@ -35,7 +35,7 @@ data InvoiceItemThresholdReason
       { -- | line_item_ids: The IDs of the line items that triggered the threshold invoice.
         invoiceItemThresholdReasonLineItemIds :: ([] Data.Text.Internal.Text),
         -- | usage_gte: The quantity threshold boundary that applied to the given line item.
-        invoiceItemThresholdReasonUsageGte :: GHC.Integer.Type.Integer
+        invoiceItemThresholdReasonUsageGte :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,

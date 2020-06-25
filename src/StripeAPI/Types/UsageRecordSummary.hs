@@ -58,7 +58,7 @@ data UsageRecordSummary
         -- * Maximum length of 5000
         usageRecordSummarySubscriptionItem :: Data.Text.Internal.Text,
         -- | total_usage: The total usage within this usage period.
-        usageRecordSummaryTotalUsage :: GHC.Integer.Type.Integer
+        usageRecordSummaryTotalUsage :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,

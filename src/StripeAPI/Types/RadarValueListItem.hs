@@ -37,7 +37,7 @@ import qualified Prelude as GHC.Maybe
 data Radar'valueListItem
   = Radar'valueListItem
       { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        radar'valueListItemCreated :: GHC.Integer.Type.Integer,
+        radar'valueListItemCreated :: GHC.Types.Int,
         -- | created_by: The name or email address of the user who added this item to the value list.
         --
         -- Constraints:

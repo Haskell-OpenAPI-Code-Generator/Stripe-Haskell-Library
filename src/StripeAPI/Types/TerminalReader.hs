@@ -71,7 +71,7 @@ data Terminal'reader
         -- * Maximum length of 5000
         terminal'readerLocation :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        terminal'readerMetadata :: Terminal'readerMetadata',
+        terminal'readerMetadata :: Data.Aeson.Types.Internal.Object,
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         terminal'readerObject :: Terminal'readerObject',
         -- | serial_number: Serial number of the reader.
@@ -125,25 +125,6 @@ instance Data.Aeson.FromJSON Terminal'readerDeviceType' where
               then Terminal'readerDeviceType'EnumStringVerifoneP400
               else Terminal'readerDeviceType'EnumOther val
       )
-
--- | Defines the data type for the schema terminal.readerMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-data Terminal'readerMetadata'
-  = Terminal'readerMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON Terminal'readerMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON Terminal'readerMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Terminal'readerMetadata'" (\obj -> GHC.Base.pure Terminal'readerMetadata')
 
 -- | Defines the enum schema terminal.readerObject\'
 --

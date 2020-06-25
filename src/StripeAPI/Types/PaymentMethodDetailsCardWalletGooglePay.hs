@@ -29,19 +29,5 @@ import qualified StripeAPI.Common
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_card_wallet_google_pay
-data PaymentMethodDetailsCardWalletGooglePay
-  = PaymentMethodDetailsCardWalletGooglePay
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PaymentMethodDetailsCardWalletGooglePay where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardWalletGooglePay where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardWalletGooglePay" (\obj -> GHC.Base.pure PaymentMethodDetailsCardWalletGooglePay)
+-- | Defines an alias for the schema payment_method_details_card_wallet_google_pay
+type PaymentMethodDetailsCardWalletGooglePay = Data.Aeson.Types.Internal.Object

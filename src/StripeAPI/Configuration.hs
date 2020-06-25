@@ -14,4 +14,4 @@ import qualified StripeAPI.Common
 defaultURL = Data.Text.pack "https://api.stripe.com/"
 
 -- | The default configuration containing the 'defaultURL' and no authorization
-defaultConfiguration = StripeAPI.Common.Configuration defaultURL StripeAPI.Common.AnonymousSecurityScheme
+defaultConfiguration = StripeAPI.Common.Configuration defaultURL StripeAPI.Common.anonymousSecurityScheme

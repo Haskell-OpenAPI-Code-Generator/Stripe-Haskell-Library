@@ -29,19 +29,5 @@ import qualified StripeAPI.Common
 import qualified Prelude as GHC.Integer.Type
 import qualified Prelude as GHC.Maybe
 
--- | Defines the data type for the schema payment_method_details_card_wallet_amex_express_checkout
-data PaymentMethodDetailsCardWalletAmexExpressCheckout
-  = PaymentMethodDetailsCardWalletAmexExpressCheckout
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PaymentMethodDetailsCardWalletAmexExpressCheckout where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PaymentMethodDetailsCardWalletAmexExpressCheckout where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PaymentMethodDetailsCardWalletAmexExpressCheckout" (\obj -> GHC.Base.pure PaymentMethodDetailsCardWalletAmexExpressCheckout)
+-- | Defines an alias for the schema payment_method_details_card_wallet_amex_express_checkout
+type PaymentMethodDetailsCardWalletAmexExpressCheckout = Data.Aeson.Types.Internal.Object

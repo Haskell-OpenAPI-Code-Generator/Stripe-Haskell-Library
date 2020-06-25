@@ -36,13 +36,13 @@ data BitcoinReceiver
       { -- | active: True when this bitcoin receiver has received a non-zero amount of bitcoin.
         bitcoinReceiverActive :: GHC.Types.Bool,
         -- | amount: The amount of \`currency\` that you are collecting as payment.
-        bitcoinReceiverAmount :: GHC.Integer.Type.Integer,
+        bitcoinReceiverAmount :: GHC.Types.Int,
         -- | amount_received: The amount of \`currency\` to which \`bitcoin_amount_received\` has been converted.
-        bitcoinReceiverAmountReceived :: GHC.Integer.Type.Integer,
+        bitcoinReceiverAmountReceived :: GHC.Types.Int,
         -- | bitcoin_amount: The amount of bitcoin that the customer should send to fill the receiver. The \`bitcoin_amount\` is denominated in Satoshi: there are 10^8 Satoshi in one bitcoin.
-        bitcoinReceiverBitcoinAmount :: GHC.Integer.Type.Integer,
+        bitcoinReceiverBitcoinAmount :: GHC.Types.Int,
         -- | bitcoin_amount_received: The amount of bitcoin that has been sent by the customer to this receiver.
-        bitcoinReceiverBitcoinAmountReceived :: GHC.Integer.Type.Integer,
+        bitcoinReceiverBitcoinAmountReceived :: GHC.Types.Int,
         -- | bitcoin_uri: This URI can be displayed to the customer as a clickable link (to activate their bitcoin client) or as a QR code (for mobile wallets).
         --
         -- Constraints:
@@ -50,7 +50,7 @@ data BitcoinReceiver
         -- * Maximum length of 5000
         bitcoinReceiverBitcoinUri :: Data.Text.Internal.Text,
         -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        bitcoinReceiverCreated :: GHC.Integer.Type.Integer,
+        bitcoinReceiverCreated :: GHC.Types.Int,
         -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/currencies) to which the bitcoin will be converted.
         bitcoinReceiverCurrency :: Data.Text.Internal.Text,
         -- | customer: The customer ID of the bitcoin receiver.
@@ -88,7 +88,7 @@ data BitcoinReceiver
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         bitcoinReceiverLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        bitcoinReceiverMetadata :: BitcoinReceiverMetadata',
+        bitcoinReceiverMetadata :: Data.Aeson.Types.Internal.Object,
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         bitcoinReceiverObject :: BitcoinReceiverObject',
         -- | payment: The ID of the payment created from the receiver, if any. Hidden when viewing the receiver with a publishable key.
@@ -121,25 +121,6 @@ instance Data.Aeson.ToJSON BitcoinReceiver where
 
 instance Data.Aeson.Types.FromJSON.FromJSON BitcoinReceiver where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "BitcoinReceiver" (\obj -> (((((((((((((((((((((GHC.Base.pure BitcoinReceiver GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "active")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_amount")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_amount_received")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bitcoin_uri")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "customer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "description")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "email")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "filled")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "inbound_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "payment")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "refund_address")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "transactions")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "uncaptured_funds")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "used_for_payment"))
-
--- | Defines the data type for the schema bitcoin_receiverMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-data BitcoinReceiverMetadata'
-  = BitcoinReceiverMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON BitcoinReceiverMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON BitcoinReceiverMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "BitcoinReceiverMetadata'" (\obj -> GHC.Base.pure BitcoinReceiverMetadata')
 
 -- | Defines the enum schema bitcoin_receiverObject\'
 --

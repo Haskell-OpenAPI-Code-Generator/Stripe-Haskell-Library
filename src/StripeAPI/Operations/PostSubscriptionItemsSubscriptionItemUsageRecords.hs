@@ -52,130 +52,41 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>The default pricing model for metered billing is \<a href=\"\/docs\/api\/plans\/object\#plan_object-billing_scheme\">per-unit pricing\<\/a>. For finer granularity, you can configure metered billing to have a \<a href=\"https:\/\/stripe.com\/docs\/billing\/subscriptions\/tiers\">tiered pricing\<\/a> model.\<\/p>
 postSubscriptionItemsSubscriptionItemUsageRecords ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | subscription_item
   Data.Text.Internal.Text ->
   -- | The request body to send
   PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSubscriptionItemsSubscriptionItemUsageRecordsResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostSubscriptionItemsSubscriptionItemUsageRecordsResponse)
 postSubscriptionItemsSubscriptionItemUsageRecords
-  config
   subscriptionItem
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostSubscriptionItemsSubscriptionItemUsageRecordsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostSubscriptionItemsSubscriptionItemUsageRecordsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  UsageRecord
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostSubscriptionItemsSubscriptionItemUsageRecordsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionItem)) GHC.Base.++ "/usage_records"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/subscription_items/{subscription_item}/usage_records
---
--- The same as 'postSubscriptionItemsSubscriptionItemUsageRecords' but returns the raw 'Data.ByteString.Char8.ByteString'
-postSubscriptionItemsSubscriptionItemUsageRecordsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postSubscriptionItemsSubscriptionItemUsageRecordsRaw
-  config
-  subscriptionItem
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionItem)) GHC.Base.++ "/usage_records"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/subscription_items/{subscription_item}/usage_records
---
--- Monadic version of 'postSubscriptionItemsSubscriptionItemUsageRecords' (use with 'StripeAPI.Common.runWithConfiguration')
-postSubscriptionItemsSubscriptionItemUsageRecordsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostSubscriptionItemsSubscriptionItemUsageRecordsResponse)
-    )
-postSubscriptionItemsSubscriptionItemUsageRecordsM
-  subscriptionItem
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostSubscriptionItemsSubscriptionItemUsageRecordsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostSubscriptionItemsSubscriptionItemUsageRecordsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  UsageRecord
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostSubscriptionItemsSubscriptionItemUsageRecordsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostSubscriptionItemsSubscriptionItemUsageRecordsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostSubscriptionItemsSubscriptionItemUsageRecordsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              UsageRecord
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostSubscriptionItemsSubscriptionItemUsageRecordsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionItem)) GHC.Base.++ "/usage_records"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/subscription_items/{subscription_item}/usage_records
---
--- Monadic version of 'postSubscriptionItemsSubscriptionItemUsageRecordsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postSubscriptionItemsSubscriptionItemUsageRecordsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postSubscriptionItemsSubscriptionItemUsageRecordsRawM
-  subscriptionItem
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionItem)) GHC.Base.++ "/usage_records"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
 data PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
@@ -189,9 +100,9 @@ data PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody
         -- | expand: Specifies which fields in the response should be expanded.
         postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
         -- | quantity: The usage quantity for the specified timestamp.
-        postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity :: GHC.Integer.Type.Integer,
+        postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyQuantity :: GHC.Types.Int,
         -- | timestamp: The timestamp for the usage event. This timestamp must be within the current billing period of the subscription of the provided \`subscription_item\`.
-        postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp :: GHC.Integer.Type.Integer
+        postSubscriptionItemsSubscriptionItemUsageRecordsRequestBodyTimestamp :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,
@@ -243,3 +154,81 @@ data PostSubscriptionItemsSubscriptionItemUsageRecordsResponse
   | -- | Error response.
     PostSubscriptionItemsSubscriptionItemUsageRecordsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/subscription_items/{subscription_item}/usage_records
+--
+-- The same as 'postSubscriptionItemsSubscriptionItemUsageRecords' but accepts an explicit configuration.
+postSubscriptionItemsSubscriptionItemUsageRecordsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | subscription_item
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostSubscriptionItemsSubscriptionItemUsageRecordsResponse)
+postSubscriptionItemsSubscriptionItemUsageRecordsWithConfiguration
+  config
+  subscriptionItem
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostSubscriptionItemsSubscriptionItemUsageRecordsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostSubscriptionItemsSubscriptionItemUsageRecordsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              UsageRecord
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostSubscriptionItemsSubscriptionItemUsageRecordsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionItem)) GHC.Base.++ "/usage_records"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/subscription_items/{subscription_item}/usage_records
+--
+-- The same as 'postSubscriptionItemsSubscriptionItemUsageRecords' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postSubscriptionItemsSubscriptionItemUsageRecordsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | subscription_item
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postSubscriptionItemsSubscriptionItemUsageRecordsRaw
+  subscriptionItem
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionItem)) GHC.Base.++ "/usage_records"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/subscription_items/{subscription_item}/usage_records
+--
+-- The same as 'postSubscriptionItemsSubscriptionItemUsageRecords' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postSubscriptionItemsSubscriptionItemUsageRecordsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | subscription_item
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  PostSubscriptionItemsSubscriptionItemUsageRecordsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postSubscriptionItemsSubscriptionItemUsageRecordsWithConfigurationRaw
+  config
+  subscriptionItem
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel subscriptionItem)) GHC.Base.++ "/usage_records"))) [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

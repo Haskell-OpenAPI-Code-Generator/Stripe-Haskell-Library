@@ -34,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 data InvoiceThresholdReason
   = InvoiceThresholdReason
       { -- | amount_gte: The total invoice amount threshold boundary if it triggered the threshold invoice.
-        invoiceThresholdReasonAmountGte :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        invoiceThresholdReasonAmountGte :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | item_reasons: Indicates which line items triggered a threshold invoice.
         invoiceThresholdReasonItemReasons :: ([] InvoiceItemThresholdReason)
       }

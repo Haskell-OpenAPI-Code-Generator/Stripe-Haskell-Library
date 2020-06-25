@@ -49,119 +49,37 @@ import qualified Prelude as GHC.Maybe
 -- \<p>After the SetupIntent is created, attach a payment method and \<a href=\"\/docs\/api\/setup_intents\/confirm\">confirm\<\/a>
 -- to collect any required permissions to charge the payment method later.\<\/p>
 postSetupIntents ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   GHC.Maybe.Maybe PostSetupIntentsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostSetupIntentsResponse))
-postSetupIntents
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostSetupIntentsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostSetupIntentsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  SetupIntent
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostSetupIntentsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostSetupIntentsResponse)
+postSetupIntents body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostSetupIntentsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostSetupIntentsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            SetupIntent
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostSetupIntentsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/setup_intents
---
--- The same as 'postSetupIntents' but returns the raw 'Data.ByteString.Char8.ByteString'
-postSetupIntentsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe PostSetupIntentsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postSetupIntentsRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/setup_intents
---
--- Monadic version of 'postSetupIntents' (use with 'StripeAPI.Common.runWithConfiguration')
-postSetupIntentsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe PostSetupIntentsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostSetupIntentsResponse)
-    )
-postSetupIntentsM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostSetupIntentsResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostSetupIntentsResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                SetupIntent
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostSetupIntentsResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/setup_intents
---
--- Monadic version of 'postSetupIntentsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postSetupIntentsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe PostSetupIntentsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postSetupIntentsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postSetupIntentsRequestBody
 data PostSetupIntentsRequestBody
@@ -187,7 +105,7 @@ data PostSetupIntentsRequestBody
         -- | mandate_data: This hash contains details about the Mandate to create. This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/setup_intents\/create\#create_setup_intent-confirm).
         postSetupIntentsRequestBodyMandateData :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyMandateData'),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postSetupIntentsRequestBodyMetadata :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyMetadata'),
+        postSetupIntentsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | on_behalf_of: The Stripe account ID for which this SetupIntent is created.
         postSetupIntentsRequestBodyOnBehalfOf :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | payment_method: ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
@@ -243,9 +161,9 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMandateDa
 data PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'
   = PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'
       { -- | accepted_at
-        postSetupIntentsRequestBodyMandateData'CustomerAcceptance'AcceptedAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postSetupIntentsRequestBodyMandateData'CustomerAcceptance'AcceptedAt :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | offline
-        postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Offline :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Offline'),
+        postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Offline :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | online
         postSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online :: (GHC.Maybe.Maybe PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'),
         -- | type
@@ -266,23 +184,6 @@ instance Data.Aeson.ToJSON PostSetupIntentsRequestBodyMandateData'CustomerAccept
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMandateData'CustomerAcceptance' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'" (\obj -> (((GHC.Base.pure PostSetupIntentsRequestBodyMandateData'CustomerAcceptance' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "accepted_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "offline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "online")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
-
--- | Defines the data type for the schema postSetupIntentsRequestBodyMandate_data\'Customer_acceptance\'Offline\'
-data PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Offline'
-  = PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Offline'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Offline' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Offline' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Offline'" (\obj -> GHC.Base.pure PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Offline')
 
 -- | Defines the data type for the schema postSetupIntentsRequestBodyMandate_data\'Customer_acceptance\'Online\'
 data PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Online'
@@ -336,25 +237,6 @@ instance Data.Aeson.FromJSON PostSetupIntentsRequestBodyMandateData'CustomerAcce
               then PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumStringOnline
               else PostSetupIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumOther val
       )
-
--- | Defines the data type for the schema postSetupIntentsRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostSetupIntentsRequestBodyMetadata'
-  = PostSetupIntentsRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostSetupIntentsRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostSetupIntentsRequestBodyMetadata'" (\obj -> GHC.Base.pure PostSetupIntentsRequestBodyMetadata')
 
 -- | Defines the data type for the schema postSetupIntentsRequestBodyPayment_method_options\'
 --
@@ -429,7 +311,7 @@ instance Data.Aeson.FromJSON PostSetupIntentsRequestBodyPaymentMethodOptions'Car
 data PostSetupIntentsRequestBodySingleUse'
   = PostSetupIntentsRequestBodySingleUse'
       { -- | amount
-        postSetupIntentsRequestBodySingleUse'Amount :: GHC.Integer.Type.Integer,
+        postSetupIntentsRequestBodySingleUse'Amount :: GHC.Types.Int,
         -- | currency
         postSetupIntentsRequestBodySingleUse'Currency :: Data.Text.Internal.Text
       }
@@ -483,3 +365,71 @@ data PostSetupIntentsResponse
   | -- | Error response.
     PostSetupIntentsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/setup_intents
+--
+-- The same as 'postSetupIntents' but accepts an explicit configuration.
+postSetupIntentsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostSetupIntentsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostSetupIntentsResponse)
+postSetupIntentsWithConfiguration
+  config
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostSetupIntentsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostSetupIntentsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              SetupIntent
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostSetupIntentsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/setup_intents
+--
+-- The same as 'postSetupIntents' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postSetupIntentsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The request body to send
+  GHC.Maybe.Maybe PostSetupIntentsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postSetupIntentsRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/setup_intents
+--
+-- The same as 'postSetupIntents' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postSetupIntentsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostSetupIntentsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postSetupIntentsWithConfigurationRaw
+  config
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/setup_intents") [] body StripeAPI.Common.RequestBodyEncodingFormData)

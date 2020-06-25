@@ -35,7 +35,7 @@ import qualified Prelude as GHC.Maybe
 data CustomerAcceptance
   = CustomerAcceptance
       { -- | accepted_at: The time at which the customer accepted the Mandate.
-        customerAcceptanceAcceptedAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        customerAcceptanceAcceptedAt :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | offline:
         customerAcceptanceOffline :: (GHC.Maybe.Maybe OfflineAcceptance),
         -- | online:

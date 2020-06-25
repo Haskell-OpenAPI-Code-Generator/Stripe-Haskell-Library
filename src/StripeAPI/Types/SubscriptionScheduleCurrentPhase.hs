@@ -33,9 +33,9 @@ import qualified Prelude as GHC.Maybe
 data SubscriptionScheduleCurrentPhase
   = SubscriptionScheduleCurrentPhase
       { -- | end_date: The end of this phase of the subscription schedule.
-        subscriptionScheduleCurrentPhaseEndDate :: GHC.Integer.Type.Integer,
+        subscriptionScheduleCurrentPhaseEndDate :: GHC.Types.Int,
         -- | start_date: The start of this phase of the subscription schedule.
-        subscriptionScheduleCurrentPhaseStartDate :: GHC.Integer.Type.Integer
+        subscriptionScheduleCurrentPhaseStartDate :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,

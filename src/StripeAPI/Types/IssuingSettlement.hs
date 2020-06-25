@@ -41,9 +41,9 @@ data Issuing'settlement
         -- * Maximum length of 5000
         issuing'settlementBin :: Data.Text.Internal.Text,
         -- | clearing_date: The date that the transactions are cleared and posted to user\'s accounts.
-        issuing'settlementClearingDate :: GHC.Integer.Type.Integer,
+        issuing'settlementClearingDate :: GHC.Types.Int,
         -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        issuing'settlementCreated :: GHC.Integer.Type.Integer,
+        issuing'settlementCreated :: GHC.Types.Int,
         -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
         issuing'settlementCurrency :: Data.Text.Internal.Text,
         -- | id: Unique identifier for the object.
@@ -53,17 +53,17 @@ data Issuing'settlement
         -- * Maximum length of 5000
         issuing'settlementId :: Data.Text.Internal.Text,
         -- | interchange_fees: The total interchange received as reimbursement for the transactions.
-        issuing'settlementInterchangeFees :: GHC.Integer.Type.Integer,
+        issuing'settlementInterchangeFees :: GHC.Types.Int,
         -- | livemode: Has the value \`true\` if the object exists in live mode or the value \`false\` if the object exists in test mode.
         issuing'settlementLivemode :: GHC.Types.Bool,
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-        issuing'settlementMetadata :: Issuing'settlementMetadata',
+        issuing'settlementMetadata :: Data.Aeson.Types.Internal.Object,
         -- | net_total: The total net amount required to settle with the network.
-        issuing'settlementNetTotal :: GHC.Integer.Type.Integer,
+        issuing'settlementNetTotal :: GHC.Types.Int,
         -- | network: The card network for this settlement report. One of [\"visa\"]
         issuing'settlementNetwork :: Issuing'settlementNetwork',
         -- | network_fees: The total amount of fees owed to the network.
-        issuing'settlementNetworkFees :: GHC.Integer.Type.Integer,
+        issuing'settlementNetworkFees :: GHC.Types.Int,
         -- | network_settlement_identifier: The Settlement Identification Number assigned by the network.
         --
         -- Constraints:
@@ -79,9 +79,9 @@ data Issuing'settlement
         -- * Maximum length of 5000
         issuing'settlementSettlementService :: Data.Text.Internal.Text,
         -- | transaction_count: The total number of transactions reflected in this settlement.
-        issuing'settlementTransactionCount :: GHC.Integer.Type.Integer,
+        issuing'settlementTransactionCount :: GHC.Types.Int,
         -- | transaction_volume: The total transaction amount reflected in this settlement.
-        issuing'settlementTransactionVolume :: GHC.Integer.Type.Integer
+        issuing'settlementTransactionVolume :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,
@@ -94,25 +94,6 @@ instance Data.Aeson.ToJSON Issuing'settlement where
 
 instance Data.Aeson.Types.FromJSON.FromJSON Issuing'settlement where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'settlement" (\obj -> (((((((((((((((GHC.Base.pure Issuing'settlement GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "bin")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "clearing_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "created")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "currency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "id")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "interchange_fees")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "livemode")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "metadata")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "net_total")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network_fees")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "network_settlement_identifier")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "object")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "settlement_service")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transaction_count")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "transaction_volume"))
-
--- | Defines the data type for the schema issuing.settlementMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
-data Issuing'settlementMetadata'
-  = Issuing'settlementMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON Issuing'settlementMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON Issuing'settlementMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "Issuing'settlementMetadata'" (\obj -> GHC.Base.pure Issuing'settlementMetadata')
 
 -- | Defines the enum schema issuing.settlementNetwork\'
 --

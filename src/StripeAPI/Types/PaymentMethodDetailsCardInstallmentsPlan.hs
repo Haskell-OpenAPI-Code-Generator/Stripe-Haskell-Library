@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data PaymentMethodDetailsCardInstallmentsPlan
   = PaymentMethodDetailsCardInstallmentsPlan
       { -- | count: For \`fixed_count\` installment plans, this is the number of installment payments your customer will make to their credit card.
-        paymentMethodDetailsCardInstallmentsPlanCount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        paymentMethodDetailsCardInstallmentsPlanCount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | interval: For \`fixed_count\` installment plans, this is the interval between installment payments your customer will make to their credit card.
         -- One of \`month\`.
         paymentMethodDetailsCardInstallmentsPlanInterval :: (GHC.Maybe.Maybe PaymentMethodDetailsCardInstallmentsPlanInterval'),

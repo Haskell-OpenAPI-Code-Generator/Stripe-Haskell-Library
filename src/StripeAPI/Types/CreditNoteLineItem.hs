@@ -35,7 +35,7 @@ import qualified Prelude as GHC.Maybe
 data CreditNoteLineItem
   = CreditNoteLineItem
       { -- | amount: The integer amount in **%s** representing the gross amount being credited for this line item, excluding (exclusive) tax and discounts.
-        creditNoteLineItemAmount :: GHC.Integer.Type.Integer,
+        creditNoteLineItemAmount :: GHC.Types.Int,
         -- | description: Description of the item being credited.
         --
         -- Constraints:
@@ -43,7 +43,7 @@ data CreditNoteLineItem
         -- * Maximum length of 5000
         creditNoteLineItemDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | discount_amount: The integer amount in **%s** representing the discount being credited for this line item.
-        creditNoteLineItemDiscountAmount :: GHC.Integer.Type.Integer,
+        creditNoteLineItemDiscountAmount :: GHC.Types.Int,
         -- | id: Unique identifier for the object.
         --
         -- Constraints:
@@ -61,7 +61,7 @@ data CreditNoteLineItem
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         creditNoteLineItemObject :: CreditNoteLineItemObject',
         -- | quantity: The number of units of product being credited.
-        creditNoteLineItemQuantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        creditNoteLineItemQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | tax_amounts: The amount of tax calculated per tax rate for this line item
         creditNoteLineItemTaxAmounts :: ([] CreditNoteTaxAmount),
         -- | tax_rates: The tax rates which apply to the line item.
@@ -69,7 +69,7 @@ data CreditNoteLineItem
         -- | type: The type of the credit note line item, one of \`invoice_line_item\` or \`custom_line_item\`. When the type is \`invoice_line_item\` there is an additional \`invoice_line_item\` property on the resource the value of which is the id of the credited line item on the invoice.
         creditNoteLineItemType :: CreditNoteLineItemType',
         -- | unit_amount: The cost of each unit of product being credited.
-        creditNoteLineItemUnitAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        creditNoteLineItemUnitAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | unit_amount_decimal: Same as \`unit_amount\`, but contains a decimal value with at most 12 decimal places.
         creditNoteLineItemUnitAmountDecimal :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }

@@ -55,129 +55,47 @@ import qualified Prelude as GHC.Maybe
 -- available in the \<a href=\"\/docs\/api\/payment_intents\/confirm\">confirm API\<\/a> when \<code>confirm=true\<\/code>
 -- is supplied.\<\/p>
 postPaymentIntents ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   PostPaymentIntentsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostPaymentIntentsResponse))
-postPaymentIntents
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostPaymentIntentsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostPaymentIntentsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  PaymentIntent
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostPaymentIntentsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostPaymentIntentsResponse)
+postPaymentIntents body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostPaymentIntentsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostPaymentIntentsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            PaymentIntent
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostPaymentIntentsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_intents") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/payment_intents
---
--- The same as 'postPaymentIntents' but returns the raw 'Data.ByteString.Char8.ByteString'
-postPaymentIntentsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  PostPaymentIntentsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postPaymentIntentsRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_intents") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/payment_intents
---
--- Monadic version of 'postPaymentIntents' (use with 'StripeAPI.Common.runWithConfiguration')
-postPaymentIntentsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostPaymentIntentsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostPaymentIntentsResponse)
-    )
-postPaymentIntentsM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostPaymentIntentsResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostPaymentIntentsResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                PaymentIntent
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostPaymentIntentsResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_intents") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/payment_intents
---
--- Monadic version of 'postPaymentIntentsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postPaymentIntentsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  PostPaymentIntentsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postPaymentIntentsRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_intents") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postPaymentIntentsRequestBody
 data PostPaymentIntentsRequestBody
   = PostPaymentIntentsRequestBody
       { -- | amount: Amount intended to be collected by this PaymentIntent. A positive integer representing how much to charge in the [smallest currency unit](https:\/\/stripe.com\/docs\/currencies\#zero-decimal) (e.g., 100 cents to charge \$1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is \$0.50 US or [equivalent in charge currency](https:\/\/stripe.com\/docs\/currencies\#minimum-and-maximum-charge-amounts). The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of \$999,999.99).
-        postPaymentIntentsRequestBodyAmount :: GHC.Integer.Type.Integer,
+        postPaymentIntentsRequestBodyAmount :: GHC.Types.Int,
         -- | application_fee_amount: The amount of the application fee (if any) that will be applied to the
         -- payment and transferred to the application owner\'s Stripe account. For
         -- more information, see the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts).
-        postPaymentIntentsRequestBodyApplicationFeeAmount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPaymentIntentsRequestBodyApplicationFeeAmount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | capture_method: Controls when the funds will be captured from the customer\'s account.
         postPaymentIntentsRequestBodyCaptureMethod :: (GHC.Maybe.Maybe PostPaymentIntentsRequestBodyCaptureMethod'),
         -- | confirm: Set to \`true\` to attempt to [confirm](https:\/\/stripe.com\/docs\/api\/payment_intents\/confirm) this PaymentIntent immediately. This parameter defaults to \`false\`. When creating and confirming a PaymentIntent at the same time, parameters available in the [confirm](https:\/\/stripe.com\/docs\/api\/payment_intents\/confirm) API may also be provided.
@@ -213,7 +131,7 @@ data PostPaymentIntentsRequestBody
         -- | mandate_data: This hash contains details about the Mandate to create. This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/payment_intents\/create\#create_payment_intent-confirm).
         postPaymentIntentsRequestBodyMandateData :: (GHC.Maybe.Maybe PostPaymentIntentsRequestBodyMandateData'),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postPaymentIntentsRequestBodyMetadata :: (GHC.Maybe.Maybe PostPaymentIntentsRequestBodyMetadata'),
+        postPaymentIntentsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | off_session: Set to \`true\` to indicate that the customer is not in your checkout flow during this payment attempt, and therefore is unable to authenticate. This parameter is intended for scenarios where you collect card details and [charge them later](https:\/\/stripe.com\/docs\/payments\/cards\/charging-saved-cards). This parameter can only be used with [\`confirm=true\`](https:\/\/stripe.com\/docs\/api\/payment_intents\/create\#create_payment_intent-confirm).
         postPaymentIntentsRequestBodyOffSession :: (GHC.Maybe.Maybe PostPaymentIntentsRequestBodyOffSession'Variants),
         -- | on_behalf_of: The Stripe account ID for which these funds are intended. For details, see the PaymentIntents [use case for connected accounts](https:\/\/stripe.com\/docs\/payments\/connected-accounts).
@@ -358,9 +276,9 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsRequestBodyMandate
 data PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'
   = PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'
       { -- | accepted_at
-        postPaymentIntentsRequestBodyMandateData'CustomerAcceptance'AcceptedAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPaymentIntentsRequestBodyMandateData'CustomerAcceptance'AcceptedAt :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | offline
-        postPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Offline :: (GHC.Maybe.Maybe PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Offline'),
+        postPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Offline :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | online
         postPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Online :: (GHC.Maybe.Maybe PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Online'),
         -- | type
@@ -381,23 +299,6 @@ instance Data.Aeson.ToJSON PostPaymentIntentsRequestBodyMandateData'CustomerAcce
 
 instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance' where
   parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'" (\obj -> (((GHC.Base.pure PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance' GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "accepted_at")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "offline")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "online")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..: "type"))
-
--- | Defines the data type for the schema postPaymentIntentsRequestBodyMandate_data\'Customer_acceptance\'Offline\'
-data PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Offline'
-  = PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Offline'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Offline' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Offline' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Offline'" (\obj -> GHC.Base.pure PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Offline')
 
 -- | Defines the data type for the schema postPaymentIntentsRequestBodyMandate_data\'Customer_acceptance\'Online\'
 data PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Online'
@@ -451,25 +352,6 @@ instance Data.Aeson.FromJSON PostPaymentIntentsRequestBodyMandateData'CustomerAc
               then PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumStringOnline
               else PostPaymentIntentsRequestBodyMandateData'CustomerAcceptance'Type'EnumOther val
       )
-
--- | Defines the data type for the schema postPaymentIntentsRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostPaymentIntentsRequestBodyMetadata'
-  = PostPaymentIntentsRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostPaymentIntentsRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostPaymentIntentsRequestBodyMetadata'" (\obj -> GHC.Base.pure PostPaymentIntentsRequestBodyMetadata')
 
 -- | Defines the enum schema postPaymentIntentsRequestBodyOff_session\'OneOf1
 data PostPaymentIntentsRequestBodyOffSession'OneOf1
@@ -598,7 +480,7 @@ instance Data.Aeson.FromJSON PostPaymentIntentsRequestBodyPaymentMethodOptions'C
 data PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2
   = PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2
       { -- | count
-        postPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Count :: GHC.Integer.Type.Integer,
+        postPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Count :: GHC.Types.Int,
         -- | interval
         postPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Interval :: PostPaymentIntentsRequestBodyPaymentMethodOptions'Card'Installments'Plan'OneOf2Interval',
         -- | type
@@ -829,7 +711,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentIntentsRequestBodyShippin
 data PostPaymentIntentsRequestBodyTransferData'
   = PostPaymentIntentsRequestBodyTransferData'
       { -- | amount
-        postPaymentIntentsRequestBodyTransferData'Amount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postPaymentIntentsRequestBodyTransferData'Amount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | destination
         postPaymentIntentsRequestBodyTransferData'Destination :: Data.Text.Internal.Text
       }
@@ -856,3 +738,71 @@ data PostPaymentIntentsResponse
   | -- | Error response.
     PostPaymentIntentsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/payment_intents
+--
+-- The same as 'postPaymentIntents' but accepts an explicit configuration.
+postPaymentIntentsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostPaymentIntentsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostPaymentIntentsResponse)
+postPaymentIntentsWithConfiguration
+  config
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostPaymentIntentsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostPaymentIntentsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              PaymentIntent
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostPaymentIntentsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_intents") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/payment_intents
+--
+-- The same as 'postPaymentIntents' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postPaymentIntentsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The request body to send
+  PostPaymentIntentsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postPaymentIntentsRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_intents") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/payment_intents
+--
+-- The same as 'postPaymentIntents' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postPaymentIntentsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  PostPaymentIntentsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postPaymentIntentsWithConfigurationRaw
+  config
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_intents") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

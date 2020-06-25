@@ -35,7 +35,7 @@ import qualified Prelude as GHC.Maybe
 data SourceOrder
   = SourceOrder
       { -- | amount: A positive integer in the smallest currency unit (that is, 100 cents for \$1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount for the order.
-        sourceOrderAmount :: GHC.Integer.Type.Integer,
+        sourceOrderAmount :: GHC.Types.Int,
         -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
         sourceOrderCurrency :: Data.Text.Internal.Text,
         -- | email: The email address of the customer placing the order.

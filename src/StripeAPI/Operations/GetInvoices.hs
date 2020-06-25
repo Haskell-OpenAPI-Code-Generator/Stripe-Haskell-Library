@@ -46,418 +46,276 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.\<\/p>
 getInvoices ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | collection_method: The collection method of the invoice to retrieve. Either \`charge_automatically\` or \`send_invoice\`. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | created
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | customer: Only return invoices for the customer specified by this customer ID. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | due_date
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | status: The status of the invoice, one of \`draft\`, \`open\`, \`paid\`, \`uncollectible\`, or \`void\`. [Learn more](https:\/\/stripe.com\/docs\/billing\/invoices\/workflow\#workflow-overview) | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | subscription: Only return invoices for the subscription specified by this subscription ID. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetInvoicesRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetInvoicesResponse))
-getInvoices
-  config
-  collectionMethod
-  created
-  customer
-  dueDate
-  endingBefore
-  expand
-  limit
-  startingAfter
-  status
-  subscription
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetInvoicesResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetInvoicesResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetInvoicesResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetInvoicesResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetInvoicesParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetInvoicesResponse)
+getInvoices parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetInvoicesResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetInvoicesResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetInvoicesResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetInvoicesResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/invoices")
-          ( ( Data.Text.pack "collection_method",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> collectionMethod
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "customer",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-                        )
-                          : ( ( Data.Text.pack "due_date",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> dueDate
-                              )
-                                : ( ( Data.Text.pack "ending_before",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                                    )
-                                      : ( ( Data.Text.pack "expand",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                          )
-                                            : ( ( Data.Text.pack "limit",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                                )
-                                                  : ( ( Data.Text.pack "starting_after",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                      )
-                                                        : ( ( Data.Text.pack "status",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                            )
-                                                              : ( ( Data.Text.pack "subscription",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> subscription
-                                                                  )
-                                                                    : []
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/invoices
---
--- The same as 'getInvoices' but returns the raw 'Data.ByteString.Char8.ByteString'
-getInvoicesRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetInvoicesRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getInvoicesRaw
-  config
-  collectionMethod
-  created
-  customer
-  dueDate
-  endingBefore
-  expand
-  limit
-  startingAfter
-  status
-  subscription
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/invoices")
-          ( ( Data.Text.pack "collection_method",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> collectionMethod
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "customer",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-                        )
-                          : ( ( Data.Text.pack "due_date",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> dueDate
-                              )
-                                : ( ( Data.Text.pack "ending_before",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                                    )
-                                      : ( ( Data.Text.pack "expand",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                          )
-                                            : ( ( Data.Text.pack "limit",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                                )
-                                                  : ( ( Data.Text.pack "starting_after",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                      )
-                                                        : ( ( Data.Text.pack "status",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                            )
-                                                              : ( ( Data.Text.pack "subscription",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> subscription
-                                                                  )
-                                                                    : []
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/invoices
---
--- Monadic version of 'getInvoices' (use with 'StripeAPI.Common.runWithConfiguration')
-getInvoicesM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetInvoicesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetInvoicesResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/invoices")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "collection_method") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryCollectionMethod parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "due_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryDueDate parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQuerySubscription parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getInvoicesM
-  collectionMethod
-  created
-  customer
-  dueDate
-  endingBefore
-  expand
-  limit
-  startingAfter
-  status
-  subscription
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetInvoicesResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetInvoicesResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetInvoicesResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetInvoicesResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/invoices")
-          ( ( Data.Text.pack "collection_method",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> collectionMethod
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "customer",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-                        )
-                          : ( ( Data.Text.pack "due_date",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> dueDate
-                              )
-                                : ( ( Data.Text.pack "ending_before",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                                    )
-                                      : ( ( Data.Text.pack "expand",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                          )
-                                            : ( ( Data.Text.pack "limit",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                                )
-                                                  : ( ( Data.Text.pack "starting_after",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                      )
-                                                        : ( ( Data.Text.pack "status",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                            )
-                                                              : ( ( Data.Text.pack "subscription",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> subscription
-                                                                  )
-                                                                    : []
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/invoices
---
--- Monadic version of 'getInvoicesRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getInvoicesRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetInvoicesRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getInvoicesRawM
-  collectionMethod
-  created
-  customer
-  dueDate
-  endingBefore
-  expand
-  limit
-  startingAfter
-  status
-  subscription
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/invoices")
-          ( ( Data.Text.pack "collection_method",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> collectionMethod
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "customer",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> customer
-                        )
-                          : ( ( Data.Text.pack "due_date",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> dueDate
-                              )
-                                : ( ( Data.Text.pack "ending_before",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                                    )
-                                      : ( ( Data.Text.pack "expand",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                          )
-                                            : ( ( Data.Text.pack "limit",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                                )
-                                                  : ( ( Data.Text.pack "starting_after",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                      )
-                                                        : ( ( Data.Text.pack "status",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                            )
-                                                              : ( ( Data.Text.pack "subscription",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> subscription
-                                                                  )
-                                                                    : []
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getInvoicesRequestBody
-data GetInvoicesRequestBody
-  = GetInvoicesRequestBody
-      {
+-- | Defines the data type for the schema getInvoicesParameters
+data GetInvoicesParameters
+  = GetInvoicesParameters
+      { -- | queryCollection_method: Represents the parameter named \'collection_method\'
+        --
+        -- The collection method of the invoice to retrieve. Either \`charge_automatically\` or \`send_invoice\`.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesParametersQueryCollectionMethod :: (GHC.Maybe.Maybe GetInvoicesParametersQueryCollectionMethod'),
+        -- | queryCreated: Represents the parameter named \'created\'
+        getInvoicesParametersQueryCreated :: (GHC.Maybe.Maybe GetInvoicesParametersQueryCreated'Variants),
+        -- | queryCustomer: Represents the parameter named \'customer\'
+        --
+        -- Only return invoices for the customer specified by this customer ID.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesParametersQueryCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryDue_date: Represents the parameter named \'due_date\'
+        getInvoicesParametersQueryDueDate :: (GHC.Maybe.Maybe GetInvoicesParametersQueryDueDate'Variants),
+        -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getInvoicesParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getInvoicesParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryStatus: Represents the parameter named \'status\'
+        --
+        -- The status of the invoice, one of \`draft\`, \`open\`, \`paid\`, \`uncollectible\`, or \`void\`. [Learn more](https:\/\/stripe.com\/docs\/billing\/invoices\/workflow\#workflow-overview)
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesParametersQueryStatus :: (GHC.Maybe.Maybe GetInvoicesParametersQueryStatus'),
+        -- | querySubscription: Represents the parameter named \'subscription\'
+        --
+        -- Only return invoices for the subscription specified by this subscription ID.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getInvoicesParametersQuerySubscription :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetInvoicesRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetInvoicesParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCollection_method" (getInvoicesParametersQueryCollectionMethod obj) : (Data.Aeson..=) "queryCreated" (getInvoicesParametersQueryCreated obj) : (Data.Aeson..=) "queryCustomer" (getInvoicesParametersQueryCustomer obj) : (Data.Aeson..=) "queryDue_date" (getInvoicesParametersQueryDueDate obj) : (Data.Aeson..=) "queryEnding_before" (getInvoicesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getInvoicesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getInvoicesParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getInvoicesParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryStatus" (getInvoicesParametersQueryStatus obj) : (Data.Aeson..=) "querySubscription" (getInvoicesParametersQuerySubscription obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCollection_method" (getInvoicesParametersQueryCollectionMethod obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getInvoicesParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryCustomer" (getInvoicesParametersQueryCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryDue_date" (getInvoicesParametersQueryDueDate obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getInvoicesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getInvoicesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getInvoicesParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getInvoicesParametersQueryStartingAfter obj) GHC.Base.<> ((Data.Aeson..=) "queryStatus" (getInvoicesParametersQueryStatus obj) GHC.Base.<> (Data.Aeson..=) "querySubscription" (getInvoicesParametersQuerySubscription obj))))))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesRequestBody" (\obj -> GHC.Base.pure GetInvoicesRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesParameters" (\obj -> (((((((((GHC.Base.pure GetInvoicesParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCollection_method")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCustomer")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryDue_date")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStatus")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySubscription"))
+
+-- | Defines the enum schema getInvoicesParametersQueryCollection_method\'
+--
+-- Represents the parameter named \'collection_method\'
+--
+-- The collection method of the invoice to retrieve. Either \`charge_automatically\` or \`send_invoice\`.
+data GetInvoicesParametersQueryCollectionMethod'
+  = GetInvoicesParametersQueryCollectionMethod'EnumOther Data.Aeson.Types.Internal.Value
+  | GetInvoicesParametersQueryCollectionMethod'EnumTyped Data.Text.Internal.Text
+  | GetInvoicesParametersQueryCollectionMethod'EnumStringChargeAutomatically
+  | GetInvoicesParametersQueryCollectionMethod'EnumStringSendInvoice
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.ToJSON GetInvoicesParametersQueryCollectionMethod' where
+  toJSON (GetInvoicesParametersQueryCollectionMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
+  toJSON (GetInvoicesParametersQueryCollectionMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
+  toJSON (GetInvoicesParametersQueryCollectionMethod'EnumStringChargeAutomatically) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge_automatically"
+  toJSON (GetInvoicesParametersQueryCollectionMethod'EnumStringSendInvoice) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "send_invoice"
+
+instance Data.Aeson.FromJSON GetInvoicesParametersQueryCollectionMethod' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge_automatically")
+          then GetInvoicesParametersQueryCollectionMethod'EnumStringChargeAutomatically
+          else
+            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "send_invoice")
+              then GetInvoicesParametersQueryCollectionMethod'EnumStringSendInvoice
+              else GetInvoicesParametersQueryCollectionMethod'EnumOther val
+      )
+
+-- | Defines the data type for the schema getInvoicesParametersQueryCreated\'OneOf2
+data GetInvoicesParametersQueryCreated'OneOf2
+  = GetInvoicesParametersQueryCreated'OneOf2
+      { -- | gt
+        getInvoicesParametersQueryCreated'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getInvoicesParametersQueryCreated'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getInvoicesParametersQueryCreated'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getInvoicesParametersQueryCreated'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.ToJSON GetInvoicesParametersQueryCreated'OneOf2 where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getInvoicesParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getInvoicesParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getInvoicesParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getInvoicesParametersQueryCreated'OneOf2Lte obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getInvoicesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getInvoicesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getInvoicesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getInvoicesParametersQueryCreated'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesParametersQueryCreated'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetInvoicesParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Define the one-of schema getInvoicesParametersQueryCreated\'
+--
+-- Represents the parameter named \'created\'
+data GetInvoicesParametersQueryCreated'Variants
+  = GetInvoicesParametersQueryCreated'Int GHC.Types.Int
+  | GetInvoicesParametersQueryCreated'GetInvoicesParametersQueryCreated'OneOf2 GetInvoicesParametersQueryCreated'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+
+instance Data.Aeson.ToJSON GetInvoicesParametersQueryCreated'Variants where
+  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+instance Data.Aeson.FromJSON GetInvoicesParametersQueryCreated'Variants where
+  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+-- | Defines the data type for the schema getInvoicesParametersQueryDue_date\'OneOf2
+data GetInvoicesParametersQueryDueDate'OneOf2
+  = GetInvoicesParametersQueryDueDate'OneOf2
+      { -- | gt
+        getInvoicesParametersQueryDueDate'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getInvoicesParametersQueryDueDate'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getInvoicesParametersQueryDueDate'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getInvoicesParametersQueryDueDate'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.ToJSON GetInvoicesParametersQueryDueDate'OneOf2 where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getInvoicesParametersQueryDueDate'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getInvoicesParametersQueryDueDate'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getInvoicesParametersQueryDueDate'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getInvoicesParametersQueryDueDate'OneOf2Lte obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getInvoicesParametersQueryDueDate'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getInvoicesParametersQueryDueDate'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getInvoicesParametersQueryDueDate'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getInvoicesParametersQueryDueDate'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesParametersQueryDueDate'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetInvoicesParametersQueryDueDate'OneOf2" (\obj -> (((GHC.Base.pure GetInvoicesParametersQueryDueDate'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Define the one-of schema getInvoicesParametersQueryDue_date\'
+--
+-- Represents the parameter named \'due_date\'
+data GetInvoicesParametersQueryDueDate'Variants
+  = GetInvoicesParametersQueryDueDate'Int GHC.Types.Int
+  | GetInvoicesParametersQueryDueDate'GetInvoicesParametersQueryDueDate'OneOf2 GetInvoicesParametersQueryDueDate'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+
+instance Data.Aeson.ToJSON GetInvoicesParametersQueryDueDate'Variants where
+  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+instance Data.Aeson.FromJSON GetInvoicesParametersQueryDueDate'Variants where
+  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+-- | Defines the enum schema getInvoicesParametersQueryStatus\'
+--
+-- Represents the parameter named \'status\'
+--
+-- The status of the invoice, one of \`draft\`, \`open\`, \`paid\`, \`uncollectible\`, or \`void\`. [Learn more](https:\/\/stripe.com\/docs\/billing\/invoices\/workflow\#workflow-overview)
+data GetInvoicesParametersQueryStatus'
+  = GetInvoicesParametersQueryStatus'EnumOther Data.Aeson.Types.Internal.Value
+  | GetInvoicesParametersQueryStatus'EnumTyped Data.Text.Internal.Text
+  | GetInvoicesParametersQueryStatus'EnumStringDraft
+  | GetInvoicesParametersQueryStatus'EnumStringOpen
+  | GetInvoicesParametersQueryStatus'EnumStringPaid
+  | GetInvoicesParametersQueryStatus'EnumStringUncollectible
+  | GetInvoicesParametersQueryStatus'EnumStringVoid
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.ToJSON GetInvoicesParametersQueryStatus' where
+  toJSON (GetInvoicesParametersQueryStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
+  toJSON (GetInvoicesParametersQueryStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
+  toJSON (GetInvoicesParametersQueryStatus'EnumStringDraft) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "draft"
+  toJSON (GetInvoicesParametersQueryStatus'EnumStringOpen) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "open"
+  toJSON (GetInvoicesParametersQueryStatus'EnumStringPaid) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "paid"
+  toJSON (GetInvoicesParametersQueryStatus'EnumStringUncollectible) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "uncollectible"
+  toJSON (GetInvoicesParametersQueryStatus'EnumStringVoid) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "void"
+
+instance Data.Aeson.FromJSON GetInvoicesParametersQueryStatus' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "draft")
+          then GetInvoicesParametersQueryStatus'EnumStringDraft
+          else
+            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "open")
+              then GetInvoicesParametersQueryStatus'EnumStringOpen
+              else
+                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "paid")
+                  then GetInvoicesParametersQueryStatus'EnumStringPaid
+                  else
+                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "uncollectible")
+                      then GetInvoicesParametersQueryStatus'EnumStringUncollectible
+                      else
+                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "void")
+                          then GetInvoicesParametersQueryStatus'EnumStringVoid
+                          else GetInvoicesParametersQueryStatus'EnumOther val
+      )
 
 -- | Represents a response of the operation 'getInvoices'.
 --
@@ -520,4 +378,120 @@ instance Data.Aeson.FromJSON GetInvoicesResponseBody200Object' where
       ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
           then GetInvoicesResponseBody200Object'EnumStringList
           else GetInvoicesResponseBody200Object'EnumOther val
+      )
+
+-- | > GET /v1/invoices
+--
+-- The same as 'getInvoices' but accepts an explicit configuration.
+getInvoicesWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetInvoicesParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetInvoicesResponse)
+getInvoicesWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetInvoicesResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetInvoicesResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              GetInvoicesResponseBody200
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetInvoicesResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/invoices")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "collection_method") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryCollectionMethod parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "due_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryDueDate parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQuerySubscription parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
+      )
+
+-- | > GET /v1/invoices
+--
+-- The same as 'getInvoices' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getInvoicesRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetInvoicesParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getInvoicesRaw parameters =
+  GHC.Base.id
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/invoices")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "collection_method") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryCollectionMethod parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "due_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryDueDate parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQuerySubscription parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
+    )
+
+-- | > GET /v1/invoices
+--
+-- The same as 'getInvoices' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getInvoicesWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetInvoicesParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getInvoicesWithConfigurationRaw
+  config
+  parameters =
+    GHC.Base.id
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/invoices")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "collection_method") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryCollectionMethod parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "due_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryDueDate parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesParametersQuerySubscription parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
       )

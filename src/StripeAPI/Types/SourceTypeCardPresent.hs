@@ -57,9 +57,9 @@ data SourceTypeCardPresent
         -- | evidence_transaction_certificate
         sourceTypeCardPresentEvidenceTransactionCertificate :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | exp_month
-        sourceTypeCardPresentExpMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        sourceTypeCardPresentExpMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | exp_year
-        sourceTypeCardPresentExpYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        sourceTypeCardPresentExpYear :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | fingerprint
         sourceTypeCardPresentFingerprint :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | funding

@@ -48,418 +48,199 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Note that this endpoint was previously called “Balance history” and used the path \<code>\/v1\/balance\/history\<\/code>.\<\/p>
 getBalanceTransactions ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | available_on
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | created
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | currency: Only return transactions in a certain currency. Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | payout: For automatic Stripe payouts only, only returns transactions that were paid out on the specified payout ID. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | source: Only returns the original transaction. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | type: Only returns transactions of the given type. One of: \`charge\`, \`refund\`, \`adjustment\`, \`application_fee\`, \`application_fee_refund\`, \`transfer\`, \`payment\`, \`payout\`, \`payout_failure\`, \`stripe_fee\`, or \`network_cost\`. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetBalanceTransactionsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetBalanceTransactionsResponse))
-getBalanceTransactions
-  config
-  availableOn
-  created
-  currency
-  endingBefore
-  expand
-  limit
-  payout
-  source
-  startingAfter
-  type'
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetBalanceTransactionsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetBalanceTransactionsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetBalanceTransactionsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetBalanceTransactionsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetBalanceTransactionsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetBalanceTransactionsResponse)
+getBalanceTransactions parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetBalanceTransactionsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetBalanceTransactionsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetBalanceTransactionsResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetBalanceTransactionsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/balance_transactions")
-          ( ( Data.Text.pack "available_on",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> availableOn
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "currency",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> currency
-                        )
-                          : ( ( Data.Text.pack "ending_before",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                              )
-                                : ( ( Data.Text.pack "expand",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                    )
-                                      : ( ( Data.Text.pack "limit",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                          )
-                                            : ( ( Data.Text.pack "payout",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> payout
-                                                )
-                                                  : ( ( Data.Text.pack "source",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> source
-                                                      )
-                                                        : ( ( Data.Text.pack "starting_after",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                            )
-                                                              : ( ( Data.Text.pack "type",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> type'
-                                                                  )
-                                                                    : []
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/balance_transactions
---
--- The same as 'getBalanceTransactions' but returns the raw 'Data.ByteString.Char8.ByteString'
-getBalanceTransactionsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetBalanceTransactionsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getBalanceTransactionsRaw
-  config
-  availableOn
-  created
-  currency
-  endingBefore
-  expand
-  limit
-  payout
-  source
-  startingAfter
-  type'
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/balance_transactions")
-          ( ( Data.Text.pack "available_on",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> availableOn
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "currency",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> currency
-                        )
-                          : ( ( Data.Text.pack "ending_before",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                              )
-                                : ( ( Data.Text.pack "expand",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                    )
-                                      : ( ( Data.Text.pack "limit",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                          )
-                                            : ( ( Data.Text.pack "payout",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> payout
-                                                )
-                                                  : ( ( Data.Text.pack "source",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> source
-                                                      )
-                                                        : ( ( Data.Text.pack "starting_after",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                            )
-                                                              : ( ( Data.Text.pack "type",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> type'
-                                                                  )
-                                                                    : []
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/balance_transactions
---
--- Monadic version of 'getBalanceTransactions' (use with 'StripeAPI.Common.runWithConfiguration')
-getBalanceTransactionsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetBalanceTransactionsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetBalanceTransactionsResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/balance_transactions")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "available_on") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryAvailableOn parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "currency") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryCurrency parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "payout") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryPayout parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "source") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQuerySource parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getBalanceTransactionsM
-  availableOn
-  created
-  currency
-  endingBefore
-  expand
-  limit
-  payout
-  source
-  startingAfter
-  type'
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetBalanceTransactionsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetBalanceTransactionsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetBalanceTransactionsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetBalanceTransactionsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/balance_transactions")
-          ( ( Data.Text.pack "available_on",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> availableOn
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "currency",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> currency
-                        )
-                          : ( ( Data.Text.pack "ending_before",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                              )
-                                : ( ( Data.Text.pack "expand",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                    )
-                                      : ( ( Data.Text.pack "limit",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                          )
-                                            : ( ( Data.Text.pack "payout",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> payout
-                                                )
-                                                  : ( ( Data.Text.pack "source",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> source
-                                                      )
-                                                        : ( ( Data.Text.pack "starting_after",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                            )
-                                                              : ( ( Data.Text.pack "type",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> type'
-                                                                  )
-                                                                    : []
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/balance_transactions
---
--- Monadic version of 'getBalanceTransactionsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getBalanceTransactionsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetBalanceTransactionsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getBalanceTransactionsRawM
-  availableOn
-  created
-  currency
-  endingBefore
-  expand
-  limit
-  payout
-  source
-  startingAfter
-  type'
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/balance_transactions")
-          ( ( Data.Text.pack "available_on",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> availableOn
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "currency",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> currency
-                        )
-                          : ( ( Data.Text.pack "ending_before",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                              )
-                                : ( ( Data.Text.pack "expand",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                    )
-                                      : ( ( Data.Text.pack "limit",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                          )
-                                            : ( ( Data.Text.pack "payout",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> payout
-                                                )
-                                                  : ( ( Data.Text.pack "source",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> source
-                                                      )
-                                                        : ( ( Data.Text.pack "starting_after",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                            )
-                                                              : ( ( Data.Text.pack "type",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> type'
-                                                                  )
-                                                                    : []
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getBalanceTransactionsRequestBody
-data GetBalanceTransactionsRequestBody
-  = GetBalanceTransactionsRequestBody
-      {
+-- | Defines the data type for the schema getBalanceTransactionsParameters
+data GetBalanceTransactionsParameters
+  = GetBalanceTransactionsParameters
+      { -- | queryAvailable_on: Represents the parameter named \'available_on\'
+        getBalanceTransactionsParametersQueryAvailableOn :: (GHC.Maybe.Maybe GetBalanceTransactionsParametersQueryAvailableOn'Variants),
+        -- | queryCreated: Represents the parameter named \'created\'
+        getBalanceTransactionsParametersQueryCreated :: (GHC.Maybe.Maybe GetBalanceTransactionsParametersQueryCreated'Variants),
+        -- | queryCurrency: Represents the parameter named \'currency\'
+        --
+        -- Only return transactions in a certain currency. Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
+        getBalanceTransactionsParametersQueryCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getBalanceTransactionsParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getBalanceTransactionsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getBalanceTransactionsParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryPayout: Represents the parameter named \'payout\'
+        --
+        -- For automatic Stripe payouts only, only returns transactions that were paid out on the specified payout ID.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getBalanceTransactionsParametersQueryPayout :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | querySource: Represents the parameter named \'source\'
+        --
+        -- Only returns the original transaction.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getBalanceTransactionsParametersQuerySource :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getBalanceTransactionsParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryType: Represents the parameter named \'type\'
+        --
+        -- Only returns transactions of the given type. One of: \`charge\`, \`refund\`, \`adjustment\`, \`application_fee\`, \`application_fee_refund\`, \`transfer\`, \`payment\`, \`payout\`, \`payout_failure\`, \`stripe_fee\`, or \`network_cost\`.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getBalanceTransactionsParametersQueryType :: (GHC.Maybe.Maybe Data.Text.Internal.Text)
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetBalanceTransactionsRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetBalanceTransactionsParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryAvailable_on" (getBalanceTransactionsParametersQueryAvailableOn obj) : (Data.Aeson..=) "queryCreated" (getBalanceTransactionsParametersQueryCreated obj) : (Data.Aeson..=) "queryCurrency" (getBalanceTransactionsParametersQueryCurrency obj) : (Data.Aeson..=) "queryEnding_before" (getBalanceTransactionsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getBalanceTransactionsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getBalanceTransactionsParametersQueryLimit obj) : (Data.Aeson..=) "queryPayout" (getBalanceTransactionsParametersQueryPayout obj) : (Data.Aeson..=) "querySource" (getBalanceTransactionsParametersQuerySource obj) : (Data.Aeson..=) "queryStarting_after" (getBalanceTransactionsParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryType" (getBalanceTransactionsParametersQueryType obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryAvailable_on" (getBalanceTransactionsParametersQueryAvailableOn obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getBalanceTransactionsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryCurrency" (getBalanceTransactionsParametersQueryCurrency obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getBalanceTransactionsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getBalanceTransactionsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getBalanceTransactionsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryPayout" (getBalanceTransactionsParametersQueryPayout obj) GHC.Base.<> ((Data.Aeson..=) "querySource" (getBalanceTransactionsParametersQuerySource obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getBalanceTransactionsParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryType" (getBalanceTransactionsParametersQueryType obj))))))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceTransactionsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBalanceTransactionsRequestBody" (\obj -> GHC.Base.pure GetBalanceTransactionsRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceTransactionsParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBalanceTransactionsParameters" (\obj -> (((((((((GHC.Base.pure GetBalanceTransactionsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryAvailable_on")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCurrency")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryPayout")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySource")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryType"))
+
+-- | Defines the data type for the schema getBalanceTransactionsParametersQueryAvailable_on\'OneOf2
+data GetBalanceTransactionsParametersQueryAvailableOn'OneOf2
+  = GetBalanceTransactionsParametersQueryAvailableOn'OneOf2
+      { -- | gt
+        getBalanceTransactionsParametersQueryAvailableOn'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getBalanceTransactionsParametersQueryAvailableOn'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getBalanceTransactionsParametersQueryAvailableOn'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getBalanceTransactionsParametersQueryAvailableOn'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.ToJSON GetBalanceTransactionsParametersQueryAvailableOn'OneOf2 where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getBalanceTransactionsParametersQueryAvailableOn'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getBalanceTransactionsParametersQueryAvailableOn'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getBalanceTransactionsParametersQueryAvailableOn'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getBalanceTransactionsParametersQueryAvailableOn'OneOf2Lte obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getBalanceTransactionsParametersQueryAvailableOn'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getBalanceTransactionsParametersQueryAvailableOn'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getBalanceTransactionsParametersQueryAvailableOn'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getBalanceTransactionsParametersQueryAvailableOn'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceTransactionsParametersQueryAvailableOn'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBalanceTransactionsParametersQueryAvailableOn'OneOf2" (\obj -> (((GHC.Base.pure GetBalanceTransactionsParametersQueryAvailableOn'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Define the one-of schema getBalanceTransactionsParametersQueryAvailable_on\'
+--
+-- Represents the parameter named \'available_on\'
+data GetBalanceTransactionsParametersQueryAvailableOn'Variants
+  = GetBalanceTransactionsParametersQueryAvailableOn'Int GHC.Types.Int
+  | GetBalanceTransactionsParametersQueryAvailableOn'GetBalanceTransactionsParametersQueryAvailableOn'OneOf2 GetBalanceTransactionsParametersQueryAvailableOn'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+
+instance Data.Aeson.ToJSON GetBalanceTransactionsParametersQueryAvailableOn'Variants where
+  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+instance Data.Aeson.FromJSON GetBalanceTransactionsParametersQueryAvailableOn'Variants where
+  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+-- | Defines the data type for the schema getBalanceTransactionsParametersQueryCreated\'OneOf2
+data GetBalanceTransactionsParametersQueryCreated'OneOf2
+  = GetBalanceTransactionsParametersQueryCreated'OneOf2
+      { -- | gt
+        getBalanceTransactionsParametersQueryCreated'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getBalanceTransactionsParametersQueryCreated'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getBalanceTransactionsParametersQueryCreated'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getBalanceTransactionsParametersQueryCreated'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.ToJSON GetBalanceTransactionsParametersQueryCreated'OneOf2 where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getBalanceTransactionsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getBalanceTransactionsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getBalanceTransactionsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getBalanceTransactionsParametersQueryCreated'OneOf2Lte obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getBalanceTransactionsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getBalanceTransactionsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getBalanceTransactionsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getBalanceTransactionsParametersQueryCreated'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceTransactionsParametersQueryCreated'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetBalanceTransactionsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetBalanceTransactionsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Define the one-of schema getBalanceTransactionsParametersQueryCreated\'
+--
+-- Represents the parameter named \'created\'
+data GetBalanceTransactionsParametersQueryCreated'Variants
+  = GetBalanceTransactionsParametersQueryCreated'Int GHC.Types.Int
+  | GetBalanceTransactionsParametersQueryCreated'GetBalanceTransactionsParametersQueryCreated'OneOf2 GetBalanceTransactionsParametersQueryCreated'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+
+instance Data.Aeson.ToJSON GetBalanceTransactionsParametersQueryCreated'Variants where
+  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+instance Data.Aeson.FromJSON GetBalanceTransactionsParametersQueryCreated'Variants where
+  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
 
 -- | Represents a response of the operation 'getBalanceTransactions'.
 --
@@ -522,4 +303,120 @@ instance Data.Aeson.FromJSON GetBalanceTransactionsResponseBody200Object' where
       ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
           then GetBalanceTransactionsResponseBody200Object'EnumStringList
           else GetBalanceTransactionsResponseBody200Object'EnumOther val
+      )
+
+-- | > GET /v1/balance_transactions
+--
+-- The same as 'getBalanceTransactions' but accepts an explicit configuration.
+getBalanceTransactionsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetBalanceTransactionsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetBalanceTransactionsResponse)
+getBalanceTransactionsWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetBalanceTransactionsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetBalanceTransactionsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              GetBalanceTransactionsResponseBody200
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetBalanceTransactionsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/balance_transactions")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "available_on") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryAvailableOn parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "currency") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryCurrency parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "payout") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryPayout parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "source") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQuerySource parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
+      )
+
+-- | > GET /v1/balance_transactions
+--
+-- The same as 'getBalanceTransactions' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getBalanceTransactionsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetBalanceTransactionsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getBalanceTransactionsRaw parameters =
+  GHC.Base.id
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/balance_transactions")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "available_on") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryAvailableOn parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "currency") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryCurrency parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "payout") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryPayout parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "source") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQuerySource parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
+    )
+
+-- | > GET /v1/balance_transactions
+--
+-- The same as 'getBalanceTransactions' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getBalanceTransactionsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetBalanceTransactionsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getBalanceTransactionsWithConfigurationRaw
+  config
+  parameters =
+    GHC.Base.id
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/balance_transactions")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "available_on") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryAvailableOn parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "currency") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryCurrency parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "payout") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryPayout parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "source") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQuerySource parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceTransactionsParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
       )

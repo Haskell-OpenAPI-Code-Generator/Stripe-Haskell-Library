@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data Inventory
   = Inventory
       { -- | quantity: The count of inventory available. Will be present if and only if \`type\` is \`finite\`.
-        inventoryQuantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        inventoryQuantity :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | type: Inventory type. Possible values are \`finite\`, \`bucket\` (not quantified), and \`infinite\`.
         --
         -- Constraints:

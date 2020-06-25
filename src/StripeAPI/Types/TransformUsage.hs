@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data TransformUsage
   = TransformUsage
       { -- | divide_by: Divide usage by this number.
-        transformUsageDivideBy :: GHC.Integer.Type.Integer,
+        transformUsageDivideBy :: GHC.Types.Int,
         -- | round: After division, either round the result \`up\` or \`down\`.
         transformUsageRound :: TransformUsageRound'
       }

@@ -33,9 +33,9 @@ import qualified Prelude as GHC.Maybe
 data EphemeralKey
   = EphemeralKey
       { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        ephemeralKeyCreated :: GHC.Integer.Type.Integer,
+        ephemeralKeyCreated :: GHC.Types.Int,
         -- | expires: Time at which the key will expire. Measured in seconds since the Unix epoch.
-        ephemeralKeyExpires :: GHC.Integer.Type.Integer,
+        ephemeralKeyExpires :: GHC.Types.Int,
         -- | id: Unique identifier for the object.
         --
         -- Constraints:

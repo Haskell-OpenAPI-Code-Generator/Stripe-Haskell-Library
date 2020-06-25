@@ -53,7 +53,7 @@ data WebhookEndpoint
         -- * Maximum length of 5000
         webhookEndpointApplication :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        webhookEndpointCreated :: GHC.Integer.Type.Integer,
+        webhookEndpointCreated :: GHC.Types.Int,
         -- | enabled_events: The list of events to enable for this endpoint. \`[\'*\']\` indicates that all events are enabled, except those that require explicit selection.
         webhookEndpointEnabledEvents :: ([] Data.Text.Internal.Text),
         -- | id: Unique identifier for the object.

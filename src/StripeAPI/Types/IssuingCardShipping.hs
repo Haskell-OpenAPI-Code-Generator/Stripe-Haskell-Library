@@ -38,7 +38,7 @@ data IssuingCardShipping
         -- | carrier: The delivery company that shipped a card.
         issuingCardShippingCarrier :: (GHC.Maybe.Maybe IssuingCardShippingCarrier'),
         -- | eta: A unix timestamp representing a best estimate of when the card will be delivered.
-        issuingCardShippingEta :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        issuingCardShippingEta :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | name: Recipient name.
         --
         -- Constraints:

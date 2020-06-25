@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data SubscriptionItemBillingThresholds
   = SubscriptionItemBillingThresholds
       { -- | usage_gte: Usage threshold that triggers the subscription to create an invoice
-        subscriptionItemBillingThresholdsUsageGte :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+        subscriptionItemBillingThresholdsUsageGte :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,

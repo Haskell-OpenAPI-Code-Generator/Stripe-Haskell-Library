@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data IssuingCardSpendingLimit
   = IssuingCardSpendingLimit
       { -- | amount: Maximum amount allowed to spend per time interval.
-        issuingCardSpendingLimitAmount :: GHC.Integer.Type.Integer,
+        issuingCardSpendingLimitAmount :: GHC.Types.Int,
         -- | categories: Array of strings containing [categories](https:\/\/stripe.com\/docs\/api\#issuing_authorization_object-merchant_data-category) on which to apply the spending limit. Leave this blank to limit all charges.
         issuingCardSpendingLimitCategories :: (GHC.Maybe.Maybe ([] IssuingCardSpendingLimitCategories')),
         -- | interval: The time interval or event with which to apply this spending limit towards.

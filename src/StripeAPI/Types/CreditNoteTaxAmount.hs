@@ -34,7 +34,7 @@ import qualified Prelude as GHC.Maybe
 data CreditNoteTaxAmount
   = CreditNoteTaxAmount
       { -- | amount: The amount, in %s, of the tax.
-        creditNoteTaxAmountAmount :: GHC.Integer.Type.Integer,
+        creditNoteTaxAmountAmount :: GHC.Types.Int,
         -- | inclusive: Whether this tax amount is inclusive or exclusive.
         creditNoteTaxAmountInclusive :: GHC.Types.Bool,
         -- | tax_rate: The tax rate that was applied to get this tax amount.

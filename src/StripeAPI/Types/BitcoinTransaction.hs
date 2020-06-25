@@ -33,11 +33,11 @@ import qualified Prelude as GHC.Maybe
 data BitcoinTransaction
   = BitcoinTransaction
       { -- | amount: The amount of \`currency\` that the transaction was converted to in real-time.
-        bitcoinTransactionAmount :: GHC.Integer.Type.Integer,
+        bitcoinTransactionAmount :: GHC.Types.Int,
         -- | bitcoin_amount: The amount of bitcoin contained in the transaction.
-        bitcoinTransactionBitcoinAmount :: GHC.Integer.Type.Integer,
+        bitcoinTransactionBitcoinAmount :: GHC.Types.Int,
         -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        bitcoinTransactionCreated :: GHC.Integer.Type.Integer,
+        bitcoinTransactionCreated :: GHC.Types.Int,
         -- | currency: Three-letter [ISO code for the currency](https:\/\/stripe.com\/docs\/currencies) to which this transaction was converted.
         bitcoinTransactionCurrency :: Data.Text.Internal.Text,
         -- | id: Unique identifier for the object.

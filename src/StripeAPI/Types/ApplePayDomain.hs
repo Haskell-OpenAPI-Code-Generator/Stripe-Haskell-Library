@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data ApplePayDomain
   = ApplePayDomain
       { -- | created: Time at which the object was created. Measured in seconds since the Unix epoch.
-        applePayDomainCreated :: GHC.Integer.Type.Integer,
+        applePayDomainCreated :: GHC.Types.Int,
         -- | domain_name
         --
         -- Constraints:

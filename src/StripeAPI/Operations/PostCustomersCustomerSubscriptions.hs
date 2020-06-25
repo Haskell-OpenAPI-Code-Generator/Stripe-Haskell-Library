@@ -46,130 +46,41 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Creates a new subscription on an existing customer.\<\/p>
 postCustomersCustomerSubscriptions ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | customer | Constraints: Maximum length of 5000
   Data.Text.Internal.Text ->
   -- | The request body to send
   GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostCustomersCustomerSubscriptionsResponse))
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostCustomersCustomerSubscriptionsResponse)
 postCustomersCustomerSubscriptions
-  config
   customer
   body =
     GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostCustomersCustomerSubscriptionsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerSubscriptionsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Subscription
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerSubscriptionsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
-                response_0
-          )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/subscriptions"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/customers/{customer}/subscriptions
---
--- The same as 'postCustomersCustomerSubscriptions' but returns the raw 'Data.ByteString.Char8.ByteString'
-postCustomersCustomerSubscriptionsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postCustomersCustomerSubscriptionsRaw
-  config
-  customer
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/subscriptions"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/customers/{customer}/subscriptions
---
--- Monadic version of 'postCustomersCustomerSubscriptions' (use with 'StripeAPI.Common.runWithConfiguration')
-postCustomersCustomerSubscriptionsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostCustomersCustomerSubscriptionsResponse)
-    )
-postCustomersCustomerSubscriptionsM
-  customer
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostCustomersCustomerSubscriptionsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerSubscriptionsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Subscription
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostCustomersCustomerSubscriptionsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
+      ( \response_0 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostCustomersCustomerSubscriptionsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerSubscriptionsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Subscription
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerSubscriptionsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_0
+            )
+            response_0
       )
       (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/subscriptions"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/customers/{customer}/subscriptions
---
--- Monadic version of 'postCustomersCustomerSubscriptionsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postCustomersCustomerSubscriptionsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postCustomersCustomerSubscriptionsRawM
-  customer
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/subscriptions"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postCustomersCustomerSubscriptionsRequestBody
 data PostCustomersCustomerSubscriptionsRequestBody
@@ -177,13 +88,13 @@ data PostCustomersCustomerSubscriptionsRequestBody
       { -- | application_fee_percent: A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner\'s Stripe account. The request must be made by a platform account on a connected account in order to set an application fee percentage. For more information, see the application fees [documentation](https:\/\/stripe.com\/docs\/connect\/subscriptions\#collecting-fees-on-subscriptions).
         postCustomersCustomerSubscriptionsRequestBodyApplicationFeePercent :: (GHC.Maybe.Maybe GHC.Types.Double),
         -- | backdate_start_date: For new subscriptions, a past timestamp to backdate the subscription\'s start date to. If set, the first invoice will contain a proration for the timespan between the start date and the current time. Can be combined with trials and the billing cycle anchor.
-        postCustomersCustomerSubscriptionsRequestBodyBackdateStartDate :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCustomersCustomerSubscriptionsRequestBodyBackdateStartDate :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | billing_cycle_anchor: A future timestamp to anchor the subscription\'s [billing cycle](https:\/\/stripe.com\/docs\/subscriptions\/billing-cycle). This is used to determine the date of the first full invoice, and, for plans with \`month\` or \`year\` intervals, the day of the month for subsequent invoices.
-        postCustomersCustomerSubscriptionsRequestBodyBillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCustomersCustomerSubscriptionsRequestBodyBillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | billing_thresholds: Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period. Pass an empty string to remove previously-defined thresholds.
         postCustomersCustomerSubscriptionsRequestBodyBillingThresholds :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsRequestBodyBillingThresholds'Variants),
         -- | cancel_at: A timestamp at which the subscription should cancel. If set to a date before the current period ends, this will cause a proration if prorations have been enabled using \`proration_behavior\`. If set during a future period, this will always cause a proration for that period.
-        postCustomersCustomerSubscriptionsRequestBodyCancelAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCustomersCustomerSubscriptionsRequestBodyCancelAt :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | cancel_at_period_end: Boolean indicating whether this subscription should cancel at the end of the current period.
         postCustomersCustomerSubscriptionsRequestBodyCancelAtPeriodEnd :: (GHC.Maybe.Maybe GHC.Types.Bool),
         -- | collection_method: Either \`charge_automatically\`, or \`send_invoice\`. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions. Defaults to \`charge_automatically\`.
@@ -199,7 +110,7 @@ data PostCustomersCustomerSubscriptionsRequestBody
         -- * Maximum length of 5000
         postCustomersCustomerSubscriptionsRequestBodyCoupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | days_until_due: Number of days a customer has to pay invoices generated by this subscription. Valid only for subscriptions where \`collection_method\` is set to \`send_invoice\`.
-        postCustomersCustomerSubscriptionsRequestBodyDaysUntilDue :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCustomersCustomerSubscriptionsRequestBodyDaysUntilDue :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | default_payment_method: ID of the default payment method for the subscription. It must belong to the customer associated with the subscription. If not set, invoices will use the default payment method in the customer\'s invoice settings.
         --
         -- Constraints:
@@ -219,7 +130,7 @@ data PostCustomersCustomerSubscriptionsRequestBody
         -- | items: A list of up to 20 subscription items, each with an attached plan.
         postCustomersCustomerSubscriptionsRequestBodyItems :: (GHC.Maybe.Maybe ([] PostCustomersCustomerSubscriptionsRequestBodyItems')),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-        postCustomersCustomerSubscriptionsRequestBodyMetadata :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsRequestBodyMetadata'),
+        postCustomersCustomerSubscriptionsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | off_session: Indicates if a customer is on or off-session while an invoice payment is attempted.
         postCustomersCustomerSubscriptionsRequestBodyOffSession :: (GHC.Maybe.Maybe GHC.Types.Bool),
         -- | payment_behavior: Use \`allow_incomplete\` to create subscriptions with \`status=incomplete\` if the first invoice cannot be paid. Creating subscriptions with this status allows you to manage scenarios where additional user actions are needed to pay a subscription\'s invoice. For example, SCA regulation may require 3DS authentication to complete payment. See the [SCA Migration Guide](https:\/\/stripe.com\/docs\/billing\/migration\/strong-customer-authentication) for Billing to learn more. This is the default behavior.
@@ -243,7 +154,7 @@ data PostCustomersCustomerSubscriptionsRequestBody
         -- | trial_from_plan: Indicates if a plan\'s \`trial_period_days\` should be applied to the subscription. Setting \`trial_end\` per subscription is preferred, and this defaults to \`false\`. Setting this flag to \`true\` together with \`trial_end\` is not allowed.
         postCustomersCustomerSubscriptionsRequestBodyTrialFromPlan :: (GHC.Maybe.Maybe GHC.Types.Bool),
         -- | trial_period_days: Integer representing the number of trial period days before the customer is charged for the first time. This will always overwrite any trials that might apply via a subscribed plan.
-        postCustomersCustomerSubscriptionsRequestBodyTrialPeriodDays :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+        postCustomersCustomerSubscriptionsRequestBodyTrialPeriodDays :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,
@@ -281,7 +192,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsRequestBodyBillin
 data PostCustomersCustomerSubscriptionsRequestBodyBillingThresholds'OneOf2
   = PostCustomersCustomerSubscriptionsRequestBodyBillingThresholds'OneOf2
       { -- | amount_gte
-        postCustomersCustomerSubscriptionsRequestBodyBillingThresholds'OneOf2AmountGte :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCustomersCustomerSubscriptionsRequestBodyBillingThresholds'OneOf2AmountGte :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | reset_billing_cycle_anchor
         postCustomersCustomerSubscriptionsRequestBodyBillingThresholds'OneOf2ResetBillingCycleAnchor :: (GHC.Maybe.Maybe GHC.Types.Bool)
       }
@@ -378,7 +289,7 @@ data PostCustomersCustomerSubscriptionsRequestBodyItems'
       { -- | billing_thresholds
         postCustomersCustomerSubscriptionsRequestBodyItems'BillingThresholds :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsRequestBodyItems'BillingThresholds'Variants),
         -- | metadata
-        postCustomersCustomerSubscriptionsRequestBodyItems'Metadata :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsRequestBodyItems'Metadata'),
+        postCustomersCustomerSubscriptionsRequestBodyItems'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | plan
         --
         -- Constraints:
@@ -386,7 +297,7 @@ data PostCustomersCustomerSubscriptionsRequestBodyItems'
         -- * Maximum length of 5000
         postCustomersCustomerSubscriptionsRequestBodyItems'Plan :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | quantity
-        postCustomersCustomerSubscriptionsRequestBodyItems'Quantity :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        postCustomersCustomerSubscriptionsRequestBodyItems'Quantity :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | tax_rates
         postCustomersCustomerSubscriptionsRequestBodyItems'TaxRates :: (GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsRequestBodyItems'TaxRates'Variants)
       }
@@ -426,7 +337,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsRequestBodyItems'
 data PostCustomersCustomerSubscriptionsRequestBodyItems'BillingThresholds'OneOf2
   = PostCustomersCustomerSubscriptionsRequestBodyItems'BillingThresholds'OneOf2
       { -- | usage_gte
-        postCustomersCustomerSubscriptionsRequestBodyItems'BillingThresholds'OneOf2UsageGte :: GHC.Integer.Type.Integer
+        postCustomersCustomerSubscriptionsRequestBodyItems'BillingThresholds'OneOf2UsageGte :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,
@@ -451,23 +362,6 @@ instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsRequestBodyItems'Bi
 
 instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsRequestBodyItems'BillingThresholds'Variants where
   parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-
--- | Defines the data type for the schema postCustomersCustomerSubscriptionsRequestBodyItems\'Metadata\'
-data PostCustomersCustomerSubscriptionsRequestBodyItems'Metadata'
-  = PostCustomersCustomerSubscriptionsRequestBodyItems'Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsRequestBodyItems'Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsRequestBodyItems'Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsRequestBodyItems'Metadata'" (\obj -> GHC.Base.pure PostCustomersCustomerSubscriptionsRequestBodyItems'Metadata')
 
 -- | Defines the enum schema postCustomersCustomerSubscriptionsRequestBodyItems\'Tax_rates\'OneOf1
 data PostCustomersCustomerSubscriptionsRequestBodyItems'TaxRates'OneOf1
@@ -500,25 +394,6 @@ instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsRequestBodyItems'Ta
 
 instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsRequestBodyItems'TaxRates'Variants where
   parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-
--- | Defines the data type for the schema postCustomersCustomerSubscriptionsRequestBodyMetadata\'
---
--- Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
-data PostCustomersCustomerSubscriptionsRequestBodyMetadata'
-  = PostCustomersCustomerSubscriptionsRequestBodyMetadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsRequestBodyMetadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerSubscriptionsRequestBodyMetadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostCustomersCustomerSubscriptionsRequestBodyMetadata'" (\obj -> GHC.Base.pure PostCustomersCustomerSubscriptionsRequestBodyMetadata')
 
 -- | Defines the enum schema postCustomersCustomerSubscriptionsRequestBodyPayment_behavior\'
 --
@@ -582,7 +457,7 @@ data PostCustomersCustomerSubscriptionsRequestBodyPendingInvoiceItemInterval'One
       { -- | interval
         postCustomersCustomerSubscriptionsRequestBodyPendingInvoiceItemInterval'OneOf2Interval :: PostCustomersCustomerSubscriptionsRequestBodyPendingInvoiceItemInterval'OneOf2Interval',
         -- | interval_count
-        postCustomersCustomerSubscriptionsRequestBodyPendingInvoiceItemInterval'OneOf2IntervalCount :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+        postCustomersCustomerSubscriptionsRequestBodyPendingInvoiceItemInterval'OneOf2IntervalCount :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,
@@ -738,7 +613,7 @@ instance Data.Aeson.FromJSON PostCustomersCustomerSubscriptionsRequestBodyTrialE
 -- Unix timestamp representing the end of the trial period the customer will get before being charged for the first time. This will always overwrite any trials that might apply via a subscribed plan. If set, trial_end will override the default trial period of the plan the customer is being subscribed to. The special value \`now\` can be provided to end the customer\'s trial immediately. Can be at most two years from \`billing_cycle_anchor\`.
 data PostCustomersCustomerSubscriptionsRequestBodyTrialEnd'Variants
   = PostCustomersCustomerSubscriptionsRequestBodyTrialEnd'PostCustomersCustomerSubscriptionsRequestBodyTrialEnd'OneOf1 PostCustomersCustomerSubscriptionsRequestBodyTrialEnd'OneOf1
-  | PostCustomersCustomerSubscriptionsRequestBodyTrialEnd'Integer GHC.Integer.Type.Integer
+  | PostCustomersCustomerSubscriptionsRequestBodyTrialEnd'Int GHC.Types.Int
   deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
 
 instance Data.Aeson.ToJSON PostCustomersCustomerSubscriptionsRequestBodyTrialEnd'Variants where
@@ -758,3 +633,81 @@ data PostCustomersCustomerSubscriptionsResponse
   | -- | Error response.
     PostCustomersCustomerSubscriptionsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/customers/{customer}/subscriptions
+--
+-- The same as 'postCustomersCustomerSubscriptions' but accepts an explicit configuration.
+postCustomersCustomerSubscriptionsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | customer | Constraints: Maximum length of 5000
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostCustomersCustomerSubscriptionsResponse)
+postCustomersCustomerSubscriptionsWithConfiguration
+  config
+  customer
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostCustomersCustomerSubscriptionsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerSubscriptionsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Subscription
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostCustomersCustomerSubscriptionsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/subscriptions"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/customers/{customer}/subscriptions
+--
+-- The same as 'postCustomersCustomerSubscriptions' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postCustomersCustomerSubscriptionsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | customer | Constraints: Maximum length of 5000
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postCustomersCustomerSubscriptionsRaw
+  customer
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/subscriptions"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/customers/{customer}/subscriptions
+--
+-- The same as 'postCustomersCustomerSubscriptions' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postCustomersCustomerSubscriptionsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | customer | Constraints: Maximum length of 5000
+  Data.Text.Internal.Text ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostCustomersCustomerSubscriptionsRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postCustomersCustomerSubscriptionsWithConfigurationRaw
+  config
+  customer
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel customer)) GHC.Base.++ "/subscriptions"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

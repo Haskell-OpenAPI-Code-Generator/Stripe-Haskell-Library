@@ -46,493 +46,267 @@ import qualified Prelude as GHC.Maybe
 --
 -- \<p>Returns a list of Issuing \<code>Card\<\/code> objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.\<\/p>
 getIssuingCards ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
-  -- | cardholder: Only return cards belonging to the Cardholder with the provided ID. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | created: Only return cards that were issued during the given date interval.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | ending_before: A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | exp_month: Only return cards that have the given expiration month.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | exp_year: Only return cards that have the given expiration year.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | last4: Only return cards that have the given last four digits. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | limit: A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  -- | name: Only return cards that have the given name. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | source: Only return cards whose full card number matches that of this card source ID. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | starting_after: A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | status: Only return cards that have the given status. One of \`active\`, \`inactive\`, \`canceled\`, \`lost\`, or \`stolen\`. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | type: Only return cards that have the given type. One of \`virtual\` or \`physical\`. | Constraints: Maximum length of 5000
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe GetIssuingCardsRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response GetIssuingCardsResponse))
-getIssuingCards
-  config
-  cardholder
-  created
-  endingBefore
-  expMonth
-  expYear
-  expand
-  last4
-  limit
-  name
-  source
-  startingAfter
-  status
-  type'
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetIssuingCardsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingCardsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetIssuingCardsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingCardsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetIssuingCardsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetIssuingCardsResponse)
+getIssuingCards parameters =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either GetIssuingCardsResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetIssuingCardsResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            GetIssuingCardsResponseBody200
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   GetIssuingCardsResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/cards")
-          ( ( Data.Text.pack "cardholder",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> cardholder
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "exp_month",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expMonth
-                              )
-                                : ( ( Data.Text.pack "exp_year",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expYear
-                                    )
-                                      : ( ( Data.Text.pack "expand",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                          )
-                                            : ( ( Data.Text.pack "last4",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> last4
-                                                )
-                                                  : ( ( Data.Text.pack "limit",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                                      )
-                                                        : ( ( Data.Text.pack "name",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> name
-                                                            )
-                                                              : ( ( Data.Text.pack "source",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> source
-                                                                  )
-                                                                    : ( ( Data.Text.pack "starting_after",
-                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                                        )
-                                                                          : ( ( Data.Text.pack "status",
-                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                                              )
-                                                                                : ( ( Data.Text.pack "type",
-                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> type'
-                                                                                    )
-                                                                                      : []
-                                                                                  )
-                                                                            )
-                                                                      )
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/issuing/cards
---
--- The same as 'getIssuingCards' but returns the raw 'Data.ByteString.Char8.ByteString'
-getIssuingCardsRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetIssuingCardsRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+          response_0
     )
-getIssuingCardsRaw
-  config
-  cardholder
-  created
-  endingBefore
-  expMonth
-  expYear
-  expand
-  last4
-  limit
-  name
-  source
-  startingAfter
-  status
-  type'
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/cards")
-          ( ( Data.Text.pack "cardholder",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> cardholder
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "exp_month",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expMonth
-                              )
-                                : ( ( Data.Text.pack "exp_year",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expYear
-                                    )
-                                      : ( ( Data.Text.pack "expand",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                          )
-                                            : ( ( Data.Text.pack "last4",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> last4
-                                                )
-                                                  : ( ( Data.Text.pack "limit",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                                      )
-                                                        : ( ( Data.Text.pack "name",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> name
-                                                            )
-                                                              : ( ( Data.Text.pack "source",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> source
-                                                                  )
-                                                                    : ( ( Data.Text.pack "starting_after",
-                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                                        )
-                                                                          : ( ( Data.Text.pack "status",
-                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                                              )
-                                                                                : ( ( Data.Text.pack "type",
-                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> type'
-                                                                                    )
-                                                                                      : []
-                                                                                  )
-                                                                            )
-                                                                      )
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | > GET /v1/issuing/cards
---
--- Monadic version of 'getIssuingCards' (use with 'StripeAPI.Common.runWithConfiguration')
-getIssuingCardsM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetIssuingCardsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response GetIssuingCardsResponse)
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/issuing/cards")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "cardholder") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryCardholder parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "exp_month") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryExpMonth parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "exp_year") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryExpYear parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "last4") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryLast4 parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "name") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryName parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "source") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQuerySource parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
     )
-getIssuingCardsM
-  cardholder
-  created
-  endingBefore
-  expMonth
-  expYear
-  expand
-  last4
-  limit
-  name
-  source
-  startingAfter
-  status
-  type'
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_2 ->
-              GHC.Base.fmap
-                ( Data.Either.either GetIssuingCardsResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingCardsResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  GetIssuingCardsResponseBody200
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         GetIssuingCardsResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_2
-                )
-                response_2
-          )
-      )
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/cards")
-          ( ( Data.Text.pack "cardholder",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> cardholder
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "exp_month",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expMonth
-                              )
-                                : ( ( Data.Text.pack "exp_year",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expYear
-                                    )
-                                      : ( ( Data.Text.pack "expand",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                          )
-                                            : ( ( Data.Text.pack "last4",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> last4
-                                                )
-                                                  : ( ( Data.Text.pack "limit",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                                      )
-                                                        : ( ( Data.Text.pack "name",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> name
-                                                            )
-                                                              : ( ( Data.Text.pack "source",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> source
-                                                                  )
-                                                                    : ( ( Data.Text.pack "starting_after",
-                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                                        )
-                                                                          : ( ( Data.Text.pack "status",
-                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                                              )
-                                                                                : ( ( Data.Text.pack "type",
-                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> type'
-                                                                                    )
-                                                                                      : []
-                                                                                  )
-                                                                            )
-                                                                      )
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
 
--- | > GET /v1/issuing/cards
---
--- Monadic version of 'getIssuingCardsRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-getIssuingCardsRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GHC.Integer.Type.Integer ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe Data.Text.Internal.Text ->
-  GHC.Maybe.Maybe GetIssuingCardsRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-getIssuingCardsRawM
-  cardholder
-  created
-  endingBefore
-  expMonth
-  expYear
-  expand
-  last4
-  limit
-  name
-  source
-  startingAfter
-  status
-  type'
-  body =
-    GHC.Base.id
-      ( StripeAPI.Common.doBodyCallWithConfigurationM
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/cards")
-          ( ( Data.Text.pack "cardholder",
-              StripeAPI.Common.stringifyModel Data.Functor.<$> cardholder
-            )
-              : ( ( Data.Text.pack "created",
-                    StripeAPI.Common.stringifyModel Data.Functor.<$> created
-                  )
-                    : ( ( Data.Text.pack "ending_before",
-                          StripeAPI.Common.stringifyModel Data.Functor.<$> endingBefore
-                        )
-                          : ( ( Data.Text.pack "exp_month",
-                                StripeAPI.Common.stringifyModel Data.Functor.<$> expMonth
-                              )
-                                : ( ( Data.Text.pack "exp_year",
-                                      StripeAPI.Common.stringifyModel Data.Functor.<$> expYear
-                                    )
-                                      : ( ( Data.Text.pack "expand",
-                                            StripeAPI.Common.stringifyModel Data.Functor.<$> expand
-                                          )
-                                            : ( ( Data.Text.pack "last4",
-                                                  StripeAPI.Common.stringifyModel Data.Functor.<$> last4
-                                                )
-                                                  : ( ( Data.Text.pack "limit",
-                                                        StripeAPI.Common.stringifyModel Data.Functor.<$> limit
-                                                      )
-                                                        : ( ( Data.Text.pack "name",
-                                                              StripeAPI.Common.stringifyModel Data.Functor.<$> name
-                                                            )
-                                                              : ( ( Data.Text.pack "source",
-                                                                    StripeAPI.Common.stringifyModel Data.Functor.<$> source
-                                                                  )
-                                                                    : ( ( Data.Text.pack "starting_after",
-                                                                          StripeAPI.Common.stringifyModel Data.Functor.<$> startingAfter
-                                                                        )
-                                                                          : ( ( Data.Text.pack "status",
-                                                                                StripeAPI.Common.stringifyModel Data.Functor.<$> status
-                                                                              )
-                                                                                : ( ( Data.Text.pack "type",
-                                                                                      StripeAPI.Common.stringifyModel Data.Functor.<$> type'
-                                                                                    )
-                                                                                      : []
-                                                                                  )
-                                                                            )
-                                                                      )
-                                                                )
-                                                          )
-                                                    )
-                                              )
-                                        )
-                                  )
-                            )
-                      )
-                )
-          )
-          body
-          StripeAPI.Common.RequestBodyEncodingFormData
-      )
-
--- | Defines the data type for the schema getIssuingCardsRequestBody
-data GetIssuingCardsRequestBody
-  = GetIssuingCardsRequestBody
-      {
+-- | Defines the data type for the schema getIssuingCardsParameters
+data GetIssuingCardsParameters
+  = GetIssuingCardsParameters
+      { -- | queryCardholder: Represents the parameter named \'cardholder\'
+        --
+        -- Only return cards belonging to the Cardholder with the provided ID.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingCardsParametersQueryCardholder :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryCreated: Represents the parameter named \'created\'
+        --
+        -- Only return cards that were issued during the given date interval.
+        getIssuingCardsParametersQueryCreated :: (GHC.Maybe.Maybe GetIssuingCardsParametersQueryCreated'Variants),
+        -- | queryEnding_before: Represents the parameter named \'ending_before\'
+        --
+        -- A cursor for use in pagination. \`ending_before\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with \`obj_bar\`, your subsequent call can include \`ending_before=obj_bar\` in order to fetch the previous page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingCardsParametersQueryEndingBefore :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryExp_month: Represents the parameter named \'exp_month\'
+        --
+        -- Only return cards that have the given expiration month.
+        getIssuingCardsParametersQueryExpMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryExp_year: Represents the parameter named \'exp_year\'
+        --
+        -- Only return cards that have the given expiration year.
+        getIssuingCardsParametersQueryExpYear :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryExpand: Represents the parameter named \'expand\'
+        --
+        -- Specifies which fields in the response should be expanded.
+        getIssuingCardsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        -- | queryLast4: Represents the parameter named \'last4\'
+        --
+        -- Only return cards that have the given last four digits.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingCardsParametersQueryLast4 :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryLimit: Represents the parameter named \'limit\'
+        --
+        -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
+        getIssuingCardsParametersQueryLimit :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | queryName: Represents the parameter named \'name\'
+        --
+        -- Only return cards that have the given name.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingCardsParametersQueryName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | querySource: Represents the parameter named \'source\'
+        --
+        -- Only return cards whose full card number matches that of this card source ID.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingCardsParametersQuerySource :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryStarting_after: Represents the parameter named \'starting_after\'
+        --
+        -- A cursor for use in pagination. \`starting_after\` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with \`obj_foo\`, your subsequent call can include \`starting_after=obj_foo\` in order to fetch the next page of the list.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingCardsParametersQueryStartingAfter :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
+        -- | queryStatus: Represents the parameter named \'status\'
+        --
+        -- Only return cards that have the given status. One of \`active\`, \`inactive\`, \`canceled\`, \`lost\`, or \`stolen\`.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingCardsParametersQueryStatus :: (GHC.Maybe.Maybe GetIssuingCardsParametersQueryStatus'),
+        -- | queryType: Represents the parameter named \'type\'
+        --
+        -- Only return cards that have the given type. One of \`virtual\` or \`physical\`.
+        --
+        -- Constraints:
+        --
+        -- * Maximum length of 5000
+        getIssuingCardsParametersQueryType :: (GHC.Maybe.Maybe GetIssuingCardsParametersQueryType')
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetIssuingCardsRequestBody where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
+instance Data.Aeson.ToJSON GetIssuingCardsParameters where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCardholder" (getIssuingCardsParametersQueryCardholder obj) : (Data.Aeson..=) "queryCreated" (getIssuingCardsParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getIssuingCardsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExp_month" (getIssuingCardsParametersQueryExpMonth obj) : (Data.Aeson..=) "queryExp_year" (getIssuingCardsParametersQueryExpYear obj) : (Data.Aeson..=) "queryExpand" (getIssuingCardsParametersQueryExpand obj) : (Data.Aeson..=) "queryLast4" (getIssuingCardsParametersQueryLast4 obj) : (Data.Aeson..=) "queryLimit" (getIssuingCardsParametersQueryLimit obj) : (Data.Aeson..=) "queryName" (getIssuingCardsParametersQueryName obj) : (Data.Aeson..=) "querySource" (getIssuingCardsParametersQuerySource obj) : (Data.Aeson..=) "queryStarting_after" (getIssuingCardsParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryStatus" (getIssuingCardsParametersQueryStatus obj) : (Data.Aeson..=) "queryType" (getIssuingCardsParametersQueryType obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCardholder" (getIssuingCardsParametersQueryCardholder obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getIssuingCardsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getIssuingCardsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExp_month" (getIssuingCardsParametersQueryExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "queryExp_year" (getIssuingCardsParametersQueryExpYear obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getIssuingCardsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLast4" (getIssuingCardsParametersQueryLast4 obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getIssuingCardsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryName" (getIssuingCardsParametersQueryName obj) GHC.Base.<> ((Data.Aeson..=) "querySource" (getIssuingCardsParametersQuerySource obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getIssuingCardsParametersQueryStartingAfter obj) GHC.Base.<> ((Data.Aeson..=) "queryStatus" (getIssuingCardsParametersQueryStatus obj) GHC.Base.<> (Data.Aeson..=) "queryType" (getIssuingCardsParametersQueryType obj)))))))))))))
 
-instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingCardsRequestBody where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingCardsRequestBody" (\obj -> GHC.Base.pure GetIssuingCardsRequestBody)
+instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingCardsParameters where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingCardsParameters" (\obj -> ((((((((((((GHC.Base.pure GetIssuingCardsParameters GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCardholder")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryCreated")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryEnding_before")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExp_month")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExp_year")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryExpand")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLast4")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryLimit")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryName")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "querySource")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStarting_after")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryStatus")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "queryType"))
+
+-- | Defines the data type for the schema getIssuingCardsParametersQueryCreated\'OneOf2
+data GetIssuingCardsParametersQueryCreated'OneOf2
+  = GetIssuingCardsParametersQueryCreated'OneOf2
+      { -- | gt
+        getIssuingCardsParametersQueryCreated'OneOf2Gt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | gte
+        getIssuingCardsParametersQueryCreated'OneOf2Gte :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lt
+        getIssuingCardsParametersQueryCreated'OneOf2Lt :: (GHC.Maybe.Maybe GHC.Types.Int),
+        -- | lte
+        getIssuingCardsParametersQueryCreated'OneOf2Lte :: (GHC.Maybe.Maybe GHC.Types.Int)
+      }
+  deriving
+    ( GHC.Show.Show,
+      GHC.Classes.Eq
+    )
+
+instance Data.Aeson.ToJSON GetIssuingCardsParametersQueryCreated'OneOf2 where
+  toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getIssuingCardsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getIssuingCardsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getIssuingCardsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getIssuingCardsParametersQueryCreated'OneOf2Lte obj) : [])
+  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getIssuingCardsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getIssuingCardsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getIssuingCardsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getIssuingCardsParametersQueryCreated'OneOf2Lte obj))))
+
+instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingCardsParametersQueryCreated'OneOf2 where
+  parseJSON = Data.Aeson.Types.FromJSON.withObject "GetIssuingCardsParametersQueryCreated'OneOf2" (\obj -> (((GHC.Base.pure GetIssuingCardsParametersQueryCreated'OneOf2 GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "gte")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lt")) GHC.Base.<*> (obj Data.Aeson.Types.FromJSON..:? "lte"))
+
+-- | Define the one-of schema getIssuingCardsParametersQueryCreated\'
+--
+-- Represents the parameter named \'created\'
+--
+-- Only return cards that were issued during the given date interval.
+data GetIssuingCardsParametersQueryCreated'Variants
+  = GetIssuingCardsParametersQueryCreated'Int GHC.Types.Int
+  | GetIssuingCardsParametersQueryCreated'GetIssuingCardsParametersQueryCreated'OneOf2 GetIssuingCardsParametersQueryCreated'OneOf2
+  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+
+instance Data.Aeson.ToJSON GetIssuingCardsParametersQueryCreated'Variants where
+  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+instance Data.Aeson.FromJSON GetIssuingCardsParametersQueryCreated'Variants where
+  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+
+-- | Defines the enum schema getIssuingCardsParametersQueryStatus\'
+--
+-- Represents the parameter named \'status\'
+--
+-- Only return cards that have the given status. One of \`active\`, \`inactive\`, \`canceled\`, \`lost\`, or \`stolen\`.
+data GetIssuingCardsParametersQueryStatus'
+  = GetIssuingCardsParametersQueryStatus'EnumOther Data.Aeson.Types.Internal.Value
+  | GetIssuingCardsParametersQueryStatus'EnumTyped Data.Text.Internal.Text
+  | GetIssuingCardsParametersQueryStatus'EnumStringActive
+  | GetIssuingCardsParametersQueryStatus'EnumStringCanceled
+  | GetIssuingCardsParametersQueryStatus'EnumStringInactive
+  | GetIssuingCardsParametersQueryStatus'EnumStringLost
+  | GetIssuingCardsParametersQueryStatus'EnumStringStolen
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.ToJSON GetIssuingCardsParametersQueryStatus' where
+  toJSON (GetIssuingCardsParametersQueryStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
+  toJSON (GetIssuingCardsParametersQueryStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
+  toJSON (GetIssuingCardsParametersQueryStatus'EnumStringActive) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "active"
+  toJSON (GetIssuingCardsParametersQueryStatus'EnumStringCanceled) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "canceled"
+  toJSON (GetIssuingCardsParametersQueryStatus'EnumStringInactive) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "inactive"
+  toJSON (GetIssuingCardsParametersQueryStatus'EnumStringLost) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "lost"
+  toJSON (GetIssuingCardsParametersQueryStatus'EnumStringStolen) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "stolen"
+
+instance Data.Aeson.FromJSON GetIssuingCardsParametersQueryStatus' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "active")
+          then GetIssuingCardsParametersQueryStatus'EnumStringActive
+          else
+            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "canceled")
+              then GetIssuingCardsParametersQueryStatus'EnumStringCanceled
+              else
+                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "inactive")
+                  then GetIssuingCardsParametersQueryStatus'EnumStringInactive
+                  else
+                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "lost")
+                      then GetIssuingCardsParametersQueryStatus'EnumStringLost
+                      else
+                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "stolen")
+                          then GetIssuingCardsParametersQueryStatus'EnumStringStolen
+                          else GetIssuingCardsParametersQueryStatus'EnumOther val
+      )
+
+-- | Defines the enum schema getIssuingCardsParametersQueryType\'
+--
+-- Represents the parameter named \'type\'
+--
+-- Only return cards that have the given type. One of \`virtual\` or \`physical\`.
+data GetIssuingCardsParametersQueryType'
+  = GetIssuingCardsParametersQueryType'EnumOther Data.Aeson.Types.Internal.Value
+  | GetIssuingCardsParametersQueryType'EnumTyped Data.Text.Internal.Text
+  | GetIssuingCardsParametersQueryType'EnumStringPhysical
+  | GetIssuingCardsParametersQueryType'EnumStringVirtual
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+instance Data.Aeson.ToJSON GetIssuingCardsParametersQueryType' where
+  toJSON (GetIssuingCardsParametersQueryType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
+  toJSON (GetIssuingCardsParametersQueryType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
+  toJSON (GetIssuingCardsParametersQueryType'EnumStringPhysical) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "physical"
+  toJSON (GetIssuingCardsParametersQueryType'EnumStringVirtual) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "virtual"
+
+instance Data.Aeson.FromJSON GetIssuingCardsParametersQueryType' where
+  parseJSON val =
+    GHC.Base.pure
+      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "physical")
+          then GetIssuingCardsParametersQueryType'EnumStringPhysical
+          else
+            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "virtual")
+              then GetIssuingCardsParametersQueryType'EnumStringVirtual
+              else GetIssuingCardsParametersQueryType'EnumOther val
+      )
 
 -- | Represents a response of the operation 'getIssuingCards'.
 --
@@ -595,4 +369,129 @@ instance Data.Aeson.FromJSON GetIssuingCardsResponseBody200Object' where
       ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
           then GetIssuingCardsResponseBody200Object'EnumStringList
           else GetIssuingCardsResponseBody200Object'EnumOther val
+      )
+
+-- | > GET /v1/issuing/cards
+--
+-- The same as 'getIssuingCards' but accepts an explicit configuration.
+getIssuingCardsWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetIssuingCardsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response GetIssuingCardsResponse)
+getIssuingCardsWithConfiguration
+  config
+  parameters =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either GetIssuingCardsResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetIssuingCardsResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              GetIssuingCardsResponseBody200
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     GetIssuingCardsResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/issuing/cards")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "cardholder") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryCardholder parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "exp_month") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryExpMonth parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "exp_year") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryExpYear parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "last4") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryLast4 parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "name") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryName parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "source") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQuerySource parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
+      )
+
+-- | > GET /v1/issuing/cards
+--
+-- The same as 'getIssuingCards' but returns the raw 'Data.ByteString.Char8.ByteString'.
+getIssuingCardsRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetIssuingCardsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getIssuingCardsRaw parameters =
+  GHC.Base.id
+    ( StripeAPI.Common.doCallWithConfigurationM
+        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+        (Data.Text.pack "/v1/issuing/cards")
+        [ StripeAPI.Common.QueryParameter (Data.Text.pack "cardholder") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryCardholder parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "exp_month") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryExpMonth parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "exp_year") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryExpYear parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "last4") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryLast4 parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "name") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryName parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "source") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQuerySource parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True,
+          StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True
+        ]
+    )
+
+-- | > GET /v1/issuing/cards
+--
+-- The same as 'getIssuingCards' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+getIssuingCardsWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | Contains all available parameters of this operation (query and path parameters)
+  GetIssuingCardsParameters ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+getIssuingCardsWithConfigurationRaw
+  config
+  parameters =
+    GHC.Base.id
+      ( StripeAPI.Common.doCallWithConfiguration
+          config
+          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
+          (Data.Text.pack "/v1/issuing/cards")
+          [ StripeAPI.Common.QueryParameter (Data.Text.pack "cardholder") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryCardholder parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "exp_month") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryExpMonth parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "exp_year") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryExpYear parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "last4") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryLast4 parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "name") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryName parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "source") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQuerySource parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True,
+            StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingCardsParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True
+          ]
       )

@@ -33,11 +33,11 @@ import qualified Prelude as GHC.Maybe
 data LegalEntityDob
   = LegalEntityDob
       { -- | day: The day of birth, between 1 and 31.
-        legalEntityDobDay :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        legalEntityDobDay :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | month: The month of birth, between 1 and 12.
-        legalEntityDobMonth :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        legalEntityDobMonth :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | year: The four-digit year of birth.
-        legalEntityDobYear :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+        legalEntityDobYear :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,

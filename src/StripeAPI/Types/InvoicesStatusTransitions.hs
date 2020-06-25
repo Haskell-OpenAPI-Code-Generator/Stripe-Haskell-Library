@@ -33,13 +33,13 @@ import qualified Prelude as GHC.Maybe
 data InvoicesStatusTransitions
   = InvoicesStatusTransitions
       { -- | finalized_at: The time that the invoice draft was finalized.
-        invoicesStatusTransitionsFinalizedAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        invoicesStatusTransitionsFinalizedAt :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | marked_uncollectible_at: The time that the invoice was marked uncollectible.
-        invoicesStatusTransitionsMarkedUncollectibleAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        invoicesStatusTransitionsMarkedUncollectibleAt :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | paid_at: The time that the invoice was paid.
-        invoicesStatusTransitionsPaidAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        invoicesStatusTransitionsPaidAt :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | voided_at: The time that the invoice was voided.
-        invoicesStatusTransitionsVoidedAt :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer)
+        invoicesStatusTransitionsVoidedAt :: (GHC.Maybe.Maybe GHC.Types.Int)
       }
   deriving
     ( GHC.Show.Show,

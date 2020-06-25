@@ -47,119 +47,37 @@ import qualified Prelude as GHC.Maybe
 -- \<p>Creates a single-use token that represents a bank account’s details.
 -- This token can be used with any API method in place of a bank account dictionary. This token can be used only once, by attaching it to a \<a href=\"\#accounts\">Custom account\<\/a>.\<\/p>
 postTokens ::
-  forall m s.
-  (StripeAPI.Common.MonadHTTP m, StripeAPI.Common.SecurityScheme s) =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration s ->
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
   -- | The request body to send
   GHC.Maybe.Maybe PostTokensRequestBody ->
-  -- | Monad containing the result of the operation
-  m (Data.Either.Either Network.HTTP.Client.Types.HttpException (Network.HTTP.Client.Types.Response PostTokensResponse))
-postTokens
-  config
-  body =
-    GHC.Base.fmap
-      ( GHC.Base.fmap
-          ( \response_0 ->
-              GHC.Base.fmap
-                ( Data.Either.either PostTokensResponseError GHC.Base.id
-                    GHC.Base.. ( \response body ->
-                                   if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostTokensResponse200
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Token
-                                                            )
-                                       | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                         PostTokensResponseDefault
-                                           Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                                Data.Either.Either GHC.Base.String
-                                                                  Error
-                                                            )
-                                       | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                               )
-                      response_0
-                )
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response PostTokensResponse)
+postTokens body =
+  GHC.Base.fmap
+    ( \response_0 ->
+        GHC.Base.fmap
+          ( Data.Either.either PostTokensResponseError GHC.Base.id
+              GHC.Base.. ( \response body ->
+                             if  | (\status_1 -> Network.HTTP.Types.Status.statusCode status_1 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostTokensResponse200
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Token
+                                                      )
+                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                   PostTokensResponseDefault
+                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                          Data.Either.Either GHC.Base.String
+                                                            Error
+                                                      )
+                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                         )
                 response_0
           )
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/tokens
---
--- The same as 'postTokens' but returns the raw 'Data.ByteString.Char8.ByteString'
-postTokensRaw ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  StripeAPI.Common.Configuration s ->
-  GHC.Maybe.Maybe PostTokensRequestBody ->
-  m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postTokensRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/tokens
---
--- Monadic version of 'postTokens' (use with 'StripeAPI.Common.runWithConfiguration')
-postTokensM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe PostTokensRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response PostTokensResponse)
-    )
-postTokensM body =
-  GHC.Base.fmap
-    ( GHC.Base.fmap
-        ( \response_2 ->
-            GHC.Base.fmap
-              ( Data.Either.either PostTokensResponseError GHC.Base.id
-                  GHC.Base.. ( \response body ->
-                                 if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostTokensResponse200
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Token
-                                                          )
-                                     | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                       PostTokensResponseDefault
-                                         Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                              Data.Either.Either GHC.Base.String
-                                                                Error
-                                                          )
-                                     | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                             )
-                    response_2
-              )
-              response_2
-        )
+          response_0
     )
     (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/tokens
---
--- Monadic version of 'postTokensRaw' (use with 'StripeAPI.Common.runWithConfiguration')
-postTokensRawM ::
-  forall m s.
-  ( StripeAPI.Common.MonadHTTP m,
-    StripeAPI.Common.SecurityScheme s
-  ) =>
-  GHC.Maybe.Maybe PostTokensRequestBody ->
-  Control.Monad.Trans.Reader.ReaderT (StripeAPI.Common.Configuration s)
-    m
-    ( Data.Either.Either Network.HTTP.Client.Types.HttpException
-        (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-    )
-postTokensRawM body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
 
 -- | Defines the data type for the schema postTokensRequestBody
 data PostTokensRequestBody
@@ -687,7 +605,7 @@ data PostTokensRequestBodyAccount'Individual'
         -- * Maximum length of 5000
         postTokensRequestBodyAccount'Individual'MaidenName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata
-        postTokensRequestBodyAccount'Individual'Metadata :: (GHC.Maybe.Maybe PostTokensRequestBodyAccount'Individual'Metadata'),
+        postTokensRequestBodyAccount'Individual'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | phone
         postTokensRequestBodyAccount'Individual'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | ssn_last_4
@@ -903,11 +821,11 @@ instance Data.Aeson.FromJSON PostTokensRequestBodyAccount'Individual'Dob'OneOf1 
 data PostTokensRequestBodyAccount'Individual'Dob'OneOf2
   = PostTokensRequestBodyAccount'Individual'Dob'OneOf2
       { -- | day
-        postTokensRequestBodyAccount'Individual'Dob'OneOf2Day :: GHC.Integer.Type.Integer,
+        postTokensRequestBodyAccount'Individual'Dob'OneOf2Day :: GHC.Types.Int,
         -- | month
-        postTokensRequestBodyAccount'Individual'Dob'OneOf2Month :: GHC.Integer.Type.Integer,
+        postTokensRequestBodyAccount'Individual'Dob'OneOf2Month :: GHC.Types.Int,
         -- | year
-        postTokensRequestBodyAccount'Individual'Dob'OneOf2Year :: GHC.Integer.Type.Integer
+        postTokensRequestBodyAccount'Individual'Dob'OneOf2Year :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,
@@ -932,23 +850,6 @@ instance Data.Aeson.ToJSON PostTokensRequestBodyAccount'Individual'Dob'Variants 
 
 instance Data.Aeson.FromJSON PostTokensRequestBodyAccount'Individual'Dob'Variants where
   parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-
--- | Defines the data type for the schema postTokensRequestBodyAccount\'Individual\'Metadata\'
-data PostTokensRequestBodyAccount'Individual'Metadata'
-  = PostTokensRequestBodyAccount'Individual'Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostTokensRequestBodyAccount'Individual'Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostTokensRequestBodyAccount'Individual'Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTokensRequestBodyAccount'Individual'Metadata'" (\obj -> GHC.Base.pure PostTokensRequestBodyAccount'Individual'Metadata')
 
 -- | Defines the data type for the schema postTokensRequestBodyAccount\'Individual\'Verification\'
 data PostTokensRequestBodyAccount'Individual'Verification'
@@ -1271,7 +1172,7 @@ data PostTokensRequestBodyPerson'
         -- * Maximum length of 5000
         postTokensRequestBodyPerson'MaidenName :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | metadata
-        postTokensRequestBodyPerson'Metadata :: (GHC.Maybe.Maybe PostTokensRequestBodyPerson'Metadata'),
+        postTokensRequestBodyPerson'Metadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | phone
         postTokensRequestBodyPerson'Phone :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | relationship
@@ -1485,11 +1386,11 @@ instance Data.Aeson.FromJSON PostTokensRequestBodyPerson'Dob'OneOf1 where
 data PostTokensRequestBodyPerson'Dob'OneOf2
   = PostTokensRequestBodyPerson'Dob'OneOf2
       { -- | day
-        postTokensRequestBodyPerson'Dob'OneOf2Day :: GHC.Integer.Type.Integer,
+        postTokensRequestBodyPerson'Dob'OneOf2Day :: GHC.Types.Int,
         -- | month
-        postTokensRequestBodyPerson'Dob'OneOf2Month :: GHC.Integer.Type.Integer,
+        postTokensRequestBodyPerson'Dob'OneOf2Month :: GHC.Types.Int,
         -- | year
-        postTokensRequestBodyPerson'Dob'OneOf2Year :: GHC.Integer.Type.Integer
+        postTokensRequestBodyPerson'Dob'OneOf2Year :: GHC.Types.Int
       }
   deriving
     ( GHC.Show.Show,
@@ -1514,23 +1415,6 @@ instance Data.Aeson.ToJSON PostTokensRequestBodyPerson'Dob'Variants where
 
 instance Data.Aeson.FromJSON PostTokensRequestBodyPerson'Dob'Variants where
   parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-
--- | Defines the data type for the schema postTokensRequestBodyPerson\'Metadata\'
-data PostTokensRequestBodyPerson'Metadata'
-  = PostTokensRequestBodyPerson'Metadata'
-      {
-      }
-  deriving
-    ( GHC.Show.Show,
-      GHC.Classes.Eq
-    )
-
-instance Data.Aeson.ToJSON PostTokensRequestBodyPerson'Metadata' where
-  toJSON obj = Data.Aeson.object []
-  toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "string" ("string" :: GHC.Base.String))
-
-instance Data.Aeson.Types.FromJSON.FromJSON PostTokensRequestBodyPerson'Metadata' where
-  parseJSON = Data.Aeson.Types.FromJSON.withObject "PostTokensRequestBodyPerson'Metadata'" (\obj -> GHC.Base.pure PostTokensRequestBodyPerson'Metadata')
 
 -- | Defines the data type for the schema postTokensRequestBodyPerson\'Relationship\'
 data PostTokensRequestBodyPerson'Relationship'
@@ -1707,3 +1591,71 @@ data PostTokensResponse
   | -- | Error response.
     PostTokensResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
+
+-- | > POST /v1/tokens
+--
+-- The same as 'postTokens' but accepts an explicit configuration.
+postTokensWithConfiguration ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostTokensRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response PostTokensResponse)
+postTokensWithConfiguration
+  config
+  body =
+    GHC.Base.fmap
+      ( \response_2 ->
+          GHC.Base.fmap
+            ( Data.Either.either PostTokensResponseError GHC.Base.id
+                GHC.Base.. ( \response body ->
+                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostTokensResponse200
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Token
+                                                        )
+                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
+                                     PostTokensResponseDefault
+                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
+                                                            Data.Either.Either GHC.Base.String
+                                                              Error
+                                                        )
+                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
+                           )
+                  response_2
+            )
+            response_2
+      )
+      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/tokens
+--
+-- The same as 'postTokens' but returns the raw 'Data.ByteString.Char8.ByteString'.
+postTokensRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The request body to send
+  GHC.Maybe.Maybe PostTokensRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postTokensRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)
+
+-- | > POST /v1/tokens
+--
+-- The same as 'postTokens' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
+postTokensWithConfigurationRaw ::
+  forall m.
+  StripeAPI.Common.MonadHTTP m =>
+  -- | The configuration to use in the request
+  StripeAPI.Common.Configuration ->
+  -- | The request body to send
+  GHC.Maybe.Maybe PostTokensRequestBody ->
+  -- | Monadic computation which returns the result of the operation
+  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
+postTokensWithConfigurationRaw
+  config
+  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/tokens") [] body StripeAPI.Common.RequestBodyEncodingFormData)

@@ -33,7 +33,7 @@ import qualified Prelude as GHC.Maybe
 data AccountTosAcceptance
   = AccountTosAcceptance
       { -- | date: The Unix timestamp marking when the Stripe Services Agreement was accepted by the account representative
-        accountTosAcceptanceDate :: (GHC.Maybe.Maybe GHC.Integer.Type.Integer),
+        accountTosAcceptanceDate :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | ip: The IP address from which the Stripe Services Agreement was accepted by the account representative
         --
         -- Constraints:

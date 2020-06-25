@@ -41,9 +41,9 @@ data TaxDeductedAtSource
         -- | object: String representing the object\'s type. Objects of the same type share the same value.
         taxDeductedAtSourceObject :: TaxDeductedAtSourceObject',
         -- | period_end: The end of the invoicing period. This TDS applies to Stripe fees collected during this invoicing period.
-        taxDeductedAtSourcePeriodEnd :: GHC.Integer.Type.Integer,
+        taxDeductedAtSourcePeriodEnd :: GHC.Types.Int,
         -- | period_start: The start of the invoicing period. This TDS applies to Stripe fees collected during this invoicing period.
-        taxDeductedAtSourcePeriodStart :: GHC.Integer.Type.Integer,
+        taxDeductedAtSourcePeriodStart :: GHC.Types.Int,
         -- | tax_deduction_account_number: The TAN that was supplied to Stripe when TDS was assessed
         --
         -- Constraints:
