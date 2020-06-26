@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postPaymentMethods
 module StripeAPI.Operations.PostPaymentMethods where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -92,7 +91,7 @@ data PostPaymentMethodsRequestBody
         -- * Maximum length of 5000
         postPaymentMethodsRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postPaymentMethodsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postPaymentMethodsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | fpx: If this is an \`fpx\` PaymentMethod, this hash contains details about the FPX payment method.
         postPaymentMethodsRequestBodyFpx :: (GHC.Maybe.Maybe PostPaymentMethodsRequestBodyFpx'),
         -- | ideal: If this is an \`ideal\` PaymentMethod, this hash contains details about the iDEAL payment method.
@@ -115,7 +114,7 @@ data PostPaymentMethodsRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostPaymentMethodsRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "billing_details" (postPaymentMethodsRequestBodyBillingDetails obj) : (Data.Aeson..=) "card" (postPaymentMethodsRequestBodyCard obj) : (Data.Aeson..=) "customer" (postPaymentMethodsRequestBodyCustomer obj) : (Data.Aeson..=) "expand" (postPaymentMethodsRequestBodyExpand obj) : (Data.Aeson..=) "fpx" (postPaymentMethodsRequestBodyFpx obj) : (Data.Aeson..=) "ideal" (postPaymentMethodsRequestBodyIdeal obj) : (Data.Aeson..=) "metadata" (postPaymentMethodsRequestBodyMetadata obj) : (Data.Aeson..=) "payment_method" (postPaymentMethodsRequestBodyPaymentMethod obj) : (Data.Aeson..=) "sepa_debit" (postPaymentMethodsRequestBodySepaDebit obj) : (Data.Aeson..=) "type" (postPaymentMethodsRequestBodyType obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "billing_details" (postPaymentMethodsRequestBodyBillingDetails obj) GHC.Base.<> ((Data.Aeson..=) "card" (postPaymentMethodsRequestBodyCard obj) GHC.Base.<> ((Data.Aeson..=) "customer" (postPaymentMethodsRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postPaymentMethodsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "fpx" (postPaymentMethodsRequestBodyFpx obj) GHC.Base.<> ((Data.Aeson..=) "ideal" (postPaymentMethodsRequestBodyIdeal obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postPaymentMethodsRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "payment_method" (postPaymentMethodsRequestBodyPaymentMethod obj) GHC.Base.<> ((Data.Aeson..=) "sepa_debit" (postPaymentMethodsRequestBodySepaDebit obj) GHC.Base.<> (Data.Aeson..=) "type" (postPaymentMethodsRequestBodyType obj))))))))))
 
@@ -149,7 +148,7 @@ data PostPaymentMethodsRequestBodyBillingDetails'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodyBillingDetails' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyBillingDetails' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postPaymentMethodsRequestBodyBillingDetails'Address obj) : (Data.Aeson..=) "email" (postPaymentMethodsRequestBodyBillingDetails'Email obj) : (Data.Aeson..=) "name" (postPaymentMethodsRequestBodyBillingDetails'Name obj) : (Data.Aeson..=) "phone" (postPaymentMethodsRequestBodyBillingDetails'Phone obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postPaymentMethodsRequestBodyBillingDetails'Address obj) GHC.Base.<> ((Data.Aeson..=) "email" (postPaymentMethodsRequestBodyBillingDetails'Email obj) GHC.Base.<> ((Data.Aeson..=) "name" (postPaymentMethodsRequestBodyBillingDetails'Name obj) GHC.Base.<> (Data.Aeson..=) "phone" (postPaymentMethodsRequestBodyBillingDetails'Phone obj))))
 
@@ -201,7 +200,7 @@ data PostPaymentMethodsRequestBodyBillingDetails'Address'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodyBillingDetails'Address' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyBillingDetails'Address' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postPaymentMethodsRequestBodyBillingDetails'Address'City obj) : (Data.Aeson..=) "country" (postPaymentMethodsRequestBodyBillingDetails'Address'Country obj) : (Data.Aeson..=) "line1" (postPaymentMethodsRequestBodyBillingDetails'Address'Line1 obj) : (Data.Aeson..=) "line2" (postPaymentMethodsRequestBodyBillingDetails'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postPaymentMethodsRequestBodyBillingDetails'Address'PostalCode obj) : (Data.Aeson..=) "state" (postPaymentMethodsRequestBodyBillingDetails'Address'State obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postPaymentMethodsRequestBodyBillingDetails'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postPaymentMethodsRequestBodyBillingDetails'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postPaymentMethodsRequestBodyBillingDetails'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postPaymentMethodsRequestBodyBillingDetails'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postPaymentMethodsRequestBodyBillingDetails'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postPaymentMethodsRequestBodyBillingDetails'Address'State obj))))))
 
@@ -241,7 +240,7 @@ data PostPaymentMethodsRequestBodyCard'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodyCard' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyCard' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "cvc" (postPaymentMethodsRequestBodyCard'Cvc obj) : (Data.Aeson..=) "exp_month" (postPaymentMethodsRequestBodyCard'ExpMonth obj) : (Data.Aeson..=) "exp_year" (postPaymentMethodsRequestBodyCard'ExpYear obj) : (Data.Aeson..=) "number" (postPaymentMethodsRequestBodyCard'Number obj) : (Data.Aeson..=) "token" (postPaymentMethodsRequestBodyCard'Token obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "cvc" (postPaymentMethodsRequestBodyCard'Cvc obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (postPaymentMethodsRequestBodyCard'ExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (postPaymentMethodsRequestBodyCard'ExpYear obj) GHC.Base.<> ((Data.Aeson..=) "number" (postPaymentMethodsRequestBodyCard'Number obj) GHC.Base.<> (Data.Aeson..=) "token" (postPaymentMethodsRequestBodyCard'Token obj)))))
 
@@ -265,7 +264,7 @@ data PostPaymentMethodsRequestBodyFpx'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodyFpx' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyFpx' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank" (postPaymentMethodsRequestBodyFpx'Bank obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank" (postPaymentMethodsRequestBodyFpx'Bank obj))
 
@@ -298,93 +297,54 @@ data PostPaymentMethodsRequestBodyFpx'Bank'
   | PostPaymentMethodsRequestBodyFpx'Bank'EnumStringUob
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodyFpx'Bank' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyFpx'Bank' where
   toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAffinBank) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "affin_bank"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAllianceBank) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "alliance_bank"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAmbank) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ambank"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBankIslam) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_islam"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBankMuamalat) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_muamalat"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBankRakyat) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_rakyat"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBsn) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bsn"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringCimb) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "cimb"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringDeutscheBank) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "deutsche_bank"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringHongLeongBank) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "hong_leong_bank"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringHsbc) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "hsbc"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringKfh) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "kfh"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringMaybank2e) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "maybank2e"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringMaybank2u) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "maybank2u"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringOcbc) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ocbc"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringPbEnterprise) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pb_enterprise"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringPublicBank) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "public_bank"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringRhb) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "rhb"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringStandardChartered) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "standard_chartered"
-  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringUob) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "uob"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAffinBank) = "affin_bank"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAllianceBank) = "alliance_bank"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAmbank) = "ambank"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBankIslam) = "bank_islam"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBankMuamalat) = "bank_muamalat"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBankRakyat) = "bank_rakyat"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBsn) = "bsn"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringCimb) = "cimb"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringDeutscheBank) = "deutsche_bank"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringHongLeongBank) = "hong_leong_bank"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringHsbc) = "hsbc"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringKfh) = "kfh"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringMaybank2e) = "maybank2e"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringMaybank2u) = "maybank2u"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringOcbc) = "ocbc"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringPbEnterprise) = "pb_enterprise"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringPublicBank) = "public_bank"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringRhb) = "rhb"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringStandardChartered) = "standard_chartered"
+  toJSON (PostPaymentMethodsRequestBodyFpx'Bank'EnumStringUob) = "uob"
 
-instance Data.Aeson.FromJSON PostPaymentMethodsRequestBodyFpx'Bank' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyFpx'Bank' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "affin_bank")
-          then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAffinBank
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "alliance_bank")
-              then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAllianceBank
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ambank")
-                  then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAmbank
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_islam")
-                      then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBankIslam
-                      else
-                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_muamalat")
-                          then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBankMuamalat
-                          else
-                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_rakyat")
-                              then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBankRakyat
-                              else
-                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bsn")
-                                  then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBsn
-                                  else
-                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "cimb")
-                                      then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringCimb
-                                      else
-                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "deutsche_bank")
-                                          then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringDeutscheBank
-                                          else
-                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "hong_leong_bank")
-                                              then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringHongLeongBank
-                                              else
-                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "hsbc")
-                                                  then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringHsbc
-                                                  else
-                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "kfh")
-                                                      then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringKfh
-                                                      else
-                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "maybank2e")
-                                                          then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringMaybank2e
-                                                          else
-                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "maybank2u")
-                                                              then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringMaybank2u
-                                                              else
-                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ocbc")
-                                                                  then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringOcbc
-                                                                  else
-                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pb_enterprise")
-                                                                      then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringPbEnterprise
-                                                                      else
-                                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "public_bank")
-                                                                          then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringPublicBank
-                                                                          else
-                                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "rhb")
-                                                                              then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringRhb
-                                                                              else
-                                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "standard_chartered")
-                                                                                  then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringStandardChartered
-                                                                                  else
-                                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "uob")
-                                                                                      then PostPaymentMethodsRequestBodyFpx'Bank'EnumStringUob
-                                                                                      else PostPaymentMethodsRequestBodyFpx'Bank'EnumOther val
+      ( if  | val GHC.Classes.== "affin_bank" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAffinBank
+            | val GHC.Classes.== "alliance_bank" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAllianceBank
+            | val GHC.Classes.== "ambank" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringAmbank
+            | val GHC.Classes.== "bank_islam" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBankIslam
+            | val GHC.Classes.== "bank_muamalat" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBankMuamalat
+            | val GHC.Classes.== "bank_rakyat" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBankRakyat
+            | val GHC.Classes.== "bsn" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringBsn
+            | val GHC.Classes.== "cimb" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringCimb
+            | val GHC.Classes.== "deutsche_bank" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringDeutscheBank
+            | val GHC.Classes.== "hong_leong_bank" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringHongLeongBank
+            | val GHC.Classes.== "hsbc" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringHsbc
+            | val GHC.Classes.== "kfh" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringKfh
+            | val GHC.Classes.== "maybank2e" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringMaybank2e
+            | val GHC.Classes.== "maybank2u" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringMaybank2u
+            | val GHC.Classes.== "ocbc" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringOcbc
+            | val GHC.Classes.== "pb_enterprise" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringPbEnterprise
+            | val GHC.Classes.== "public_bank" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringPublicBank
+            | val GHC.Classes.== "rhb" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringRhb
+            | val GHC.Classes.== "standard_chartered" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringStandardChartered
+            | val GHC.Classes.== "uob" -> PostPaymentMethodsRequestBodyFpx'Bank'EnumStringUob
+            | GHC.Base.otherwise -> PostPaymentMethodsRequestBodyFpx'Bank'EnumOther val
       )
 
 -- | Defines the data type for the schema postPaymentMethodsRequestBodyIdeal\'
@@ -404,7 +364,7 @@ data PostPaymentMethodsRequestBodyIdeal'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodyIdeal' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyIdeal' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank" (postPaymentMethodsRequestBodyIdeal'Bank obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank" (postPaymentMethodsRequestBodyIdeal'Bank obj))
 
@@ -429,61 +389,38 @@ data PostPaymentMethodsRequestBodyIdeal'Bank'
   | PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringVanLanschot
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodyIdeal'Bank' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyIdeal'Bank' where
   toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringAbnAmro) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "abn_amro"
-  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringAsnBank) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "asn_bank"
-  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringBunq) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bunq"
-  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringHandelsbanken) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "handelsbanken"
-  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringIng) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ing"
-  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringKnab) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "knab"
-  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringMoneyou) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "moneyou"
-  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringRabobank) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "rabobank"
-  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringRegiobank) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "regiobank"
-  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringSnsBank) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sns_bank"
-  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringTriodosBank) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "triodos_bank"
-  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringVanLanschot) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "van_lanschot"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringAbnAmro) = "abn_amro"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringAsnBank) = "asn_bank"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringBunq) = "bunq"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringHandelsbanken) = "handelsbanken"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringIng) = "ing"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringKnab) = "knab"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringMoneyou) = "moneyou"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringRabobank) = "rabobank"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringRegiobank) = "regiobank"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringSnsBank) = "sns_bank"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringTriodosBank) = "triodos_bank"
+  toJSON (PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringVanLanschot) = "van_lanschot"
 
-instance Data.Aeson.FromJSON PostPaymentMethodsRequestBodyIdeal'Bank' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyIdeal'Bank' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "abn_amro")
-          then PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringAbnAmro
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "asn_bank")
-              then PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringAsnBank
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bunq")
-                  then PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringBunq
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "handelsbanken")
-                      then PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringHandelsbanken
-                      else
-                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ing")
-                          then PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringIng
-                          else
-                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "knab")
-                              then PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringKnab
-                              else
-                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "moneyou")
-                                  then PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringMoneyou
-                                  else
-                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "rabobank")
-                                      then PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringRabobank
-                                      else
-                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "regiobank")
-                                          then PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringRegiobank
-                                          else
-                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sns_bank")
-                                              then PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringSnsBank
-                                              else
-                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "triodos_bank")
-                                                  then PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringTriodosBank
-                                                  else
-                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "van_lanschot")
-                                                      then PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringVanLanschot
-                                                      else PostPaymentMethodsRequestBodyIdeal'Bank'EnumOther val
+      ( if  | val GHC.Classes.== "abn_amro" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringAbnAmro
+            | val GHC.Classes.== "asn_bank" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringAsnBank
+            | val GHC.Classes.== "bunq" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringBunq
+            | val GHC.Classes.== "handelsbanken" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringHandelsbanken
+            | val GHC.Classes.== "ing" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringIng
+            | val GHC.Classes.== "knab" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringKnab
+            | val GHC.Classes.== "moneyou" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringMoneyou
+            | val GHC.Classes.== "rabobank" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringRabobank
+            | val GHC.Classes.== "regiobank" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringRegiobank
+            | val GHC.Classes.== "sns_bank" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringSnsBank
+            | val GHC.Classes.== "triodos_bank" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringTriodosBank
+            | val GHC.Classes.== "van_lanschot" -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumStringVanLanschot
+            | GHC.Base.otherwise -> PostPaymentMethodsRequestBodyIdeal'Bank'EnumOther val
       )
 
 -- | Defines the data type for the schema postPaymentMethodsRequestBodySepa_debit\'
@@ -503,7 +440,7 @@ data PostPaymentMethodsRequestBodySepaDebit'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodySepaDebit' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodySepaDebit' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "iban" (postPaymentMethodsRequestBodySepaDebit'Iban obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "iban" (postPaymentMethodsRequestBodySepaDebit'Iban obj))
 
@@ -522,29 +459,22 @@ data PostPaymentMethodsRequestBodyType'
   | PostPaymentMethodsRequestBodyType'EnumStringSepaDebit
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostPaymentMethodsRequestBodyType' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostPaymentMethodsRequestBodyType' where
   toJSON (PostPaymentMethodsRequestBodyType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostPaymentMethodsRequestBodyType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostPaymentMethodsRequestBodyType'EnumStringCard) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card"
-  toJSON (PostPaymentMethodsRequestBodyType'EnumStringFpx) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fpx"
-  toJSON (PostPaymentMethodsRequestBodyType'EnumStringIdeal) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ideal"
-  toJSON (PostPaymentMethodsRequestBodyType'EnumStringSepaDebit) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sepa_debit"
+  toJSON (PostPaymentMethodsRequestBodyType'EnumStringCard) = "card"
+  toJSON (PostPaymentMethodsRequestBodyType'EnumStringFpx) = "fpx"
+  toJSON (PostPaymentMethodsRequestBodyType'EnumStringIdeal) = "ideal"
+  toJSON (PostPaymentMethodsRequestBodyType'EnumStringSepaDebit) = "sepa_debit"
 
-instance Data.Aeson.FromJSON PostPaymentMethodsRequestBodyType' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostPaymentMethodsRequestBodyType' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card")
-          then PostPaymentMethodsRequestBodyType'EnumStringCard
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fpx")
-              then PostPaymentMethodsRequestBodyType'EnumStringFpx
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ideal")
-                  then PostPaymentMethodsRequestBodyType'EnumStringIdeal
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sepa_debit")
-                      then PostPaymentMethodsRequestBodyType'EnumStringSepaDebit
-                      else PostPaymentMethodsRequestBodyType'EnumOther val
+      ( if  | val GHC.Classes.== "card" -> PostPaymentMethodsRequestBodyType'EnumStringCard
+            | val GHC.Classes.== "fpx" -> PostPaymentMethodsRequestBodyType'EnumStringFpx
+            | val GHC.Classes.== "ideal" -> PostPaymentMethodsRequestBodyType'EnumStringIdeal
+            | val GHC.Classes.== "sepa_debit" -> PostPaymentMethodsRequestBodyType'EnumStringSepaDebit
+            | GHC.Base.otherwise -> PostPaymentMethodsRequestBodyType'EnumOther val
       )
 
 -- | Represents a response of the operation 'postPaymentMethods'.
@@ -558,71 +488,3 @@ data PostPaymentMethodsResponse
   | -- | Error response.
     PostPaymentMethodsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/payment_methods
---
--- The same as 'postPaymentMethods' but accepts an explicit configuration.
-postPaymentMethodsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostPaymentMethodsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostPaymentMethodsResponse)
-postPaymentMethodsWithConfiguration
-  config
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostPaymentMethodsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPaymentMethodsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              PaymentMethod
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostPaymentMethodsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_methods") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/payment_methods
---
--- The same as 'postPaymentMethods' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postPaymentMethodsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The request body to send
-  GHC.Maybe.Maybe PostPaymentMethodsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postPaymentMethodsRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_methods") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/payment_methods
---
--- The same as 'postPaymentMethods' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postPaymentMethodsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostPaymentMethodsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postPaymentMethodsWithConfigurationRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/payment_methods") [] body StripeAPI.Common.RequestBodyEncodingFormData)

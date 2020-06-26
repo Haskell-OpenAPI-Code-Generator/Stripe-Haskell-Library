@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getBalanceHistory
 module StripeAPI.Operations.GetBalanceHistory where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -116,7 +115,7 @@ data GetBalanceHistoryParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getBalanceHistoryParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getBalanceHistoryParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -159,7 +158,7 @@ data GetBalanceHistoryParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetBalanceHistoryParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryAvailable_on" (getBalanceHistoryParametersQueryAvailableOn obj) : (Data.Aeson..=) "queryCreated" (getBalanceHistoryParametersQueryCreated obj) : (Data.Aeson..=) "queryCurrency" (getBalanceHistoryParametersQueryCurrency obj) : (Data.Aeson..=) "queryEnding_before" (getBalanceHistoryParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getBalanceHistoryParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getBalanceHistoryParametersQueryLimit obj) : (Data.Aeson..=) "queryPayout" (getBalanceHistoryParametersQueryPayout obj) : (Data.Aeson..=) "querySource" (getBalanceHistoryParametersQuerySource obj) : (Data.Aeson..=) "queryStarting_after" (getBalanceHistoryParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryType" (getBalanceHistoryParametersQueryType obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryAvailable_on" (getBalanceHistoryParametersQueryAvailableOn obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getBalanceHistoryParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryCurrency" (getBalanceHistoryParametersQueryCurrency obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getBalanceHistoryParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getBalanceHistoryParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getBalanceHistoryParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryPayout" (getBalanceHistoryParametersQueryPayout obj) GHC.Base.<> ((Data.Aeson..=) "querySource" (getBalanceHistoryParametersQuerySource obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getBalanceHistoryParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryType" (getBalanceHistoryParametersQueryType obj))))))))))
 
@@ -183,7 +182,7 @@ data GetBalanceHistoryParametersQueryAvailableOn'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetBalanceHistoryParametersQueryAvailableOn'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryParametersQueryAvailableOn'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getBalanceHistoryParametersQueryAvailableOn'OneOf2Lte obj))))
 
@@ -196,13 +195,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceHistoryParametersQueryAvai
 data GetBalanceHistoryParametersQueryAvailableOn'Variants
   = GetBalanceHistoryParametersQueryAvailableOn'Int GHC.Types.Int
   | GetBalanceHistoryParametersQueryAvailableOn'GetBalanceHistoryParametersQueryAvailableOn'OneOf2 GetBalanceHistoryParametersQueryAvailableOn'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetBalanceHistoryParametersQueryAvailableOn'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryParametersQueryAvailableOn'Variants where
+  toJSON (GetBalanceHistoryParametersQueryAvailableOn'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetBalanceHistoryParametersQueryAvailableOn'GetBalanceHistoryParametersQueryAvailableOn'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetBalanceHistoryParametersQueryAvailableOn'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceHistoryParametersQueryAvailableOn'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetBalanceHistoryParametersQueryAvailableOn'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetBalanceHistoryParametersQueryAvailableOn'GetBalanceHistoryParametersQueryAvailableOn'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the data type for the schema getBalanceHistoryParametersQueryCreated\'OneOf2
 data GetBalanceHistoryParametersQueryCreated'OneOf2
@@ -221,7 +225,7 @@ data GetBalanceHistoryParametersQueryCreated'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetBalanceHistoryParametersQueryCreated'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryParametersQueryCreated'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getBalanceHistoryParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getBalanceHistoryParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getBalanceHistoryParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getBalanceHistoryParametersQueryCreated'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getBalanceHistoryParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getBalanceHistoryParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getBalanceHistoryParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getBalanceHistoryParametersQueryCreated'OneOf2Lte obj))))
 
@@ -234,13 +238,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceHistoryParametersQueryCrea
 data GetBalanceHistoryParametersQueryCreated'Variants
   = GetBalanceHistoryParametersQueryCreated'Int GHC.Types.Int
   | GetBalanceHistoryParametersQueryCreated'GetBalanceHistoryParametersQueryCreated'OneOf2 GetBalanceHistoryParametersQueryCreated'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetBalanceHistoryParametersQueryCreated'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryParametersQueryCreated'Variants where
+  toJSON (GetBalanceHistoryParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetBalanceHistoryParametersQueryCreated'GetBalanceHistoryParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetBalanceHistoryParametersQueryCreated'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceHistoryParametersQueryCreated'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetBalanceHistoryParametersQueryCreated'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetBalanceHistoryParametersQueryCreated'GetBalanceHistoryParametersQueryCreated'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getBalanceHistory'.
 --
@@ -258,7 +267,7 @@ data GetBalanceHistoryResponse
 data GetBalanceHistoryResponseBody200
   = GetBalanceHistoryResponseBody200
       { -- | data
-        getBalanceHistoryResponseBody200Data :: ([] BalanceTransaction),
+        getBalanceHistoryResponseBody200Data :: ([BalanceTransaction]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getBalanceHistoryResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -276,7 +285,7 @@ data GetBalanceHistoryResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetBalanceHistoryResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getBalanceHistoryResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getBalanceHistoryResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getBalanceHistoryResponseBody200Object obj) : (Data.Aeson..=) "url" (getBalanceHistoryResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getBalanceHistoryResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getBalanceHistoryResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getBalanceHistoryResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getBalanceHistoryResponseBody200Url obj))))
 
@@ -292,131 +301,14 @@ data GetBalanceHistoryResponseBody200Object'
   | GetBalanceHistoryResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetBalanceHistoryResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetBalanceHistoryResponseBody200Object' where
   toJSON (GetBalanceHistoryResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetBalanceHistoryResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetBalanceHistoryResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetBalanceHistoryResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetBalanceHistoryResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetBalanceHistoryResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetBalanceHistoryResponseBody200Object'EnumStringList
-          else GetBalanceHistoryResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/balance/history
---
--- The same as 'getBalanceHistory' but accepts an explicit configuration.
-getBalanceHistoryWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetBalanceHistoryParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetBalanceHistoryResponse)
-getBalanceHistoryWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetBalanceHistoryResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetBalanceHistoryResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetBalanceHistoryResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetBalanceHistoryResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/balance/history")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "available_on") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryAvailableOn parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "currency") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryCurrency parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "payout") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryPayout parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "source") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQuerySource parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/balance/history
---
--- The same as 'getBalanceHistory' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getBalanceHistoryRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetBalanceHistoryParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getBalanceHistoryRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/balance/history")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "available_on") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryAvailableOn parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "currency") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryCurrency parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "payout") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryPayout parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "source") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQuerySource parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/balance/history
---
--- The same as 'getBalanceHistory' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getBalanceHistoryWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetBalanceHistoryParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getBalanceHistoryWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/balance/history")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "available_on") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryAvailableOn parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "currency") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryCurrency parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "payout") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryPayout parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "source") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQuerySource parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getBalanceHistoryParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetBalanceHistoryResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetBalanceHistoryResponseBody200Object'EnumOther val
       )

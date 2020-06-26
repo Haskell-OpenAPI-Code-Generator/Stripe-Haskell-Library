@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getCustomersCustomerBankAccounts
 module StripeAPI.Operations.GetCustomersCustomerBankAccounts where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -102,7 +101,7 @@ data GetCustomersCustomerBankAccountsParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getCustomersCustomerBankAccountsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getCustomersCustomerBankAccountsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -117,7 +116,7 @@ data GetCustomersCustomerBankAccountsParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetCustomersCustomerBankAccountsParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerBankAccountsParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerBankAccountsParametersPathCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getCustomersCustomerBankAccountsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getCustomersCustomerBankAccountsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getCustomersCustomerBankAccountsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerBankAccountsParametersQueryStartingAfter obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerBankAccountsParametersPathCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getCustomersCustomerBankAccountsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getCustomersCustomerBankAccountsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getCustomersCustomerBankAccountsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getCustomersCustomerBankAccountsParametersQueryStartingAfter obj)))))
 
@@ -140,7 +139,7 @@ data GetCustomersCustomerBankAccountsResponse
 data GetCustomersCustomerBankAccountsResponseBody200
   = GetCustomersCustomerBankAccountsResponseBody200
       { -- | data: Details about each object.
-        getCustomersCustomerBankAccountsResponseBody200Data :: ([] BankAccount),
+        getCustomersCustomerBankAccountsResponseBody200Data :: ([BankAccount]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getCustomersCustomerBankAccountsResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -157,7 +156,7 @@ data GetCustomersCustomerBankAccountsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetCustomersCustomerBankAccountsResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerBankAccountsResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCustomersCustomerBankAccountsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCustomersCustomerBankAccountsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCustomersCustomerBankAccountsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCustomersCustomerBankAccountsResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCustomersCustomerBankAccountsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCustomersCustomerBankAccountsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCustomersCustomerBankAccountsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCustomersCustomerBankAccountsResponseBody200Url obj))))
 
@@ -173,113 +172,14 @@ data GetCustomersCustomerBankAccountsResponseBody200Object'
   | GetCustomersCustomerBankAccountsResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetCustomersCustomerBankAccountsResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerBankAccountsResponseBody200Object' where
   toJSON (GetCustomersCustomerBankAccountsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetCustomersCustomerBankAccountsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCustomersCustomerBankAccountsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetCustomersCustomerBankAccountsResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetCustomersCustomerBankAccountsResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetCustomersCustomerBankAccountsResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetCustomersCustomerBankAccountsResponseBody200Object'EnumStringList
-          else GetCustomersCustomerBankAccountsResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/customers/{customer}/bank_accounts
---
--- The same as 'getCustomersCustomerBankAccounts' but accepts an explicit configuration.
-getCustomersCustomerBankAccountsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCustomersCustomerBankAccountsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetCustomersCustomerBankAccountsResponse)
-getCustomersCustomerBankAccountsWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetCustomersCustomerBankAccountsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetCustomersCustomerBankAccountsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetCustomersCustomerBankAccountsResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetCustomersCustomerBankAccountsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerBankAccountsParametersPathCustomer parameters))) GHC.Base.++ "/bank_accounts")))
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerBankAccountsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerBankAccountsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerBankAccountsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerBankAccountsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/customers/{customer}/bank_accounts
---
--- The same as 'getCustomersCustomerBankAccounts' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getCustomersCustomerBankAccountsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCustomersCustomerBankAccountsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getCustomersCustomerBankAccountsRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerBankAccountsParametersPathCustomer parameters))) GHC.Base.++ "/bank_accounts")))
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerBankAccountsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerBankAccountsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerBankAccountsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerBankAccountsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/customers/{customer}/bank_accounts
---
--- The same as 'getCustomersCustomerBankAccounts' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getCustomersCustomerBankAccountsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCustomersCustomerBankAccountsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getCustomersCustomerBankAccountsWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerBankAccountsParametersPathCustomer parameters))) GHC.Base.++ "/bank_accounts")))
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerBankAccountsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerBankAccountsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerBankAccountsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerBankAccountsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetCustomersCustomerBankAccountsResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetCustomersCustomerBankAccountsResponseBody200Object'EnumOther val
       )

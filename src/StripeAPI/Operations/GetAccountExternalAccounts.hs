@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getAccountExternalAccounts
 module StripeAPI.Operations.GetAccountExternalAccounts where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -96,7 +95,7 @@ data GetAccountExternalAccountsParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getAccountExternalAccountsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getAccountExternalAccountsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -111,7 +110,7 @@ data GetAccountExternalAccountsParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetAccountExternalAccountsParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetAccountExternalAccountsParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryEnding_before" (getAccountExternalAccountsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getAccountExternalAccountsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getAccountExternalAccountsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getAccountExternalAccountsParametersQueryStartingAfter obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryEnding_before" (getAccountExternalAccountsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getAccountExternalAccountsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getAccountExternalAccountsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getAccountExternalAccountsParametersQueryStartingAfter obj))))
 
@@ -134,7 +133,7 @@ data GetAccountExternalAccountsResponse
 data GetAccountExternalAccountsResponseBody200
   = GetAccountExternalAccountsResponseBody200
       { -- | data: The list contains all external accounts that have been attached to the Stripe account. These may be bank accounts or cards.
-        getAccountExternalAccountsResponseBody200Data :: ([] GetAccountExternalAccountsResponseBody200Data'),
+        getAccountExternalAccountsResponseBody200Data :: ([GetAccountExternalAccountsResponseBody200Data']),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getAccountExternalAccountsResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -151,7 +150,7 @@ data GetAccountExternalAccountsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetAccountExternalAccountsResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetAccountExternalAccountsResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getAccountExternalAccountsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getAccountExternalAccountsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getAccountExternalAccountsResponseBody200Object obj) : (Data.Aeson..=) "url" (getAccountExternalAccountsResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getAccountExternalAccountsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getAccountExternalAccountsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getAccountExternalAccountsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getAccountExternalAccountsResponseBody200Url obj))))
 
@@ -224,7 +223,7 @@ data GetAccountExternalAccountsResponseBody200Data'
         -- * Maximum length of 5000
         getAccountExternalAccountsResponseBody200Data'AddressZipCheck :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | available_payout_methods: A set of available payout methods for this card. Will be either \`[\"standard\"]\` or \`[\"standard\", \"instant\"]\`. Only values from this set should be passed as the \`method\` when creating a transfer.
-        getAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods :: (GHC.Maybe.Maybe ([] GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods')),
+        getAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods :: (GHC.Maybe.Maybe ([GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'])),
         -- | bank_name: Name of the bank associated with the routing number (e.g., \`WELLS FARGO\`).
         --
         -- Constraints:
@@ -327,7 +326,7 @@ data GetAccountExternalAccountsResponseBody200Data'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetAccountExternalAccountsResponseBody200Data' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetAccountExternalAccountsResponseBody200Data' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (getAccountExternalAccountsResponseBody200Data'Account obj) : (Data.Aeson..=) "account_holder_name" (getAccountExternalAccountsResponseBody200Data'AccountHolderName obj) : (Data.Aeson..=) "account_holder_type" (getAccountExternalAccountsResponseBody200Data'AccountHolderType obj) : (Data.Aeson..=) "address_city" (getAccountExternalAccountsResponseBody200Data'AddressCity obj) : (Data.Aeson..=) "address_country" (getAccountExternalAccountsResponseBody200Data'AddressCountry obj) : (Data.Aeson..=) "address_line1" (getAccountExternalAccountsResponseBody200Data'AddressLine1 obj) : (Data.Aeson..=) "address_line1_check" (getAccountExternalAccountsResponseBody200Data'AddressLine1Check obj) : (Data.Aeson..=) "address_line2" (getAccountExternalAccountsResponseBody200Data'AddressLine2 obj) : (Data.Aeson..=) "address_state" (getAccountExternalAccountsResponseBody200Data'AddressState obj) : (Data.Aeson..=) "address_zip" (getAccountExternalAccountsResponseBody200Data'AddressZip obj) : (Data.Aeson..=) "address_zip_check" (getAccountExternalAccountsResponseBody200Data'AddressZipCheck obj) : (Data.Aeson..=) "available_payout_methods" (getAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods obj) : (Data.Aeson..=) "bank_name" (getAccountExternalAccountsResponseBody200Data'BankName obj) : (Data.Aeson..=) "brand" (getAccountExternalAccountsResponseBody200Data'Brand obj) : (Data.Aeson..=) "country" (getAccountExternalAccountsResponseBody200Data'Country obj) : (Data.Aeson..=) "currency" (getAccountExternalAccountsResponseBody200Data'Currency obj) : (Data.Aeson..=) "customer" (getAccountExternalAccountsResponseBody200Data'Customer obj) : (Data.Aeson..=) "cvc_check" (getAccountExternalAccountsResponseBody200Data'CvcCheck obj) : (Data.Aeson..=) "default_for_currency" (getAccountExternalAccountsResponseBody200Data'DefaultForCurrency obj) : (Data.Aeson..=) "dynamic_last4" (getAccountExternalAccountsResponseBody200Data'DynamicLast4 obj) : (Data.Aeson..=) "exp_month" (getAccountExternalAccountsResponseBody200Data'ExpMonth obj) : (Data.Aeson..=) "exp_year" (getAccountExternalAccountsResponseBody200Data'ExpYear obj) : (Data.Aeson..=) "fingerprint" (getAccountExternalAccountsResponseBody200Data'Fingerprint obj) : (Data.Aeson..=) "funding" (getAccountExternalAccountsResponseBody200Data'Funding obj) : (Data.Aeson..=) "id" (getAccountExternalAccountsResponseBody200Data'Id obj) : (Data.Aeson..=) "last4" (getAccountExternalAccountsResponseBody200Data'Last4 obj) : (Data.Aeson..=) "metadata" (getAccountExternalAccountsResponseBody200Data'Metadata obj) : (Data.Aeson..=) "name" (getAccountExternalAccountsResponseBody200Data'Name obj) : (Data.Aeson..=) "object" (getAccountExternalAccountsResponseBody200Data'Object obj) : (Data.Aeson..=) "recipient" (getAccountExternalAccountsResponseBody200Data'Recipient obj) : (Data.Aeson..=) "routing_number" (getAccountExternalAccountsResponseBody200Data'RoutingNumber obj) : (Data.Aeson..=) "status" (getAccountExternalAccountsResponseBody200Data'Status obj) : (Data.Aeson..=) "tokenization_method" (getAccountExternalAccountsResponseBody200Data'TokenizationMethod obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (getAccountExternalAccountsResponseBody200Data'Account obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_name" (getAccountExternalAccountsResponseBody200Data'AccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_type" (getAccountExternalAccountsResponseBody200Data'AccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "address_city" (getAccountExternalAccountsResponseBody200Data'AddressCity obj) GHC.Base.<> ((Data.Aeson..=) "address_country" (getAccountExternalAccountsResponseBody200Data'AddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "address_line1" (getAccountExternalAccountsResponseBody200Data'AddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "address_line1_check" (getAccountExternalAccountsResponseBody200Data'AddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_line2" (getAccountExternalAccountsResponseBody200Data'AddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "address_state" (getAccountExternalAccountsResponseBody200Data'AddressState obj) GHC.Base.<> ((Data.Aeson..=) "address_zip" (getAccountExternalAccountsResponseBody200Data'AddressZip obj) GHC.Base.<> ((Data.Aeson..=) "address_zip_check" (getAccountExternalAccountsResponseBody200Data'AddressZipCheck obj) GHC.Base.<> ((Data.Aeson..=) "available_payout_methods" (getAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (getAccountExternalAccountsResponseBody200Data'BankName obj) GHC.Base.<> ((Data.Aeson..=) "brand" (getAccountExternalAccountsResponseBody200Data'Brand obj) GHC.Base.<> ((Data.Aeson..=) "country" (getAccountExternalAccountsResponseBody200Data'Country obj) GHC.Base.<> ((Data.Aeson..=) "currency" (getAccountExternalAccountsResponseBody200Data'Currency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (getAccountExternalAccountsResponseBody200Data'Customer obj) GHC.Base.<> ((Data.Aeson..=) "cvc_check" (getAccountExternalAccountsResponseBody200Data'CvcCheck obj) GHC.Base.<> ((Data.Aeson..=) "default_for_currency" (getAccountExternalAccountsResponseBody200Data'DefaultForCurrency obj) GHC.Base.<> ((Data.Aeson..=) "dynamic_last4" (getAccountExternalAccountsResponseBody200Data'DynamicLast4 obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (getAccountExternalAccountsResponseBody200Data'ExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (getAccountExternalAccountsResponseBody200Data'ExpYear obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (getAccountExternalAccountsResponseBody200Data'Fingerprint obj) GHC.Base.<> ((Data.Aeson..=) "funding" (getAccountExternalAccountsResponseBody200Data'Funding obj) GHC.Base.<> ((Data.Aeson..=) "id" (getAccountExternalAccountsResponseBody200Data'Id obj) GHC.Base.<> ((Data.Aeson..=) "last4" (getAccountExternalAccountsResponseBody200Data'Last4 obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (getAccountExternalAccountsResponseBody200Data'Metadata obj) GHC.Base.<> ((Data.Aeson..=) "name" (getAccountExternalAccountsResponseBody200Data'Name obj) GHC.Base.<> ((Data.Aeson..=) "object" (getAccountExternalAccountsResponseBody200Data'Object obj) GHC.Base.<> ((Data.Aeson..=) "recipient" (getAccountExternalAccountsResponseBody200Data'Recipient obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (getAccountExternalAccountsResponseBody200Data'RoutingNumber obj) GHC.Base.<> ((Data.Aeson..=) "status" (getAccountExternalAccountsResponseBody200Data'Status obj) GHC.Base.<> (Data.Aeson..=) "tokenization_method" (getAccountExternalAccountsResponseBody200Data'TokenizationMethod obj)))))))))))))))))))))))))))))))))
 
@@ -340,13 +339,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetAccountExternalAccountsResponseBo
 data GetAccountExternalAccountsResponseBody200Data'Account'Variants
   = GetAccountExternalAccountsResponseBody200Data'Account'Account Account
   | GetAccountExternalAccountsResponseBody200Data'Account'Text Data.Text.Internal.Text
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetAccountExternalAccountsResponseBody200Data'Account'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetAccountExternalAccountsResponseBody200Data'Account'Variants where
+  toJSON (GetAccountExternalAccountsResponseBody200Data'Account'Account a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetAccountExternalAccountsResponseBody200Data'Account'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetAccountExternalAccountsResponseBody200Data'Account'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetAccountExternalAccountsResponseBody200Data'Account'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetAccountExternalAccountsResponseBody200Data'Account'Account a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetAccountExternalAccountsResponseBody200Data'Account'Text a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema GetAccountExternalAccountsResponseBody200Data\'Available_payout_methods\'
 data GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'
@@ -356,21 +360,18 @@ data GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'
   | GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumStringStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods' where
   toJSON (GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumStringInstant) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "instant"
-  toJSON (GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumStringStandard) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "standard"
+  toJSON (GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumStringInstant) = "instant"
+  toJSON (GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumStringStandard) = "standard"
 
-instance Data.Aeson.FromJSON GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "instant")
-          then GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumStringInstant
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "standard")
-              then GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumStringStandard
-              else GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumOther val
+      ( if  | val GHC.Classes.== "instant" -> GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumStringInstant
+            | val GHC.Classes.== "standard" -> GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumStringStandard
+            | GHC.Base.otherwise -> GetAccountExternalAccountsResponseBody200Data'AvailablePayoutMethods'EnumOther val
       )
 
 -- | Define the one-of schema GetAccountExternalAccountsResponseBody200Data\'Customer\'
@@ -380,13 +381,21 @@ data GetAccountExternalAccountsResponseBody200Data'Customer'Variants
   = GetAccountExternalAccountsResponseBody200Data'Customer'Customer Customer
   | GetAccountExternalAccountsResponseBody200Data'Customer'DeletedCustomer DeletedCustomer
   | GetAccountExternalAccountsResponseBody200Data'Customer'Text Data.Text.Internal.Text
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetAccountExternalAccountsResponseBody200Data'Customer'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetAccountExternalAccountsResponseBody200Data'Customer'Variants where
+  toJSON (GetAccountExternalAccountsResponseBody200Data'Customer'Customer a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetAccountExternalAccountsResponseBody200Data'Customer'DeletedCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetAccountExternalAccountsResponseBody200Data'Customer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetAccountExternalAccountsResponseBody200Data'Customer'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetAccountExternalAccountsResponseBody200Data'Customer'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetAccountExternalAccountsResponseBody200Data'Customer'Customer a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetAccountExternalAccountsResponseBody200Data'Customer'DeletedCustomer a
+      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetAccountExternalAccountsResponseBody200Data'Customer'Text a
+        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema GetAccountExternalAccountsResponseBody200Data\'Object\'
 --
@@ -397,17 +406,16 @@ data GetAccountExternalAccountsResponseBody200Data'Object'
   | GetAccountExternalAccountsResponseBody200Data'Object'EnumStringBankAccount
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetAccountExternalAccountsResponseBody200Data'Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetAccountExternalAccountsResponseBody200Data'Object' where
   toJSON (GetAccountExternalAccountsResponseBody200Data'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetAccountExternalAccountsResponseBody200Data'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetAccountExternalAccountsResponseBody200Data'Object'EnumStringBankAccount) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_account"
+  toJSON (GetAccountExternalAccountsResponseBody200Data'Object'EnumStringBankAccount) = "bank_account"
 
-instance Data.Aeson.FromJSON GetAccountExternalAccountsResponseBody200Data'Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetAccountExternalAccountsResponseBody200Data'Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_account")
-          then GetAccountExternalAccountsResponseBody200Data'Object'EnumStringBankAccount
-          else GetAccountExternalAccountsResponseBody200Data'Object'EnumOther val
+      ( if  | val GHC.Classes.== "bank_account" -> GetAccountExternalAccountsResponseBody200Data'Object'EnumStringBankAccount
+            | GHC.Base.otherwise -> GetAccountExternalAccountsResponseBody200Data'Object'EnumOther val
       )
 
 -- | Define the one-of schema GetAccountExternalAccountsResponseBody200Data\'Recipient\'
@@ -416,13 +424,18 @@ instance Data.Aeson.FromJSON GetAccountExternalAccountsResponseBody200Data'Objec
 data GetAccountExternalAccountsResponseBody200Data'Recipient'Variants
   = GetAccountExternalAccountsResponseBody200Data'Recipient'Recipient Recipient
   | GetAccountExternalAccountsResponseBody200Data'Recipient'Text Data.Text.Internal.Text
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetAccountExternalAccountsResponseBody200Data'Recipient'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetAccountExternalAccountsResponseBody200Data'Recipient'Variants where
+  toJSON (GetAccountExternalAccountsResponseBody200Data'Recipient'Recipient a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetAccountExternalAccountsResponseBody200Data'Recipient'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetAccountExternalAccountsResponseBody200Data'Recipient'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetAccountExternalAccountsResponseBody200Data'Recipient'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetAccountExternalAccountsResponseBody200Data'Recipient'Recipient a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetAccountExternalAccountsResponseBody200Data'Recipient'Text a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema GetAccountExternalAccountsResponseBody200Object\'
 --
@@ -433,113 +446,14 @@ data GetAccountExternalAccountsResponseBody200Object'
   | GetAccountExternalAccountsResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetAccountExternalAccountsResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetAccountExternalAccountsResponseBody200Object' where
   toJSON (GetAccountExternalAccountsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetAccountExternalAccountsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetAccountExternalAccountsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetAccountExternalAccountsResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetAccountExternalAccountsResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetAccountExternalAccountsResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetAccountExternalAccountsResponseBody200Object'EnumStringList
-          else GetAccountExternalAccountsResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/account/external_accounts
---
--- The same as 'getAccountExternalAccounts' but accepts an explicit configuration.
-getAccountExternalAccountsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetAccountExternalAccountsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetAccountExternalAccountsResponse)
-getAccountExternalAccountsWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetAccountExternalAccountsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetAccountExternalAccountsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetAccountExternalAccountsResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetAccountExternalAccountsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/account/external_accounts")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/account/external_accounts
---
--- The same as 'getAccountExternalAccounts' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getAccountExternalAccountsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetAccountExternalAccountsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getAccountExternalAccountsRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/account/external_accounts")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/account/external_accounts
---
--- The same as 'getAccountExternalAccounts' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getAccountExternalAccountsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetAccountExternalAccountsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getAccountExternalAccountsWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/account/external_accounts")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountExternalAccountsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetAccountExternalAccountsResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetAccountExternalAccountsResponseBody200Object'EnumOther val
       )

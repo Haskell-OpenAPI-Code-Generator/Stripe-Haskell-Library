@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getCheckoutSessions
 module StripeAPI.Operations.GetCheckoutSessions where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -102,7 +101,7 @@ data GetCheckoutSessionsParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getCheckoutSessionsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getCheckoutSessionsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -137,7 +136,7 @@ data GetCheckoutSessionsParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetCheckoutSessionsParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCheckoutSessionsParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryEnding_before" (getCheckoutSessionsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getCheckoutSessionsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getCheckoutSessionsParametersQueryLimit obj) : (Data.Aeson..=) "queryPayment_intent" (getCheckoutSessionsParametersQueryPaymentIntent obj) : (Data.Aeson..=) "queryStarting_after" (getCheckoutSessionsParametersQueryStartingAfter obj) : (Data.Aeson..=) "querySubscription" (getCheckoutSessionsParametersQuerySubscription obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryEnding_before" (getCheckoutSessionsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getCheckoutSessionsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getCheckoutSessionsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryPayment_intent" (getCheckoutSessionsParametersQueryPaymentIntent obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getCheckoutSessionsParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "querySubscription" (getCheckoutSessionsParametersQuerySubscription obj))))))
 
@@ -160,7 +159,7 @@ data GetCheckoutSessionsResponse
 data GetCheckoutSessionsResponseBody200
   = GetCheckoutSessionsResponseBody200
       { -- | data
-        getCheckoutSessionsResponseBody200Data :: ([] Checkout'session),
+        getCheckoutSessionsResponseBody200Data :: ([Checkout'session]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getCheckoutSessionsResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -177,7 +176,7 @@ data GetCheckoutSessionsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetCheckoutSessionsResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCheckoutSessionsResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCheckoutSessionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCheckoutSessionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCheckoutSessionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getCheckoutSessionsResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCheckoutSessionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCheckoutSessionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCheckoutSessionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCheckoutSessionsResponseBody200Url obj))))
 
@@ -193,119 +192,14 @@ data GetCheckoutSessionsResponseBody200Object'
   | GetCheckoutSessionsResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetCheckoutSessionsResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCheckoutSessionsResponseBody200Object' where
   toJSON (GetCheckoutSessionsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetCheckoutSessionsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCheckoutSessionsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetCheckoutSessionsResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetCheckoutSessionsResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetCheckoutSessionsResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetCheckoutSessionsResponseBody200Object'EnumStringList
-          else GetCheckoutSessionsResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/checkout/sessions
---
--- The same as 'getCheckoutSessions' but accepts an explicit configuration.
-getCheckoutSessionsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCheckoutSessionsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetCheckoutSessionsResponse)
-getCheckoutSessionsWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetCheckoutSessionsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetCheckoutSessionsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetCheckoutSessionsResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetCheckoutSessionsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/checkout/sessions")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "payment_intent") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryPaymentIntent parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQuerySubscription parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/checkout/sessions
---
--- The same as 'getCheckoutSessions' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getCheckoutSessionsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCheckoutSessionsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getCheckoutSessionsRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/checkout/sessions")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "payment_intent") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryPaymentIntent parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQuerySubscription parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/checkout/sessions
---
--- The same as 'getCheckoutSessions' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getCheckoutSessionsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCheckoutSessionsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getCheckoutSessionsWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/checkout/sessions")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "payment_intent") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryPaymentIntent parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCheckoutSessionsParametersQuerySubscription parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetCheckoutSessionsResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetCheckoutSessionsResponseBody200Object'EnumOther val
       )

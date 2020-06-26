@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getInvoicesUpcoming
 module StripeAPI.Operations.GetInvoicesUpcoming where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -127,11 +126,11 @@ data GetInvoicesUpcomingParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getInvoicesUpcomingParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getInvoicesUpcomingParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryInvoice_items: Represents the parameter named \'invoice_items\'
         --
         -- List of invoice items to add or update in the upcoming invoice preview.
-        getInvoicesUpcomingParametersQueryInvoiceItems :: (GHC.Maybe.Maybe ([] GetInvoicesUpcomingParametersQueryInvoiceItems')),
+        getInvoicesUpcomingParametersQueryInvoiceItems :: (GHC.Maybe.Maybe ([GetInvoicesUpcomingParametersQueryInvoiceItems'])),
         -- | querySchedule: Represents the parameter named \'schedule\'
         --
         -- The identifier of the unstarted schedule whose upcoming invoice you\'d like to retrieve. Cannot be used with subscription or subscription fields.
@@ -171,7 +170,7 @@ data GetInvoicesUpcomingParameters
         -- | querySubscription_items: Represents the parameter named \'subscription_items\'
         --
         -- List of subscription items, each with an attached plan.
-        getInvoicesUpcomingParametersQuerySubscriptionItems :: (GHC.Maybe.Maybe ([] GetInvoicesUpcomingParametersQuerySubscriptionItems')),
+        getInvoicesUpcomingParametersQuerySubscriptionItems :: (GHC.Maybe.Maybe ([GetInvoicesUpcomingParametersQuerySubscriptionItems'])),
         -- | querySubscription_prorate: Represents the parameter named \'subscription_prorate\'
         --
         -- If previewing an update to a subscription, this decides whether the preview will show the result of applying prorations or not. If set, one of \`subscription_items\` or \`subscription\`, and one of \`subscription_items\` or \`subscription_trial_end\` are required.
@@ -210,7 +209,7 @@ data GetInvoicesUpcomingParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCoupon" (getInvoicesUpcomingParametersQueryCoupon obj) : (Data.Aeson..=) "queryCustomer" (getInvoicesUpcomingParametersQueryCustomer obj) : (Data.Aeson..=) "queryExpand" (getInvoicesUpcomingParametersQueryExpand obj) : (Data.Aeson..=) "queryInvoice_items" (getInvoicesUpcomingParametersQueryInvoiceItems obj) : (Data.Aeson..=) "querySchedule" (getInvoicesUpcomingParametersQuerySchedule obj) : (Data.Aeson..=) "querySubscription" (getInvoicesUpcomingParametersQuerySubscription obj) : (Data.Aeson..=) "querySubscription_billing_cycle_anchor" (getInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor obj) : (Data.Aeson..=) "querySubscription_cancel_at" (getInvoicesUpcomingParametersQuerySubscriptionCancelAt obj) : (Data.Aeson..=) "querySubscription_cancel_at_period_end" (getInvoicesUpcomingParametersQuerySubscriptionCancelAtPeriodEnd obj) : (Data.Aeson..=) "querySubscription_cancel_now" (getInvoicesUpcomingParametersQuerySubscriptionCancelNow obj) : (Data.Aeson..=) "querySubscription_default_tax_rates" (getInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates obj) : (Data.Aeson..=) "querySubscription_items" (getInvoicesUpcomingParametersQuerySubscriptionItems obj) : (Data.Aeson..=) "querySubscription_prorate" (getInvoicesUpcomingParametersQuerySubscriptionProrate obj) : (Data.Aeson..=) "querySubscription_proration_behavior" (getInvoicesUpcomingParametersQuerySubscriptionProrationBehavior obj) : (Data.Aeson..=) "querySubscription_proration_date" (getInvoicesUpcomingParametersQuerySubscriptionProrationDate obj) : (Data.Aeson..=) "querySubscription_start_date" (getInvoicesUpcomingParametersQuerySubscriptionStartDate obj) : (Data.Aeson..=) "querySubscription_tax_percent" (getInvoicesUpcomingParametersQuerySubscriptionTaxPercent obj) : (Data.Aeson..=) "querySubscription_trial_end" (getInvoicesUpcomingParametersQuerySubscriptionTrialEnd obj) : (Data.Aeson..=) "querySubscription_trial_from_plan" (getInvoicesUpcomingParametersQuerySubscriptionTrialFromPlan obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCoupon" (getInvoicesUpcomingParametersQueryCoupon obj) GHC.Base.<> ((Data.Aeson..=) "queryCustomer" (getInvoicesUpcomingParametersQueryCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getInvoicesUpcomingParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryInvoice_items" (getInvoicesUpcomingParametersQueryInvoiceItems obj) GHC.Base.<> ((Data.Aeson..=) "querySchedule" (getInvoicesUpcomingParametersQuerySchedule obj) GHC.Base.<> ((Data.Aeson..=) "querySubscription" (getInvoicesUpcomingParametersQuerySubscription obj) GHC.Base.<> ((Data.Aeson..=) "querySubscription_billing_cycle_anchor" (getInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor obj) GHC.Base.<> ((Data.Aeson..=) "querySubscription_cancel_at" (getInvoicesUpcomingParametersQuerySubscriptionCancelAt obj) GHC.Base.<> ((Data.Aeson..=) "querySubscription_cancel_at_period_end" (getInvoicesUpcomingParametersQuerySubscriptionCancelAtPeriodEnd obj) GHC.Base.<> ((Data.Aeson..=) "querySubscription_cancel_now" (getInvoicesUpcomingParametersQuerySubscriptionCancelNow obj) GHC.Base.<> ((Data.Aeson..=) "querySubscription_default_tax_rates" (getInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates obj) GHC.Base.<> ((Data.Aeson..=) "querySubscription_items" (getInvoicesUpcomingParametersQuerySubscriptionItems obj) GHC.Base.<> ((Data.Aeson..=) "querySubscription_prorate" (getInvoicesUpcomingParametersQuerySubscriptionProrate obj) GHC.Base.<> ((Data.Aeson..=) "querySubscription_proration_behavior" (getInvoicesUpcomingParametersQuerySubscriptionProrationBehavior obj) GHC.Base.<> ((Data.Aeson..=) "querySubscription_proration_date" (getInvoicesUpcomingParametersQuerySubscriptionProrationDate obj) GHC.Base.<> ((Data.Aeson..=) "querySubscription_start_date" (getInvoicesUpcomingParametersQuerySubscriptionStartDate obj) GHC.Base.<> ((Data.Aeson..=) "querySubscription_tax_percent" (getInvoicesUpcomingParametersQuerySubscriptionTaxPercent obj) GHC.Base.<> ((Data.Aeson..=) "querySubscription_trial_end" (getInvoicesUpcomingParametersQuerySubscriptionTrialEnd obj) GHC.Base.<> (Data.Aeson..=) "querySubscription_trial_from_plan" (getInvoicesUpcomingParametersQuerySubscriptionTrialFromPlan obj)))))))))))))))))))
 
@@ -256,7 +255,7 @@ data GetInvoicesUpcomingParametersQueryInvoiceItems'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQueryInvoiceItems' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQueryInvoiceItems' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (getInvoicesUpcomingParametersQueryInvoiceItems'Amount obj) : (Data.Aeson..=) "currency" (getInvoicesUpcomingParametersQueryInvoiceItems'Currency obj) : (Data.Aeson..=) "description" (getInvoicesUpcomingParametersQueryInvoiceItems'Description obj) : (Data.Aeson..=) "discountable" (getInvoicesUpcomingParametersQueryInvoiceItems'Discountable obj) : (Data.Aeson..=) "invoiceitem" (getInvoicesUpcomingParametersQueryInvoiceItems'Invoiceitem obj) : (Data.Aeson..=) "metadata" (getInvoicesUpcomingParametersQueryInvoiceItems'Metadata obj) : (Data.Aeson..=) "period" (getInvoicesUpcomingParametersQueryInvoiceItems'Period obj) : (Data.Aeson..=) "quantity" (getInvoicesUpcomingParametersQueryInvoiceItems'Quantity obj) : (Data.Aeson..=) "tax_rates" (getInvoicesUpcomingParametersQueryInvoiceItems'TaxRates obj) : (Data.Aeson..=) "unit_amount" (getInvoicesUpcomingParametersQueryInvoiceItems'UnitAmount obj) : (Data.Aeson..=) "unit_amount_decimal" (getInvoicesUpcomingParametersQueryInvoiceItems'UnitAmountDecimal obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (getInvoicesUpcomingParametersQueryInvoiceItems'Amount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (getInvoicesUpcomingParametersQueryInvoiceItems'Currency obj) GHC.Base.<> ((Data.Aeson..=) "description" (getInvoicesUpcomingParametersQueryInvoiceItems'Description obj) GHC.Base.<> ((Data.Aeson..=) "discountable" (getInvoicesUpcomingParametersQueryInvoiceItems'Discountable obj) GHC.Base.<> ((Data.Aeson..=) "invoiceitem" (getInvoicesUpcomingParametersQueryInvoiceItems'Invoiceitem obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (getInvoicesUpcomingParametersQueryInvoiceItems'Metadata obj) GHC.Base.<> ((Data.Aeson..=) "period" (getInvoicesUpcomingParametersQueryInvoiceItems'Period obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (getInvoicesUpcomingParametersQueryInvoiceItems'Quantity obj) GHC.Base.<> ((Data.Aeson..=) "tax_rates" (getInvoicesUpcomingParametersQueryInvoiceItems'TaxRates obj) GHC.Base.<> ((Data.Aeson..=) "unit_amount" (getInvoicesUpcomingParametersQueryInvoiceItems'UnitAmount obj) GHC.Base.<> (Data.Aeson..=) "unit_amount_decimal" (getInvoicesUpcomingParametersQueryInvoiceItems'UnitAmountDecimal obj)))))))))))
 
@@ -276,7 +275,7 @@ data GetInvoicesUpcomingParametersQueryInvoiceItems'Period'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQueryInvoiceItems'Period' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQueryInvoiceItems'Period' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "end" (getInvoicesUpcomingParametersQueryInvoiceItems'Period'End obj) : (Data.Aeson..=) "start" (getInvoicesUpcomingParametersQueryInvoiceItems'Period'Start obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "end" (getInvoicesUpcomingParametersQueryInvoiceItems'Period'End obj) GHC.Base.<> (Data.Aeson..=) "start" (getInvoicesUpcomingParametersQueryInvoiceItems'Period'Start obj))
 
@@ -290,30 +289,34 @@ data GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1
   | GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1 where
   toJSON (GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1EnumString_
-          else GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1EnumString_
+            | GHC.Base.otherwise -> GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1EnumOther val
       )
 
 -- | Define the one-of schema getInvoicesUpcomingParametersQueryInvoice_items\'Tax_rates\'
 data GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'Variants
   = GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1 GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1
-  | GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'ListText ([] Data.Text.Internal.Text)
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  | GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'ListTText ([Data.Text.Internal.Text])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'Variants where
+  toJSON (GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQueryInvoiceItems'TaxRates'ListTText a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema getInvoicesUpcomingParametersQuerySubscription_billing_cycle_anchor\'OneOf1
 data GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1
@@ -323,21 +326,18 @@ data GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1
   | GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumStringUnchanged
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1 where
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumStringNow) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "now"
-  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumStringUnchanged) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "unchanged"
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumStringNow) = "now"
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumStringUnchanged) = "unchanged"
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "now")
-          then GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumStringNow
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "unchanged")
-              then GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumStringUnchanged
-              else GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "now" -> GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumStringNow
+            | val GHC.Classes.== "unchanged" -> GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumStringUnchanged
+            | GHC.Base.otherwise -> GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1EnumOther val
       )
 
 -- | Define the one-of schema getInvoicesUpcomingParametersQuerySubscription_billing_cycle_anchor\'
@@ -348,13 +348,18 @@ instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionBilli
 data GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Variants
   = GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1 GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1
   | GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Int GHC.Types.Int
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Variants where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Int a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor'Int a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema getInvoicesUpcomingParametersQuerySubscription_cancel_at\'OneOf1
 data GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1
@@ -363,17 +368,16 @@ data GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1
   | GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1 where
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1EnumString_
-          else GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1EnumString_
+            | GHC.Base.otherwise -> GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1EnumOther val
       )
 
 -- | Define the one-of schema getInvoicesUpcomingParametersQuerySubscription_cancel_at\'
@@ -384,13 +388,18 @@ instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionCance
 data GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Variants
   = GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1 GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1
   | GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Int GHC.Types.Int
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Variants where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Int a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQuerySubscriptionCancelAt'Int a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema getInvoicesUpcomingParametersQuerySubscription_default_tax_rates\'OneOf1
 data GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1
@@ -399,17 +408,16 @@ data GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1
   | GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1 where
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1EnumString_
-          else GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1EnumString_
+            | GHC.Base.otherwise -> GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1EnumOther val
       )
 
 -- | Define the one-of schema getInvoicesUpcomingParametersQuerySubscription_default_tax_rates\'
@@ -419,14 +427,19 @@ instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionDefau
 -- If provided, the invoice returned will preview updating or creating a subscription with these default tax rates. The default tax rates will apply to any line item that does not have \`tax_rates\` set.
 data GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'Variants
   = GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1 GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1
-  | GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'ListText ([] Data.Text.Internal.Text)
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  | GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'ListTText ([Data.Text.Internal.Text])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'Variants where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates'ListTText a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the data type for the schema getInvoicesUpcomingParametersQuerySubscription_items\'
 data GetInvoicesUpcomingParametersQuerySubscriptionItems'
@@ -461,7 +474,7 @@ data GetInvoicesUpcomingParametersQuerySubscriptionItems'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "billing_thresholds" (getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds obj) : (Data.Aeson..=) "clear_usage" (getInvoicesUpcomingParametersQuerySubscriptionItems'ClearUsage obj) : (Data.Aeson..=) "deleted" (getInvoicesUpcomingParametersQuerySubscriptionItems'Deleted obj) : (Data.Aeson..=) "id" (getInvoicesUpcomingParametersQuerySubscriptionItems'Id obj) : (Data.Aeson..=) "metadata" (getInvoicesUpcomingParametersQuerySubscriptionItems'Metadata obj) : (Data.Aeson..=) "plan" (getInvoicesUpcomingParametersQuerySubscriptionItems'Plan obj) : (Data.Aeson..=) "quantity" (getInvoicesUpcomingParametersQuerySubscriptionItems'Quantity obj) : (Data.Aeson..=) "tax_rates" (getInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "billing_thresholds" (getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds obj) GHC.Base.<> ((Data.Aeson..=) "clear_usage" (getInvoicesUpcomingParametersQuerySubscriptionItems'ClearUsage obj) GHC.Base.<> ((Data.Aeson..=) "deleted" (getInvoicesUpcomingParametersQuerySubscriptionItems'Deleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (getInvoicesUpcomingParametersQuerySubscriptionItems'Id obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (getInvoicesUpcomingParametersQuerySubscriptionItems'Metadata obj) GHC.Base.<> ((Data.Aeson..=) "plan" (getInvoicesUpcomingParametersQuerySubscriptionItems'Plan obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (getInvoicesUpcomingParametersQuerySubscriptionItems'Quantity obj) GHC.Base.<> (Data.Aeson..=) "tax_rates" (getInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates obj))))))))
 
@@ -475,17 +488,16 @@ data GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf
   | GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 where
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1EnumString_
-          else GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1EnumString_
+            | GHC.Base.otherwise -> GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1EnumOther val
       )
 
 -- | Defines the data type for the schema getInvoicesUpcomingParametersQuerySubscription_items\'Billing_thresholds\'OneOf2
@@ -499,7 +511,7 @@ data GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "usage_gte" (getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf2UsageGte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "usage_gte" (getInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf2UsageGte obj))
 
@@ -510,13 +522,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySu
 data GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'Variants
   = GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1
   | GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf2 GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'Variants where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'GetInvoicesUpcomingParametersQuerySubscriptionItems'BillingThresholds'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema getInvoicesUpcomingParametersQuerySubscription_items\'Tax_rates\'OneOf1
 data GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1
@@ -525,30 +542,34 @@ data GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1
   | GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1 where
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1EnumString_
-          else GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1EnumString_
+            | GHC.Base.otherwise -> GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1EnumOther val
       )
 
 -- | Define the one-of schema getInvoicesUpcomingParametersQuerySubscription_items\'Tax_rates\'
 data GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'Variants
   = GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1 GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1
-  | GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'ListText ([] Data.Text.Internal.Text)
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  | GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'ListTText ([Data.Text.Internal.Text])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'Variants where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQuerySubscriptionItems'TaxRates'ListTText a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema getInvoicesUpcomingParametersQuerySubscription_proration_behavior\'
 --
@@ -567,25 +588,20 @@ data GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'
   | GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumStringNone
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior' where
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumStringAlwaysInvoice) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "always_invoice"
-  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumStringCreateProrations) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "create_prorations"
-  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumStringNone) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "none"
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumStringAlwaysInvoice) = "always_invoice"
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumStringCreateProrations) = "create_prorations"
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumStringNone) = "none"
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "always_invoice")
-          then GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumStringAlwaysInvoice
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "create_prorations")
-              then GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumStringCreateProrations
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "none")
-                  then GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumStringNone
-                  else GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumOther val
+      ( if  | val GHC.Classes.== "always_invoice" -> GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumStringAlwaysInvoice
+            | val GHC.Classes.== "create_prorations" -> GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumStringCreateProrations
+            | val GHC.Classes.== "none" -> GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumStringNone
+            | GHC.Base.otherwise -> GetInvoicesUpcomingParametersQuerySubscriptionProrationBehavior'EnumOther val
       )
 
 -- | Defines the enum schema getInvoicesUpcomingParametersQuerySubscription_trial_end\'OneOf1
@@ -595,17 +611,16 @@ data GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1
   | GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1EnumStringNow
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1 where
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1EnumStringNow) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "now"
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1EnumStringNow) = "now"
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "now")
-          then GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1EnumStringNow
-          else GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "now" -> GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1EnumStringNow
+            | GHC.Base.otherwise -> GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1EnumOther val
       )
 
 -- | Define the one-of schema getInvoicesUpcomingParametersQuerySubscription_trial_end\'
@@ -616,13 +631,18 @@ instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionTrial
 data GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Variants
   = GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1 GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1
   | GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Int GHC.Types.Int
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Variants where
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Int a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetInvoicesUpcomingParametersQuerySubscriptionTrialEnd'Int a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getInvoicesUpcoming'.
 --
@@ -635,146 +655,3 @@ data GetInvoicesUpcomingResponse
   | -- | Error response.
     GetInvoicesUpcomingResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > GET /v1/invoices/upcoming
---
--- The same as 'getInvoicesUpcoming' but accepts an explicit configuration.
-getInvoicesUpcomingWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetInvoicesUpcomingParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetInvoicesUpcomingResponse)
-getInvoicesUpcomingWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetInvoicesUpcomingResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetInvoicesUpcomingResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Invoice
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetInvoicesUpcomingResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/invoices/upcoming")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "coupon") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryCoupon parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "invoice_items") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryInvoiceItems parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "schedule") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySchedule parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscription parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_billing_cycle_anchor") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_cancel_at") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionCancelAt parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_cancel_at_period_end") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionCancelAtPeriodEnd parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_cancel_now") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionCancelNow parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_default_tax_rates") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_items") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionItems parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_prorate") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionProrate parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_proration_behavior") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionProrationBehavior parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_proration_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionProrationDate parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_start_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionStartDate parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_tax_percent") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionTaxPercent parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_trial_end") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionTrialEnd parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_trial_from_plan") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionTrialFromPlan parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/invoices/upcoming
---
--- The same as 'getInvoicesUpcoming' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getInvoicesUpcomingRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetInvoicesUpcomingParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getInvoicesUpcomingRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/invoices/upcoming")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "coupon") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryCoupon parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "invoice_items") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryInvoiceItems parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "schedule") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySchedule parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscription parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_billing_cycle_anchor") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_cancel_at") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionCancelAt parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_cancel_at_period_end") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionCancelAtPeriodEnd parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_cancel_now") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionCancelNow parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_default_tax_rates") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_items") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionItems parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_prorate") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionProrate parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_proration_behavior") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionProrationBehavior parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_proration_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionProrationDate parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_start_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionStartDate parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_tax_percent") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionTaxPercent parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_trial_end") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionTrialEnd parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_trial_from_plan") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionTrialFromPlan parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/invoices/upcoming
---
--- The same as 'getInvoicesUpcoming' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getInvoicesUpcomingWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetInvoicesUpcomingParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getInvoicesUpcomingWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/invoices/upcoming")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "coupon") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryCoupon parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "invoice_items") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQueryInvoiceItems parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "schedule") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySchedule parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscription parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_billing_cycle_anchor") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionBillingCycleAnchor parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_cancel_at") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionCancelAt parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_cancel_at_period_end") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionCancelAtPeriodEnd parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_cancel_now") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionCancelNow parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_default_tax_rates") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionDefaultTaxRates parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_items") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionItems parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_prorate") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionProrate parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_proration_behavior") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionProrationBehavior parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_proration_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionProrationDate parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_start_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionStartDate parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_tax_percent") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionTaxPercent parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_trial_end") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionTrialEnd parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "subscription_trial_from_plan") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesUpcomingParametersQuerySubscriptionTrialFromPlan parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )

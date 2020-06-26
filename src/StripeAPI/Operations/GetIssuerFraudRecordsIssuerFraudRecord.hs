@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getIssuerFraudRecordsIssuerFraudRecord
 module StripeAPI.Operations.GetIssuerFraudRecordsIssuerFraudRecord where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -92,14 +91,14 @@ data GetIssuerFraudRecordsIssuerFraudRecordParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
+        getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetIssuerFraudRecordsIssuerFraudRecordParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetIssuerFraudRecordsIssuerFraudRecordParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathIssuer_fraud_record" (getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord obj) : (Data.Aeson..=) "queryExpand" (getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathIssuer_fraud_record" (getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand obj))
 
@@ -117,71 +116,3 @@ data GetIssuerFraudRecordsIssuerFraudRecordResponse
   | -- | Error response.
     GetIssuerFraudRecordsIssuerFraudRecordResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > GET /v1/issuer_fraud_records/{issuer_fraud_record}
---
--- The same as 'getIssuerFraudRecordsIssuerFraudRecord' but accepts an explicit configuration.
-getIssuerFraudRecordsIssuerFraudRecordWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetIssuerFraudRecordsIssuerFraudRecordParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetIssuerFraudRecordsIssuerFraudRecordResponse)
-getIssuerFraudRecordsIssuerFraudRecordWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetIssuerFraudRecordsIssuerFraudRecordResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetIssuerFraudRecordsIssuerFraudRecordResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              IssuerFraudRecord
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetIssuerFraudRecordsIssuerFraudRecordResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/issuer_fraud_records/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
-
--- | > GET /v1/issuer_fraud_records/{issuer_fraud_record}
---
--- The same as 'getIssuerFraudRecordsIssuerFraudRecord' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getIssuerFraudRecordsIssuerFraudRecordRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetIssuerFraudRecordsIssuerFraudRecordParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getIssuerFraudRecordsIssuerFraudRecordRaw parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/issuer_fraud_records/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
-
--- | > GET /v1/issuer_fraud_records/{issuer_fraud_record}
---
--- The same as 'getIssuerFraudRecordsIssuerFraudRecord' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getIssuerFraudRecordsIssuerFraudRecordWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetIssuerFraudRecordsIssuerFraudRecordParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getIssuerFraudRecordsIssuerFraudRecordWithConfigurationRaw
-  config
-  parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/issuer_fraud_records/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getIssuerFraudRecordsIssuerFraudRecordParametersPathIssuerFraudRecord parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuerFraudRecordsIssuerFraudRecordParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])

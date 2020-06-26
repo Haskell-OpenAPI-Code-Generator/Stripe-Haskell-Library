@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postProductsId
 module StripeAPI.Operations.PostProductsId where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -96,7 +95,7 @@ data PostProductsIdRequestBody
         -- * Maximum length of 5000
         postProductsIdRequestBodyCaption :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | deactivate_on: An array of Connect application names or identifiers that should not be able to order the SKUs for this product. May only be set if \`type=good\`.
-        postProductsIdRequestBodyDeactivateOn :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postProductsIdRequestBodyDeactivateOn :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | description: The product\'s description, meant to be displayable to the customer. Use this field to optionally store a long form explanation of the product being sold for your own rendering purposes.
         --
         -- Constraints:
@@ -104,7 +103,7 @@ data PostProductsIdRequestBody
         -- * Maximum length of 40000
         postProductsIdRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postProductsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postProductsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | images: A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
         postProductsIdRequestBodyImages :: (GHC.Maybe.Maybe PostProductsIdRequestBodyImages'Variants),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -142,7 +141,7 @@ data PostProductsIdRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostProductsIdRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostProductsIdRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (postProductsIdRequestBodyActive obj) : (Data.Aeson..=) "attributes" (postProductsIdRequestBodyAttributes obj) : (Data.Aeson..=) "caption" (postProductsIdRequestBodyCaption obj) : (Data.Aeson..=) "deactivate_on" (postProductsIdRequestBodyDeactivateOn obj) : (Data.Aeson..=) "description" (postProductsIdRequestBodyDescription obj) : (Data.Aeson..=) "expand" (postProductsIdRequestBodyExpand obj) : (Data.Aeson..=) "images" (postProductsIdRequestBodyImages obj) : (Data.Aeson..=) "metadata" (postProductsIdRequestBodyMetadata obj) : (Data.Aeson..=) "name" (postProductsIdRequestBodyName obj) : (Data.Aeson..=) "package_dimensions" (postProductsIdRequestBodyPackageDimensions obj) : (Data.Aeson..=) "shippable" (postProductsIdRequestBodyShippable obj) : (Data.Aeson..=) "statement_descriptor" (postProductsIdRequestBodyStatementDescriptor obj) : (Data.Aeson..=) "unit_label" (postProductsIdRequestBodyUnitLabel obj) : (Data.Aeson..=) "url" (postProductsIdRequestBodyUrl obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (postProductsIdRequestBodyActive obj) GHC.Base.<> ((Data.Aeson..=) "attributes" (postProductsIdRequestBodyAttributes obj) GHC.Base.<> ((Data.Aeson..=) "caption" (postProductsIdRequestBodyCaption obj) GHC.Base.<> ((Data.Aeson..=) "deactivate_on" (postProductsIdRequestBodyDeactivateOn obj) GHC.Base.<> ((Data.Aeson..=) "description" (postProductsIdRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postProductsIdRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "images" (postProductsIdRequestBodyImages obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postProductsIdRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "name" (postProductsIdRequestBodyName obj) GHC.Base.<> ((Data.Aeson..=) "package_dimensions" (postProductsIdRequestBodyPackageDimensions obj) GHC.Base.<> ((Data.Aeson..=) "shippable" (postProductsIdRequestBodyShippable obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (postProductsIdRequestBodyStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "unit_label" (postProductsIdRequestBodyUnitLabel obj) GHC.Base.<> (Data.Aeson..=) "url" (postProductsIdRequestBodyUrl obj))))))))))))))
 
@@ -156,17 +155,16 @@ data PostProductsIdRequestBodyAttributes'OneOf1
   | PostProductsIdRequestBodyAttributes'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostProductsIdRequestBodyAttributes'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostProductsIdRequestBodyAttributes'OneOf1 where
   toJSON (PostProductsIdRequestBodyAttributes'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostProductsIdRequestBodyAttributes'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostProductsIdRequestBodyAttributes'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (PostProductsIdRequestBodyAttributes'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON PostProductsIdRequestBodyAttributes'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBodyAttributes'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostProductsIdRequestBodyAttributes'OneOf1EnumString_
-          else PostProductsIdRequestBodyAttributes'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostProductsIdRequestBodyAttributes'OneOf1EnumString_
+            | GHC.Base.otherwise -> PostProductsIdRequestBodyAttributes'OneOf1EnumOther val
       )
 
 -- | Define the one-of schema postProductsIdRequestBodyAttributes\'
@@ -174,14 +172,19 @@ instance Data.Aeson.FromJSON PostProductsIdRequestBodyAttributes'OneOf1 where
 -- A list of up to 5 alphanumeric attributes that each SKU can provide values for (e.g., \`[\"color\", \"size\"]\`). If a value for \`attributes\` is specified, the list specified will replace the existing attributes list on this product. Any attributes not present after the update will be deleted from the SKUs for this product.
 data PostProductsIdRequestBodyAttributes'Variants
   = PostProductsIdRequestBodyAttributes'PostProductsIdRequestBodyAttributes'OneOf1 PostProductsIdRequestBodyAttributes'OneOf1
-  | PostProductsIdRequestBodyAttributes'ListText ([] Data.Text.Internal.Text)
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  | PostProductsIdRequestBodyAttributes'ListTText ([Data.Text.Internal.Text])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostProductsIdRequestBodyAttributes'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostProductsIdRequestBodyAttributes'Variants where
+  toJSON (PostProductsIdRequestBodyAttributes'PostProductsIdRequestBodyAttributes'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostProductsIdRequestBodyAttributes'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostProductsIdRequestBodyAttributes'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBodyAttributes'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostProductsIdRequestBodyAttributes'PostProductsIdRequestBodyAttributes'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostProductsIdRequestBodyAttributes'ListTText a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema postProductsIdRequestBodyImages\'OneOf1
 data PostProductsIdRequestBodyImages'OneOf1
@@ -190,17 +193,16 @@ data PostProductsIdRequestBodyImages'OneOf1
   | PostProductsIdRequestBodyImages'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostProductsIdRequestBodyImages'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostProductsIdRequestBodyImages'OneOf1 where
   toJSON (PostProductsIdRequestBodyImages'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostProductsIdRequestBodyImages'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostProductsIdRequestBodyImages'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (PostProductsIdRequestBodyImages'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON PostProductsIdRequestBodyImages'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBodyImages'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostProductsIdRequestBodyImages'OneOf1EnumString_
-          else PostProductsIdRequestBodyImages'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostProductsIdRequestBodyImages'OneOf1EnumString_
+            | GHC.Base.otherwise -> PostProductsIdRequestBodyImages'OneOf1EnumOther val
       )
 
 -- | Define the one-of schema postProductsIdRequestBodyImages\'
@@ -208,14 +210,19 @@ instance Data.Aeson.FromJSON PostProductsIdRequestBodyImages'OneOf1 where
 -- A list of up to 8 URLs of images for this product, meant to be displayable to the customer.
 data PostProductsIdRequestBodyImages'Variants
   = PostProductsIdRequestBodyImages'PostProductsIdRequestBodyImages'OneOf1 PostProductsIdRequestBodyImages'OneOf1
-  | PostProductsIdRequestBodyImages'ListText ([] Data.Text.Internal.Text)
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  | PostProductsIdRequestBodyImages'ListTText ([Data.Text.Internal.Text])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostProductsIdRequestBodyImages'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostProductsIdRequestBodyImages'Variants where
+  toJSON (PostProductsIdRequestBodyImages'PostProductsIdRequestBodyImages'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostProductsIdRequestBodyImages'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostProductsIdRequestBodyImages'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBodyImages'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostProductsIdRequestBodyImages'PostProductsIdRequestBodyImages'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostProductsIdRequestBodyImages'ListTText a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema postProductsIdRequestBodyPackage_dimensions\'OneOf1
 data PostProductsIdRequestBodyPackageDimensions'OneOf1
@@ -224,17 +231,16 @@ data PostProductsIdRequestBodyPackageDimensions'OneOf1
   | PostProductsIdRequestBodyPackageDimensions'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostProductsIdRequestBodyPackageDimensions'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostProductsIdRequestBodyPackageDimensions'OneOf1 where
   toJSON (PostProductsIdRequestBodyPackageDimensions'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostProductsIdRequestBodyPackageDimensions'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostProductsIdRequestBodyPackageDimensions'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (PostProductsIdRequestBodyPackageDimensions'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON PostProductsIdRequestBodyPackageDimensions'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBodyPackageDimensions'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostProductsIdRequestBodyPackageDimensions'OneOf1EnumString_
-          else PostProductsIdRequestBodyPackageDimensions'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostProductsIdRequestBodyPackageDimensions'OneOf1EnumString_
+            | GHC.Base.otherwise -> PostProductsIdRequestBodyPackageDimensions'OneOf1EnumOther val
       )
 
 -- | Defines the data type for the schema postProductsIdRequestBodyPackage_dimensions\'OneOf2
@@ -254,7 +260,7 @@ data PostProductsIdRequestBodyPackageDimensions'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostProductsIdRequestBodyPackageDimensions'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostProductsIdRequestBodyPackageDimensions'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "height" (postProductsIdRequestBodyPackageDimensions'OneOf2Height obj) : (Data.Aeson..=) "length" (postProductsIdRequestBodyPackageDimensions'OneOf2Length obj) : (Data.Aeson..=) "weight" (postProductsIdRequestBodyPackageDimensions'OneOf2Weight obj) : (Data.Aeson..=) "width" (postProductsIdRequestBodyPackageDimensions'OneOf2Width obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "height" (postProductsIdRequestBodyPackageDimensions'OneOf2Height obj) GHC.Base.<> ((Data.Aeson..=) "length" (postProductsIdRequestBodyPackageDimensions'OneOf2Length obj) GHC.Base.<> ((Data.Aeson..=) "weight" (postProductsIdRequestBodyPackageDimensions'OneOf2Weight obj) GHC.Base.<> (Data.Aeson..=) "width" (postProductsIdRequestBodyPackageDimensions'OneOf2Width obj))))
 
@@ -267,13 +273,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBodyPackageDime
 data PostProductsIdRequestBodyPackageDimensions'Variants
   = PostProductsIdRequestBodyPackageDimensions'PostProductsIdRequestBodyPackageDimensions'OneOf1 PostProductsIdRequestBodyPackageDimensions'OneOf1
   | PostProductsIdRequestBodyPackageDimensions'PostProductsIdRequestBodyPackageDimensions'OneOf2 PostProductsIdRequestBodyPackageDimensions'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostProductsIdRequestBodyPackageDimensions'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostProductsIdRequestBodyPackageDimensions'Variants where
+  toJSON (PostProductsIdRequestBodyPackageDimensions'PostProductsIdRequestBodyPackageDimensions'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostProductsIdRequestBodyPackageDimensions'PostProductsIdRequestBodyPackageDimensions'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostProductsIdRequestBodyPackageDimensions'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostProductsIdRequestBodyPackageDimensions'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostProductsIdRequestBodyPackageDimensions'PostProductsIdRequestBodyPackageDimensions'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostProductsIdRequestBodyPackageDimensions'PostProductsIdRequestBodyPackageDimensions'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postProductsId'.
 --
@@ -286,81 +297,3 @@ data PostProductsIdResponse
   | -- | Error response.
     PostProductsIdResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/products/{id}
---
--- The same as 'postProductsId' but accepts an explicit configuration.
-postProductsIdWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostProductsIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostProductsIdResponse)
-postProductsIdWithConfiguration
-  config
-  id
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostProductsIdResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostProductsIdResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Product
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostProductsIdResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/products/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/products/{id}
---
--- The same as 'postProductsId' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postProductsIdRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostProductsIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postProductsIdRaw
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/products/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/products/{id}
---
--- The same as 'postProductsId' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postProductsIdWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostProductsIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postProductsIdWithConfigurationRaw
-  config
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/products/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

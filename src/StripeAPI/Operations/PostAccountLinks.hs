@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postAccountLinks
 module StripeAPI.Operations.PostAccountLinks where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -90,7 +89,7 @@ data PostAccountLinksRequestBody
         -- | collect: Which information the platform needs to collect from the user. One of \`currently_due\` or \`eventually_due\`. Default is \`currently_due\`.
         postAccountLinksRequestBodyCollect :: (GHC.Maybe.Maybe PostAccountLinksRequestBodyCollect'),
         -- | expand: Specifies which fields in the response should be expanded.
-        postAccountLinksRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postAccountLinksRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | failure_url: The URL that the user will be redirected to if the account link is no longer valid.
         postAccountLinksRequestBodyFailureUrl :: Data.Text.Internal.Text,
         -- | success_url: The URL that the user will be redirected to upon leaving or completing the linked flow successfully.
@@ -103,7 +102,7 @@ data PostAccountLinksRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostAccountLinksRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountLinksRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (postAccountLinksRequestBodyAccount obj) : (Data.Aeson..=) "collect" (postAccountLinksRequestBodyCollect obj) : (Data.Aeson..=) "expand" (postAccountLinksRequestBodyExpand obj) : (Data.Aeson..=) "failure_url" (postAccountLinksRequestBodyFailureUrl obj) : (Data.Aeson..=) "success_url" (postAccountLinksRequestBodySuccessUrl obj) : (Data.Aeson..=) "type" (postAccountLinksRequestBodyType obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (postAccountLinksRequestBodyAccount obj) GHC.Base.<> ((Data.Aeson..=) "collect" (postAccountLinksRequestBodyCollect obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postAccountLinksRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "failure_url" (postAccountLinksRequestBodyFailureUrl obj) GHC.Base.<> ((Data.Aeson..=) "success_url" (postAccountLinksRequestBodySuccessUrl obj) GHC.Base.<> (Data.Aeson..=) "type" (postAccountLinksRequestBodyType obj))))))
 
@@ -120,21 +119,18 @@ data PostAccountLinksRequestBodyCollect'
   | PostAccountLinksRequestBodyCollect'EnumStringEventuallyDue
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostAccountLinksRequestBodyCollect' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountLinksRequestBodyCollect' where
   toJSON (PostAccountLinksRequestBodyCollect'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostAccountLinksRequestBodyCollect'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountLinksRequestBodyCollect'EnumStringCurrentlyDue) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "currently_due"
-  toJSON (PostAccountLinksRequestBodyCollect'EnumStringEventuallyDue) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "eventually_due"
+  toJSON (PostAccountLinksRequestBodyCollect'EnumStringCurrentlyDue) = "currently_due"
+  toJSON (PostAccountLinksRequestBodyCollect'EnumStringEventuallyDue) = "eventually_due"
 
-instance Data.Aeson.FromJSON PostAccountLinksRequestBodyCollect' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountLinksRequestBodyCollect' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "currently_due")
-          then PostAccountLinksRequestBodyCollect'EnumStringCurrentlyDue
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "eventually_due")
-              then PostAccountLinksRequestBodyCollect'EnumStringEventuallyDue
-              else PostAccountLinksRequestBodyCollect'EnumOther val
+      ( if  | val GHC.Classes.== "currently_due" -> PostAccountLinksRequestBodyCollect'EnumStringCurrentlyDue
+            | val GHC.Classes.== "eventually_due" -> PostAccountLinksRequestBodyCollect'EnumStringEventuallyDue
+            | GHC.Base.otherwise -> PostAccountLinksRequestBodyCollect'EnumOther val
       )
 
 -- | Defines the enum schema postAccountLinksRequestBodyType\'
@@ -147,21 +143,18 @@ data PostAccountLinksRequestBodyType'
   | PostAccountLinksRequestBodyType'EnumStringCustomAccountVerification
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostAccountLinksRequestBodyType' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountLinksRequestBodyType' where
   toJSON (PostAccountLinksRequestBodyType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostAccountLinksRequestBodyType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountLinksRequestBodyType'EnumStringCustomAccountUpdate) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "custom_account_update"
-  toJSON (PostAccountLinksRequestBodyType'EnumStringCustomAccountVerification) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "custom_account_verification"
+  toJSON (PostAccountLinksRequestBodyType'EnumStringCustomAccountUpdate) = "custom_account_update"
+  toJSON (PostAccountLinksRequestBodyType'EnumStringCustomAccountVerification) = "custom_account_verification"
 
-instance Data.Aeson.FromJSON PostAccountLinksRequestBodyType' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountLinksRequestBodyType' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "custom_account_update")
-          then PostAccountLinksRequestBodyType'EnumStringCustomAccountUpdate
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "custom_account_verification")
-              then PostAccountLinksRequestBodyType'EnumStringCustomAccountVerification
-              else PostAccountLinksRequestBodyType'EnumOther val
+      ( if  | val GHC.Classes.== "custom_account_update" -> PostAccountLinksRequestBodyType'EnumStringCustomAccountUpdate
+            | val GHC.Classes.== "custom_account_verification" -> PostAccountLinksRequestBodyType'EnumStringCustomAccountVerification
+            | GHC.Base.otherwise -> PostAccountLinksRequestBodyType'EnumOther val
       )
 
 -- | Represents a response of the operation 'postAccountLinks'.
@@ -175,71 +168,3 @@ data PostAccountLinksResponse
   | -- | Error response.
     PostAccountLinksResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/account_links
---
--- The same as 'postAccountLinks' but accepts an explicit configuration.
-postAccountLinksWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  PostAccountLinksRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostAccountLinksResponse)
-postAccountLinksWithConfiguration
-  config
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostAccountLinksResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostAccountLinksResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              AccountLink
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostAccountLinksResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account_links") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/account_links
---
--- The same as 'postAccountLinks' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postAccountLinksRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The request body to send
-  PostAccountLinksRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postAccountLinksRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account_links") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/account_links
---
--- The same as 'postAccountLinks' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postAccountLinksWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  PostAccountLinksRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postAccountLinksWithConfigurationRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account_links") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

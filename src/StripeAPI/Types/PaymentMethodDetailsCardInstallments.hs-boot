@@ -1,0 +1,23 @@
+module StripeAPI.Types.PaymentMethodDetailsCardInstallments where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PaymentMethodDetailsCardInstallments 
+instance Show PaymentMethodDetailsCardInstallments 
+instance Eq PaymentMethodDetailsCardInstallments 
+instance FromJSON PaymentMethodDetailsCardInstallments 
+instance ToJSON PaymentMethodDetailsCardInstallments 
+data PaymentMethodDetailsCardInstallmentsPlan' 
+instance Show PaymentMethodDetailsCardInstallmentsPlan' 
+instance Eq PaymentMethodDetailsCardInstallmentsPlan' 
+instance FromJSON PaymentMethodDetailsCardInstallmentsPlan' 
+instance ToJSON PaymentMethodDetailsCardInstallmentsPlan' 
+data PaymentMethodDetailsCardInstallmentsPlan'Interval'
+instance Show PaymentMethodDetailsCardInstallmentsPlan'Interval'
+instance Eq PaymentMethodDetailsCardInstallmentsPlan'Interval'
+instance FromJSON PaymentMethodDetailsCardInstallmentsPlan'Interval'
+instance ToJSON PaymentMethodDetailsCardInstallmentsPlan'Interval'
+data PaymentMethodDetailsCardInstallmentsPlan'Type'
+instance Show PaymentMethodDetailsCardInstallmentsPlan'Type'
+instance Eq PaymentMethodDetailsCardInstallmentsPlan'Type'
+instance FromJSON PaymentMethodDetailsCardInstallmentsPlan'Type'
+instance ToJSON PaymentMethodDetailsCardInstallmentsPlan'Type'

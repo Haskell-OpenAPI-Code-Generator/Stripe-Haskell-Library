@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getPaymentIntents
 module StripeAPI.Operations.GetPaymentIntents where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -114,7 +113,7 @@ data GetPaymentIntentsParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getPaymentIntentsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getPaymentIntentsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -133,7 +132,7 @@ data GetPaymentIntentsParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetPaymentIntentsParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentIntentsParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getPaymentIntentsParametersQueryCreated obj) : (Data.Aeson..=) "queryCustomer" (getPaymentIntentsParametersQueryCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getPaymentIntentsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getPaymentIntentsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getPaymentIntentsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getPaymentIntentsParametersQueryStartingAfter obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getPaymentIntentsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryCustomer" (getPaymentIntentsParametersQueryCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getPaymentIntentsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getPaymentIntentsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getPaymentIntentsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getPaymentIntentsParametersQueryStartingAfter obj))))))
 
@@ -157,7 +156,7 @@ data GetPaymentIntentsParametersQueryCreated'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetPaymentIntentsParametersQueryCreated'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentIntentsParametersQueryCreated'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getPaymentIntentsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getPaymentIntentsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getPaymentIntentsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getPaymentIntentsParametersQueryCreated'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getPaymentIntentsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getPaymentIntentsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getPaymentIntentsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getPaymentIntentsParametersQueryCreated'OneOf2Lte obj))))
 
@@ -172,13 +171,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetPaymentIntentsParametersQueryCrea
 data GetPaymentIntentsParametersQueryCreated'Variants
   = GetPaymentIntentsParametersQueryCreated'Int GHC.Types.Int
   | GetPaymentIntentsParametersQueryCreated'GetPaymentIntentsParametersQueryCreated'OneOf2 GetPaymentIntentsParametersQueryCreated'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetPaymentIntentsParametersQueryCreated'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentIntentsParametersQueryCreated'Variants where
+  toJSON (GetPaymentIntentsParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetPaymentIntentsParametersQueryCreated'GetPaymentIntentsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetPaymentIntentsParametersQueryCreated'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetPaymentIntentsParametersQueryCreated'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetPaymentIntentsParametersQueryCreated'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetPaymentIntentsParametersQueryCreated'GetPaymentIntentsParametersQueryCreated'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getPaymentIntents'.
 --
@@ -196,7 +200,7 @@ data GetPaymentIntentsResponse
 data GetPaymentIntentsResponseBody200
   = GetPaymentIntentsResponseBody200
       { -- | data
-        getPaymentIntentsResponseBody200Data :: ([] PaymentIntent),
+        getPaymentIntentsResponseBody200Data :: ([PaymentIntent]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getPaymentIntentsResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -214,7 +218,7 @@ data GetPaymentIntentsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetPaymentIntentsResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentIntentsResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getPaymentIntentsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getPaymentIntentsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getPaymentIntentsResponseBody200Object obj) : (Data.Aeson..=) "url" (getPaymentIntentsResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getPaymentIntentsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getPaymentIntentsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getPaymentIntentsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getPaymentIntentsResponseBody200Url obj))))
 
@@ -230,119 +234,14 @@ data GetPaymentIntentsResponseBody200Object'
   | GetPaymentIntentsResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetPaymentIntentsResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentIntentsResponseBody200Object' where
   toJSON (GetPaymentIntentsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetPaymentIntentsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetPaymentIntentsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetPaymentIntentsResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetPaymentIntentsResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetPaymentIntentsResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetPaymentIntentsResponseBody200Object'EnumStringList
-          else GetPaymentIntentsResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/payment_intents
---
--- The same as 'getPaymentIntents' but accepts an explicit configuration.
-getPaymentIntentsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetPaymentIntentsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetPaymentIntentsResponse)
-getPaymentIntentsWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetPaymentIntentsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetPaymentIntentsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetPaymentIntentsResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetPaymentIntentsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/payment_intents")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/payment_intents
---
--- The same as 'getPaymentIntents' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getPaymentIntentsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetPaymentIntentsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getPaymentIntentsRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/payment_intents")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/payment_intents
---
--- The same as 'getPaymentIntents' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getPaymentIntentsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetPaymentIntentsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getPaymentIntentsWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/payment_intents")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentIntentsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetPaymentIntentsResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetPaymentIntentsResponseBody200Object'EnumOther val
       )

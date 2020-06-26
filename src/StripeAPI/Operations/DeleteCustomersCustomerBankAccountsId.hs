@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation deleteCustomersCustomerBankAccountsId
 module StripeAPI.Operations.DeleteCustomersCustomerBankAccountsId where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -99,7 +98,7 @@ data DeleteCustomersCustomerBankAccountsIdParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON DeleteCustomersCustomerBankAccountsIdParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerBankAccountsIdParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (deleteCustomersCustomerBankAccountsIdParametersPathCustomer obj) : (Data.Aeson..=) "pathId" (deleteCustomersCustomerBankAccountsIdParametersPathId obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (deleteCustomersCustomerBankAccountsIdParametersPathCustomer obj) GHC.Base.<> (Data.Aeson..=) "pathId" (deleteCustomersCustomerBankAccountsIdParametersPathId obj))
 
@@ -110,14 +109,14 @@ instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerBankAccountsI
 data DeleteCustomersCustomerBankAccountsIdRequestBody
   = DeleteCustomersCustomerBankAccountsIdRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
-        deleteCustomersCustomerBankAccountsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
+        deleteCustomersCustomerBankAccountsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON DeleteCustomersCustomerBankAccountsIdRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerBankAccountsIdRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (deleteCustomersCustomerBankAccountsIdRequestBodyExpand obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (deleteCustomersCustomerBankAccountsIdRequestBodyExpand obj))
 
@@ -161,7 +160,7 @@ data DeleteCustomersCustomerBankAccountsIdResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON DeleteCustomersCustomerBankAccountsIdResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerBankAccountsIdResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "currency" (deleteCustomersCustomerBankAccountsIdResponseBody200Currency obj) : (Data.Aeson..=) "deleted" (deleteCustomersCustomerBankAccountsIdResponseBody200Deleted obj) : (Data.Aeson..=) "id" (deleteCustomersCustomerBankAccountsIdResponseBody200Id obj) : (Data.Aeson..=) "object" (deleteCustomersCustomerBankAccountsIdResponseBody200Object obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "currency" (deleteCustomersCustomerBankAccountsIdResponseBody200Currency obj) GHC.Base.<> ((Data.Aeson..=) "deleted" (deleteCustomersCustomerBankAccountsIdResponseBody200Deleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (deleteCustomersCustomerBankAccountsIdResponseBody200Id obj) GHC.Base.<> (Data.Aeson..=) "object" (deleteCustomersCustomerBankAccountsIdResponseBody200Object obj))))
 
@@ -177,17 +176,16 @@ data DeleteCustomersCustomerBankAccountsIdResponseBody200Deleted'
   | DeleteCustomersCustomerBankAccountsIdResponseBody200Deleted'EnumBoolTrue
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON DeleteCustomersCustomerBankAccountsIdResponseBody200Deleted' where
+instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerBankAccountsIdResponseBody200Deleted' where
   toJSON (DeleteCustomersCustomerBankAccountsIdResponseBody200Deleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (DeleteCustomersCustomerBankAccountsIdResponseBody200Deleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (DeleteCustomersCustomerBankAccountsIdResponseBody200Deleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
 
-instance Data.Aeson.FromJSON DeleteCustomersCustomerBankAccountsIdResponseBody200Deleted' where
+instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerBankAccountsIdResponseBody200Deleted' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True
-          then DeleteCustomersCustomerBankAccountsIdResponseBody200Deleted'EnumBoolTrue
-          else DeleteCustomersCustomerBankAccountsIdResponseBody200Deleted'EnumOther val
+      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> DeleteCustomersCustomerBankAccountsIdResponseBody200Deleted'EnumBoolTrue
+            | GHC.Base.otherwise -> DeleteCustomersCustomerBankAccountsIdResponseBody200Deleted'EnumOther val
       )
 
 -- | Defines the enum schema DeleteCustomersCustomerBankAccountsIdResponseBody200Object\'
@@ -199,93 +197,14 @@ data DeleteCustomersCustomerBankAccountsIdResponseBody200Object'
   | DeleteCustomersCustomerBankAccountsIdResponseBody200Object'EnumStringAlipayAccount
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON DeleteCustomersCustomerBankAccountsIdResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON DeleteCustomersCustomerBankAccountsIdResponseBody200Object' where
   toJSON (DeleteCustomersCustomerBankAccountsIdResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (DeleteCustomersCustomerBankAccountsIdResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (DeleteCustomersCustomerBankAccountsIdResponseBody200Object'EnumStringAlipayAccount) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "alipay_account"
+  toJSON (DeleteCustomersCustomerBankAccountsIdResponseBody200Object'EnumStringAlipayAccount) = "alipay_account"
 
-instance Data.Aeson.FromJSON DeleteCustomersCustomerBankAccountsIdResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON DeleteCustomersCustomerBankAccountsIdResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "alipay_account")
-          then DeleteCustomersCustomerBankAccountsIdResponseBody200Object'EnumStringAlipayAccount
-          else DeleteCustomersCustomerBankAccountsIdResponseBody200Object'EnumOther val
+      ( if  | val GHC.Classes.== "alipay_account" -> DeleteCustomersCustomerBankAccountsIdResponseBody200Object'EnumStringAlipayAccount
+            | GHC.Base.otherwise -> DeleteCustomersCustomerBankAccountsIdResponseBody200Object'EnumOther val
       )
-
--- | > DELETE /v1/customers/{customer}/bank_accounts/{id}
---
--- The same as 'deleteCustomersCustomerBankAccountsId' but accepts an explicit configuration.
-deleteCustomersCustomerBankAccountsIdWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  DeleteCustomersCustomerBankAccountsIdParameters ->
-  -- | The request body to send
-  GHC.Maybe.Maybe DeleteCustomersCustomerBankAccountsIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response DeleteCustomersCustomerBankAccountsIdResponse)
-deleteCustomersCustomerBankAccountsIdWithConfiguration
-  config
-  parameters
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either DeleteCustomersCustomerBankAccountsIdResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     DeleteCustomersCustomerBankAccountsIdResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              DeleteCustomersCustomerBankAccountsIdResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     DeleteCustomersCustomerBankAccountsIdResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerBankAccountsIdParametersPathCustomer parameters))) GHC.Base.++ ("/bank_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerBankAccountsIdParametersPathId parameters))) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > DELETE /v1/customers/{customer}/bank_accounts/{id}
---
--- The same as 'deleteCustomersCustomerBankAccountsId' but returns the raw 'Data.ByteString.Char8.ByteString'.
-deleteCustomersCustomerBankAccountsIdRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  DeleteCustomersCustomerBankAccountsIdParameters ->
-  -- | The request body to send
-  GHC.Maybe.Maybe DeleteCustomersCustomerBankAccountsIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-deleteCustomersCustomerBankAccountsIdRaw
-  parameters
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerBankAccountsIdParametersPathCustomer parameters))) GHC.Base.++ ("/bank_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerBankAccountsIdParametersPathId parameters))) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > DELETE /v1/customers/{customer}/bank_accounts/{id}
---
--- The same as 'deleteCustomersCustomerBankAccountsId' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-deleteCustomersCustomerBankAccountsIdWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  DeleteCustomersCustomerBankAccountsIdParameters ->
-  -- | The request body to send
-  GHC.Maybe.Maybe DeleteCustomersCustomerBankAccountsIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-deleteCustomersCustomerBankAccountsIdWithConfigurationRaw
-  config
-  parameters
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerBankAccountsIdParametersPathCustomer parameters))) GHC.Base.++ ("/bank_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (deleteCustomersCustomerBankAccountsIdParametersPathId parameters))) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

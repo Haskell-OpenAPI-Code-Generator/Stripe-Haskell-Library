@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getRecipients
 module StripeAPI.Operations.GetRecipients where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -105,7 +104,7 @@ data GetRecipientsParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getRecipientsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getRecipientsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -134,7 +133,7 @@ data GetRecipientsParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetRecipientsParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getRecipientsParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getRecipientsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getRecipientsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getRecipientsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getRecipientsParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryType" (getRecipientsParametersQueryType obj) : (Data.Aeson..=) "queryVerified" (getRecipientsParametersQueryVerified obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getRecipientsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getRecipientsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getRecipientsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getRecipientsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getRecipientsParametersQueryStartingAfter obj) GHC.Base.<> ((Data.Aeson..=) "queryType" (getRecipientsParametersQueryType obj) GHC.Base.<> (Data.Aeson..=) "queryVerified" (getRecipientsParametersQueryVerified obj)))))))
 
@@ -158,7 +157,7 @@ data GetRecipientsParametersQueryCreated'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetRecipientsParametersQueryCreated'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsParametersQueryCreated'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getRecipientsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getRecipientsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getRecipientsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getRecipientsParametersQueryCreated'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getRecipientsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getRecipientsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getRecipientsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getRecipientsParametersQueryCreated'OneOf2Lte obj))))
 
@@ -171,13 +170,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsParametersQueryCreated'
 data GetRecipientsParametersQueryCreated'Variants
   = GetRecipientsParametersQueryCreated'Int GHC.Types.Int
   | GetRecipientsParametersQueryCreated'GetRecipientsParametersQueryCreated'OneOf2 GetRecipientsParametersQueryCreated'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetRecipientsParametersQueryCreated'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsParametersQueryCreated'Variants where
+  toJSON (GetRecipientsParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRecipientsParametersQueryCreated'GetRecipientsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetRecipientsParametersQueryCreated'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsParametersQueryCreated'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsParametersQueryCreated'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsParametersQueryCreated'GetRecipientsParametersQueryCreated'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema getRecipientsParametersQueryType\'
 --
@@ -189,21 +193,18 @@ data GetRecipientsParametersQueryType'
   | GetRecipientsParametersQueryType'EnumStringIndividual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetRecipientsParametersQueryType' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsParametersQueryType' where
   toJSON (GetRecipientsParametersQueryType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetRecipientsParametersQueryType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRecipientsParametersQueryType'EnumStringCorporation) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "corporation"
-  toJSON (GetRecipientsParametersQueryType'EnumStringIndividual) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "individual"
+  toJSON (GetRecipientsParametersQueryType'EnumStringCorporation) = "corporation"
+  toJSON (GetRecipientsParametersQueryType'EnumStringIndividual) = "individual"
 
-instance Data.Aeson.FromJSON GetRecipientsParametersQueryType' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsParametersQueryType' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "corporation")
-          then GetRecipientsParametersQueryType'EnumStringCorporation
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "individual")
-              then GetRecipientsParametersQueryType'EnumStringIndividual
-              else GetRecipientsParametersQueryType'EnumOther val
+      ( if  | val GHC.Classes.== "corporation" -> GetRecipientsParametersQueryType'EnumStringCorporation
+            | val GHC.Classes.== "individual" -> GetRecipientsParametersQueryType'EnumStringIndividual
+            | GHC.Base.otherwise -> GetRecipientsParametersQueryType'EnumOther val
       )
 
 -- | Represents a response of the operation 'getRecipients'.
@@ -222,7 +223,7 @@ data GetRecipientsResponse
 data GetRecipientsResponseBody200
   = GetRecipientsResponseBody200
       { -- | data
-        getRecipientsResponseBody200Data :: ([] Recipient),
+        getRecipientsResponseBody200Data :: ([Recipient]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getRecipientsResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -240,7 +241,7 @@ data GetRecipientsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetRecipientsResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getRecipientsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getRecipientsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getRecipientsResponseBody200Object obj) : (Data.Aeson..=) "url" (getRecipientsResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getRecipientsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getRecipientsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getRecipientsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getRecipientsResponseBody200Url obj))))
 
@@ -256,122 +257,14 @@ data GetRecipientsResponseBody200Object'
   | GetRecipientsResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetRecipientsResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsResponseBody200Object' where
   toJSON (GetRecipientsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetRecipientsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRecipientsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetRecipientsResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetRecipientsResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetRecipientsResponseBody200Object'EnumStringList
-          else GetRecipientsResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/recipients
---
--- The same as 'getRecipients' but accepts an explicit configuration.
-getRecipientsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetRecipientsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetRecipientsResponse)
-getRecipientsWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetRecipientsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetRecipientsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetRecipientsResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetRecipientsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/recipients")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "verified") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryVerified parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/recipients
---
--- The same as 'getRecipients' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getRecipientsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetRecipientsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getRecipientsRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/recipients")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "verified") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryVerified parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/recipients
---
--- The same as 'getRecipients' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getRecipientsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetRecipientsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getRecipientsWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/recipients")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryType parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "verified") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsParametersQueryVerified parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetRecipientsResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetRecipientsResponseBody200Object'EnumOther val
       )

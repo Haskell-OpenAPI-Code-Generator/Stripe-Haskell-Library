@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getReportingReportRuns
 module StripeAPI.Operations.GetReportingReportRuns where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -103,7 +102,7 @@ data GetReportingReportRunsParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getReportingReportRunsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getReportingReportRunsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -122,7 +121,7 @@ data GetReportingReportRunsParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetReportingReportRunsParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportRunsParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getReportingReportRunsParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getReportingReportRunsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getReportingReportRunsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getReportingReportRunsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getReportingReportRunsParametersQueryStartingAfter obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getReportingReportRunsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getReportingReportRunsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getReportingReportRunsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getReportingReportRunsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getReportingReportRunsParametersQueryStartingAfter obj)))))
 
@@ -146,7 +145,7 @@ data GetReportingReportRunsParametersQueryCreated'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetReportingReportRunsParametersQueryCreated'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportRunsParametersQueryCreated'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getReportingReportRunsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getReportingReportRunsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getReportingReportRunsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getReportingReportRunsParametersQueryCreated'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getReportingReportRunsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getReportingReportRunsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getReportingReportRunsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getReportingReportRunsParametersQueryCreated'OneOf2Lte obj))))
 
@@ -159,13 +158,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportRunsParametersQuer
 data GetReportingReportRunsParametersQueryCreated'Variants
   = GetReportingReportRunsParametersQueryCreated'Int GHC.Types.Int
   | GetReportingReportRunsParametersQueryCreated'GetReportingReportRunsParametersQueryCreated'OneOf2 GetReportingReportRunsParametersQueryCreated'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetReportingReportRunsParametersQueryCreated'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportRunsParametersQueryCreated'Variants where
+  toJSON (GetReportingReportRunsParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetReportingReportRunsParametersQueryCreated'GetReportingReportRunsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetReportingReportRunsParametersQueryCreated'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportRunsParametersQueryCreated'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetReportingReportRunsParametersQueryCreated'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetReportingReportRunsParametersQueryCreated'GetReportingReportRunsParametersQueryCreated'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getReportingReportRuns'.
 --
@@ -183,7 +187,7 @@ data GetReportingReportRunsResponse
 data GetReportingReportRunsResponseBody200
   = GetReportingReportRunsResponseBody200
       { -- | data
-        getReportingReportRunsResponseBody200Data :: ([] Reporting'reportRun),
+        getReportingReportRunsResponseBody200Data :: ([Reporting'reportRun]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getReportingReportRunsResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -201,7 +205,7 @@ data GetReportingReportRunsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetReportingReportRunsResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportRunsResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getReportingReportRunsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getReportingReportRunsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getReportingReportRunsResponseBody200Object obj) : (Data.Aeson..=) "url" (getReportingReportRunsResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getReportingReportRunsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getReportingReportRunsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getReportingReportRunsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getReportingReportRunsResponseBody200Url obj))))
 
@@ -217,116 +221,14 @@ data GetReportingReportRunsResponseBody200Object'
   | GetReportingReportRunsResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetReportingReportRunsResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetReportingReportRunsResponseBody200Object' where
   toJSON (GetReportingReportRunsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetReportingReportRunsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetReportingReportRunsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetReportingReportRunsResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetReportingReportRunsResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetReportingReportRunsResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetReportingReportRunsResponseBody200Object'EnumStringList
-          else GetReportingReportRunsResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/reporting/report_runs
---
--- The same as 'getReportingReportRuns' but accepts an explicit configuration.
-getReportingReportRunsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetReportingReportRunsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetReportingReportRunsResponse)
-getReportingReportRunsWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetReportingReportRunsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetReportingReportRunsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetReportingReportRunsResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetReportingReportRunsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/reporting/report_runs")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/reporting/report_runs
---
--- The same as 'getReportingReportRuns' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getReportingReportRunsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetReportingReportRunsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getReportingReportRunsRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/reporting/report_runs")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/reporting/report_runs
---
--- The same as 'getReportingReportRuns' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getReportingReportRunsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetReportingReportRunsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getReportingReportRunsWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/reporting/report_runs")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getReportingReportRunsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetReportingReportRunsResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetReportingReportRunsResponseBody200Object'EnumOther val
       )

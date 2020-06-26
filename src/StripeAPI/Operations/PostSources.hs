@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postSources
 module StripeAPI.Operations.PostSources where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -92,7 +91,7 @@ data PostSourcesRequestBody
         -- * Maximum length of 500
         postSourcesRequestBodyCustomer :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postSourcesRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postSourcesRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | flow: The authentication \`flow\` of the source to create. \`flow\` is one of \`redirect\`, \`receiver\`, \`code_verification\`, \`none\`. It is generally inferred unless a type supports multiple flows.
         --
         -- Constraints:
@@ -147,7 +146,7 @@ data PostSourcesRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSourcesRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postSourcesRequestBodyAmount obj) : (Data.Aeson..=) "currency" (postSourcesRequestBodyCurrency obj) : (Data.Aeson..=) "customer" (postSourcesRequestBodyCustomer obj) : (Data.Aeson..=) "expand" (postSourcesRequestBodyExpand obj) : (Data.Aeson..=) "flow" (postSourcesRequestBodyFlow obj) : (Data.Aeson..=) "mandate" (postSourcesRequestBodyMandate obj) : (Data.Aeson..=) "metadata" (postSourcesRequestBodyMetadata obj) : (Data.Aeson..=) "original_source" (postSourcesRequestBodyOriginalSource obj) : (Data.Aeson..=) "owner" (postSourcesRequestBodyOwner obj) : (Data.Aeson..=) "receiver" (postSourcesRequestBodyReceiver obj) : (Data.Aeson..=) "redirect" (postSourcesRequestBodyRedirect obj) : (Data.Aeson..=) "source_order" (postSourcesRequestBodySourceOrder obj) : (Data.Aeson..=) "statement_descriptor" (postSourcesRequestBodyStatementDescriptor obj) : (Data.Aeson..=) "token" (postSourcesRequestBodyToken obj) : (Data.Aeson..=) "type" (postSourcesRequestBodyType obj) : (Data.Aeson..=) "usage" (postSourcesRequestBodyUsage obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postSourcesRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postSourcesRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (postSourcesRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postSourcesRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "flow" (postSourcesRequestBodyFlow obj) GHC.Base.<> ((Data.Aeson..=) "mandate" (postSourcesRequestBodyMandate obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postSourcesRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "original_source" (postSourcesRequestBodyOriginalSource obj) GHC.Base.<> ((Data.Aeson..=) "owner" (postSourcesRequestBodyOwner obj) GHC.Base.<> ((Data.Aeson..=) "receiver" (postSourcesRequestBodyReceiver obj) GHC.Base.<> ((Data.Aeson..=) "redirect" (postSourcesRequestBodyRedirect obj) GHC.Base.<> ((Data.Aeson..=) "source_order" (postSourcesRequestBodySourceOrder obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (postSourcesRequestBodyStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "token" (postSourcesRequestBodyToken obj) GHC.Base.<> ((Data.Aeson..=) "type" (postSourcesRequestBodyType obj) GHC.Base.<> (Data.Aeson..=) "usage" (postSourcesRequestBodyUsage obj))))))))))))))))
 
@@ -166,29 +165,22 @@ data PostSourcesRequestBodyFlow'
   | PostSourcesRequestBodyFlow'EnumStringRedirect
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyFlow' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyFlow' where
   toJSON (PostSourcesRequestBodyFlow'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSourcesRequestBodyFlow'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyFlow'EnumStringCodeVerification) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "code_verification"
-  toJSON (PostSourcesRequestBodyFlow'EnumStringNone) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "none"
-  toJSON (PostSourcesRequestBodyFlow'EnumStringReceiver) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "receiver"
-  toJSON (PostSourcesRequestBodyFlow'EnumStringRedirect) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "redirect"
+  toJSON (PostSourcesRequestBodyFlow'EnumStringCodeVerification) = "code_verification"
+  toJSON (PostSourcesRequestBodyFlow'EnumStringNone) = "none"
+  toJSON (PostSourcesRequestBodyFlow'EnumStringReceiver) = "receiver"
+  toJSON (PostSourcesRequestBodyFlow'EnumStringRedirect) = "redirect"
 
-instance Data.Aeson.FromJSON PostSourcesRequestBodyFlow' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyFlow' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "code_verification")
-          then PostSourcesRequestBodyFlow'EnumStringCodeVerification
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "none")
-              then PostSourcesRequestBodyFlow'EnumStringNone
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "receiver")
-                  then PostSourcesRequestBodyFlow'EnumStringReceiver
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "redirect")
-                      then PostSourcesRequestBodyFlow'EnumStringRedirect
-                      else PostSourcesRequestBodyFlow'EnumOther val
+      ( if  | val GHC.Classes.== "code_verification" -> PostSourcesRequestBodyFlow'EnumStringCodeVerification
+            | val GHC.Classes.== "none" -> PostSourcesRequestBodyFlow'EnumStringNone
+            | val GHC.Classes.== "receiver" -> PostSourcesRequestBodyFlow'EnumStringReceiver
+            | val GHC.Classes.== "redirect" -> PostSourcesRequestBodyFlow'EnumStringRedirect
+            | GHC.Base.otherwise -> PostSourcesRequestBodyFlow'EnumOther val
       )
 
 -- | Defines the data type for the schema postSourcesRequestBodyMandate\'
@@ -220,7 +212,7 @@ data PostSourcesRequestBodyMandate'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyMandate' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "acceptance" (postSourcesRequestBodyMandate'Acceptance obj) : (Data.Aeson..=) "amount" (postSourcesRequestBodyMandate'Amount obj) : (Data.Aeson..=) "currency" (postSourcesRequestBodyMandate'Currency obj) : (Data.Aeson..=) "interval" (postSourcesRequestBodyMandate'Interval obj) : (Data.Aeson..=) "notification_method" (postSourcesRequestBodyMandate'NotificationMethod obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "acceptance" (postSourcesRequestBodyMandate'Acceptance obj) GHC.Base.<> ((Data.Aeson..=) "amount" (postSourcesRequestBodyMandate'Amount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postSourcesRequestBodyMandate'Currency obj) GHC.Base.<> ((Data.Aeson..=) "interval" (postSourcesRequestBodyMandate'Interval obj) GHC.Base.<> (Data.Aeson..=) "notification_method" (postSourcesRequestBodyMandate'NotificationMethod obj)))))
 
@@ -262,7 +254,7 @@ data PostSourcesRequestBodyMandate'Acceptance'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyMandate'Acceptance' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Acceptance' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "date" (postSourcesRequestBodyMandate'Acceptance'Date obj) : (Data.Aeson..=) "ip" (postSourcesRequestBodyMandate'Acceptance'Ip obj) : (Data.Aeson..=) "offline" (postSourcesRequestBodyMandate'Acceptance'Offline obj) : (Data.Aeson..=) "online" (postSourcesRequestBodyMandate'Acceptance'Online obj) : (Data.Aeson..=) "status" (postSourcesRequestBodyMandate'Acceptance'Status obj) : (Data.Aeson..=) "type" (postSourcesRequestBodyMandate'Acceptance'Type obj) : (Data.Aeson..=) "user_agent" (postSourcesRequestBodyMandate'Acceptance'UserAgent obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "date" (postSourcesRequestBodyMandate'Acceptance'Date obj) GHC.Base.<> ((Data.Aeson..=) "ip" (postSourcesRequestBodyMandate'Acceptance'Ip obj) GHC.Base.<> ((Data.Aeson..=) "offline" (postSourcesRequestBodyMandate'Acceptance'Offline obj) GHC.Base.<> ((Data.Aeson..=) "online" (postSourcesRequestBodyMandate'Acceptance'Online obj) GHC.Base.<> ((Data.Aeson..=) "status" (postSourcesRequestBodyMandate'Acceptance'Status obj) GHC.Base.<> ((Data.Aeson..=) "type" (postSourcesRequestBodyMandate'Acceptance'Type obj) GHC.Base.<> (Data.Aeson..=) "user_agent" (postSourcesRequestBodyMandate'Acceptance'UserAgent obj)))))))
 
@@ -280,7 +272,7 @@ data PostSourcesRequestBodyMandate'Acceptance'Offline'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyMandate'Acceptance'Offline' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Acceptance'Offline' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "contact_email" (postSourcesRequestBodyMandate'Acceptance'Offline'ContactEmail obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "contact_email" (postSourcesRequestBodyMandate'Acceptance'Offline'ContactEmail obj))
 
@@ -306,7 +298,7 @@ data PostSourcesRequestBodyMandate'Acceptance'Online'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyMandate'Acceptance'Online' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Acceptance'Online' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "date" (postSourcesRequestBodyMandate'Acceptance'Online'Date obj) : (Data.Aeson..=) "ip" (postSourcesRequestBodyMandate'Acceptance'Online'Ip obj) : (Data.Aeson..=) "user_agent" (postSourcesRequestBodyMandate'Acceptance'Online'UserAgent obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "date" (postSourcesRequestBodyMandate'Acceptance'Online'Date obj) GHC.Base.<> ((Data.Aeson..=) "ip" (postSourcesRequestBodyMandate'Acceptance'Online'Ip obj) GHC.Base.<> (Data.Aeson..=) "user_agent" (postSourcesRequestBodyMandate'Acceptance'Online'UserAgent obj)))
 
@@ -323,29 +315,22 @@ data PostSourcesRequestBodyMandate'Acceptance'Status'
   | PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRevoked
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyMandate'Acceptance'Status' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Acceptance'Status' where
   toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringAccepted) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "accepted"
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringPending) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pending"
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRefused) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "refused"
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRevoked) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "revoked"
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringAccepted) = "accepted"
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringPending) = "pending"
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRefused) = "refused"
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRevoked) = "revoked"
 
-instance Data.Aeson.FromJSON PostSourcesRequestBodyMandate'Acceptance'Status' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Acceptance'Status' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "accepted")
-          then PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringAccepted
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pending")
-              then PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringPending
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "refused")
-                  then PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRefused
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "revoked")
-                      then PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRevoked
-                      else PostSourcesRequestBodyMandate'Acceptance'Status'EnumOther val
+      ( if  | val GHC.Classes.== "accepted" -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringAccepted
+            | val GHC.Classes.== "pending" -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringPending
+            | val GHC.Classes.== "refused" -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRefused
+            | val GHC.Classes.== "revoked" -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumStringRevoked
+            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'Acceptance'Status'EnumOther val
       )
 
 -- | Defines the enum schema postSourcesRequestBodyMandate\'Acceptance\'Type\'
@@ -356,21 +341,18 @@ data PostSourcesRequestBodyMandate'Acceptance'Type'
   | PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOnline
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyMandate'Acceptance'Type' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Acceptance'Type' where
   toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOffline) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "offline"
-  toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOnline) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "online"
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOffline) = "offline"
+  toJSON (PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOnline) = "online"
 
-instance Data.Aeson.FromJSON PostSourcesRequestBodyMandate'Acceptance'Type' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Acceptance'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "offline")
-          then PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOffline
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "online")
-              then PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOnline
-              else PostSourcesRequestBodyMandate'Acceptance'Type'EnumOther val
+      ( if  | val GHC.Classes.== "offline" -> PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOffline
+            | val GHC.Classes.== "online" -> PostSourcesRequestBodyMandate'Acceptance'Type'EnumStringOnline
+            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'Acceptance'Type'EnumOther val
       )
 
 -- | Defines the enum schema postSourcesRequestBodyMandate\'Amount\'OneOf1
@@ -380,30 +362,34 @@ data PostSourcesRequestBodyMandate'Amount'OneOf1
   | PostSourcesRequestBodyMandate'Amount'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyMandate'Amount'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Amount'OneOf1 where
   toJSON (PostSourcesRequestBodyMandate'Amount'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSourcesRequestBodyMandate'Amount'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'Amount'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (PostSourcesRequestBodyMandate'Amount'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON PostSourcesRequestBodyMandate'Amount'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Amount'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostSourcesRequestBodyMandate'Amount'OneOf1EnumString_
-          else PostSourcesRequestBodyMandate'Amount'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostSourcesRequestBodyMandate'Amount'OneOf1EnumString_
+            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'Amount'OneOf1EnumOther val
       )
 
 -- | Define the one-of schema postSourcesRequestBodyMandate\'Amount\'
 data PostSourcesRequestBodyMandate'Amount'Variants
   = PostSourcesRequestBodyMandate'Amount'PostSourcesRequestBodyMandate'Amount'OneOf1 PostSourcesRequestBodyMandate'Amount'OneOf1
   | PostSourcesRequestBodyMandate'Amount'Int GHC.Types.Int
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyMandate'Amount'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Amount'Variants where
+  toJSON (PostSourcesRequestBodyMandate'Amount'PostSourcesRequestBodyMandate'Amount'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSourcesRequestBodyMandate'Amount'Int a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostSourcesRequestBodyMandate'Amount'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Amount'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSourcesRequestBodyMandate'Amount'PostSourcesRequestBodyMandate'Amount'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSourcesRequestBodyMandate'Amount'Int a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema postSourcesRequestBodyMandate\'Interval\'
 data PostSourcesRequestBodyMandate'Interval'
@@ -414,25 +400,20 @@ data PostSourcesRequestBodyMandate'Interval'
   | PostSourcesRequestBodyMandate'Interval'EnumStringVariable
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyMandate'Interval' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'Interval' where
   toJSON (PostSourcesRequestBodyMandate'Interval'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSourcesRequestBodyMandate'Interval'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'Interval'EnumStringOneTime) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "one_time"
-  toJSON (PostSourcesRequestBodyMandate'Interval'EnumStringScheduled) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "scheduled"
-  toJSON (PostSourcesRequestBodyMandate'Interval'EnumStringVariable) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "variable"
+  toJSON (PostSourcesRequestBodyMandate'Interval'EnumStringOneTime) = "one_time"
+  toJSON (PostSourcesRequestBodyMandate'Interval'EnumStringScheduled) = "scheduled"
+  toJSON (PostSourcesRequestBodyMandate'Interval'EnumStringVariable) = "variable"
 
-instance Data.Aeson.FromJSON PostSourcesRequestBodyMandate'Interval' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'Interval' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "one_time")
-          then PostSourcesRequestBodyMandate'Interval'EnumStringOneTime
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "scheduled")
-              then PostSourcesRequestBodyMandate'Interval'EnumStringScheduled
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "variable")
-                  then PostSourcesRequestBodyMandate'Interval'EnumStringVariable
-                  else PostSourcesRequestBodyMandate'Interval'EnumOther val
+      ( if  | val GHC.Classes.== "one_time" -> PostSourcesRequestBodyMandate'Interval'EnumStringOneTime
+            | val GHC.Classes.== "scheduled" -> PostSourcesRequestBodyMandate'Interval'EnumStringScheduled
+            | val GHC.Classes.== "variable" -> PostSourcesRequestBodyMandate'Interval'EnumStringVariable
+            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'Interval'EnumOther val
       )
 
 -- | Defines the enum schema postSourcesRequestBodyMandate\'Notification_method\'
@@ -446,33 +427,24 @@ data PostSourcesRequestBodyMandate'NotificationMethod'
   | PostSourcesRequestBodyMandate'NotificationMethod'EnumStringStripeEmail
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyMandate'NotificationMethod' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyMandate'NotificationMethod' where
   toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringDeprecatedNone) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "deprecated_none"
-  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringEmail) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "email"
-  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringManual) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "manual"
-  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringNone) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "none"
-  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringStripeEmail) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "stripe_email"
+  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringDeprecatedNone) = "deprecated_none"
+  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringEmail) = "email"
+  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringManual) = "manual"
+  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringNone) = "none"
+  toJSON (PostSourcesRequestBodyMandate'NotificationMethod'EnumStringStripeEmail) = "stripe_email"
 
-instance Data.Aeson.FromJSON PostSourcesRequestBodyMandate'NotificationMethod' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyMandate'NotificationMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "deprecated_none")
-          then PostSourcesRequestBodyMandate'NotificationMethod'EnumStringDeprecatedNone
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "email")
-              then PostSourcesRequestBodyMandate'NotificationMethod'EnumStringEmail
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "manual")
-                  then PostSourcesRequestBodyMandate'NotificationMethod'EnumStringManual
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "none")
-                      then PostSourcesRequestBodyMandate'NotificationMethod'EnumStringNone
-                      else
-                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "stripe_email")
-                          then PostSourcesRequestBodyMandate'NotificationMethod'EnumStringStripeEmail
-                          else PostSourcesRequestBodyMandate'NotificationMethod'EnumOther val
+      ( if  | val GHC.Classes.== "deprecated_none" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumStringDeprecatedNone
+            | val GHC.Classes.== "email" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumStringEmail
+            | val GHC.Classes.== "manual" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumStringManual
+            | val GHC.Classes.== "none" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumStringNone
+            | val GHC.Classes.== "stripe_email" -> PostSourcesRequestBodyMandate'NotificationMethod'EnumStringStripeEmail
+            | GHC.Base.otherwise -> PostSourcesRequestBodyMandate'NotificationMethod'EnumOther val
       )
 
 -- | Defines the data type for the schema postSourcesRequestBodyOwner\'
@@ -502,7 +474,7 @@ data PostSourcesRequestBodyOwner'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyOwner' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyOwner' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postSourcesRequestBodyOwner'Address obj) : (Data.Aeson..=) "email" (postSourcesRequestBodyOwner'Email obj) : (Data.Aeson..=) "name" (postSourcesRequestBodyOwner'Name obj) : (Data.Aeson..=) "phone" (postSourcesRequestBodyOwner'Phone obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postSourcesRequestBodyOwner'Address obj) GHC.Base.<> ((Data.Aeson..=) "email" (postSourcesRequestBodyOwner'Email obj) GHC.Base.<> ((Data.Aeson..=) "name" (postSourcesRequestBodyOwner'Name obj) GHC.Base.<> (Data.Aeson..=) "phone" (postSourcesRequestBodyOwner'Phone obj))))
 
@@ -554,7 +526,7 @@ data PostSourcesRequestBodyOwner'Address'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyOwner'Address' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyOwner'Address' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postSourcesRequestBodyOwner'Address'City obj) : (Data.Aeson..=) "country" (postSourcesRequestBodyOwner'Address'Country obj) : (Data.Aeson..=) "line1" (postSourcesRequestBodyOwner'Address'Line1 obj) : (Data.Aeson..=) "line2" (postSourcesRequestBodyOwner'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postSourcesRequestBodyOwner'Address'PostalCode obj) : (Data.Aeson..=) "state" (postSourcesRequestBodyOwner'Address'State obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postSourcesRequestBodyOwner'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postSourcesRequestBodyOwner'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postSourcesRequestBodyOwner'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postSourcesRequestBodyOwner'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postSourcesRequestBodyOwner'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postSourcesRequestBodyOwner'Address'State obj))))))
 
@@ -578,7 +550,7 @@ data PostSourcesRequestBodyReceiver'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyReceiver' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyReceiver' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "refund_attributes_method" (postSourcesRequestBodyReceiver'RefundAttributesMethod obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "refund_attributes_method" (postSourcesRequestBodyReceiver'RefundAttributesMethod obj))
 
@@ -594,25 +566,20 @@ data PostSourcesRequestBodyReceiver'RefundAttributesMethod'
   | PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringNone
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyReceiver'RefundAttributesMethod' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyReceiver'RefundAttributesMethod' where
   toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringEmail) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "email"
-  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringManual) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "manual"
-  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringNone) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "none"
+  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringEmail) = "email"
+  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringManual) = "manual"
+  toJSON (PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringNone) = "none"
 
-instance Data.Aeson.FromJSON PostSourcesRequestBodyReceiver'RefundAttributesMethod' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyReceiver'RefundAttributesMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "email")
-          then PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringEmail
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "manual")
-              then PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringManual
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "none")
-                  then PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringNone
-                  else PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumOther val
+      ( if  | val GHC.Classes.== "email" -> PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringEmail
+            | val GHC.Classes.== "manual" -> PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringManual
+            | val GHC.Classes.== "none" -> PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumStringNone
+            | GHC.Base.otherwise -> PostSourcesRequestBodyReceiver'RefundAttributesMethod'EnumOther val
       )
 
 -- | Defines the data type for the schema postSourcesRequestBodyRedirect\'
@@ -628,7 +595,7 @@ data PostSourcesRequestBodyRedirect'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyRedirect' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyRedirect' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "return_url" (postSourcesRequestBodyRedirect'ReturnUrl obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "return_url" (postSourcesRequestBodyRedirect'ReturnUrl obj))
 
@@ -641,7 +608,7 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyRedirect' wher
 data PostSourcesRequestBodySourceOrder'
   = PostSourcesRequestBodySourceOrder'
       { -- | items
-        postSourcesRequestBodySourceOrder'Items :: (GHC.Maybe.Maybe ([] PostSourcesRequestBodySourceOrder'Items')),
+        postSourcesRequestBodySourceOrder'Items :: (GHC.Maybe.Maybe ([PostSourcesRequestBodySourceOrder'Items'])),
         -- | shipping
         postSourcesRequestBodySourceOrder'Shipping :: (GHC.Maybe.Maybe PostSourcesRequestBodySourceOrder'Shipping')
       }
@@ -650,7 +617,7 @@ data PostSourcesRequestBodySourceOrder'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodySourceOrder' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodySourceOrder' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "items" (postSourcesRequestBodySourceOrder'Items obj) : (Data.Aeson..=) "shipping" (postSourcesRequestBodySourceOrder'Shipping obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "items" (postSourcesRequestBodySourceOrder'Items obj) GHC.Base.<> (Data.Aeson..=) "shipping" (postSourcesRequestBodySourceOrder'Shipping obj))
 
@@ -690,7 +657,7 @@ data PostSourcesRequestBodySourceOrder'Items'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodySourceOrder'Items' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodySourceOrder'Items' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postSourcesRequestBodySourceOrder'Items'Amount obj) : (Data.Aeson..=) "currency" (postSourcesRequestBodySourceOrder'Items'Currency obj) : (Data.Aeson..=) "description" (postSourcesRequestBodySourceOrder'Items'Description obj) : (Data.Aeson..=) "parent" (postSourcesRequestBodySourceOrder'Items'Parent obj) : (Data.Aeson..=) "quantity" (postSourcesRequestBodySourceOrder'Items'Quantity obj) : (Data.Aeson..=) "type" (postSourcesRequestBodySourceOrder'Items'Type obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postSourcesRequestBodySourceOrder'Items'Amount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postSourcesRequestBodySourceOrder'Items'Currency obj) GHC.Base.<> ((Data.Aeson..=) "description" (postSourcesRequestBodySourceOrder'Items'Description obj) GHC.Base.<> ((Data.Aeson..=) "parent" (postSourcesRequestBodySourceOrder'Items'Parent obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (postSourcesRequestBodySourceOrder'Items'Quantity obj) GHC.Base.<> (Data.Aeson..=) "type" (postSourcesRequestBodySourceOrder'Items'Type obj))))))
 
@@ -707,29 +674,22 @@ data PostSourcesRequestBodySourceOrder'Items'Type'
   | PostSourcesRequestBodySourceOrder'Items'Type'EnumStringTax
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodySourceOrder'Items'Type' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodySourceOrder'Items'Type' where
   toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumStringDiscount) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "discount"
-  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumStringShipping) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "shipping"
-  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumStringSku) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku"
-  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumStringTax) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tax"
+  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumStringDiscount) = "discount"
+  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumStringShipping) = "shipping"
+  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumStringSku) = "sku"
+  toJSON (PostSourcesRequestBodySourceOrder'Items'Type'EnumStringTax) = "tax"
 
-instance Data.Aeson.FromJSON PostSourcesRequestBodySourceOrder'Items'Type' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodySourceOrder'Items'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "discount")
-          then PostSourcesRequestBodySourceOrder'Items'Type'EnumStringDiscount
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "shipping")
-              then PostSourcesRequestBodySourceOrder'Items'Type'EnumStringShipping
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku")
-                  then PostSourcesRequestBodySourceOrder'Items'Type'EnumStringSku
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tax")
-                      then PostSourcesRequestBodySourceOrder'Items'Type'EnumStringTax
-                      else PostSourcesRequestBodySourceOrder'Items'Type'EnumOther val
+      ( if  | val GHC.Classes.== "discount" -> PostSourcesRequestBodySourceOrder'Items'Type'EnumStringDiscount
+            | val GHC.Classes.== "shipping" -> PostSourcesRequestBodySourceOrder'Items'Type'EnumStringShipping
+            | val GHC.Classes.== "sku" -> PostSourcesRequestBodySourceOrder'Items'Type'EnumStringSku
+            | val GHC.Classes.== "tax" -> PostSourcesRequestBodySourceOrder'Items'Type'EnumStringTax
+            | GHC.Base.otherwise -> PostSourcesRequestBodySourceOrder'Items'Type'EnumOther val
       )
 
 -- | Defines the data type for the schema postSourcesRequestBodySource_order\'Shipping\'
@@ -767,7 +727,7 @@ data PostSourcesRequestBodySourceOrder'Shipping'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodySourceOrder'Shipping' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodySourceOrder'Shipping' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postSourcesRequestBodySourceOrder'Shipping'Address obj) : (Data.Aeson..=) "carrier" (postSourcesRequestBodySourceOrder'Shipping'Carrier obj) : (Data.Aeson..=) "name" (postSourcesRequestBodySourceOrder'Shipping'Name obj) : (Data.Aeson..=) "phone" (postSourcesRequestBodySourceOrder'Shipping'Phone obj) : (Data.Aeson..=) "tracking_number" (postSourcesRequestBodySourceOrder'Shipping'TrackingNumber obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postSourcesRequestBodySourceOrder'Shipping'Address obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (postSourcesRequestBodySourceOrder'Shipping'Carrier obj) GHC.Base.<> ((Data.Aeson..=) "name" (postSourcesRequestBodySourceOrder'Shipping'Name obj) GHC.Base.<> ((Data.Aeson..=) "phone" (postSourcesRequestBodySourceOrder'Shipping'Phone obj) GHC.Base.<> (Data.Aeson..=) "tracking_number" (postSourcesRequestBodySourceOrder'Shipping'TrackingNumber obj)))))
 
@@ -819,7 +779,7 @@ data PostSourcesRequestBodySourceOrder'Shipping'Address'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodySourceOrder'Shipping'Address' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodySourceOrder'Shipping'Address' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postSourcesRequestBodySourceOrder'Shipping'Address'City obj) : (Data.Aeson..=) "country" (postSourcesRequestBodySourceOrder'Shipping'Address'Country obj) : (Data.Aeson..=) "line1" (postSourcesRequestBodySourceOrder'Shipping'Address'Line1 obj) : (Data.Aeson..=) "line2" (postSourcesRequestBodySourceOrder'Shipping'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postSourcesRequestBodySourceOrder'Shipping'Address'PostalCode obj) : (Data.Aeson..=) "state" (postSourcesRequestBodySourceOrder'Shipping'Address'State obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postSourcesRequestBodySourceOrder'Shipping'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postSourcesRequestBodySourceOrder'Shipping'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postSourcesRequestBodySourceOrder'Shipping'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postSourcesRequestBodySourceOrder'Shipping'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postSourcesRequestBodySourceOrder'Shipping'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postSourcesRequestBodySourceOrder'Shipping'Address'State obj))))))
 
@@ -834,21 +794,18 @@ data PostSourcesRequestBodyUsage'
   | PostSourcesRequestBodyUsage'EnumStringSingleUse
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSourcesRequestBodyUsage' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSourcesRequestBodyUsage' where
   toJSON (PostSourcesRequestBodyUsage'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSourcesRequestBodyUsage'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSourcesRequestBodyUsage'EnumStringReusable) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "reusable"
-  toJSON (PostSourcesRequestBodyUsage'EnumStringSingleUse) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "single_use"
+  toJSON (PostSourcesRequestBodyUsage'EnumStringReusable) = "reusable"
+  toJSON (PostSourcesRequestBodyUsage'EnumStringSingleUse) = "single_use"
 
-instance Data.Aeson.FromJSON PostSourcesRequestBodyUsage' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSourcesRequestBodyUsage' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "reusable")
-          then PostSourcesRequestBodyUsage'EnumStringReusable
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "single_use")
-              then PostSourcesRequestBodyUsage'EnumStringSingleUse
-              else PostSourcesRequestBodyUsage'EnumOther val
+      ( if  | val GHC.Classes.== "reusable" -> PostSourcesRequestBodyUsage'EnumStringReusable
+            | val GHC.Classes.== "single_use" -> PostSourcesRequestBodyUsage'EnumStringSingleUse
+            | GHC.Base.otherwise -> PostSourcesRequestBodyUsage'EnumOther val
       )
 
 -- | Represents a response of the operation 'postSources'.
@@ -862,71 +819,3 @@ data PostSourcesResponse
   | -- | Error response.
     PostSourcesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/sources
---
--- The same as 'postSources' but accepts an explicit configuration.
-postSourcesWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostSourcesRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostSourcesResponse)
-postSourcesWithConfiguration
-  config
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostSourcesResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostSourcesResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Source
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostSourcesResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/sources") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/sources
---
--- The same as 'postSources' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postSourcesRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The request body to send
-  GHC.Maybe.Maybe PostSourcesRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postSourcesRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/sources") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/sources
---
--- The same as 'postSources' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postSourcesWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostSourcesRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postSourcesWithConfigurationRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/sources") [] body StripeAPI.Common.RequestBodyEncodingFormData)

@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postCoupons
 module StripeAPI.Operations.PostCoupons where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -96,7 +95,7 @@ data PostCouponsRequestBody
         -- | duration_in_months: Required only if \`duration\` is \`repeating\`, in which case it must be a positive integer that specifies the number of months the discount will be in effect.
         postCouponsRequestBodyDurationInMonths :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | expand: Specifies which fields in the response should be expanded.
-        postCouponsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postCouponsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | id: Unique string of your choice that will be used to identify this coupon when applying it to a customer. This is often a specific code you\'ll give to your customer to use when signing up (e.g., \`FALL25OFF\`). If you don\'t want to specify a particular code, you can leave the ID blank and we\'ll generate a random code for you.
         --
         -- Constraints:
@@ -123,7 +122,7 @@ data PostCouponsRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostCouponsRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCouponsRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount_off" (postCouponsRequestBodyAmountOff obj) : (Data.Aeson..=) "currency" (postCouponsRequestBodyCurrency obj) : (Data.Aeson..=) "duration" (postCouponsRequestBodyDuration obj) : (Data.Aeson..=) "duration_in_months" (postCouponsRequestBodyDurationInMonths obj) : (Data.Aeson..=) "expand" (postCouponsRequestBodyExpand obj) : (Data.Aeson..=) "id" (postCouponsRequestBodyId obj) : (Data.Aeson..=) "max_redemptions" (postCouponsRequestBodyMaxRedemptions obj) : (Data.Aeson..=) "metadata" (postCouponsRequestBodyMetadata obj) : (Data.Aeson..=) "name" (postCouponsRequestBodyName obj) : (Data.Aeson..=) "percent_off" (postCouponsRequestBodyPercentOff obj) : (Data.Aeson..=) "redeem_by" (postCouponsRequestBodyRedeemBy obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount_off" (postCouponsRequestBodyAmountOff obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postCouponsRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "duration" (postCouponsRequestBodyDuration obj) GHC.Base.<> ((Data.Aeson..=) "duration_in_months" (postCouponsRequestBodyDurationInMonths obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postCouponsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "id" (postCouponsRequestBodyId obj) GHC.Base.<> ((Data.Aeson..=) "max_redemptions" (postCouponsRequestBodyMaxRedemptions obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postCouponsRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "name" (postCouponsRequestBodyName obj) GHC.Base.<> ((Data.Aeson..=) "percent_off" (postCouponsRequestBodyPercentOff obj) GHC.Base.<> (Data.Aeson..=) "redeem_by" (postCouponsRequestBodyRedeemBy obj)))))))))))
 
@@ -141,25 +140,20 @@ data PostCouponsRequestBodyDuration'
   | PostCouponsRequestBodyDuration'EnumStringRepeating
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostCouponsRequestBodyDuration' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCouponsRequestBodyDuration' where
   toJSON (PostCouponsRequestBodyDuration'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostCouponsRequestBodyDuration'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCouponsRequestBodyDuration'EnumStringForever) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "forever"
-  toJSON (PostCouponsRequestBodyDuration'EnumStringOnce) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "once"
-  toJSON (PostCouponsRequestBodyDuration'EnumStringRepeating) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "repeating"
+  toJSON (PostCouponsRequestBodyDuration'EnumStringForever) = "forever"
+  toJSON (PostCouponsRequestBodyDuration'EnumStringOnce) = "once"
+  toJSON (PostCouponsRequestBodyDuration'EnumStringRepeating) = "repeating"
 
-instance Data.Aeson.FromJSON PostCouponsRequestBodyDuration' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostCouponsRequestBodyDuration' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "forever")
-          then PostCouponsRequestBodyDuration'EnumStringForever
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "once")
-              then PostCouponsRequestBodyDuration'EnumStringOnce
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "repeating")
-                  then PostCouponsRequestBodyDuration'EnumStringRepeating
-                  else PostCouponsRequestBodyDuration'EnumOther val
+      ( if  | val GHC.Classes.== "forever" -> PostCouponsRequestBodyDuration'EnumStringForever
+            | val GHC.Classes.== "once" -> PostCouponsRequestBodyDuration'EnumStringOnce
+            | val GHC.Classes.== "repeating" -> PostCouponsRequestBodyDuration'EnumStringRepeating
+            | GHC.Base.otherwise -> PostCouponsRequestBodyDuration'EnumOther val
       )
 
 -- | Represents a response of the operation 'postCoupons'.
@@ -173,71 +167,3 @@ data PostCouponsResponse
   | -- | Error response.
     PostCouponsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/coupons
---
--- The same as 'postCoupons' but accepts an explicit configuration.
-postCouponsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  PostCouponsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostCouponsResponse)
-postCouponsWithConfiguration
-  config
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostCouponsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostCouponsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Coupon
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostCouponsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/coupons") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/coupons
---
--- The same as 'postCoupons' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postCouponsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The request body to send
-  PostCouponsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postCouponsRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/coupons") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/coupons
---
--- The same as 'postCoupons' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postCouponsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  PostCouponsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postCouponsWithConfigurationRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/coupons") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

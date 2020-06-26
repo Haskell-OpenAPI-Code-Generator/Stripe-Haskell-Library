@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postChargesCharge
 module StripeAPI.Operations.PostChargesCharge where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -98,7 +97,7 @@ data PostChargesChargeRequestBody
         -- * Maximum length of 40000
         postChargesChargeRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postChargesChargeRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postChargesChargeRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | fraud_details: A set of key-value pairs you can attach to a charge giving information about its riskiness. If you believe a charge is fraudulent, include a \`user_report\` key with a value of \`fraudulent\`. If you believe a charge is safe, include a \`user_report\` key with a value of \`safe\`. Stripe will use the information you send to improve our fraud detection algorithms.
         postChargesChargeRequestBodyFraudDetails :: (GHC.Maybe.Maybe PostChargesChargeRequestBodyFraudDetails'),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -119,7 +118,7 @@ data PostChargesChargeRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostChargesChargeRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "customer" (postChargesChargeRequestBodyCustomer obj) : (Data.Aeson..=) "description" (postChargesChargeRequestBodyDescription obj) : (Data.Aeson..=) "expand" (postChargesChargeRequestBodyExpand obj) : (Data.Aeson..=) "fraud_details" (postChargesChargeRequestBodyFraudDetails obj) : (Data.Aeson..=) "metadata" (postChargesChargeRequestBodyMetadata obj) : (Data.Aeson..=) "receipt_email" (postChargesChargeRequestBodyReceiptEmail obj) : (Data.Aeson..=) "shipping" (postChargesChargeRequestBodyShipping obj) : (Data.Aeson..=) "transfer_group" (postChargesChargeRequestBodyTransferGroup obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "customer" (postChargesChargeRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "description" (postChargesChargeRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postChargesChargeRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "fraud_details" (postChargesChargeRequestBodyFraudDetails obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postChargesChargeRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "receipt_email" (postChargesChargeRequestBodyReceiptEmail obj) GHC.Base.<> ((Data.Aeson..=) "shipping" (postChargesChargeRequestBodyShipping obj) GHC.Base.<> (Data.Aeson..=) "transfer_group" (postChargesChargeRequestBodyTransferGroup obj))))))))
 
@@ -143,7 +142,7 @@ data PostChargesChargeRequestBodyFraudDetails'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostChargesChargeRequestBodyFraudDetails' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBodyFraudDetails' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "user_report" (postChargesChargeRequestBodyFraudDetails'UserReport obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "user_report" (postChargesChargeRequestBodyFraudDetails'UserReport obj))
 
@@ -159,25 +158,20 @@ data PostChargesChargeRequestBodyFraudDetails'UserReport'
   | PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringSafe
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostChargesChargeRequestBodyFraudDetails'UserReport' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBodyFraudDetails'UserReport' where
   toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
-  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringFraudulent) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fraudulent"
-  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringSafe) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "safe"
+  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumString_) = ""
+  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringFraudulent) = "fraudulent"
+  toJSON (PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringSafe) = "safe"
 
-instance Data.Aeson.FromJSON PostChargesChargeRequestBodyFraudDetails'UserReport' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostChargesChargeRequestBodyFraudDetails'UserReport' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostChargesChargeRequestBodyFraudDetails'UserReport'EnumString_
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fraudulent")
-              then PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringFraudulent
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "safe")
-                  then PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringSafe
-                  else PostChargesChargeRequestBodyFraudDetails'UserReport'EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostChargesChargeRequestBodyFraudDetails'UserReport'EnumString_
+            | val GHC.Classes.== "fraudulent" -> PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringFraudulent
+            | val GHC.Classes.== "safe" -> PostChargesChargeRequestBodyFraudDetails'UserReport'EnumStringSafe
+            | GHC.Base.otherwise -> PostChargesChargeRequestBodyFraudDetails'UserReport'EnumOther val
       )
 
 -- | Defines the data type for the schema postChargesChargeRequestBodyShipping\'
@@ -217,7 +211,7 @@ data PostChargesChargeRequestBodyShipping'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostChargesChargeRequestBodyShipping' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBodyShipping' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postChargesChargeRequestBodyShipping'Address obj) : (Data.Aeson..=) "carrier" (postChargesChargeRequestBodyShipping'Carrier obj) : (Data.Aeson..=) "name" (postChargesChargeRequestBodyShipping'Name obj) : (Data.Aeson..=) "phone" (postChargesChargeRequestBodyShipping'Phone obj) : (Data.Aeson..=) "tracking_number" (postChargesChargeRequestBodyShipping'TrackingNumber obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postChargesChargeRequestBodyShipping'Address obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (postChargesChargeRequestBodyShipping'Carrier obj) GHC.Base.<> ((Data.Aeson..=) "name" (postChargesChargeRequestBodyShipping'Name obj) GHC.Base.<> ((Data.Aeson..=) "phone" (postChargesChargeRequestBodyShipping'Phone obj) GHC.Base.<> (Data.Aeson..=) "tracking_number" (postChargesChargeRequestBodyShipping'TrackingNumber obj)))))
 
@@ -269,7 +263,7 @@ data PostChargesChargeRequestBodyShipping'Address'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostChargesChargeRequestBodyShipping'Address' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesChargeRequestBodyShipping'Address' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postChargesChargeRequestBodyShipping'Address'City obj) : (Data.Aeson..=) "country" (postChargesChargeRequestBodyShipping'Address'Country obj) : (Data.Aeson..=) "line1" (postChargesChargeRequestBodyShipping'Address'Line1 obj) : (Data.Aeson..=) "line2" (postChargesChargeRequestBodyShipping'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postChargesChargeRequestBodyShipping'Address'PostalCode obj) : (Data.Aeson..=) "state" (postChargesChargeRequestBodyShipping'Address'State obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postChargesChargeRequestBodyShipping'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postChargesChargeRequestBodyShipping'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postChargesChargeRequestBodyShipping'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postChargesChargeRequestBodyShipping'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postChargesChargeRequestBodyShipping'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postChargesChargeRequestBodyShipping'Address'State obj))))))
 
@@ -287,81 +281,3 @@ data PostChargesChargeResponse
   | -- | Error response.
     PostChargesChargeResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/charges/{charge}
---
--- The same as 'postChargesCharge' but accepts an explicit configuration.
-postChargesChargeWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | charge | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostChargesChargeRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostChargesChargeResponse)
-postChargesChargeWithConfiguration
-  config
-  charge
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostChargesChargeResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostChargesChargeResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Charge
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostChargesChargeResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/charges/{charge}
---
--- The same as 'postChargesCharge' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postChargesChargeRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | charge | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostChargesChargeRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postChargesChargeRaw
-  charge
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/charges/{charge}
---
--- The same as 'postChargesCharge' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postChargesChargeWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | charge | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostChargesChargeRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postChargesChargeWithConfigurationRaw
-  config
-  charge
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/charges/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel charge)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

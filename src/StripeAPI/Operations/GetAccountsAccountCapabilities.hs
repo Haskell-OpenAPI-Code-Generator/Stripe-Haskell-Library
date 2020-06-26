@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getAccountsAccountCapabilities
 module StripeAPI.Operations.GetAccountsAccountCapabilities where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -90,14 +89,14 @@ data GetAccountsAccountCapabilitiesParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getAccountsAccountCapabilitiesParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
+        getAccountsAccountCapabilitiesParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetAccountsAccountCapabilitiesParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetAccountsAccountCapabilitiesParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathAccount" (getAccountsAccountCapabilitiesParametersPathAccount obj) : (Data.Aeson..=) "queryExpand" (getAccountsAccountCapabilitiesParametersQueryExpand obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathAccount" (getAccountsAccountCapabilitiesParametersPathAccount obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getAccountsAccountCapabilitiesParametersQueryExpand obj))
 
@@ -120,7 +119,7 @@ data GetAccountsAccountCapabilitiesResponse
 data GetAccountsAccountCapabilitiesResponseBody200
   = GetAccountsAccountCapabilitiesResponseBody200
       { -- | data
-        getAccountsAccountCapabilitiesResponseBody200Data :: ([] Capability),
+        getAccountsAccountCapabilitiesResponseBody200Data :: ([Capability]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getAccountsAccountCapabilitiesResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -137,7 +136,7 @@ data GetAccountsAccountCapabilitiesResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetAccountsAccountCapabilitiesResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetAccountsAccountCapabilitiesResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getAccountsAccountCapabilitiesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getAccountsAccountCapabilitiesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getAccountsAccountCapabilitiesResponseBody200Object obj) : (Data.Aeson..=) "url" (getAccountsAccountCapabilitiesResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getAccountsAccountCapabilitiesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getAccountsAccountCapabilitiesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getAccountsAccountCapabilitiesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getAccountsAccountCapabilitiesResponseBody200Url obj))))
 
@@ -153,83 +152,14 @@ data GetAccountsAccountCapabilitiesResponseBody200Object'
   | GetAccountsAccountCapabilitiesResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetAccountsAccountCapabilitiesResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetAccountsAccountCapabilitiesResponseBody200Object' where
   toJSON (GetAccountsAccountCapabilitiesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetAccountsAccountCapabilitiesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetAccountsAccountCapabilitiesResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetAccountsAccountCapabilitiesResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetAccountsAccountCapabilitiesResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetAccountsAccountCapabilitiesResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetAccountsAccountCapabilitiesResponseBody200Object'EnumStringList
-          else GetAccountsAccountCapabilitiesResponseBody200Object'EnumOther val
+      ( if  | val GHC.Classes.== "list" -> GetAccountsAccountCapabilitiesResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetAccountsAccountCapabilitiesResponseBody200Object'EnumOther val
       )
-
--- | > GET /v1/accounts/{account}/capabilities
---
--- The same as 'getAccountsAccountCapabilities' but accepts an explicit configuration.
-getAccountsAccountCapabilitiesWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetAccountsAccountCapabilitiesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetAccountsAccountCapabilitiesResponse)
-getAccountsAccountCapabilitiesWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetAccountsAccountCapabilitiesResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetAccountsAccountCapabilitiesResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetAccountsAccountCapabilitiesResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetAccountsAccountCapabilitiesResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getAccountsAccountCapabilitiesParametersPathAccount parameters))) GHC.Base.++ "/capabilities"))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountsAccountCapabilitiesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
-
--- | > GET /v1/accounts/{account}/capabilities
---
--- The same as 'getAccountsAccountCapabilities' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getAccountsAccountCapabilitiesRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetAccountsAccountCapabilitiesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getAccountsAccountCapabilitiesRaw parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getAccountsAccountCapabilitiesParametersPathAccount parameters))) GHC.Base.++ "/capabilities"))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountsAccountCapabilitiesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
-
--- | > GET /v1/accounts/{account}/capabilities
---
--- The same as 'getAccountsAccountCapabilities' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getAccountsAccountCapabilitiesWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetAccountsAccountCapabilitiesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getAccountsAccountCapabilitiesWithConfigurationRaw
-  config
-  parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getAccountsAccountCapabilitiesParametersPathAccount parameters))) GHC.Base.++ "/capabilities"))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getAccountsAccountCapabilitiesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])

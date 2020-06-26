@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getApplePayDomains
 module StripeAPI.Operations.GetApplePayDomains where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -107,7 +106,7 @@ data GetApplePayDomainsParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getApplePayDomainsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getApplePayDomainsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -126,7 +125,7 @@ data GetApplePayDomainsParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetApplePayDomainsParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetApplePayDomainsParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryDomain_name" (getApplePayDomainsParametersQueryDomainName obj) : (Data.Aeson..=) "queryEnding_before" (getApplePayDomainsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getApplePayDomainsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getApplePayDomainsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getApplePayDomainsParametersQueryStartingAfter obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryDomain_name" (getApplePayDomainsParametersQueryDomainName obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getApplePayDomainsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getApplePayDomainsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getApplePayDomainsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getApplePayDomainsParametersQueryStartingAfter obj)))))
 
@@ -149,7 +148,7 @@ data GetApplePayDomainsResponse
 data GetApplePayDomainsResponseBody200
   = GetApplePayDomainsResponseBody200
       { -- | data
-        getApplePayDomainsResponseBody200Data :: ([] ApplePayDomain),
+        getApplePayDomainsResponseBody200Data :: ([ApplePayDomain]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getApplePayDomainsResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -167,7 +166,7 @@ data GetApplePayDomainsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetApplePayDomainsResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetApplePayDomainsResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getApplePayDomainsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getApplePayDomainsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getApplePayDomainsResponseBody200Object obj) : (Data.Aeson..=) "url" (getApplePayDomainsResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getApplePayDomainsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getApplePayDomainsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getApplePayDomainsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getApplePayDomainsResponseBody200Url obj))))
 
@@ -183,116 +182,14 @@ data GetApplePayDomainsResponseBody200Object'
   | GetApplePayDomainsResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetApplePayDomainsResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetApplePayDomainsResponseBody200Object' where
   toJSON (GetApplePayDomainsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetApplePayDomainsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetApplePayDomainsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetApplePayDomainsResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetApplePayDomainsResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetApplePayDomainsResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetApplePayDomainsResponseBody200Object'EnumStringList
-          else GetApplePayDomainsResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/apple_pay/domains
---
--- The same as 'getApplePayDomains' but accepts an explicit configuration.
-getApplePayDomainsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetApplePayDomainsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetApplePayDomainsResponse)
-getApplePayDomainsWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetApplePayDomainsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetApplePayDomainsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetApplePayDomainsResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetApplePayDomainsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/apple_pay/domains")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "domain_name") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryDomainName parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/apple_pay/domains
---
--- The same as 'getApplePayDomains' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getApplePayDomainsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetApplePayDomainsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getApplePayDomainsRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/apple_pay/domains")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "domain_name") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryDomainName parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/apple_pay/domains
---
--- The same as 'getApplePayDomains' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getApplePayDomainsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetApplePayDomainsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getApplePayDomainsWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/apple_pay/domains")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "domain_name") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryDomainName parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getApplePayDomainsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetApplePayDomainsResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetApplePayDomainsResponseBody200Object'EnumOther val
       )

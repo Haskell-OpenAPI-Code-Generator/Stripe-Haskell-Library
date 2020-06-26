@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getTerminalReaders
 module StripeAPI.Operations.GetTerminalReaders where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -107,7 +106,7 @@ data GetTerminalReadersParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getTerminalReadersParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getTerminalReadersParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -138,7 +137,7 @@ data GetTerminalReadersParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetTerminalReadersParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalReadersParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryDevice_type" (getTerminalReadersParametersQueryDeviceType obj) : (Data.Aeson..=) "queryEnding_before" (getTerminalReadersParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getTerminalReadersParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getTerminalReadersParametersQueryLimit obj) : (Data.Aeson..=) "queryLocation" (getTerminalReadersParametersQueryLocation obj) : (Data.Aeson..=) "queryStarting_after" (getTerminalReadersParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryStatus" (getTerminalReadersParametersQueryStatus obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryDevice_type" (getTerminalReadersParametersQueryDeviceType obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getTerminalReadersParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getTerminalReadersParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getTerminalReadersParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryLocation" (getTerminalReadersParametersQueryLocation obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getTerminalReadersParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryStatus" (getTerminalReadersParametersQueryStatus obj)))))))
 
@@ -157,21 +156,18 @@ data GetTerminalReadersParametersQueryDeviceType'
   | GetTerminalReadersParametersQueryDeviceType'EnumStringVerifoneP400
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetTerminalReadersParametersQueryDeviceType' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalReadersParametersQueryDeviceType' where
   toJSON (GetTerminalReadersParametersQueryDeviceType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetTerminalReadersParametersQueryDeviceType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTerminalReadersParametersQueryDeviceType'EnumStringBbposChipper2x) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bbpos_chipper2x"
-  toJSON (GetTerminalReadersParametersQueryDeviceType'EnumStringVerifoneP400) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "verifone_P400"
+  toJSON (GetTerminalReadersParametersQueryDeviceType'EnumStringBbposChipper2x) = "bbpos_chipper2x"
+  toJSON (GetTerminalReadersParametersQueryDeviceType'EnumStringVerifoneP400) = "verifone_P400"
 
-instance Data.Aeson.FromJSON GetTerminalReadersParametersQueryDeviceType' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalReadersParametersQueryDeviceType' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bbpos_chipper2x")
-          then GetTerminalReadersParametersQueryDeviceType'EnumStringBbposChipper2x
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "verifone_P400")
-              then GetTerminalReadersParametersQueryDeviceType'EnumStringVerifoneP400
-              else GetTerminalReadersParametersQueryDeviceType'EnumOther val
+      ( if  | val GHC.Classes.== "bbpos_chipper2x" -> GetTerminalReadersParametersQueryDeviceType'EnumStringBbposChipper2x
+            | val GHC.Classes.== "verifone_P400" -> GetTerminalReadersParametersQueryDeviceType'EnumStringVerifoneP400
+            | GHC.Base.otherwise -> GetTerminalReadersParametersQueryDeviceType'EnumOther val
       )
 
 -- | Defines the enum schema getTerminalReadersParametersQueryStatus\'
@@ -186,21 +182,18 @@ data GetTerminalReadersParametersQueryStatus'
   | GetTerminalReadersParametersQueryStatus'EnumStringOnline
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetTerminalReadersParametersQueryStatus' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalReadersParametersQueryStatus' where
   toJSON (GetTerminalReadersParametersQueryStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetTerminalReadersParametersQueryStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTerminalReadersParametersQueryStatus'EnumStringOffline) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "offline"
-  toJSON (GetTerminalReadersParametersQueryStatus'EnumStringOnline) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "online"
+  toJSON (GetTerminalReadersParametersQueryStatus'EnumStringOffline) = "offline"
+  toJSON (GetTerminalReadersParametersQueryStatus'EnumStringOnline) = "online"
 
-instance Data.Aeson.FromJSON GetTerminalReadersParametersQueryStatus' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalReadersParametersQueryStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "offline")
-          then GetTerminalReadersParametersQueryStatus'EnumStringOffline
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "online")
-              then GetTerminalReadersParametersQueryStatus'EnumStringOnline
-              else GetTerminalReadersParametersQueryStatus'EnumOther val
+      ( if  | val GHC.Classes.== "offline" -> GetTerminalReadersParametersQueryStatus'EnumStringOffline
+            | val GHC.Classes.== "online" -> GetTerminalReadersParametersQueryStatus'EnumStringOnline
+            | GHC.Base.otherwise -> GetTerminalReadersParametersQueryStatus'EnumOther val
       )
 
 -- | Represents a response of the operation 'getTerminalReaders'.
@@ -219,7 +212,7 @@ data GetTerminalReadersResponse
 data GetTerminalReadersResponseBody200
   = GetTerminalReadersResponseBody200
       { -- | data: A list of readers
-        getTerminalReadersResponseBody200Data :: ([] Terminal'reader),
+        getTerminalReadersResponseBody200Data :: ([Terminal'reader]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getTerminalReadersResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -236,7 +229,7 @@ data GetTerminalReadersResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetTerminalReadersResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalReadersResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getTerminalReadersResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getTerminalReadersResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getTerminalReadersResponseBody200Object obj) : (Data.Aeson..=) "url" (getTerminalReadersResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getTerminalReadersResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getTerminalReadersResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getTerminalReadersResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getTerminalReadersResponseBody200Url obj))))
 
@@ -252,122 +245,14 @@ data GetTerminalReadersResponseBody200Object'
   | GetTerminalReadersResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetTerminalReadersResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetTerminalReadersResponseBody200Object' where
   toJSON (GetTerminalReadersResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetTerminalReadersResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetTerminalReadersResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetTerminalReadersResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetTerminalReadersResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetTerminalReadersResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetTerminalReadersResponseBody200Object'EnumStringList
-          else GetTerminalReadersResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/terminal/readers
---
--- The same as 'getTerminalReaders' but accepts an explicit configuration.
-getTerminalReadersWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetTerminalReadersParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetTerminalReadersResponse)
-getTerminalReadersWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetTerminalReadersResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetTerminalReadersResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetTerminalReadersResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetTerminalReadersResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/terminal/readers")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "device_type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryDeviceType parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "location") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryLocation parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/terminal/readers
---
--- The same as 'getTerminalReaders' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getTerminalReadersRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetTerminalReadersParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getTerminalReadersRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/terminal/readers")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "device_type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryDeviceType parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "location") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryLocation parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/terminal/readers
---
--- The same as 'getTerminalReaders' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getTerminalReadersWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetTerminalReadersParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getTerminalReadersWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/terminal/readers")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "device_type") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryDeviceType parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "location") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryLocation parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getTerminalReadersParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetTerminalReadersResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetTerminalReadersResponseBody200Object'EnumOther val
       )

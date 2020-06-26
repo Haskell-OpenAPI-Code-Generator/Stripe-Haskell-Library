@@ -1,0 +1,8 @@
+module StripeAPI.Types.InvoiceSettingCustomField where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data InvoiceSettingCustomField 
+instance Show InvoiceSettingCustomField 
+instance Eq InvoiceSettingCustomField 
+instance FromJSON InvoiceSettingCustomField 
+instance ToJSON InvoiceSettingCustomField 

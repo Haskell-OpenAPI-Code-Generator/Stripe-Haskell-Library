@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getSkus
 module StripeAPI.Operations.GetSkus where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -113,11 +112,11 @@ data GetSkusParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getSkusParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getSkusParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryIds: Represents the parameter named \'ids\'
         --
         -- Only return SKUs with the given IDs.
-        getSkusParametersQueryIds :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getSkusParametersQueryIds :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryIn_stock: Represents the parameter named \'in_stock\'
         --
         -- Only return SKUs that are either in stock or out of stock (e.g., pass \`false\` to list all SKUs that are out of stock). If no value is provided, all SKUs are returned.
@@ -148,7 +147,7 @@ data GetSkusParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSkusParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSkusParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryActive" (getSkusParametersQueryActive obj) : (Data.Aeson..=) "queryAttributes" (getSkusParametersQueryAttributes obj) : (Data.Aeson..=) "queryEnding_before" (getSkusParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getSkusParametersQueryExpand obj) : (Data.Aeson..=) "queryIds" (getSkusParametersQueryIds obj) : (Data.Aeson..=) "queryIn_stock" (getSkusParametersQueryInStock obj) : (Data.Aeson..=) "queryLimit" (getSkusParametersQueryLimit obj) : (Data.Aeson..=) "queryProduct" (getSkusParametersQueryProduct obj) : (Data.Aeson..=) "queryStarting_after" (getSkusParametersQueryStartingAfter obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryActive" (getSkusParametersQueryActive obj) GHC.Base.<> ((Data.Aeson..=) "queryAttributes" (getSkusParametersQueryAttributes obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getSkusParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getSkusParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryIds" (getSkusParametersQueryIds obj) GHC.Base.<> ((Data.Aeson..=) "queryIn_stock" (getSkusParametersQueryInStock obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getSkusParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryProduct" (getSkusParametersQueryProduct obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getSkusParametersQueryStartingAfter obj)))))))))
 
@@ -171,7 +170,7 @@ data GetSkusResponse
 data GetSkusResponseBody200
   = GetSkusResponseBody200
       { -- | data
-        getSkusResponseBody200Data :: ([] Sku),
+        getSkusResponseBody200Data :: ([Sku]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getSkusResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -189,7 +188,7 @@ data GetSkusResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSkusResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSkusResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSkusResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSkusResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSkusResponseBody200Object obj) : (Data.Aeson..=) "url" (getSkusResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSkusResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSkusResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSkusResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSkusResponseBody200Url obj))))
 
@@ -205,128 +204,14 @@ data GetSkusResponseBody200Object'
   | GetSkusResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSkusResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSkusResponseBody200Object' where
   toJSON (GetSkusResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetSkusResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSkusResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetSkusResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetSkusResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetSkusResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetSkusResponseBody200Object'EnumStringList
-          else GetSkusResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/skus
---
--- The same as 'getSkus' but accepts an explicit configuration.
-getSkusWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSkusParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetSkusResponse)
-getSkusWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetSkusResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetSkusResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetSkusResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetSkusResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/skus")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "active") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryActive parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "attributes") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryAttributes parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ids") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryIds parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "in_stock") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryInStock parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "product") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryProduct parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/skus
---
--- The same as 'getSkus' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getSkusRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSkusParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getSkusRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/skus")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "active") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryActive parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "attributes") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryAttributes parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ids") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryIds parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "in_stock") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryInStock parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "product") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryProduct parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/skus
---
--- The same as 'getSkus' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getSkusWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSkusParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getSkusWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/skus")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "active") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryActive parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "attributes") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryAttributes parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ids") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryIds parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "in_stock") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryInStock parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "product") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryProduct parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetSkusResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetSkusResponseBody200Object'EnumOther val
       )

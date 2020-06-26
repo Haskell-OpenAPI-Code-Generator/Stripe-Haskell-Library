@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postOrdersIdReturns
 module StripeAPI.Operations.PostOrdersIdReturns where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -86,7 +85,7 @@ postOrdersIdReturns
 data PostOrdersIdReturnsRequestBody
   = PostOrdersIdReturnsRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
-        postOrdersIdReturnsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postOrdersIdReturnsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | items: List of items to return.
         postOrdersIdReturnsRequestBodyItems :: (GHC.Maybe.Maybe PostOrdersIdReturnsRequestBodyItems'Variants)
       }
@@ -95,7 +94,7 @@ data PostOrdersIdReturnsRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostOrdersIdReturnsRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersIdReturnsRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postOrdersIdReturnsRequestBodyExpand obj) : (Data.Aeson..=) "items" (postOrdersIdReturnsRequestBodyItems obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postOrdersIdReturnsRequestBodyExpand obj) GHC.Base.<> (Data.Aeson..=) "items" (postOrdersIdReturnsRequestBodyItems obj))
 
@@ -109,17 +108,16 @@ data PostOrdersIdReturnsRequestBodyItems'OneOf1
   | PostOrdersIdReturnsRequestBodyItems'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostOrdersIdReturnsRequestBodyItems'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersIdReturnsRequestBodyItems'OneOf1 where
   toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON PostOrdersIdReturnsRequestBodyItems'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersIdReturnsRequestBodyItems'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostOrdersIdReturnsRequestBodyItems'OneOf1EnumString_
-          else PostOrdersIdReturnsRequestBodyItems'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostOrdersIdReturnsRequestBodyItems'OneOf1EnumString_
+            | GHC.Base.otherwise -> PostOrdersIdReturnsRequestBodyItems'OneOf1EnumOther val
       )
 
 -- | Defines the data type for the schema postOrdersIdReturnsRequestBodyItems\'OneOf2
@@ -153,7 +151,7 @@ data PostOrdersIdReturnsRequestBodyItems'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostOrdersIdReturnsRequestBodyItems'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersIdReturnsRequestBodyItems'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postOrdersIdReturnsRequestBodyItems'OneOf2Amount obj) : (Data.Aeson..=) "description" (postOrdersIdReturnsRequestBodyItems'OneOf2Description obj) : (Data.Aeson..=) "parent" (postOrdersIdReturnsRequestBodyItems'OneOf2Parent obj) : (Data.Aeson..=) "quantity" (postOrdersIdReturnsRequestBodyItems'OneOf2Quantity obj) : (Data.Aeson..=) "type" (postOrdersIdReturnsRequestBodyItems'OneOf2Type obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postOrdersIdReturnsRequestBodyItems'OneOf2Amount obj) GHC.Base.<> ((Data.Aeson..=) "description" (postOrdersIdReturnsRequestBodyItems'OneOf2Description obj) GHC.Base.<> ((Data.Aeson..=) "parent" (postOrdersIdReturnsRequestBodyItems'OneOf2Parent obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (postOrdersIdReturnsRequestBodyItems'OneOf2Quantity obj) GHC.Base.<> (Data.Aeson..=) "type" (postOrdersIdReturnsRequestBodyItems'OneOf2Type obj)))))
 
@@ -170,29 +168,22 @@ data PostOrdersIdReturnsRequestBodyItems'OneOf2Type'
   | PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringTax
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostOrdersIdReturnsRequestBodyItems'OneOf2Type' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersIdReturnsRequestBodyItems'OneOf2Type' where
   toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringDiscount) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "discount"
-  toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringShipping) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "shipping"
-  toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringSku) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku"
-  toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringTax) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tax"
+  toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringDiscount) = "discount"
+  toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringShipping) = "shipping"
+  toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringSku) = "sku"
+  toJSON (PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringTax) = "tax"
 
-instance Data.Aeson.FromJSON PostOrdersIdReturnsRequestBodyItems'OneOf2Type' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersIdReturnsRequestBodyItems'OneOf2Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "discount")
-          then PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringDiscount
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "shipping")
-              then PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringShipping
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku")
-                  then PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringSku
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tax")
-                      then PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringTax
-                      else PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumOther val
+      ( if  | val GHC.Classes.== "discount" -> PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringDiscount
+            | val GHC.Classes.== "shipping" -> PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringShipping
+            | val GHC.Classes.== "sku" -> PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringSku
+            | val GHC.Classes.== "tax" -> PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumStringTax
+            | GHC.Base.otherwise -> PostOrdersIdReturnsRequestBodyItems'OneOf2Type'EnumOther val
       )
 
 -- | Define the one-of schema postOrdersIdReturnsRequestBodyItems\'
@@ -200,14 +191,19 @@ instance Data.Aeson.FromJSON PostOrdersIdReturnsRequestBodyItems'OneOf2Type' whe
 -- List of items to return.
 data PostOrdersIdReturnsRequestBodyItems'Variants
   = PostOrdersIdReturnsRequestBodyItems'PostOrdersIdReturnsRequestBodyItems'OneOf1 PostOrdersIdReturnsRequestBodyItems'OneOf1
-  | PostOrdersIdReturnsRequestBodyItems'ListPostOrdersIdReturnsRequestBodyItems'OneOf2 ([] PostOrdersIdReturnsRequestBodyItems'OneOf2)
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  | PostOrdersIdReturnsRequestBodyItems'ListTPostOrdersIdReturnsRequestBodyItems'OneOf2 ([PostOrdersIdReturnsRequestBodyItems'OneOf2])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostOrdersIdReturnsRequestBodyItems'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersIdReturnsRequestBodyItems'Variants where
+  toJSON (PostOrdersIdReturnsRequestBodyItems'PostOrdersIdReturnsRequestBodyItems'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostOrdersIdReturnsRequestBodyItems'ListTPostOrdersIdReturnsRequestBodyItems'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostOrdersIdReturnsRequestBodyItems'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersIdReturnsRequestBodyItems'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostOrdersIdReturnsRequestBodyItems'PostOrdersIdReturnsRequestBodyItems'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostOrdersIdReturnsRequestBodyItems'ListTPostOrdersIdReturnsRequestBodyItems'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postOrdersIdReturns'.
 --
@@ -220,81 +216,3 @@ data PostOrdersIdReturnsResponse
   | -- | Error response.
     PostOrdersIdReturnsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/orders/{id}/returns
---
--- The same as 'postOrdersIdReturns' but accepts an explicit configuration.
-postOrdersIdReturnsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostOrdersIdReturnsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostOrdersIdReturnsResponse)
-postOrdersIdReturnsWithConfiguration
-  config
-  id
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostOrdersIdReturnsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostOrdersIdReturnsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              OrderReturn
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostOrdersIdReturnsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/orders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/returns"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/orders/{id}/returns
---
--- The same as 'postOrdersIdReturns' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postOrdersIdReturnsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostOrdersIdReturnsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postOrdersIdReturnsRaw
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/orders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/returns"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/orders/{id}/returns
---
--- The same as 'postOrdersIdReturns' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postOrdersIdReturnsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostOrdersIdReturnsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postOrdersIdReturnsWithConfigurationRaw
-  config
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/orders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ "/returns"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

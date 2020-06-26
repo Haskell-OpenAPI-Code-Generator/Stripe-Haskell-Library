@@ -129,17 +129,10 @@ security =
 
 conf = defaultConf {Common.configSecurityScheme = security}
 
-getCheckoutSessionIdRaw :: IO String
-getCheckoutSessionIdRaw = do
-  putStrLn "getCheckoutSessionIdRaw"
-  resp <- OpCheckout.postCheckoutSessionsWithConfigurationRaw conf checkoutSession
-  print resp
-  pure $ B8.unpack $ HS.getResponseBody resp
-
 getCheckoutSessionId :: IO String
 getCheckoutSessionId = do
   putStrLn "getCheckoutSessionId"
-  resp <- OpCheckout.postCheckoutSessionsWithConfiguration conf checkoutSession
+  resp <- Common.runWithConfiguration conf $ OpCheckout.postCheckoutSessions checkoutSession
   print resp
   pure $ T.unpack $ case HS.getResponseBody resp of
     OpCheckout.PostCheckoutSessionsResponse200 session ->
@@ -178,7 +171,7 @@ readSession sessionId = Common.runWithConfiguration conf $ do
 makePaymentIntentCall :: IO String
 makePaymentIntentCall = do
   putStrLn "makePaymentIntentCall"
-  resp <- OpPaymentIntent.postPaymentIntentsWithConfiguration conf paymentIntentRequestBody
+  resp <- Common.runWithConfiguration conf $ OpPaymentIntent.postPaymentIntents paymentIntentRequestBody
   print resp
   pure $ show $ HS.getResponseBody resp
 
@@ -190,7 +183,7 @@ getPaymentIntentCallSecret =
         _ -> "invalid response"
    in do
         putStrLn "getPaymentIntentCallSecret"
-        resp <- OpPaymentIntent.postPaymentIntentsWithConfiguration conf paymentIntentRequestBody
+        resp <- Common.runWithConfiguration conf $ OpPaymentIntent.postPaymentIntents paymentIntentRequestBody
         print resp
         pure $ trans resp
 

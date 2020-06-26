@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postCustomersCustomerBankAccountsId
 module StripeAPI.Operations.PostCustomersCustomerBankAccountsId where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -103,7 +102,7 @@ data PostCustomersCustomerBankAccountsIdParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (postCustomersCustomerBankAccountsIdParametersPathCustomer obj) : (Data.Aeson..=) "pathId" (postCustomersCustomerBankAccountsIdParametersPathId obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (postCustomersCustomerBankAccountsIdParametersPathCustomer obj) GHC.Base.<> (Data.Aeson..=) "pathId" (postCustomersCustomerBankAccountsIdParametersPathId obj))
 
@@ -174,7 +173,7 @@ data PostCustomersCustomerBankAccountsIdRequestBody
         -- * Maximum length of 5000
         postCustomersCustomerBankAccountsIdRequestBodyExpYear :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postCustomersCustomerBankAccountsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postCustomersCustomerBankAccountsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
         postCustomersCustomerBankAccountsIdRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | name: Cardholder name.
@@ -191,7 +190,7 @@ data PostCustomersCustomerBankAccountsIdRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account_holder_name" (postCustomersCustomerBankAccountsIdRequestBodyAccountHolderName obj) : (Data.Aeson..=) "account_holder_type" (postCustomersCustomerBankAccountsIdRequestBodyAccountHolderType obj) : (Data.Aeson..=) "address_city" (postCustomersCustomerBankAccountsIdRequestBodyAddressCity obj) : (Data.Aeson..=) "address_country" (postCustomersCustomerBankAccountsIdRequestBodyAddressCountry obj) : (Data.Aeson..=) "address_line1" (postCustomersCustomerBankAccountsIdRequestBodyAddressLine1 obj) : (Data.Aeson..=) "address_line2" (postCustomersCustomerBankAccountsIdRequestBodyAddressLine2 obj) : (Data.Aeson..=) "address_state" (postCustomersCustomerBankAccountsIdRequestBodyAddressState obj) : (Data.Aeson..=) "address_zip" (postCustomersCustomerBankAccountsIdRequestBodyAddressZip obj) : (Data.Aeson..=) "exp_month" (postCustomersCustomerBankAccountsIdRequestBodyExpMonth obj) : (Data.Aeson..=) "exp_year" (postCustomersCustomerBankAccountsIdRequestBodyExpYear obj) : (Data.Aeson..=) "expand" (postCustomersCustomerBankAccountsIdRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postCustomersCustomerBankAccountsIdRequestBodyMetadata obj) : (Data.Aeson..=) "name" (postCustomersCustomerBankAccountsIdRequestBodyName obj) : (Data.Aeson..=) "owner" (postCustomersCustomerBankAccountsIdRequestBodyOwner obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account_holder_name" (postCustomersCustomerBankAccountsIdRequestBodyAccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_type" (postCustomersCustomerBankAccountsIdRequestBodyAccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "address_city" (postCustomersCustomerBankAccountsIdRequestBodyAddressCity obj) GHC.Base.<> ((Data.Aeson..=) "address_country" (postCustomersCustomerBankAccountsIdRequestBodyAddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "address_line1" (postCustomersCustomerBankAccountsIdRequestBodyAddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "address_line2" (postCustomersCustomerBankAccountsIdRequestBodyAddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "address_state" (postCustomersCustomerBankAccountsIdRequestBodyAddressState obj) GHC.Base.<> ((Data.Aeson..=) "address_zip" (postCustomersCustomerBankAccountsIdRequestBodyAddressZip obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (postCustomersCustomerBankAccountsIdRequestBodyExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (postCustomersCustomerBankAccountsIdRequestBodyExpYear obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postCustomersCustomerBankAccountsIdRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postCustomersCustomerBankAccountsIdRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "name" (postCustomersCustomerBankAccountsIdRequestBodyName obj) GHC.Base.<> (Data.Aeson..=) "owner" (postCustomersCustomerBankAccountsIdRequestBodyOwner obj))))))))))))))
 
@@ -208,21 +207,18 @@ data PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'
   | PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'EnumStringIndividual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType' where
   toJSON (PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'EnumStringCompany) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "company"
-  toJSON (PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'EnumStringIndividual) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "individual"
+  toJSON (PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'EnumStringCompany) = "company"
+  toJSON (PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'EnumStringIndividual) = "individual"
 
-instance Data.Aeson.FromJSON PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "company")
-          then PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'EnumStringCompany
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "individual")
-              then PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'EnumStringIndividual
-              else PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'EnumOther val
+      ( if  | val GHC.Classes.== "company" -> PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'EnumStringCompany
+            | val GHC.Classes.== "individual" -> PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'EnumStringIndividual
+            | GHC.Base.otherwise -> PostCustomersCustomerBankAccountsIdRequestBodyAccountHolderType'EnumOther val
       )
 
 -- | Defines the data type for the schema postCustomersCustomerBankAccountsIdRequestBodyOwner\'
@@ -250,7 +246,7 @@ data PostCustomersCustomerBankAccountsIdRequestBodyOwner'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdRequestBodyOwner' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdRequestBodyOwner' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address obj) : (Data.Aeson..=) "email" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Email obj) : (Data.Aeson..=) "name" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Name obj) : (Data.Aeson..=) "phone" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Phone obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address obj) GHC.Base.<> ((Data.Aeson..=) "email" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Email obj) GHC.Base.<> ((Data.Aeson..=) "name" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Name obj) GHC.Base.<> (Data.Aeson..=) "phone" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Phone obj))))
 
@@ -302,7 +298,7 @@ data PostCustomersCustomerBankAccountsIdRequestBodyOwner'Address'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdRequestBodyOwner'Address' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdRequestBodyOwner'Address' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'City obj) : (Data.Aeson..=) "country" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Country obj) : (Data.Aeson..=) "line1" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Line1 obj) : (Data.Aeson..=) "line2" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'PostalCode obj) : (Data.Aeson..=) "state" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'State obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postCustomersCustomerBankAccountsIdRequestBodyOwner'Address'State obj))))))
 
@@ -395,7 +391,7 @@ data PostCustomersCustomerBankAccountsIdResponseBody200
         -- | amount: A positive integer in the smallest currency unit (that is, 100 cents for \$1.00, or 1 for ¥1, Japanese Yen being a zero-decimal currency) representing the total amount associated with the source. This is the amount for which the source will be chargeable once ready. Required for \`single_use\` sources.
         postCustomersCustomerBankAccountsIdResponseBody200Amount :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | available_payout_methods: A set of available payout methods for this card. Will be either \`[\"standard\"]\` or \`[\"standard\", \"instant\"]\`. Only values from this set should be passed as the \`method\` when creating a transfer.
-        postCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods :: (GHC.Maybe.Maybe ([] PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods')),
+        postCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods :: (GHC.Maybe.Maybe ([PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'])),
         -- | bancontact
         postCustomersCustomerBankAccountsIdResponseBody200Bancontact :: (GHC.Maybe.Maybe SourceTypeBancontact),
         -- | bank_name: Name of the bank associated with the routing number (e.g., \`WELLS FARGO\`).
@@ -564,7 +560,7 @@ data PostCustomersCustomerBankAccountsIdResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (postCustomersCustomerBankAccountsIdResponseBody200Account obj) : (Data.Aeson..=) "account_holder_name" (postCustomersCustomerBankAccountsIdResponseBody200AccountHolderName obj) : (Data.Aeson..=) "account_holder_type" (postCustomersCustomerBankAccountsIdResponseBody200AccountHolderType obj) : (Data.Aeson..=) "ach_credit_transfer" (postCustomersCustomerBankAccountsIdResponseBody200AchCreditTransfer obj) : (Data.Aeson..=) "ach_debit" (postCustomersCustomerBankAccountsIdResponseBody200AchDebit obj) : (Data.Aeson..=) "address_city" (postCustomersCustomerBankAccountsIdResponseBody200AddressCity obj) : (Data.Aeson..=) "address_country" (postCustomersCustomerBankAccountsIdResponseBody200AddressCountry obj) : (Data.Aeson..=) "address_line1" (postCustomersCustomerBankAccountsIdResponseBody200AddressLine1 obj) : (Data.Aeson..=) "address_line1_check" (postCustomersCustomerBankAccountsIdResponseBody200AddressLine1Check obj) : (Data.Aeson..=) "address_line2" (postCustomersCustomerBankAccountsIdResponseBody200AddressLine2 obj) : (Data.Aeson..=) "address_state" (postCustomersCustomerBankAccountsIdResponseBody200AddressState obj) : (Data.Aeson..=) "address_zip" (postCustomersCustomerBankAccountsIdResponseBody200AddressZip obj) : (Data.Aeson..=) "address_zip_check" (postCustomersCustomerBankAccountsIdResponseBody200AddressZipCheck obj) : (Data.Aeson..=) "alipay" (postCustomersCustomerBankAccountsIdResponseBody200Alipay obj) : (Data.Aeson..=) "amount" (postCustomersCustomerBankAccountsIdResponseBody200Amount obj) : (Data.Aeson..=) "available_payout_methods" (postCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods obj) : (Data.Aeson..=) "bancontact" (postCustomersCustomerBankAccountsIdResponseBody200Bancontact obj) : (Data.Aeson..=) "bank_name" (postCustomersCustomerBankAccountsIdResponseBody200BankName obj) : (Data.Aeson..=) "brand" (postCustomersCustomerBankAccountsIdResponseBody200Brand obj) : (Data.Aeson..=) "card" (postCustomersCustomerBankAccountsIdResponseBody200Card obj) : (Data.Aeson..=) "card_present" (postCustomersCustomerBankAccountsIdResponseBody200CardPresent obj) : (Data.Aeson..=) "client_secret" (postCustomersCustomerBankAccountsIdResponseBody200ClientSecret obj) : (Data.Aeson..=) "code_verification" (postCustomersCustomerBankAccountsIdResponseBody200CodeVerification obj) : (Data.Aeson..=) "country" (postCustomersCustomerBankAccountsIdResponseBody200Country obj) : (Data.Aeson..=) "created" (postCustomersCustomerBankAccountsIdResponseBody200Created obj) : (Data.Aeson..=) "currency" (postCustomersCustomerBankAccountsIdResponseBody200Currency obj) : (Data.Aeson..=) "customer" (postCustomersCustomerBankAccountsIdResponseBody200Customer obj) : (Data.Aeson..=) "cvc_check" (postCustomersCustomerBankAccountsIdResponseBody200CvcCheck obj) : (Data.Aeson..=) "default_for_currency" (postCustomersCustomerBankAccountsIdResponseBody200DefaultForCurrency obj) : (Data.Aeson..=) "dynamic_last4" (postCustomersCustomerBankAccountsIdResponseBody200DynamicLast4 obj) : (Data.Aeson..=) "eps" (postCustomersCustomerBankAccountsIdResponseBody200Eps obj) : (Data.Aeson..=) "exp_month" (postCustomersCustomerBankAccountsIdResponseBody200ExpMonth obj) : (Data.Aeson..=) "exp_year" (postCustomersCustomerBankAccountsIdResponseBody200ExpYear obj) : (Data.Aeson..=) "fingerprint" (postCustomersCustomerBankAccountsIdResponseBody200Fingerprint obj) : (Data.Aeson..=) "flow" (postCustomersCustomerBankAccountsIdResponseBody200Flow obj) : (Data.Aeson..=) "funding" (postCustomersCustomerBankAccountsIdResponseBody200Funding obj) : (Data.Aeson..=) "giropay" (postCustomersCustomerBankAccountsIdResponseBody200Giropay obj) : (Data.Aeson..=) "id" (postCustomersCustomerBankAccountsIdResponseBody200Id obj) : (Data.Aeson..=) "ideal" (postCustomersCustomerBankAccountsIdResponseBody200Ideal obj) : (Data.Aeson..=) "klarna" (postCustomersCustomerBankAccountsIdResponseBody200Klarna obj) : (Data.Aeson..=) "last4" (postCustomersCustomerBankAccountsIdResponseBody200Last4 obj) : (Data.Aeson..=) "livemode" (postCustomersCustomerBankAccountsIdResponseBody200Livemode obj) : (Data.Aeson..=) "metadata" (postCustomersCustomerBankAccountsIdResponseBody200Metadata obj) : (Data.Aeson..=) "multibanco" (postCustomersCustomerBankAccountsIdResponseBody200Multibanco obj) : (Data.Aeson..=) "name" (postCustomersCustomerBankAccountsIdResponseBody200Name obj) : (Data.Aeson..=) "object" (postCustomersCustomerBankAccountsIdResponseBody200Object obj) : (Data.Aeson..=) "owner" (postCustomersCustomerBankAccountsIdResponseBody200Owner obj) : (Data.Aeson..=) "p24" (postCustomersCustomerBankAccountsIdResponseBody200P24 obj) : (Data.Aeson..=) "receiver" (postCustomersCustomerBankAccountsIdResponseBody200Receiver obj) : (Data.Aeson..=) "recipient" (postCustomersCustomerBankAccountsIdResponseBody200Recipient obj) : (Data.Aeson..=) "redirect" (postCustomersCustomerBankAccountsIdResponseBody200Redirect obj) : (Data.Aeson..=) "routing_number" (postCustomersCustomerBankAccountsIdResponseBody200RoutingNumber obj) : (Data.Aeson..=) "sepa_debit" (postCustomersCustomerBankAccountsIdResponseBody200SepaDebit obj) : (Data.Aeson..=) "sofort" (postCustomersCustomerBankAccountsIdResponseBody200Sofort obj) : (Data.Aeson..=) "source_order" (postCustomersCustomerBankAccountsIdResponseBody200SourceOrder obj) : (Data.Aeson..=) "statement_descriptor" (postCustomersCustomerBankAccountsIdResponseBody200StatementDescriptor obj) : (Data.Aeson..=) "status" (postCustomersCustomerBankAccountsIdResponseBody200Status obj) : (Data.Aeson..=) "three_d_secure" (postCustomersCustomerBankAccountsIdResponseBody200ThreeDSecure obj) : (Data.Aeson..=) "tokenization_method" (postCustomersCustomerBankAccountsIdResponseBody200TokenizationMethod obj) : (Data.Aeson..=) "type" (postCustomersCustomerBankAccountsIdResponseBody200Type obj) : (Data.Aeson..=) "usage" (postCustomersCustomerBankAccountsIdResponseBody200Usage obj) : (Data.Aeson..=) "wechat" (postCustomersCustomerBankAccountsIdResponseBody200Wechat obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (postCustomersCustomerBankAccountsIdResponseBody200Account obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_name" (postCustomersCustomerBankAccountsIdResponseBody200AccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_type" (postCustomersCustomerBankAccountsIdResponseBody200AccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "ach_credit_transfer" (postCustomersCustomerBankAccountsIdResponseBody200AchCreditTransfer obj) GHC.Base.<> ((Data.Aeson..=) "ach_debit" (postCustomersCustomerBankAccountsIdResponseBody200AchDebit obj) GHC.Base.<> ((Data.Aeson..=) "address_city" (postCustomersCustomerBankAccountsIdResponseBody200AddressCity obj) GHC.Base.<> ((Data.Aeson..=) "address_country" (postCustomersCustomerBankAccountsIdResponseBody200AddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "address_line1" (postCustomersCustomerBankAccountsIdResponseBody200AddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "address_line1_check" (postCustomersCustomerBankAccountsIdResponseBody200AddressLine1Check obj) GHC.Base.<> ((Data.Aeson..=) "address_line2" (postCustomersCustomerBankAccountsIdResponseBody200AddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "address_state" (postCustomersCustomerBankAccountsIdResponseBody200AddressState obj) GHC.Base.<> ((Data.Aeson..=) "address_zip" (postCustomersCustomerBankAccountsIdResponseBody200AddressZip obj) GHC.Base.<> ((Data.Aeson..=) "address_zip_check" (postCustomersCustomerBankAccountsIdResponseBody200AddressZipCheck obj) GHC.Base.<> ((Data.Aeson..=) "alipay" (postCustomersCustomerBankAccountsIdResponseBody200Alipay obj) GHC.Base.<> ((Data.Aeson..=) "amount" (postCustomersCustomerBankAccountsIdResponseBody200Amount obj) GHC.Base.<> ((Data.Aeson..=) "available_payout_methods" (postCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods obj) GHC.Base.<> ((Data.Aeson..=) "bancontact" (postCustomersCustomerBankAccountsIdResponseBody200Bancontact obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (postCustomersCustomerBankAccountsIdResponseBody200BankName obj) GHC.Base.<> ((Data.Aeson..=) "brand" (postCustomersCustomerBankAccountsIdResponseBody200Brand obj) GHC.Base.<> ((Data.Aeson..=) "card" (postCustomersCustomerBankAccountsIdResponseBody200Card obj) GHC.Base.<> ((Data.Aeson..=) "card_present" (postCustomersCustomerBankAccountsIdResponseBody200CardPresent obj) GHC.Base.<> ((Data.Aeson..=) "client_secret" (postCustomersCustomerBankAccountsIdResponseBody200ClientSecret obj) GHC.Base.<> ((Data.Aeson..=) "code_verification" (postCustomersCustomerBankAccountsIdResponseBody200CodeVerification obj) GHC.Base.<> ((Data.Aeson..=) "country" (postCustomersCustomerBankAccountsIdResponseBody200Country obj) GHC.Base.<> ((Data.Aeson..=) "created" (postCustomersCustomerBankAccountsIdResponseBody200Created obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postCustomersCustomerBankAccountsIdResponseBody200Currency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (postCustomersCustomerBankAccountsIdResponseBody200Customer obj) GHC.Base.<> ((Data.Aeson..=) "cvc_check" (postCustomersCustomerBankAccountsIdResponseBody200CvcCheck obj) GHC.Base.<> ((Data.Aeson..=) "default_for_currency" (postCustomersCustomerBankAccountsIdResponseBody200DefaultForCurrency obj) GHC.Base.<> ((Data.Aeson..=) "dynamic_last4" (postCustomersCustomerBankAccountsIdResponseBody200DynamicLast4 obj) GHC.Base.<> ((Data.Aeson..=) "eps" (postCustomersCustomerBankAccountsIdResponseBody200Eps obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (postCustomersCustomerBankAccountsIdResponseBody200ExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (postCustomersCustomerBankAccountsIdResponseBody200ExpYear obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (postCustomersCustomerBankAccountsIdResponseBody200Fingerprint obj) GHC.Base.<> ((Data.Aeson..=) "flow" (postCustomersCustomerBankAccountsIdResponseBody200Flow obj) GHC.Base.<> ((Data.Aeson..=) "funding" (postCustomersCustomerBankAccountsIdResponseBody200Funding obj) GHC.Base.<> ((Data.Aeson..=) "giropay" (postCustomersCustomerBankAccountsIdResponseBody200Giropay obj) GHC.Base.<> ((Data.Aeson..=) "id" (postCustomersCustomerBankAccountsIdResponseBody200Id obj) GHC.Base.<> ((Data.Aeson..=) "ideal" (postCustomersCustomerBankAccountsIdResponseBody200Ideal obj) GHC.Base.<> ((Data.Aeson..=) "klarna" (postCustomersCustomerBankAccountsIdResponseBody200Klarna obj) GHC.Base.<> ((Data.Aeson..=) "last4" (postCustomersCustomerBankAccountsIdResponseBody200Last4 obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (postCustomersCustomerBankAccountsIdResponseBody200Livemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postCustomersCustomerBankAccountsIdResponseBody200Metadata obj) GHC.Base.<> ((Data.Aeson..=) "multibanco" (postCustomersCustomerBankAccountsIdResponseBody200Multibanco obj) GHC.Base.<> ((Data.Aeson..=) "name" (postCustomersCustomerBankAccountsIdResponseBody200Name obj) GHC.Base.<> ((Data.Aeson..=) "object" (postCustomersCustomerBankAccountsIdResponseBody200Object obj) GHC.Base.<> ((Data.Aeson..=) "owner" (postCustomersCustomerBankAccountsIdResponseBody200Owner obj) GHC.Base.<> ((Data.Aeson..=) "p24" (postCustomersCustomerBankAccountsIdResponseBody200P24 obj) GHC.Base.<> ((Data.Aeson..=) "receiver" (postCustomersCustomerBankAccountsIdResponseBody200Receiver obj) GHC.Base.<> ((Data.Aeson..=) "recipient" (postCustomersCustomerBankAccountsIdResponseBody200Recipient obj) GHC.Base.<> ((Data.Aeson..=) "redirect" (postCustomersCustomerBankAccountsIdResponseBody200Redirect obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (postCustomersCustomerBankAccountsIdResponseBody200RoutingNumber obj) GHC.Base.<> ((Data.Aeson..=) "sepa_debit" (postCustomersCustomerBankAccountsIdResponseBody200SepaDebit obj) GHC.Base.<> ((Data.Aeson..=) "sofort" (postCustomersCustomerBankAccountsIdResponseBody200Sofort obj) GHC.Base.<> ((Data.Aeson..=) "source_order" (postCustomersCustomerBankAccountsIdResponseBody200SourceOrder obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (postCustomersCustomerBankAccountsIdResponseBody200StatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "status" (postCustomersCustomerBankAccountsIdResponseBody200Status obj) GHC.Base.<> ((Data.Aeson..=) "three_d_secure" (postCustomersCustomerBankAccountsIdResponseBody200ThreeDSecure obj) GHC.Base.<> ((Data.Aeson..=) "tokenization_method" (postCustomersCustomerBankAccountsIdResponseBody200TokenizationMethod obj) GHC.Base.<> ((Data.Aeson..=) "type" (postCustomersCustomerBankAccountsIdResponseBody200Type obj) GHC.Base.<> ((Data.Aeson..=) "usage" (postCustomersCustomerBankAccountsIdResponseBody200Usage obj) GHC.Base.<> (Data.Aeson..=) "wechat" (postCustomersCustomerBankAccountsIdResponseBody200Wechat obj))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
 
@@ -577,13 +573,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdR
 data PostCustomersCustomerBankAccountsIdResponseBody200Account'Variants
   = PostCustomersCustomerBankAccountsIdResponseBody200Account'Account Account
   | PostCustomersCustomerBankAccountsIdResponseBody200Account'Text Data.Text.Internal.Text
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Account'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Account'Variants where
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Account'Account a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Account'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Account'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Account'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostCustomersCustomerBankAccountsIdResponseBody200Account'Account a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostCustomersCustomerBankAccountsIdResponseBody200Account'Text a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema PostCustomersCustomerBankAccountsIdResponseBody200Available_payout_methods\'
 data PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'
@@ -593,21 +594,18 @@ data PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'
   | PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumStringStandard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods' where
   toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumStringInstant) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "instant"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumStringStandard) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "standard"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumStringInstant) = "instant"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumStringStandard) = "standard"
 
-instance Data.Aeson.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "instant")
-          then PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumStringInstant
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "standard")
-              then PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumStringStandard
-              else PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumOther val
+      ( if  | val GHC.Classes.== "instant" -> PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumStringInstant
+            | val GHC.Classes.== "standard" -> PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumStringStandard
+            | GHC.Base.otherwise -> PostCustomersCustomerBankAccountsIdResponseBody200AvailablePayoutMethods'EnumOther val
       )
 
 -- | Define the one-of schema PostCustomersCustomerBankAccountsIdResponseBody200Customer\'
@@ -617,13 +615,21 @@ data PostCustomersCustomerBankAccountsIdResponseBody200Customer'Variants
   = PostCustomersCustomerBankAccountsIdResponseBody200Customer'Customer Customer
   | PostCustomersCustomerBankAccountsIdResponseBody200Customer'DeletedCustomer DeletedCustomer
   | PostCustomersCustomerBankAccountsIdResponseBody200Customer'Text Data.Text.Internal.Text
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Customer'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Customer'Variants where
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Customer'Customer a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Customer'DeletedCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Customer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Customer'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Customer'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostCustomersCustomerBankAccountsIdResponseBody200Customer'Customer a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostCustomersCustomerBankAccountsIdResponseBody200Customer'DeletedCustomer a
+      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostCustomersCustomerBankAccountsIdResponseBody200Customer'Text a
+        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema PostCustomersCustomerBankAccountsIdResponseBody200Object\'
 --
@@ -634,17 +640,16 @@ data PostCustomersCustomerBankAccountsIdResponseBody200Object'
   | PostCustomersCustomerBankAccountsIdResponseBody200Object'EnumStringBankAccount
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Object' where
   toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Object'EnumStringBankAccount) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_account"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Object'EnumStringBankAccount) = "bank_account"
 
-instance Data.Aeson.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_account")
-          then PostCustomersCustomerBankAccountsIdResponseBody200Object'EnumStringBankAccount
-          else PostCustomersCustomerBankAccountsIdResponseBody200Object'EnumOther val
+      ( if  | val GHC.Classes.== "bank_account" -> PostCustomersCustomerBankAccountsIdResponseBody200Object'EnumStringBankAccount
+            | GHC.Base.otherwise -> PostCustomersCustomerBankAccountsIdResponseBody200Object'EnumOther val
       )
 
 -- | Defines the data type for the schema PostCustomersCustomerBankAccountsIdResponseBody200Owner\'
@@ -698,7 +703,7 @@ data PostCustomersCustomerBankAccountsIdResponseBody200Owner'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address obj) : (Data.Aeson..=) "email" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Email obj) : (Data.Aeson..=) "name" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Name obj) : (Data.Aeson..=) "phone" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Phone obj) : (Data.Aeson..=) "verified_address" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress obj) : (Data.Aeson..=) "verified_email" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedEmail obj) : (Data.Aeson..=) "verified_name" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedName obj) : (Data.Aeson..=) "verified_phone" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedPhone obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address obj) GHC.Base.<> ((Data.Aeson..=) "email" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Email obj) GHC.Base.<> ((Data.Aeson..=) "name" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Name obj) GHC.Base.<> ((Data.Aeson..=) "phone" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Phone obj) GHC.Base.<> ((Data.Aeson..=) "verified_address" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress obj) GHC.Base.<> ((Data.Aeson..=) "verified_email" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedEmail obj) GHC.Base.<> ((Data.Aeson..=) "verified_name" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedName obj) GHC.Base.<> (Data.Aeson..=) "verified_phone" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedPhone obj))))))))
 
@@ -752,7 +757,7 @@ data PostCustomersCustomerBankAccountsIdResponseBody200Owner'Address'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'Address' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'Address' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'City obj) : (Data.Aeson..=) "country" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Country obj) : (Data.Aeson..=) "line1" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Line1 obj) : (Data.Aeson..=) "line2" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'PostalCode obj) : (Data.Aeson..=) "state" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'State obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postCustomersCustomerBankAccountsIdResponseBody200Owner'Address'State obj))))))
 
@@ -806,7 +811,7 @@ data PostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'City obj) : (Data.Aeson..=) "country" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Country obj) : (Data.Aeson..=) "line1" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Line1 obj) : (Data.Aeson..=) "line2" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'PostalCode obj) : (Data.Aeson..=) "state" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'State obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postCustomersCustomerBankAccountsIdResponseBody200Owner'VerifiedAddress'State obj))))))
 
@@ -819,13 +824,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdR
 data PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Variants
   = PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Recipient Recipient
   | PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Text Data.Text.Internal.Text
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Variants where
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Recipient a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Recipient a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostCustomersCustomerBankAccountsIdResponseBody200Recipient'Text a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema PostCustomersCustomerBankAccountsIdResponseBody200Type\'
 --
@@ -851,153 +861,44 @@ data PostCustomersCustomerBankAccountsIdResponseBody200Type'
   | PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringWechat
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Type' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostCustomersCustomerBankAccountsIdResponseBody200Type' where
   toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringAchCreditTransfer) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ach_credit_transfer"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringAchDebit) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ach_debit"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringAlipay) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "alipay"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringBancontact) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bancontact"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringCard) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringCardPresent) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card_present"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringEps) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "eps"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringGiropay) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "giropay"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringIdeal) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ideal"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringKlarna) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "klarna"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringMultibanco) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "multibanco"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringP24) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "p24"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringSepaDebit) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sepa_debit"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringSofort) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sofort"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringThreeDSecure) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "three_d_secure"
-  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringWechat) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "wechat"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringAchCreditTransfer) = "ach_credit_transfer"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringAchDebit) = "ach_debit"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringAlipay) = "alipay"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringBancontact) = "bancontact"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringCard) = "card"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringCardPresent) = "card_present"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringEps) = "eps"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringGiropay) = "giropay"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringIdeal) = "ideal"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringKlarna) = "klarna"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringMultibanco) = "multibanco"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringP24) = "p24"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringSepaDebit) = "sepa_debit"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringSofort) = "sofort"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringThreeDSecure) = "three_d_secure"
+  toJSON (PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringWechat) = "wechat"
 
-instance Data.Aeson.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Type' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostCustomersCustomerBankAccountsIdResponseBody200Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ach_credit_transfer")
-          then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringAchCreditTransfer
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ach_debit")
-              then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringAchDebit
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "alipay")
-                  then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringAlipay
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bancontact")
-                      then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringBancontact
-                      else
-                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card")
-                          then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringCard
-                          else
-                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card_present")
-                              then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringCardPresent
-                              else
-                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "eps")
-                                  then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringEps
-                                  else
-                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "giropay")
-                                      then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringGiropay
-                                      else
-                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ideal")
-                                          then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringIdeal
-                                          else
-                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "klarna")
-                                              then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringKlarna
-                                              else
-                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "multibanco")
-                                                  then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringMultibanco
-                                                  else
-                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "p24")
-                                                      then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringP24
-                                                      else
-                                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sepa_debit")
-                                                          then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringSepaDebit
-                                                          else
-                                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sofort")
-                                                              then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringSofort
-                                                              else
-                                                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "three_d_secure")
-                                                                  then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringThreeDSecure
-                                                                  else
-                                                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "wechat")
-                                                                      then PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringWechat
-                                                                      else PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumOther val
+      ( if  | val GHC.Classes.== "ach_credit_transfer" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringAchCreditTransfer
+            | val GHC.Classes.== "ach_debit" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringAchDebit
+            | val GHC.Classes.== "alipay" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringAlipay
+            | val GHC.Classes.== "bancontact" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringBancontact
+            | val GHC.Classes.== "card" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringCard
+            | val GHC.Classes.== "card_present" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringCardPresent
+            | val GHC.Classes.== "eps" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringEps
+            | val GHC.Classes.== "giropay" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringGiropay
+            | val GHC.Classes.== "ideal" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringIdeal
+            | val GHC.Classes.== "klarna" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringKlarna
+            | val GHC.Classes.== "multibanco" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringMultibanco
+            | val GHC.Classes.== "p24" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringP24
+            | val GHC.Classes.== "sepa_debit" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringSepaDebit
+            | val GHC.Classes.== "sofort" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringSofort
+            | val GHC.Classes.== "three_d_secure" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringThreeDSecure
+            | val GHC.Classes.== "wechat" -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumStringWechat
+            | GHC.Base.otherwise -> PostCustomersCustomerBankAccountsIdResponseBody200Type'EnumOther val
       )
-
--- | > POST /v1/customers/{customer}/bank_accounts/{id}
---
--- The same as 'postCustomersCustomerBankAccountsId' but accepts an explicit configuration.
-postCustomersCustomerBankAccountsIdWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  PostCustomersCustomerBankAccountsIdParameters ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostCustomersCustomerBankAccountsIdResponse)
-postCustomersCustomerBankAccountsIdWithConfiguration
-  config
-  parameters
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostCustomersCustomerBankAccountsIdResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostCustomersCustomerBankAccountsIdResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              PostCustomersCustomerBankAccountsIdResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostCustomersCustomerBankAccountsIdResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerBankAccountsIdParametersPathCustomer parameters))) GHC.Base.++ ("/bank_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerBankAccountsIdParametersPathId parameters))) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/customers/{customer}/bank_accounts/{id}
---
--- The same as 'postCustomersCustomerBankAccountsId' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postCustomersCustomerBankAccountsIdRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  PostCustomersCustomerBankAccountsIdParameters ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postCustomersCustomerBankAccountsIdRaw
-  parameters
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerBankAccountsIdParametersPathCustomer parameters))) GHC.Base.++ ("/bank_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerBankAccountsIdParametersPathId parameters))) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/customers/{customer}/bank_accounts/{id}
---
--- The same as 'postCustomersCustomerBankAccountsId' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postCustomersCustomerBankAccountsIdWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  PostCustomersCustomerBankAccountsIdParameters ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostCustomersCustomerBankAccountsIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postCustomersCustomerBankAccountsIdWithConfigurationRaw
-  config
-  parameters
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerBankAccountsIdParametersPathCustomer parameters))) GHC.Base.++ ("/bank_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (postCustomersCustomerBankAccountsIdParametersPathId parameters))) GHC.Base.++ ""))))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

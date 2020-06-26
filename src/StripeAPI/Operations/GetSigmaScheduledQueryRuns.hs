@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getSigmaScheduledQueryRuns
 module StripeAPI.Operations.GetSigmaScheduledQueryRuns where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -100,7 +99,7 @@ data GetSigmaScheduledQueryRunsParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getSigmaScheduledQueryRunsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getSigmaScheduledQueryRunsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -119,7 +118,7 @@ data GetSigmaScheduledQueryRunsParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSigmaScheduledQueryRunsParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSigmaScheduledQueryRunsParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryEnding_before" (getSigmaScheduledQueryRunsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getSigmaScheduledQueryRunsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getSigmaScheduledQueryRunsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getSigmaScheduledQueryRunsParametersQueryStartingAfter obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryEnding_before" (getSigmaScheduledQueryRunsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getSigmaScheduledQueryRunsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getSigmaScheduledQueryRunsParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getSigmaScheduledQueryRunsParametersQueryStartingAfter obj))))
 
@@ -142,7 +141,7 @@ data GetSigmaScheduledQueryRunsResponse
 data GetSigmaScheduledQueryRunsResponseBody200
   = GetSigmaScheduledQueryRunsResponseBody200
       { -- | data
-        getSigmaScheduledQueryRunsResponseBody200Data :: ([] ScheduledQueryRun),
+        getSigmaScheduledQueryRunsResponseBody200Data :: ([ScheduledQueryRun]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getSigmaScheduledQueryRunsResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -160,7 +159,7 @@ data GetSigmaScheduledQueryRunsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSigmaScheduledQueryRunsResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSigmaScheduledQueryRunsResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSigmaScheduledQueryRunsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSigmaScheduledQueryRunsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSigmaScheduledQueryRunsResponseBody200Object obj) : (Data.Aeson..=) "url" (getSigmaScheduledQueryRunsResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSigmaScheduledQueryRunsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSigmaScheduledQueryRunsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSigmaScheduledQueryRunsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSigmaScheduledQueryRunsResponseBody200Url obj))))
 
@@ -176,113 +175,14 @@ data GetSigmaScheduledQueryRunsResponseBody200Object'
   | GetSigmaScheduledQueryRunsResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSigmaScheduledQueryRunsResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSigmaScheduledQueryRunsResponseBody200Object' where
   toJSON (GetSigmaScheduledQueryRunsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetSigmaScheduledQueryRunsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSigmaScheduledQueryRunsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetSigmaScheduledQueryRunsResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetSigmaScheduledQueryRunsResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetSigmaScheduledQueryRunsResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetSigmaScheduledQueryRunsResponseBody200Object'EnumStringList
-          else GetSigmaScheduledQueryRunsResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/sigma/scheduled_query_runs
---
--- The same as 'getSigmaScheduledQueryRuns' but accepts an explicit configuration.
-getSigmaScheduledQueryRunsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSigmaScheduledQueryRunsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetSigmaScheduledQueryRunsResponse)
-getSigmaScheduledQueryRunsWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetSigmaScheduledQueryRunsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetSigmaScheduledQueryRunsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetSigmaScheduledQueryRunsResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetSigmaScheduledQueryRunsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/sigma/scheduled_query_runs")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSigmaScheduledQueryRunsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSigmaScheduledQueryRunsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSigmaScheduledQueryRunsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSigmaScheduledQueryRunsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/sigma/scheduled_query_runs
---
--- The same as 'getSigmaScheduledQueryRuns' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getSigmaScheduledQueryRunsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSigmaScheduledQueryRunsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getSigmaScheduledQueryRunsRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/sigma/scheduled_query_runs")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSigmaScheduledQueryRunsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSigmaScheduledQueryRunsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSigmaScheduledQueryRunsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSigmaScheduledQueryRunsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/sigma/scheduled_query_runs
---
--- The same as 'getSigmaScheduledQueryRuns' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getSigmaScheduledQueryRunsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSigmaScheduledQueryRunsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getSigmaScheduledQueryRunsWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/sigma/scheduled_query_runs")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSigmaScheduledQueryRunsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSigmaScheduledQueryRunsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSigmaScheduledQueryRunsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSigmaScheduledQueryRunsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetSigmaScheduledQueryRunsResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetSigmaScheduledQueryRunsResponseBody200Object'EnumOther val
       )

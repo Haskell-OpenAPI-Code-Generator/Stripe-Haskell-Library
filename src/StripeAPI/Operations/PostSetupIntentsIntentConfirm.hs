@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postSetupIntentsIntentConfirm
 module StripeAPI.Operations.PostSetupIntentsIntentConfirm where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -100,7 +99,7 @@ data PostSetupIntentsIntentConfirmRequestBody
       { -- | client_secret: The client secret of the SetupIntent.
         postSetupIntentsIntentConfirmRequestBodyClientSecret :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postSetupIntentsIntentConfirmRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postSetupIntentsIntentConfirmRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | mandate_data: This hash contains details about the Mandate to create
         postSetupIntentsIntentConfirmRequestBodyMandateData :: (GHC.Maybe.Maybe PostSetupIntentsIntentConfirmRequestBodyMandateData'),
         -- | payment_method: ID of the payment method (a PaymentMethod, Card, or saved Source object) to attach to this SetupIntent.
@@ -121,7 +120,7 @@ data PostSetupIntentsIntentConfirmRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSetupIntentsIntentConfirmRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsIntentConfirmRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "client_secret" (postSetupIntentsIntentConfirmRequestBodyClientSecret obj) : (Data.Aeson..=) "expand" (postSetupIntentsIntentConfirmRequestBodyExpand obj) : (Data.Aeson..=) "mandate_data" (postSetupIntentsIntentConfirmRequestBodyMandateData obj) : (Data.Aeson..=) "payment_method" (postSetupIntentsIntentConfirmRequestBodyPaymentMethod obj) : (Data.Aeson..=) "payment_method_options" (postSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions obj) : (Data.Aeson..=) "return_url" (postSetupIntentsIntentConfirmRequestBodyReturnUrl obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "client_secret" (postSetupIntentsIntentConfirmRequestBodyClientSecret obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postSetupIntentsIntentConfirmRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "mandate_data" (postSetupIntentsIntentConfirmRequestBodyMandateData obj) GHC.Base.<> ((Data.Aeson..=) "payment_method" (postSetupIntentsIntentConfirmRequestBodyPaymentMethod obj) GHC.Base.<> ((Data.Aeson..=) "payment_method_options" (postSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions obj) GHC.Base.<> (Data.Aeson..=) "return_url" (postSetupIntentsIntentConfirmRequestBodyReturnUrl obj))))))
 
@@ -141,7 +140,7 @@ data PostSetupIntentsIntentConfirmRequestBodyMandateData'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSetupIntentsIntentConfirmRequestBodyMandateData' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsIntentConfirmRequestBodyMandateData' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "customer_acceptance" (postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "customer_acceptance" (postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance obj))
 
@@ -165,7 +164,7 @@ data PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "online" (postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Online obj) : (Data.Aeson..=) "type" (postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "online" (postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Online obj) GHC.Base.<> (Data.Aeson..=) "type" (postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type obj))
 
@@ -193,7 +192,7 @@ data PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Onli
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Online' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Online' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "ip_address" (postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Online'IpAddress obj) : (Data.Aeson..=) "user_agent" (postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Online'UserAgent obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "ip_address" (postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Online'IpAddress obj) GHC.Base.<> (Data.Aeson..=) "user_agent" (postSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Online'UserAgent obj))
 
@@ -207,17 +206,16 @@ data PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type
   | PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'EnumStringOnline
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type' where
   toJSON (PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'EnumStringOnline) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "online"
+  toJSON (PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'EnumStringOnline) = "online"
 
-instance Data.Aeson.FromJSON PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "online")
-          then PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'EnumStringOnline
-          else PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'EnumOther val
+      ( if  | val GHC.Classes.== "online" -> PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'EnumStringOnline
+            | GHC.Base.otherwise -> PostSetupIntentsIntentConfirmRequestBodyMandateData'CustomerAcceptance'Type'EnumOther val
       )
 
 -- | Defines the data type for the schema postSetupIntentsIntentConfirmRequestBodyPayment_method_options\'
@@ -233,7 +231,7 @@ data PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "card" (postSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "card" (postSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card obj))
 
@@ -255,7 +253,7 @@ data PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "request_three_d_secure" (postSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "request_three_d_secure" (postSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure obj))
 
@@ -270,21 +268,18 @@ data PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestTh
   | PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAutomatic
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure' where
   toJSON (PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAny) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "any"
-  toJSON (PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAutomatic) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "automatic"
+  toJSON (PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAny) = "any"
+  toJSON (PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAutomatic) = "automatic"
 
-instance Data.Aeson.FromJSON PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "any")
-          then PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAny
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "automatic")
-              then PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAutomatic
-              else PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumOther val
+      ( if  | val GHC.Classes.== "any" -> PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAny
+            | val GHC.Classes.== "automatic" -> PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumStringAutomatic
+            | GHC.Base.otherwise -> PostSetupIntentsIntentConfirmRequestBodyPaymentMethodOptions'Card'RequestThreeDSecure'EnumOther val
       )
 
 -- | Represents a response of the operation 'postSetupIntentsIntentConfirm'.
@@ -298,81 +293,3 @@ data PostSetupIntentsIntentConfirmResponse
   | -- | Error response.
     PostSetupIntentsIntentConfirmResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/setup_intents/{intent}/confirm
---
--- The same as 'postSetupIntentsIntentConfirm' but accepts an explicit configuration.
-postSetupIntentsIntentConfirmWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | intent | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostSetupIntentsIntentConfirmRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostSetupIntentsIntentConfirmResponse)
-postSetupIntentsIntentConfirmWithConfiguration
-  config
-  intent
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostSetupIntentsIntentConfirmResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostSetupIntentsIntentConfirmResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              SetupIntent
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostSetupIntentsIntentConfirmResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/setup_intents/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.++ "/confirm"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/setup_intents/{intent}/confirm
---
--- The same as 'postSetupIntentsIntentConfirm' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postSetupIntentsIntentConfirmRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | intent | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostSetupIntentsIntentConfirmRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postSetupIntentsIntentConfirmRaw
-  intent
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/setup_intents/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.++ "/confirm"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/setup_intents/{intent}/confirm
---
--- The same as 'postSetupIntentsIntentConfirm' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postSetupIntentsIntentConfirmWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | intent | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostSetupIntentsIntentConfirmRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postSetupIntentsIntentConfirmWithConfigurationRaw
-  config
-  intent
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/setup_intents/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel intent)) GHC.Base.++ "/confirm"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

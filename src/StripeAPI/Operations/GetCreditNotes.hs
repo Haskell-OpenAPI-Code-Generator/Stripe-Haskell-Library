@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getCreditNotes
 module StripeAPI.Operations.GetCreditNotes where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -110,7 +109,7 @@ data GetCreditNotesParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getCreditNotesParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getCreditNotesParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryInvoice: Represents the parameter named \'invoice\'
         --
         -- Only return credit notes for the invoice specified by this invoice ID.
@@ -137,7 +136,7 @@ data GetCreditNotesParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetCreditNotesParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCreditNotesParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCustomer" (getCreditNotesParametersQueryCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getCreditNotesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getCreditNotesParametersQueryExpand obj) : (Data.Aeson..=) "queryInvoice" (getCreditNotesParametersQueryInvoice obj) : (Data.Aeson..=) "queryLimit" (getCreditNotesParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getCreditNotesParametersQueryStartingAfter obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCustomer" (getCreditNotesParametersQueryCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getCreditNotesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getCreditNotesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryInvoice" (getCreditNotesParametersQueryInvoice obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getCreditNotesParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getCreditNotesParametersQueryStartingAfter obj))))))
 
@@ -160,7 +159,7 @@ data GetCreditNotesResponse
 data GetCreditNotesResponseBody200
   = GetCreditNotesResponseBody200
       { -- | data
-        getCreditNotesResponseBody200Data :: ([] CreditNote),
+        getCreditNotesResponseBody200Data :: ([CreditNote]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getCreditNotesResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -177,7 +176,7 @@ data GetCreditNotesResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetCreditNotesResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCreditNotesResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getCreditNotesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getCreditNotesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getCreditNotesResponseBody200Object obj) : (Data.Aeson..=) "url" (getCreditNotesResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getCreditNotesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getCreditNotesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getCreditNotesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getCreditNotesResponseBody200Url obj))))
 
@@ -193,119 +192,14 @@ data GetCreditNotesResponseBody200Object'
   | GetCreditNotesResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetCreditNotesResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCreditNotesResponseBody200Object' where
   toJSON (GetCreditNotesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetCreditNotesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCreditNotesResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetCreditNotesResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetCreditNotesResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetCreditNotesResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetCreditNotesResponseBody200Object'EnumStringList
-          else GetCreditNotesResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/credit_notes
---
--- The same as 'getCreditNotes' but accepts an explicit configuration.
-getCreditNotesWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCreditNotesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetCreditNotesResponse)
-getCreditNotesWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetCreditNotesResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetCreditNotesResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetCreditNotesResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetCreditNotesResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/credit_notes")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "invoice") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryInvoice parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/credit_notes
---
--- The same as 'getCreditNotes' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getCreditNotesRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCreditNotesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getCreditNotesRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/credit_notes")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "invoice") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryInvoice parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/credit_notes
---
--- The same as 'getCreditNotes' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getCreditNotesWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCreditNotesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getCreditNotesWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/credit_notes")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "invoice") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryInvoice parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetCreditNotesResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetCreditNotesResponseBody200Object'EnumOther val
       )

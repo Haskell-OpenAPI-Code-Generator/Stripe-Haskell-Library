@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postAccountExternalAccountsId
 module StripeAPI.Operations.PostAccountExternalAccountsId where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -149,7 +148,7 @@ data PostAccountExternalAccountsIdRequestBody
         -- * Maximum length of 5000
         postAccountExternalAccountsIdRequestBodyExpYear :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postAccountExternalAccountsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postAccountExternalAccountsIdRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
         postAccountExternalAccountsIdRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | name: Cardholder name.
@@ -164,7 +163,7 @@ data PostAccountExternalAccountsIdRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostAccountExternalAccountsIdRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountExternalAccountsIdRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account_holder_name" (postAccountExternalAccountsIdRequestBodyAccountHolderName obj) : (Data.Aeson..=) "account_holder_type" (postAccountExternalAccountsIdRequestBodyAccountHolderType obj) : (Data.Aeson..=) "address_city" (postAccountExternalAccountsIdRequestBodyAddressCity obj) : (Data.Aeson..=) "address_country" (postAccountExternalAccountsIdRequestBodyAddressCountry obj) : (Data.Aeson..=) "address_line1" (postAccountExternalAccountsIdRequestBodyAddressLine1 obj) : (Data.Aeson..=) "address_line2" (postAccountExternalAccountsIdRequestBodyAddressLine2 obj) : (Data.Aeson..=) "address_state" (postAccountExternalAccountsIdRequestBodyAddressState obj) : (Data.Aeson..=) "address_zip" (postAccountExternalAccountsIdRequestBodyAddressZip obj) : (Data.Aeson..=) "default_for_currency" (postAccountExternalAccountsIdRequestBodyDefaultForCurrency obj) : (Data.Aeson..=) "exp_month" (postAccountExternalAccountsIdRequestBodyExpMonth obj) : (Data.Aeson..=) "exp_year" (postAccountExternalAccountsIdRequestBodyExpYear obj) : (Data.Aeson..=) "expand" (postAccountExternalAccountsIdRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postAccountExternalAccountsIdRequestBodyMetadata obj) : (Data.Aeson..=) "name" (postAccountExternalAccountsIdRequestBodyName obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account_holder_name" (postAccountExternalAccountsIdRequestBodyAccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_type" (postAccountExternalAccountsIdRequestBodyAccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "address_city" (postAccountExternalAccountsIdRequestBodyAddressCity obj) GHC.Base.<> ((Data.Aeson..=) "address_country" (postAccountExternalAccountsIdRequestBodyAddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "address_line1" (postAccountExternalAccountsIdRequestBodyAddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "address_line2" (postAccountExternalAccountsIdRequestBodyAddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "address_state" (postAccountExternalAccountsIdRequestBodyAddressState obj) GHC.Base.<> ((Data.Aeson..=) "address_zip" (postAccountExternalAccountsIdRequestBodyAddressZip obj) GHC.Base.<> ((Data.Aeson..=) "default_for_currency" (postAccountExternalAccountsIdRequestBodyDefaultForCurrency obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (postAccountExternalAccountsIdRequestBodyExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (postAccountExternalAccountsIdRequestBodyExpYear obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postAccountExternalAccountsIdRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postAccountExternalAccountsIdRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "name" (postAccountExternalAccountsIdRequestBodyName obj))))))))))))))
 
@@ -182,25 +181,20 @@ data PostAccountExternalAccountsIdRequestBodyAccountHolderType'
   | PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringIndividual
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostAccountExternalAccountsIdRequestBodyAccountHolderType' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountExternalAccountsIdRequestBodyAccountHolderType' where
   toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
-  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringCompany) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "company"
-  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringIndividual) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "individual"
+  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumString_) = ""
+  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringCompany) = "company"
+  toJSON (PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringIndividual) = "individual"
 
-instance Data.Aeson.FromJSON PostAccountExternalAccountsIdRequestBodyAccountHolderType' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountExternalAccountsIdRequestBodyAccountHolderType' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumString_
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "company")
-              then PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringCompany
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "individual")
-                  then PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringIndividual
-                  else PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumString_
+            | val GHC.Classes.== "company" -> PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringCompany
+            | val GHC.Classes.== "individual" -> PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumStringIndividual
+            | GHC.Base.otherwise -> PostAccountExternalAccountsIdRequestBodyAccountHolderType'EnumOther val
       )
 
 -- | Represents a response of the operation 'postAccountExternalAccountsId'.
@@ -214,81 +208,3 @@ data PostAccountExternalAccountsIdResponse
   | -- | Error response.
     PostAccountExternalAccountsIdResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/account/external_accounts/{id}
---
--- The same as 'postAccountExternalAccountsId' but accepts an explicit configuration.
-postAccountExternalAccountsIdWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | id
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostAccountExternalAccountsIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostAccountExternalAccountsIdResponse)
-postAccountExternalAccountsIdWithConfiguration
-  config
-  id
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostAccountExternalAccountsIdResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostAccountExternalAccountsIdResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              ExternalAccount
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostAccountExternalAccountsIdResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/account/external_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/account/external_accounts/{id}
---
--- The same as 'postAccountExternalAccountsId' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postAccountExternalAccountsIdRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | id
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostAccountExternalAccountsIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postAccountExternalAccountsIdRaw
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/account/external_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/account/external_accounts/{id}
---
--- The same as 'postAccountExternalAccountsId' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postAccountExternalAccountsIdWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | id
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostAccountExternalAccountsIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postAccountExternalAccountsIdWithConfigurationRaw
-  config
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/account/external_accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

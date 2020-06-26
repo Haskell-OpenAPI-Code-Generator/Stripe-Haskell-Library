@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation deleteRadarValueListItemsItem
 module StripeAPI.Operations.DeleteRadarValueListItemsItem where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -89,71 +88,3 @@ data DeleteRadarValueListItemsItemResponse
   | -- | Error response.
     DeleteRadarValueListItemsItemResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > DELETE /v1/radar/value_list_items/{item}
---
--- The same as 'deleteRadarValueListItemsItem' but accepts an explicit configuration.
-deleteRadarValueListItemsItemWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | item | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response DeleteRadarValueListItemsItemResponse)
-deleteRadarValueListItemsItemWithConfiguration
-  config
-  item =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either DeleteRadarValueListItemsItemResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     DeleteRadarValueListItemsItemResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              DeletedRadar'valueListItem
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     DeleteRadarValueListItemsItemResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/radar/value_list_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel item)) GHC.Base.++ ""))) [])
-
--- | > DELETE /v1/radar/value_list_items/{item}
---
--- The same as 'deleteRadarValueListItemsItem' but returns the raw 'Data.ByteString.Char8.ByteString'.
-deleteRadarValueListItemsItemRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | item | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-deleteRadarValueListItemsItemRaw item = GHC.Base.id (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/radar/value_list_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel item)) GHC.Base.++ ""))) [])
-
--- | > DELETE /v1/radar/value_list_items/{item}
---
--- The same as 'deleteRadarValueListItemsItem' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-deleteRadarValueListItemsItemWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | item | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-deleteRadarValueListItemsItemWithConfigurationRaw
-  config
-  item = GHC.Base.id (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "DELETE") (Data.Text.pack ("/v1/radar/value_list_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel item)) GHC.Base.++ ""))) [])

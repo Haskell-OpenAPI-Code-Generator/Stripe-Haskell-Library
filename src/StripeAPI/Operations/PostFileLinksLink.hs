@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postFileLinksLink
 module StripeAPI.Operations.PostFileLinksLink where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -86,7 +85,7 @@ postFileLinksLink
 data PostFileLinksLinkRequestBody
   = PostFileLinksLinkRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
-        postFileLinksLinkRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postFileLinksLinkRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | expires_at: A future timestamp after which the link will no longer be usable, or \`now\` to expire the link immediately.
         postFileLinksLinkRequestBodyExpiresAt :: (GHC.Maybe.Maybe PostFileLinksLinkRequestBodyExpiresAt'Variants),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
@@ -97,7 +96,7 @@ data PostFileLinksLinkRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostFileLinksLinkRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostFileLinksLinkRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postFileLinksLinkRequestBodyExpand obj) : (Data.Aeson..=) "expires_at" (postFileLinksLinkRequestBodyExpiresAt obj) : (Data.Aeson..=) "metadata" (postFileLinksLinkRequestBodyMetadata obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postFileLinksLinkRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "expires_at" (postFileLinksLinkRequestBodyExpiresAt obj) GHC.Base.<> (Data.Aeson..=) "metadata" (postFileLinksLinkRequestBodyMetadata obj)))
 
@@ -111,17 +110,16 @@ data PostFileLinksLinkRequestBodyExpiresAt'OneOf1
   | PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf1 where
   toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumString_
-          else PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumString_
+            | GHC.Base.otherwise -> PostFileLinksLinkRequestBodyExpiresAt'OneOf1EnumOther val
       )
 
 -- | Defines the enum schema postFileLinksLinkRequestBodyExpires_at\'OneOf2
@@ -131,17 +129,16 @@ data PostFileLinksLinkRequestBodyExpiresAt'OneOf2
   | PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumStringNow
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf2 where
   toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumStringNow) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "now"
+  toJSON (PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumStringNow) = "now"
 
-instance Data.Aeson.FromJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf2 where
+instance Data.Aeson.Types.FromJSON.FromJSON PostFileLinksLinkRequestBodyExpiresAt'OneOf2 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "now")
-          then PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumStringNow
-          else PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumOther val
+      ( if  | val GHC.Classes.== "now" -> PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumStringNow
+            | GHC.Base.otherwise -> PostFileLinksLinkRequestBodyExpiresAt'OneOf2EnumOther val
       )
 
 -- | Define the one-of schema postFileLinksLinkRequestBodyExpires_at\'
@@ -151,13 +148,21 @@ data PostFileLinksLinkRequestBodyExpiresAt'Variants
   = PostFileLinksLinkRequestBodyExpiresAt'PostFileLinksLinkRequestBodyExpiresAt'OneOf1 PostFileLinksLinkRequestBodyExpiresAt'OneOf1
   | PostFileLinksLinkRequestBodyExpiresAt'PostFileLinksLinkRequestBodyExpiresAt'OneOf2 PostFileLinksLinkRequestBodyExpiresAt'OneOf2
   | PostFileLinksLinkRequestBodyExpiresAt'Int GHC.Types.Int
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostFileLinksLinkRequestBodyExpiresAt'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostFileLinksLinkRequestBodyExpiresAt'Variants where
+  toJSON (PostFileLinksLinkRequestBodyExpiresAt'PostFileLinksLinkRequestBodyExpiresAt'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostFileLinksLinkRequestBodyExpiresAt'PostFileLinksLinkRequestBodyExpiresAt'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostFileLinksLinkRequestBodyExpiresAt'Int a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostFileLinksLinkRequestBodyExpiresAt'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostFileLinksLinkRequestBodyExpiresAt'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostFileLinksLinkRequestBodyExpiresAt'PostFileLinksLinkRequestBodyExpiresAt'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostFileLinksLinkRequestBodyExpiresAt'PostFileLinksLinkRequestBodyExpiresAt'OneOf2 a
+      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostFileLinksLinkRequestBodyExpiresAt'Int a
+        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postFileLinksLink'.
 --
@@ -170,81 +175,3 @@ data PostFileLinksLinkResponse
   | -- | Error response.
     PostFileLinksLinkResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/file_links/{link}
---
--- The same as 'postFileLinksLink' but accepts an explicit configuration.
-postFileLinksLinkWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | link
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostFileLinksLinkRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostFileLinksLinkResponse)
-postFileLinksLinkWithConfiguration
-  config
-  link
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostFileLinksLinkResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostFileLinksLinkResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              FileLink
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostFileLinksLinkResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/file_links/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel link)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/file_links/{link}
---
--- The same as 'postFileLinksLink' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postFileLinksLinkRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | link
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostFileLinksLinkRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postFileLinksLinkRaw
-  link
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/file_links/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel link)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/file_links/{link}
---
--- The same as 'postFileLinksLink' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postFileLinksLinkWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | link
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostFileLinksLinkRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postFileLinksLinkWithConfigurationRaw
-  config
-  link
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/file_links/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel link)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

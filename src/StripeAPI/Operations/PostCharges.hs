@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postCharges
 module StripeAPI.Operations.PostCharges where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -108,7 +107,7 @@ data PostChargesRequestBody
         -- | destination
         postChargesRequestBodyDestination :: (GHC.Maybe.Maybe PostChargesRequestBodyDestination'Variants),
         -- | expand: Specifies which fields in the response should be expanded.
-        postChargesRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postChargesRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
         postChargesRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | on_behalf_of: The Stripe account ID for which these funds are intended. Automatically set if you use the \`destination\` parameter. For details, see [Creating Separate Charges and Transfers](https:\/\/stripe.com\/docs\/connect\/charges-transfers\#on-behalf-of).
@@ -149,7 +148,7 @@ data PostChargesRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostChargesRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postChargesRequestBodyAmount obj) : (Data.Aeson..=) "application_fee" (postChargesRequestBodyApplicationFee obj) : (Data.Aeson..=) "application_fee_amount" (postChargesRequestBodyApplicationFeeAmount obj) : (Data.Aeson..=) "capture" (postChargesRequestBodyCapture obj) : (Data.Aeson..=) "card" (postChargesRequestBodyCard obj) : (Data.Aeson..=) "currency" (postChargesRequestBodyCurrency obj) : (Data.Aeson..=) "customer" (postChargesRequestBodyCustomer obj) : (Data.Aeson..=) "description" (postChargesRequestBodyDescription obj) : (Data.Aeson..=) "destination" (postChargesRequestBodyDestination obj) : (Data.Aeson..=) "expand" (postChargesRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postChargesRequestBodyMetadata obj) : (Data.Aeson..=) "on_behalf_of" (postChargesRequestBodyOnBehalfOf obj) : (Data.Aeson..=) "receipt_email" (postChargesRequestBodyReceiptEmail obj) : (Data.Aeson..=) "shipping" (postChargesRequestBodyShipping obj) : (Data.Aeson..=) "source" (postChargesRequestBodySource obj) : (Data.Aeson..=) "statement_descriptor" (postChargesRequestBodyStatementDescriptor obj) : (Data.Aeson..=) "statement_descriptor_suffix" (postChargesRequestBodyStatementDescriptorSuffix obj) : (Data.Aeson..=) "transfer_data" (postChargesRequestBodyTransferData obj) : (Data.Aeson..=) "transfer_group" (postChargesRequestBodyTransferGroup obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postChargesRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "application_fee" (postChargesRequestBodyApplicationFee obj) GHC.Base.<> ((Data.Aeson..=) "application_fee_amount" (postChargesRequestBodyApplicationFeeAmount obj) GHC.Base.<> ((Data.Aeson..=) "capture" (postChargesRequestBodyCapture obj) GHC.Base.<> ((Data.Aeson..=) "card" (postChargesRequestBodyCard obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postChargesRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (postChargesRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "description" (postChargesRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "destination" (postChargesRequestBodyDestination obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postChargesRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postChargesRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "on_behalf_of" (postChargesRequestBodyOnBehalfOf obj) GHC.Base.<> ((Data.Aeson..=) "receipt_email" (postChargesRequestBodyReceiptEmail obj) GHC.Base.<> ((Data.Aeson..=) "shipping" (postChargesRequestBodyShipping obj) GHC.Base.<> ((Data.Aeson..=) "source" (postChargesRequestBodySource obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (postChargesRequestBodyStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor_suffix" (postChargesRequestBodyStatementDescriptorSuffix obj) GHC.Base.<> ((Data.Aeson..=) "transfer_data" (postChargesRequestBodyTransferData obj) GHC.Base.<> (Data.Aeson..=) "transfer_group" (postChargesRequestBodyTransferGroup obj)))))))))))))))))))
 
@@ -231,7 +230,7 @@ data PostChargesRequestBodyCard'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostChargesRequestBodyCard'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesRequestBodyCard'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address_city" (postChargesRequestBodyCard'OneOf2AddressCity obj) : (Data.Aeson..=) "address_country" (postChargesRequestBodyCard'OneOf2AddressCountry obj) : (Data.Aeson..=) "address_line1" (postChargesRequestBodyCard'OneOf2AddressLine1 obj) : (Data.Aeson..=) "address_line2" (postChargesRequestBodyCard'OneOf2AddressLine2 obj) : (Data.Aeson..=) "address_state" (postChargesRequestBodyCard'OneOf2AddressState obj) : (Data.Aeson..=) "address_zip" (postChargesRequestBodyCard'OneOf2AddressZip obj) : (Data.Aeson..=) "cvc" (postChargesRequestBodyCard'OneOf2Cvc obj) : (Data.Aeson..=) "exp_month" (postChargesRequestBodyCard'OneOf2ExpMonth obj) : (Data.Aeson..=) "exp_year" (postChargesRequestBodyCard'OneOf2ExpYear obj) : (Data.Aeson..=) "metadata" (postChargesRequestBodyCard'OneOf2Metadata obj) : (Data.Aeson..=) "name" (postChargesRequestBodyCard'OneOf2Name obj) : (Data.Aeson..=) "number" (postChargesRequestBodyCard'OneOf2Number obj) : (Data.Aeson..=) "object" (postChargesRequestBodyCard'OneOf2Object obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address_city" (postChargesRequestBodyCard'OneOf2AddressCity obj) GHC.Base.<> ((Data.Aeson..=) "address_country" (postChargesRequestBodyCard'OneOf2AddressCountry obj) GHC.Base.<> ((Data.Aeson..=) "address_line1" (postChargesRequestBodyCard'OneOf2AddressLine1 obj) GHC.Base.<> ((Data.Aeson..=) "address_line2" (postChargesRequestBodyCard'OneOf2AddressLine2 obj) GHC.Base.<> ((Data.Aeson..=) "address_state" (postChargesRequestBodyCard'OneOf2AddressState obj) GHC.Base.<> ((Data.Aeson..=) "address_zip" (postChargesRequestBodyCard'OneOf2AddressZip obj) GHC.Base.<> ((Data.Aeson..=) "cvc" (postChargesRequestBodyCard'OneOf2Cvc obj) GHC.Base.<> ((Data.Aeson..=) "exp_month" (postChargesRequestBodyCard'OneOf2ExpMonth obj) GHC.Base.<> ((Data.Aeson..=) "exp_year" (postChargesRequestBodyCard'OneOf2ExpYear obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postChargesRequestBodyCard'OneOf2Metadata obj) GHC.Base.<> ((Data.Aeson..=) "name" (postChargesRequestBodyCard'OneOf2Name obj) GHC.Base.<> ((Data.Aeson..=) "number" (postChargesRequestBodyCard'OneOf2Number obj) GHC.Base.<> (Data.Aeson..=) "object" (postChargesRequestBodyCard'OneOf2Object obj)))))))))))))
 
@@ -245,17 +244,16 @@ data PostChargesRequestBodyCard'OneOf2Object'
   | PostChargesRequestBodyCard'OneOf2Object'EnumStringCard
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostChargesRequestBodyCard'OneOf2Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesRequestBodyCard'OneOf2Object' where
   toJSON (PostChargesRequestBodyCard'OneOf2Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostChargesRequestBodyCard'OneOf2Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostChargesRequestBodyCard'OneOf2Object'EnumStringCard) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card"
+  toJSON (PostChargesRequestBodyCard'OneOf2Object'EnumStringCard) = "card"
 
-instance Data.Aeson.FromJSON PostChargesRequestBodyCard'OneOf2Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostChargesRequestBodyCard'OneOf2Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card")
-          then PostChargesRequestBodyCard'OneOf2Object'EnumStringCard
-          else PostChargesRequestBodyCard'OneOf2Object'EnumOther val
+      ( if  | val GHC.Classes.== "card" -> PostChargesRequestBodyCard'OneOf2Object'EnumStringCard
+            | GHC.Base.otherwise -> PostChargesRequestBodyCard'OneOf2Object'EnumOther val
       )
 
 -- | Define the one-of schema postChargesRequestBodyCard\'
@@ -264,13 +262,18 @@ instance Data.Aeson.FromJSON PostChargesRequestBodyCard'OneOf2Object' where
 data PostChargesRequestBodyCard'Variants
   = PostChargesRequestBodyCard'Text Data.Text.Internal.Text
   | PostChargesRequestBodyCard'PostChargesRequestBodyCard'OneOf2 PostChargesRequestBodyCard'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostChargesRequestBodyCard'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesRequestBodyCard'Variants where
+  toJSON (PostChargesRequestBodyCard'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostChargesRequestBodyCard'PostChargesRequestBodyCard'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostChargesRequestBodyCard'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostChargesRequestBodyCard'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostChargesRequestBodyCard'Text a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostChargesRequestBodyCard'PostChargesRequestBodyCard'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the data type for the schema postChargesRequestBodyDestination\'OneOf2
 data PostChargesRequestBodyDestination'OneOf2
@@ -289,7 +292,7 @@ data PostChargesRequestBodyDestination'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostChargesRequestBodyDestination'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesRequestBodyDestination'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (postChargesRequestBodyDestination'OneOf2Account obj) : (Data.Aeson..=) "amount" (postChargesRequestBodyDestination'OneOf2Amount obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (postChargesRequestBodyDestination'OneOf2Account obj) GHC.Base.<> (Data.Aeson..=) "amount" (postChargesRequestBodyDestination'OneOf2Amount obj))
 
@@ -300,13 +303,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostChargesRequestBodyDestination'On
 data PostChargesRequestBodyDestination'Variants
   = PostChargesRequestBodyDestination'Text Data.Text.Internal.Text
   | PostChargesRequestBodyDestination'PostChargesRequestBodyDestination'OneOf2 PostChargesRequestBodyDestination'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostChargesRequestBodyDestination'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesRequestBodyDestination'Variants where
+  toJSON (PostChargesRequestBodyDestination'Text a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostChargesRequestBodyDestination'PostChargesRequestBodyDestination'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostChargesRequestBodyDestination'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostChargesRequestBodyDestination'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostChargesRequestBodyDestination'Text a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostChargesRequestBodyDestination'PostChargesRequestBodyDestination'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the data type for the schema postChargesRequestBodyShipping\'
 --
@@ -345,7 +353,7 @@ data PostChargesRequestBodyShipping'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostChargesRequestBodyShipping' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesRequestBodyShipping' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postChargesRequestBodyShipping'Address obj) : (Data.Aeson..=) "carrier" (postChargesRequestBodyShipping'Carrier obj) : (Data.Aeson..=) "name" (postChargesRequestBodyShipping'Name obj) : (Data.Aeson..=) "phone" (postChargesRequestBodyShipping'Phone obj) : (Data.Aeson..=) "tracking_number" (postChargesRequestBodyShipping'TrackingNumber obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postChargesRequestBodyShipping'Address obj) GHC.Base.<> ((Data.Aeson..=) "carrier" (postChargesRequestBodyShipping'Carrier obj) GHC.Base.<> ((Data.Aeson..=) "name" (postChargesRequestBodyShipping'Name obj) GHC.Base.<> ((Data.Aeson..=) "phone" (postChargesRequestBodyShipping'Phone obj) GHC.Base.<> (Data.Aeson..=) "tracking_number" (postChargesRequestBodyShipping'TrackingNumber obj)))))
 
@@ -397,7 +405,7 @@ data PostChargesRequestBodyShipping'Address'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostChargesRequestBodyShipping'Address' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesRequestBodyShipping'Address' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postChargesRequestBodyShipping'Address'City obj) : (Data.Aeson..=) "country" (postChargesRequestBodyShipping'Address'Country obj) : (Data.Aeson..=) "line1" (postChargesRequestBodyShipping'Address'Line1 obj) : (Data.Aeson..=) "line2" (postChargesRequestBodyShipping'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postChargesRequestBodyShipping'Address'PostalCode obj) : (Data.Aeson..=) "state" (postChargesRequestBodyShipping'Address'State obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postChargesRequestBodyShipping'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postChargesRequestBodyShipping'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postChargesRequestBodyShipping'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postChargesRequestBodyShipping'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postChargesRequestBodyShipping'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postChargesRequestBodyShipping'Address'State obj))))))
 
@@ -423,7 +431,7 @@ data PostChargesRequestBodyTransferData'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostChargesRequestBodyTransferData' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostChargesRequestBodyTransferData' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postChargesRequestBodyTransferData'Amount obj) : (Data.Aeson..=) "destination" (postChargesRequestBodyTransferData'Destination obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postChargesRequestBodyTransferData'Amount obj) GHC.Base.<> (Data.Aeson..=) "destination" (postChargesRequestBodyTransferData'Destination obj))
 
@@ -441,71 +449,3 @@ data PostChargesResponse
   | -- | Error response.
     PostChargesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/charges
---
--- The same as 'postCharges' but accepts an explicit configuration.
-postChargesWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostChargesRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostChargesResponse)
-postChargesWithConfiguration
-  config
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostChargesResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostChargesResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Charge
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostChargesResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/charges") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/charges
---
--- The same as 'postCharges' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postChargesRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The request body to send
-  GHC.Maybe.Maybe PostChargesRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postChargesRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/charges") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/charges
---
--- The same as 'postCharges' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postChargesWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostChargesRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postChargesWithConfigurationRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/charges") [] body StripeAPI.Common.RequestBodyEncodingFormData)

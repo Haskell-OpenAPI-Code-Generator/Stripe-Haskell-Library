@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postAccountPeople
 module StripeAPI.Operations.PostAccountPeople where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -98,7 +97,7 @@ data PostAccountPeopleRequestBody
         -- | email: The person\'s email address.
         postAccountPeopleRequestBodyEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postAccountPeopleRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postAccountPeopleRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | first_name: The person\'s first name.
         --
         -- Constraints:
@@ -175,7 +174,7 @@ data PostAccountPeopleRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostAccountPeopleRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountPeopleRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (postAccountPeopleRequestBodyAccount obj) : (Data.Aeson..=) "address" (postAccountPeopleRequestBodyAddress obj) : (Data.Aeson..=) "address_kana" (postAccountPeopleRequestBodyAddressKana obj) : (Data.Aeson..=) "address_kanji" (postAccountPeopleRequestBodyAddressKanji obj) : (Data.Aeson..=) "dob" (postAccountPeopleRequestBodyDob obj) : (Data.Aeson..=) "email" (postAccountPeopleRequestBodyEmail obj) : (Data.Aeson..=) "expand" (postAccountPeopleRequestBodyExpand obj) : (Data.Aeson..=) "first_name" (postAccountPeopleRequestBodyFirstName obj) : (Data.Aeson..=) "first_name_kana" (postAccountPeopleRequestBodyFirstNameKana obj) : (Data.Aeson..=) "first_name_kanji" (postAccountPeopleRequestBodyFirstNameKanji obj) : (Data.Aeson..=) "gender" (postAccountPeopleRequestBodyGender obj) : (Data.Aeson..=) "id_number" (postAccountPeopleRequestBodyIdNumber obj) : (Data.Aeson..=) "last_name" (postAccountPeopleRequestBodyLastName obj) : (Data.Aeson..=) "last_name_kana" (postAccountPeopleRequestBodyLastNameKana obj) : (Data.Aeson..=) "last_name_kanji" (postAccountPeopleRequestBodyLastNameKanji obj) : (Data.Aeson..=) "maiden_name" (postAccountPeopleRequestBodyMaidenName obj) : (Data.Aeson..=) "metadata" (postAccountPeopleRequestBodyMetadata obj) : (Data.Aeson..=) "person_token" (postAccountPeopleRequestBodyPersonToken obj) : (Data.Aeson..=) "phone" (postAccountPeopleRequestBodyPhone obj) : (Data.Aeson..=) "relationship" (postAccountPeopleRequestBodyRelationship obj) : (Data.Aeson..=) "ssn_last_4" (postAccountPeopleRequestBodySsnLast_4 obj) : (Data.Aeson..=) "verification" (postAccountPeopleRequestBodyVerification obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (postAccountPeopleRequestBodyAccount obj) GHC.Base.<> ((Data.Aeson..=) "address" (postAccountPeopleRequestBodyAddress obj) GHC.Base.<> ((Data.Aeson..=) "address_kana" (postAccountPeopleRequestBodyAddressKana obj) GHC.Base.<> ((Data.Aeson..=) "address_kanji" (postAccountPeopleRequestBodyAddressKanji obj) GHC.Base.<> ((Data.Aeson..=) "dob" (postAccountPeopleRequestBodyDob obj) GHC.Base.<> ((Data.Aeson..=) "email" (postAccountPeopleRequestBodyEmail obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postAccountPeopleRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "first_name" (postAccountPeopleRequestBodyFirstName obj) GHC.Base.<> ((Data.Aeson..=) "first_name_kana" (postAccountPeopleRequestBodyFirstNameKana obj) GHC.Base.<> ((Data.Aeson..=) "first_name_kanji" (postAccountPeopleRequestBodyFirstNameKanji obj) GHC.Base.<> ((Data.Aeson..=) "gender" (postAccountPeopleRequestBodyGender obj) GHC.Base.<> ((Data.Aeson..=) "id_number" (postAccountPeopleRequestBodyIdNumber obj) GHC.Base.<> ((Data.Aeson..=) "last_name" (postAccountPeopleRequestBodyLastName obj) GHC.Base.<> ((Data.Aeson..=) "last_name_kana" (postAccountPeopleRequestBodyLastNameKana obj) GHC.Base.<> ((Data.Aeson..=) "last_name_kanji" (postAccountPeopleRequestBodyLastNameKanji obj) GHC.Base.<> ((Data.Aeson..=) "maiden_name" (postAccountPeopleRequestBodyMaidenName obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postAccountPeopleRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "person_token" (postAccountPeopleRequestBodyPersonToken obj) GHC.Base.<> ((Data.Aeson..=) "phone" (postAccountPeopleRequestBodyPhone obj) GHC.Base.<> ((Data.Aeson..=) "relationship" (postAccountPeopleRequestBodyRelationship obj) GHC.Base.<> ((Data.Aeson..=) "ssn_last_4" (postAccountPeopleRequestBodySsnLast_4 obj) GHC.Base.<> (Data.Aeson..=) "verification" (postAccountPeopleRequestBodyVerification obj))))))))))))))))))))))
 
@@ -229,7 +228,7 @@ data PostAccountPeopleRequestBodyAddress'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostAccountPeopleRequestBodyAddress' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountPeopleRequestBodyAddress' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postAccountPeopleRequestBodyAddress'City obj) : (Data.Aeson..=) "country" (postAccountPeopleRequestBodyAddress'Country obj) : (Data.Aeson..=) "line1" (postAccountPeopleRequestBodyAddress'Line1 obj) : (Data.Aeson..=) "line2" (postAccountPeopleRequestBodyAddress'Line2 obj) : (Data.Aeson..=) "postal_code" (postAccountPeopleRequestBodyAddress'PostalCode obj) : (Data.Aeson..=) "state" (postAccountPeopleRequestBodyAddress'State obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postAccountPeopleRequestBodyAddress'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postAccountPeopleRequestBodyAddress'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postAccountPeopleRequestBodyAddress'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postAccountPeopleRequestBodyAddress'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postAccountPeopleRequestBodyAddress'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postAccountPeopleRequestBodyAddress'State obj))))))
 
@@ -289,7 +288,7 @@ data PostAccountPeopleRequestBodyAddressKana'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostAccountPeopleRequestBodyAddressKana' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountPeopleRequestBodyAddressKana' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postAccountPeopleRequestBodyAddressKana'City obj) : (Data.Aeson..=) "country" (postAccountPeopleRequestBodyAddressKana'Country obj) : (Data.Aeson..=) "line1" (postAccountPeopleRequestBodyAddressKana'Line1 obj) : (Data.Aeson..=) "line2" (postAccountPeopleRequestBodyAddressKana'Line2 obj) : (Data.Aeson..=) "postal_code" (postAccountPeopleRequestBodyAddressKana'PostalCode obj) : (Data.Aeson..=) "state" (postAccountPeopleRequestBodyAddressKana'State obj) : (Data.Aeson..=) "town" (postAccountPeopleRequestBodyAddressKana'Town obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postAccountPeopleRequestBodyAddressKana'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postAccountPeopleRequestBodyAddressKana'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postAccountPeopleRequestBodyAddressKana'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postAccountPeopleRequestBodyAddressKana'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postAccountPeopleRequestBodyAddressKana'PostalCode obj) GHC.Base.<> ((Data.Aeson..=) "state" (postAccountPeopleRequestBodyAddressKana'State obj) GHC.Base.<> (Data.Aeson..=) "town" (postAccountPeopleRequestBodyAddressKana'Town obj)))))))
 
@@ -349,7 +348,7 @@ data PostAccountPeopleRequestBodyAddressKanji'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostAccountPeopleRequestBodyAddressKanji' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountPeopleRequestBodyAddressKanji' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postAccountPeopleRequestBodyAddressKanji'City obj) : (Data.Aeson..=) "country" (postAccountPeopleRequestBodyAddressKanji'Country obj) : (Data.Aeson..=) "line1" (postAccountPeopleRequestBodyAddressKanji'Line1 obj) : (Data.Aeson..=) "line2" (postAccountPeopleRequestBodyAddressKanji'Line2 obj) : (Data.Aeson..=) "postal_code" (postAccountPeopleRequestBodyAddressKanji'PostalCode obj) : (Data.Aeson..=) "state" (postAccountPeopleRequestBodyAddressKanji'State obj) : (Data.Aeson..=) "town" (postAccountPeopleRequestBodyAddressKanji'Town obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postAccountPeopleRequestBodyAddressKanji'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postAccountPeopleRequestBodyAddressKanji'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postAccountPeopleRequestBodyAddressKanji'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postAccountPeopleRequestBodyAddressKanji'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postAccountPeopleRequestBodyAddressKanji'PostalCode obj) GHC.Base.<> ((Data.Aeson..=) "state" (postAccountPeopleRequestBodyAddressKanji'State obj) GHC.Base.<> (Data.Aeson..=) "town" (postAccountPeopleRequestBodyAddressKanji'Town obj)))))))
 
@@ -363,17 +362,16 @@ data PostAccountPeopleRequestBodyDob'OneOf1
   | PostAccountPeopleRequestBodyDob'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostAccountPeopleRequestBodyDob'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountPeopleRequestBodyDob'OneOf1 where
   toJSON (PostAccountPeopleRequestBodyDob'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostAccountPeopleRequestBodyDob'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountPeopleRequestBodyDob'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (PostAccountPeopleRequestBodyDob'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON PostAccountPeopleRequestBodyDob'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountPeopleRequestBodyDob'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostAccountPeopleRequestBodyDob'OneOf1EnumString_
-          else PostAccountPeopleRequestBodyDob'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostAccountPeopleRequestBodyDob'OneOf1EnumString_
+            | GHC.Base.otherwise -> PostAccountPeopleRequestBodyDob'OneOf1EnumOther val
       )
 
 -- | Defines the data type for the schema postAccountPeopleRequestBodyDob\'OneOf2
@@ -391,7 +389,7 @@ data PostAccountPeopleRequestBodyDob'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostAccountPeopleRequestBodyDob'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountPeopleRequestBodyDob'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "day" (postAccountPeopleRequestBodyDob'OneOf2Day obj) : (Data.Aeson..=) "month" (postAccountPeopleRequestBodyDob'OneOf2Month obj) : (Data.Aeson..=) "year" (postAccountPeopleRequestBodyDob'OneOf2Year obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "day" (postAccountPeopleRequestBodyDob'OneOf2Day obj) GHC.Base.<> ((Data.Aeson..=) "month" (postAccountPeopleRequestBodyDob'OneOf2Month obj) GHC.Base.<> (Data.Aeson..=) "year" (postAccountPeopleRequestBodyDob'OneOf2Year obj)))
 
@@ -404,13 +402,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostAccountPeopleRequestBodyDob'OneO
 data PostAccountPeopleRequestBodyDob'Variants
   = PostAccountPeopleRequestBodyDob'PostAccountPeopleRequestBodyDob'OneOf1 PostAccountPeopleRequestBodyDob'OneOf1
   | PostAccountPeopleRequestBodyDob'PostAccountPeopleRequestBodyDob'OneOf2 PostAccountPeopleRequestBodyDob'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostAccountPeopleRequestBodyDob'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountPeopleRequestBodyDob'Variants where
+  toJSON (PostAccountPeopleRequestBodyDob'PostAccountPeopleRequestBodyDob'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostAccountPeopleRequestBodyDob'PostAccountPeopleRequestBodyDob'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostAccountPeopleRequestBodyDob'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountPeopleRequestBodyDob'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostAccountPeopleRequestBodyDob'PostAccountPeopleRequestBodyDob'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostAccountPeopleRequestBodyDob'PostAccountPeopleRequestBodyDob'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the data type for the schema postAccountPeopleRequestBodyRelationship\'
 --
@@ -439,7 +442,7 @@ data PostAccountPeopleRequestBodyRelationship'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostAccountPeopleRequestBodyRelationship' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountPeopleRequestBodyRelationship' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "director" (postAccountPeopleRequestBodyRelationship'Director obj) : (Data.Aeson..=) "executive" (postAccountPeopleRequestBodyRelationship'Executive obj) : (Data.Aeson..=) "owner" (postAccountPeopleRequestBodyRelationship'Owner obj) : (Data.Aeson..=) "percent_ownership" (postAccountPeopleRequestBodyRelationship'PercentOwnership obj) : (Data.Aeson..=) "representative" (postAccountPeopleRequestBodyRelationship'Representative obj) : (Data.Aeson..=) "title" (postAccountPeopleRequestBodyRelationship'Title obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "director" (postAccountPeopleRequestBodyRelationship'Director obj) GHC.Base.<> ((Data.Aeson..=) "executive" (postAccountPeopleRequestBodyRelationship'Executive obj) GHC.Base.<> ((Data.Aeson..=) "owner" (postAccountPeopleRequestBodyRelationship'Owner obj) GHC.Base.<> ((Data.Aeson..=) "percent_ownership" (postAccountPeopleRequestBodyRelationship'PercentOwnership obj) GHC.Base.<> ((Data.Aeson..=) "representative" (postAccountPeopleRequestBodyRelationship'Representative obj) GHC.Base.<> (Data.Aeson..=) "title" (postAccountPeopleRequestBodyRelationship'Title obj))))))
 
@@ -453,30 +456,34 @@ data PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1
   | PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1 where
   toJSON (PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1EnumString_
-          else PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1EnumString_
+            | GHC.Base.otherwise -> PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1EnumOther val
       )
 
 -- | Define the one-of schema postAccountPeopleRequestBodyRelationship\'Percent_ownership\'
 data PostAccountPeopleRequestBodyRelationship'PercentOwnership'Variants
   = PostAccountPeopleRequestBodyRelationship'PercentOwnership'PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1 PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1
   | PostAccountPeopleRequestBodyRelationship'PercentOwnership'Double GHC.Types.Double
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostAccountPeopleRequestBodyRelationship'PercentOwnership'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountPeopleRequestBodyRelationship'PercentOwnership'Variants where
+  toJSON (PostAccountPeopleRequestBodyRelationship'PercentOwnership'PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostAccountPeopleRequestBodyRelationship'PercentOwnership'Double a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostAccountPeopleRequestBodyRelationship'PercentOwnership'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostAccountPeopleRequestBodyRelationship'PercentOwnership'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostAccountPeopleRequestBodyRelationship'PercentOwnership'PostAccountPeopleRequestBodyRelationship'PercentOwnership'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostAccountPeopleRequestBodyRelationship'PercentOwnership'Double a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the data type for the schema postAccountPeopleRequestBodyVerification\'
 --
@@ -493,7 +500,7 @@ data PostAccountPeopleRequestBodyVerification'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostAccountPeopleRequestBodyVerification' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountPeopleRequestBodyVerification' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "additional_document" (postAccountPeopleRequestBodyVerification'AdditionalDocument obj) : (Data.Aeson..=) "document" (postAccountPeopleRequestBodyVerification'Document obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "additional_document" (postAccountPeopleRequestBodyVerification'AdditionalDocument obj) GHC.Base.<> (Data.Aeson..=) "document" (postAccountPeopleRequestBodyVerification'Document obj))
 
@@ -521,7 +528,7 @@ data PostAccountPeopleRequestBodyVerification'AdditionalDocument'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostAccountPeopleRequestBodyVerification'AdditionalDocument' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountPeopleRequestBodyVerification'AdditionalDocument' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "back" (postAccountPeopleRequestBodyVerification'AdditionalDocument'Back obj) : (Data.Aeson..=) "front" (postAccountPeopleRequestBodyVerification'AdditionalDocument'Front obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "back" (postAccountPeopleRequestBodyVerification'AdditionalDocument'Back obj) GHC.Base.<> (Data.Aeson..=) "front" (postAccountPeopleRequestBodyVerification'AdditionalDocument'Front obj))
 
@@ -549,7 +556,7 @@ data PostAccountPeopleRequestBodyVerification'Document'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostAccountPeopleRequestBodyVerification'Document' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostAccountPeopleRequestBodyVerification'Document' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "back" (postAccountPeopleRequestBodyVerification'Document'Back obj) : (Data.Aeson..=) "front" (postAccountPeopleRequestBodyVerification'Document'Front obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "back" (postAccountPeopleRequestBodyVerification'Document'Back obj) GHC.Base.<> (Data.Aeson..=) "front" (postAccountPeopleRequestBodyVerification'Document'Front obj))
 
@@ -567,71 +574,3 @@ data PostAccountPeopleResponse
   | -- | Error response.
     PostAccountPeopleResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/account/people
---
--- The same as 'postAccountPeople' but accepts an explicit configuration.
-postAccountPeopleWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostAccountPeopleRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostAccountPeopleResponse)
-postAccountPeopleWithConfiguration
-  config
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostAccountPeopleResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostAccountPeopleResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Person
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostAccountPeopleResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/people") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/account/people
---
--- The same as 'postAccountPeople' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postAccountPeopleRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The request body to send
-  GHC.Maybe.Maybe PostAccountPeopleRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postAccountPeopleRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/people") [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/account/people
---
--- The same as 'postAccountPeople' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postAccountPeopleWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostAccountPeopleRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postAccountPeopleWithConfigurationRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/account/people") [] body StripeAPI.Common.RequestBodyEncodingFormData)

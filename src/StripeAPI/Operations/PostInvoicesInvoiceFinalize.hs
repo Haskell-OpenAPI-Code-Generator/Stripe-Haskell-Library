@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postInvoicesInvoiceFinalize
 module StripeAPI.Operations.PostInvoicesInvoiceFinalize where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -88,14 +87,14 @@ data PostInvoicesInvoiceFinalizeRequestBody
       { -- | auto_advance: Controls whether Stripe will perform [automatic collection](https:\/\/stripe.com\/docs\/billing\/invoices\/workflow\/\#auto_advance) of the invoice. When \`false\`, the invoice\'s state will not automatically advance without an explicit action.
         postInvoicesInvoiceFinalizeRequestBodyAutoAdvance :: (GHC.Maybe.Maybe GHC.Types.Bool),
         -- | expand: Specifies which fields in the response should be expanded.
-        postInvoicesInvoiceFinalizeRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
+        postInvoicesInvoiceFinalizeRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostInvoicesInvoiceFinalizeRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesInvoiceFinalizeRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "auto_advance" (postInvoicesInvoiceFinalizeRequestBodyAutoAdvance obj) : (Data.Aeson..=) "expand" (postInvoicesInvoiceFinalizeRequestBodyExpand obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "auto_advance" (postInvoicesInvoiceFinalizeRequestBodyAutoAdvance obj) GHC.Base.<> (Data.Aeson..=) "expand" (postInvoicesInvoiceFinalizeRequestBodyExpand obj))
 
@@ -113,81 +112,3 @@ data PostInvoicesInvoiceFinalizeResponse
   | -- | Error response.
     PostInvoicesInvoiceFinalizeResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/invoices/{invoice}/finalize
---
--- The same as 'postInvoicesInvoiceFinalize' but accepts an explicit configuration.
-postInvoicesInvoiceFinalizeWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | invoice | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostInvoicesInvoiceFinalizeRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostInvoicesInvoiceFinalizeResponse)
-postInvoicesInvoiceFinalizeWithConfiguration
-  config
-  invoice
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostInvoicesInvoiceFinalizeResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostInvoicesInvoiceFinalizeResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Invoice
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostInvoicesInvoiceFinalizeResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ "/finalize"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/invoices/{invoice}/finalize
---
--- The same as 'postInvoicesInvoiceFinalize' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postInvoicesInvoiceFinalizeRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | invoice | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostInvoicesInvoiceFinalizeRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postInvoicesInvoiceFinalizeRaw
-  invoice
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ "/finalize"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/invoices/{invoice}/finalize
---
--- The same as 'postInvoicesInvoiceFinalize' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postInvoicesInvoiceFinalizeWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | invoice | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostInvoicesInvoiceFinalizeRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postInvoicesInvoiceFinalizeWithConfigurationRaw
-  config
-  invoice
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ "/finalize"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

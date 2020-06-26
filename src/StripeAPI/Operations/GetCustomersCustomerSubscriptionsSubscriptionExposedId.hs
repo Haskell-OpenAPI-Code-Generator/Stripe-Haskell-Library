@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getCustomersCustomerSubscriptionsSubscriptionExposedId
 module StripeAPI.Operations.GetCustomersCustomerSubscriptionsSubscriptionExposedId where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -96,14 +95,14 @@ data GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
+        getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj) : (Data.Aeson..=) "pathSubscription_exposed_id" (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj) : (Data.Aeson..=) "queryExpand" (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathCustomer" (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer obj) GHC.Base.<> ((Data.Aeson..=) "pathSubscription_exposed_id" (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand obj)))
 
@@ -121,71 +120,3 @@ data GetCustomersCustomerSubscriptionsSubscriptionExposedIdResponse
   | -- | Error response.
     GetCustomersCustomerSubscriptionsSubscriptionExposedIdResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > GET /v1/customers/{customer}/subscriptions/{subscription_exposed_id}
---
--- The same as 'getCustomersCustomerSubscriptionsSubscriptionExposedId' but accepts an explicit configuration.
-getCustomersCustomerSubscriptionsSubscriptionExposedIdWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetCustomersCustomerSubscriptionsSubscriptionExposedIdResponse)
-getCustomersCustomerSubscriptionsSubscriptionExposedIdWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetCustomersCustomerSubscriptionsSubscriptionExposedIdResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetCustomersCustomerSubscriptionsSubscriptionExposedIdResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Subscription
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetCustomersCustomerSubscriptionsSubscriptionExposedIdResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer parameters))) GHC.Base.++ ("/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId parameters))) GHC.Base.++ ""))))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
-
--- | > GET /v1/customers/{customer}/subscriptions/{subscription_exposed_id}
---
--- The same as 'getCustomersCustomerSubscriptionsSubscriptionExposedId' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getCustomersCustomerSubscriptionsSubscriptionExposedIdRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getCustomersCustomerSubscriptionsSubscriptionExposedIdRaw parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer parameters))) GHC.Base.++ ("/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId parameters))) GHC.Base.++ ""))))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
-
--- | > GET /v1/customers/{customer}/subscriptions/{subscription_exposed_id}
---
--- The same as 'getCustomersCustomerSubscriptionsSubscriptionExposedId' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getCustomersCustomerSubscriptionsSubscriptionExposedIdWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCustomersCustomerSubscriptionsSubscriptionExposedIdParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getCustomersCustomerSubscriptionsSubscriptionExposedIdWithConfigurationRaw
-  config
-  parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/customers/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathCustomer parameters))) GHC.Base.++ ("/subscriptions/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersPathSubscriptionExposedId parameters))) GHC.Base.++ ""))))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCustomersCustomerSubscriptionsSubscriptionExposedIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])

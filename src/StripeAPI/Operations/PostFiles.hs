@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postFiles
 module StripeAPI.Operations.PostFiles where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -86,58 +85,3 @@ data PostFilesResponse
   | -- | Error response.
     PostFilesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/files
---
--- The same as 'postFiles' but accepts an explicit configuration.
-postFilesWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostFilesResponse)
-postFilesWithConfiguration config =
-  GHC.Base.fmap
-    ( \response_2 ->
-        GHC.Base.fmap
-          ( Data.Either.either PostFilesResponseError GHC.Base.id
-              GHC.Base.. ( \response body ->
-                             if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostFilesResponse200
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either GHC.Base.String
-                                                            File
-                                                      )
-                                 | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                   PostFilesResponseDefault
-                                     Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                          Data.Either.Either GHC.Base.String
-                                                            Error
-                                                      )
-                                 | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                         )
-                response_2
-          )
-          response_2
-    )
-    (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/files") [])
-
--- | > POST /v1/files
---
--- The same as 'postFiles' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postFilesRaw :: forall m. StripeAPI.Common.MonadHTTP m => -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postFilesRaw = GHC.Base.id (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/files") [])
-
--- | > POST /v1/files
---
--- The same as 'postFiles' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postFilesWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postFilesWithConfigurationRaw config = GHC.Base.id (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/files") [])

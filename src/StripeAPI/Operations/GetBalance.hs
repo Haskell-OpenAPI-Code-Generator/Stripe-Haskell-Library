@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getBalance
 module StripeAPI.Operations.GetBalance where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -50,7 +49,7 @@ getBalance ::
   forall m.
   StripeAPI.Common.MonadHTTP m =>
   -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe ([] Data.Text.Internal.Text) ->
+  GHC.Maybe.Maybe ([Data.Text.Internal.Text]) ->
   -- | Monadic computation which returns the result of the operation
   StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response GetBalanceResponse)
 getBalance expand =
@@ -90,71 +89,3 @@ data GetBalanceResponse
   | -- | Error response.
     GetBalanceResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > GET /v1/balance
---
--- The same as 'getBalance' but accepts an explicit configuration.
-getBalanceWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe ([] Data.Text.Internal.Text) ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetBalanceResponse)
-getBalanceWithConfiguration
-  config
-  expand =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetBalanceResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetBalanceResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Balance
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetBalanceResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack "/v1/balance") [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> expand) (Data.Text.pack "deepObject") GHC.Types.True])
-
--- | > GET /v1/balance
---
--- The same as 'getBalance' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getBalanceRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe ([] Data.Text.Internal.Text) ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getBalanceRaw expand = GHC.Base.id (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack "/v1/balance") [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> expand) (Data.Text.pack "deepObject") GHC.Types.True])
-
--- | > GET /v1/balance
---
--- The same as 'getBalance' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getBalanceWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | expand: Specifies which fields in the response should be expanded.
-  GHC.Maybe.Maybe ([] Data.Text.Internal.Text) ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getBalanceWithConfigurationRaw
-  config
-  expand = GHC.Base.id (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack "/v1/balance") [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> expand) (Data.Text.pack "deepObject") GHC.Types.True])

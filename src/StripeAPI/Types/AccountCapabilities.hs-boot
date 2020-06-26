@@ -1,0 +1,28 @@
+module StripeAPI.Types.AccountCapabilities where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data AccountCapabilities 
+instance Show AccountCapabilities 
+instance Eq AccountCapabilities 
+instance FromJSON AccountCapabilities 
+instance ToJSON AccountCapabilities 
+data AccountCapabilitiesCardIssuing'
+instance Show AccountCapabilitiesCardIssuing'
+instance Eq AccountCapabilitiesCardIssuing'
+instance FromJSON AccountCapabilitiesCardIssuing'
+instance ToJSON AccountCapabilitiesCardIssuing'
+data AccountCapabilitiesCardPayments'
+instance Show AccountCapabilitiesCardPayments'
+instance Eq AccountCapabilitiesCardPayments'
+instance FromJSON AccountCapabilitiesCardPayments'
+instance ToJSON AccountCapabilitiesCardPayments'
+data AccountCapabilitiesLegacyPayments'
+instance Show AccountCapabilitiesLegacyPayments'
+instance Eq AccountCapabilitiesLegacyPayments'
+instance FromJSON AccountCapabilitiesLegacyPayments'
+instance ToJSON AccountCapabilitiesLegacyPayments'
+data AccountCapabilitiesTransfers'
+instance Show AccountCapabilitiesTransfers'
+instance Eq AccountCapabilitiesTransfers'
+instance FromJSON AccountCapabilitiesTransfers'
+instance ToJSON AccountCapabilitiesTransfers'

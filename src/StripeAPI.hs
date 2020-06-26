@@ -356,24 +356,56 @@ module StripeAPI
     module StripeAPI.Operations.PostWebhookEndpointsWebhookEndpoint,
     module StripeAPI.Operations.DeleteWebhookEndpointsWebhookEndpoint,
     module StripeAPI.Types,
-    module StripeAPI.CyclicTypes,
+    module StripeAPI.TypeAlias,
+    module StripeAPI.Types.Account,
+    module StripeAPI.Types.AccountBrandingSettings,
+    module StripeAPI.Types.AccountBusinessProfile,
     module StripeAPI.Types.AccountCapabilities,
+    module StripeAPI.Types.AccountCapabilityRequirements,
+    module StripeAPI.Types.AccountCardPaymentsSettings,
     module StripeAPI.Types.AccountDashboardSettings,
     module StripeAPI.Types.AccountDeclineChargeOn,
     module StripeAPI.Types.AccountLink,
     module StripeAPI.Types.AccountPaymentsSettings,
+    module StripeAPI.Types.AccountPayoutSettings,
+    module StripeAPI.Types.AccountRequirements,
     module StripeAPI.Types.AccountRequirementsError,
+    module StripeAPI.Types.AccountSettings,
     module StripeAPI.Types.AccountTosAcceptance,
     module StripeAPI.Types.Address,
+    module StripeAPI.Types.AlipayAccount,
+    module StripeAPI.Types.ApiErrors,
     module StripeAPI.Types.ApplePayDomain,
     module StripeAPI.Types.Application,
+    module StripeAPI.Types.ApplicationFee,
+    module StripeAPI.Types.Balance,
+    module StripeAPI.Types.BalanceAmount,
     module StripeAPI.Types.BalanceAmountBySourceType,
+    module StripeAPI.Types.BalanceTransaction,
+    module StripeAPI.Types.BankAccount,
+    module StripeAPI.Types.BillingDetails,
+    module StripeAPI.Types.BitcoinReceiver,
     module StripeAPI.Types.BitcoinTransaction,
-    module StripeAPI.Types.CardMandatePaymentMethodDetails,
+    module StripeAPI.Types.Capability,
+    module StripeAPI.Types.Card,
+    module StripeAPI.Types.Charge,
     module StripeAPI.Types.ChargeFraudDetails,
+    module StripeAPI.Types.ChargeOutcome,
+    module StripeAPI.Types.ChargeTransferData,
+    module StripeAPI.Types.Checkout_Session,
     module StripeAPI.Types.CheckoutSessionCustomDisplayItemDescription,
+    module StripeAPI.Types.CheckoutSessionDisplayItem,
+    module StripeAPI.Types.ConnectCollectionTransfer,
+    module StripeAPI.Types.CountrySpec,
     module StripeAPI.Types.CountrySpecVerificationFieldDetails,
+    module StripeAPI.Types.CountrySpecVerificationFields,
     module StripeAPI.Types.Coupon,
+    module StripeAPI.Types.CreditNote,
+    module StripeAPI.Types.CreditNoteLineItem,
+    module StripeAPI.Types.CreditNoteTaxAmount,
+    module StripeAPI.Types.Customer,
+    module StripeAPI.Types.CustomerAcceptance,
+    module StripeAPI.Types.CustomerBalanceTransaction,
     module StripeAPI.Types.DeletedAccount,
     module StripeAPI.Types.DeletedAlipayAccount,
     module StripeAPI.Types.DeletedApplePayDomain,
@@ -383,107 +415,181 @@ module StripeAPI
     module StripeAPI.Types.DeletedCoupon,
     module StripeAPI.Types.DeletedCustomer,
     module StripeAPI.Types.DeletedDiscount,
+    module StripeAPI.Types.DeletedExternalAccount,
     module StripeAPI.Types.DeletedInvoice,
     module StripeAPI.Types.DeletedInvoiceitem,
+    module StripeAPI.Types.DeletedPaymentSource,
     module StripeAPI.Types.DeletedPerson,
     module StripeAPI.Types.DeletedPlan,
     module StripeAPI.Types.DeletedProduct,
-    module StripeAPI.Types.DeletedRadarValueList,
-    module StripeAPI.Types.DeletedRadarValueListItem,
+    module StripeAPI.Types.DeletedRadar_ValueList,
+    module StripeAPI.Types.DeletedRadar_ValueListItem,
     module StripeAPI.Types.DeletedRecipient,
     module StripeAPI.Types.DeletedSku,
     module StripeAPI.Types.DeletedSubscriptionItem,
     module StripeAPI.Types.DeletedTaxId,
-    module StripeAPI.Types.DeletedTerminalLocation,
-    module StripeAPI.Types.DeletedTerminalReader,
+    module StripeAPI.Types.DeletedTerminal_Location,
+    module StripeAPI.Types.DeletedTerminal_Reader,
     module StripeAPI.Types.DeletedWebhookEndpoint,
     module StripeAPI.Types.DeliveryEstimate,
+    module StripeAPI.Types.Discount,
+    module StripeAPI.Types.Dispute,
+    module StripeAPI.Types.DisputeEvidence,
     module StripeAPI.Types.DisputeEvidenceDetails,
     module StripeAPI.Types.EphemeralKey,
+    module StripeAPI.Types.Error,
+    module StripeAPI.Types.Event,
     module StripeAPI.Types.ExchangeRate,
+    module StripeAPI.Types.ExternalAccount,
     module StripeAPI.Types.Fee,
+    module StripeAPI.Types.FeeRefund,
+    module StripeAPI.Types.File,
+    module StripeAPI.Types.FileLink,
     module StripeAPI.Types.FinancialReportingFinanceReportRunRunParameters,
     module StripeAPI.Types.Inventory,
+    module StripeAPI.Types.Invoice,
     module StripeAPI.Types.InvoiceItemThresholdReason,
     module StripeAPI.Types.InvoiceLineItemPeriod,
     module StripeAPI.Types.InvoiceSettingCustomField,
+    module StripeAPI.Types.InvoiceSettingCustomerSetting,
     module StripeAPI.Types.InvoiceSettingSubscriptionScheduleSetting,
+    module StripeAPI.Types.InvoiceTaxAmount,
+    module StripeAPI.Types.InvoiceThresholdReason,
+    module StripeAPI.Types.Invoiceitem,
     module StripeAPI.Types.InvoicesResourceInvoiceTaxId,
     module StripeAPI.Types.InvoicesStatusTransitions,
-    module StripeAPI.Types.IssuingSettlement,
-    module StripeAPI.Types.IssuingVerification,
+    module StripeAPI.Types.IssuerFraudRecord,
+    module StripeAPI.Types.Issuing_Authorization,
+    module StripeAPI.Types.Issuing_Card,
+    module StripeAPI.Types.Issuing_CardDetails,
+    module StripeAPI.Types.Issuing_CardPin,
+    module StripeAPI.Types.Issuing_Cardholder,
+    module StripeAPI.Types.Issuing_Dispute,
+    module StripeAPI.Types.Issuing_Settlement,
+    module StripeAPI.Types.Issuing_Transaction,
+    module StripeAPI.Types.Issuing_Verification,
     module StripeAPI.Types.IssuingAuthorizationMerchantData,
+    module StripeAPI.Types.IssuingAuthorizationRequest,
     module StripeAPI.Types.IssuingAuthorizationVerificationData,
     module StripeAPI.Types.IssuingAuthorizationViolatedAuthControl,
+    module StripeAPI.Types.IssuingCardAuthorizationControls,
     module StripeAPI.Types.IssuingCardPin,
+    module StripeAPI.Types.IssuingCardShipping,
     module StripeAPI.Types.IssuingCardSpendingLimit,
+    module StripeAPI.Types.IssuingCardholderAddress,
+    module StripeAPI.Types.IssuingCardholderAuthorizationControls,
     module StripeAPI.Types.IssuingCardholderCompany,
+    module StripeAPI.Types.IssuingCardholderIdDocument,
+    module StripeAPI.Types.IssuingCardholderIndividual,
     module StripeAPI.Types.IssuingCardholderIndividualDob,
     module StripeAPI.Types.IssuingCardholderRequirements,
     module StripeAPI.Types.IssuingCardholderSpendingLimit,
+    module StripeAPI.Types.IssuingCardholderVerification,
+    module StripeAPI.Types.IssuingDisputeDuplicateEvidence,
+    module StripeAPI.Types.IssuingDisputeEvidence,
+    module StripeAPI.Types.IssuingDisputeFraudulentEvidence,
+    module StripeAPI.Types.IssuingDisputeOtherEvidence,
+    module StripeAPI.Types.IssuingDisputeProductNotReceivedEvidence,
+    module StripeAPI.Types.LegalEntityCompany,
+    module StripeAPI.Types.LegalEntityCompanyVerification,
+    module StripeAPI.Types.LegalEntityCompanyVerificationDocument,
     module StripeAPI.Types.LegalEntityDob,
     module StripeAPI.Types.LegalEntityJapanAddress,
-    module StripeAPI.Types.LightAccountLogout,
+    module StripeAPI.Types.LegalEntityPersonVerification,
+    module StripeAPI.Types.LegalEntityPersonVerificationDocument,
+    module StripeAPI.Types.LineItem,
     module StripeAPI.Types.LoginLink,
-    module StripeAPI.Types.MandateMultiUse,
+    module StripeAPI.Types.Mandate,
+    module StripeAPI.Types.MandatePaymentMethodDetails,
     module StripeAPI.Types.MandateSepaDebit,
     module StripeAPI.Types.MandateSingleUse,
     module StripeAPI.Types.NotificationEventData,
     module StripeAPI.Types.NotificationEventRequest,
-    module StripeAPI.Types.OfflineAcceptance,
     module StripeAPI.Types.OnlineAcceptance,
+    module StripeAPI.Types.Order,
+    module StripeAPI.Types.OrderItem,
+    module StripeAPI.Types.OrderReturn,
     module StripeAPI.Types.PackageDimensions,
+    module StripeAPI.Types.PaymentIntent,
+    module StripeAPI.Types.PaymentIntentNextAction,
     module StripeAPI.Types.PaymentIntentNextActionRedirectToUrl,
+    module StripeAPI.Types.PaymentIntentPaymentMethodOptions,
+    module StripeAPI.Types.PaymentIntentPaymentMethodOptionsCard,
+    module StripeAPI.Types.PaymentMethod,
+    module StripeAPI.Types.PaymentMethodCard,
     module StripeAPI.Types.PaymentMethodCardChecks,
-    module StripeAPI.Types.PaymentMethodCardPresent,
-    module StripeAPI.Types.PaymentMethodCardWalletAmexExpressCheckout,
-    module StripeAPI.Types.PaymentMethodCardWalletApplePay,
-    module StripeAPI.Types.PaymentMethodCardWalletGooglePay,
-    module StripeAPI.Types.PaymentMethodCardWalletSamsungPay,
+    module StripeAPI.Types.PaymentMethodCardGeneratedCard,
+    module StripeAPI.Types.PaymentMethodCardWallet,
+    module StripeAPI.Types.PaymentMethodCardWalletMasterpass,
+    module StripeAPI.Types.PaymentMethodCardWalletVisaCheckout,
+    module StripeAPI.Types.PaymentMethodDetails,
     module StripeAPI.Types.PaymentMethodDetailsAchCreditTransfer,
     module StripeAPI.Types.PaymentMethodDetailsAchDebit,
-    module StripeAPI.Types.PaymentMethodDetailsAlipay,
     module StripeAPI.Types.PaymentMethodDetailsBancontact,
+    module StripeAPI.Types.PaymentMethodDetailsCard,
     module StripeAPI.Types.PaymentMethodDetailsCardChecks,
+    module StripeAPI.Types.PaymentMethodDetailsCardInstallments,
     module StripeAPI.Types.PaymentMethodDetailsCardInstallmentsPlan,
+    module StripeAPI.Types.PaymentMethodDetailsCardPresent,
     module StripeAPI.Types.PaymentMethodDetailsCardPresentReceipt,
-    module StripeAPI.Types.PaymentMethodDetailsCardWalletAmexExpressCheckout,
-    module StripeAPI.Types.PaymentMethodDetailsCardWalletApplePay,
-    module StripeAPI.Types.PaymentMethodDetailsCardWalletGooglePay,
-    module StripeAPI.Types.PaymentMethodDetailsCardWalletSamsungPay,
+    module StripeAPI.Types.PaymentMethodDetailsCardWallet,
+    module StripeAPI.Types.PaymentMethodDetailsCardWalletMasterpass,
+    module StripeAPI.Types.PaymentMethodDetailsCardWalletVisaCheckout,
     module StripeAPI.Types.PaymentMethodDetailsEps,
     module StripeAPI.Types.PaymentMethodDetailsFpx,
     module StripeAPI.Types.PaymentMethodDetailsGiropay,
     module StripeAPI.Types.PaymentMethodDetailsIdeal,
-    module StripeAPI.Types.PaymentMethodDetailsKlarna,
     module StripeAPI.Types.PaymentMethodDetailsMultibanco,
     module StripeAPI.Types.PaymentMethodDetailsP24,
     module StripeAPI.Types.PaymentMethodDetailsSepaDebit,
     module StripeAPI.Types.PaymentMethodDetailsSofort,
-    module StripeAPI.Types.PaymentMethodDetailsStripeAccount,
-    module StripeAPI.Types.PaymentMethodDetailsWechat,
     module StripeAPI.Types.PaymentMethodFpx,
     module StripeAPI.Types.PaymentMethodIdeal,
+    module StripeAPI.Types.PaymentMethodOptionsCardInstallments,
     module StripeAPI.Types.PaymentMethodSepaDebit,
+    module StripeAPI.Types.PaymentSource,
+    module StripeAPI.Types.Payout,
     module StripeAPI.Types.Period,
+    module StripeAPI.Types.Person,
     module StripeAPI.Types.PersonRelationship,
+    module StripeAPI.Types.PersonRequirements,
+    module StripeAPI.Types.Plan,
     module StripeAPI.Types.PlanTier,
     module StripeAPI.Types.PlatformTaxFee,
-    module StripeAPI.Types.RadarValueListItem,
+    module StripeAPI.Types.Product,
+    module StripeAPI.Types.Radar_EarlyFraudWarning,
+    module StripeAPI.Types.Radar_ValueList,
+    module StripeAPI.Types.Radar_ValueListItem,
     module StripeAPI.Types.RadarReviewResourceLocation,
     module StripeAPI.Types.RadarReviewResourceSession,
-    module StripeAPI.Types.ReportingReportType,
+    module StripeAPI.Types.Recipient,
+    module StripeAPI.Types.Refund,
+    module StripeAPI.Types.Reporting_ReportRun,
+    module StripeAPI.Types.Reporting_ReportType,
     module StripeAPI.Types.ReserveTransaction,
+    module StripeAPI.Types.Review,
     module StripeAPI.Types.Rule,
+    module StripeAPI.Types.ScheduledQueryRun,
+    module StripeAPI.Types.SetupIntent,
+    module StripeAPI.Types.SetupIntentNextAction,
     module StripeAPI.Types.SetupIntentNextActionRedirectToUrl,
+    module StripeAPI.Types.SetupIntentPaymentMethodOptions,
     module StripeAPI.Types.SetupIntentPaymentMethodOptionsCard,
+    module StripeAPI.Types.Shipping,
+    module StripeAPI.Types.ShippingMethod,
     module StripeAPI.Types.SigmaScheduledQueryRunError,
+    module StripeAPI.Types.Sku,
+    module StripeAPI.Types.Source,
     module StripeAPI.Types.SourceCodeVerificationFlow,
+    module StripeAPI.Types.SourceMandateNotification,
     module StripeAPI.Types.SourceMandateNotificationBacsDebitData,
     module StripeAPI.Types.SourceMandateNotificationSepaDebitData,
+    module StripeAPI.Types.SourceOrder,
     module StripeAPI.Types.SourceOrderItem,
+    module StripeAPI.Types.SourceOwner,
     module StripeAPI.Types.SourceReceiverFlow,
     module StripeAPI.Types.SourceRedirectFlow,
+    module StripeAPI.Types.SourceTransaction,
     module StripeAPI.Types.SourceTransactionAchCreditTransferData,
     module StripeAPI.Types.SourceTransactionChfCreditTransferData,
     module StripeAPI.Types.SourceTransactionGbpCreditTransferData,
@@ -506,52 +612,37 @@ module StripeAPI
     module StripeAPI.Types.SourceTypeThreeDSecure,
     module StripeAPI.Types.SourceTypeWechat,
     module StripeAPI.Types.StatusTransitions,
+    module StripeAPI.Types.Subscription,
     module StripeAPI.Types.SubscriptionBillingThresholds,
+    module StripeAPI.Types.SubscriptionItem,
     module StripeAPI.Types.SubscriptionItemBillingThresholds,
     module StripeAPI.Types.SubscriptionPendingInvoiceItemInterval,
+    module StripeAPI.Types.SubscriptionSchedule,
+    module StripeAPI.Types.SubscriptionScheduleConfigurationItem,
     module StripeAPI.Types.SubscriptionScheduleCurrentPhase,
+    module StripeAPI.Types.SubscriptionSchedulePhaseConfiguration,
+    module StripeAPI.Types.SubscriptionSchedulesResourceDefaultSettings,
+    module StripeAPI.Types.SubscriptionsResourcePendingUpdate,
     module StripeAPI.Types.TaxDeductedAtSource,
+    module StripeAPI.Types.TaxId,
     module StripeAPI.Types.TaxIdVerification,
     module StripeAPI.Types.TaxRate,
-    module StripeAPI.Types.TerminalConnectionToken,
-    module StripeAPI.Types.TerminalReader,
+    module StripeAPI.Types.Terminal_ConnectionToken,
+    module StripeAPI.Types.Terminal_Location,
+    module StripeAPI.Types.Terminal_Reader,
+    module StripeAPI.Types.ThreeDSecure,
     module StripeAPI.Types.ThreeDSecureDetails,
     module StripeAPI.Types.ThreeDSecureUsage,
+    module StripeAPI.Types.Token,
+    module StripeAPI.Types.Topup,
+    module StripeAPI.Types.Transfer,
+    module StripeAPI.Types.TransferData,
+    module StripeAPI.Types.TransferReversal,
     module StripeAPI.Types.TransferSchedule,
     module StripeAPI.Types.TransformUsage,
     module StripeAPI.Types.UsageRecord,
-    module StripeAPI.Types.WebhookEndpoint,
-    module StripeAPI.Types.AccountCapabilityRequirements,
-    module StripeAPI.Types.AccountCardPaymentsSettings,
-    module StripeAPI.Types.AccountPayoutSettings,
-    module StripeAPI.Types.AccountRequirements,
-    module StripeAPI.Types.BalanceAmount,
-    module StripeAPI.Types.BitcoinReceiver,
-    module StripeAPI.Types.ChargeOutcome,
-    module StripeAPI.Types.CountrySpecVerificationFields,
-    module StripeAPI.Types.CreditNoteTaxAmount,
-    module StripeAPI.Types.CustomerAcceptance,
-    module StripeAPI.Types.InvoiceTaxAmount,
-    module StripeAPI.Types.InvoiceThresholdReason,
-    module StripeAPI.Types.IssuingAuthorizationRequest,
-    module StripeAPI.Types.IssuingCardAuthorizationControls,
-    module StripeAPI.Types.IssuingCardShipping,
-    module StripeAPI.Types.IssuingCardholderAddress,
-    module StripeAPI.Types.IssuingCardholderAuthorizationControls,
-    module StripeAPI.Types.MandatePaymentMethodDetails,
-    module StripeAPI.Types.PaymentIntentNextAction,
-    module StripeAPI.Types.PersonRequirements,
-    module StripeAPI.Types.RadarValueList,
-    module StripeAPI.Types.SetupIntentNextAction,
-    module StripeAPI.Types.SetupIntentPaymentMethodOptions,
-    module StripeAPI.Types.Shipping,
-    module StripeAPI.Types.SourceTransaction,
-    module StripeAPI.Types.TerminalLocation,
     module StripeAPI.Types.UsageRecordSummary,
-    module StripeAPI.Types.Balance,
-    module StripeAPI.Types.CountrySpec,
-    module StripeAPI.Types.CreditNoteLineItem,
-    module StripeAPI.Types.SourceOrder,
+    module StripeAPI.Types.WebhookEndpoint,
     module StripeAPI.Configuration,
     module StripeAPI.SecuritySchemes,
     module StripeAPI.Common,
@@ -560,7 +651,6 @@ where
 
 import StripeAPI.Common
 import StripeAPI.Configuration
-import StripeAPI.CyclicTypes
 import StripeAPI.Operations.DeleteAccount
 import StripeAPI.Operations.DeleteAccountBankAccountsId
 import StripeAPI.Operations.DeleteAccountExternalAccountsId
@@ -915,7 +1005,11 @@ import StripeAPI.Operations.PostWebhookEndpointsWebhookEndpoint
 import StripeAPI.Operations.PutAccountLogout
 import StripeAPI.Operations.PutAccountsAccountLogout
 import StripeAPI.SecuritySchemes
+import StripeAPI.TypeAlias
 import StripeAPI.Types
+import StripeAPI.Types.Account
+import StripeAPI.Types.AccountBrandingSettings
+import StripeAPI.Types.AccountBusinessProfile
 import StripeAPI.Types.AccountCapabilities
 import StripeAPI.Types.AccountCapabilityRequirements
 import StripeAPI.Types.AccountCardPaymentsSettings
@@ -926,26 +1020,42 @@ import StripeAPI.Types.AccountPaymentsSettings
 import StripeAPI.Types.AccountPayoutSettings
 import StripeAPI.Types.AccountRequirements
 import StripeAPI.Types.AccountRequirementsError
+import StripeAPI.Types.AccountSettings
 import StripeAPI.Types.AccountTosAcceptance
 import StripeAPI.Types.Address
+import StripeAPI.Types.AlipayAccount
+import StripeAPI.Types.ApiErrors
 import StripeAPI.Types.ApplePayDomain
 import StripeAPI.Types.Application
+import StripeAPI.Types.ApplicationFee
 import StripeAPI.Types.Balance
 import StripeAPI.Types.BalanceAmount
 import StripeAPI.Types.BalanceAmountBySourceType
+import StripeAPI.Types.BalanceTransaction
+import StripeAPI.Types.BankAccount
+import StripeAPI.Types.BillingDetails
 import StripeAPI.Types.BitcoinReceiver
 import StripeAPI.Types.BitcoinTransaction
-import StripeAPI.Types.CardMandatePaymentMethodDetails
+import StripeAPI.Types.Capability
+import StripeAPI.Types.Card
+import StripeAPI.Types.Charge
 import StripeAPI.Types.ChargeFraudDetails
 import StripeAPI.Types.ChargeOutcome
+import StripeAPI.Types.ChargeTransferData
 import StripeAPI.Types.CheckoutSessionCustomDisplayItemDescription
+import StripeAPI.Types.CheckoutSessionDisplayItem
+import StripeAPI.Types.Checkout_Session
+import StripeAPI.Types.ConnectCollectionTransfer
 import StripeAPI.Types.CountrySpec
 import StripeAPI.Types.CountrySpecVerificationFieldDetails
 import StripeAPI.Types.CountrySpecVerificationFields
 import StripeAPI.Types.Coupon
+import StripeAPI.Types.CreditNote
 import StripeAPI.Types.CreditNoteLineItem
 import StripeAPI.Types.CreditNoteTaxAmount
+import StripeAPI.Types.Customer
 import StripeAPI.Types.CustomerAcceptance
+import StripeAPI.Types.CustomerBalanceTransaction
 import StripeAPI.Types.DeletedAccount
 import StripeAPI.Types.DeletedAlipayAccount
 import StripeAPI.Types.DeletedApplePayDomain
@@ -955,35 +1065,50 @@ import StripeAPI.Types.DeletedCard
 import StripeAPI.Types.DeletedCoupon
 import StripeAPI.Types.DeletedCustomer
 import StripeAPI.Types.DeletedDiscount
+import StripeAPI.Types.DeletedExternalAccount
 import StripeAPI.Types.DeletedInvoice
 import StripeAPI.Types.DeletedInvoiceitem
+import StripeAPI.Types.DeletedPaymentSource
 import StripeAPI.Types.DeletedPerson
 import StripeAPI.Types.DeletedPlan
 import StripeAPI.Types.DeletedProduct
-import StripeAPI.Types.DeletedRadarValueList
-import StripeAPI.Types.DeletedRadarValueListItem
+import StripeAPI.Types.DeletedRadar_ValueList
+import StripeAPI.Types.DeletedRadar_ValueListItem
 import StripeAPI.Types.DeletedRecipient
 import StripeAPI.Types.DeletedSku
 import StripeAPI.Types.DeletedSubscriptionItem
 import StripeAPI.Types.DeletedTaxId
-import StripeAPI.Types.DeletedTerminalLocation
-import StripeAPI.Types.DeletedTerminalReader
+import StripeAPI.Types.DeletedTerminal_Location
+import StripeAPI.Types.DeletedTerminal_Reader
 import StripeAPI.Types.DeletedWebhookEndpoint
 import StripeAPI.Types.DeliveryEstimate
+import StripeAPI.Types.Discount
+import StripeAPI.Types.Dispute
+import StripeAPI.Types.DisputeEvidence
 import StripeAPI.Types.DisputeEvidenceDetails
 import StripeAPI.Types.EphemeralKey
+import StripeAPI.Types.Error
+import StripeAPI.Types.Event
 import StripeAPI.Types.ExchangeRate
+import StripeAPI.Types.ExternalAccount
 import StripeAPI.Types.Fee
+import StripeAPI.Types.FeeRefund
+import StripeAPI.Types.File
+import StripeAPI.Types.FileLink
 import StripeAPI.Types.FinancialReportingFinanceReportRunRunParameters
 import StripeAPI.Types.Inventory
+import StripeAPI.Types.Invoice
 import StripeAPI.Types.InvoiceItemThresholdReason
 import StripeAPI.Types.InvoiceLineItemPeriod
 import StripeAPI.Types.InvoiceSettingCustomField
+import StripeAPI.Types.InvoiceSettingCustomerSetting
 import StripeAPI.Types.InvoiceSettingSubscriptionScheduleSetting
 import StripeAPI.Types.InvoiceTaxAmount
 import StripeAPI.Types.InvoiceThresholdReason
+import StripeAPI.Types.Invoiceitem
 import StripeAPI.Types.InvoicesResourceInvoiceTaxId
 import StripeAPI.Types.InvoicesStatusTransitions
+import StripeAPI.Types.IssuerFraudRecord
 import StripeAPI.Types.IssuingAuthorizationMerchantData
 import StripeAPI.Types.IssuingAuthorizationRequest
 import StripeAPI.Types.IssuingAuthorizationVerificationData
@@ -995,80 +1120,123 @@ import StripeAPI.Types.IssuingCardSpendingLimit
 import StripeAPI.Types.IssuingCardholderAddress
 import StripeAPI.Types.IssuingCardholderAuthorizationControls
 import StripeAPI.Types.IssuingCardholderCompany
+import StripeAPI.Types.IssuingCardholderIdDocument
+import StripeAPI.Types.IssuingCardholderIndividual
 import StripeAPI.Types.IssuingCardholderIndividualDob
 import StripeAPI.Types.IssuingCardholderRequirements
 import StripeAPI.Types.IssuingCardholderSpendingLimit
-import StripeAPI.Types.IssuingSettlement
-import StripeAPI.Types.IssuingVerification
+import StripeAPI.Types.IssuingCardholderVerification
+import StripeAPI.Types.IssuingDisputeDuplicateEvidence
+import StripeAPI.Types.IssuingDisputeEvidence
+import StripeAPI.Types.IssuingDisputeFraudulentEvidence
+import StripeAPI.Types.IssuingDisputeOtherEvidence
+import StripeAPI.Types.IssuingDisputeProductNotReceivedEvidence
+import StripeAPI.Types.Issuing_Authorization
+import StripeAPI.Types.Issuing_Card
+import StripeAPI.Types.Issuing_CardDetails
+import StripeAPI.Types.Issuing_CardPin
+import StripeAPI.Types.Issuing_Cardholder
+import StripeAPI.Types.Issuing_Dispute
+import StripeAPI.Types.Issuing_Settlement
+import StripeAPI.Types.Issuing_Transaction
+import StripeAPI.Types.Issuing_Verification
+import StripeAPI.Types.LegalEntityCompany
+import StripeAPI.Types.LegalEntityCompanyVerification
+import StripeAPI.Types.LegalEntityCompanyVerificationDocument
 import StripeAPI.Types.LegalEntityDob
 import StripeAPI.Types.LegalEntityJapanAddress
-import StripeAPI.Types.LightAccountLogout
+import StripeAPI.Types.LegalEntityPersonVerification
+import StripeAPI.Types.LegalEntityPersonVerificationDocument
+import StripeAPI.Types.LineItem
 import StripeAPI.Types.LoginLink
-import StripeAPI.Types.MandateMultiUse
+import StripeAPI.Types.Mandate
 import StripeAPI.Types.MandatePaymentMethodDetails
 import StripeAPI.Types.MandateSepaDebit
 import StripeAPI.Types.MandateSingleUse
 import StripeAPI.Types.NotificationEventData
 import StripeAPI.Types.NotificationEventRequest
-import StripeAPI.Types.OfflineAcceptance
 import StripeAPI.Types.OnlineAcceptance
+import StripeAPI.Types.Order
+import StripeAPI.Types.OrderItem
+import StripeAPI.Types.OrderReturn
 import StripeAPI.Types.PackageDimensions
+import StripeAPI.Types.PaymentIntent
 import StripeAPI.Types.PaymentIntentNextAction
 import StripeAPI.Types.PaymentIntentNextActionRedirectToUrl
+import StripeAPI.Types.PaymentIntentPaymentMethodOptions
+import StripeAPI.Types.PaymentIntentPaymentMethodOptionsCard
+import StripeAPI.Types.PaymentMethod
+import StripeAPI.Types.PaymentMethodCard
 import StripeAPI.Types.PaymentMethodCardChecks
-import StripeAPI.Types.PaymentMethodCardPresent
-import StripeAPI.Types.PaymentMethodCardWalletAmexExpressCheckout
-import StripeAPI.Types.PaymentMethodCardWalletApplePay
-import StripeAPI.Types.PaymentMethodCardWalletGooglePay
-import StripeAPI.Types.PaymentMethodCardWalletSamsungPay
+import StripeAPI.Types.PaymentMethodCardGeneratedCard
+import StripeAPI.Types.PaymentMethodCardWallet
+import StripeAPI.Types.PaymentMethodCardWalletMasterpass
+import StripeAPI.Types.PaymentMethodCardWalletVisaCheckout
+import StripeAPI.Types.PaymentMethodDetails
 import StripeAPI.Types.PaymentMethodDetailsAchCreditTransfer
 import StripeAPI.Types.PaymentMethodDetailsAchDebit
-import StripeAPI.Types.PaymentMethodDetailsAlipay
 import StripeAPI.Types.PaymentMethodDetailsBancontact
+import StripeAPI.Types.PaymentMethodDetailsCard
 import StripeAPI.Types.PaymentMethodDetailsCardChecks
+import StripeAPI.Types.PaymentMethodDetailsCardInstallments
 import StripeAPI.Types.PaymentMethodDetailsCardInstallmentsPlan
+import StripeAPI.Types.PaymentMethodDetailsCardPresent
 import StripeAPI.Types.PaymentMethodDetailsCardPresentReceipt
-import StripeAPI.Types.PaymentMethodDetailsCardWalletAmexExpressCheckout
-import StripeAPI.Types.PaymentMethodDetailsCardWalletApplePay
-import StripeAPI.Types.PaymentMethodDetailsCardWalletGooglePay
-import StripeAPI.Types.PaymentMethodDetailsCardWalletSamsungPay
+import StripeAPI.Types.PaymentMethodDetailsCardWallet
+import StripeAPI.Types.PaymentMethodDetailsCardWalletMasterpass
+import StripeAPI.Types.PaymentMethodDetailsCardWalletVisaCheckout
 import StripeAPI.Types.PaymentMethodDetailsEps
 import StripeAPI.Types.PaymentMethodDetailsFpx
 import StripeAPI.Types.PaymentMethodDetailsGiropay
 import StripeAPI.Types.PaymentMethodDetailsIdeal
-import StripeAPI.Types.PaymentMethodDetailsKlarna
 import StripeAPI.Types.PaymentMethodDetailsMultibanco
 import StripeAPI.Types.PaymentMethodDetailsP24
 import StripeAPI.Types.PaymentMethodDetailsSepaDebit
 import StripeAPI.Types.PaymentMethodDetailsSofort
-import StripeAPI.Types.PaymentMethodDetailsStripeAccount
-import StripeAPI.Types.PaymentMethodDetailsWechat
 import StripeAPI.Types.PaymentMethodFpx
 import StripeAPI.Types.PaymentMethodIdeal
+import StripeAPI.Types.PaymentMethodOptionsCardInstallments
 import StripeAPI.Types.PaymentMethodSepaDebit
+import StripeAPI.Types.PaymentSource
+import StripeAPI.Types.Payout
 import StripeAPI.Types.Period
+import StripeAPI.Types.Person
 import StripeAPI.Types.PersonRelationship
 import StripeAPI.Types.PersonRequirements
+import StripeAPI.Types.Plan
 import StripeAPI.Types.PlanTier
 import StripeAPI.Types.PlatformTaxFee
+import StripeAPI.Types.Product
 import StripeAPI.Types.RadarReviewResourceLocation
 import StripeAPI.Types.RadarReviewResourceSession
-import StripeAPI.Types.RadarValueList
-import StripeAPI.Types.RadarValueListItem
-import StripeAPI.Types.ReportingReportType
+import StripeAPI.Types.Radar_EarlyFraudWarning
+import StripeAPI.Types.Radar_ValueList
+import StripeAPI.Types.Radar_ValueListItem
+import StripeAPI.Types.Recipient
+import StripeAPI.Types.Refund
+import StripeAPI.Types.Reporting_ReportRun
+import StripeAPI.Types.Reporting_ReportType
 import StripeAPI.Types.ReserveTransaction
+import StripeAPI.Types.Review
 import StripeAPI.Types.Rule
+import StripeAPI.Types.ScheduledQueryRun
+import StripeAPI.Types.SetupIntent
 import StripeAPI.Types.SetupIntentNextAction
 import StripeAPI.Types.SetupIntentNextActionRedirectToUrl
 import StripeAPI.Types.SetupIntentPaymentMethodOptions
 import StripeAPI.Types.SetupIntentPaymentMethodOptionsCard
 import StripeAPI.Types.Shipping
+import StripeAPI.Types.ShippingMethod
 import StripeAPI.Types.SigmaScheduledQueryRunError
+import StripeAPI.Types.Sku
+import StripeAPI.Types.Source
 import StripeAPI.Types.SourceCodeVerificationFlow
+import StripeAPI.Types.SourceMandateNotification
 import StripeAPI.Types.SourceMandateNotificationBacsDebitData
 import StripeAPI.Types.SourceMandateNotificationSepaDebitData
 import StripeAPI.Types.SourceOrder
 import StripeAPI.Types.SourceOrderItem
+import StripeAPI.Types.SourceOwner
 import StripeAPI.Types.SourceReceiverFlow
 import StripeAPI.Types.SourceRedirectFlow
 import StripeAPI.Types.SourceTransaction
@@ -1094,18 +1262,32 @@ import StripeAPI.Types.SourceTypeSofort
 import StripeAPI.Types.SourceTypeThreeDSecure
 import StripeAPI.Types.SourceTypeWechat
 import StripeAPI.Types.StatusTransitions
+import StripeAPI.Types.Subscription
 import StripeAPI.Types.SubscriptionBillingThresholds
+import StripeAPI.Types.SubscriptionItem
 import StripeAPI.Types.SubscriptionItemBillingThresholds
 import StripeAPI.Types.SubscriptionPendingInvoiceItemInterval
+import StripeAPI.Types.SubscriptionSchedule
+import StripeAPI.Types.SubscriptionScheduleConfigurationItem
 import StripeAPI.Types.SubscriptionScheduleCurrentPhase
+import StripeAPI.Types.SubscriptionSchedulePhaseConfiguration
+import StripeAPI.Types.SubscriptionSchedulesResourceDefaultSettings
+import StripeAPI.Types.SubscriptionsResourcePendingUpdate
 import StripeAPI.Types.TaxDeductedAtSource
+import StripeAPI.Types.TaxId
 import StripeAPI.Types.TaxIdVerification
 import StripeAPI.Types.TaxRate
-import StripeAPI.Types.TerminalConnectionToken
-import StripeAPI.Types.TerminalLocation
-import StripeAPI.Types.TerminalReader
+import StripeAPI.Types.Terminal_ConnectionToken
+import StripeAPI.Types.Terminal_Location
+import StripeAPI.Types.Terminal_Reader
+import StripeAPI.Types.ThreeDSecure
 import StripeAPI.Types.ThreeDSecureDetails
 import StripeAPI.Types.ThreeDSecureUsage
+import StripeAPI.Types.Token
+import StripeAPI.Types.Topup
+import StripeAPI.Types.Transfer
+import StripeAPI.Types.TransferData
+import StripeAPI.Types.TransferReversal
 import StripeAPI.Types.TransferSchedule
 import StripeAPI.Types.TransformUsage
 import StripeAPI.Types.UsageRecord

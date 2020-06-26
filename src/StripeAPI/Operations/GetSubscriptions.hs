@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getSubscriptions
 module StripeAPI.Operations.GetSubscriptions where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -129,7 +128,7 @@ data GetSubscriptionsParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getSubscriptionsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getSubscriptionsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -164,7 +163,7 @@ data GetSubscriptionsParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSubscriptionsParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCollection_method" (getSubscriptionsParametersQueryCollectionMethod obj) : (Data.Aeson..=) "queryCreated" (getSubscriptionsParametersQueryCreated obj) : (Data.Aeson..=) "queryCurrent_period_end" (getSubscriptionsParametersQueryCurrentPeriodEnd obj) : (Data.Aeson..=) "queryCurrent_period_start" (getSubscriptionsParametersQueryCurrentPeriodStart obj) : (Data.Aeson..=) "queryCustomer" (getSubscriptionsParametersQueryCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getSubscriptionsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getSubscriptionsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getSubscriptionsParametersQueryLimit obj) : (Data.Aeson..=) "queryPlan" (getSubscriptionsParametersQueryPlan obj) : (Data.Aeson..=) "queryStarting_after" (getSubscriptionsParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryStatus" (getSubscriptionsParametersQueryStatus obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCollection_method" (getSubscriptionsParametersQueryCollectionMethod obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getSubscriptionsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryCurrent_period_end" (getSubscriptionsParametersQueryCurrentPeriodEnd obj) GHC.Base.<> ((Data.Aeson..=) "queryCurrent_period_start" (getSubscriptionsParametersQueryCurrentPeriodStart obj) GHC.Base.<> ((Data.Aeson..=) "queryCustomer" (getSubscriptionsParametersQueryCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getSubscriptionsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getSubscriptionsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getSubscriptionsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryPlan" (getSubscriptionsParametersQueryPlan obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getSubscriptionsParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryStatus" (getSubscriptionsParametersQueryStatus obj)))))))))))
 
@@ -183,21 +182,18 @@ data GetSubscriptionsParametersQueryCollectionMethod'
   | GetSubscriptionsParametersQueryCollectionMethod'EnumStringSendInvoice
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSubscriptionsParametersQueryCollectionMethod' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCollectionMethod' where
   toJSON (GetSubscriptionsParametersQueryCollectionMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetSubscriptionsParametersQueryCollectionMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionsParametersQueryCollectionMethod'EnumStringChargeAutomatically) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge_automatically"
-  toJSON (GetSubscriptionsParametersQueryCollectionMethod'EnumStringSendInvoice) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "send_invoice"
+  toJSON (GetSubscriptionsParametersQueryCollectionMethod'EnumStringChargeAutomatically) = "charge_automatically"
+  toJSON (GetSubscriptionsParametersQueryCollectionMethod'EnumStringSendInvoice) = "send_invoice"
 
-instance Data.Aeson.FromJSON GetSubscriptionsParametersQueryCollectionMethod' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCollectionMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge_automatically")
-          then GetSubscriptionsParametersQueryCollectionMethod'EnumStringChargeAutomatically
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "send_invoice")
-              then GetSubscriptionsParametersQueryCollectionMethod'EnumStringSendInvoice
-              else GetSubscriptionsParametersQueryCollectionMethod'EnumOther val
+      ( if  | val GHC.Classes.== "charge_automatically" -> GetSubscriptionsParametersQueryCollectionMethod'EnumStringChargeAutomatically
+            | val GHC.Classes.== "send_invoice" -> GetSubscriptionsParametersQueryCollectionMethod'EnumStringSendInvoice
+            | GHC.Base.otherwise -> GetSubscriptionsParametersQueryCollectionMethod'EnumOther val
       )
 
 -- | Defines the data type for the schema getSubscriptionsParametersQueryCreated\'OneOf2
@@ -217,7 +213,7 @@ data GetSubscriptionsParametersQueryCreated'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSubscriptionsParametersQueryCreated'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCreated'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionsParametersQueryCreated'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionsParametersQueryCreated'OneOf2Lte obj))))
 
@@ -230,13 +226,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCreat
 data GetSubscriptionsParametersQueryCreated'Variants
   = GetSubscriptionsParametersQueryCreated'Int GHC.Types.Int
   | GetSubscriptionsParametersQueryCreated'GetSubscriptionsParametersQueryCreated'OneOf2 GetSubscriptionsParametersQueryCreated'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSubscriptionsParametersQueryCreated'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCreated'Variants where
+  toJSON (GetSubscriptionsParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetSubscriptionsParametersQueryCreated'GetSubscriptionsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetSubscriptionsParametersQueryCreated'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCreated'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionsParametersQueryCreated'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionsParametersQueryCreated'GetSubscriptionsParametersQueryCreated'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the data type for the schema getSubscriptionsParametersQueryCurrent_period_end\'OneOf2
 data GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2
@@ -255,7 +256,7 @@ data GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2Lte obj))))
 
@@ -268,13 +269,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCurre
 data GetSubscriptionsParametersQueryCurrentPeriodEnd'Variants
   = GetSubscriptionsParametersQueryCurrentPeriodEnd'Int GHC.Types.Int
   | GetSubscriptionsParametersQueryCurrentPeriodEnd'GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2 GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSubscriptionsParametersQueryCurrentPeriodEnd'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCurrentPeriodEnd'Variants where
+  toJSON (GetSubscriptionsParametersQueryCurrentPeriodEnd'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetSubscriptionsParametersQueryCurrentPeriodEnd'GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetSubscriptionsParametersQueryCurrentPeriodEnd'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCurrentPeriodEnd'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionsParametersQueryCurrentPeriodEnd'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionsParametersQueryCurrentPeriodEnd'GetSubscriptionsParametersQueryCurrentPeriodEnd'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the data type for the schema getSubscriptionsParametersQueryCurrent_period_start\'OneOf2
 data GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2
@@ -293,7 +299,7 @@ data GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionsParametersQueryCurrentPeriodStart'OneOf2Lte obj))))
 
@@ -306,13 +312,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCurre
 data GetSubscriptionsParametersQueryCurrentPeriodStart'Variants
   = GetSubscriptionsParametersQueryCurrentPeriodStart'Int GHC.Types.Int
   | GetSubscriptionsParametersQueryCurrentPeriodStart'GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2 GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSubscriptionsParametersQueryCurrentPeriodStart'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryCurrentPeriodStart'Variants where
+  toJSON (GetSubscriptionsParametersQueryCurrentPeriodStart'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetSubscriptionsParametersQueryCurrentPeriodStart'GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetSubscriptionsParametersQueryCurrentPeriodStart'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryCurrentPeriodStart'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionsParametersQueryCurrentPeriodStart'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionsParametersQueryCurrentPeriodStart'GetSubscriptionsParametersQueryCurrentPeriodStart'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema getSubscriptionsParametersQueryStatus\'
 --
@@ -333,49 +344,32 @@ data GetSubscriptionsParametersQueryStatus'
   | GetSubscriptionsParametersQueryStatus'EnumStringUnpaid
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSubscriptionsParametersQueryStatus' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsParametersQueryStatus' where
   toJSON (GetSubscriptionsParametersQueryStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetSubscriptionsParametersQueryStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringActive) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "active"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringAll) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "all"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringCanceled) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "canceled"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringEnded) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ended"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringIncomplete) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "incomplete"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringIncompleteExpired) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "incomplete_expired"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringPastDue) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "past_due"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringTrialing) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "trialing"
-  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringUnpaid) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "unpaid"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringActive) = "active"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringAll) = "all"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringCanceled) = "canceled"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringEnded) = "ended"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringIncomplete) = "incomplete"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringIncompleteExpired) = "incomplete_expired"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringPastDue) = "past_due"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringTrialing) = "trialing"
+  toJSON (GetSubscriptionsParametersQueryStatus'EnumStringUnpaid) = "unpaid"
 
-instance Data.Aeson.FromJSON GetSubscriptionsParametersQueryStatus' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsParametersQueryStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "active")
-          then GetSubscriptionsParametersQueryStatus'EnumStringActive
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "all")
-              then GetSubscriptionsParametersQueryStatus'EnumStringAll
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "canceled")
-                  then GetSubscriptionsParametersQueryStatus'EnumStringCanceled
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ended")
-                      then GetSubscriptionsParametersQueryStatus'EnumStringEnded
-                      else
-                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "incomplete")
-                          then GetSubscriptionsParametersQueryStatus'EnumStringIncomplete
-                          else
-                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "incomplete_expired")
-                              then GetSubscriptionsParametersQueryStatus'EnumStringIncompleteExpired
-                              else
-                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "past_due")
-                                  then GetSubscriptionsParametersQueryStatus'EnumStringPastDue
-                                  else
-                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "trialing")
-                                      then GetSubscriptionsParametersQueryStatus'EnumStringTrialing
-                                      else
-                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "unpaid")
-                                          then GetSubscriptionsParametersQueryStatus'EnumStringUnpaid
-                                          else GetSubscriptionsParametersQueryStatus'EnumOther val
+      ( if  | val GHC.Classes.== "active" -> GetSubscriptionsParametersQueryStatus'EnumStringActive
+            | val GHC.Classes.== "all" -> GetSubscriptionsParametersQueryStatus'EnumStringAll
+            | val GHC.Classes.== "canceled" -> GetSubscriptionsParametersQueryStatus'EnumStringCanceled
+            | val GHC.Classes.== "ended" -> GetSubscriptionsParametersQueryStatus'EnumStringEnded
+            | val GHC.Classes.== "incomplete" -> GetSubscriptionsParametersQueryStatus'EnumStringIncomplete
+            | val GHC.Classes.== "incomplete_expired" -> GetSubscriptionsParametersQueryStatus'EnumStringIncompleteExpired
+            | val GHC.Classes.== "past_due" -> GetSubscriptionsParametersQueryStatus'EnumStringPastDue
+            | val GHC.Classes.== "trialing" -> GetSubscriptionsParametersQueryStatus'EnumStringTrialing
+            | val GHC.Classes.== "unpaid" -> GetSubscriptionsParametersQueryStatus'EnumStringUnpaid
+            | GHC.Base.otherwise -> GetSubscriptionsParametersQueryStatus'EnumOther val
       )
 
 -- | Represents a response of the operation 'getSubscriptions'.
@@ -394,7 +388,7 @@ data GetSubscriptionsResponse
 data GetSubscriptionsResponseBody200
   = GetSubscriptionsResponseBody200
       { -- | data
-        getSubscriptionsResponseBody200Data :: ([] Subscription),
+        getSubscriptionsResponseBody200Data :: ([Subscription]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getSubscriptionsResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -412,7 +406,7 @@ data GetSubscriptionsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSubscriptionsResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSubscriptionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSubscriptionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSubscriptionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getSubscriptionsResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSubscriptionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSubscriptionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSubscriptionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSubscriptionsResponseBody200Url obj))))
 
@@ -428,134 +422,14 @@ data GetSubscriptionsResponseBody200Object'
   | GetSubscriptionsResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSubscriptionsResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionsResponseBody200Object' where
   toJSON (GetSubscriptionsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetSubscriptionsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetSubscriptionsResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetSubscriptionsResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionsResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetSubscriptionsResponseBody200Object'EnumStringList
-          else GetSubscriptionsResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/subscriptions
---
--- The same as 'getSubscriptions' but accepts an explicit configuration.
-getSubscriptionsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSubscriptionsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetSubscriptionsResponse)
-getSubscriptionsWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetSubscriptionsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetSubscriptionsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetSubscriptionsResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetSubscriptionsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/subscriptions")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "collection_method") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCollectionMethod parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "current_period_end") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCurrentPeriodEnd parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "current_period_start") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCurrentPeriodStart parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "plan") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryPlan parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/subscriptions
---
--- The same as 'getSubscriptions' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getSubscriptionsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSubscriptionsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getSubscriptionsRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/subscriptions")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "collection_method") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCollectionMethod parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "current_period_end") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCurrentPeriodEnd parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "current_period_start") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCurrentPeriodStart parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "plan") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryPlan parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/subscriptions
---
--- The same as 'getSubscriptions' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getSubscriptionsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSubscriptionsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getSubscriptionsWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/subscriptions")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "collection_method") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCollectionMethod parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "current_period_end") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCurrentPeriodEnd parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "current_period_start") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCurrentPeriodStart parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "plan") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryPlan parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetSubscriptionsResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetSubscriptionsResponseBody200Object'EnumOther val
       )

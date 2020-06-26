@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postInvoicesInvoicePay
 module StripeAPI.Operations.PostInvoicesInvoicePay where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -86,7 +85,7 @@ postInvoicesInvoicePay
 data PostInvoicesInvoicePayRequestBody
   = PostInvoicesInvoicePayRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
-        postInvoicesInvoicePayRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postInvoicesInvoicePayRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | forgive: In cases where the source used to pay the invoice has insufficient funds, passing \`forgive=true\` controls whether a charge should be attempted for the full amount available on the source, up to the amount to fully pay the invoice. This effectively forgives the difference between the amount available on the source and the amount due.
         --
         -- Passing \`forgive=false\` will fail the charge if the source hasn\'t been pre-funded with the right amount. An example for this case is with ACH Credit Transfers and wires: if the amount wired is less than the amount due by a small amount, you might want to forgive the difference.
@@ -113,7 +112,7 @@ data PostInvoicesInvoicePayRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostInvoicesInvoicePayRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesInvoicePayRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (postInvoicesInvoicePayRequestBodyExpand obj) : (Data.Aeson..=) "forgive" (postInvoicesInvoicePayRequestBodyForgive obj) : (Data.Aeson..=) "off_session" (postInvoicesInvoicePayRequestBodyOffSession obj) : (Data.Aeson..=) "paid_out_of_band" (postInvoicesInvoicePayRequestBodyPaidOutOfBand obj) : (Data.Aeson..=) "payment_method" (postInvoicesInvoicePayRequestBodyPaymentMethod obj) : (Data.Aeson..=) "source" (postInvoicesInvoicePayRequestBodySource obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (postInvoicesInvoicePayRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "forgive" (postInvoicesInvoicePayRequestBodyForgive obj) GHC.Base.<> ((Data.Aeson..=) "off_session" (postInvoicesInvoicePayRequestBodyOffSession obj) GHC.Base.<> ((Data.Aeson..=) "paid_out_of_band" (postInvoicesInvoicePayRequestBodyPaidOutOfBand obj) GHC.Base.<> ((Data.Aeson..=) "payment_method" (postInvoicesInvoicePayRequestBodyPaymentMethod obj) GHC.Base.<> (Data.Aeson..=) "source" (postInvoicesInvoicePayRequestBodySource obj))))))
 
@@ -131,81 +130,3 @@ data PostInvoicesInvoicePayResponse
   | -- | Error response.
     PostInvoicesInvoicePayResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/invoices/{invoice}/pay
---
--- The same as 'postInvoicesInvoicePay' but accepts an explicit configuration.
-postInvoicesInvoicePayWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | invoice | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostInvoicesInvoicePayRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostInvoicesInvoicePayResponse)
-postInvoicesInvoicePayWithConfiguration
-  config
-  invoice
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostInvoicesInvoicePayResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostInvoicesInvoicePayResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Invoice
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostInvoicesInvoicePayResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ "/pay"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/invoices/{invoice}/pay
---
--- The same as 'postInvoicesInvoicePay' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postInvoicesInvoicePayRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | invoice | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostInvoicesInvoicePayRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postInvoicesInvoicePayRaw
-  invoice
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ "/pay"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/invoices/{invoice}/pay
---
--- The same as 'postInvoicesInvoicePay' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postInvoicesInvoicePayWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | invoice | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostInvoicesInvoicePayRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postInvoicesInvoicePayWithConfigurationRaw
-  config
-  invoice
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel invoice)) GHC.Base.++ "/pay"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

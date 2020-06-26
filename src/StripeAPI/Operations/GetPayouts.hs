@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getPayouts
 module StripeAPI.Operations.GetPayouts where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -112,7 +111,7 @@ data GetPayoutsParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getPayoutsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getPayoutsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -139,7 +138,7 @@ data GetPayoutsParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetPayoutsParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryArrival_date" (getPayoutsParametersQueryArrivalDate obj) : (Data.Aeson..=) "queryCreated" (getPayoutsParametersQueryCreated obj) : (Data.Aeson..=) "queryDestination" (getPayoutsParametersQueryDestination obj) : (Data.Aeson..=) "queryEnding_before" (getPayoutsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getPayoutsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getPayoutsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getPayoutsParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryStatus" (getPayoutsParametersQueryStatus obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryArrival_date" (getPayoutsParametersQueryArrivalDate obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getPayoutsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryDestination" (getPayoutsParametersQueryDestination obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getPayoutsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getPayoutsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getPayoutsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getPayoutsParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryStatus" (getPayoutsParametersQueryStatus obj))))))))
 
@@ -163,7 +162,7 @@ data GetPayoutsParametersQueryArrivalDate'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetPayoutsParametersQueryArrivalDate'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsParametersQueryArrivalDate'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getPayoutsParametersQueryArrivalDate'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getPayoutsParametersQueryArrivalDate'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getPayoutsParametersQueryArrivalDate'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getPayoutsParametersQueryArrivalDate'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getPayoutsParametersQueryArrivalDate'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getPayoutsParametersQueryArrivalDate'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getPayoutsParametersQueryArrivalDate'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getPayoutsParametersQueryArrivalDate'OneOf2Lte obj))))
 
@@ -176,13 +175,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsParametersQueryArrivalDate
 data GetPayoutsParametersQueryArrivalDate'Variants
   = GetPayoutsParametersQueryArrivalDate'Int GHC.Types.Int
   | GetPayoutsParametersQueryArrivalDate'GetPayoutsParametersQueryArrivalDate'OneOf2 GetPayoutsParametersQueryArrivalDate'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetPayoutsParametersQueryArrivalDate'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsParametersQueryArrivalDate'Variants where
+  toJSON (GetPayoutsParametersQueryArrivalDate'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetPayoutsParametersQueryArrivalDate'GetPayoutsParametersQueryArrivalDate'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetPayoutsParametersQueryArrivalDate'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsParametersQueryArrivalDate'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetPayoutsParametersQueryArrivalDate'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetPayoutsParametersQueryArrivalDate'GetPayoutsParametersQueryArrivalDate'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the data type for the schema getPayoutsParametersQueryCreated\'OneOf2
 data GetPayoutsParametersQueryCreated'OneOf2
@@ -201,7 +205,7 @@ data GetPayoutsParametersQueryCreated'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetPayoutsParametersQueryCreated'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsParametersQueryCreated'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getPayoutsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getPayoutsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getPayoutsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getPayoutsParametersQueryCreated'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getPayoutsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getPayoutsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getPayoutsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getPayoutsParametersQueryCreated'OneOf2Lte obj))))
 
@@ -214,13 +218,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsParametersQueryCreated'One
 data GetPayoutsParametersQueryCreated'Variants
   = GetPayoutsParametersQueryCreated'Int GHC.Types.Int
   | GetPayoutsParametersQueryCreated'GetPayoutsParametersQueryCreated'OneOf2 GetPayoutsParametersQueryCreated'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetPayoutsParametersQueryCreated'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsParametersQueryCreated'Variants where
+  toJSON (GetPayoutsParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetPayoutsParametersQueryCreated'GetPayoutsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetPayoutsParametersQueryCreated'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsParametersQueryCreated'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetPayoutsParametersQueryCreated'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetPayoutsParametersQueryCreated'GetPayoutsParametersQueryCreated'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getPayouts'.
 --
@@ -238,7 +247,7 @@ data GetPayoutsResponse
 data GetPayoutsResponseBody200
   = GetPayoutsResponseBody200
       { -- | data
-        getPayoutsResponseBody200Data :: ([] Payout),
+        getPayoutsResponseBody200Data :: ([Payout]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getPayoutsResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -256,7 +265,7 @@ data GetPayoutsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetPayoutsResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getPayoutsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getPayoutsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getPayoutsResponseBody200Object obj) : (Data.Aeson..=) "url" (getPayoutsResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getPayoutsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getPayoutsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getPayoutsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getPayoutsResponseBody200Url obj))))
 
@@ -272,125 +281,14 @@ data GetPayoutsResponseBody200Object'
   | GetPayoutsResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetPayoutsResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetPayoutsResponseBody200Object' where
   toJSON (GetPayoutsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetPayoutsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetPayoutsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetPayoutsResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetPayoutsResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetPayoutsResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetPayoutsResponseBody200Object'EnumStringList
-          else GetPayoutsResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/payouts
---
--- The same as 'getPayouts' but accepts an explicit configuration.
-getPayoutsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetPayoutsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetPayoutsResponse)
-getPayoutsWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetPayoutsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetPayoutsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetPayoutsResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetPayoutsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/payouts")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "arrival_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryArrivalDate parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "destination") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryDestination parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/payouts
---
--- The same as 'getPayouts' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getPayoutsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetPayoutsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getPayoutsRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/payouts")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "arrival_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryArrivalDate parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "destination") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryDestination parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/payouts
---
--- The same as 'getPayouts' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getPayoutsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetPayoutsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getPayoutsWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/payouts")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "arrival_date") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryArrivalDate parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "destination") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryDestination parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "status") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPayoutsParametersQueryStatus parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetPayoutsResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetPayoutsResponseBody200Object'EnumOther val
       )

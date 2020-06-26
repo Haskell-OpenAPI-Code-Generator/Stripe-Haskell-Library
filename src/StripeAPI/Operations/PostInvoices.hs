@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postInvoices
 module StripeAPI.Operations.PostInvoices where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -114,7 +113,7 @@ data PostInvoicesRequestBody
         -- * Maximum length of 5000
         postInvoicesRequestBodyDefaultSource :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | default_tax_rates: The tax rates that will apply to any line item that does not have \`tax_rates\` set.
-        postInvoicesRequestBodyDefaultTaxRates :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postInvoicesRequestBodyDefaultTaxRates :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | description: An arbitrary string attached to the object. Often useful for displaying to users. Referenced as \'memo\' in the Dashboard.
         --
         -- Constraints:
@@ -124,7 +123,7 @@ data PostInvoicesRequestBody
         -- | due_date: The date on which payment for this invoice is due. Valid only for invoices where \`collection_method=send_invoice\`.
         postInvoicesRequestBodyDueDate :: (GHC.Maybe.Maybe GHC.Types.Int),
         -- | expand: Specifies which fields in the response should be expanded.
-        postInvoicesRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postInvoicesRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | footer: Footer to be displayed on the invoice.
         --
         -- Constraints:
@@ -153,7 +152,7 @@ data PostInvoicesRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostInvoicesRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "application_fee_amount" (postInvoicesRequestBodyApplicationFeeAmount obj) : (Data.Aeson..=) "auto_advance" (postInvoicesRequestBodyAutoAdvance obj) : (Data.Aeson..=) "collection_method" (postInvoicesRequestBodyCollectionMethod obj) : (Data.Aeson..=) "custom_fields" (postInvoicesRequestBodyCustomFields obj) : (Data.Aeson..=) "customer" (postInvoicesRequestBodyCustomer obj) : (Data.Aeson..=) "days_until_due" (postInvoicesRequestBodyDaysUntilDue obj) : (Data.Aeson..=) "default_payment_method" (postInvoicesRequestBodyDefaultPaymentMethod obj) : (Data.Aeson..=) "default_source" (postInvoicesRequestBodyDefaultSource obj) : (Data.Aeson..=) "default_tax_rates" (postInvoicesRequestBodyDefaultTaxRates obj) : (Data.Aeson..=) "description" (postInvoicesRequestBodyDescription obj) : (Data.Aeson..=) "due_date" (postInvoicesRequestBodyDueDate obj) : (Data.Aeson..=) "expand" (postInvoicesRequestBodyExpand obj) : (Data.Aeson..=) "footer" (postInvoicesRequestBodyFooter obj) : (Data.Aeson..=) "metadata" (postInvoicesRequestBodyMetadata obj) : (Data.Aeson..=) "statement_descriptor" (postInvoicesRequestBodyStatementDescriptor obj) : (Data.Aeson..=) "subscription" (postInvoicesRequestBodySubscription obj) : (Data.Aeson..=) "tax_percent" (postInvoicesRequestBodyTaxPercent obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "application_fee_amount" (postInvoicesRequestBodyApplicationFeeAmount obj) GHC.Base.<> ((Data.Aeson..=) "auto_advance" (postInvoicesRequestBodyAutoAdvance obj) GHC.Base.<> ((Data.Aeson..=) "collection_method" (postInvoicesRequestBodyCollectionMethod obj) GHC.Base.<> ((Data.Aeson..=) "custom_fields" (postInvoicesRequestBodyCustomFields obj) GHC.Base.<> ((Data.Aeson..=) "customer" (postInvoicesRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "days_until_due" (postInvoicesRequestBodyDaysUntilDue obj) GHC.Base.<> ((Data.Aeson..=) "default_payment_method" (postInvoicesRequestBodyDefaultPaymentMethod obj) GHC.Base.<> ((Data.Aeson..=) "default_source" (postInvoicesRequestBodyDefaultSource obj) GHC.Base.<> ((Data.Aeson..=) "default_tax_rates" (postInvoicesRequestBodyDefaultTaxRates obj) GHC.Base.<> ((Data.Aeson..=) "description" (postInvoicesRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "due_date" (postInvoicesRequestBodyDueDate obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postInvoicesRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "footer" (postInvoicesRequestBodyFooter obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postInvoicesRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (postInvoicesRequestBodyStatementDescriptor obj) GHC.Base.<> ((Data.Aeson..=) "subscription" (postInvoicesRequestBodySubscription obj) GHC.Base.<> (Data.Aeson..=) "tax_percent" (postInvoicesRequestBodyTaxPercent obj)))))))))))))))))
 
@@ -170,21 +169,18 @@ data PostInvoicesRequestBodyCollectionMethod'
   | PostInvoicesRequestBodyCollectionMethod'EnumStringSendInvoice
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostInvoicesRequestBodyCollectionMethod' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesRequestBodyCollectionMethod' where
   toJSON (PostInvoicesRequestBodyCollectionMethod'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostInvoicesRequestBodyCollectionMethod'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostInvoicesRequestBodyCollectionMethod'EnumStringChargeAutomatically) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge_automatically"
-  toJSON (PostInvoicesRequestBodyCollectionMethod'EnumStringSendInvoice) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "send_invoice"
+  toJSON (PostInvoicesRequestBodyCollectionMethod'EnumStringChargeAutomatically) = "charge_automatically"
+  toJSON (PostInvoicesRequestBodyCollectionMethod'EnumStringSendInvoice) = "send_invoice"
 
-instance Data.Aeson.FromJSON PostInvoicesRequestBodyCollectionMethod' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesRequestBodyCollectionMethod' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "charge_automatically")
-          then PostInvoicesRequestBodyCollectionMethod'EnumStringChargeAutomatically
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "send_invoice")
-              then PostInvoicesRequestBodyCollectionMethod'EnumStringSendInvoice
-              else PostInvoicesRequestBodyCollectionMethod'EnumOther val
+      ( if  | val GHC.Classes.== "charge_automatically" -> PostInvoicesRequestBodyCollectionMethod'EnumStringChargeAutomatically
+            | val GHC.Classes.== "send_invoice" -> PostInvoicesRequestBodyCollectionMethod'EnumStringSendInvoice
+            | GHC.Base.otherwise -> PostInvoicesRequestBodyCollectionMethod'EnumOther val
       )
 
 -- | Defines the enum schema postInvoicesRequestBodyCustom_fields\'OneOf1
@@ -194,17 +190,16 @@ data PostInvoicesRequestBodyCustomFields'OneOf1
   | PostInvoicesRequestBodyCustomFields'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostInvoicesRequestBodyCustomFields'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesRequestBodyCustomFields'OneOf1 where
   toJSON (PostInvoicesRequestBodyCustomFields'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostInvoicesRequestBodyCustomFields'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostInvoicesRequestBodyCustomFields'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (PostInvoicesRequestBodyCustomFields'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON PostInvoicesRequestBodyCustomFields'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesRequestBodyCustomFields'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostInvoicesRequestBodyCustomFields'OneOf1EnumString_
-          else PostInvoicesRequestBodyCustomFields'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostInvoicesRequestBodyCustomFields'OneOf1EnumString_
+            | GHC.Base.otherwise -> PostInvoicesRequestBodyCustomFields'OneOf1EnumOther val
       )
 
 -- | Defines the data type for the schema postInvoicesRequestBodyCustom_fields\'OneOf2
@@ -228,7 +223,7 @@ data PostInvoicesRequestBodyCustomFields'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostInvoicesRequestBodyCustomFields'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesRequestBodyCustomFields'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "name" (postInvoicesRequestBodyCustomFields'OneOf2Name obj) : (Data.Aeson..=) "value" (postInvoicesRequestBodyCustomFields'OneOf2Value obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "name" (postInvoicesRequestBodyCustomFields'OneOf2Name obj) GHC.Base.<> (Data.Aeson..=) "value" (postInvoicesRequestBodyCustomFields'OneOf2Value obj))
 
@@ -240,14 +235,19 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesRequestBodyCustomFields'
 -- A list of up to 4 custom fields to be displayed on the invoice.
 data PostInvoicesRequestBodyCustomFields'Variants
   = PostInvoicesRequestBodyCustomFields'PostInvoicesRequestBodyCustomFields'OneOf1 PostInvoicesRequestBodyCustomFields'OneOf1
-  | PostInvoicesRequestBodyCustomFields'ListPostInvoicesRequestBodyCustomFields'OneOf2 ([] PostInvoicesRequestBodyCustomFields'OneOf2)
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  | PostInvoicesRequestBodyCustomFields'ListTPostInvoicesRequestBodyCustomFields'OneOf2 ([PostInvoicesRequestBodyCustomFields'OneOf2])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostInvoicesRequestBodyCustomFields'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostInvoicesRequestBodyCustomFields'Variants where
+  toJSON (PostInvoicesRequestBodyCustomFields'PostInvoicesRequestBodyCustomFields'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostInvoicesRequestBodyCustomFields'ListTPostInvoicesRequestBodyCustomFields'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostInvoicesRequestBodyCustomFields'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostInvoicesRequestBodyCustomFields'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostInvoicesRequestBodyCustomFields'PostInvoicesRequestBodyCustomFields'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostInvoicesRequestBodyCustomFields'ListTPostInvoicesRequestBodyCustomFields'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postInvoices'.
 --
@@ -260,71 +260,3 @@ data PostInvoicesResponse
   | -- | Error response.
     PostInvoicesResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/invoices
---
--- The same as 'postInvoices' but accepts an explicit configuration.
-postInvoicesWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  PostInvoicesRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostInvoicesResponse)
-postInvoicesWithConfiguration
-  config
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostInvoicesResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostInvoicesResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Invoice
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostInvoicesResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/invoices") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/invoices
---
--- The same as 'postInvoices' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postInvoicesRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The request body to send
-  PostInvoicesRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postInvoicesRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/invoices") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/invoices
---
--- The same as 'postInvoices' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postInvoicesWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  PostInvoicesRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postInvoicesWithConfigurationRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/invoices") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

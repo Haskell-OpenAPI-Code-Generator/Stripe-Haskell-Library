@@ -1,0 +1,33 @@
+module StripeAPI.Types.TransferReversal where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data TransferReversal 
+instance Show TransferReversal 
+instance Eq TransferReversal 
+instance FromJSON TransferReversal 
+instance ToJSON TransferReversal 
+data TransferReversalBalanceTransaction'Variants
+instance Show TransferReversalBalanceTransaction'Variants
+instance Eq TransferReversalBalanceTransaction'Variants
+instance FromJSON TransferReversalBalanceTransaction'Variants
+instance ToJSON TransferReversalBalanceTransaction'Variants
+data TransferReversalDestinationPaymentRefund'Variants
+instance Show TransferReversalDestinationPaymentRefund'Variants
+instance Eq TransferReversalDestinationPaymentRefund'Variants
+instance FromJSON TransferReversalDestinationPaymentRefund'Variants
+instance ToJSON TransferReversalDestinationPaymentRefund'Variants
+data TransferReversalObject'
+instance Show TransferReversalObject'
+instance Eq TransferReversalObject'
+instance FromJSON TransferReversalObject'
+instance ToJSON TransferReversalObject'
+data TransferReversalSourceRefund'Variants
+instance Show TransferReversalSourceRefund'Variants
+instance Eq TransferReversalSourceRefund'Variants
+instance FromJSON TransferReversalSourceRefund'Variants
+instance ToJSON TransferReversalSourceRefund'Variants
+data TransferReversalTransfer'Variants
+instance Show TransferReversalTransfer'Variants
+instance Eq TransferReversalTransfer'Variants
+instance FromJSON TransferReversalTransfer'Variants
+instance ToJSON TransferReversalTransfer'Variants

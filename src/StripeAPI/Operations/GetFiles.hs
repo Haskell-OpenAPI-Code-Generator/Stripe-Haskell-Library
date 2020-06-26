@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getFiles
 module StripeAPI.Operations.GetFiles where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -104,7 +103,7 @@ data GetFilesParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getFilesParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getFilesParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -131,7 +130,7 @@ data GetFilesParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetFilesParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCreated" (getFilesParametersQueryCreated obj) : (Data.Aeson..=) "queryEnding_before" (getFilesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getFilesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getFilesParametersQueryLimit obj) : (Data.Aeson..=) "queryPurpose" (getFilesParametersQueryPurpose obj) : (Data.Aeson..=) "queryStarting_after" (getFilesParametersQueryStartingAfter obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCreated" (getFilesParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getFilesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getFilesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getFilesParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryPurpose" (getFilesParametersQueryPurpose obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getFilesParametersQueryStartingAfter obj))))))
 
@@ -155,7 +154,7 @@ data GetFilesParametersQueryCreated'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetFilesParametersQueryCreated'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParametersQueryCreated'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getFilesParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getFilesParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getFilesParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getFilesParametersQueryCreated'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getFilesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getFilesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getFilesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getFilesParametersQueryCreated'OneOf2Lte obj))))
 
@@ -168,13 +167,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParametersQueryCreated'OneOf
 data GetFilesParametersQueryCreated'Variants
   = GetFilesParametersQueryCreated'Int GHC.Types.Int
   | GetFilesParametersQueryCreated'GetFilesParametersQueryCreated'OneOf2 GetFilesParametersQueryCreated'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetFilesParametersQueryCreated'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParametersQueryCreated'Variants where
+  toJSON (GetFilesParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetFilesParametersQueryCreated'GetFilesParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetFilesParametersQueryCreated'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParametersQueryCreated'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetFilesParametersQueryCreated'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetFilesParametersQueryCreated'GetFilesParametersQueryCreated'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema getFilesParametersQueryPurpose\'
 --
@@ -196,53 +200,34 @@ data GetFilesParametersQueryPurpose'
   | GetFilesParametersQueryPurpose'EnumStringTaxDocumentUserUpload
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetFilesParametersQueryPurpose' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetFilesParametersQueryPurpose' where
   toJSON (GetFilesParametersQueryPurpose'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetFilesParametersQueryPurpose'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetFilesParametersQueryPurpose'EnumStringAdditionalVerification) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "additional_verification"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringBusinessIcon) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "business_icon"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringBusinessLogo) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "business_logo"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringCustomerSignature) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer_signature"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringDisputeEvidence) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "dispute_evidence"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringFinanceReportRun) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "finance_report_run"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringIdentityDocument) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "identity_document"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringPciDocument) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pci_document"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringSigmaScheduledQuery) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sigma_scheduled_query"
-  toJSON (GetFilesParametersQueryPurpose'EnumStringTaxDocumentUserUpload) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tax_document_user_upload"
+  toJSON (GetFilesParametersQueryPurpose'EnumStringAdditionalVerification) = "additional_verification"
+  toJSON (GetFilesParametersQueryPurpose'EnumStringBusinessIcon) = "business_icon"
+  toJSON (GetFilesParametersQueryPurpose'EnumStringBusinessLogo) = "business_logo"
+  toJSON (GetFilesParametersQueryPurpose'EnumStringCustomerSignature) = "customer_signature"
+  toJSON (GetFilesParametersQueryPurpose'EnumStringDisputeEvidence) = "dispute_evidence"
+  toJSON (GetFilesParametersQueryPurpose'EnumStringFinanceReportRun) = "finance_report_run"
+  toJSON (GetFilesParametersQueryPurpose'EnumStringIdentityDocument) = "identity_document"
+  toJSON (GetFilesParametersQueryPurpose'EnumStringPciDocument) = "pci_document"
+  toJSON (GetFilesParametersQueryPurpose'EnumStringSigmaScheduledQuery) = "sigma_scheduled_query"
+  toJSON (GetFilesParametersQueryPurpose'EnumStringTaxDocumentUserUpload) = "tax_document_user_upload"
 
-instance Data.Aeson.FromJSON GetFilesParametersQueryPurpose' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetFilesParametersQueryPurpose' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "additional_verification")
-          then GetFilesParametersQueryPurpose'EnumStringAdditionalVerification
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "business_icon")
-              then GetFilesParametersQueryPurpose'EnumStringBusinessIcon
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "business_logo")
-                  then GetFilesParametersQueryPurpose'EnumStringBusinessLogo
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "customer_signature")
-                      then GetFilesParametersQueryPurpose'EnumStringCustomerSignature
-                      else
-                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "dispute_evidence")
-                          then GetFilesParametersQueryPurpose'EnumStringDisputeEvidence
-                          else
-                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "finance_report_run")
-                              then GetFilesParametersQueryPurpose'EnumStringFinanceReportRun
-                              else
-                                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "identity_document")
-                                  then GetFilesParametersQueryPurpose'EnumStringIdentityDocument
-                                  else
-                                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "pci_document")
-                                      then GetFilesParametersQueryPurpose'EnumStringPciDocument
-                                      else
-                                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sigma_scheduled_query")
-                                          then GetFilesParametersQueryPurpose'EnumStringSigmaScheduledQuery
-                                          else
-                                            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tax_document_user_upload")
-                                              then GetFilesParametersQueryPurpose'EnumStringTaxDocumentUserUpload
-                                              else GetFilesParametersQueryPurpose'EnumOther val
+      ( if  | val GHC.Classes.== "additional_verification" -> GetFilesParametersQueryPurpose'EnumStringAdditionalVerification
+            | val GHC.Classes.== "business_icon" -> GetFilesParametersQueryPurpose'EnumStringBusinessIcon
+            | val GHC.Classes.== "business_logo" -> GetFilesParametersQueryPurpose'EnumStringBusinessLogo
+            | val GHC.Classes.== "customer_signature" -> GetFilesParametersQueryPurpose'EnumStringCustomerSignature
+            | val GHC.Classes.== "dispute_evidence" -> GetFilesParametersQueryPurpose'EnumStringDisputeEvidence
+            | val GHC.Classes.== "finance_report_run" -> GetFilesParametersQueryPurpose'EnumStringFinanceReportRun
+            | val GHC.Classes.== "identity_document" -> GetFilesParametersQueryPurpose'EnumStringIdentityDocument
+            | val GHC.Classes.== "pci_document" -> GetFilesParametersQueryPurpose'EnumStringPciDocument
+            | val GHC.Classes.== "sigma_scheduled_query" -> GetFilesParametersQueryPurpose'EnumStringSigmaScheduledQuery
+            | val GHC.Classes.== "tax_document_user_upload" -> GetFilesParametersQueryPurpose'EnumStringTaxDocumentUserUpload
+            | GHC.Base.otherwise -> GetFilesParametersQueryPurpose'EnumOther val
       )
 
 -- | Represents a response of the operation 'getFiles'.
@@ -261,7 +246,7 @@ data GetFilesResponse
 data GetFilesResponseBody200
   = GetFilesResponseBody200
       { -- | data
-        getFilesResponseBody200Data :: ([] File),
+        getFilesResponseBody200Data :: ([File]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getFilesResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -279,7 +264,7 @@ data GetFilesResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetFilesResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetFilesResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getFilesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getFilesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getFilesResponseBody200Object obj) : (Data.Aeson..=) "url" (getFilesResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getFilesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getFilesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getFilesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getFilesResponseBody200Url obj))))
 
@@ -295,119 +280,14 @@ data GetFilesResponseBody200Object'
   | GetFilesResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetFilesResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetFilesResponseBody200Object' where
   toJSON (GetFilesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetFilesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetFilesResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetFilesResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetFilesResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetFilesResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetFilesResponseBody200Object'EnumStringList
-          else GetFilesResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/files
---
--- The same as 'getFiles' but accepts an explicit configuration.
-getFilesWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetFilesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetFilesResponse)
-getFilesWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetFilesResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetFilesResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetFilesResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetFilesResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/files")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "purpose") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryPurpose parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/files
---
--- The same as 'getFiles' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getFilesRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetFilesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getFilesRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/files")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "purpose") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryPurpose parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/files
---
--- The same as 'getFiles' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getFilesWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetFilesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getFilesWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/files")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "purpose") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryPurpose parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getFilesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetFilesResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetFilesResponseBody200Object'EnumOther val
       )

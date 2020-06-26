@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postOrders
 module StripeAPI.Operations.PostOrders where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -102,9 +101,9 @@ data PostOrdersRequestBody
         -- * Maximum length of 5000
         postOrdersRequestBodyEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postOrdersRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postOrdersRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | items: List of items constituting the order. An order can have up to 25 items.
-        postOrdersRequestBodyItems :: (GHC.Maybe.Maybe ([] PostOrdersRequestBodyItems')),
+        postOrdersRequestBodyItems :: (GHC.Maybe.Maybe ([PostOrdersRequestBodyItems'])),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
         postOrdersRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | shipping: Shipping address for the order. Required if any of the SKUs are for products that have \`shippable\` set to true.
@@ -115,7 +114,7 @@ data PostOrdersRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostOrdersRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "coupon" (postOrdersRequestBodyCoupon obj) : (Data.Aeson..=) "currency" (postOrdersRequestBodyCurrency obj) : (Data.Aeson..=) "customer" (postOrdersRequestBodyCustomer obj) : (Data.Aeson..=) "email" (postOrdersRequestBodyEmail obj) : (Data.Aeson..=) "expand" (postOrdersRequestBodyExpand obj) : (Data.Aeson..=) "items" (postOrdersRequestBodyItems obj) : (Data.Aeson..=) "metadata" (postOrdersRequestBodyMetadata obj) : (Data.Aeson..=) "shipping" (postOrdersRequestBodyShipping obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "coupon" (postOrdersRequestBodyCoupon obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postOrdersRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (postOrdersRequestBodyCustomer obj) GHC.Base.<> ((Data.Aeson..=) "email" (postOrdersRequestBodyEmail obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postOrdersRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "items" (postOrdersRequestBodyItems obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postOrdersRequestBodyMetadata obj) GHC.Base.<> (Data.Aeson..=) "shipping" (postOrdersRequestBodyShipping obj))))))))
 
@@ -155,7 +154,7 @@ data PostOrdersRequestBodyItems'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostOrdersRequestBodyItems' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyItems' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postOrdersRequestBodyItems'Amount obj) : (Data.Aeson..=) "currency" (postOrdersRequestBodyItems'Currency obj) : (Data.Aeson..=) "description" (postOrdersRequestBodyItems'Description obj) : (Data.Aeson..=) "parent" (postOrdersRequestBodyItems'Parent obj) : (Data.Aeson..=) "quantity" (postOrdersRequestBodyItems'Quantity obj) : (Data.Aeson..=) "type" (postOrdersRequestBodyItems'Type obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postOrdersRequestBodyItems'Amount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postOrdersRequestBodyItems'Currency obj) GHC.Base.<> ((Data.Aeson..=) "description" (postOrdersRequestBodyItems'Description obj) GHC.Base.<> ((Data.Aeson..=) "parent" (postOrdersRequestBodyItems'Parent obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (postOrdersRequestBodyItems'Quantity obj) GHC.Base.<> (Data.Aeson..=) "type" (postOrdersRequestBodyItems'Type obj))))))
 
@@ -172,29 +171,22 @@ data PostOrdersRequestBodyItems'Type'
   | PostOrdersRequestBodyItems'Type'EnumStringTax
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostOrdersRequestBodyItems'Type' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyItems'Type' where
   toJSON (PostOrdersRequestBodyItems'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostOrdersRequestBodyItems'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostOrdersRequestBodyItems'Type'EnumStringDiscount) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "discount"
-  toJSON (PostOrdersRequestBodyItems'Type'EnumStringShipping) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "shipping"
-  toJSON (PostOrdersRequestBodyItems'Type'EnumStringSku) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku"
-  toJSON (PostOrdersRequestBodyItems'Type'EnumStringTax) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tax"
+  toJSON (PostOrdersRequestBodyItems'Type'EnumStringDiscount) = "discount"
+  toJSON (PostOrdersRequestBodyItems'Type'EnumStringShipping) = "shipping"
+  toJSON (PostOrdersRequestBodyItems'Type'EnumStringSku) = "sku"
+  toJSON (PostOrdersRequestBodyItems'Type'EnumStringTax) = "tax"
 
-instance Data.Aeson.FromJSON PostOrdersRequestBodyItems'Type' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersRequestBodyItems'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "discount")
-          then PostOrdersRequestBodyItems'Type'EnumStringDiscount
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "shipping")
-              then PostOrdersRequestBodyItems'Type'EnumStringShipping
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku")
-                  then PostOrdersRequestBodyItems'Type'EnumStringSku
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "tax")
-                      then PostOrdersRequestBodyItems'Type'EnumStringTax
-                      else PostOrdersRequestBodyItems'Type'EnumOther val
+      ( if  | val GHC.Classes.== "discount" -> PostOrdersRequestBodyItems'Type'EnumStringDiscount
+            | val GHC.Classes.== "shipping" -> PostOrdersRequestBodyItems'Type'EnumStringShipping
+            | val GHC.Classes.== "sku" -> PostOrdersRequestBodyItems'Type'EnumStringSku
+            | val GHC.Classes.== "tax" -> PostOrdersRequestBodyItems'Type'EnumStringTax
+            | GHC.Base.otherwise -> PostOrdersRequestBodyItems'Type'EnumOther val
       )
 
 -- | Defines the data type for the schema postOrdersRequestBodyShipping\'
@@ -222,7 +214,7 @@ data PostOrdersRequestBodyShipping'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostOrdersRequestBodyShipping' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShipping' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "address" (postOrdersRequestBodyShipping'Address obj) : (Data.Aeson..=) "name" (postOrdersRequestBodyShipping'Name obj) : (Data.Aeson..=) "phone" (postOrdersRequestBodyShipping'Phone obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "address" (postOrdersRequestBodyShipping'Address obj) GHC.Base.<> ((Data.Aeson..=) "name" (postOrdersRequestBodyShipping'Name obj) GHC.Base.<> (Data.Aeson..=) "phone" (postOrdersRequestBodyShipping'Phone obj)))
 
@@ -274,7 +266,7 @@ data PostOrdersRequestBodyShipping'Address'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostOrdersRequestBodyShipping'Address' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersRequestBodyShipping'Address' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "city" (postOrdersRequestBodyShipping'Address'City obj) : (Data.Aeson..=) "country" (postOrdersRequestBodyShipping'Address'Country obj) : (Data.Aeson..=) "line1" (postOrdersRequestBodyShipping'Address'Line1 obj) : (Data.Aeson..=) "line2" (postOrdersRequestBodyShipping'Address'Line2 obj) : (Data.Aeson..=) "postal_code" (postOrdersRequestBodyShipping'Address'PostalCode obj) : (Data.Aeson..=) "state" (postOrdersRequestBodyShipping'Address'State obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "city" (postOrdersRequestBodyShipping'Address'City obj) GHC.Base.<> ((Data.Aeson..=) "country" (postOrdersRequestBodyShipping'Address'Country obj) GHC.Base.<> ((Data.Aeson..=) "line1" (postOrdersRequestBodyShipping'Address'Line1 obj) GHC.Base.<> ((Data.Aeson..=) "line2" (postOrdersRequestBodyShipping'Address'Line2 obj) GHC.Base.<> ((Data.Aeson..=) "postal_code" (postOrdersRequestBodyShipping'Address'PostalCode obj) GHC.Base.<> (Data.Aeson..=) "state" (postOrdersRequestBodyShipping'Address'State obj))))))
 
@@ -292,71 +284,3 @@ data PostOrdersResponse
   | -- | Error response.
     PostOrdersResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/orders
---
--- The same as 'postOrders' but accepts an explicit configuration.
-postOrdersWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  PostOrdersRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostOrdersResponse)
-postOrdersWithConfiguration
-  config
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostOrdersResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostOrdersResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Order
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostOrdersResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/orders") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/orders
---
--- The same as 'postOrders' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postOrdersRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The request body to send
-  PostOrdersRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postOrdersRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/orders") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/orders
---
--- The same as 'postOrders' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postOrdersWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  PostOrdersRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postOrdersWithConfigurationRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/orders") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

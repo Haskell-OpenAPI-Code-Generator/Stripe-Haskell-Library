@@ -1,0 +1,13 @@
+module StripeAPI.Types.SourceMandateNotification where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data SourceMandateNotification 
+instance Show SourceMandateNotification 
+instance Eq SourceMandateNotification 
+instance FromJSON SourceMandateNotification 
+instance ToJSON SourceMandateNotification 
+data SourceMandateNotificationObject'
+instance Show SourceMandateNotificationObject'
+instance Eq SourceMandateNotificationObject'
+instance FromJSON SourceMandateNotificationObject'
+instance ToJSON SourceMandateNotificationObject'

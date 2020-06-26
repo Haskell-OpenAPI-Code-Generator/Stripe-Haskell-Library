@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getInvoicesInvoiceLines
 module StripeAPI.Operations.GetInvoicesInvoiceLines where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -106,7 +105,7 @@ data GetInvoicesInvoiceLinesParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getInvoicesInvoiceLinesParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getInvoicesInvoiceLinesParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -125,7 +124,7 @@ data GetInvoicesInvoiceLinesParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetInvoicesInvoiceLinesParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesInvoiceLinesParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathInvoice" (getInvoicesInvoiceLinesParametersPathInvoice obj) : (Data.Aeson..=) "queryEnding_before" (getInvoicesInvoiceLinesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getInvoicesInvoiceLinesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getInvoicesInvoiceLinesParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getInvoicesInvoiceLinesParametersQueryStartingAfter obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathInvoice" (getInvoicesInvoiceLinesParametersPathInvoice obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getInvoicesInvoiceLinesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getInvoicesInvoiceLinesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getInvoicesInvoiceLinesParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getInvoicesInvoiceLinesParametersQueryStartingAfter obj)))))
 
@@ -148,7 +147,7 @@ data GetInvoicesInvoiceLinesResponse
 data GetInvoicesInvoiceLinesResponseBody200
   = GetInvoicesInvoiceLinesResponseBody200
       { -- | data: Details about each object.
-        getInvoicesInvoiceLinesResponseBody200Data :: ([] LineItem),
+        getInvoicesInvoiceLinesResponseBody200Data :: ([LineItem]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getInvoicesInvoiceLinesResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -165,7 +164,7 @@ data GetInvoicesInvoiceLinesResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetInvoicesInvoiceLinesResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesInvoiceLinesResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getInvoicesInvoiceLinesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getInvoicesInvoiceLinesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getInvoicesInvoiceLinesResponseBody200Object obj) : (Data.Aeson..=) "url" (getInvoicesInvoiceLinesResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getInvoicesInvoiceLinesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getInvoicesInvoiceLinesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getInvoicesInvoiceLinesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getInvoicesInvoiceLinesResponseBody200Url obj))))
 
@@ -181,113 +180,14 @@ data GetInvoicesInvoiceLinesResponseBody200Object'
   | GetInvoicesInvoiceLinesResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetInvoicesInvoiceLinesResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetInvoicesInvoiceLinesResponseBody200Object' where
   toJSON (GetInvoicesInvoiceLinesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetInvoicesInvoiceLinesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetInvoicesInvoiceLinesResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetInvoicesInvoiceLinesResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetInvoicesInvoiceLinesResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetInvoicesInvoiceLinesResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetInvoicesInvoiceLinesResponseBody200Object'EnumStringList
-          else GetInvoicesInvoiceLinesResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/invoices/{invoice}/lines
---
--- The same as 'getInvoicesInvoiceLines' but accepts an explicit configuration.
-getInvoicesInvoiceLinesWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetInvoicesInvoiceLinesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetInvoicesInvoiceLinesResponse)
-getInvoicesInvoiceLinesWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetInvoicesInvoiceLinesResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetInvoicesInvoiceLinesResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetInvoicesInvoiceLinesResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetInvoicesInvoiceLinesResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getInvoicesInvoiceLinesParametersPathInvoice parameters))) GHC.Base.++ "/lines")))
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesInvoiceLinesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesInvoiceLinesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesInvoiceLinesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesInvoiceLinesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/invoices/{invoice}/lines
---
--- The same as 'getInvoicesInvoiceLines' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getInvoicesInvoiceLinesRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetInvoicesInvoiceLinesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getInvoicesInvoiceLinesRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getInvoicesInvoiceLinesParametersPathInvoice parameters))) GHC.Base.++ "/lines")))
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesInvoiceLinesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesInvoiceLinesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesInvoiceLinesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesInvoiceLinesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/invoices/{invoice}/lines
---
--- The same as 'getInvoicesInvoiceLines' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getInvoicesInvoiceLinesWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetInvoicesInvoiceLinesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getInvoicesInvoiceLinesWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/invoices/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getInvoicesInvoiceLinesParametersPathInvoice parameters))) GHC.Base.++ "/lines")))
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesInvoiceLinesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesInvoiceLinesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesInvoiceLinesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getInvoicesInvoiceLinesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetInvoicesInvoiceLinesResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetInvoicesInvoiceLinesResponseBody200Object'EnumOther val
       )

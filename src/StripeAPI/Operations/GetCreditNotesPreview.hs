@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getCreditNotesPreview
 module StripeAPI.Operations.GetCreditNotesPreview where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -107,7 +106,7 @@ data GetCreditNotesPreviewParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getCreditNotesPreviewParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getCreditNotesPreviewParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryInvoice: Represents the parameter named \'invoice\'
         --
         -- ID of the invoice.
@@ -119,7 +118,7 @@ data GetCreditNotesPreviewParameters
         -- | queryLines: Represents the parameter named \'lines\'
         --
         -- Line items that make up the credit note.
-        getCreditNotesPreviewParametersQueryLines :: (GHC.Maybe.Maybe ([] GetCreditNotesPreviewParametersQueryLines')),
+        getCreditNotesPreviewParametersQueryLines :: (GHC.Maybe.Maybe ([GetCreditNotesPreviewParametersQueryLines'])),
         -- | queryMemo: Represents the parameter named \'memo\'
         --
         -- The credit note\'s memo appears on the credit note PDF.
@@ -154,7 +153,7 @@ data GetCreditNotesPreviewParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetCreditNotesPreviewParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCreditNotesPreviewParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryAmount" (getCreditNotesPreviewParametersQueryAmount obj) : (Data.Aeson..=) "queryCredit_amount" (getCreditNotesPreviewParametersQueryCreditAmount obj) : (Data.Aeson..=) "queryExpand" (getCreditNotesPreviewParametersQueryExpand obj) : (Data.Aeson..=) "queryInvoice" (getCreditNotesPreviewParametersQueryInvoice obj) : (Data.Aeson..=) "queryLines" (getCreditNotesPreviewParametersQueryLines obj) : (Data.Aeson..=) "queryMemo" (getCreditNotesPreviewParametersQueryMemo obj) : (Data.Aeson..=) "queryMetadata" (getCreditNotesPreviewParametersQueryMetadata obj) : (Data.Aeson..=) "queryOut_of_band_amount" (getCreditNotesPreviewParametersQueryOutOfBandAmount obj) : (Data.Aeson..=) "queryReason" (getCreditNotesPreviewParametersQueryReason obj) : (Data.Aeson..=) "queryRefund" (getCreditNotesPreviewParametersQueryRefund obj) : (Data.Aeson..=) "queryRefund_amount" (getCreditNotesPreviewParametersQueryRefundAmount obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryAmount" (getCreditNotesPreviewParametersQueryAmount obj) GHC.Base.<> ((Data.Aeson..=) "queryCredit_amount" (getCreditNotesPreviewParametersQueryCreditAmount obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getCreditNotesPreviewParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryInvoice" (getCreditNotesPreviewParametersQueryInvoice obj) GHC.Base.<> ((Data.Aeson..=) "queryLines" (getCreditNotesPreviewParametersQueryLines obj) GHC.Base.<> ((Data.Aeson..=) "queryMemo" (getCreditNotesPreviewParametersQueryMemo obj) GHC.Base.<> ((Data.Aeson..=) "queryMetadata" (getCreditNotesPreviewParametersQueryMetadata obj) GHC.Base.<> ((Data.Aeson..=) "queryOut_of_band_amount" (getCreditNotesPreviewParametersQueryOutOfBandAmount obj) GHC.Base.<> ((Data.Aeson..=) "queryReason" (getCreditNotesPreviewParametersQueryReason obj) GHC.Base.<> ((Data.Aeson..=) "queryRefund" (getCreditNotesPreviewParametersQueryRefund obj) GHC.Base.<> (Data.Aeson..=) "queryRefund_amount" (getCreditNotesPreviewParametersQueryRefundAmount obj)))))))))))
 
@@ -194,7 +193,7 @@ data GetCreditNotesPreviewParametersQueryLines'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetCreditNotesPreviewParametersQueryLines' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCreditNotesPreviewParametersQueryLines' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (getCreditNotesPreviewParametersQueryLines'Amount obj) : (Data.Aeson..=) "description" (getCreditNotesPreviewParametersQueryLines'Description obj) : (Data.Aeson..=) "invoice_line_item" (getCreditNotesPreviewParametersQueryLines'InvoiceLineItem obj) : (Data.Aeson..=) "quantity" (getCreditNotesPreviewParametersQueryLines'Quantity obj) : (Data.Aeson..=) "tax_rates" (getCreditNotesPreviewParametersQueryLines'TaxRates obj) : (Data.Aeson..=) "type" (getCreditNotesPreviewParametersQueryLines'Type obj) : (Data.Aeson..=) "unit_amount" (getCreditNotesPreviewParametersQueryLines'UnitAmount obj) : (Data.Aeson..=) "unit_amount_decimal" (getCreditNotesPreviewParametersQueryLines'UnitAmountDecimal obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (getCreditNotesPreviewParametersQueryLines'Amount obj) GHC.Base.<> ((Data.Aeson..=) "description" (getCreditNotesPreviewParametersQueryLines'Description obj) GHC.Base.<> ((Data.Aeson..=) "invoice_line_item" (getCreditNotesPreviewParametersQueryLines'InvoiceLineItem obj) GHC.Base.<> ((Data.Aeson..=) "quantity" (getCreditNotesPreviewParametersQueryLines'Quantity obj) GHC.Base.<> ((Data.Aeson..=) "tax_rates" (getCreditNotesPreviewParametersQueryLines'TaxRates obj) GHC.Base.<> ((Data.Aeson..=) "type" (getCreditNotesPreviewParametersQueryLines'Type obj) GHC.Base.<> ((Data.Aeson..=) "unit_amount" (getCreditNotesPreviewParametersQueryLines'UnitAmount obj) GHC.Base.<> (Data.Aeson..=) "unit_amount_decimal" (getCreditNotesPreviewParametersQueryLines'UnitAmountDecimal obj))))))))
 
@@ -208,30 +207,34 @@ data GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1
   | GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1 where
   toJSON (GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1EnumString_
-          else GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1EnumString_
+            | GHC.Base.otherwise -> GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1EnumOther val
       )
 
 -- | Define the one-of schema getCreditNotesPreviewParametersQueryLines\'Tax_rates\'
 data GetCreditNotesPreviewParametersQueryLines'TaxRates'Variants
   = GetCreditNotesPreviewParametersQueryLines'TaxRates'GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1 GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1
-  | GetCreditNotesPreviewParametersQueryLines'TaxRates'ListText ([] Data.Text.Internal.Text)
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  | GetCreditNotesPreviewParametersQueryLines'TaxRates'ListTText ([Data.Text.Internal.Text])
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetCreditNotesPreviewParametersQueryLines'TaxRates'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetCreditNotesPreviewParametersQueryLines'TaxRates'Variants where
+  toJSON (GetCreditNotesPreviewParametersQueryLines'TaxRates'GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetCreditNotesPreviewParametersQueryLines'TaxRates'ListTText a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetCreditNotesPreviewParametersQueryLines'TaxRates'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetCreditNotesPreviewParametersQueryLines'TaxRates'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetCreditNotesPreviewParametersQueryLines'TaxRates'GetCreditNotesPreviewParametersQueryLines'TaxRates'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetCreditNotesPreviewParametersQueryLines'TaxRates'ListTText a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema getCreditNotesPreviewParametersQueryLines\'Type\'
 data GetCreditNotesPreviewParametersQueryLines'Type'
@@ -241,21 +244,18 @@ data GetCreditNotesPreviewParametersQueryLines'Type'
   | GetCreditNotesPreviewParametersQueryLines'Type'EnumStringInvoiceLineItem
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetCreditNotesPreviewParametersQueryLines'Type' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCreditNotesPreviewParametersQueryLines'Type' where
   toJSON (GetCreditNotesPreviewParametersQueryLines'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetCreditNotesPreviewParametersQueryLines'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCreditNotesPreviewParametersQueryLines'Type'EnumStringCustomLineItem) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "custom_line_item"
-  toJSON (GetCreditNotesPreviewParametersQueryLines'Type'EnumStringInvoiceLineItem) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice_line_item"
+  toJSON (GetCreditNotesPreviewParametersQueryLines'Type'EnumStringCustomLineItem) = "custom_line_item"
+  toJSON (GetCreditNotesPreviewParametersQueryLines'Type'EnumStringInvoiceLineItem) = "invoice_line_item"
 
-instance Data.Aeson.FromJSON GetCreditNotesPreviewParametersQueryLines'Type' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetCreditNotesPreviewParametersQueryLines'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "custom_line_item")
-          then GetCreditNotesPreviewParametersQueryLines'Type'EnumStringCustomLineItem
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "invoice_line_item")
-              then GetCreditNotesPreviewParametersQueryLines'Type'EnumStringInvoiceLineItem
-              else GetCreditNotesPreviewParametersQueryLines'Type'EnumOther val
+      ( if  | val GHC.Classes.== "custom_line_item" -> GetCreditNotesPreviewParametersQueryLines'Type'EnumStringCustomLineItem
+            | val GHC.Classes.== "invoice_line_item" -> GetCreditNotesPreviewParametersQueryLines'Type'EnumStringInvoiceLineItem
+            | GHC.Base.otherwise -> GetCreditNotesPreviewParametersQueryLines'Type'EnumOther val
       )
 
 -- | Defines the enum schema getCreditNotesPreviewParametersQueryReason\'
@@ -272,29 +272,22 @@ data GetCreditNotesPreviewParametersQueryReason'
   | GetCreditNotesPreviewParametersQueryReason'EnumStringProductUnsatisfactory
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetCreditNotesPreviewParametersQueryReason' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetCreditNotesPreviewParametersQueryReason' where
   toJSON (GetCreditNotesPreviewParametersQueryReason'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetCreditNotesPreviewParametersQueryReason'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetCreditNotesPreviewParametersQueryReason'EnumStringDuplicate) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "duplicate"
-  toJSON (GetCreditNotesPreviewParametersQueryReason'EnumStringFraudulent) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fraudulent"
-  toJSON (GetCreditNotesPreviewParametersQueryReason'EnumStringOrderChange) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "order_change"
-  toJSON (GetCreditNotesPreviewParametersQueryReason'EnumStringProductUnsatisfactory) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "product_unsatisfactory"
+  toJSON (GetCreditNotesPreviewParametersQueryReason'EnumStringDuplicate) = "duplicate"
+  toJSON (GetCreditNotesPreviewParametersQueryReason'EnumStringFraudulent) = "fraudulent"
+  toJSON (GetCreditNotesPreviewParametersQueryReason'EnumStringOrderChange) = "order_change"
+  toJSON (GetCreditNotesPreviewParametersQueryReason'EnumStringProductUnsatisfactory) = "product_unsatisfactory"
 
-instance Data.Aeson.FromJSON GetCreditNotesPreviewParametersQueryReason' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetCreditNotesPreviewParametersQueryReason' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "duplicate")
-          then GetCreditNotesPreviewParametersQueryReason'EnumStringDuplicate
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fraudulent")
-              then GetCreditNotesPreviewParametersQueryReason'EnumStringFraudulent
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "order_change")
-                  then GetCreditNotesPreviewParametersQueryReason'EnumStringOrderChange
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "product_unsatisfactory")
-                      then GetCreditNotesPreviewParametersQueryReason'EnumStringProductUnsatisfactory
-                      else GetCreditNotesPreviewParametersQueryReason'EnumOther val
+      ( if  | val GHC.Classes.== "duplicate" -> GetCreditNotesPreviewParametersQueryReason'EnumStringDuplicate
+            | val GHC.Classes.== "fraudulent" -> GetCreditNotesPreviewParametersQueryReason'EnumStringFraudulent
+            | val GHC.Classes.== "order_change" -> GetCreditNotesPreviewParametersQueryReason'EnumStringOrderChange
+            | val GHC.Classes.== "product_unsatisfactory" -> GetCreditNotesPreviewParametersQueryReason'EnumStringProductUnsatisfactory
+            | GHC.Base.otherwise -> GetCreditNotesPreviewParametersQueryReason'EnumOther val
       )
 
 -- | Represents a response of the operation 'getCreditNotesPreview'.
@@ -308,122 +301,3 @@ data GetCreditNotesPreviewResponse
   | -- | Error response.
     GetCreditNotesPreviewResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > GET /v1/credit_notes/preview
---
--- The same as 'getCreditNotesPreview' but accepts an explicit configuration.
-getCreditNotesPreviewWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCreditNotesPreviewParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetCreditNotesPreviewResponse)
-getCreditNotesPreviewWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetCreditNotesPreviewResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetCreditNotesPreviewResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              CreditNote
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetCreditNotesPreviewResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/credit_notes/preview")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryAmount parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "credit_amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryCreditAmount parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "invoice") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getCreditNotesPreviewParametersQueryInvoice parameters)) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "lines") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryLines parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "memo") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryMemo parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "metadata") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryMetadata parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "out_of_band_amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryOutOfBandAmount parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "reason") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryReason parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "refund") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryRefund parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "refund_amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryRefundAmount parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/credit_notes/preview
---
--- The same as 'getCreditNotesPreview' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getCreditNotesPreviewRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCreditNotesPreviewParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getCreditNotesPreviewRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/credit_notes/preview")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryAmount parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "credit_amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryCreditAmount parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "invoice") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getCreditNotesPreviewParametersQueryInvoice parameters)) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "lines") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryLines parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "memo") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryMemo parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "metadata") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryMetadata parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "out_of_band_amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryOutOfBandAmount parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "reason") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryReason parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "refund") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryRefund parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "refund_amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryRefundAmount parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/credit_notes/preview
---
--- The same as 'getCreditNotesPreview' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getCreditNotesPreviewWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetCreditNotesPreviewParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getCreditNotesPreviewWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/credit_notes/preview")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryAmount parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "credit_amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryCreditAmount parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "invoice") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getCreditNotesPreviewParametersQueryInvoice parameters)) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "lines") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryLines parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "memo") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryMemo parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "metadata") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryMetadata parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "out_of_band_amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryOutOfBandAmount parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "reason") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryReason parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "refund") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryRefund parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "refund_amount") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getCreditNotesPreviewParametersQueryRefundAmount parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )

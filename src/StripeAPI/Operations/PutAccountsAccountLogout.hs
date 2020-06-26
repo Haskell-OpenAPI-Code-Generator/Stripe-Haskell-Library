@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation putAccountsAccountLogout
 module StripeAPI.Operations.PutAccountsAccountLogout where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -88,14 +87,14 @@ putAccountsAccountLogout
 data PutAccountsAccountLogoutRequestBody
   = PutAccountsAccountLogoutRequestBody
       { -- | expand: Specifies which fields in the response should be expanded.
-        putAccountsAccountLogoutRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
+        putAccountsAccountLogoutRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PutAccountsAccountLogoutRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PutAccountsAccountLogoutRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "expand" (putAccountsAccountLogoutRequestBodyExpand obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "expand" (putAccountsAccountLogoutRequestBodyExpand obj))
 
@@ -113,81 +112,3 @@ data PutAccountsAccountLogoutResponse
   | -- | Error response.
     PutAccountsAccountLogoutResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > PUT /v1/accounts/{account}/logout
---
--- The same as 'putAccountsAccountLogout' but accepts an explicit configuration.
-putAccountsAccountLogoutWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | account | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PutAccountsAccountLogoutRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PutAccountsAccountLogoutResponse)
-putAccountsAccountLogoutWithConfiguration
-  config
-  account
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PutAccountsAccountLogoutResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PutAccountsAccountLogoutResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              LightAccountLogout
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PutAccountsAccountLogoutResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "PUT") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ "/logout"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > PUT /v1/accounts/{account}/logout
---
--- The same as 'putAccountsAccountLogout' but returns the raw 'Data.ByteString.Char8.ByteString'.
-putAccountsAccountLogoutRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | account | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PutAccountsAccountLogoutRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-putAccountsAccountLogoutRaw
-  account
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "PUT") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ "/logout"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > PUT /v1/accounts/{account}/logout
---
--- The same as 'putAccountsAccountLogout' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-putAccountsAccountLogoutWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | account | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PutAccountsAccountLogoutRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-putAccountsAccountLogoutWithConfigurationRaw
-  config
-  account
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "PUT") (Data.Text.pack ("/v1/accounts/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel account)) GHC.Base.++ "/logout"))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

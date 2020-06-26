@@ -1,0 +1,13 @@
+module StripeAPI.Types.IssuingDisputeDuplicateEvidence where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data IssuingDisputeDuplicateEvidence 
+instance Show IssuingDisputeDuplicateEvidence 
+instance Eq IssuingDisputeDuplicateEvidence 
+instance FromJSON IssuingDisputeDuplicateEvidence 
+instance ToJSON IssuingDisputeDuplicateEvidence 
+data IssuingDisputeDuplicateEvidenceUncategorizedFile'Variants
+instance Show IssuingDisputeDuplicateEvidenceUncategorizedFile'Variants
+instance Eq IssuingDisputeDuplicateEvidenceUncategorizedFile'Variants
+instance FromJSON IssuingDisputeDuplicateEvidenceUncategorizedFile'Variants
+instance ToJSON IssuingDisputeDuplicateEvidenceUncategorizedFile'Variants

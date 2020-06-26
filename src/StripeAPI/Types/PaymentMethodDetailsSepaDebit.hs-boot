@@ -1,0 +1,8 @@
+module StripeAPI.Types.PaymentMethodDetailsSepaDebit where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PaymentMethodDetailsSepaDebit 
+instance Show PaymentMethodDetailsSepaDebit 
+instance Eq PaymentMethodDetailsSepaDebit 
+instance FromJSON PaymentMethodDetailsSepaDebit 
+instance ToJSON PaymentMethodDetailsSepaDebit 

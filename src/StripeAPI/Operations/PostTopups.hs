@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postTopups
 module StripeAPI.Operations.PostTopups where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -92,7 +91,7 @@ data PostTopupsRequestBody
         -- * Maximum length of 5000
         postTopupsRequestBodyDescription :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postTopupsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postTopupsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
         postTopupsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | source: The ID of a source to transfer funds from. For most users, this should be left unspecified which will use the bank account that was set up in the dashboard for the specified currency. In test mode, this can be a test bank token (see [Testing Top-ups](https:\/\/stripe.com\/docs\/connect\/testing\#testing-top-ups)).
@@ -115,7 +114,7 @@ data PostTopupsRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostTopupsRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostTopupsRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "amount" (postTopupsRequestBodyAmount obj) : (Data.Aeson..=) "currency" (postTopupsRequestBodyCurrency obj) : (Data.Aeson..=) "description" (postTopupsRequestBodyDescription obj) : (Data.Aeson..=) "expand" (postTopupsRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postTopupsRequestBodyMetadata obj) : (Data.Aeson..=) "source" (postTopupsRequestBodySource obj) : (Data.Aeson..=) "statement_descriptor" (postTopupsRequestBodyStatementDescriptor obj) : (Data.Aeson..=) "transfer_group" (postTopupsRequestBodyTransferGroup obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "amount" (postTopupsRequestBodyAmount obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postTopupsRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "description" (postTopupsRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postTopupsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postTopupsRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "source" (postTopupsRequestBodySource obj) GHC.Base.<> ((Data.Aeson..=) "statement_descriptor" (postTopupsRequestBodyStatementDescriptor obj) GHC.Base.<> (Data.Aeson..=) "transfer_group" (postTopupsRequestBodyTransferGroup obj))))))))
 
@@ -133,71 +132,3 @@ data PostTopupsResponse
   | -- | Error response.
     PostTopupsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/topups
---
--- The same as 'postTopups' but accepts an explicit configuration.
-postTopupsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  PostTopupsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostTopupsResponse)
-postTopupsWithConfiguration
-  config
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostTopupsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostTopupsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Topup
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostTopupsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/topups") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/topups
---
--- The same as 'postTopups' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postTopupsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The request body to send
-  PostTopupsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postTopupsRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/topups") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/topups
---
--- The same as 'postTopups' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postTopupsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  PostTopupsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postTopupsWithConfigurationRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/topups") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

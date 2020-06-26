@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postRecipients
 module StripeAPI.Operations.PostRecipients where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -107,7 +106,7 @@ data PostRecipientsRequestBody
         -- * Maximum length of 5000
         postRecipientsRequestBodyEmail :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postRecipientsRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postRecipientsRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
         postRecipientsRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | name: The recipient\'s full, legal name. For type \`individual\`, should be in the format \`First Last\`, \`First Middle Last\`, or \`First M Last\` (no prefixes or suffixes). For \`corporation\`, the full, incorporated name.
@@ -134,7 +133,7 @@ data PostRecipientsRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostRecipientsRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostRecipientsRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "bank_account" (postRecipientsRequestBodyBankAccount obj) : (Data.Aeson..=) "card" (postRecipientsRequestBodyCard obj) : (Data.Aeson..=) "description" (postRecipientsRequestBodyDescription obj) : (Data.Aeson..=) "email" (postRecipientsRequestBodyEmail obj) : (Data.Aeson..=) "expand" (postRecipientsRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postRecipientsRequestBodyMetadata obj) : (Data.Aeson..=) "name" (postRecipientsRequestBodyName obj) : (Data.Aeson..=) "tax_id" (postRecipientsRequestBodyTaxId obj) : (Data.Aeson..=) "type" (postRecipientsRequestBodyType obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "bank_account" (postRecipientsRequestBodyBankAccount obj) GHC.Base.<> ((Data.Aeson..=) "card" (postRecipientsRequestBodyCard obj) GHC.Base.<> ((Data.Aeson..=) "description" (postRecipientsRequestBodyDescription obj) GHC.Base.<> ((Data.Aeson..=) "email" (postRecipientsRequestBodyEmail obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postRecipientsRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postRecipientsRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "name" (postRecipientsRequestBodyName obj) GHC.Base.<> ((Data.Aeson..=) "tax_id" (postRecipientsRequestBodyTaxId obj) GHC.Base.<> (Data.Aeson..=) "type" (postRecipientsRequestBodyType obj)))))))))
 
@@ -152,71 +151,3 @@ data PostRecipientsResponse
   | -- | Error response.
     PostRecipientsResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/recipients
---
--- The same as 'postRecipients' but accepts an explicit configuration.
-postRecipientsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  PostRecipientsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostRecipientsResponse)
-postRecipientsWithConfiguration
-  config
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostRecipientsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostRecipientsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Recipient
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostRecipientsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/recipients") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/recipients
---
--- The same as 'postRecipients' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postRecipientsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The request body to send
-  PostRecipientsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postRecipientsRaw body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/recipients") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/recipients
---
--- The same as 'postRecipients' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postRecipientsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | The request body to send
-  PostRecipientsRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postRecipientsWithConfigurationRaw
-  config
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack "/v1/recipients") [] (GHC.Maybe.Just body) StripeAPI.Common.RequestBodyEncodingFormData)

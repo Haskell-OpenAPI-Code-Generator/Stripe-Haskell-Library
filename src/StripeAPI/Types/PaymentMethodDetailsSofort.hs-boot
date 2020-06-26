@@ -1,0 +1,8 @@
+module StripeAPI.Types.PaymentMethodDetailsSofort where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data PaymentMethodDetailsSofort 
+instance Show PaymentMethodDetailsSofort 
+instance Eq PaymentMethodDetailsSofort 
+instance FromJSON PaymentMethodDetailsSofort 
+instance ToJSON PaymentMethodDetailsSofort 

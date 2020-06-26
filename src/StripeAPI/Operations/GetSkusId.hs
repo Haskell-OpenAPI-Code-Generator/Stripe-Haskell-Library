@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getSkusId
 module StripeAPI.Operations.GetSkusId where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -90,14 +89,14 @@ data GetSkusIdParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getSkusIdParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
+        getSkusIdParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSkusIdParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSkusIdParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getSkusIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getSkusIdParametersQueryExpand obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getSkusIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getSkusIdParametersQueryExpand obj))
 
@@ -163,7 +162,7 @@ data GetSkusIdResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSkusIdResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSkusIdResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (getSkusIdResponseBody200Active obj) : (Data.Aeson..=) "attributes" (getSkusIdResponseBody200Attributes obj) : (Data.Aeson..=) "created" (getSkusIdResponseBody200Created obj) : (Data.Aeson..=) "currency" (getSkusIdResponseBody200Currency obj) : (Data.Aeson..=) "deleted" (getSkusIdResponseBody200Deleted obj) : (Data.Aeson..=) "id" (getSkusIdResponseBody200Id obj) : (Data.Aeson..=) "image" (getSkusIdResponseBody200Image obj) : (Data.Aeson..=) "inventory" (getSkusIdResponseBody200Inventory obj) : (Data.Aeson..=) "livemode" (getSkusIdResponseBody200Livemode obj) : (Data.Aeson..=) "metadata" (getSkusIdResponseBody200Metadata obj) : (Data.Aeson..=) "object" (getSkusIdResponseBody200Object obj) : (Data.Aeson..=) "package_dimensions" (getSkusIdResponseBody200PackageDimensions obj) : (Data.Aeson..=) "price" (getSkusIdResponseBody200Price obj) : (Data.Aeson..=) "product" (getSkusIdResponseBody200Product obj) : (Data.Aeson..=) "updated" (getSkusIdResponseBody200Updated obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (getSkusIdResponseBody200Active obj) GHC.Base.<> ((Data.Aeson..=) "attributes" (getSkusIdResponseBody200Attributes obj) GHC.Base.<> ((Data.Aeson..=) "created" (getSkusIdResponseBody200Created obj) GHC.Base.<> ((Data.Aeson..=) "currency" (getSkusIdResponseBody200Currency obj) GHC.Base.<> ((Data.Aeson..=) "deleted" (getSkusIdResponseBody200Deleted obj) GHC.Base.<> ((Data.Aeson..=) "id" (getSkusIdResponseBody200Id obj) GHC.Base.<> ((Data.Aeson..=) "image" (getSkusIdResponseBody200Image obj) GHC.Base.<> ((Data.Aeson..=) "inventory" (getSkusIdResponseBody200Inventory obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (getSkusIdResponseBody200Livemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (getSkusIdResponseBody200Metadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSkusIdResponseBody200Object obj) GHC.Base.<> ((Data.Aeson..=) "package_dimensions" (getSkusIdResponseBody200PackageDimensions obj) GHC.Base.<> ((Data.Aeson..=) "price" (getSkusIdResponseBody200Price obj) GHC.Base.<> ((Data.Aeson..=) "product" (getSkusIdResponseBody200Product obj) GHC.Base.<> (Data.Aeson..=) "updated" (getSkusIdResponseBody200Updated obj)))))))))))))))
 
@@ -179,17 +178,16 @@ data GetSkusIdResponseBody200Deleted'
   | GetSkusIdResponseBody200Deleted'EnumBoolTrue
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSkusIdResponseBody200Deleted' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSkusIdResponseBody200Deleted' where
   toJSON (GetSkusIdResponseBody200Deleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetSkusIdResponseBody200Deleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetSkusIdResponseBody200Deleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
 
-instance Data.Aeson.FromJSON GetSkusIdResponseBody200Deleted' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200Deleted' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True
-          then GetSkusIdResponseBody200Deleted'EnumBoolTrue
-          else GetSkusIdResponseBody200Deleted'EnumOther val
+      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> GetSkusIdResponseBody200Deleted'EnumBoolTrue
+            | GHC.Base.otherwise -> GetSkusIdResponseBody200Deleted'EnumOther val
       )
 
 -- | Defines the enum schema GetSkusIdResponseBody200Object\'
@@ -201,17 +199,16 @@ data GetSkusIdResponseBody200Object'
   | GetSkusIdResponseBody200Object'EnumStringSku
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSkusIdResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSkusIdResponseBody200Object' where
   toJSON (GetSkusIdResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetSkusIdResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSkusIdResponseBody200Object'EnumStringSku) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku"
+  toJSON (GetSkusIdResponseBody200Object'EnumStringSku) = "sku"
 
-instance Data.Aeson.FromJSON GetSkusIdResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sku")
-          then GetSkusIdResponseBody200Object'EnumStringSku
-          else GetSkusIdResponseBody200Object'EnumOther val
+      ( if  | val GHC.Classes.== "sku" -> GetSkusIdResponseBody200Object'EnumStringSku
+            | GHC.Base.otherwise -> GetSkusIdResponseBody200Object'EnumOther val
       )
 
 -- | Defines the data type for the schema GetSkusIdResponseBody200Package_dimensions\'
@@ -233,7 +230,7 @@ data GetSkusIdResponseBody200PackageDimensions'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSkusIdResponseBody200PackageDimensions' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSkusIdResponseBody200PackageDimensions' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "height" (getSkusIdResponseBody200PackageDimensions'Height obj) : (Data.Aeson..=) "length" (getSkusIdResponseBody200PackageDimensions'Length obj) : (Data.Aeson..=) "weight" (getSkusIdResponseBody200PackageDimensions'Weight obj) : (Data.Aeson..=) "width" (getSkusIdResponseBody200PackageDimensions'Width obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "height" (getSkusIdResponseBody200PackageDimensions'Height obj) GHC.Base.<> ((Data.Aeson..=) "length" (getSkusIdResponseBody200PackageDimensions'Length obj) GHC.Base.<> ((Data.Aeson..=) "weight" (getSkusIdResponseBody200PackageDimensions'Weight obj) GHC.Base.<> (Data.Aeson..=) "width" (getSkusIdResponseBody200PackageDimensions'Width obj))))
 
@@ -246,78 +243,15 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200PackageDimen
 data GetSkusIdResponseBody200Product'Variants
   = GetSkusIdResponseBody200Product'Product Product
   | GetSkusIdResponseBody200Product'Text Data.Text.Internal.Text
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSkusIdResponseBody200Product'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetSkusIdResponseBody200Product'Variants where
+  toJSON (GetSkusIdResponseBody200Product'Product a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetSkusIdResponseBody200Product'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetSkusIdResponseBody200Product'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-
--- | > GET /v1/skus/{id}
---
--- The same as 'getSkusId' but accepts an explicit configuration.
-getSkusIdWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSkusIdParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetSkusIdResponse)
-getSkusIdWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetSkusIdResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetSkusIdResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetSkusIdResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetSkusIdResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSkusIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
-
--- | > GET /v1/skus/{id}
---
--- The same as 'getSkusId' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getSkusIdRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSkusIdParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getSkusIdRaw parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSkusIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
-
--- | > GET /v1/skus/{id}
---
--- The same as 'getSkusId' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getSkusIdWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSkusIdParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getSkusIdWithConfigurationRaw
-  config
-  parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSkusIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSkusIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
+instance Data.Aeson.Types.FromJSON.FromJSON GetSkusIdResponseBody200Product'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSkusIdResponseBody200Product'Product a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSkusIdResponseBody200Product'Text a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

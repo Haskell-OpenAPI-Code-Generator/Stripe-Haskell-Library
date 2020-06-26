@@ -4,5 +4,5 @@ import StripeHandling
 
 main :: IO ()
 main = do
-  result <- getCheckoutSessionIdRaw
+  result <- getCheckoutSessionId
   putStrLn result

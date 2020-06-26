@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postSkusId
 module StripeAPI.Operations.PostSkusId where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -94,7 +93,7 @@ data PostSkusIdRequestBody
         -- | currency: Three-letter [ISO currency code](https:\/\/www.iso.org\/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https:\/\/stripe.com\/docs\/currencies).
         postSkusIdRequestBodyCurrency :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postSkusIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postSkusIdRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | image: The URL of an image for this SKU, meant to be displayable to the customer.
         --
         -- Constraints:
@@ -121,7 +120,7 @@ data PostSkusIdRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSkusIdRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active" (postSkusIdRequestBodyActive obj) : (Data.Aeson..=) "attributes" (postSkusIdRequestBodyAttributes obj) : (Data.Aeson..=) "currency" (postSkusIdRequestBodyCurrency obj) : (Data.Aeson..=) "expand" (postSkusIdRequestBodyExpand obj) : (Data.Aeson..=) "image" (postSkusIdRequestBodyImage obj) : (Data.Aeson..=) "inventory" (postSkusIdRequestBodyInventory obj) : (Data.Aeson..=) "metadata" (postSkusIdRequestBodyMetadata obj) : (Data.Aeson..=) "package_dimensions" (postSkusIdRequestBodyPackageDimensions obj) : (Data.Aeson..=) "price" (postSkusIdRequestBodyPrice obj) : (Data.Aeson..=) "product" (postSkusIdRequestBodyProduct obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active" (postSkusIdRequestBodyActive obj) GHC.Base.<> ((Data.Aeson..=) "attributes" (postSkusIdRequestBodyAttributes obj) GHC.Base.<> ((Data.Aeson..=) "currency" (postSkusIdRequestBodyCurrency obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postSkusIdRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "image" (postSkusIdRequestBodyImage obj) GHC.Base.<> ((Data.Aeson..=) "inventory" (postSkusIdRequestBodyInventory obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postSkusIdRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "package_dimensions" (postSkusIdRequestBodyPackageDimensions obj) GHC.Base.<> ((Data.Aeson..=) "price" (postSkusIdRequestBodyPrice obj) GHC.Base.<> (Data.Aeson..=) "product" (postSkusIdRequestBodyProduct obj))))))))))
 
@@ -153,7 +152,7 @@ data PostSkusIdRequestBodyInventory'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSkusIdRequestBodyInventory' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBodyInventory' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "quantity" (postSkusIdRequestBodyInventory'Quantity obj) : (Data.Aeson..=) "type" (postSkusIdRequestBodyInventory'Type obj) : (Data.Aeson..=) "value" (postSkusIdRequestBodyInventory'Value obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "quantity" (postSkusIdRequestBodyInventory'Quantity obj) GHC.Base.<> ((Data.Aeson..=) "type" (postSkusIdRequestBodyInventory'Type obj) GHC.Base.<> (Data.Aeson..=) "value" (postSkusIdRequestBodyInventory'Value obj)))
 
@@ -169,25 +168,20 @@ data PostSkusIdRequestBodyInventory'Type'
   | PostSkusIdRequestBodyInventory'Type'EnumStringInfinite
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSkusIdRequestBodyInventory'Type' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBodyInventory'Type' where
   toJSON (PostSkusIdRequestBodyInventory'Type'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSkusIdRequestBodyInventory'Type'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSkusIdRequestBodyInventory'Type'EnumStringBucket) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bucket"
-  toJSON (PostSkusIdRequestBodyInventory'Type'EnumStringFinite) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "finite"
-  toJSON (PostSkusIdRequestBodyInventory'Type'EnumStringInfinite) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "infinite"
+  toJSON (PostSkusIdRequestBodyInventory'Type'EnumStringBucket) = "bucket"
+  toJSON (PostSkusIdRequestBodyInventory'Type'EnumStringFinite) = "finite"
+  toJSON (PostSkusIdRequestBodyInventory'Type'EnumStringInfinite) = "infinite"
 
-instance Data.Aeson.FromJSON PostSkusIdRequestBodyInventory'Type' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyInventory'Type' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bucket")
-          then PostSkusIdRequestBodyInventory'Type'EnumStringBucket
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "finite")
-              then PostSkusIdRequestBodyInventory'Type'EnumStringFinite
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "infinite")
-                  then PostSkusIdRequestBodyInventory'Type'EnumStringInfinite
-                  else PostSkusIdRequestBodyInventory'Type'EnumOther val
+      ( if  | val GHC.Classes.== "bucket" -> PostSkusIdRequestBodyInventory'Type'EnumStringBucket
+            | val GHC.Classes.== "finite" -> PostSkusIdRequestBodyInventory'Type'EnumStringFinite
+            | val GHC.Classes.== "infinite" -> PostSkusIdRequestBodyInventory'Type'EnumStringInfinite
+            | GHC.Base.otherwise -> PostSkusIdRequestBodyInventory'Type'EnumOther val
       )
 
 -- | Defines the enum schema postSkusIdRequestBodyInventory\'Value\'
@@ -200,29 +194,22 @@ data PostSkusIdRequestBodyInventory'Value'
   | PostSkusIdRequestBodyInventory'Value'EnumStringOutOfStock
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSkusIdRequestBodyInventory'Value' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBodyInventory'Value' where
   toJSON (PostSkusIdRequestBodyInventory'Value'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSkusIdRequestBodyInventory'Value'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSkusIdRequestBodyInventory'Value'EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
-  toJSON (PostSkusIdRequestBodyInventory'Value'EnumStringInStock) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "in_stock"
-  toJSON (PostSkusIdRequestBodyInventory'Value'EnumStringLimited) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "limited"
-  toJSON (PostSkusIdRequestBodyInventory'Value'EnumStringOutOfStock) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "out_of_stock"
+  toJSON (PostSkusIdRequestBodyInventory'Value'EnumString_) = ""
+  toJSON (PostSkusIdRequestBodyInventory'Value'EnumStringInStock) = "in_stock"
+  toJSON (PostSkusIdRequestBodyInventory'Value'EnumStringLimited) = "limited"
+  toJSON (PostSkusIdRequestBodyInventory'Value'EnumStringOutOfStock) = "out_of_stock"
 
-instance Data.Aeson.FromJSON PostSkusIdRequestBodyInventory'Value' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyInventory'Value' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostSkusIdRequestBodyInventory'Value'EnumString_
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "in_stock")
-              then PostSkusIdRequestBodyInventory'Value'EnumStringInStock
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "limited")
-                  then PostSkusIdRequestBodyInventory'Value'EnumStringLimited
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "out_of_stock")
-                      then PostSkusIdRequestBodyInventory'Value'EnumStringOutOfStock
-                      else PostSkusIdRequestBodyInventory'Value'EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostSkusIdRequestBodyInventory'Value'EnumString_
+            | val GHC.Classes.== "in_stock" -> PostSkusIdRequestBodyInventory'Value'EnumStringInStock
+            | val GHC.Classes.== "limited" -> PostSkusIdRequestBodyInventory'Value'EnumStringLimited
+            | val GHC.Classes.== "out_of_stock" -> PostSkusIdRequestBodyInventory'Value'EnumStringOutOfStock
+            | GHC.Base.otherwise -> PostSkusIdRequestBodyInventory'Value'EnumOther val
       )
 
 -- | Defines the enum schema postSkusIdRequestBodyPackage_dimensions\'OneOf1
@@ -232,17 +219,16 @@ data PostSkusIdRequestBodyPackageDimensions'OneOf1
   | PostSkusIdRequestBodyPackageDimensions'OneOf1EnumString_
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSkusIdRequestBodyPackageDimensions'OneOf1 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBodyPackageDimensions'OneOf1 where
   toJSON (PostSkusIdRequestBodyPackageDimensions'OneOf1EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostSkusIdRequestBodyPackageDimensions'OneOf1EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostSkusIdRequestBodyPackageDimensions'OneOf1EnumString_) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack ""
+  toJSON (PostSkusIdRequestBodyPackageDimensions'OneOf1EnumString_) = ""
 
-instance Data.Aeson.FromJSON PostSkusIdRequestBodyPackageDimensions'OneOf1 where
+instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyPackageDimensions'OneOf1 where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "")
-          then PostSkusIdRequestBodyPackageDimensions'OneOf1EnumString_
-          else PostSkusIdRequestBodyPackageDimensions'OneOf1EnumOther val
+      ( if  | val GHC.Classes.== "" -> PostSkusIdRequestBodyPackageDimensions'OneOf1EnumString_
+            | GHC.Base.otherwise -> PostSkusIdRequestBodyPackageDimensions'OneOf1EnumOther val
       )
 
 -- | Defines the data type for the schema postSkusIdRequestBodyPackage_dimensions\'OneOf2
@@ -262,7 +248,7 @@ data PostSkusIdRequestBodyPackageDimensions'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostSkusIdRequestBodyPackageDimensions'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBodyPackageDimensions'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "height" (postSkusIdRequestBodyPackageDimensions'OneOf2Height obj) : (Data.Aeson..=) "length" (postSkusIdRequestBodyPackageDimensions'OneOf2Length obj) : (Data.Aeson..=) "weight" (postSkusIdRequestBodyPackageDimensions'OneOf2Weight obj) : (Data.Aeson..=) "width" (postSkusIdRequestBodyPackageDimensions'OneOf2Width obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "height" (postSkusIdRequestBodyPackageDimensions'OneOf2Height obj) GHC.Base.<> ((Data.Aeson..=) "length" (postSkusIdRequestBodyPackageDimensions'OneOf2Length obj) GHC.Base.<> ((Data.Aeson..=) "weight" (postSkusIdRequestBodyPackageDimensions'OneOf2Weight obj) GHC.Base.<> (Data.Aeson..=) "width" (postSkusIdRequestBodyPackageDimensions'OneOf2Width obj))))
 
@@ -275,13 +261,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyPackageDimensio
 data PostSkusIdRequestBodyPackageDimensions'Variants
   = PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf1 PostSkusIdRequestBodyPackageDimensions'OneOf1
   | PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf2 PostSkusIdRequestBodyPackageDimensions'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostSkusIdRequestBodyPackageDimensions'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON PostSkusIdRequestBodyPackageDimensions'Variants where
+  toJSON (PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf1 a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON PostSkusIdRequestBodyPackageDimensions'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON PostSkusIdRequestBodyPackageDimensions'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf1 a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ PostSkusIdRequestBodyPackageDimensions'PostSkusIdRequestBodyPackageDimensions'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'postSkusId'.
 --
@@ -294,81 +285,3 @@ data PostSkusIdResponse
   | -- | Error response.
     PostSkusIdResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/skus/{id}
---
--- The same as 'postSkusId' but accepts an explicit configuration.
-postSkusIdWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostSkusIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostSkusIdResponse)
-postSkusIdWithConfiguration
-  config
-  id
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostSkusIdResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostSkusIdResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Sku
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostSkusIdResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/skus/{id}
---
--- The same as 'postSkusId' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postSkusIdRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostSkusIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postSkusIdRaw
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/skus/{id}
---
--- The same as 'postSkusId' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postSkusIdWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostSkusIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postSkusIdWithConfigurationRaw
-  config
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/skus/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

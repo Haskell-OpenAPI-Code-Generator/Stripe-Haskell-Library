@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getIssuingTransactions
 module StripeAPI.Operations.GetIssuingTransactions where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -133,7 +132,7 @@ data GetIssuingTransactionsParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getIssuingTransactionsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getIssuingTransactionsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -160,7 +159,7 @@ data GetIssuingTransactionsParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetIssuingTransactionsParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingTransactionsParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCard" (getIssuingTransactionsParametersQueryCard obj) : (Data.Aeson..=) "queryCardholder" (getIssuingTransactionsParametersQueryCardholder obj) : (Data.Aeson..=) "queryCreated" (getIssuingTransactionsParametersQueryCreated obj) : (Data.Aeson..=) "queryDispute" (getIssuingTransactionsParametersQueryDispute obj) : (Data.Aeson..=) "queryEnding_before" (getIssuingTransactionsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getIssuingTransactionsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getIssuingTransactionsParametersQueryLimit obj) : (Data.Aeson..=) "querySettlement" (getIssuingTransactionsParametersQuerySettlement obj) : (Data.Aeson..=) "queryStarting_after" (getIssuingTransactionsParametersQueryStartingAfter obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCard" (getIssuingTransactionsParametersQueryCard obj) GHC.Base.<> ((Data.Aeson..=) "queryCardholder" (getIssuingTransactionsParametersQueryCardholder obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getIssuingTransactionsParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryDispute" (getIssuingTransactionsParametersQueryDispute obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getIssuingTransactionsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getIssuingTransactionsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getIssuingTransactionsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "querySettlement" (getIssuingTransactionsParametersQuerySettlement obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getIssuingTransactionsParametersQueryStartingAfter obj)))))))))
 
@@ -184,7 +183,7 @@ data GetIssuingTransactionsParametersQueryCreated'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetIssuingTransactionsParametersQueryCreated'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingTransactionsParametersQueryCreated'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getIssuingTransactionsParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getIssuingTransactionsParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getIssuingTransactionsParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getIssuingTransactionsParametersQueryCreated'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getIssuingTransactionsParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getIssuingTransactionsParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getIssuingTransactionsParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getIssuingTransactionsParametersQueryCreated'OneOf2Lte obj))))
 
@@ -199,13 +198,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsParametersQuer
 data GetIssuingTransactionsParametersQueryCreated'Variants
   = GetIssuingTransactionsParametersQueryCreated'Int GHC.Types.Int
   | GetIssuingTransactionsParametersQueryCreated'GetIssuingTransactionsParametersQueryCreated'OneOf2 GetIssuingTransactionsParametersQueryCreated'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetIssuingTransactionsParametersQueryCreated'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingTransactionsParametersQueryCreated'Variants where
+  toJSON (GetIssuingTransactionsParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetIssuingTransactionsParametersQueryCreated'GetIssuingTransactionsParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetIssuingTransactionsParametersQueryCreated'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsParametersQueryCreated'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetIssuingTransactionsParametersQueryCreated'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetIssuingTransactionsParametersQueryCreated'GetIssuingTransactionsParametersQueryCreated'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getIssuingTransactions'.
 --
@@ -223,7 +227,7 @@ data GetIssuingTransactionsResponse
 data GetIssuingTransactionsResponseBody200
   = GetIssuingTransactionsResponseBody200
       { -- | data
-        getIssuingTransactionsResponseBody200Data :: ([] Issuing'transaction),
+        getIssuingTransactionsResponseBody200Data :: ([Issuing'transaction]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getIssuingTransactionsResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -241,7 +245,7 @@ data GetIssuingTransactionsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetIssuingTransactionsResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingTransactionsResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getIssuingTransactionsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getIssuingTransactionsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getIssuingTransactionsResponseBody200Object obj) : (Data.Aeson..=) "url" (getIssuingTransactionsResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getIssuingTransactionsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getIssuingTransactionsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getIssuingTransactionsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getIssuingTransactionsResponseBody200Url obj))))
 
@@ -257,128 +261,14 @@ data GetIssuingTransactionsResponseBody200Object'
   | GetIssuingTransactionsResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetIssuingTransactionsResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetIssuingTransactionsResponseBody200Object' where
   toJSON (GetIssuingTransactionsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetIssuingTransactionsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetIssuingTransactionsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetIssuingTransactionsResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetIssuingTransactionsResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetIssuingTransactionsResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetIssuingTransactionsResponseBody200Object'EnumStringList
-          else GetIssuingTransactionsResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/issuing/transactions
---
--- The same as 'getIssuingTransactions' but accepts an explicit configuration.
-getIssuingTransactionsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetIssuingTransactionsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetIssuingTransactionsResponse)
-getIssuingTransactionsWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetIssuingTransactionsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetIssuingTransactionsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetIssuingTransactionsResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetIssuingTransactionsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/transactions")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "card") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryCard parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "cardholder") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryCardholder parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "dispute") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryDispute parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "settlement") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQuerySettlement parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/issuing/transactions
---
--- The same as 'getIssuingTransactions' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getIssuingTransactionsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetIssuingTransactionsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getIssuingTransactionsRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/issuing/transactions")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "card") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryCard parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "cardholder") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryCardholder parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "dispute") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryDispute parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "settlement") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQuerySettlement parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/issuing/transactions
---
--- The same as 'getIssuingTransactions' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getIssuingTransactionsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetIssuingTransactionsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getIssuingTransactionsWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/issuing/transactions")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "card") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryCard parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "cardholder") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryCardholder parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "dispute") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryDispute parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "settlement") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQuerySettlement parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getIssuingTransactionsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetIssuingTransactionsResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetIssuingTransactionsResponseBody200Object'EnumOther val
       )

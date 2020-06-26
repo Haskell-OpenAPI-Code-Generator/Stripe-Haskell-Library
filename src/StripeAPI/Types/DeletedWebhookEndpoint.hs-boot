@@ -1,0 +1,18 @@
+module StripeAPI.Types.DeletedWebhookEndpoint where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data DeletedWebhookEndpoint 
+instance Show DeletedWebhookEndpoint 
+instance Eq DeletedWebhookEndpoint 
+instance FromJSON DeletedWebhookEndpoint 
+instance ToJSON DeletedWebhookEndpoint 
+data DeletedWebhookEndpointDeleted'
+instance Show DeletedWebhookEndpointDeleted'
+instance Eq DeletedWebhookEndpointDeleted'
+instance FromJSON DeletedWebhookEndpointDeleted'
+instance ToJSON DeletedWebhookEndpointDeleted'
+data DeletedWebhookEndpointObject'
+instance Show DeletedWebhookEndpointObject'
+instance Eq DeletedWebhookEndpointObject'
+instance FromJSON DeletedWebhookEndpointObject'
+instance ToJSON DeletedWebhookEndpointObject'

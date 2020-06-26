@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getSubscriptionItemsSubscriptionItemUsageRecordSummaries
 module StripeAPI.Operations.GetSubscriptionItemsSubscriptionItemUsageRecordSummaries where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -104,7 +103,7 @@ data GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -123,7 +122,7 @@ data GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathSubscription_item" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersPathSubscriptionItem obj) : (Data.Aeson..=) "queryEnding_before" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryStartingAfter obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathSubscription_item" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersPathSubscriptionItem obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryLimit obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryStartingAfter obj)))))
 
@@ -146,7 +145,7 @@ data GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponse
 data GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200
   = GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200
       { -- | data
-        getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Data :: ([] UsageRecordSummary),
+        getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Data :: ([UsageRecordSummary]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -163,7 +162,7 @@ data GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object obj) : (Data.Aeson..=) "url" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Url obj))))
 
@@ -179,113 +178,14 @@ data GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Obje
   | GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object' where
   toJSON (GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumStringList
-          else GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/subscription_items/{subscription_item}/usage_record_summaries
---
--- The same as 'getSubscriptionItemsSubscriptionItemUsageRecordSummaries' but accepts an explicit configuration.
-getSubscriptionItemsSubscriptionItemUsageRecordSummariesWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponse)
-getSubscriptionItemsSubscriptionItemUsageRecordSummariesWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersPathSubscriptionItem parameters))) GHC.Base.++ "/usage_record_summaries")))
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/subscription_items/{subscription_item}/usage_record_summaries
---
--- The same as 'getSubscriptionItemsSubscriptionItemUsageRecordSummaries' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getSubscriptionItemsSubscriptionItemUsageRecordSummariesRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getSubscriptionItemsSubscriptionItemUsageRecordSummariesRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersPathSubscriptionItem parameters))) GHC.Base.++ "/usage_record_summaries")))
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/subscription_items/{subscription_item}/usage_record_summaries
---
--- The same as 'getSubscriptionItemsSubscriptionItemUsageRecordSummaries' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getSubscriptionItemsSubscriptionItemUsageRecordSummariesWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSubscriptionItemsSubscriptionItemUsageRecordSummariesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getSubscriptionItemsSubscriptionItemUsageRecordSummariesWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack ("/v1/subscription_items/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersPathSubscriptionItem parameters))) GHC.Base.++ "/usage_record_summaries")))
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionItemsSubscriptionItemUsageRecordSummariesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetSubscriptionItemsSubscriptionItemUsageRecordSummariesResponseBody200Object'EnumOther val
       )

@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation postOrdersId
 module StripeAPI.Operations.PostOrdersId where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -92,7 +91,7 @@ data PostOrdersIdRequestBody
         -- * Maximum length of 5000
         postOrdersIdRequestBodyCoupon :: (GHC.Maybe.Maybe Data.Text.Internal.Text),
         -- | expand: Specifies which fields in the response should be expanded.
-        postOrdersIdRequestBodyExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        postOrdersIdRequestBodyExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | metadata: Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to \`metadata\`.
         postOrdersIdRequestBodyMetadata :: (GHC.Maybe.Maybe Data.Aeson.Types.Internal.Object),
         -- | selected_shipping_method: The shipping method to select for fulfilling this order. If specified, must be one of the \`id\`s of a shipping method in the \`shipping_methods\` array. If specified, will overwrite the existing selected shipping method, updating \`items\` as necessary.
@@ -115,7 +114,7 @@ data PostOrdersIdRequestBody
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostOrdersIdRequestBody where
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersIdRequestBody where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "coupon" (postOrdersIdRequestBodyCoupon obj) : (Data.Aeson..=) "expand" (postOrdersIdRequestBodyExpand obj) : (Data.Aeson..=) "metadata" (postOrdersIdRequestBodyMetadata obj) : (Data.Aeson..=) "selected_shipping_method" (postOrdersIdRequestBodySelectedShippingMethod obj) : (Data.Aeson..=) "shipping" (postOrdersIdRequestBodyShipping obj) : (Data.Aeson..=) "status" (postOrdersIdRequestBodyStatus obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "coupon" (postOrdersIdRequestBodyCoupon obj) GHC.Base.<> ((Data.Aeson..=) "expand" (postOrdersIdRequestBodyExpand obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (postOrdersIdRequestBodyMetadata obj) GHC.Base.<> ((Data.Aeson..=) "selected_shipping_method" (postOrdersIdRequestBodySelectedShippingMethod obj) GHC.Base.<> ((Data.Aeson..=) "shipping" (postOrdersIdRequestBodyShipping obj) GHC.Base.<> (Data.Aeson..=) "status" (postOrdersIdRequestBodyStatus obj))))))
 
@@ -145,7 +144,7 @@ data PostOrdersIdRequestBodyShipping'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON PostOrdersIdRequestBodyShipping' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersIdRequestBodyShipping' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "carrier" (postOrdersIdRequestBodyShipping'Carrier obj) : (Data.Aeson..=) "tracking_number" (postOrdersIdRequestBodyShipping'TrackingNumber obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "carrier" (postOrdersIdRequestBodyShipping'Carrier obj) GHC.Base.<> (Data.Aeson..=) "tracking_number" (postOrdersIdRequestBodyShipping'TrackingNumber obj))
 
@@ -165,33 +164,24 @@ data PostOrdersIdRequestBodyStatus'
   | PostOrdersIdRequestBodyStatus'EnumStringReturned
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON PostOrdersIdRequestBodyStatus' where
+instance Data.Aeson.Types.ToJSON.ToJSON PostOrdersIdRequestBodyStatus' where
   toJSON (PostOrdersIdRequestBodyStatus'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (PostOrdersIdRequestBodyStatus'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (PostOrdersIdRequestBodyStatus'EnumStringCanceled) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "canceled"
-  toJSON (PostOrdersIdRequestBodyStatus'EnumStringCreated) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "created"
-  toJSON (PostOrdersIdRequestBodyStatus'EnumStringFulfilled) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fulfilled"
-  toJSON (PostOrdersIdRequestBodyStatus'EnumStringPaid) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "paid"
-  toJSON (PostOrdersIdRequestBodyStatus'EnumStringReturned) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "returned"
+  toJSON (PostOrdersIdRequestBodyStatus'EnumStringCanceled) = "canceled"
+  toJSON (PostOrdersIdRequestBodyStatus'EnumStringCreated) = "created"
+  toJSON (PostOrdersIdRequestBodyStatus'EnumStringFulfilled) = "fulfilled"
+  toJSON (PostOrdersIdRequestBodyStatus'EnumStringPaid) = "paid"
+  toJSON (PostOrdersIdRequestBodyStatus'EnumStringReturned) = "returned"
 
-instance Data.Aeson.FromJSON PostOrdersIdRequestBodyStatus' where
+instance Data.Aeson.Types.FromJSON.FromJSON PostOrdersIdRequestBodyStatus' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "canceled")
-          then PostOrdersIdRequestBodyStatus'EnumStringCanceled
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "created")
-              then PostOrdersIdRequestBodyStatus'EnumStringCreated
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fulfilled")
-                  then PostOrdersIdRequestBodyStatus'EnumStringFulfilled
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "paid")
-                      then PostOrdersIdRequestBodyStatus'EnumStringPaid
-                      else
-                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "returned")
-                          then PostOrdersIdRequestBodyStatus'EnumStringReturned
-                          else PostOrdersIdRequestBodyStatus'EnumOther val
+      ( if  | val GHC.Classes.== "canceled" -> PostOrdersIdRequestBodyStatus'EnumStringCanceled
+            | val GHC.Classes.== "created" -> PostOrdersIdRequestBodyStatus'EnumStringCreated
+            | val GHC.Classes.== "fulfilled" -> PostOrdersIdRequestBodyStatus'EnumStringFulfilled
+            | val GHC.Classes.== "paid" -> PostOrdersIdRequestBodyStatus'EnumStringPaid
+            | val GHC.Classes.== "returned" -> PostOrdersIdRequestBodyStatus'EnumStringReturned
+            | GHC.Base.otherwise -> PostOrdersIdRequestBodyStatus'EnumOther val
       )
 
 -- | Represents a response of the operation 'postOrdersId'.
@@ -205,81 +195,3 @@ data PostOrdersIdResponse
   | -- | Error response.
     PostOrdersIdResponseDefault Error
   deriving (GHC.Show.Show, GHC.Classes.Eq)
-
--- | > POST /v1/orders/{id}
---
--- The same as 'postOrdersId' but accepts an explicit configuration.
-postOrdersIdWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostOrdersIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response PostOrdersIdResponse)
-postOrdersIdWithConfiguration
-  config
-  id
-  body =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either PostOrdersIdResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostOrdersIdResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Order
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     PostOrdersIdResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/orders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/orders/{id}
---
--- The same as 'postOrdersId' but returns the raw 'Data.ByteString.Char8.ByteString'.
-postOrdersIdRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostOrdersIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postOrdersIdRaw
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/orders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)
-
--- | > POST /v1/orders/{id}
---
--- The same as 'postOrdersId' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-postOrdersIdWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | id | Constraints: Maximum length of 5000
-  Data.Text.Internal.Text ->
-  -- | The request body to send
-  GHC.Maybe.Maybe PostOrdersIdRequestBody ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-postOrdersIdWithConfigurationRaw
-  config
-  id
-  body = GHC.Base.id (StripeAPI.Common.doBodyCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "POST") (Data.Text.pack ("/v1/orders/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel id)) GHC.Base.++ ""))) [] body StripeAPI.Common.RequestBodyEncodingFormData)

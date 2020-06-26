@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getRecipientsId
 module StripeAPI.Operations.GetRecipientsId where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -90,14 +89,14 @@ data GetRecipientsIdParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getRecipientsIdParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text))
+        getRecipientsIdParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text]))
       }
   deriving
     ( GHC.Show.Show,
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetRecipientsIdParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "pathId" (getRecipientsIdParametersPathId obj) : (Data.Aeson..=) "queryExpand" (getRecipientsIdParametersQueryExpand obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "pathId" (getRecipientsIdParametersPathId obj) GHC.Base.<> (Data.Aeson..=) "queryExpand" (getRecipientsIdParametersQueryExpand obj))
 
@@ -175,7 +174,7 @@ data GetRecipientsIdResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "active_account" (getRecipientsIdResponseBody200ActiveAccount obj) : (Data.Aeson..=) "cards" (getRecipientsIdResponseBody200Cards obj) : (Data.Aeson..=) "created" (getRecipientsIdResponseBody200Created obj) : (Data.Aeson..=) "default_card" (getRecipientsIdResponseBody200DefaultCard obj) : (Data.Aeson..=) "deleted" (getRecipientsIdResponseBody200Deleted obj) : (Data.Aeson..=) "description" (getRecipientsIdResponseBody200Description obj) : (Data.Aeson..=) "email" (getRecipientsIdResponseBody200Email obj) : (Data.Aeson..=) "id" (getRecipientsIdResponseBody200Id obj) : (Data.Aeson..=) "livemode" (getRecipientsIdResponseBody200Livemode obj) : (Data.Aeson..=) "metadata" (getRecipientsIdResponseBody200Metadata obj) : (Data.Aeson..=) "migrated_to" (getRecipientsIdResponseBody200MigratedTo obj) : (Data.Aeson..=) "name" (getRecipientsIdResponseBody200Name obj) : (Data.Aeson..=) "object" (getRecipientsIdResponseBody200Object obj) : (Data.Aeson..=) "rolled_back_from" (getRecipientsIdResponseBody200RolledBackFrom obj) : (Data.Aeson..=) "type" (getRecipientsIdResponseBody200Type obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "active_account" (getRecipientsIdResponseBody200ActiveAccount obj) GHC.Base.<> ((Data.Aeson..=) "cards" (getRecipientsIdResponseBody200Cards obj) GHC.Base.<> ((Data.Aeson..=) "created" (getRecipientsIdResponseBody200Created obj) GHC.Base.<> ((Data.Aeson..=) "default_card" (getRecipientsIdResponseBody200DefaultCard obj) GHC.Base.<> ((Data.Aeson..=) "deleted" (getRecipientsIdResponseBody200Deleted obj) GHC.Base.<> ((Data.Aeson..=) "description" (getRecipientsIdResponseBody200Description obj) GHC.Base.<> ((Data.Aeson..=) "email" (getRecipientsIdResponseBody200Email obj) GHC.Base.<> ((Data.Aeson..=) "id" (getRecipientsIdResponseBody200Id obj) GHC.Base.<> ((Data.Aeson..=) "livemode" (getRecipientsIdResponseBody200Livemode obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (getRecipientsIdResponseBody200Metadata obj) GHC.Base.<> ((Data.Aeson..=) "migrated_to" (getRecipientsIdResponseBody200MigratedTo obj) GHC.Base.<> ((Data.Aeson..=) "name" (getRecipientsIdResponseBody200Name obj) GHC.Base.<> ((Data.Aeson..=) "object" (getRecipientsIdResponseBody200Object obj) GHC.Base.<> ((Data.Aeson..=) "rolled_back_from" (getRecipientsIdResponseBody200RolledBackFrom obj) GHC.Base.<> (Data.Aeson..=) "type" (getRecipientsIdResponseBody200Type obj)))))))))))))))
 
@@ -261,7 +260,7 @@ data GetRecipientsIdResponseBody200ActiveAccount'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200ActiveAccount' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "account" (getRecipientsIdResponseBody200ActiveAccount'Account obj) : (Data.Aeson..=) "account_holder_name" (getRecipientsIdResponseBody200ActiveAccount'AccountHolderName obj) : (Data.Aeson..=) "account_holder_type" (getRecipientsIdResponseBody200ActiveAccount'AccountHolderType obj) : (Data.Aeson..=) "bank_name" (getRecipientsIdResponseBody200ActiveAccount'BankName obj) : (Data.Aeson..=) "country" (getRecipientsIdResponseBody200ActiveAccount'Country obj) : (Data.Aeson..=) "currency" (getRecipientsIdResponseBody200ActiveAccount'Currency obj) : (Data.Aeson..=) "customer" (getRecipientsIdResponseBody200ActiveAccount'Customer obj) : (Data.Aeson..=) "default_for_currency" (getRecipientsIdResponseBody200ActiveAccount'DefaultForCurrency obj) : (Data.Aeson..=) "fingerprint" (getRecipientsIdResponseBody200ActiveAccount'Fingerprint obj) : (Data.Aeson..=) "id" (getRecipientsIdResponseBody200ActiveAccount'Id obj) : (Data.Aeson..=) "last4" (getRecipientsIdResponseBody200ActiveAccount'Last4 obj) : (Data.Aeson..=) "metadata" (getRecipientsIdResponseBody200ActiveAccount'Metadata obj) : (Data.Aeson..=) "object" (getRecipientsIdResponseBody200ActiveAccount'Object obj) : (Data.Aeson..=) "routing_number" (getRecipientsIdResponseBody200ActiveAccount'RoutingNumber obj) : (Data.Aeson..=) "status" (getRecipientsIdResponseBody200ActiveAccount'Status obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "account" (getRecipientsIdResponseBody200ActiveAccount'Account obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_name" (getRecipientsIdResponseBody200ActiveAccount'AccountHolderName obj) GHC.Base.<> ((Data.Aeson..=) "account_holder_type" (getRecipientsIdResponseBody200ActiveAccount'AccountHolderType obj) GHC.Base.<> ((Data.Aeson..=) "bank_name" (getRecipientsIdResponseBody200ActiveAccount'BankName obj) GHC.Base.<> ((Data.Aeson..=) "country" (getRecipientsIdResponseBody200ActiveAccount'Country obj) GHC.Base.<> ((Data.Aeson..=) "currency" (getRecipientsIdResponseBody200ActiveAccount'Currency obj) GHC.Base.<> ((Data.Aeson..=) "customer" (getRecipientsIdResponseBody200ActiveAccount'Customer obj) GHC.Base.<> ((Data.Aeson..=) "default_for_currency" (getRecipientsIdResponseBody200ActiveAccount'DefaultForCurrency obj) GHC.Base.<> ((Data.Aeson..=) "fingerprint" (getRecipientsIdResponseBody200ActiveAccount'Fingerprint obj) GHC.Base.<> ((Data.Aeson..=) "id" (getRecipientsIdResponseBody200ActiveAccount'Id obj) GHC.Base.<> ((Data.Aeson..=) "last4" (getRecipientsIdResponseBody200ActiveAccount'Last4 obj) GHC.Base.<> ((Data.Aeson..=) "metadata" (getRecipientsIdResponseBody200ActiveAccount'Metadata obj) GHC.Base.<> ((Data.Aeson..=) "object" (getRecipientsIdResponseBody200ActiveAccount'Object obj) GHC.Base.<> ((Data.Aeson..=) "routing_number" (getRecipientsIdResponseBody200ActiveAccount'RoutingNumber obj) GHC.Base.<> (Data.Aeson..=) "status" (getRecipientsIdResponseBody200ActiveAccount'Status obj)))))))))))))))
 
@@ -274,13 +273,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200Active
 data GetRecipientsIdResponseBody200ActiveAccount'Account'Variants
   = GetRecipientsIdResponseBody200ActiveAccount'Account'Account Account
   | GetRecipientsIdResponseBody200ActiveAccount'Account'Text Data.Text.Internal.Text
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Account'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Account'Variants where
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Account'Account a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Account'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200ActiveAccount'Account'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount'Account'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsIdResponseBody200ActiveAccount'Account'Account a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsIdResponseBody200ActiveAccount'Account'Text a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Define the one-of schema GetRecipientsIdResponseBody200Active_account\'Customer\'
 --
@@ -289,13 +293,21 @@ data GetRecipientsIdResponseBody200ActiveAccount'Customer'Variants
   = GetRecipientsIdResponseBody200ActiveAccount'Customer'Customer Customer
   | GetRecipientsIdResponseBody200ActiveAccount'Customer'DeletedCustomer DeletedCustomer
   | GetRecipientsIdResponseBody200ActiveAccount'Customer'Text Data.Text.Internal.Text
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Customer'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Customer'Variants where
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Customer'Customer a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Customer'DeletedCustomer a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Customer'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200ActiveAccount'Customer'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount'Customer'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsIdResponseBody200ActiveAccount'Customer'Customer a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsIdResponseBody200ActiveAccount'Customer'DeletedCustomer a
+      Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+        Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsIdResponseBody200ActiveAccount'Customer'Text a
+        Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema GetRecipientsIdResponseBody200Active_account\'Object\'
 --
@@ -306,24 +318,23 @@ data GetRecipientsIdResponseBody200ActiveAccount'Object'
   | GetRecipientsIdResponseBody200ActiveAccount'Object'EnumStringBankAccount
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200ActiveAccount'Object' where
   toJSON (GetRecipientsIdResponseBody200ActiveAccount'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetRecipientsIdResponseBody200ActiveAccount'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Object'EnumStringBankAccount) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_account"
+  toJSON (GetRecipientsIdResponseBody200ActiveAccount'Object'EnumStringBankAccount) = "bank_account"
 
-instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200ActiveAccount'Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200ActiveAccount'Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "bank_account")
-          then GetRecipientsIdResponseBody200ActiveAccount'Object'EnumStringBankAccount
-          else GetRecipientsIdResponseBody200ActiveAccount'Object'EnumOther val
+      ( if  | val GHC.Classes.== "bank_account" -> GetRecipientsIdResponseBody200ActiveAccount'Object'EnumStringBankAccount
+            | GHC.Base.otherwise -> GetRecipientsIdResponseBody200ActiveAccount'Object'EnumOther val
       )
 
 -- | Defines the data type for the schema GetRecipientsIdResponseBody200Cards\'
 data GetRecipientsIdResponseBody200Cards'
   = GetRecipientsIdResponseBody200Cards'
       { -- | data
-        getRecipientsIdResponseBody200Cards'Data :: ([] Card),
+        getRecipientsIdResponseBody200Cards'Data :: ([Card]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getRecipientsIdResponseBody200Cards'HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -340,7 +351,7 @@ data GetRecipientsIdResponseBody200Cards'
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200Cards' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200Cards' where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getRecipientsIdResponseBody200Cards'Data obj) : (Data.Aeson..=) "has_more" (getRecipientsIdResponseBody200Cards'HasMore obj) : (Data.Aeson..=) "object" (getRecipientsIdResponseBody200Cards'Object obj) : (Data.Aeson..=) "url" (getRecipientsIdResponseBody200Cards'Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getRecipientsIdResponseBody200Cards'Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getRecipientsIdResponseBody200Cards'HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getRecipientsIdResponseBody200Cards'Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getRecipientsIdResponseBody200Cards'Url obj))))
 
@@ -356,17 +367,16 @@ data GetRecipientsIdResponseBody200Cards'Object'
   | GetRecipientsIdResponseBody200Cards'Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200Cards'Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200Cards'Object' where
   toJSON (GetRecipientsIdResponseBody200Cards'Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetRecipientsIdResponseBody200Cards'Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRecipientsIdResponseBody200Cards'Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetRecipientsIdResponseBody200Cards'Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200Cards'Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200Cards'Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetRecipientsIdResponseBody200Cards'Object'EnumStringList
-          else GetRecipientsIdResponseBody200Cards'Object'EnumOther val
+      ( if  | val GHC.Classes.== "list" -> GetRecipientsIdResponseBody200Cards'Object'EnumStringList
+            | GHC.Base.otherwise -> GetRecipientsIdResponseBody200Cards'Object'EnumOther val
       )
 
 -- | Define the one-of schema GetRecipientsIdResponseBody200Default_card\'
@@ -375,13 +385,18 @@ instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200Cards'Object' where
 data GetRecipientsIdResponseBody200DefaultCard'Variants
   = GetRecipientsIdResponseBody200DefaultCard'Card Card
   | GetRecipientsIdResponseBody200DefaultCard'Text Data.Text.Internal.Text
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200DefaultCard'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200DefaultCard'Variants where
+  toJSON (GetRecipientsIdResponseBody200DefaultCard'Card a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRecipientsIdResponseBody200DefaultCard'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200DefaultCard'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200DefaultCard'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsIdResponseBody200DefaultCard'Card a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsIdResponseBody200DefaultCard'Text a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema GetRecipientsIdResponseBody200Deleted\'
 --
@@ -392,17 +407,16 @@ data GetRecipientsIdResponseBody200Deleted'
   | GetRecipientsIdResponseBody200Deleted'EnumBoolTrue
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200Deleted' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200Deleted' where
   toJSON (GetRecipientsIdResponseBody200Deleted'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetRecipientsIdResponseBody200Deleted'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetRecipientsIdResponseBody200Deleted'EnumBoolTrue) = Data.Aeson.Types.Internal.Bool GHC.Types.True
 
-instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200Deleted' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200Deleted' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True
-          then GetRecipientsIdResponseBody200Deleted'EnumBoolTrue
-          else GetRecipientsIdResponseBody200Deleted'EnumOther val
+      ( if  | val GHC.Classes.== Data.Aeson.Types.Internal.Bool GHC.Types.True -> GetRecipientsIdResponseBody200Deleted'EnumBoolTrue
+            | GHC.Base.otherwise -> GetRecipientsIdResponseBody200Deleted'EnumOther val
       )
 
 -- | Define the one-of schema GetRecipientsIdResponseBody200Migrated_to\'
@@ -411,13 +425,18 @@ instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200Deleted' where
 data GetRecipientsIdResponseBody200MigratedTo'Variants
   = GetRecipientsIdResponseBody200MigratedTo'Account Account
   | GetRecipientsIdResponseBody200MigratedTo'Text Data.Text.Internal.Text
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200MigratedTo'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200MigratedTo'Variants where
+  toJSON (GetRecipientsIdResponseBody200MigratedTo'Account a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRecipientsIdResponseBody200MigratedTo'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200MigratedTo'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200MigratedTo'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsIdResponseBody200MigratedTo'Account a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsIdResponseBody200MigratedTo'Text a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the enum schema GetRecipientsIdResponseBody200Object\'
 --
@@ -428,95 +447,31 @@ data GetRecipientsIdResponseBody200Object'
   | GetRecipientsIdResponseBody200Object'EnumStringRecipient
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200Object' where
   toJSON (GetRecipientsIdResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetRecipientsIdResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetRecipientsIdResponseBody200Object'EnumStringRecipient) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "recipient"
+  toJSON (GetRecipientsIdResponseBody200Object'EnumStringRecipient) = "recipient"
 
-instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "recipient")
-          then GetRecipientsIdResponseBody200Object'EnumStringRecipient
-          else GetRecipientsIdResponseBody200Object'EnumOther val
+      ( if  | val GHC.Classes.== "recipient" -> GetRecipientsIdResponseBody200Object'EnumStringRecipient
+            | GHC.Base.otherwise -> GetRecipientsIdResponseBody200Object'EnumOther val
       )
 
 -- | Define the one-of schema GetRecipientsIdResponseBody200Rolled_back_from\'
 data GetRecipientsIdResponseBody200RolledBackFrom'Variants
   = GetRecipientsIdResponseBody200RolledBackFrom'Account Account
   | GetRecipientsIdResponseBody200RolledBackFrom'Text Data.Text.Internal.Text
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetRecipientsIdResponseBody200RolledBackFrom'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetRecipientsIdResponseBody200RolledBackFrom'Variants where
+  toJSON (GetRecipientsIdResponseBody200RolledBackFrom'Account a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetRecipientsIdResponseBody200RolledBackFrom'Text a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetRecipientsIdResponseBody200RolledBackFrom'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
-
--- | > GET /v1/recipients/{id}
---
--- The same as 'getRecipientsId' but accepts an explicit configuration.
-getRecipientsIdWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetRecipientsIdParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetRecipientsIdResponse)
-getRecipientsIdWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetRecipientsIdResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetRecipientsIdResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetRecipientsIdResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetRecipientsIdResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getRecipientsIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
-
--- | > GET /v1/recipients/{id}
---
--- The same as 'getRecipientsId' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getRecipientsIdRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetRecipientsIdParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getRecipientsIdRaw parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfigurationM (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getRecipientsIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
-
--- | > GET /v1/recipients/{id}
---
--- The same as 'getRecipientsId' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getRecipientsIdWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetRecipientsIdParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getRecipientsIdWithConfigurationRaw
-  config
-  parameters = GHC.Base.id (StripeAPI.Common.doCallWithConfiguration config (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET") (Data.Text.pack ("/v1/recipients/" GHC.Base.++ (Data.ByteString.Char8.unpack (Network.HTTP.Types.URI.urlEncode GHC.Types.True GHC.Base.$ (Data.ByteString.Char8.pack GHC.Base.$ StripeAPI.Common.stringifyModel (getRecipientsIdParametersPathId parameters))) GHC.Base.++ ""))) [StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getRecipientsIdParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True])
+instance Data.Aeson.Types.FromJSON.FromJSON GetRecipientsIdResponseBody200RolledBackFrom'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsIdResponseBody200RolledBackFrom'Account a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetRecipientsIdResponseBody200RolledBackFrom'Text a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a

@@ -8,7 +8,7 @@ available on Hackage https://hackage.haskell.org/package/openapi3-code-generator
 The files were auto generated and formatted (with [ormolu](https://github.com/tweag/ormolu)) with:
 
 ```bash
-openapi3-code-generator-exe stripe-api.yml --force --property-type-suffix="'" --module-name "StripeAPI" --convert-to-camel-case --package-name "stripeapi"
+openapi3-code-generator-exe stripe-api.yml --force --property-type-suffix="'" --module-name "StripeAPI" --convert-to-camel-case --omit-additional-operation-functions --package-name "stripeapi"
 for file in $(find out -name "*.hs"); do ormolu -m inplace $file; done
 ```
 

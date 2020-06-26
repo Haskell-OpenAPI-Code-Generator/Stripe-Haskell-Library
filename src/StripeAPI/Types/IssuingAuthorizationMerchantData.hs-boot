@@ -1,0 +1,8 @@
+module StripeAPI.Types.IssuingAuthorizationMerchantData where
+import Data.Aeson
+import qualified Data.Aeson as Data.Aeson.Types.Internal
+data IssuingAuthorizationMerchantData 
+instance Show IssuingAuthorizationMerchantData 
+instance Eq IssuingAuthorizationMerchantData 
+instance FromJSON IssuingAuthorizationMerchantData 
+instance ToJSON IssuingAuthorizationMerchantData 

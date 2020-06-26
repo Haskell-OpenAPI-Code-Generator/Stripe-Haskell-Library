@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getPaymentMethods
 module StripeAPI.Operations.GetPaymentMethods where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -106,7 +105,7 @@ data GetPaymentMethodsParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getPaymentMethodsParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getPaymentMethodsParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -129,7 +128,7 @@ data GetPaymentMethodsParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetPaymentMethodsParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentMethodsParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCustomer" (getPaymentMethodsParametersQueryCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getPaymentMethodsParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getPaymentMethodsParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getPaymentMethodsParametersQueryLimit obj) : (Data.Aeson..=) "queryStarting_after" (getPaymentMethodsParametersQueryStartingAfter obj) : (Data.Aeson..=) "queryType" (getPaymentMethodsParametersQueryType obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCustomer" (getPaymentMethodsParametersQueryCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getPaymentMethodsParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getPaymentMethodsParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getPaymentMethodsParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryStarting_after" (getPaymentMethodsParametersQueryStartingAfter obj) GHC.Base.<> (Data.Aeson..=) "queryType" (getPaymentMethodsParametersQueryType obj))))))
 
@@ -151,33 +150,24 @@ data GetPaymentMethodsParametersQueryType'
   | GetPaymentMethodsParametersQueryType'EnumStringSepaDebit
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetPaymentMethodsParametersQueryType' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentMethodsParametersQueryType' where
   toJSON (GetPaymentMethodsParametersQueryType'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetPaymentMethodsParametersQueryType'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetPaymentMethodsParametersQueryType'EnumStringCard) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card"
-  toJSON (GetPaymentMethodsParametersQueryType'EnumStringCardPresent) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card_present"
-  toJSON (GetPaymentMethodsParametersQueryType'EnumStringFpx) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fpx"
-  toJSON (GetPaymentMethodsParametersQueryType'EnumStringIdeal) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ideal"
-  toJSON (GetPaymentMethodsParametersQueryType'EnumStringSepaDebit) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sepa_debit"
+  toJSON (GetPaymentMethodsParametersQueryType'EnumStringCard) = "card"
+  toJSON (GetPaymentMethodsParametersQueryType'EnumStringCardPresent) = "card_present"
+  toJSON (GetPaymentMethodsParametersQueryType'EnumStringFpx) = "fpx"
+  toJSON (GetPaymentMethodsParametersQueryType'EnumStringIdeal) = "ideal"
+  toJSON (GetPaymentMethodsParametersQueryType'EnumStringSepaDebit) = "sepa_debit"
 
-instance Data.Aeson.FromJSON GetPaymentMethodsParametersQueryType' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetPaymentMethodsParametersQueryType' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card")
-          then GetPaymentMethodsParametersQueryType'EnumStringCard
-          else
-            if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "card_present")
-              then GetPaymentMethodsParametersQueryType'EnumStringCardPresent
-              else
-                if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "fpx")
-                  then GetPaymentMethodsParametersQueryType'EnumStringFpx
-                  else
-                    if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "ideal")
-                      then GetPaymentMethodsParametersQueryType'EnumStringIdeal
-                      else
-                        if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "sepa_debit")
-                          then GetPaymentMethodsParametersQueryType'EnumStringSepaDebit
-                          else GetPaymentMethodsParametersQueryType'EnumOther val
+      ( if  | val GHC.Classes.== "card" -> GetPaymentMethodsParametersQueryType'EnumStringCard
+            | val GHC.Classes.== "card_present" -> GetPaymentMethodsParametersQueryType'EnumStringCardPresent
+            | val GHC.Classes.== "fpx" -> GetPaymentMethodsParametersQueryType'EnumStringFpx
+            | val GHC.Classes.== "ideal" -> GetPaymentMethodsParametersQueryType'EnumStringIdeal
+            | val GHC.Classes.== "sepa_debit" -> GetPaymentMethodsParametersQueryType'EnumStringSepaDebit
+            | GHC.Base.otherwise -> GetPaymentMethodsParametersQueryType'EnumOther val
       )
 
 -- | Represents a response of the operation 'getPaymentMethods'.
@@ -196,7 +186,7 @@ data GetPaymentMethodsResponse
 data GetPaymentMethodsResponseBody200
   = GetPaymentMethodsResponseBody200
       { -- | data
-        getPaymentMethodsResponseBody200Data :: ([] PaymentMethod),
+        getPaymentMethodsResponseBody200Data :: ([PaymentMethod]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getPaymentMethodsResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -214,7 +204,7 @@ data GetPaymentMethodsResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetPaymentMethodsResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentMethodsResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getPaymentMethodsResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getPaymentMethodsResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getPaymentMethodsResponseBody200Object obj) : (Data.Aeson..=) "url" (getPaymentMethodsResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getPaymentMethodsResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getPaymentMethodsResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getPaymentMethodsResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getPaymentMethodsResponseBody200Url obj))))
 
@@ -230,119 +220,14 @@ data GetPaymentMethodsResponseBody200Object'
   | GetPaymentMethodsResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetPaymentMethodsResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetPaymentMethodsResponseBody200Object' where
   toJSON (GetPaymentMethodsResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetPaymentMethodsResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetPaymentMethodsResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetPaymentMethodsResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetPaymentMethodsResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetPaymentMethodsResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetPaymentMethodsResponseBody200Object'EnumStringList
-          else GetPaymentMethodsResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/payment_methods
---
--- The same as 'getPaymentMethods' but accepts an explicit configuration.
-getPaymentMethodsWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetPaymentMethodsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetPaymentMethodsResponse)
-getPaymentMethodsWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetPaymentMethodsResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetPaymentMethodsResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetPaymentMethodsResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetPaymentMethodsResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/payment_methods")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getPaymentMethodsParametersQueryCustomer parameters)) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentMethodsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentMethodsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentMethodsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentMethodsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "type") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getPaymentMethodsParametersQueryType parameters)) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/payment_methods
---
--- The same as 'getPaymentMethods' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getPaymentMethodsRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetPaymentMethodsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getPaymentMethodsRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/payment_methods")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getPaymentMethodsParametersQueryCustomer parameters)) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentMethodsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentMethodsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentMethodsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentMethodsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "type") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getPaymentMethodsParametersQueryType parameters)) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/payment_methods
---
--- The same as 'getPaymentMethods' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getPaymentMethodsWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetPaymentMethodsParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getPaymentMethodsWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/payment_methods")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getPaymentMethodsParametersQueryCustomer parameters)) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentMethodsParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentMethodsParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentMethodsParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getPaymentMethodsParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "type") (GHC.Maybe.Just GHC.Base.$ Data.Aeson.Types.ToJSON.toJSON (getPaymentMethodsParametersQueryType parameters)) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetPaymentMethodsResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetPaymentMethodsResponseBody200Object'EnumOther val
       )

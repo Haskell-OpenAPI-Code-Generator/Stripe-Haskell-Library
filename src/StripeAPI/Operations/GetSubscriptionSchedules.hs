@@ -1,4 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE OverloadedStrings #-}
@@ -8,6 +7,7 @@
 -- | Contains the different functions to run the operation getSubscriptionSchedules
 module StripeAPI.Operations.GetSubscriptionSchedules where
 
+import qualified Control.Monad.Fail
 import qualified Control.Monad.Trans.Reader
 import qualified Data.Aeson
 import qualified Data.Aeson as Data.Aeson.Types
@@ -26,7 +26,6 @@ import qualified Data.Time.LocalTime as Data.Time.LocalTime.Internal.ZonedTime
 import qualified Data.Vector
 import qualified GHC.Base
 import qualified GHC.Classes
-import qualified GHC.Generics
 import qualified GHC.Int
 import qualified GHC.Show
 import qualified GHC.Types
@@ -126,7 +125,7 @@ data GetSubscriptionSchedulesParameters
         -- | queryExpand: Represents the parameter named \'expand\'
         --
         -- Specifies which fields in the response should be expanded.
-        getSubscriptionSchedulesParametersQueryExpand :: (GHC.Maybe.Maybe ([] Data.Text.Internal.Text)),
+        getSubscriptionSchedulesParametersQueryExpand :: (GHC.Maybe.Maybe ([Data.Text.Internal.Text])),
         -- | queryLimit: Represents the parameter named \'limit\'
         --
         -- A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 10.
@@ -153,7 +152,7 @@ data GetSubscriptionSchedulesParameters
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSubscriptionSchedulesParameters where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParameters where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "queryCanceled_at" (getSubscriptionSchedulesParametersQueryCanceledAt obj) : (Data.Aeson..=) "queryCompleted_at" (getSubscriptionSchedulesParametersQueryCompletedAt obj) : (Data.Aeson..=) "queryCreated" (getSubscriptionSchedulesParametersQueryCreated obj) : (Data.Aeson..=) "queryCustomer" (getSubscriptionSchedulesParametersQueryCustomer obj) : (Data.Aeson..=) "queryEnding_before" (getSubscriptionSchedulesParametersQueryEndingBefore obj) : (Data.Aeson..=) "queryExpand" (getSubscriptionSchedulesParametersQueryExpand obj) : (Data.Aeson..=) "queryLimit" (getSubscriptionSchedulesParametersQueryLimit obj) : (Data.Aeson..=) "queryReleased_at" (getSubscriptionSchedulesParametersQueryReleasedAt obj) : (Data.Aeson..=) "queryScheduled" (getSubscriptionSchedulesParametersQueryScheduled obj) : (Data.Aeson..=) "queryStarting_after" (getSubscriptionSchedulesParametersQueryStartingAfter obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "queryCanceled_at" (getSubscriptionSchedulesParametersQueryCanceledAt obj) GHC.Base.<> ((Data.Aeson..=) "queryCompleted_at" (getSubscriptionSchedulesParametersQueryCompletedAt obj) GHC.Base.<> ((Data.Aeson..=) "queryCreated" (getSubscriptionSchedulesParametersQueryCreated obj) GHC.Base.<> ((Data.Aeson..=) "queryCustomer" (getSubscriptionSchedulesParametersQueryCustomer obj) GHC.Base.<> ((Data.Aeson..=) "queryEnding_before" (getSubscriptionSchedulesParametersQueryEndingBefore obj) GHC.Base.<> ((Data.Aeson..=) "queryExpand" (getSubscriptionSchedulesParametersQueryExpand obj) GHC.Base.<> ((Data.Aeson..=) "queryLimit" (getSubscriptionSchedulesParametersQueryLimit obj) GHC.Base.<> ((Data.Aeson..=) "queryReleased_at" (getSubscriptionSchedulesParametersQueryReleasedAt obj) GHC.Base.<> ((Data.Aeson..=) "queryScheduled" (getSubscriptionSchedulesParametersQueryScheduled obj) GHC.Base.<> (Data.Aeson..=) "queryStarting_after" (getSubscriptionSchedulesParametersQueryStartingAfter obj))))))))))
 
@@ -177,7 +176,7 @@ data GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryCanceledAt'OneOf2Lte obj))))
 
@@ -192,13 +191,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQu
 data GetSubscriptionSchedulesParametersQueryCanceledAt'Variants
   = GetSubscriptionSchedulesParametersQueryCanceledAt'Int GHC.Types.Int
   | GetSubscriptionSchedulesParametersQueryCanceledAt'GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2 GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSubscriptionSchedulesParametersQueryCanceledAt'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryCanceledAt'Variants where
+  toJSON (GetSubscriptionSchedulesParametersQueryCanceledAt'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetSubscriptionSchedulesParametersQueryCanceledAt'GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetSubscriptionSchedulesParametersQueryCanceledAt'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQueryCanceledAt'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryCanceledAt'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryCanceledAt'GetSubscriptionSchedulesParametersQueryCanceledAt'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the data type for the schema getSubscriptionSchedulesParametersQueryCompleted_at\'OneOf2
 data GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2
@@ -217,7 +221,7 @@ data GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryCompletedAt'OneOf2Lte obj))))
 
@@ -232,13 +236,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQu
 data GetSubscriptionSchedulesParametersQueryCompletedAt'Variants
   = GetSubscriptionSchedulesParametersQueryCompletedAt'Int GHC.Types.Int
   | GetSubscriptionSchedulesParametersQueryCompletedAt'GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2 GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSubscriptionSchedulesParametersQueryCompletedAt'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryCompletedAt'Variants where
+  toJSON (GetSubscriptionSchedulesParametersQueryCompletedAt'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetSubscriptionSchedulesParametersQueryCompletedAt'GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetSubscriptionSchedulesParametersQueryCompletedAt'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQueryCompletedAt'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryCompletedAt'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryCompletedAt'GetSubscriptionSchedulesParametersQueryCompletedAt'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the data type for the schema getSubscriptionSchedulesParametersQueryCreated\'OneOf2
 data GetSubscriptionSchedulesParametersQueryCreated'OneOf2
@@ -257,7 +266,7 @@ data GetSubscriptionSchedulesParametersQueryCreated'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSubscriptionSchedulesParametersQueryCreated'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryCreated'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryCreated'OneOf2Lte obj))))
 
@@ -272,13 +281,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQu
 data GetSubscriptionSchedulesParametersQueryCreated'Variants
   = GetSubscriptionSchedulesParametersQueryCreated'Int GHC.Types.Int
   | GetSubscriptionSchedulesParametersQueryCreated'GetSubscriptionSchedulesParametersQueryCreated'OneOf2 GetSubscriptionSchedulesParametersQueryCreated'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSubscriptionSchedulesParametersQueryCreated'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryCreated'Variants where
+  toJSON (GetSubscriptionSchedulesParametersQueryCreated'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetSubscriptionSchedulesParametersQueryCreated'GetSubscriptionSchedulesParametersQueryCreated'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetSubscriptionSchedulesParametersQueryCreated'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQueryCreated'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryCreated'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryCreated'GetSubscriptionSchedulesParametersQueryCreated'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Defines the data type for the schema getSubscriptionSchedulesParametersQueryReleased_at\'OneOf2
 data GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2
@@ -297,7 +311,7 @@ data GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gt obj) : (Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gte obj) : (Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lt obj) : (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lte obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "gt" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gt obj) GHC.Base.<> ((Data.Aeson..=) "gte" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Gte obj) GHC.Base.<> ((Data.Aeson..=) "lt" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lt obj) GHC.Base.<> (Data.Aeson..=) "lte" (getSubscriptionSchedulesParametersQueryReleasedAt'OneOf2Lte obj))))
 
@@ -312,13 +326,18 @@ instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQu
 data GetSubscriptionSchedulesParametersQueryReleasedAt'Variants
   = GetSubscriptionSchedulesParametersQueryReleasedAt'Int GHC.Types.Int
   | GetSubscriptionSchedulesParametersQueryReleasedAt'GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2 GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2
-  deriving (GHC.Show.Show, GHC.Classes.Eq, GHC.Generics.Generic)
+  deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSubscriptionSchedulesParametersQueryReleasedAt'Variants where
-  toJSON = Data.Aeson.Types.ToJSON.genericToJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesParametersQueryReleasedAt'Variants where
+  toJSON (GetSubscriptionSchedulesParametersQueryReleasedAt'Int a) = Data.Aeson.Types.ToJSON.toJSON a
+  toJSON (GetSubscriptionSchedulesParametersQueryReleasedAt'GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2 a) = Data.Aeson.Types.ToJSON.toJSON a
 
-instance Data.Aeson.FromJSON GetSubscriptionSchedulesParametersQueryReleasedAt'Variants where
-  parseJSON = Data.Aeson.Types.FromJSON.genericParseJSON Data.Aeson.Types.Internal.defaultOptions {Data.Aeson.Types.Internal.sumEncoding = Data.Aeson.Types.Internal.UntaggedValue}
+instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesParametersQueryReleasedAt'Variants where
+  parseJSON val = case Data.Aeson.Types.FromJSON.fromJSON val of
+    Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryReleasedAt'Int a
+    Data.Aeson.Types.Internal.Error _ -> case Data.Aeson.Types.FromJSON.fromJSON val of
+      Data.Aeson.Types.Internal.Success a -> GHC.Base.pure GHC.Base.$ GetSubscriptionSchedulesParametersQueryReleasedAt'GetSubscriptionSchedulesParametersQueryReleasedAt'OneOf2 a
+      Data.Aeson.Types.Internal.Error a -> Control.Monad.Fail.fail a
 
 -- | Represents a response of the operation 'getSubscriptionSchedules'.
 --
@@ -336,7 +355,7 @@ data GetSubscriptionSchedulesResponse
 data GetSubscriptionSchedulesResponseBody200
   = GetSubscriptionSchedulesResponseBody200
       { -- | data
-        getSubscriptionSchedulesResponseBody200Data :: ([] SubscriptionSchedule),
+        getSubscriptionSchedulesResponseBody200Data :: ([SubscriptionSchedule]),
         -- | has_more: True if this list has another page of items after this one that can be fetched.
         getSubscriptionSchedulesResponseBody200HasMore :: GHC.Types.Bool,
         -- | object: String representing the object\'s type. Objects of the same type share the same value. Always has the value \`list\`.
@@ -354,7 +373,7 @@ data GetSubscriptionSchedulesResponseBody200
       GHC.Classes.Eq
     )
 
-instance Data.Aeson.ToJSON GetSubscriptionSchedulesResponseBody200 where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesResponseBody200 where
   toJSON obj = Data.Aeson.object ((Data.Aeson..=) "data" (getSubscriptionSchedulesResponseBody200Data obj) : (Data.Aeson..=) "has_more" (getSubscriptionSchedulesResponseBody200HasMore obj) : (Data.Aeson..=) "object" (getSubscriptionSchedulesResponseBody200Object obj) : (Data.Aeson..=) "url" (getSubscriptionSchedulesResponseBody200Url obj) : [])
   toEncoding obj = Data.Aeson.pairs ((Data.Aeson..=) "data" (getSubscriptionSchedulesResponseBody200Data obj) GHC.Base.<> ((Data.Aeson..=) "has_more" (getSubscriptionSchedulesResponseBody200HasMore obj) GHC.Base.<> ((Data.Aeson..=) "object" (getSubscriptionSchedulesResponseBody200Object obj) GHC.Base.<> (Data.Aeson..=) "url" (getSubscriptionSchedulesResponseBody200Url obj))))
 
@@ -370,131 +389,14 @@ data GetSubscriptionSchedulesResponseBody200Object'
   | GetSubscriptionSchedulesResponseBody200Object'EnumStringList
   deriving (GHC.Show.Show, GHC.Classes.Eq)
 
-instance Data.Aeson.ToJSON GetSubscriptionSchedulesResponseBody200Object' where
+instance Data.Aeson.Types.ToJSON.ToJSON GetSubscriptionSchedulesResponseBody200Object' where
   toJSON (GetSubscriptionSchedulesResponseBody200Object'EnumOther patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
   toJSON (GetSubscriptionSchedulesResponseBody200Object'EnumTyped patternName) = Data.Aeson.Types.ToJSON.toJSON patternName
-  toJSON (GetSubscriptionSchedulesResponseBody200Object'EnumStringList) = Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list"
+  toJSON (GetSubscriptionSchedulesResponseBody200Object'EnumStringList) = "list"
 
-instance Data.Aeson.FromJSON GetSubscriptionSchedulesResponseBody200Object' where
+instance Data.Aeson.Types.FromJSON.FromJSON GetSubscriptionSchedulesResponseBody200Object' where
   parseJSON val =
     GHC.Base.pure
-      ( if val GHC.Classes.== (Data.Aeson.Types.Internal.String GHC.Base.$ Data.Text.pack "list")
-          then GetSubscriptionSchedulesResponseBody200Object'EnumStringList
-          else GetSubscriptionSchedulesResponseBody200Object'EnumOther val
-      )
-
--- | > GET /v1/subscription_schedules
---
--- The same as 'getSubscriptionSchedules' but accepts an explicit configuration.
-getSubscriptionSchedulesWithConfiguration ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSubscriptionSchedulesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response GetSubscriptionSchedulesResponse)
-getSubscriptionSchedulesWithConfiguration
-  config
-  parameters =
-    GHC.Base.fmap
-      ( \response_2 ->
-          GHC.Base.fmap
-            ( Data.Either.either GetSubscriptionSchedulesResponseError GHC.Base.id
-                GHC.Base.. ( \response body ->
-                               if  | (\status_3 -> Network.HTTP.Types.Status.statusCode status_3 GHC.Classes.== 200) (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetSubscriptionSchedulesResponse200
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              GetSubscriptionSchedulesResponseBody200
-                                                        )
-                                   | GHC.Base.const GHC.Types.True (Network.HTTP.Client.Types.responseStatus response) ->
-                                     GetSubscriptionSchedulesResponseDefault
-                                       Data.Functor.<$> ( Data.Aeson.eitherDecodeStrict body ::
-                                                            Data.Either.Either GHC.Base.String
-                                                              Error
-                                                        )
-                                   | GHC.Base.otherwise -> Data.Either.Left "Missing default response type"
-                           )
-                  response_2
-            )
-            response_2
-      )
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/subscription_schedules")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "canceled_at") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryCanceledAt parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "completed_at") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryCompletedAt parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "released_at") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryReleasedAt parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "scheduled") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryScheduled parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
-      )
-
--- | > GET /v1/subscription_schedules
---
--- The same as 'getSubscriptionSchedules' but returns the raw 'Data.ByteString.Char8.ByteString'.
-getSubscriptionSchedulesRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSubscriptionSchedulesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  StripeAPI.Common.StripeT m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getSubscriptionSchedulesRaw parameters =
-  GHC.Base.id
-    ( StripeAPI.Common.doCallWithConfigurationM
-        (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-        (Data.Text.pack "/v1/subscription_schedules")
-        [ StripeAPI.Common.QueryParameter (Data.Text.pack "canceled_at") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryCanceledAt parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "completed_at") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryCompletedAt parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "released_at") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryReleasedAt parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "scheduled") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryScheduled parameters) (Data.Text.pack "form") GHC.Types.True,
-          StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-        ]
-    )
-
--- | > GET /v1/subscription_schedules
---
--- The same as 'getSubscriptionSchedules' but accepts an explicit configuration and returns the raw 'Data.ByteString.Char8.ByteString'.
-getSubscriptionSchedulesWithConfigurationRaw ::
-  forall m.
-  StripeAPI.Common.MonadHTTP m =>
-  -- | The configuration to use in the request
-  StripeAPI.Common.Configuration ->
-  -- | Contains all available parameters of this operation (query and path parameters)
-  GetSubscriptionSchedulesParameters ->
-  -- | Monadic computation which returns the result of the operation
-  m (Network.HTTP.Client.Types.Response Data.ByteString.Internal.ByteString)
-getSubscriptionSchedulesWithConfigurationRaw
-  config
-  parameters =
-    GHC.Base.id
-      ( StripeAPI.Common.doCallWithConfiguration
-          config
-          (Data.Text.toUpper GHC.Base.$ Data.Text.pack "GET")
-          (Data.Text.pack "/v1/subscription_schedules")
-          [ StripeAPI.Common.QueryParameter (Data.Text.pack "canceled_at") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryCanceledAt parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "completed_at") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryCompletedAt parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "created") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryCreated parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "customer") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryCustomer parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "ending_before") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryEndingBefore parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "expand") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryExpand parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "limit") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryLimit parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "released_at") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryReleasedAt parameters) (Data.Text.pack "deepObject") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "scheduled") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryScheduled parameters) (Data.Text.pack "form") GHC.Types.True,
-            StripeAPI.Common.QueryParameter (Data.Text.pack "starting_after") (Data.Aeson.Types.ToJSON.toJSON Data.Functor.<$> getSubscriptionSchedulesParametersQueryStartingAfter parameters) (Data.Text.pack "form") GHC.Types.True
-          ]
+      ( if  | val GHC.Classes.== "list" -> GetSubscriptionSchedulesResponseBody200Object'EnumStringList
+            | GHC.Base.otherwise -> GetSubscriptionSchedulesResponseBody200Object'EnumOther val
       )
